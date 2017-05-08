@@ -2,10 +2,10 @@
     <div class="no-stuffing w5 p10"></div>
     <div class="no-stuffing w75 p10 clickable bg-l-grey-hover h__k"
         data-on-click="model.comparator_change"
-        data-msg="data.name"
+        data-msg="data.username"
     ><span class="clickable">
             <span>Name</span>
-            <span class="h__k" data-if="{{= model.comparator.key }} == data.name">
+            <span class="h__k" data-if="{{= model.comparator.key }} == data.username">
                 <span class="h__k" data-if="{{= model.comparator.ord }} == asc"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                 <span class="h__k" data-if="{{= model.comparator.ord }} == dsc"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
             </span>
@@ -14,7 +14,7 @@
     <div class="no-stuffing w20 p10"></div>
 </div>
 <div class="bg-white m0 h__k"
-    data-cluster="{'type':'user','is_deleted':'false','is_saved':'true'}"
+    data-cluster="{'type':'user'}"
     data-cluster-comparator="model.comparator"
     data-subscribe-ctx="model"
     data-subscribe="change:comparator"
@@ -37,7 +37,7 @@
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'user_id':'{{= model.id }}'}"
-            >{{= model.data.name }}</div>
+            >{{= model.data.username }}</div>
             <div class="no-stuffing w20 h__k" data-if="{{= _model_.is_owner() }} == true">
                 <div class="h__k" data-on-click="model.erase" title="Delete">
                     <i class="fa fa-trash l-grey bblack-hover w25p pull-right"></i>

@@ -1,19 +1,24 @@
 <h1 class="bg-d-grey center white no-stuffing p20">Sign In</h1>
 <div class="h__k bg-white black">
+    <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+        <div class="h__k" data-foreach="model.errors">
+            <div class="h__k red">{{= scope.value }}</div>
+        </div>
+    </div>
     <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Username</h4>
     <div class="pl20 pr20 pb10">
         <input class="h__k w100" type="text" placeholder="your_email@address.com"
             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-            data-field="model.username"
-            value="{{= model.username }}"
+            data-field="model.registration.username"
+            value="{{= model.registration.username }}"
         />
     </div>
     <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Password</h4>
     <div class="pl20 pr20 pb10">
         <input class="h__k w100" type="text" placeholder="password"
             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-            data-field="model.password"
-            value="{{= model.password }}"
+            data-field="model.registration.password"
+            value="{{= model.registration.password }}"
         />
     </div>
     <br clear="both">

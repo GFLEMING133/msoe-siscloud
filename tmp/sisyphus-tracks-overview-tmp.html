@@ -5,12 +5,12 @@
     </div>
     <div class="w15 pt30 center">&nbsp;</div>
 </div>
-<div class="mt10 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+<div class="mt10 pl10 pr10 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
     <div class="h__k center p20 i"
         data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
     >
         <span>There are no tracks on this Sisyphus.</span>
-        <span class="clickable">Visit the store to download some</span>
+        <span class="clickable">Visit the Community tab to download some</span>
     </div>
     <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
         <div class="h__k"

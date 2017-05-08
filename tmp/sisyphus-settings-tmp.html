@@ -7,30 +7,58 @@
             </div>
             <div class="w15 pt30 center f-large">&nbsp;</div>
         </div>
+        <!------------------------- SISYPHUS SETTINGS ------------------------->
         <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
             Sisyphus Settings
         </div>
-        <div class="bb p10">
-            Sisyphus ID<span class="pull-right">123456789</span>
+        <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
+            Sisyphus ID<span class="pull-right">{{= model.id }}</span>
         </div>
-        <div class="bb p10">
-            Sisyphus Version<span class="pull-right">0.1.2</span>
+        <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
+            Sisyphus Version<span class="pull-right">{{= model.data.current_version }}</span>
         </div>
-        <div class="bb p10 h__k"> {{= model.type }}
+        <div class="bb p10 h__k" data-on-click="model.disconnect">
             Disconnect from Sisyphus
         </div>
-        <div class="bb p10">
-            Reset Sisyphus to Factory Settings
+        <div class="bb p10 h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-on-click="model.factory_reset"
+        >Reset Sisyphus to Factory Settings</div>
+        <!------------------------- WIFI SETTINGS ----------------------------->
+        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+            Wifi Settings
         </div>
+        <div class="h__k" data-model="{{= model.sisbot_id }}">
+            <div class="bb p10 h__k">
+                Network Status<span class="pull-right">{{= model.data.network_connected }}</span>
+            </div>
+            <div class="bb p10 h__k"
+                data-if="{{= model.data.network_connected }} == not connected"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'wifi'}"
+            >Connect Sisbot to Wifi Network</div>
+            <div class="bb p10 h__k"
+                data-if="{{= model.data.network_connected }} == connected"
+                data-on-click="model.disconnect_wifi"
+            >Disconnect from Wifi</div>
+        </div>
+        <!------------------------- ACCOUNT SETTINGS -------------------------->
         <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
             Account Settings
         </div>
-        <div class="bb p10">
-            Email<span class="pull-right">user@email.com</span>
+        <div class="h__k" data-model="{{= model.user_id }}">
+            <div class="bb p10">
+                Email<span class="pull-right h__k">{{= model.data.username }}</span>
+            </div>
+            <div class="bb p10">
+                Password<span class="pull-right">(change password)</span>
+            </div>
         </div>
-        <div class="bb p10">
-            Password<span class="pull-right">(change password)</span>
+        <div class="bb p10 h__k" data-on-click="model.sign_out">
+            Sign Out
         </div>
+        <!------------------------- COMPANY INFO ------------------------------>
         <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
             Company Info
         </div>
@@ -49,6 +77,7 @@
             v0.1
         </div>
     </div>
+    <!------------------------- TOS ------------------------------------------->
     <div class="h__k" data-if="{{= parent.active.secondary }} == tos">
         <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
             <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
@@ -65,6 +94,7 @@
             Updated with Terms of Service Here
         </div>
     </div>
+    <!------------------------- PRIVACY --------------------------------------->
     <div class="h__k" data-if="{{= parent.active.secondary }} == privacy">
         <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
             <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
@@ -81,4 +111,6 @@
             Updated with Privacy Policy
         </div>
     </div>
+    <!------------------------- WIFI CREDENTIALS ------------------------------>
+    <div class="h__k" data-if="{{= parent.active.secondary }} == wifi" data-template="sisyphus-wifi-tmp"></div>
 </div>

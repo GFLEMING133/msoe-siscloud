@@ -20,10 +20,8 @@ app.model.user = {
 
 				username		: '',
 				password		: '',
-				email			: '',
-				phone			: '',
 
-				tinyknight_id	: 'false',
+				sisbot_ids		: []
 			}
 		};
 
@@ -34,6 +32,9 @@ app.model.user = {
 	after_export: function () {
 		app.trigger('session:active', { user_id: 'false', tertiary: 'overview' });
 	},
+	/**************************** USER UPDATE *********************************/
+	
+	/**************************** USER UPDATE *********************************/
 	update_setup: function () {
 		var fields = _.pick(this.get('data'), 'username', 'email', 'phone');
 		this.set('update', fields)

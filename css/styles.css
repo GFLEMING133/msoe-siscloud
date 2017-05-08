@@ -497,29 +497,11 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .black-hover:hover 						{	color		: #333 !important;						}
 .bblack-hover:hover 					{	color		: #000 !important;						}
 
-/** TinyKnight **/
-.tk-d-red								{	color					: #d13135 !important;		}
-.tk-red									{	color					: #f1453d !important;		}
-.tk-l-red								{	color					: #fecdd2 !important;		}
-.tk-green								{	color					: #50ae55 !important;		}
-.tk-d-black								{	color					: #212121 !important;		}
-.tk-black								{	color					: #757575 !important;		}
-.tk-l-black								{	color					: #bdbdbd !important;		}
-
-.bg-tk-d-red							{	background-color		: #831b1b !important;		}
-.bg-tk-red								{	background-color		: #f1453d !important;		}
-.bg-tk-l-red							{	background-color		: #fecdd2 !important;		}
-.bg-tk-green							{	background-color		: #50ae55 !important;		}
-.bg-tk-d-black							{	background-color		: #212121 !important;		}
-.bg-tk-black							{	background-color		: #757575 !important;		}
-.bg-tk-l-black							{	background-color		: #bdbdbd !important;		}
-
 .bg-black 								{	background-color		: #000000 !important;		}
 
 
 .bg-yellow 								{	background-color		: #FDDA75 !important;		}
 .bg-red 								{	background-color		: #990033 !important;		}
-.bg-tk-red 								{	background-color		: #ec1c23 !important;		}
 .bg-white 								{	background-color		: #ffffff !important;		}
 .bg-d-blue 								{	background-color		: #0F72AB !important;		}
 .bg-blue 								{	background-color		: #22AEFF !important;		}

@@ -3,13 +3,24 @@ app.model.sisbot = {
 		//	IF WE ARE ON THE SISBOT WE SHOULD HAVE A DIFFERENT MODEL THAT ISSUES COMMANDS
 
 		var obj = {
-			id			: data.id,
-			type		: 'sisbot',
+			id				: data.id,
+			type			: 'sisbot',
+
+			wifi_networks   : [],
+			wifi			: {
+				name			: '',
+				password		: ''
+			},
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisbot',
 				version				: this.current_version,
 
+				pi_id				: '',
+				current_version		: '1.0',
+
+				network_connected	: 'not connected',		// not connected|connected
                 wifi_network        : '',
                 wifi_password       : '',
 
@@ -20,7 +31,7 @@ app.model.sisbot = {
 				active_track		: 'false',
 				current_time		: 0,			// seconds
 
-				is_playing			: 'true',
+				is_playing			: 'false',
 				is_homing			: 'false',
 				is_shuffle			: 'false',
 				is_loop				: 'false',
@@ -33,6 +44,7 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
+
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -51,16 +63,33 @@ app.model.sisbot = {
 		});
 	},
 	/**************************** SISBOT ADMIN ********************************/
-	connect_wifi: function () {
+	get_networks: function () {
+		this.set('wifi_networks', ['network 1', 'network 2']);
+		//this._update_sisbot('get_wifi_networks', {});
+    },
+    connect_to_wifi: function () {
+		var credentials = this.get('wifi');
 
-	},
+		this.set('data.network_connected', 'connected');
+		this.set('data.wifi_network', credentials.name);
+		this.set('data.wifi_password', credentials.password);
+		app.current_session().set_active({ secondary: 'false' });
+		/*
+		this._update_sisbot('connect_wifi', wifi);
+		*/
+    },
 	disconnect_wifi: function () {
-
+		this.set('data.network_connected', 'not connected')
+			.set('data.wifi_network', 'false')
+			.set('data.wifi_password', 'false');
 	},
 	install_updates: function () {
 
 	},
 	restart: function () {
+
+	},
+	factory_reset: function () {
 
 	},
 	/**************************** PLAYBACK ************************************/
@@ -130,7 +159,7 @@ app.model.sisbot = {
 		if (level >= 5) level = level - 5;
 		this.speed(level);
 	},
-	/**************************** STORE ***************************************/
+	/**************************** COMMUNITY ***********************************/
 	download_playlist: function (playlist_id) {
 
 	},

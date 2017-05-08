@@ -86,9 +86,12 @@ app.model.session = {
 	sisyphus_mode: function () {
 		var m = app.collection.add({ type: 'sisyphus_manager' });
 		this.set('active.primary', 'current');
-		//this.set('active.secondary', 'playlist');
-		//this.set('active.playlist_id', '2745A1AA-0068-48F4-95E2-8341185096F1');
 		this.set('sisyphus_manager_id', m.id);
+	},
+	siscloud_mode: function () {
+		var m = app.collection.add({ type: 'siscloud_manager' });
+		this.set('active.primary', 'current');
+		this.set('siscloud_manager_id', m.id);
 	},
 	setup_sign_in_model: function () {
 		var model	= (this.get('sign_in_id') == '') ? app.collection.add({ type: 'sign_in' }) : this.get_model('sign_in_id');

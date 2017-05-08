@@ -4,15 +4,22 @@ app.model.sisyphus_manager = {
 			id			    		: data.id,
 			type		    		: 'sisyphus_manager',
 
-            wifi_networks   		: [],
-            wifi_pw         		: 'false',
-
-            sisbot_id       		: 'false',
-
             user_id         		: 'false',
-			user_registration		: 'false',		// false|signup|signin
-			username				: '',
-			password				: '',
+			user_registration		: 'false',		// false|sign_up|sign_in
+			registration: {
+				username				: '',
+				password				: '',
+			},
+
+			sisbot_id       		: 'false',
+			sisbot_connecting		: 'false',
+			networked_sisbots		: [],
+
+			credentials				: {
+				sisbot_name				: '',
+				network_name			: '',
+				password				: ''
+			},
 
 			community_page			: 'playlists',
 			community_playlist_ids	: [],
@@ -29,34 +36,37 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
-		this.setup_demo();
+		//this.setup_demo();
 		//this.listenTo(app, 'session:user_sign_in', this.on_signin);
+		this.setup_sisbot_select();
 
 		this.listenTo(app, 'sisbot:update_playback', 	this.update_playback);
 		this.listenTo(app, 'sisuser:download_playlist', this.download_playlist);
 		this.listenTo(app, 'sisuser:download_track', 	this.download_track);
     },
-	/**************************** USER ****************************************/
+	/**************************** USER REGISTRATION ***************************/
 	setup_registration: function () {
 		if (this.get('user_id') == 'false')
 			this.setup_sign_up();
 	},
 	setup_sign_up: function () {
-		this.set('is_sign_up', 'true');
+		this.set('user_registration', 'sign_up');
 	},
 	setup_sign_in: function () {
-		this.set('is_sign_up', 'false');
+		this.set('user_registration', 'sign_in');
 	},
 	sign_up: function () {
 		if (this.get('signing_up') == 'true') return false;
 		else this.set('signing_up', 'true');
 
 		var self		= this;
-		var user_data   = user_data || this.get('data');
+		var user_data   = this.get('registration');
 		var errors		= this.get_errors(user_data);
 
+		console.log('what are our errors', errors);
+
 		if (errors.length > 0)
-			return this.set('errors', errors);
+			return this.set('signing_up', 'false').set('errors', errors);
 
 		function cb(obj) {
 			if (obj.err)
@@ -65,19 +75,20 @@ app.model.sisyphus_manager = {
 			self._process_registration(user_data, obj.resp);
 		};
 
-		user_data.endpoint = 'sign_up_user';
+		user_data.type		= 'user';
+		user_data.endpoint	= 'sign_up';
 		app.plugins.fetch(user_data, cb);
 	},
-	sign_in: function (user_data) {
+	sign_in: function () {
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
 
 		var self		= this;
-		var user_data   = user_data || this.get('data');
+		var user_data   = this.get('registration');
 		var errors		= this.get_errors(user_data);
 
 		if (errors.length > 0)
-			return this.set('errors', errors);
+			return this.set('signing_in', 'false').set('errors', errors);
 
 		function cb(obj) {
 			if (obj.err)
@@ -89,7 +100,8 @@ app.model.sisyphus_manager = {
 		user_data.endpoint = 'sign_in';
 		app.plugins.fetch(user_data, cb);
 	},
-	get_errors: function (data) {
+	get_errors: function (user_data) {
+		var errors = [];
 		if (user_data.username == '')	errors.push('- Username cannot be blank');
 		if (user_data.password == '')	errors.push('- Password cannot be blank');
 		return errors;
@@ -101,27 +113,78 @@ app.model.sisyphus_manager = {
 			password		: user.password
 		};
 
+		var server_user = false;
+
 		_.each(data_arr, function (m) {
-			if (m.type == 'user' && m.username == user.username)
+			if (m.type == 'user' && m.username == user.username) {
+				server_user = m;
 				session_data.user_id = m.id;
+			}
 		});
 
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
+
+		console.log(data_arr);
+		console.log('sign in', session_data);
+
+		// setup user info here
+		this.set('user_id', session_data.user_id);
+
+		// check sisbots
+		if (server_user.sisbot_ids && server_user.sisbot_ids.length == 0)
+			this.set('user_registration', 'sisbot');
+		else
+			this.set('user_registration', 'false');
+
 	},
     /**************************** WIFI ****************************************/
-    get_networks: function () {
+	find_sisbots: function () {
+		this.set('networked_sisbots', ['one', 'two'])
 
-    },
-    save_credentials: function () {
-
-    },
+		// this will find the sisbots on the local network
+	},
     connect: function () {
+		app.collection.add({ id: '57DB5833-72EF-4D16-BCD8-7B832B423554', type: 'sisbot', pi_id: '', name: 'Sisbot #1', playlist_ids: [], track_ids: [] });
+		this.set('sisbot_id', '57DB5833-72EF-4D16-BCD8-7B832B423554');
+		return this;
 
+		if (this.get('sisbot_connecting') == 'true') return false;
+		else this.set('sisbot_connecting', 'true');
+
+		var self		= this;
+		var sisbot_name = this.get('credentials.sisbot_name');
+
+		// ping sisbot for connection
+		var obj = {
+			_url	: 'http://' + sisbot_name + 'sisyphus.local/',
+			_type	: 'POST',
+			endpoint: 'sisbot/connect',
+			data	: {}
+		};
+
+		app.post.fetch(obj, function(obj) {
+			console.log('did we get a connection response?', resp);
+
+			if (obj.err)
+				return self.set('sisbot_connecting', 'false').set('errors', [ '- ' + obj.err ]);
+
+			var sisbot = obj.resp;
+
+			self.add(sisbot);
+			self.set('sisbot_id', sisbot_id);
+
+			if (cb) cb(resp);
+		});
     },
     disconnect: function () {
-
+		this.set('sisbot_id','false');
     },
+	sign_out: function () {
+		this.set('sisbot_id', 'false');
+		this.set('user_id', 'false');
+		app.current_session().sign_out();
+	},
     /**************************** SISBOT **************************************/
     update_playback: function (obj) {
         this.get_model('sisbot_id').update_playback(obj);
@@ -164,6 +227,11 @@ app.model.sisyphus_manager = {
 		this.remove('community_track_ids', track_id);
 	},
     /**************************** DEMO ****************************************/
+	setup_sisbot_select: function () {
+		this.set('registration.username', 'sisyphus4@withease.io');
+		this.set('registration.password', 'sodo');
+		this.sign_in();
+	},
     setup_demo: function () {
         var data = {
             sisbot_1: {

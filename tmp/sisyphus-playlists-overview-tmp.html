@@ -7,10 +7,10 @@
         data-on-click="model.playlist_create"
     >+</div>
 </div>
-<div class="mt10 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+<div class="mt10 pl10 pr10 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
     <div class="h__k center p20 i"
         data-if="{{= app.plugins.length(model.data.playlist_ids) }} == 0"
-    >There are no playlists. <span class="clickable">Want to create one</span>
+    >There are no playlists. <span class="clickable">Want to create one?</span>
     </div>
     <div class="h__k" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
         <div class="h__k"
