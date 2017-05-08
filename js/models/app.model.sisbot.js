@@ -35,8 +35,8 @@ app.model.sisbot = {
 				is_homing			: 'false',
 				is_shuffle			: 'false',
 				is_loop				: 'false',
-				brightness			: '50',
-				speed				: '30',
+				brightness			: .5,
+				speed				: .3,
 			}
 		};
 
@@ -44,7 +44,12 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
-
+		//this.set('wifi.name', 'Sodo4');
+		//this.set('wifi.password', '60034715CF25')
+		//this.set('wifi.name', 'Nimbus');
+		//this.set('wifi.password', 'so202donimbus')
+		//this.connect_to_wifi();
+		this.reset_to_hotspot();
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -58,30 +63,56 @@ app.model.sisbot = {
 		};
 
 		app.post.fetch(obj, function(resp) {
-			console.log('did we get a resp?', resp);
 			if (cb) cb(resp);
 		});
 	},
 	/**************************** SISBOT ADMIN ********************************/
 	get_networks: function () {
-		this.set('wifi_networks', ['network 1', 'network 2']);
-		//this._update_sisbot('get_wifi_networks', {});
+		var self			= this;
+		var wifi_networks	= [];
+
+		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
+			_.each(obj.resp, function(network_obj) {
+				if (network_obj.ssid.indexOf('sisyphus') < 0) {
+					wifi_networks.push(network_obj.ssid);
+				}
+			})
+			self.set('wifi_networks', wifi_networks.sort());
+		});
     },
     connect_to_wifi: function () {
+		var self		= this;
 		var credentials = this.get('wifi');
 
-		this.set('data.network_connected', 'connected');
-		this.set('data.wifi_network', credentials.name);
-		this.set('data.wifi_password', credentials.password);
-		app.current_session().set_active({ secondary: 'false' });
-		/*
-		this._update_sisbot('connect_wifi', wifi);
-		*/
+		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
+			self.set('data.network_connected', 'connected');
+			self.set('data.wifi_network', credentials.name);
+			self.set('data.wifi_password', credentials.password);
+			app.current_session().set_active({ secondary: 'false' });
+
+			setTimeout(function() {
+				self.is_network_connected();
+			}, 5000);
+		});
     },
 	disconnect_wifi: function () {
 		this.set('data.network_connected', 'not connected')
 			.set('data.wifi_network', 'false')
 			.set('data.wifi_password', 'false');
+	},
+	is_network_connected: function () {
+		var self = this;
+
+		this._update_sisbot('is_network_connected', {}, function(obj) {
+			console.log('is network connected', obj);
+			if (obj.resp == true) {
+				self.set('data.network_connected', 'connected');
+			} else {
+				self.set('data.network_connected', 'not connected')
+					.set('data.wifi_network', 'false')
+					.set('data.wifi_password', 'false');
+			}
+		});
 	},
 	install_updates: function () {
 
@@ -91,6 +122,11 @@ app.model.sisbot = {
 	},
 	factory_reset: function () {
 
+	},
+	reset_to_hotspot: function () {
+		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
+			console.log('RESET', obj);
+		});
 	},
 	/**************************** PLAYBACK ************************************/
 	update_playback: function (obj) {
@@ -128,35 +164,32 @@ app.model.sisbot = {
 		this.set('data.is_playing', 'false');
 		this._update_sisbot('pause', {});
 	},
-	shuffle_mode: function (is_true) {
-		this.set('data.is_shuffle', is_true);
-	},
 	brightness: function (level) {
-		this.set('data.brightness', '' + level);
-		this._update_sisbot('set_brightness', { value: (+level / 100) });
+		this.set('data.brightness', +level);
+		this._update_sisbot('set_brightness', { value: +level });
 	},
 	brightness_up: function () {
 		var level = +this.get('data.brightness');
-		if (level <= 95) level = level + 5;
+		if (level <= .95) level = level + .05;
 		this.brightness(level);
 	},
 	brightness_down: function () {
 		var level = +this.get('data.brightness');
-		if (level >= 5) level = level - 5;
+		if (level >= .05) level = level - .05;
 		this.brightness(level);
 	},
 	speed: function (level) {
-		this.set('data.speed', '' + level);
-		this._update_sisbot('set_speed', { value: level });
+		this.set('data.speed', +level);
+		this._update_sisbot('set_speed', { value: +level });
 	},
 	speed_up: function () {
 		var level = +this.get('data.speed');
-		if (level <= 95) level = level + 5;
+		if (level <= .95) level = level + .05;
 		this.speed(level);
 	},
 	speed_down: function () {
 		var level = +this.get('data.speed');
-		if (level >= 5) level = level - 5;
+		if (level >= .05) level = level - .05;
 		this.speed(level);
 	},
 	/**************************** COMMUNITY ***********************************/

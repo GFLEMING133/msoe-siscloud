@@ -13,13 +13,13 @@
                     data-field="model.credentials.sisbot_name"
                     data-foreach="model.networked_sisbots"
                     data-foreach-default="Sisbot Names"
-                    data-on-chang="foreach_reset"
+                    data-foreach-change="foreach_reset"
                 ><option class="h__k" value="{{= scope.value }}">{{= scope.value }}</option></select>
             </div>
             <div class="center i p20">or</div>
             <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Enter Sisbot Name</h4>
             <div class="pl20 pr20 pb10">
-                <input class="h__k w100" type="text" placeholder="password"
+                <input class="h__k w100" type="text" placeholder="sisbot-1"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     data-field="model.credentials.sisbot_name"
                     value="{{= model.credentials.sisbot_name }}"

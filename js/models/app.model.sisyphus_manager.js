@@ -38,7 +38,21 @@ app.model.sisyphus_manager = {
     on_init: function () {
 		//this.setup_demo();
 		//this.listenTo(app, 'session:user_sign_in', this.on_signin);
-		this.setup_sisbot_select();
+		//this.setup_sisbot_select();
+		this.find_sisbots();
+
+		/*
+		var obj = {
+			_url	: 'http://sisyphus.local/',
+			_type	: 'POST',
+			endpoint: 'sisbot/reset_to_hotspot',
+			data	: {}
+		};
+
+		app.post.fetch(obj, function(obj) {
+			console.log('we reset');
+		});
+		*/
 
 		this.listenTo(app, 'sisbot:update_playback', 	this.update_playback);
 		this.listenTo(app, 'sisuser:download_playlist', this.download_playlist);
@@ -125,9 +139,6 @@ app.model.sisyphus_manager = {
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
 
-		console.log(data_arr);
-		console.log('sign in', session_data);
-
 		// setup user info here
 		this.set('user_id', session_data.user_id);
 
@@ -140,15 +151,49 @@ app.model.sisyphus_manager = {
 	},
     /**************************** WIFI ****************************************/
 	find_sisbots: function () {
-		this.set('networked_sisbots', ['one', 'two'])
-
 		// this will find the sisbots on the local network
+		var self			= this;
+		var wifi_networks	= [];
+
+		this.set('networked_sisbots', []);
+
+		var exists = {
+			_url	: 'http://sisyphus.local/',
+			_type	: 'POST',
+			endpoint: 'sisbot/exists',
+			data	: {}
+		};
+
+		app.post.fetch(exists, function(obj) {
+			wifi_networks.push('sisyphus');
+
+			var wifi_ns = {
+				_url	: 'http://sisyphus.local/',
+				_type	: 'POST',
+				endpoint: 'sisbot/get_wifi',
+				data	: { iface: 'wlan0', show_hidden: true }
+			};
+
+			app.post.fetch(wifi_ns, function(obj) {
+				_.each(obj.resp, function(network_obj) {
+					if (network_obj.ssid.indexOf('sisyphus') > -1) {
+						wifi_networks.push(network_obj.ssid);
+					}
+				})
+				self.set('networked_sisbots', wifi_networks.sort());
+			});
+		});
+
+		return this;
+	},
+	default_sisbot: function () {
+		var sisbot = { id: '57DB5833-72EF-4D16-BCD8-7B832B423554', type: 'sisbot', pi_id: '', name: 'Sisbot #1', playlist_ids: [], track_ids: [] };
+		app.collection.add(sisbot);
+		this.get_model('user_id').add_nx('data.sisbot_ids', sisbot.id).save();
+		this.set('sisbot_id', '57DB5833-72EF-4D16-BCD8-7B832B423554');
+		this.setup_defaults();
 	},
     connect: function () {
-		app.collection.add({ id: '57DB5833-72EF-4D16-BCD8-7B832B423554', type: 'sisbot', pi_id: '', name: 'Sisbot #1', playlist_ids: [], track_ids: [] });
-		this.set('sisbot_id', '57DB5833-72EF-4D16-BCD8-7B832B423554');
-		return this;
-
 		if (this.get('sisbot_connecting') == 'true') return false;
 		else this.set('sisbot_connecting', 'true');
 
@@ -157,24 +202,23 @@ app.model.sisyphus_manager = {
 
 		// ping sisbot for connection
 		var obj = {
-			_url	: 'http://' + sisbot_name + 'sisyphus.local/',
+			_url	: 'http://' + sisbot_name + '.local/',
 			_type	: 'POST',
 			endpoint: 'sisbot/connect',
 			data	: {}
 		};
 
 		app.post.fetch(obj, function(obj) {
-			console.log('did we get a connection response?', resp);
-
 			if (obj.err)
 				return self.set('sisbot_connecting', 'false').set('errors', [ '- ' + obj.err ]);
 
 			var sisbot = obj.resp;
 
-			self.add(sisbot);
-			self.set('sisbot_id', sisbot_id);
+			app.collection.add(sisbot);
+			self.set('sisbot_id', sisbot.id);
+			self.get_model('user_id').add_nx('data.sisbot_ids', sisbot.id);
+			self.get_model('user_id').save();
 
-			if (cb) cb(resp);
 		});
     },
     disconnect: function () {
@@ -231,6 +275,98 @@ app.model.sisyphus_manager = {
 		this.set('registration.username', 'sisyphus4@withease.io');
 		this.set('registration.password', 'sodo');
 		this.sign_in();
+	},
+	setup_defaults: function () {
+		var tracks = {
+			/*
+			sisbot_1: {
+				id          : '57DB5833-72EF-4D16-BCD8-7B832B423554',
+				type        : 'sisbot',
+				playlist_ids: [  ],
+				track_ids   : [  ]
+			},
+			user_1: {
+				id          : '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+				type        : 'user',
+				name        : 'User #1',
+				email       : 'user@email.com',
+				sisbot_id	: '57DB5833-72EF-4D16-BCD8-7B832B423554',
+				playlist_ids: [  ],
+				track_ids   : [  ],
+			},
+			playlist_1: {
+				id          : app.plugins.uuid(),
+				type        : 'playlist',
+				name        : 'Default Playlist',
+				description : 'Description of Default Playlist',
+				is_published: 'false',
+				track_ids   : [ 'A88D38AA-747A-4B52-8A78-64FAA043E6A9',
+								'0F86891A-6B19-461B-BFE5-AC87E7E1398D',
+								'6D3CA320-B99E-458F-B562-1B7E6F6F10A2' ],
+			},
+			*/
+			track_1: {
+				id          : '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+				type        : 'track',
+				name        : 'Erase',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_2: {
+				id          : 'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+				type        : 'track',
+				name        : 'Tensig 1',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_3: {
+				id          : '2B34822B-0A27-4398-AE19-23A3C83F1220',
+				type        : 'track',
+				name        : 'Sine',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_4: {
+				id          : '93A90B6B-EAEE-48A3-9742-C688235D837D',
+				type        : 'track',
+				name        : 'Circam 2S',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_5: {
+				id          : 'B7407A2F-04C3-4C92-B907-4C3869DA86D6',
+				type        : 'track',
+				name        : 'C Warp 3B',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_6: {
+				id          : '7C046710-9F19-4423-B291-7394996F0913',
+				type        : 'track',
+				name        : 'D Ces 4P',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_7: {
+				id          : 'D14E0B41-E572-4B69-9827-4A07C503D031',
+				type        : 'track',
+				name        : 'Hep',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_8: {
+				id          : '26FBFB10-4BC7-46BF-8D55-85AA52C19ADF',
+				type        : 'track',
+				name        : 'India 1P',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_9: {
+				id          : '75518177-0D28-4B2A-9B73-29E4974FB702',
+				type        : 'track',
+				name        : 'Para 2B',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}
+		};
+		var self = this;
+
+		_.each(tracks, function(val, key) {
+			self.get_model('sisbot_id').add('data.track_ids', val.id)
+			self.get_model('user_id').add('data.track_ids', val.id)
+            app.collection.add(val);
+        });
 	},
     setup_demo: function () {
         var data = {
@@ -355,7 +491,6 @@ app.model.sisyphus_manager = {
 
 		this.set('community_playlist_ids', [ data.playlist_3.id, data.playlist_4.id ]);
 		this.set('community_track_ids', [ data.track_5.id, data.track_6.id ]);
-
 
 		app.current_session().set('signed_in', 'true');
 

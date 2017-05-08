@@ -56,6 +56,7 @@ app.model.playlist = {
 
 		this.set('data.duration', '' + duration)
 			.set('data.duration_formatted', hours + ':' + mins);
+
 		return this;
 	},
 	/**************************** TRACKS **************************************/
@@ -83,13 +84,14 @@ app.model.playlist = {
 			.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.track_ids', this.get('active_tracks').slice())
-			.update_duration();
+			.update_duration()
+			.save();
 	},
 	/**************************** TRACKS **************************************/
 	add_track: function (track_id) {
-		this.add_nx('active_tracks', track_id);
-		this.remove('eligible_tracks', track_id);
-		// this.save();
+		this.add('active_tracks', track_id);
+		this.trigger('change:active_tracks');
+		console.log('we are here', this.get('active_tracks'));
 	},
 	remove_track: function (track_id) {
 		this.remove('active_tracks', track_id);

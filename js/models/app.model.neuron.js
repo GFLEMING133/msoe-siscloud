@@ -236,11 +236,6 @@ app.model.neuron = Backbone.NestedModel.extend({
 			this.set('data.history_id', m.id);
 		}
 
-		// TODO: REMOVE THIS CHECK WHEN ALL ORGANIZATIONS HAVE BEEN UPDATED
-		if (data.created_by_id == 'false' && data.type !== 'organization') {
-			this.set('data.created_by_id', app.current_user().id, { silent: true });
-		}
-
 		this.set('data.updated_at', this.timestamp());
 		this.set('data.is_saved', 'true');
 
@@ -252,24 +247,6 @@ app.model.neuron = Backbone.NestedModel.extend({
 		this.generate_history_point();
 
 		return this;
-	},
-	save_dev: function () {
-	    var data = JSON.parse(JSON.stringify(this.get('data')));
-		  data.endpoint = 'set';
-			data._url = 'https://api.socrates.withease.io/';
-
-			app.plugins.fetch(data, function (cbb) {
-	      //console.log('saved to dev', cbb);
-	    });
-	},
-	save_prod: function () {
-	    var data = JSON.parse(JSON.stringify(this.get('data')));
-		  data.endpoint = 'set';
-			data._url = 'https://api.withease.io/';
-
-			app.plugins.fetch(data, function (cbb) {
-	      //console.log('saved to prod', cbb);
-	    });
 	},
 	before_erase: function () {},
 	after_erase	: function () {},

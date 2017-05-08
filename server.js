@@ -107,7 +107,7 @@ function regenerate_index_page() {
 	});
 
 	console.log('config', config.dir);
-	
+
 	fs.writeFileSync(config.dir + '/prod/models.js', all.join(''));
 
 	// Concatenate General JS

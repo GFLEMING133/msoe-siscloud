@@ -80,16 +80,9 @@
         </div>
         <div class="flex p10 pb20">
             <div class="w33 center">
-                <i class="fa fa-refresh p10 rounded clickable h__k {{= (model.data.is_shuffle == 'false') ? 'bg-white' : '' }}"
-                    data-on-click="set"
-                    data-field="model.data.is_shuffle"
-                    data-value="{{= 'false' }}"
-                    aria-hidden="true"
-                ></i>
-            </div>
-            <div class="w33 center">
-                <i class="fa fa-backward p10 rounded clickable h__k"
-                    data-on-click="model.home"
+                <i class="fa fa-refresh p10 rounded clickable h__k {{= (model.data.is_loop == 'false') ? 'bg-white' : '' }}"
+                    data-on-click="toggle"
+                    data-field="model.data.is_loop"
                     aria-hidden="true"
                 ></i>
             </div>
@@ -104,16 +97,9 @@
                 ></i>
             </div>
             <div class="w33 center">
-                <i class="fa fa-forward p10 rounded clickable h__k"
-                    data-on-click="model.next"
-                    aria-hidden="true"
-                ></i>
-            </div>
-            <div class="w33 center">
                 <i class="fa fa-random p10 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'bg-white' : '' }}"
-                    data-on-click="set"
+                    data-on-click="toggle"
                     data-field="model.data.is_shuffle"
-                    data-value="{{= 'true' }}"
                     aria-hidden="true"
                 ></i>
             </div>

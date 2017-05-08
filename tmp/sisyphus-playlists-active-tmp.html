@@ -95,15 +95,16 @@
                 <span class="pull-right">3:15</span>
             </div>
             <div class="pl10 pr10 h__k">
-                <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} == 0">
+                <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
                     There are no tracks in this playlist
                 </div>
                 <div class="h__k"
                     data-sortable=".reorder"
                     data-field="model.active_tracks"
-                    data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0"
+                    data-if="{{= app.plugins.length(model.active_tracks) }} !== 0"
                     data-foreach="model.active_tracks"
                     data-foreach-change="foreach_reset"
+                    data-foreach-add="foreach_reset"
                     data-foreach-map="true"
                 >
                     <div class="flex mt10">
