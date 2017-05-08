@@ -1,0 +1,19 @@
+{
+  "name": "ease_app",
+  "version": "1.0.0",
+  "description": "Ease app for the web.",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "engineering@withease.io:/git/app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clean-css": "^3.4.23"
+  }
+}

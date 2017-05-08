@@ -1,0 +1,49 @@
+<div class="bg-ll-grey container h100">
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
+    <div class="col-md-6 col-sm-8 col-xs-12">
+        <div class="h__k container no-stuffing relative" data-run="model.setup_sign_in_model">
+            <div class="h__k"
+                data-if="{{= model.reset_pw }} == false"
+                data-model="{{= model.sign_in_id }}"
+                data-state="{'submit_text':'Sign In'}"
+            >
+                <div class="h__k bg-m-grey white center p20" data-if="{{= model.signing_in }} == true" data-shepherd="session:authenticating">
+                    Authenticating your session <i class="fa fa-spinner spin"></i>
+                </div>
+                <div class="h__k" data-if="{{= model.signing_in }} == false" data-template="form-instance-tmp"></div>
+                <div class="h__k bg-ll-grey p10 clickable center i"
+                    data-on-click="model.forgot_password"
+                >Forget Password?</div>
+            </div>
+            <div class="h__k container shadow m20 no-stuffing"
+                data-if="{{= model.reset_pw }} == true"
+                data-model="{{= model.sign_in_id }}"
+            >
+                <h1 class="bg-m-grey p10 white center no-stuffing">Password Reset</h1>
+                <div class="bg-white">
+                    <h4 class="pl20 pr20 pt10 pb10 no-stuffing">
+                        <span class="h__k inline-block" data-shepherd="form_instance:label:username">New Password</span>
+                    </h4>
+                    <div class="pl20 pr20 pb10">
+                        <input class="h__k w100" type="password"
+                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                            placeholder="Enter Your New Password"
+                            data-shepherd="form_instance:new_password"
+                            data-field="model.new_password"
+                            data-on-keyup="console"
+                            data-on-key-enter="model.reset_password"
+                        />
+                    </div>
+                </div>
+                <div class="w100 btn bg-green p10 white center clickable h__k"
+                    data-on-click="model.reset_password"
+                >Reset Password</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
+</div>

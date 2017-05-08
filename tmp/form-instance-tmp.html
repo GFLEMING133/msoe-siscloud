@@ -1,0 +1,47 @@
+<div class="h__k" data-run="model.form_init" data-delay="true">
+    <div class="h__k" data-if="{{= model.is_expandable_button }} == true">
+        <div class="bg-green center p20 clickable white w100 h__k" data-if="{{= model.is_editing }} == false" data-on-click="toggle" data-field="is_editing">Edit</div>
+    </div>
+    <div class="h__k {{= (model.is_expandable_button == 'true' && model.is_editing == 'false') ? 'hide' : 'show' }}">
+        <div class="h__k {{= (model.show_inline == 'true') ? '' : 'container shadow m20 no-stuffing' }}"
+            data-delay="true"
+            data-state="{'setup_form':'{{= new Date().getTime() }}'}"
+        >
+            <h1 class="h__k bg-m-grey p10 white center no-stuffing" data-if="{{= model.hide_header }} !== true">{{= model.header_text || model.form.data.name }}</h1>
+            <div class="messages p20 bg-blue h__k" data-if="{{= app.plugins.length(model.messages) }} > 0"
+                data-foreach="model.messages"
+                data-foreach-add="foreach_reset"
+                data-foreach-remove="foreach_reset"
+            >
+                <div class="pb5 white h__k">{{= scope.value }}</div>
+            </div>
+            <div class="errors p20 bg-red h__k" data-if="{{= app.plugins.length(model.errors) }} > 0"
+                data-foreach="model.errors"
+                data-foreach-add="foreach_reset"
+                data-foreach-remove="foreach_reset"
+            >
+                <div class="pb5 white h__k">{{= scope.value }}</div>
+            </div>
+            <div class="h__k" data-if="{{= model.is_expandable_button }} == false">
+                <div class="bg-green center p20 clickable white w100 h__k"
+                    data-if="{{= model.is_editing }} == false"
+                    data-on-click="toggle"
+                    data-field="is_editing"
+                >Edit</div>
+            </div>
+            <div class="h__k"
+                data-foreach="model.responses"
+                data-foreach-change="foreach_reset"
+                data-foreach-add="foreach_reset"
+                data-item="form-instance-question-edit-sections-tmp"
+            ></div>
+            <div class="h__k {{= (model.is_editing == 'true') ? '' : 'hidden' }}">
+                <div class="btn w100 bg-green white p10 clickable center h__k {{= (model.show_submit == 'true') ? '' : 'hidden' }}"
+                    data-shepherd="form_instance:submit"
+                    data-on-click="model.export_data">{{= model.submit_text || 'Submit' }}</div>
+                <br clear="both" />
+            </div>
+            <div class="h__k" data-template="debug-tmp"></div>
+        </div>
+    </div>
+</div>

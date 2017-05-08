@@ -1,0 +1,38 @@
+<div class="question-details-date-tmp">
+    <div class="col-sm-12 col-xs-12 col-md-12 mt10 mb10">
+        <div class="inline h__k" data-if="{{= model.data.year }} == false">
+            <input class="center" type="text" placeholder="MM" style="width: 50px;" disabled />
+            / <input class="center" type="text" placeholder="DD" style="width: 50px;" disabled />
+        </div>
+        <div class="inline h__k" data-if="{{= model.data.year }} == true">
+            <input class="center" type="text" placeholder="YYYY-MM-DD" style="width: 150px;" disabled />
+        </div>
+        <div class="h__k inline pl30" data-if="{{= model.data.time }} == true">
+            <input class="center" type="text" placeholder="HH" style="width: 50px" disabled />:
+            <input class="center" type="text" placeholder="MM" style="width: 50px" disabled />:
+            <select style="width: 50px;" disabled>
+                <option>AM</option>
+                <option>PM</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-xs-12 col-md-12 h__k" data-if="{{= model.active }} == true">
+        <div class="h__k" data-template="form-placeholder-tmp"></div>
+        <div class="p5 pl15">
+            <input type="checkbox" class="h__k"
+                value="{{= app.static.opp[model.data.year] }}"
+                data-checked="true"
+                data-field="model.data.year"
+                data-on-update="model.save" />
+            <span>Include year</span>
+        </div>
+        <div class="h__k p5 pl15">
+            <input type="checkbox" class="h__k"
+                value="{{= app.static.opp[model.data.time] }}"
+                data-checked="true"
+                data-field="model.data.time"
+                data-on-update="model.save" />
+            <span>Include time</span>
+        </div>
+    </div>
+</div>

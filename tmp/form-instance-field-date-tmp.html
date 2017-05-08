@@ -1,0 +1,28 @@
+<div class="form-instance-field-date-tmp">
+    <div class="inline">
+        <input class="h__k" type="date" placeholder="{{= model.data.placeholder }}" min="{{= moment().format('yyyy-mm-dd') }}"
+            data-shepherd="form_instance:{{= app.plugins.slugify(model.data.name) }}"
+            data-date="{'format':'yyyy-mm-dd'}"
+            data-field="parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}][0]"
+            value="{{= parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][0] }}" />
+    </div>
+    <div class="h__k inline pl30" data-if="{{= model.data.time }} == true">
+        <input class="center h__k" type="text" placeholder="HH" style="width: 50px"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            data-field="parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}][3]"
+            value="{{= parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][3] }}"
+        />:
+        <input class="center h__k" type="text" placeholder="MM" style="width: 50px"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            data-field="parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}][4]"
+            value="{{= parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][4] }}"
+        />:
+        <select style="width: 50px;" class="h__k"
+            data-field="parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}][{{= model.id }}][5]"
+            data-selected="{{= parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][5] }}"
+        >
+            <option>AM</option>
+            <option>PM</option>
+        </select>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="home-tmp">
+    <div class="top-nav pull-top white bg-d-grey w100 center no-stuffing h__k">
+        <ul class="no-stuffing horizontal pb10  vertical-align h__k" data-model="{{= model.organization_id }}">
+            <div class="h__k vertical-align"
+                data-foreach="{{= JSON.stringify(app.static.page_icons) }}"
+                data-item="home-primary-nav-item-tmp"
+                data-subscribe-ctx="model"
+                data-subscribe="change:data.services"
+                data-on-subscribe="foreach_reset"
+            ></div>
+        </ul>
+    </div>
+    <div class="side-nav col-md-2 col-sm-3 col-xs-4 scroll hide-scrollbar no-stuffing bg-m-grey white h__k h100" data-template="nav-tmp"></div>
+</div>
+
+<div class="home-primary-nav-item-tmp">
+    <div class="clickable h__k"
+        data-if="{{= _model_.has_service(scope.value.key) }} == true"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'{{= scope.value.key.toLowerCase() }}','secondary':'false','tertiary':'false'}"
+    ><li class="pt10 pb15 pl20 pr20 bg-m-grey-hover h__k {{= (parent.active.primary == scope.value.key.toLowerCase()) ? 'bg-m-grey' : '' }}">
+        <span class="h__k fa fa-{{= scope.value.icon }}  f-xlarge"></span>
+        <span class="h__k capitalize hidden-xs hidden-sm" data-shepherd="primary_nav:{{= scope.value.key.toLowerCase() }}">{{= scope.value.key }}</span>
+    </li></div>
+</div>
+
+<div class="nav-tmp">
+    <!--
+    <ul class="no-stuffing">
+        <li class="m0">
+            <div class="flex bg-d-grey">
+                <i class="fa fa-search w5 p10"></i>
+                <input class="ml15 w80 white bb-dark" type="text" placeholder="Search..." />
+            </div>
+        </li>
+    </ul>
+    -->
+    <div>
+        <div class="h__k"
+            data-if="{{= model.active.primary }} !== false"
+            data-template="{{= model.active.primary }}-nav-tmp"
+        ></div>
+    </div>
+</div>
+
+<div class="debug-tmp">
+    <div class="bg-ll-grey no-stuffing p10 bt h__k" data-if="{{= app.current_session().get('debug_mode') }} == true" data-state="{'admin_expanded':'false'}">
+        <div class="no-stuffing pull-right inline h__k" data-field="model.admin_expanded" data-on-click="toggle">
+            <i class="fa fa-bars"></i>
+        </div>
+        <div class="p10 h__k">Internal Reference ID: {{= model.id }}</div>
+        <div class="h__k" data-if="{{= model.admin_expanded }} == true" data-template="pre-tmp"></div>
+    </div>
+</div>
+
+<div class="pre-tmp">
+    <pre class="h__k">{{= JSON.stringify(model, null, 2) }}</pre>
+</div>
+
+<div class="loading-tmp">
+    <p class="center no-stuffing">LOADING</p>
+</div>
+
+<div class="unfetchable-tmp">
+    <h1 class="center no-stuffing">Unfetchable: {{= model.id }}</h1>
+</div>
+
+<div class="null-view-tmp">
+    <div>&nbsp;</div>
+</div>
+
+<div class="print-preview-tmp">
+    <div class="h__k" data-model="{{= app.current_session().id }}">
+        <div class="h__k" data-if="{{= model.is_downloading }} == true"><div class="w25p inline"><i class="fa fa-spinner spin" aria-hidden="true"></i></div> Generating Screenshot</div>
+        <div class="h__k"
+            data-if="{{= model.is_downloading }} == false"
+            data-on-click="set"
+            data-field="model.preview_content"
+            data-value="{{= _self_.html_clone() }}"
+            data-clone=".container"
+        ><i class="fa fa-print w25p"></i> Take Screenshot</div>
+    </div>
+</div>

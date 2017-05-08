@@ -1,0 +1,102 @@
+<div class="question-details-forminstance-tmp">
+    <div class="h__k" data-if="{{= model.active }} == true">
+        <div class="h__k" data-template="form-placeholder-tmp"></div>
+        <div class="col-md-12 col-sm-12 col-xs-12 inline flex h__k mt10 mb10">
+            <select class="h__k capitalize w50"
+                data-field="model.data.form_instance[0]"
+                data-selected="{{= model.data.form_instance[0] }}"
+                data-on-update="model.save"
+                value="{{= model.data.form_instance[0] }}"
+                data-cluster="{ 'type':'form' }"
+                data-cluster-comparator="{'key':'data.name','ord':'asc'}"
+                data-foreach="cluster"
+                data-foreach-map="true"
+                data-foreach-add="foreach_reset"
+                data-foreach-remove="foreach_reset"
+                data-foreach-sort="foreach_reset"
+                data-foreach-default="Select Form Type"
+                data-foreach-default-value="false"
+            ><option class="h__k" value="{{= model.data.instance_type }}">{{= model.data.instance_type }}</option></select>
+
+            <br clear="both" />
+            <br clear="both" />
+
+            <select class="h__k capitalize w50"
+                data-field="model.data.form_instance[1]"
+                data-selected="{{= model.data.form_instance[1] }}"
+                data-on-update="model.save"
+                value="{{= model.data.form_instance[1] }}"
+            >
+                <option value="false">Select type of form instance</option>
+                <option value="checkbox">Checkboxes</option>
+                <option value="dropdown">Choose from a list</option>
+            </select>
+
+            <br clear="both" />
+            <br clear="both" />
+
+            <select class="h__k capitalize w50"
+                data-run="model.get_forminstance_keys"
+                data-field="model.data.form_instance[2]"
+                data-selected="{{= model.data.form_instance[2] }}"
+                data-on-update="model.save"
+                data-foreach="model.forminstance_keys"
+                data-foreach-change="foreach_reset"
+                data-foreach-sort="foreach_reset"
+                data-foreach-default="Select Field"
+                data-foreach-default-value="false"
+                value="{{= model.data.form_instance[2] }}"
+            >
+                <option class="h__k" value="{{= scope.value }}">{{= app.plugins.unslugify(scope.value) }}</option>
+            </select>
+            <div class="h__k"
+                data-foreach="model.data.filter"
+                data-foreach-change="foreach_reset"
+            >
+                <div class="flex">
+                    <input class="h__k w20" type="text" placeholder="key"
+                        data-on-keyup="model.save|trigger"
+                        data-on-key-enter="blur|model.save"
+                        data-on-blur="trigger"
+                        data-field="model.data.filter[{{= scope.index }}].key"
+                        value="{{= model.data.filter[scope.index].key }}"
+                    />
+                    <span class="mt10 w5 center strong">:</span>
+                    <input class="h__k w20" type="text" placeholder="value"
+                        data-on-keyup="model.save|trigger"
+                        data-on-key-enter="blur|model.save"
+                        data-on-blur="trigger"
+                        data-field="model.data.filter[{{= scope.index }}].value"
+                        value="{{= model.data.filter[scope.index].value }}"
+                    />
+                    <div class="fa fa-times lgrey w10 pt10 clickable h__k"
+                        data-on-click="model.remove_filter_option"
+                        data-msg="{{= scope.index }}"
+                    ></div>
+                </div>
+            </div>
+            <div class="p15 pl5 clickable h__k" data-on-click="model.add_filter_option">
+                Add Filter Parameter
+            </div>
+        </div>
+    </div>
+    <div class="h__k" data-if="{{= model.active }} !== true">
+        <div class="col-md-12 col-sm-12 col-xs-12 inline h__k mt10 mb20">
+            <select class="h__k capitalize w100"
+                data-field="model.data.form_instance[0]"
+                data-on-update="model.save"
+                value="{{= model.data.form_instance[0] }}"
+                data-cluster="{ 'type':'form' }"
+                data-cluster-comparator="{'key':'data.name','ord':'asc'}"
+                data-foreach="cluster"
+                data-foreach-map="true"
+                data-foreach-add="foreach_reset"
+                data-foreach-remove="foreach_reset"
+                data-foreach-sort="foreach_reset"
+                data-foreach-default="{{= model.data.placeholder }}"
+                data-foreach-without="grandparent.id"
+                disabled
+            ><option class="h__k" value="{{= model.data.instance_type }}">{{= model.data.instance_type }}</option></select>
+        </div>
+    </div>
+</div>

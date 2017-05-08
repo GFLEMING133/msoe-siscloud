@@ -1,0 +1,32 @@
+<div class="h__k"
+    data-cluster="{'type':'form', 'is_deleted':'false', 'organization_id': '{{= parent.organization_id }}', 'is_saved':'true'}"
+    data-foreach="cluster"
+    data-cluster-comparator="{'key':'data.name','ord':'asc'}"
+    data-foreach-sort="foreach_reset"
+    data-foreach-add="foreach_reset"
+    data-foreach-remove="foreach_reset"
+>
+    <div class="flex p10 bb bg-white bg-ll-grey-hover clickable">
+        <div class="no-stuffing w5"><i class="fa fa-bars"></i></div>
+        <div class="no-stuffing w75 h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'form_id':'{{= model.id }}','tertiary':'edit'}"
+            data-shepherd="forms:overview:name:{{= model.id }}"
+        >{{= model.data.name }}</div>
+
+        <div class="no-stuffing w20 h__k" data-if="{{= _model_.is_admin() }} == true">
+            <div class="fa fa-trash l-grey bblack-hover w25p pull-right h__k"
+                data-on-click="model.erase"
+                title="Delete"
+            ></div>
+            <div class="fa fa-file-o l-grey bblack-hover w25p pull-right h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'new_form_instance':'{{= model.id }}','tertiary':'instance'}"
+                data-shepherd="forms:overview:instance:{{= model.id }}"
+                title="New Form Instance"
+            ></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="question-details-scale-tmp">
+    <div class="h__k mt10 mb10" data-if="{{= model.active }} == false">
+        <div class="vertical">
+            <div class="col-sm-2 col-xs-2 h__k center">
+                <p class="center no-stuffing">{{= model.data.start_label }}</p>
+            </div>
+            <div class="col-sm-8 col-xs-8 col-md-8">
+                <div class="h__k flex" data-foreach="[{{= _.range(+(model.data.start), +(model.data.end) + 1) }}]">
+                    <div class="w100 center no-stuffing">
+                        {{= scope.index + (+model.data.start) }}<br /><input type="radio" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 h__k">
+                <p class="center no-stuffing">{{= model.data.end_label }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row p10 h__k" data-if="{{= model.active }} == true">
+        <div class="flex">
+            <span class="w10 center">from</span>
+            <select class="w10 h__k" data-field="model.data.start" data-on-update="model.save" value="{{= model.data.start }}">
+                <option>0</option>
+                <option>1</option>
+            </select>
+            <span class="w10 center">to</span>
+            <select class="w10 h__k" data-field="model.data.end" data-on-update="model.save"
+                data-foreach="[{{= _.range(2, 11).join(',') }}]"
+                data-selected="{{= model.data.end }}"
+            >
+                <option>{{= scope.value }}</option>
+            </select>
+        </div>
+        <div class="flex p10">
+            <div class="w25p h__k">
+                <p class="no-stuffing p5 pull-right">{{= model.data.start }}</p>
+            </div>
+            <div class="w50">
+                <input type="text" placeholder="Label (optional)" class="w100 h__k"
+                    data-field="model.data.start_label" value="{{= model.data.start_label }}"
+                    data-on-key-enter="model.save|blur"
+                    data-on-keyup="model.save|trigger"
+                    data-on-blur="trigger"
+                    data-trigger="change:data.start_label"
+                />
+            </div>
+        </div>
+        <div class="flex p10">
+            <div class="w25p h__k">
+                <p class="no-stuffing p5 pull-right">{{= model.data.end }}</p>
+            </div>
+            <div class="w50">
+                <input type="text" placeholder="Label (optional)" class="w100 h__k"
+                    data-field="model.data.end_label" value="{{= model.data.end_label }}"
+                    data-on-key-enter="model.save|blur"
+                    data-on-keyup="model.save|trigger"
+                    data-on-blur="trigger"
+                    data-trigger="change:data.end_label"
+                />
+            </div>
+        </div>
+    </div>
+</div>

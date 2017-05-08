@@ -1,0 +1,37 @@
+<div class="form-logic-tmp">
+    <div class="bg-ll-grey no-stuffing p20 bt">
+        <div class="pb20 flex">
+            <h3 class="no-stuffing w50">Logic</h3>
+            <div class="w50 flex">
+                <div class="h__k pr5 w90 pull-right">Default show next section</div>
+                <div class="w10">
+                    <div class="h__k {{= (parent.data.enable_form_logic['{[= model.id ]}'] == 'true') ? 'hide' : '' }}">
+                        <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox" checked>
+                        <label for="cmn-toggle-1" class="h__k" data-field="parent.data.enable_form_logic[{{= model.id }}]" data-on-click="toggle"></label>
+                    </div>
+                    <div class="h__k {{= (parent.data.enable_form_logic['{[= model.id ]}'] == 'true') ? '' : 'hide' }}">
+                        <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox">
+                        <label for="cmn-toggle-1" class="h__k" data-field="parent.data.enable_form_logic[{{= model.id }}]" data-on-click="toggle"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h__k" data-if="{{= parent.data.enable_form_logic['{[= model.id ]}'] }} == true">
+            <div class="h__k"
+                data-foreach="parent.data.logic[{{= model.id }}]"
+                data-foreach-add="foreach_parent_add"
+                data-foreach-remove="foreach_on_remove"
+                data-item="form-logic-segment-tmp"
+            ></div>
+
+            <div class="flex mt20">
+                <div class="w5">
+                    <span class="rounded center white uppercase bg-blue fa fa-plus clickable h__k" style="padding: 8px 2px; width: 32px;"
+                        data-on-click="parent.add_logic" data-msg="{'section_id': '{{= model.id }}'}"
+                    ></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

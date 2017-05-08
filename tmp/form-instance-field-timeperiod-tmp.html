@@ -1,0 +1,21 @@
+<div class="col-md-12 col-sm-12 col-xs-12 inline h__k" data-shepherd="form_instance:{{=  app.plugins.slugify(model.data.name) }}">
+    <input class="center h__k" type="text" placeholder="HH" style="width: 50px"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        data-field="parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][0]"
+        value="{{= parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][0] }}"
+    />:
+    <input class="center h__k" type="text" placeholder="MM" style="width: 50px"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        data-field="parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}][{[= model.id  ]}][1]"
+        value="{{= parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][1] }}"
+    />
+    <select style="width: 50px;" class="h__k"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        data-field="parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}][2]"
+        data-selected="{{= parent.responses[{[= _super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'][2] }}"
+    >
+        <option></option>
+        <option>AM</option>
+        <option>PM</option>
+    </select>
+</div>

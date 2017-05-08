@@ -1,0 +1,10 @@
+<div>
+    <input class="h__k w100" type="text" placeholder="{{= model.data.placeholder }}"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        data-shepherd="form_instance:{{= app.plugins.slugify(model.data.name) }}"
+        data-field="parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}]"
+        data-on-keyup="console"
+        data-on-key-enter="parent.export_data"
+        value="{{= parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'] }}"
+    />
+</div>

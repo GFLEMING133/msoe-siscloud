@@ -1,0 +1,12 @@
+<div class="form-question-details-grid-row-item-template">
+    <li class="vertical p5">
+        <span class="h__k reorder-row" style="width: 10px;"><i class="fa fa-ellipsis-v grabbable lgrey"></i></span>
+        <span class="h__k pl5" style="width: 100px;">Row {{= (+scope.index + 1) }}.</span>
+
+        <input class="w100 h__k" type="text" value="{{= scope.value }}"
+            data-field="model.data.rows[{{= scope.index }}]"
+            data-on-key-enter="blur|model.save"
+        />
+        <div class="fa fa-times lgrey pl10 h__k" data-on-click="model.remove_row" data-msg="{{= scope.index }}" style="width: 15px;"></div>
+    </li>
+</div>

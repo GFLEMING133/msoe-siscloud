@@ -1,0 +1,158 @@
+<div class="h100 h__k" data-model="{{= parent.active.playlist_id }}">
+    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+        <div class="w15 pt30 center f-large clickable">
+            <div class="h__k"
+                data-if="{{= model.is_editing }} == true"
+                data-on-click="model.cancel_edit"
+            >Cancel</div>
+            <div class="h__k"
+                data-if="{{= model.is_editing }} == false"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'false'}"
+            ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
+        </div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing pt20 capitalize">{{= model.data.name }}</h1>
+        </div>
+        <div class="w15 pt30 center f-large clickable">
+            <div class="h__k"
+                data-if="{{= model.is_editing }} == false"
+                data-on-click="model.edit"
+            >Edit</div>
+            <div class="h__k"
+                data-if="{{= model.is_editing }} == true"
+                data-on-click="model.save_edit"
+            >Save</div>
+        </div>
+    </div>
+    <!--------------------------- PLAYLIST DETAILS ---------------------------->
+    <div class="h100 scroll hide-scrollbar">
+        <div class="flex p10 bb">
+            <div class="w40 hvw40 bg-ll-grey shadow center vertical">
+                <span class="f-large">P</span>
+            </div>
+            <div class="w5 hvw40">&nbsp;</div>
+            <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
+                <h2>
+                    <i class="fa fa-play-circle pull-right h__k"
+                        data-if="{{= app.plugins.length(model.data.track_ids) }} > 0"
+                        data-on-click="model.play"
+                        data-msg="{{= 'false' }}"
+                        aria-hidden="true"
+                    ></i></span>
+                    <span class="h__k">{{= model.data.name }}</span>
+                </h2>
+                <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
+                <p class="no-stuffing h__k">{{= app.plugins.length(model.data.track_ids) }} Tracks</p>
+                <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>
+            </div>
+            <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == true">
+                <input type="text" class="w100 f15 h__k"
+                    data-field="model.edit.name"
+                    data-value="{{= model.edit.name }}"
+                    value="{{= model.edit.name }}"
+                />
+            </div>
+        </div>
+        <!--------------------------- PLAYLIST DESCRIPTION -------------------->
+        <div class="pl10 pr10">
+            <div class="h__k" data-if="{{= model.is_editing }} == false">
+                <div class="mt10 pt10 pb20 bb h__k"  data-if="{{= model.data.description }} !== ">{{= model.data.description }}</div>
+            </div>
+            <textarea class="mt10 pt10 pb20 bb w100 h__k"
+                placeholder="Playlist Description here"
+                data-if="{{= model.is_editing }} == true"
+                data-field="model.edit.description"
+                data-value="{{= model.edit.description }}"
+                value="{{= model.edit.description }}"
+            ></textarea>
+        </div>
+        <!--------------------------- PLAYLIST TRACKS ---------------------------->
+        <div class="mt10 pl10 pr10 pb10 h__k"
+            data-if="{{= model.is_editing }} == false"
+            data-foreach="model.data.track_ids"
+            data-foreach-change="foreach_reset"
+            data-foreach-map="true"
+        >
+            <div class="flex mt10 h__k"
+                data-on-click="parent.play"
+                data-msg="{{= model.id }}"
+            >
+                <div class="w10 hvw10 bg-ll-grey shadow center vertical">
+                    <span>T</span>
+                </div>
+                <div class="w5 hvw10">&nbsp;</div>
+                <div class="w85 hvw10 bb vertical">
+                    <div class="h__k">{{= model.data.name }}</div>
+                </div>
+            </div>
+        </div>
+        <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
+        <div class="mt10 pb10 h__k" data-if="{{= model.is_editing }} == true">
+            <div class="bg-d-grey white no-stuffing pl10 pr10 uppercase pt3 pb3">
+                Current Tracks
+                <span class="pull-right">3:15</span>
+            </div>
+            <div class="pl10 pr10 h__k">
+                <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} == 0">
+                    There are no tracks in this playlist
+                </div>
+                <div class="h__k"
+                    data-sortable=".reorder"
+                    data-field="model.active_tracks"
+                    data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0"
+                    data-foreach="model.active_tracks"
+                    data-foreach-change="foreach_reset"
+                    data-foreach-map="true"
+                >
+                    <div class="flex mt10">
+                        <div class="w10 hvw10 bg-ll-grey shadow center vertical">
+                            <span>T</span>
+                        </div>
+                        <div class="w5 hvw10">&nbsp;</div>
+                        <div class="w65 hvw10 bb vertical">
+                            <div class="h__k">{{= model.data.name }}</div>
+                        </div>
+                        <div class="w10 hvw10 center bb vertical h__k reorder grabbable">
+                            <i class="fa fa-bars f-large" aria-hidden="true"></i>
+                        </div>
+                        <div class="w10 hvw10 center bb vertical h__k"
+                            data-on-click="parent.remove_track"
+                            data-msg="{{= model.id }}"
+                        ><i class="fa fa-minus-circle f-large" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-d-grey white no-stuffing mt10 mb10 pl10 pr10 uppercase pt3 pb3">
+                Eligible Tracks
+            </div>
+            <div class="pl10 pr10 h__k" data-run="model.generate_eligible_tracks">
+                <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.eligible_tracks) }} == 0">
+                    There are no eligible tracks
+                </div>
+                <div class="h__k"
+                    data-if="{{= app.plugins.length(model.eligible_tracks) }} !== 0"
+                    data-foreach="model.eligible_tracks"
+                    data-foreach-change="foreach_reset"
+                    data-foreach-map="true"
+                >
+                    <div class="flex mt10">
+                        <div class="w10 hvw10 bg-ll-grey shadow center vertical">
+                            <span>T</span>
+                        </div>
+                        <div class="w5 hvw10">&nbsp;</div>
+                        <div class="w75 hvw10 bb vertical">
+                            <div class="h__k">{{= model.data.name }}</div>
+                        </div>
+                        <div class="w10 hvw10 center bb vertical h__k"
+                            data-on-click="parent.add_track"
+                            data-msg="{{= model.id }}"
+                        ><i class="fa fa-plus-circle f-large" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hh150">&nbsp;</div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="no-stuffing h__k" data-model="{{= model.data.value }}">
+    <div class="h__k" data-if="{{= ['false','quantity'].indexOf(parent.data.subtype) }} > -1">
+        <div class="h__k" data-foreach="model.data.options">
+            <div class="flex p5">
+                <div class="w25 h__k">{{= scope.value }}:</div>
+                <select class="center h__k w10" type="text" placeholder="Quantity"
+                    data-foreach="[{{= _.range(0, 50) }}]"
+                    data-foreach-default="Select Quantity"
+                    data-foreach-default-value="0"
+                    data-field="grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}][{[= parent.id ]}][{[= model.id ]}][{[= scope.index ]}]"
+                    value="{{= grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= parent.id ]}']['{[= model.id ]}'][{[= scope.index ]}] }}"
+                    data-selected="{{= grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= parent.id ]}']['{[= model.id ]}'][{[= scope.index ]}] }}"
+                ><option class="h__k" value="{{= scope.value }}">{{= scope.value }}</option></select>
+            </div>
+        </div>
+    </div>
+    <div class="h__k" data-if="{{= parent.data.subtype }} == boolean">
+        <div class="h__k" data-foreach="model.data.options">
+            <div class="flex p5">
+                <div class="w25 h__k">{{= scope.value }}</div>
+                <div class="w10">
+                    <div class="h__k {{= (grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= parent.id ]}']['{[= model.id ]}'][{[= scope.index ]}] == 'true') ? '' : 'hide' }}"
+                        data-field="grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}][{[= parent.id ]}][{[= model.id ]}][{[= scope.index ]}]"
+                        data-on-click="toggle"
+                    >
+                        <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox" checked>
+                        <label for="cmn-toggle-1"></label>
+                    </div>
+                    <div class="h__k {{= (grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= parent.id ]}']['{[= model.id ]}'][{[= scope.index ]}] !== 'true') ? '' : 'hide' }}"
+                        data-field="grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}][{[= parent.id ]}][{[= model.id ]}][{[= scope.index ]}]"
+                        data-on-click="toggle"
+                    >
+                        <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox">
+                        <label for="cmn-toggle-1" class="h__k"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="h__k" data-if="{{= parent.data.subtype }} == checkbox">
+        <div class="h__k" data-foreach="model.data.options">
+            <label class="w100 p5">
+                <span class="w25p"><input type="checkbox" class="h__k"
+                    data-field="grandparent.responses[{[= _super_._super_._super_._super_._super_._super_._super_.scope.attributes.index ]}][{[= parent.id ]}][{[= model.id ]}]"
+                    data-field-type="array"
+                    data-checked="{{= scope.value }}"
+                    value="{{= scope.value }}"
+                /></span>
+                <span class="h__k">{{= scope.value }}</span>
+            </label>
+        </div>
+    </div>
+</div>

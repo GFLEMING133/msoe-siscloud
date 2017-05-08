@@ -1,0 +1,33 @@
+<div class="h100">
+    <div class="page-content no-stuffing bg-white h100 h__k w100"
+        data-if="{{= parent.active.primary }} !== false"
+        data-template="sisyphus-{{= parent.active.primary }}-tmp"
+    ></div>
+    <div class="bottom-nav pull-bottom white bg-black w100 center no-stuffing h__k f18 flex">
+        <div class="w20 p15 bg-l-grey-hover fa fa-bullseye h__k {{= (parent.active.primary == 'current') ? 'bg-l-grey' : '' }}"
+            data-on-click="publish"
+    		data-publish="session:active"
+    		data-msg="{'primary':'current'}"
+        ></div>
+        <div class="w20 p15 bg-l-grey-hover fa fa-list-ul h__k {{= (parent.active.primary == 'playlists') ? 'bg-l-grey' : '' }}"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'playlists'}"
+        ></div>
+        <div class="w20 p15 bg-l-grey-hover fa fa-circle-o-notch h__k {{= (parent.active.primary == 'tracks') ? 'bg-l-grey' : '' }}"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'tracks'}"
+        ></div>
+        <div class="w20 p15 bg-l-grey-hover fa fa-globe h__k {{= (parent.active.primary == 'store') ? 'bg-l-grey' : '' }}"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'store'}"
+        ></div>
+        <div class="w20 p15 bg-l-grey-hover fa fa-cog h__k {{= (parent.active.primary == 'settings') ? 'bg-l-grey' : '' }}"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'settings'}"
+        ></div>
+    </div>
+</div>

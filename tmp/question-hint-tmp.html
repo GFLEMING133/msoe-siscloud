@@ -1,0 +1,11 @@
+<div class="question-hint-tmp">
+    <div class="col-md-12 col-sm-12 col-xs-12 pt10 pb10 h__k">
+        <textarea type="text" class="w100 h__k" placeholder="Question Hint / Description here"
+            data-on-keyup="model.save|trigger"
+            data-on-key-enter="blur|model.save"
+            data-on-blur="trigger"
+            data-trigger="change:data.hint"
+            data-field="model.data.hint"
+        >{{= model.data.hint }}</textarea>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="vertical h__k" data-shepherd="form_instance:{{=  app.plugins.slugify(model.data.name) }}">
+    <div class="col-sm-2 col-xs-2 h__k center">
+        <p class="center no-stuffing">{{= model.data.start_label }}</p>
+    </div>
+    <div class="col-sm-8 col-xs-8 col-md-8">
+        <div class="h__k flex" data-foreach="[{{= _.range(+(model.data.start), +(model.data.end) + 1) }}]">
+            <div class="w100 center no-stuffing">
+                <span class="h__k">{{= scope.index + (+model.data.start) }}</span>
+                <br />
+                <input class="h__k" type="radio"
+                    data-field="parent.responses[{[= _super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}']"
+                    name="parent.responses[{[= _super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}']"
+                    value="{{= scope.value }}"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2 col-xs-2 h__k">
+        <p class="center no-stuffing">{{= model.data.end_label }}</p>
+    </div>
+</div>

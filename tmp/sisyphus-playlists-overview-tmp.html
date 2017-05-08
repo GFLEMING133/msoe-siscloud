@@ -1,0 +1,39 @@
+<div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+    <div class="w15 pt30 center clickable h">&nbsp;</div>
+    <div class="w70">
+        <h1 class="h__k no-stuffing pt20 capitalize">Playlists</h1>
+    </div>
+    <div class="w15 pt25 center f-xxlarge clickable h__k"
+        data-on-click="model.playlist_create"
+    >+</div>
+</div>
+<div class="mt10 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+    <div class="h__k center p20 i"
+        data-if="{{= app.plugins.length(model.data.playlist_ids) }} == 0"
+    >There are no playlists. <span class="clickable">Want to create one</span>
+    </div>
+    <div class="h__k" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
+        <div class="h__k"
+            data-foreach="model.data.playlist_ids"
+            data-foreach-map="true"
+        >
+            <div class="flex mb10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist'}"
+            >
+                <div class="w25 hvw25 bg-ll-grey shadow center vertical">
+                    <span class="f-large">P</span>
+                </div>
+                <div class="w5 hvw25">&nbsp;</div>
+                <div class="w65 hvw25 bb vertical">
+                    <span class="h__k">{{= model.data.name }}</span>
+                </div>
+                <div class="w5 hvw25 bb vertical">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+</div>

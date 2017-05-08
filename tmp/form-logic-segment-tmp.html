@@ -1,0 +1,75 @@
+<div class="form-logic-segment-tmp">
+    <div class="no-stuffing flex vertical-align relative mid-border mt20">
+        <div class="w5 z50 mid-line">
+            <span class="p10 z50 pt5 pb5 center rounded white uppercase bg-l-grey w100">if</span>
+        </div>
+        <div class="w20 center ml10 mr10 z50">
+            <select class="w100 standard h__k pr20 h__k"
+                data-foreach-default="Select Question"
+                data-foreach-default-value="false"
+
+                value="{{= parent.data.logic[model.id][scope.index].question }}"
+                data-selected="{{= parent.data.logic[model.id][scope.index].question }}"
+                data-field="parent.data.logic[{{= model.id }}][{{= scope.index }}].question"
+                data-on-update="parent.save"
+
+                data-foreach="model.data.question_ids"
+                data-foreach-map="true"
+                data-foreach-add="foreach_reset"
+                data-foreach-remove="foreach_reset"
+            ><option class="h__k" value="{{= model.id }}">{{= model.data.name }}</option>
+            </select>
+        </div>
+        <div class="w5 center z50">
+            <span class="p10 pt5 pb5 rounded white uppercase bg-l-grey w100">is</span>
+        </div>
+        <div class="w15 center ml10 mr10 z50">
+            <select class="w100 standard pr20 h__k"
+                value="{{= parent.data.logic[model.id][scope.index].comparator }}"
+                data-selected="{{= parent.data.logic[model.id][scope.index].comparator }}"
+                data-field="parent.data.logic[{{= model.id }}][{{= scope.index }}].comparator"
+                data-on-update="parent.save"
+            >
+                <option value="false">Comparator</option>
+                <option>equal to</option>
+                <option>less than</option>
+                <option>greater than</option>
+                <option>not empty</option>
+                <!--<option>in between</option>-->
+            </select>
+        </div>
+        <div class="w20 center ml10 mr10 z50">
+            <input class="w100 standard h__k" type="text" placeholder="value"
+                value="{{= parent.data.logic[model.id][scope.index].value }}"
+                data-field="parent.data.logic[{{= model.id }}][{{= scope.index }}].value"
+                data-on-key-enter="blur|parent.save"
+             />
+        </div>
+        <div class="w10 center z50">
+            <span class="p10 pt5 pb5 rounded white uppercase bg-l-grey w100">then</span>
+        </div>
+        <div class="w20 ml10 mr10 z50">
+            <select class="w100 standard h__k pr20"
+                data-foreach-default="Select Section"
+                data-foreach-default-value="false"
+
+                value="{{= parent.data.logic[model.id][scope.index].section }}"
+                data-selected="{{= parent.data.logic[model.id][scope.index].section }}"
+                data-field="parent.data.logic[{{= model.id }}][{{= scope.index }}].section"
+                data-on-update="parent.save"
+
+                data-foreach="parent.data.section_ids"
+                data-foreach-map="true"
+                data-foreach-add="foreach_on_add"
+                data-foreach-remove="foreach_on_remove"
+            ><option class="h__k" value="{{= model.id }}">Show "{{= model.data.name }}"</option>
+            </select>
+        </div>
+        <div class="w5 pull-right z50">
+            <span class="rounded white center uppercase bg-orange fa fa-times clickable h__k" style="padding: 8px 2px; width: 32px;"
+                data-on-click="parent.remove_logic"
+                data-msg="{'section_id': '{{= model.id }}', 'index' : '{{= scope.index }}' }"
+            ></span>
+        </div>
+    </div>
+</div>

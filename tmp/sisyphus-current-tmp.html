@@ -1,0 +1,122 @@
+<div class="h100 h__k" data-model="{{= model.sisbot_id }}">
+    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75">
+        <h1 class="h__k no-stuffing pt20 capitalize">Current</h1>
+    </div>
+    <div class="mt10 pl10 pr10 flex">
+        <div class="w15 hv50">&nbsp;</div>
+        <div class="w70 h__k" data-if="{{= model.data.active_track }} == false">
+            <div class="w100 hvw50 bg-ll-grey shadow center vertical">
+                <span>No Current Track</span>
+            </div>
+        </div>
+        <div class="w70 hv50 h__k" data-if="{{= model.data.active_track }} !== false">
+            <div class="w100 hvw50 bg-ll-grey shadow center vertical h__k"
+                data-model="{{= model.data.active_track }}"
+            >
+                <span class="h__k">{{= model.data.name }}</span>
+            </div>
+        </div>
+        <div class="w15 hv50">&nbsp;</div>
+    </div>
+    <div class="mt10">
+        <div class="h__k pl10 pr10" data-if="{{= model.data.active_playlist }} == false">
+            <div class="bt pt10 pb10 center i">
+                There is no active playlist
+            </div>
+        </div>
+        <div class="h__k" data-if="{{= model.data.active_playlist }} !== false">
+            <div class="h__k" data-model="{{= model.data.active_playlist }}">
+                <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3 pl10 pr10">
+                    <span class="h__k pull-right">{{= model.data.duration_formatted }}</span>
+                    <span class="h__k">{{= model.data.name }}</span>
+                </div>
+                <div class="h__k"
+                    data-foreach="model.data.track_ids"
+                    data-foreach-map="true"
+                >
+                    <div class="flex pt5 pb5 pl10 pr10 h__k {{= (model.id == grandparent.data.active_track) ? 'bg-ll-grey' : 'bb' }}"
+                        data-if="{{= parent.active_track }} !== {{= model.id }}"
+                        data-on-click="grandparent.update_playback"
+                        data-msg="{'playlist_id':'{{= grandparent.data.active_playlist }}','track_id':'{{= model.id }}'}"
+                    >
+                        <div class="w10 hvw10 bg-ll-grey shadow center vertical">
+                            <span>T</span>
+                        </div>
+                        <div class="w5 hvw10">&nbsp;</div>
+                        <div class="w85 hvw10 vertical h__k">
+                            <div>{{= model.data.name }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pull-bottom mb50 bg-ll-grey">
+        <div class="flex p10 vertical-align">
+            <div class="w10 center clickable h__k" data-on-click="model.speed_down">
+                slow
+            </div>
+            <div class="w80 center">
+                <input class="h__k" type="range" min="0" max="100" step="1"
+                    value="{{= model.data.speed }}"
+                />
+            </div>
+            <div class="w10 center clickable h__k" data-on-click="model.speed_up">
+                fast
+            </div>
+        </div>
+        <div class="flex p10 vertical-align">
+            <div class="w10 center h__k" data-on-click="model.brightness_down">
+                <i class="fa fa-sun-o  clickable" aria-hidden="true"></i>
+            </div>
+            <div class="w80 center">
+                <input class="h__k" type="range" min="0" max="100" step="1"
+                    value="{{= model.data.brightness }}"
+                />
+            </div>
+            <div class="w10 center h__k" data-on-click="model.brightness_up">
+                <i class="fa fa-sun-o f-large clickable" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="flex p10 pb20">
+            <div class="w33 center">
+                <i class="fa fa-refresh p10 rounded clickable h__k {{= (model.data.is_shuffle == 'false') ? 'bg-white' : '' }}"
+                    data-on-click="set"
+                    data-field="model.data.is_shuffle"
+                    data-value="{{= 'false' }}"
+                    aria-hidden="true"
+                ></i>
+            </div>
+            <div class="w33 center">
+                <i class="fa fa-backward p10 rounded clickable h__k"
+                    data-on-click="model.home"
+                    aria-hidden="true"
+                ></i>
+            </div>
+            <div class="w33 center">
+                <i class="fa fa-play p10 clickable h__k" aria-hidden="true"
+                    data-if="{{= model.data.is_playing }} == false"
+                    data-on-click="model.play"
+                ></i>
+                <i class="fa fa-pause p10 clickable h__k" aria-hidden="true"
+                    data-if="{{= model.data.is_playing }} == true"
+                    data-on-click="model.pause"
+                ></i>
+            </div>
+            <div class="w33 center">
+                <i class="fa fa-forward p10 rounded clickable h__k"
+                    data-on-click="model.next"
+                    aria-hidden="true"
+                ></i>
+            </div>
+            <div class="w33 center">
+                <i class="fa fa-random p10 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'bg-white' : '' }}"
+                    data-on-click="set"
+                    data-field="model.data.is_shuffle"
+                    data-value="{{= 'true' }}"
+                    aria-hidden="true"
+                ></i>
+            </div>
+        </div>
+    </div>
+</div>

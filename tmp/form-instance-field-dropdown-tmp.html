@@ -1,0 +1,9 @@
+<div class="form-instance-field-dropdown-tmp">
+    <select class="h__k" style="width: 200px;"
+        data-shepherd="form_instance:{{=  app.plugins.slugify(model.data.name) }}"
+        data-selected="{{= parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'] }}"
+        data-field="parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}]"
+        data-foreach="model.data.options"
+        data-foreach-default="{{= model.data.placeholder }}"
+    ><option class="h__k" value="{{= scope.value }}">{{= scope.value }}</option></select>
+</div>

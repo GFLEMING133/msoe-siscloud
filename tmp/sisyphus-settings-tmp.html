@@ -1,0 +1,84 @@
+<div class="h100">
+    <div class="h__k" data-if="{{= parent.active.secondary }} == false">
+        <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+            <div class="w15 pt30 center f-large">&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt20 capitalize">Settings</h1>
+            </div>
+            <div class="w15 pt30 center f-large">&nbsp;</div>
+        </div>
+        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+            Sisyphus Settings
+        </div>
+        <div class="bb p10">
+            Sisyphus ID<span class="pull-right">123456789</span>
+        </div>
+        <div class="bb p10">
+            Sisyphus Version<span class="pull-right">0.1.2</span>
+        </div>
+        <div class="bb p10 h__k"> {{= model.type }}
+            Disconnect from Sisyphus
+        </div>
+        <div class="bb p10">
+            Reset Sisyphus to Factory Settings
+        </div>
+        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+            Account Settings
+        </div>
+        <div class="bb p10">
+            Email<span class="pull-right">user@email.com</span>
+        </div>
+        <div class="bb p10">
+            Password<span class="pull-right">(change password)</span>
+        </div>
+        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+            Company Info
+        </div>
+        <div class="bb p10 h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'privacy'}"
+        >Privacy Policy<span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb p10 h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'tos'}"
+        >Terms of Use<span class="pull-right fa fa-chevron-right"></span></div>
+        <div class="p10 center i f-small pull-bottom mb50">
+            v0.1
+        </div>
+    </div>
+    <div class="h__k" data-if="{{= parent.active.secondary }} == tos">
+        <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+            <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'false'}"
+            >&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt20 capitalize">Terms Of Service</h1>
+            </div>
+            <div class="w15 pt30 center f-large">&nbsp;</div>
+        </div>
+        <div class="p20 center i">
+            Updated with Terms of Service Here
+        </div>
+    </div>
+    <div class="h__k" data-if="{{= parent.active.secondary }} == privacy">
+        <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+            <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'false'}"
+            >&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt20 capitalize">Privacy Policy</h1>
+            </div>
+            <div class="w15 pt30 center f-large">&nbsp;</div>
+        </div>
+        <div class="p20 center i">
+            Updated with Privacy Policy
+        </div>
+    </div>
+</div>

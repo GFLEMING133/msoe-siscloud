@@ -1,0 +1,21 @@
+<br clear="both" />
+<h3 class="ml10 mr10 pb5">
+    <span class="h__k w100 clickable" data-on-click="publish" data-publish="session:active" data-msg="{'form_id':'false'}">Forms</span>
+</h3>
+<ul class="h__k no-stuffing"
+    data-cluster="{ 'type':'form', 'is_deleted': 'false', 'organization_id': '{{= model.organization_id }}' }"
+    data-foreach="cluster"
+    data-cluster-comparator="{'key':'data.name','ord':'asc'}"
+    data-foreach-add="foreach_reset"
+    data-foreach-change="foreach_reset"
+    data-foreach-remove="foreach_reset"
+    data-foreach-sort="foreach_reset"
+>
+    <li class="w100 m0 h__k p10 pl20 clickable bg-l-grey-hover {{= (parent.active.form_id == model.id) ? 'bg-l-grey' : '' }}">
+        <span class="h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'form_id':'{{= model.id }}'}"
+        >{{= model.data.name }}</span>
+    </li>
+</ul>

@@ -1,0 +1,22 @@
+<div class="container h100 white">
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
+    <div class="col-md-6 col-sm-8 col-xs-12 black">
+        <div class="h__k container no-stuffing relative">
+            <div class="h__k" data-run="model.setup_registration">
+                <div class="h__k"
+                    data-if="{{= model.is_sign_up }} == true"
+                    data-template="sisyphus-signup-tmp"
+                ></div>
+                <div class="h__k"
+                    data-if="{{= model.is_sign_up }} == false"
+                    data-template="sisyphus-signin-tmp"
+                ></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
+</div>

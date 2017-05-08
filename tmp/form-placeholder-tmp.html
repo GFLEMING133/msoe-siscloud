@@ -1,0 +1,12 @@
+<div class="form-placeholder-tmp">
+    <div class="flex p10 pl15">
+        <input type="text" placeholder="What would you like to be the placeholder value?" class="w100 h__k"
+            value="{{= model.data.placeholder }}"
+            data-field="model.data.placeholder"
+            data-on-key-enter="model.save|blur"
+            data-on-keyup="model.save|trigger"
+            data-on-blur="trigger"
+            data-trigger="change:data.placeholder"
+        />
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+    <div class="w15 pt30 center">&nbsp;</div>
+    <div class="w70">
+        <h1 class="h__k no-stuffing pt20 capitalize">Tracks</h1>
+    </div>
+    <div class="w15 pt30 center">&nbsp;</div>
+</div>
+<div class="mt10 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+    <div class="h__k center p20 i"
+        data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
+    >
+        <span>There are no tracks on this Sisyphus.</span>
+        <span class="clickable">Visit the store to download some</span>
+    </div>
+    <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
+        <div class="h__k"
+            data-foreach="model.data.track_ids"
+            data-foreach-map="true"
+        >
+            <div class="flex clickable h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
+            >
+                <div class="flex mt10">
+                    <div class="w10 hvw10 bg-ll-grey shadow center vertical">
+                        <span>T</span>
+                    </div>
+                    <div class="w5 hvw10">&nbsp;</div>
+                    <div class="w80 hvw10 bb vertical">
+                        <div class="h__k">{{= model.data.name }}</div>
+                    </div>
+                    <div class="w5 hvw10 bb vertical">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+</div>

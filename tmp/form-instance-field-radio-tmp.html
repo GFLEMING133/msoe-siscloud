@@ -1,0 +1,12 @@
+<div class="no-stuffing h__k"
+    data-foreach="model.data.options"
+    data-shepherd="form_instance:{{=  app.plugins.slugify(model.data.name) }}"
+>
+    <div class="pt10"><span style="width: 25px;">
+        <input type="radio" class="h__k"
+            data-field="parent.responses[{[= _super_._super_._super_._super_._super_.scope.attributes.index ]}][{[= model.id ]}]"
+            name="parent.responses[{[= _super_._super_._super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}']"
+            value="{{= scope.value }}"
+        />
+    </span><span class="h__k">{{= scope.value }}</span></div>
+</div>
