@@ -19,7 +19,7 @@
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'primary':'{{= scope.value.key.toLowerCase() }}','secondary':'false','tertiary':'false'}"
-    ><li class="pt10 pb15 pl20 pr20 bg-m-grey-hover h__k {{= (parent.active.primary == scope.value.key.toLowerCase()) ? 'bg-m-grey' : '' }}">
+    ><li class="pt15 pb20 pl20 pr20 bg-m-grey-hover h__k {{= (parent.active.primary == scope.value.key.toLowerCase()) ? 'bg-m-grey' : '' }}">
         <span class="h__k fa fa-{{= scope.value.icon }}  f-xlarge"></span>
         <span class="h__k capitalize hidden-xs hidden-sm" data-shepherd="primary_nav:{{= scope.value.key.toLowerCase() }}">{{= scope.value.key }}</span>
     </li></div>
