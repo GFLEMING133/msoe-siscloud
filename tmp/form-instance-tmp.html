@@ -3,7 +3,7 @@
         <div class="bg-green center p20 clickable white w100 h__k" data-if="{{= model.is_editing }} == false" data-on-click="toggle" data-field="is_editing">Edit</div>
     </div>
     <div class="h__k {{= (model.is_expandable_button == 'true' && model.is_editing == 'false') ? 'hide' : 'show' }}">
-        <div class="h__k {{= (model.show_inline == 'true') ? '' : 'container shadow m20 no-stuffing' }}"
+        <div class="h__k {{= (model.show_inline == 'true') ? '' : 'shadow m20 no-stuffing' }}"
             data-delay="true"
             data-state="{'setup_form':'{{= new Date().getTime() }}'}"
         >
