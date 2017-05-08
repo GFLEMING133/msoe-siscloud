@@ -5,7 +5,7 @@
     <div class="spacer">&nbsp;</div>
     <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
     <div class="col-md-6 col-sm-8 col-xs-12">
-        <div class="h__k container no-stuffing relative" data-run="model.setup_sign_in_model">
+        <div class="h__k no-stuffing relative" data-run="model.setup_sign_in_model">
             <div class="h__k"
                 data-if="{{= model.reset_pw }} == false"
                 data-model="{{= model.sign_in_id }}"
@@ -19,7 +19,7 @@
                     data-on-click="model.forgot_password"
                 >Forget Password?</div>
             </div>
-            <div class="h__k container shadow m20 no-stuffing"
+            <div class="h__k shadow m20 no-stuffing"
                 data-if="{{= model.reset_pw }} == true"
                 data-model="{{= model.sign_in_id }}"
             >
