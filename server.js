@@ -1,10 +1,11 @@
 var http            = require("http");
 var express         = require("express");
-var bodyParser		= require('body-parser');
+var bodyParser			= require('body-parser');
 var _               = require('underscore');
-var local_config    = require('./config.js');
 var fs              = require('fs');
-var cleanCSS		= require('clean-css');
+var cleanCSS				= require('clean-css');
+
+var local_config    = require('./config.js');
 
 var exp             = express();
 var app_service     = new express();
