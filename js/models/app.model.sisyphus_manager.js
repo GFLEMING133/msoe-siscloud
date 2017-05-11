@@ -36,10 +36,10 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
-		//this.setup_demo();
+		this.setup_demo();
 		//this.listenTo(app, 'session:user_sign_in', this.on_signin);
 		//this.setup_sisbot_select();
-		this.find_sisbots();
+		//this.find_sisbots();
 
 		/*
 		var obj = {
@@ -200,6 +200,8 @@ app.model.sisyphus_manager = {
 		var self		= this;
 		var sisbot_name = this.get('credentials.sisbot_name');
 
+		return this.default_sisbot();
+
 		// ping sisbot for connection
 		var obj = {
 			_url	: 'http://' + sisbot_name + '.local/',
@@ -218,7 +220,6 @@ app.model.sisyphus_manager = {
 			self.set('sisbot_id', sisbot.id);
 			self.get_model('user_id').add_nx('data.sisbot_ids', sisbot.id);
 			self.get_model('user_id').save();
-
 		});
     },
     disconnect: function () {
@@ -369,16 +370,17 @@ app.model.sisyphus_manager = {
         });
 	},
     setup_demo: function () {
-        var data = {
+		var data = {
             sisbot_1: {
                 id          : '57DB5833-72EF-4D16-BCD8-7B832B423554',
                 type        : 'sisbot',
-                playlist_ids: [ '2745A1AA-0068-48F4-95E2-8341185096F1',
-			 					'D691FB14-8223-43ED-9FAC-9B989B095B70' ],
-                track_ids   : [ 'A88D38AA-747A-4B52-8A78-64FAA043E6A9',
-                                '0F86891A-6B19-461B-BFE5-AC87E7E1398D',
-                                '6D3CA320-B99E-458F-B562-1B7E6F6F10A2',
-                                'F152CB8C-7D32-4E4C-9AF4-408365747631' ]
+                playlist_ids: [ '2745A1AA-0068-48F4-95E2-8341185096F1' ],
+                track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+                                'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+                                '2B34822B-0A27-4398-AE19-23A3C83F1220',
+							 	'93A90B6B-EAEE-48A3-9742-C688235D837D',
+								'7C046710-9F19-4423-B291-7394996F0913',
+								'D14E0B41-E572-4B69-9827-4A07C503D031' ]
             },
             user_1: {
                 id          : '2B037165-209B-4C82-88C6-0FA4DEB08A08',
@@ -386,100 +388,80 @@ app.model.sisyphus_manager = {
                 name        : 'User #1',
                 email       : 'user@email.com',
 				sisbot_id	: '57DB5833-72EF-4D16-BCD8-7B832B423554',
-                playlist_ids: [ '2745A1AA-0068-48F4-95E2-8341185096F1',
-			 					'D691FB14-8223-43ED-9FAC-9B989B095B70' ],
-                track_ids   : [ 'A88D38AA-747A-4B52-8A78-64FAA043E6A9',
-                                '0F86891A-6B19-461B-BFE5-AC87E7E1398D',
-                                '6D3CA320-B99E-458F-B562-1B7E6F6F10A2',
-                                'F152CB8C-7D32-4E4C-9AF4-408365747631' ],
+                playlist_ids: [ '2745A1AA-0068-48F4-95E2-8341185096F1' ],
+                track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+                                'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+                                '2B34822B-0A27-4398-AE19-23A3C83F1220',
+							 	'93A90B6B-EAEE-48A3-9742-C688235D837D',
+								'7C046710-9F19-4423-B291-7394996F0913',
+								'D14E0B41-E572-4B69-9827-4A07C503D031' ],
             },
             playlist_1: {
                 id          : '2745A1AA-0068-48F4-95E2-8341185096F1',
                 type        : 'playlist',
-                name        : 'Playlist #1',
+                name        : 'Default Playlist',
                 duration    : '120',
 				duration_formatted: '2:15',
-                description : 'Description of Playlist #1',
+                description : 'Description of Default Playlist',
                 is_published: 'false',
-                track_ids   : [ 'A88D38AA-747A-4B52-8A78-64FAA043E6A9',
-                                '0F86891A-6B19-461B-BFE5-AC87E7E1398D',
-                                '6D3CA320-B99E-458F-B562-1B7E6F6F10A2' ],
+                track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+                                'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+                                '2B34822B-0A27-4398-AE19-23A3C83F1220' ],
             },
-			playlist_2: {
-                id          : 'D691FB14-8223-43ED-9FAC-9B989B095B70',
-                type        : 'playlist',
-                name        : 'Playlist #2',
-				duration    : '180',
-				duration_formatted: '3:00',
-                description : 'Description of Playlist #2',
-                is_published: 'false',
-                track_ids   : [ 'A88D38AA-747A-4B52-8A78-64FAA043E6A9',
-                                '0F86891A-6B19-461B-BFE5-AC87E7E1398D' ],
-            },
-			playlist_3: {
-				id          : '86060458-7C17-436C-9A09-2273096851FB',
-                type        : 'playlist',
-                name        : 'Playlist #3',
-				duration    : '60',
-				duration_formatted: '1:00',
-                description : 'Description of Playlist #3',
-                is_published: 'false',
-                track_ids   : [ '6D3CA320-B99E-458F-B562-1B7E6F6F10A2',
-                                '0F86891A-6B19-461B-BFE5-AC87E7E1398D' ],
+			track_1: {
+				id          : '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+				type        : 'track',
+				name        : 'Erase',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 			},
-			playlist_4: {
-				id          : '005E75C8-DD5C-4B37-B1CD-2964417462D1',
-                type        : 'playlist',
-                name        : 'Playlist #4',
-				duration    : '60',
-				duration_formatted: '5:00',
-                description : 'Description of Playlist #4',
-                is_published: 'false',
-                track_ids   : [ 'DECD417B-B848-461E-B1C4-1C58898622DF',
-                                'D669E1FC-8572-484F-B45F-73E019469DEF' ],
+			track_2: {
+				id          : 'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+				type        : 'track',
+				name        : 'Tensig 1',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 			},
-            track_1: {
-                id          : 'A88D38AA-747A-4B52-8A78-64FAA043E6A9',
-                type        : 'track',
-                name        : 'Track #1',
-                created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				duration	: '90',
-            },
-            track_2: {
-                id          : '0F86891A-6B19-461B-BFE5-AC87E7E1398D',
-                type        : 'track',
-                name        : 'Track #2',
-                created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				duration	: '60',
-            },
-            track_3: {
-                id          : '6D3CA320-B99E-458F-B562-1B7E6F6F10A2',
-                type        : 'track',
-                name        : 'Track #3',
-                created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				duration	: '15',
-            },
-            track_4: {
-                id          : 'F152CB8C-7D32-4E4C-9AF4-408365747631',
-                type        : 'track',
-                name        : 'Track #4',
-                created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				duration	: '120'
-            },
-            track_5: {
-                id          : 'DECD417B-B848-461E-B1C4-1C58898622DF',
-                type        : 'track',
-                name        : 'Track #5',
-                created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				duration	: '90'
-            },
-            track_6: {
-                id          : 'D669E1FC-8572-484F-B45F-73E019469DEF',
-                type        : 'track',
-                name        : 'Track #6',
-                created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				duration	: '180'
-            }
+			track_3: {
+				id          : '2B34822B-0A27-4398-AE19-23A3C83F1220',
+				type        : 'track',
+				name        : 'Sine',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_4: {
+				id          : '93A90B6B-EAEE-48A3-9742-C688235D837D',
+				type        : 'track',
+				name        : 'Circam 2S',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_5: {
+				id          : 'B7407A2F-04C3-4C92-B907-4C3869DA86D6',
+				type        : 'track',
+				name        : 'C Warp 3B',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_6: {
+				id          : '7C046710-9F19-4423-B291-7394996F0913',
+				type        : 'track',
+				name        : 'D Ces 4P',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_7: {
+				id          : 'D14E0B41-E572-4B69-9827-4A07C503D031',
+				type        : 'track',
+				name        : 'Hep',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_8: {
+				id          : '26FBFB10-4BC7-46BF-8D55-85AA52C19ADF',
+				type        : 'track',
+				name        : 'India 1P',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
+			track_9: {
+				id          : '75518177-0D28-4B2A-9B73-29E4974FB702',
+				type        : 'track',
+				name        : 'Para 2B',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}
         };
 
         _.each(data, function(val, key) {
@@ -489,8 +471,8 @@ app.model.sisyphus_manager = {
         this.set('sisbot_id', '57DB5833-72EF-4D16-BCD8-7B832B423554')
             .set('user_id', '2B037165-209B-4C82-88C6-0FA4DEB08A08');
 
-		this.set('community_playlist_ids', [ data.playlist_3.id, data.playlist_4.id ]);
-		this.set('community_track_ids', [ data.track_5.id, data.track_6.id ]);
+		//this.set('community_playlist_ids', [ data.playlist_3.id, data.playlist_4.id ]);
+		//this.set('community_track_ids', [ data.track_5.id, data.track_6.id ]);
 
 		app.current_session().set('signed_in', 'true');
 

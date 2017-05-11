@@ -1,25 +1,6 @@
 app.socket = {
     initialize: function () {
         var self = this;
-
-        app.scripts.fetch('js/libs/lib.socket.io.min.js', function () {
-            if (!window.io) return false;
-
-            if (app.current_session().get('mode') == 'walksmart') return false;
-
-            _.extend(self, Backbone.Events);
-
-            self.socket  = io.connect(app.config.get_api_url(), { test: 'data' });
-
-            self.socket.on('on_register',   function(d) { self.is_registered(d);    });
-            self.socket.on('disconnect',    function()  { self.on_disconnect();     });
-            self.socket.on('broadcast',     function(d) { self.on_broadcast(d);     });
-            self.socket.on('reconnect',     function()  { self.on_reconnect();      });
-
-            self.listenTo(app, 'session:user_sign_in', self.on_sign_in);
-            if (app.current_user())
-                self.on_sign_in(_.pick(app.current_user().get('data'), 'id', 'type', 'user_id', 'username'));
-        });
     },
     is_registered   : false,
     user_data       : false,

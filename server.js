@@ -4,8 +4,9 @@ var bodyParser			= require('body-parser');
 var _               = require('underscore');
 var fs              = require('fs');
 var cleanCSS				= require('clean-css');
-
 var local_config    = require('./config.js');
+var cleanCSS		= require('clean-css');
+var cors			= require("cors");
 
 var exp             = express();
 var app_service     = new express();
@@ -48,6 +49,7 @@ var app = function(given_config,ansible) {
 			res.send(resp);
 		});
 	})
+	.use(cors())
 	.use(express.static(config.dir))
 	.use(function(res, req, next) {
 	    res.header("Access-Control-Allow-Origin", "*");
@@ -106,8 +108,6 @@ function regenerate_index_page() {
 		var js = fs.readFileSync(config.dir + '/js/models/' + filename, 'utf-8');
 		all.push(js);
 	});
-
-	console.log('config', config.dir);
 
 	fs.writeFileSync(config.dir + '/prod/models.js', all.join(''));
 

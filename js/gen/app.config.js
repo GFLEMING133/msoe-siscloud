@@ -2,8 +2,8 @@ app.config = {
 	env		: 'alpha',
 	envs	: {
 		alpha: {
-			base_url	: 'https://app.dev.withease.io:3101/',
-			api_url		: 'https://api.dev.withease.io:3101/',
+			base_url	: 'http://app.dev.withease.io:3000/',
+			api_url		: 'http://api.dev.withease.io:3000/',
 			port		: 3101,
 		},
 		prod: {

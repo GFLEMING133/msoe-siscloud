@@ -56,7 +56,7 @@ app.model.sisbot = {
 	},
 	_update_sisbot: function (endpoint, data, cb) {
 		var obj = {
-			_url	: 'http://raspberrypi.local/',
+			_url	: 'http://sisyphus.local/',
 			_type	: 'POST',
 			endpoint: 'sisbot/' + endpoint,
 			data	: data

@@ -3,15 +3,8 @@ app.post = {
 
 	},
 	fetch: function (data, cb, had_error) {
-		// _url, _type, endpoint, rest of data passed along
-		if (app.current_session().get('mode') == 'walksmart') return false;
-
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_api_url();
-
-		if (['datapoint','scout_data_anchor'].indexOf(data.type) > -1) {
-			url = 'https://api.withease.io/';
-		}
 
 		if (data.endpoint) {
 			url += data.endpoint;
