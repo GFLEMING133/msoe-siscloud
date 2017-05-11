@@ -44,6 +44,8 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
+		this.listenTo(app, 'sisbot:update', this._update_sisbot_msg);
+
 		//this.set('wifi.name', 'Sodo4');
 		//this.set('wifi.password', '60034715CF25')
 		//this.set('wifi.name', 'Nimbus');
@@ -54,7 +56,12 @@ app.model.sisbot = {
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
 	},
+	_update_sisbot_msg: function(obj) {
+		console.log('we want to play', obj);
+		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
+	},
 	_update_sisbot: function (endpoint, data, cb) {
+
 		var obj = {
 			_url	: 'http://sisyphus.local/',
 			_type	: 'POST',

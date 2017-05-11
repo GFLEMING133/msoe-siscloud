@@ -42,7 +42,17 @@ app.model.playlist = {
 	},
 	play: function (track_id) {
 		if (app.plugins.falsy(track_id)) track_id = this.get('data.track_ids')[0];
-		app.trigger('sisbot:update_playback', { playlist_id: this.id, track_id: track_id });
+
+		app.trigger('sisbot:update', {
+			endpoint: 'setPlaylist',
+			data: {
+				name		: this.get('data.name'),
+				repeat		: false,
+				randomized	: false,
+				track_ids	: this.get('data.track_ids')
+			},
+			cb: function() {}
+		});
 	},
 	update_duration: function () {
 		var duration = 0;
