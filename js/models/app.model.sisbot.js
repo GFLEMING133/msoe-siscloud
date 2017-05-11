@@ -122,17 +122,36 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
-
+		this._update_sisbot('git_pull', { repo: 'siscloud' }, function(obj) {
+			console.log('Fetch Siscloud');
+		});
+		this._update_sisbot('git_pull', { repo: 'sisproxy' }, function(obj) {
+			console.log('Fetch Sisproxy');
+		});
+		this._update_sisbot('git_pull', { repo: 'sisbot' }, function(obj) {
+			console.log('Fetch Sisbot');
+		});
 	},
 	restart: function () {
-
+		this._update_sisbot('restart', {}, function(obj) {
+			console.log('RESTART');
+		});
 	},
 	factory_reset: function () {
-
+		this._update_sisbot('factory_reset', {}, function(obj) {
+			console.log('RESET');
+		});
 	},
 	reset_to_hotspot: function () {
 		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
 			console.log('RESET', obj);
+		});
+	},
+	save: function () {
+		var data = app.collection.toJSON();
+
+		this._update_sisbot('save', data, function(obj) {
+			console.log('SAVE');
 		});
 	},
 	/**************************** PLAYBACK ************************************/
