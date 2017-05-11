@@ -33,7 +33,7 @@ app.model.sisbot = {
 
 				is_playing			: 'false',
 				is_homing			: 'false',
-				is_shuffle			: 'false',
+				is_shuffle			: 'true',
 				is_loop				: 'false',
 				brightness			: .5,
 				speed				: .3,
@@ -44,7 +44,7 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
-		this.listenTo(app, 'sisbot:update', this._update_sisbot_msg);
+		this.listenTo(app, 'sisbot:new_playlist', this.new_playlist);
 
 		//this.set('wifi.name', 'Sodo4');
 		//this.set('wifi.password', '60034715CF25')
@@ -151,7 +151,21 @@ app.model.sisbot = {
 
 		this.set('data.active_playlist', active_playlist);
 		this.set('data.active_track', active_track);
+	},
+	new_playlist: function (data) {
+		var falsy = {
+			'false'		: false,
+			'true'		: true
+		};
 
+		data.repeat		= falsy[this.get('data.is_loop')];
+		data.randomized = falsy[this.get('data.is_shuffle')];
+
+		this._update_sisbot('setPlaylist', data);
+
+		this.set('data.active_playlist', data.id);
+		this.set('data.active_track', data.track_ids[0]);
+		this.set('data.is_playing', 'true');
 	},
 	home: function () {
 		this.set('data.is_homing', 'true');

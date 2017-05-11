@@ -404,7 +404,7 @@ app.model.sisyphus_manager = {
 				duration_formatted: '2:15',
                 description : 'Description of Default Playlist',
                 is_published: 'false',
-                track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+                track_ids   : [ '7C046710-9F19-4423-B291-7394996F0913',
                                 'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
                                 '2B34822B-0A27-4398-AE19-23A3C83F1220' ],
             },
