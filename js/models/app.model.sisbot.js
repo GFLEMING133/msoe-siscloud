@@ -49,7 +49,7 @@ app.model.sisbot = {
 		//this.set('wifi.name', 'Nimbus');
 		//this.set('wifi.password', 'so202donimbus')
 		//this.connect_to_wifi();
-		this.reset_to_hotspot();
+		//this.reset_to_hotspot();
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
