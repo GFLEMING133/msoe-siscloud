@@ -234,6 +234,8 @@ app.model.sisyphus_manager = {
 		app.post.fetch(obj, function(obj) {
 			var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
 
+			console.log('Connect to Sisbot:', obj);
+
 			/*
 			if (obj.err)
 				return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
@@ -247,7 +249,7 @@ app.model.sisyphus_manager = {
 					self.set('sisbot_id', obj.id);
 			});
 
-			self.get_model('sisbot_id').set('hostname', sisbot_hostname);
+			self.get_model('sisbot_id').set('hostname', sisbot_hostname).set('is_connected','true');
 
 			// hotspot access allows not requiring user
 			if (self.get_model('user_id')) {
