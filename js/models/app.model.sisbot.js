@@ -134,14 +134,8 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
-		this._update_sisbot('git_pull', { repo: 'siscloud' }, function(obj) {
-			console.log('Fetch Siscloud');
-		});
-		this._update_sisbot('git_pull', { repo: 'sisproxy' }, function(obj) {
-			console.log('Fetch Sisproxy');
-		});
-		this._update_sisbot('git_pull', { repo: 'sisbot' }, function(obj) {
-			console.log('Fetch Sisbot');
+		this._update_sisbot('git_pull', { repo: 'all' }, function(obj) {
+			console.log('Fetch Updates');
 		});
 	},
 	restart: function () {
