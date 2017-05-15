@@ -139,6 +139,11 @@ label {
 	overflow-x					: hidden;
 }
 
+.no-scroll {
+	overflow-y					: hidden;
+	overflow-x					: hidden;
+}
+
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -351,6 +356,13 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 .pull-bottom	{
 	position		: absolute;
+	left			: 0px;
+	right			: 0px;
+	bottom			: 0px;
+}
+
+.pull-bottom-fixed	{
+	position		: fixed;
 	left			: 0px;
 	right			: 0px;
 	bottom			: 0px;
@@ -794,3 +806,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .pb100						            {   padding-bottom	        : 100px !important;			            }
 .pl100									{	padding-left			: 100px !important;						}
 .pr100									{	padding-right			: 100px !important;						}
+
+.pt250						            {   padding-top             : 250px !important;			            }
+.pb250						            {   padding-bottom	        : 250px !important;			            }
+.pl250									{	padding-left			: 250px !important;						}
+.pr250									{	padding-right			: 250px !important;						}

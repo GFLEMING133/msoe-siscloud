@@ -4,8 +4,15 @@ app.config = {
 		alpha: {
 			base_url	: 'http://app.dev.withease.io:3000/',
 			api_url		: 'http://api.dev.withease.io:3000/',
-			port		: 3101,
+			port		: 3001,
 		},
+		sisbot: (function() {
+			return {
+				base_url	: window.location.href,
+				api_url		: window.location.href,
+				port		: 3001,
+			}
+		})(),
 		prod: {
 			base_url	: 'https://app.sisyphus.withease.io/',
 			api_url		: 'https://api.sisyphus.withease.io/',
@@ -20,6 +27,10 @@ app.config = {
 	}
 };
 
+// if its an ip address or sisyphus.local, it'll set itself to sisbot
+if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';
+
+// for any url not including dev, assumes prod env
 if (window.location.href.indexOf('sisyphus.withease') > -1)	app.config.env = 'prod';
 if (window.location.href.indexOf('siscloud.withease') > -1)	app.config.env = 'prod';
 if (window.cordova)											app.config.env = 'prod';

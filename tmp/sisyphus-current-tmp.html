@@ -1,31 +1,31 @@
-<div class="h100 h__k" data-model="{{= model.sisbot_id }}">
-    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75">
+<div class="h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75">
         <h1 class="h__k no-stuffing pt20 capitalize">{{= model.data.name }}</h1>
     </div>
-    <div class="mt10 pl10 pr10 flex">
+    <div class="mt75 pt10 pl10 pr10 flex">
         <div class="w15 hv50">&nbsp;</div>
-        <div class="w70 h__k" data-if="{{= model.data.active_track }} == false">
+        <div class="w70 h__k" data-if="{{= model.data.active_track_index }} == false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical">
                 <span>No Current Track</span>
             </div>
         </div>
-        <div class="w70 hv50 h__k" data-if="{{= model.data.active_track }} !== false">
+        <div class="w70 hv50 h__k" data-if="{{= model.data.active_track_id }} !== false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical h__k"
-                data-model="{{= model.data.active_track }}"
+                data-model="{{= model.data.active_track_id }}"
             >
                 <span class="h__k">{{= model.data.name }}</span>
             </div>
         </div>
         <div class="w15 hv50">&nbsp;</div>
     </div>
-    <div class="mt10">
-        <div class="h__k pl10 pr10" data-if="{{= model.data.active_playlist }} == false">
+    <div class="mt10 pb250">
+        <div class="h__k pl10 pr10" data-if="{{= model.data.active_playlist_id }} == false">
             <div class="bt pt10 pb10 center i">
                 There is no active playlist
             </div>
         </div>
-        <div class="h__k" data-if="{{= model.data.active_playlist }} !== false">
-            <div class="h__k" data-model="{{= model.data.active_playlist }}">
+        <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
+            <div class="h__k" data-model="{{= model.data.active_playlist_id }}">
                 <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3 pl10 pr10">
                     <span class="h__k pull-right">{{= model.data.duration_formatted }}</span>
                     <span class="h__k">{{= model.data.name }}</span>
@@ -34,10 +34,10 @@
                     data-foreach="model.data.track_ids"
                     data-foreach-map="true"
                 >
-                    <div class="flex pt5 pb5 pl10 pr10 h__k {{= (model.id == grandparent.data.active_track) ? 'bg-ll-grey' : 'bb' }}"
-                        data-if="{{= parent.active_track }} !== {{= model.id }}"
-                        data-on-click="grandparent.update_playback"
-                        data-msg="{'playlist_id':'{{= grandparent.data.active_playlist }}','track_id':'{{= model.id }}'}"
+                    <div class="flex pt5 pb5 pl10 pr10 h__k {{= (scope.index == grandparent.data.active_track_index) ? 'bg-ll-grey' : 'bb' }}"
+                        data-if="{{= parent.active_track_index }} !== {{= scope.index }}"
+                        data-on-click="parent.play"
+                        data-msg="{{= scope.index }}"
                     >
                         <div class="w10 hvw10 bg-ll-grey shadow center vertical">
                             <span>T</span>
@@ -51,13 +51,14 @@
             </div>
         </div>
     </div>
-    <div class="pull-bottom mb50 bg-ll-grey">
+    <div class="pull-bottom-fixed mb50 bg-ll-grey">
         <div class="flex p10 vertical-align">
             <div class="w10 center clickable h__k" data-on-click="model.speed_down">
                 slow
             </div>
             <div class="w80 center">
                 <input class="h__k" type="range" min="0" max="1" step=".05"
+                    data-on-input="model.speed"
                     value="{{= model.data.speed }}"
                 />
             </div>
@@ -71,6 +72,7 @@
             </div>
             <div class="w80 center">
                 <input class="h__k" type="range" min="0" max="1" step=".05"
+                    data-on-input="model.brightness"
                     value="{{= model.data.brightness }}"
                 />
             </div>
@@ -88,11 +90,11 @@
             </div>
             <div class="w33 center">
                 <i class="fa fa-play p10 clickable h__k" aria-hidden="true"
-                    data-if="{{= model.data.is_playing }} == false"
+                    data-if="{{= model.data.state }} == paused"
                     data-on-click="model.play"
                 ></i>
                 <i class="fa fa-pause p10 clickable h__k" aria-hidden="true"
-                    data-if="{{= model.data.is_playing }} == true"
+                    data-if="{{= model.data.state }} == playing"
                     data-on-click="model.pause"
                 ></i>
             </div>

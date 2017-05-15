@@ -393,3 +393,8 @@ app.plugins.get_hash = function () {
 		return '';
 	}
 }
+
+app.plugins.str_to_bool = {
+	'false'		: false,
+	'true'		: true
+};

@@ -40,18 +40,15 @@ app.model.playlist = {
 	after_export: function () {
 		app.current_session().set_active({ playlist_id: 'false' });
 	},
-	play: function (track_id) {
-		if (app.plugins.falsy(track_id)) track_id = this.get('data.track_ids')[0];
+	play: function (track_index) {
+		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
-		app.trigger('sisbot:update_playback', { playlist_id: this.id, track_id: track_id });
+		var data = this.get('data');
+		data.active_track_index = track_index;
+		data.active_track_id	= this.get('data.track_ids')[track_index];
 
-		app.trigger('sisbot:new_playlist', {
-			id			: this.id,
-			name		: this.get('data.name'),
-			repeat		: false,
-			randomized	: false,
-			track_ids	: this.get('data.track_ids')
-		});
+		app.trigger('sisbot:update_playlist', data);
+		app.trigger('session:active', { 'primary': 'current' });
 	},
 	update_duration: function () {
 		var duration = 0;

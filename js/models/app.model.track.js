@@ -37,7 +37,12 @@ app.model.track = {
 		app.current_session().set_active({ track_id: 'false' });
 	},
 	play: function () {
-		app.trigger('sisbot:update_playback', { playlist_id: 'false', track_id: this.id });
+		app.trigger('sisbot:update_playlist', {
+			id			: 'false',
+			name		: 'Single Track',
+			track_ids	: [ this.id ]
+		});
+		app.trigger('session:active', { 'primary': 'current' });
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_cancel: function () {

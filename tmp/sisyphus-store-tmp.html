@@ -1,23 +1,25 @@
-<div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-    <div class="w15 pt30 center f-large">&nbsp;</div>
-    <div class="w70">
-        <h1 class="h__k no-stuffing pt20 capitalize">Community</h1>
+<div class="mt100 pl10 pr10 h100 scroll hide-scrollbar h__k" data-run="model.fetch_store_updates">
+    <div class="pull-top">
+        <div class="white bg-black w100 center no-stuffing h__k hh75 flex">
+            <div class="w15 pt30 center f-large">&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt20 capitalize">Community</h1>
+            </div>
+            <div class="w15 pt30 center f-large">&nbsp;</div>
+        </div>
+        <div class="w100 center no-stuffing h__k hh35 flex">
+            <div class="w50 p10 h__k {{= (model.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey  white' }}"
+                data-on-click="set"
+                data-field="model.community_page"
+                data-value="playlists"
+            >Playlists</div>
+            <div class="w50 p10 h__k {{= (model.community_page == 'tracks') ? 'bg-grey' : 'bg-d-grey white' }}"
+                data-on-click="set"
+                data-field="model.community_page"
+                data-value="tracks"
+            >Tracks</div>
+        </div>
     </div>
-    <div class="w15 pt30 center f-large">&nbsp;</div>
-</div>
-<div class="top-nav w100 center no-stuffing h__k hh35 flex">
-    <div class="w50 p10 h__k {{= (model.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey  white' }}"
-        data-on-click="set"
-        data-field="model.community_page"
-        data-value="playlists"
-    >Playlists</div>
-    <div class="w50 p10 h__k {{= (model.community_page == 'tracks') ? 'bg-grey' : 'bg-d-grey white' }}"
-        data-on-click="set"
-        data-field="model.community_page"
-        data-value="tracks"
-    >Tracks</div>
-</div>
-<div class="pt10 pl10 pr10 scroll hide-scrollbar h__k" data-run="model.fetch_store_updates">
     <div class="h__k" data-if="{{= model.community_page }} == playlists">
         <div class="p20 center i h__k"
             data-if="{{= app.plugins.length(model.community_playlist_ids) }} == 0"

@@ -1,5 +1,5 @@
-<div class="h100 h__k" data-model="{{= parent.active.playlist_id }}">
-    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
+<div class="mt75 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
+    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75 flex">
         <div class="w15 pt30 center f-large clickable">
             <div class="h__k"
                 data-if="{{= model.is_editing }} == true"
@@ -77,7 +77,7 @@
         >
             <div class="flex mt10 h__k"
                 data-on-click="parent.play"
-                data-msg="{{= model.id }}"
+                data-msg="{{= scope.index }}"
             >
                 <div class="w10 hvw10 bg-ll-grey shadow center vertical">
                     <span>T</span>

@@ -1,10 +1,10 @@
 app.model.sisbot = {
 	defaults: function (data) {
-		//	IF WE ARE ON THE SISBOT WE SHOULD HAVE A DIFFERENT MODEL THAT ISSUES COMMANDS
-
 		var obj = {
 			id				: data.id,
 			type			: 'sisbot',
+
+			hostname		: 'false',			// sisyphus.local:3001
 
 			wifi_networks   : [],
 			wifi			: {
@@ -12,13 +12,19 @@ app.model.sisbot = {
 				password		: ''
 			},
 
+			is_connected	: false,
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisbot',
 				version				: this.current_version,
 
 				pi_id				: '',
-				current_version		: '1.0',
+				firmware_version	: '',
+				software_version	: '1.0',
+
+				is_hotspot			: 'true',
+				is_internet_connected: 'false',
 
 				network_connected	: 'not connected',		// not connected|connected
                 wifi_network        : '',
@@ -27,12 +33,17 @@ app.model.sisbot = {
 				playlist_ids		: [],
 				track_ids			: [],
 
-				active_playlist		: 'false',
-				active_track		: 'false',
+				active_playlist_id	: 'false',
+				active_track_index	: 'false',
+				active_track_id		: 'false',
+
 				current_time		: 0,			// seconds
 
-				is_playing			: 'false',
-				is_homing			: 'false',
+				state				: 'playing',	// playing|homing|paused|waiting
+
+				is_homed			: 'false',		// Not used
+				is_serial_open		: 'true',		// Not used
+
 				is_shuffle			: 'true',
 				is_loop				: 'false',
 				brightness			: .5,
@@ -44,7 +55,7 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
-		this.listenTo(app, 'sisbot:new_playlist', this.new_playlist);
+		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
 
 		//this.set('wifi.name', 'Sodo4');
 		//this.set('wifi.password', '60034715CF25')
@@ -57,13 +68,14 @@ app.model.sisbot = {
 		app.current_session().set_active({ sisbot_id: 'false' });
 	},
 	_update_sisbot_msg: function(obj) {
-		console.log('we want to play', obj);
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
 	_update_sisbot: function (endpoint, data, cb) {
+		if (this.get('is_connected') == false)
+			return this;
 
 		var obj = {
-			_url	: 'http://sisyphus.local/',
+			_url	: 'http://' + this.get('hostname') + '/',
 			_type	: 'POST',
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
@@ -155,54 +167,16 @@ app.model.sisbot = {
 		});
 	},
 	/**************************** PLAYBACK ************************************/
-	update_playback: function (obj) {
-		// playlist_id, track_id
-		var active_playlist = 'false';
-		var active_track	= 'false';
-
-		if (obj.playlist_id) active_playlist = obj.playlist_id;;
-		if (obj.track_id) active_track = obj.track_id;
-
-		if (obj.playlist_id && !obj.track_id) {
-			var p = app.collection.get(obj.playlist_id).get('data.track_ids');
-			active_track = p[0];
-		}
-
-		this.set('data.active_playlist', active_playlist);
-		this.set('data.active_track', active_track);
-	},
-	new_playlist: function (data) {
-		var falsy = {
-			'false'		: false,
-			'true'		: true
-		};
-
-		data.repeat		= falsy[this.get('data.is_loop')];
-		data.randomized = falsy[this.get('data.is_shuffle')];
+	update_playlist: function (data) {
+		data.repeat		= app.plugins.str_to_bool[this.get('data.is_loop')];
+		data.randomized = app.plugins.str_to_bool[this.get('data.is_shuffle')];
 
 		this._update_sisbot('setPlaylist', data);
 
-		this.set('data.active_playlist', data.id);
-		this.set('data.active_track', data.track_ids[0]);
-		this.set('data.is_playing', 'true');
-	},
-	home: function () {
-		this.set('data.is_homing', 'true');
-		this._update_sisbot('home', {});
-	},
-	prev: function () {
-		this._update_sisbot('prev', {});
-	},
-	next: function () {
-		this._update_sisbot('playNextTrack', {});
-	},
-	play: function () {
-		this.set('data.is_playing', 'true');
-		this._update_sisbot('play', {});
-	},
-	pause: function () {
-		this.set('data.is_playing', 'false');
-		this._update_sisbot('pause', {});
+		this.set('data.active_playlist_id',	data.id);
+		this.set('data.active_track_index', data.active_track_index);
+		this.set('data.active_track_id',	data.active_track_id);
+		this.set('data.state', 'playing');
 	},
 	brightness: function (level) {
 		this.set('data.brightness', +level);
@@ -231,6 +205,43 @@ app.model.sisbot = {
 		var level = +this.get('data.speed');
 		if (level >= .05) level = level - .05;
 		this.speed(level);
+	},
+	/******************** PLAYBACK ********************************************/
+	play: function () {
+		this.set('data.state', 'playing');
+		this._update_sisbot('play', {});
+	},
+	pause: function () {
+		this.set('data.state', 'paused');
+		this._update_sisbot('pause', {});
+	},
+	home: function () {
+		this.set('data.state', 'homing');
+		this._update_sisbot('home', {});
+	},
+	jog_theta_left: function () {
+		var self = this;
+		this._update_sisbot('pause', {}, function() {
+			self._update_sisbot('jogThetaLeft', {});
+		});
+	},
+	jog_theta_right: function () {
+		var self = this;
+		this._update_sisbot('pause', {}, function() {
+			self._update_sisbot('jogThetaRight', {});
+		});
+	},
+	jog_rho_outward: function () {
+		var self = this;
+		this._update_sisbot('pause', {}, function() {
+			self._update_sisbot('jogRhoOutward', {});
+		});
+	},
+	jog_rho_inward: function () {
+		var self = this;
+		this._update_sisbot('pause', {}, function() {
+			self._update_sisbot('jogRhoInward', {});
+		});
 	},
 	/**************************** COMMUNITY ***********************************/
 	download_playlist: function (playlist_id) {

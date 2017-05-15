@@ -64,6 +64,7 @@ var Binding = Backbone.View.extend({
         if (['SELECT', 'INPUT', 'TEXTAREA'].indexOf(this.tagName) > -1)
                                     new_events['change']    = 'update';
 
+        if (this.data.onInput)      new_events['input']     = 'onInput';
         if (this.data.onKeyup)      new_events['keyup']     = 'onKey';
         if (this.data.onClick)      new_events['click']     = 'onClick';
         if (this.data.onBlur)       new_events['blur']      = 'onBlur';
@@ -269,12 +270,15 @@ var Binding = Backbone.View.extend({
     onClick: function (e) {
         if (this.data.onClick)        this._call(this.data.onClick, this.get_value(this.data.msg));
     },
+    onInput: function (e) {
+        if (this.data.onInput)        this._call(this.data.onInput, this.$el.val());
+    },
     onKey: function (e) {
         if (['INPUT', 'TEXTAREA'].indexOf(this.tagName) == -1) return false;
 
         this.data.value                         = $(e.currentTarget).val().replace(/(?:\r\n|\r|\n)/gi, '');
         var obj                                 = {};
-				obj[this.get_value(this.data.field)]    = this.data.value;
+		obj[this.get_value(this.data.field)]    = this.data.value;
         this.ctx.set(obj, { silent: true });
 
         if (this.data.onKeyup)
