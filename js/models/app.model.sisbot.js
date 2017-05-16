@@ -36,6 +36,7 @@ app.model.sisbot = {
 				track_ids			: [],
 
 				active_playlist_id	: 'false',
+				active_track_id		: 'false',
 
 				current_time		: 0,					// seconds
 
@@ -64,6 +65,7 @@ app.model.sisbot = {
 	},
 	setup_listeners: function () {
 		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
+		this.listenTo(app, 'sisbot:play_track', this.play_track);
 		this.listenTo(app, 'sisbot:save', this.save_to_sisbot);
 	},
 	after_export: function () {
@@ -171,11 +173,12 @@ app.model.sisbot = {
 	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (data) {
-		console.log('DATA WE SEND IN', data);
+		this.set('data.is_loop', data.is_loop);
+		this.set('data.is_shuffle', data.is_shuffle);
 
 		this._update_sisbot('set_playlist', data, function(obj) {
 			// get back playlist obj
-			console.log('SET PLAYHLIST', obj);
+			console.log('SET PLAYLIST', obj);
 
 			if (obj.resp.id !== 'false')
 				app.collection.get(obj.resp.id).set('data', obj.resp);
@@ -185,19 +188,13 @@ app.model.sisbot = {
 		this.set('data.active_track_id',	data.active_track_id);
 		this.set('data.state', 'playing');
 	},
-	play_track: function () {
-		data.repeat		= app.plugins.str_to_bool[this.get('data.is_loop')];
-		data.randomized = app.plugins.str_to_bool[this.get('data.is_shuffle')];
-
+	play_track: function (data) {
 		this._update_sisbot('play_track', data, function(resp) {
-			// get back playlist obj
-			if (resp.id !== 'false') {
-				console.log('OUR RESPONSE', resp);
-				app.collection.get(resp.id).set('data.sorted_tracks', resp.sorted_tracks);
-			}
+			// get back track obj
 		});
 
-		this.set('data.active_playlist_id',	data.id);
+		this.set('data.active_playlist_id',	'false');
+		this.set('data.active_track_id',	data.id);
 		this.set('data.state', 'playing');
 	},
 	brightness: function (level) {
@@ -229,11 +226,17 @@ app.model.sisbot = {
 		this.speed(level);
 	},
 	set_shuffle: function () {
+		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
+
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
 			// TODO: Returns current playlist.. Update frontend
+			console.log('SET SHUFFLE', obj);
+			app.collection.get(obj.resp.id).set('data', obj.resp);
 		});
 	},
 	set_loop: function () {
+		console.log('SET LOOP');
+		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') });
 	},
 	/******************** PLAYBACK ********************************************/
