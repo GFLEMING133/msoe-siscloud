@@ -265,8 +265,8 @@ app.model.sisyphus_manager = {
 					app.collection.add(data);
 				}
 
-				if (obj.type == 'sisbot') {
-					self.set('sisbot_id', obj.id);
+				if (data.type == 'sisbot') {
+					self.set('sisbot_id', data.id);
 					app.collection.get(data.id).setup_listeners();
 				}
 			});
