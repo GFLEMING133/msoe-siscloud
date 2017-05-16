@@ -5,14 +5,14 @@
             <h1 class="h__k no-stuffing pt20 capitalize">Playlists</h1>
         </div>
         <div class="w15 pt25 center f-xxlarge clickable h__k"
-            data-on-click="model.playlist_create"
+            data-on-click="parent.playlist_create"
         >+</div>
     </div>
     <div class="h__k center p20 i"
         data-if="{{= app.plugins.length(model.data.playlist_ids) }} == 0"
     >There are no playlists. <span class="clickable">Want to create one?</span>
     </div>
-    <div class="h__k" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
+    <div class="h__k mt10" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
         <div class="h__k"
             data-foreach="model.data.playlist_ids"
             data-foreach-map="true"

@@ -18,6 +18,12 @@ app.model.sisyphus_manager = {
 			networked_sisbots		: [],
 			scanning_for_sisbots	: 'false',
 
+			merge_playlists			: [],
+
+			fetching_community_playlists: 'false',
+			fetching_community_tracks	: 'false',
+			fetched_community_playlists	: 'false',
+			fetched_community_tracks	: 'false',
 
 			community_page			: 'playlists',
 			community_playlist_ids	: [],
@@ -34,17 +40,22 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
-		app.config.env = 'sisbot';
-
-		if (app.config.env == 'sisbot')
-			this.setup_as_sisbot();
-
-		//this.setup_demo();
-		//this.setup_sisbot_select();
-
 		this.listenTo(app, 'sisuser:download_playlist', this.download_playlist);
 		this.listenTo(app, 'sisuser:download_track', 	this.download_track);
+
+		app.manager = this;
+
+		if (app.config.env == 'sisbot')
+			return this.setup_as_sisbot();
+
+		//this.setup_sisbot_select();
+		this.setup_demo();
+
+		return this;
     },
+	has_user: function () {
+		return (this.get('user_id') !== 'false') ? 'true' :'false';
+	},
 	/**************************** USER REGISTRATION ***************************/
 	setup_registration: function () {
 		if (this.get('user_id') == 'false')
@@ -71,6 +82,7 @@ app.model.sisyphus_manager = {
 			if (obj.err)
 				return self.set('signing_up', 'false').set('errors', [ '- ' + obj.err ]);
 
+			self.set('errors', []);
 			self._process_registration(user_data, obj.resp);
 		};
 
@@ -93,6 +105,7 @@ app.model.sisyphus_manager = {
 			if (obj.err)
 				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
 
+			self.set('errors', []);
 			self._process_registration(user_data, obj.resp);
 		};
 
@@ -111,6 +124,8 @@ app.model.sisyphus_manager = {
 			username		: user.username,
 			password		: user.password
 		};
+
+		console.log('sign in data', data_arr);
 
 		var server_user = false;
 
@@ -223,38 +238,47 @@ app.model.sisyphus_manager = {
 		var self		= this;
 		var sisbot_hostname = this.get('sisbot_hostname');
 
+		console.log('HOSTNAME', sisbot_hostname);
 		// ping sisbot for connection
 		var obj = {
 			_url	: 'http://' + sisbot_hostname + '/',
 			_type	: 'POST',
 			endpoint: 'sisbot/connect',
-			data	: {}
+			data	: {},
 		};
 
 		app.post.fetch(obj, function(obj) {
-			var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
+			//var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
+			//console.log('Connect to Sisbot:', obj);
 
-			console.log('Connect to Sisbot:', obj);
-
-			/*
+			/* */
 			if (obj.err)
 				return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
-			sisbot_data = obj.resp;
-			*/
 
-			app.collection.add(sisbot_data);
+			var sisbot_data = obj.resp;
+			/* */
 
-			_.each(sisbot_data, function(obj) {
-				if (obj.type == 'sisbot')
+			_.each(sisbot_data, function(data) {
+				if (app.collection.exists(data.id)) {
+					app.collection.get(data.id).set('data', data);
+				} else {
+					app.collection.add(data);
+				}
+
+				if (obj.type == 'sisbot') {
 					self.set('sisbot_id', obj.id);
+					app.collection.get(data.id).setup_listeners();
+				}
 			});
 
-			self.get_model('sisbot_id').set('hostname', sisbot_hostname).set('is_connected','true');
+			self.get_model('sisbot_id')
+				.set('data.hostname', sisbot_hostname)
+				.set('is_connected','true');
 
 			// hotspot access allows not requiring user
 			if (self.get_model('user_id')) {
-				self.get_model('user_id').add_nx('data.sisbot_ids', sisbot.id);
-				self.get_model('user_id').save();
+				self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
+				self.get_model('user_id').save(true);
 			}
 		}, 0);
     },
@@ -281,11 +305,101 @@ app.model.sisyphus_manager = {
 		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist' });
 		playlist.edit();
     },
-    /**************************** STORE ***************************************/
-    fetch_store_updates: function () {
-		// should return playlists and tracks
+	merge_playlists: function () {	// unused at this point
+		var merged_playlists = [];
 
-		// loop through and filter out the ones the user already has downloaded
+		var sisbot	= this.get_model('sisbot_id');
+		var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
+
+		var user	= this.get_model('user_id');
+		var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
+
+		var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
+		var only_user	= _.difference(user_playlist_ids, sisbot_playlist_ids);
+		var in_common	= _.intersection(sisbot_playlist_ids, user_playlist_ids);
+
+		_.each(only_sisbot, function(p_id) {
+			merged_playlists.push({ id: p_id, status: 'sisbot' });
+		});
+		_.each(only_user, function(p_id) {
+			merged_playlists.push({ id: p_id, status: 'user' });
+		});
+		_.each(in_common, function(p_id) {
+			merged_playlists.push({ id: p_id, status: 'both' });
+		});
+
+		console.log('MERGED', user, user_playlist_ids);
+
+		this.set('merged_playlists', merged_playlists);
+	},
+    /**************************** STORE ***************************************/
+    fetch_community_playlists: function () {
+		if (this.get('fetched_community_playlists') == 'true')
+			return this;
+
+		var self = this;
+
+		this.set('fetching_community_playlists', 'true');
+
+		// should return playlists and tracks
+		var playlists = {
+			_type	: 'POST',
+			endpoint: 'community_playlists',
+			data	: {}
+		};
+
+		function cb(obj) {
+			setTimeout(function () {
+				self.set('fetching_community_playlists', 'false');
+			}, 1000)
+
+			if (obj.err) return self;
+
+			app.collection.add(obj.resp);
+
+			var resp_playlist_ids	= _.pluck(obj.resp, 'id');
+			var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
+			var new_playlist_ids	= _.difference(resp_playlist_ids, sisbot_playlist_ids);
+
+			self.set('community_playlist_ids', new_playlist_ids);
+			self.set('fetched_community_playlists', 'true');
+		}
+
+		app.post.fetch(playlists, cb, 0);
+
+		return this;
+    },
+	fetch_community_tracks: function () {
+		if (this.get('fetched_community_tracks') == 'true')
+			return this;
+
+		var self = this;
+
+		this.set('fetching_community_tracks', 'true');
+
+		// should return playlists and tracks
+		var tracks = {
+			_type	: 'POST',
+			endpoint: 'community_tracks',
+			data	: {}
+		};
+
+		function cb(obj) {
+			setTimeout(function () {
+				self.set('fetching_community_tracks', 'false');
+			}, 1000);
+
+			if (obj.err) return self;
+
+			app.collection.add(obj.resp);
+
+			var sisbot_track_ids	= self.get_model('sisbot_id').get('data.track_ids');
+			var new_track_ids		= _.difference(obj.resp, sisbot_track_ids);
+			self.set('community_playlist_ids', new_track_ids);
+			self.set('fetched_community_tracks', 'true');
+		}
+
+		app.post.fetch(tracks, cb, 0);
 
 		return this;
     },
@@ -338,11 +452,14 @@ app.model.sisyphus_manager = {
 								'26FBFB10-4BC7-46BF-8D55-85AA52C19ADF',
 								'75518177-0D28-4B2A-9B73-29E4974FB702' ]
 			}, {
-				id          : 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
-				type        : 'playlist',
-				name        : 'Default Playlist',
-				description : 'Description of Default Playlist',
-				is_published: 'false',
+				id          		: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
+				type        		: 'playlist',
+				name        		: 'Default Playlist',
+				description 		: 'Description of Default Playlist',
+				is_saved			: 'true',
+				is_published		: 'false',
+				active_track_id		: 'false',
+				active_track_index	: 'false',
 				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
 								'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
 								'93A90B6B-EAEE-48A3-9742-C688235D837D' ],
@@ -397,19 +514,13 @@ app.model.sisyphus_manager = {
 		return data;
 	},
     setup_demo: function () {
-		var data = this.default_data();
+		var self = this;
 
-		app.collection.add(data);
+		this.setup_sisbot_select();
 
-        this.set('sisbot_id', '57DB5833-72EF-4D16-BCD8-7B832B423554');
-
-		//this.set('user_id', '2B037165-209B-4C82-88C6-0FA4DEB08A08');
-		//this.set('community_playlist_ids', [ data.playlist_3.id, data.playlist_4.id ]);
-		//this.set('community_track_ids', [ data.track_5.id, data.track_6.id ]);
-
-		app.current_session().set('signed_in', 'true');
-
-		this._data = data;
+		setTimeout(function() {
+			self.setup_as_sisbot();
+		}, 250);
 
         return this;
     }

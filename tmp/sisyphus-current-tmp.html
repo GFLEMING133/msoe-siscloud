@@ -4,7 +4,7 @@
     </div>
     <div class="mt75 pt10 pl10 pr10 flex">
         <div class="w15 hv50">&nbsp;</div>
-        <div class="w70 h__k" data-if="{{= model.data.active_track_index }} == false">
+        <div class="w70 h__k" data-if="{{= model.data.active_track_id }} == false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical">
                 <span>No Current Track</span>
             </div>
@@ -31,11 +31,10 @@
                     <span class="h__k">{{= model.data.name }}</span>
                 </div>
                 <div class="h__k"
-                    data-foreach="model.data.track_ids"
+                    data-foreach="model.data.sorted_tracks"
                     data-foreach-map="true"
                 >
-                    <div class="flex pt5 pb5 pl10 pr10 h__k {{= (scope.index == grandparent.data.active_track_index) ? 'bg-ll-grey' : 'bb' }}"
-                        data-if="{{= parent.active_track_index }} !== {{= scope.index }}"
+                    <div class="flex pt5 pb5 pl10 pr10 h__k {{= (scope.index == parent.data.active_track_index) ? 'bg-ll-grey' : 'bb' }}"
                         data-on-click="parent.play"
                         data-msg="{{= scope.index }}"
                     >

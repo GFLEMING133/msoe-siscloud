@@ -1,4 +1,4 @@
-<div class="mt75 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
+<div class="mt75 h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
     <div class="pull-top white bg-black w100 center no-stuffing h__k hh75 flex">
         <div class="w15 pt30 center f-large clickable">
             <div class="h__k"
@@ -46,6 +46,16 @@
                 <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
                 <p class="no-stuffing h__k">{{= app.plugins.length(model.data.track_ids) }} Tracks</p>
                 <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>
+                <div class="h__k mt20" data-if="{{= app.manager.has_user() }} == true">
+                    <span class="no-stuffing bg-d-blue white p4 pr10 pl10 rounded h__k"
+                        data-if="{{= model.data.is_published }} == true"
+                        data-on-click="model.unpublish"
+                    >Published</span>
+                    <span class="no-stuffing bg-green white p4 pr10 pl10 rounded h__k"
+                        data-if="{{= model.data.is_published }} == false"
+                        data-on-click="model.publish"
+                    >Publish?</span>
+                </div>
             </div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == true">
                 <input type="text" class="w100 f15 h__k"

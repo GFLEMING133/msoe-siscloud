@@ -20,7 +20,14 @@ app.model.playlist = {
 				duration			: '',				// mins
 				duration_formatted	: '',				// HH:mm
                 track_ids           : [],
+				sorted_tracks		: [],				// display to users
+
 				is_published		: 'false',
+				is_shuffle			: 'false',			// same from sisbot
+				is_loop				: 'false',			// same from sisbot
+				active_track_id		: 'false',
+				active_track_index	: 'false',
+
 				created_by_id		: 'false',
 				created_by_name		: 'User Name',
 			}
@@ -40,6 +47,20 @@ app.model.playlist = {
 	after_export: function () {
 		app.current_session().set_active({ playlist_id: 'false' });
 	},
+	before_save: function () {
+		var user_id = app.current_session().get_model('sisyphus_manager_id').get('user_id');
+		if (user_id !== 'false')
+			this.set('data.created_by_id', user_id);
+	},
+	after_save: function () {
+		app.trigger('sisbot:save', this.toJSON());
+		app.trigger('user:playlist_add', this);
+	},
+	save_sisbot_to_cloud: function () {
+		// we have a sisbot playlist we want saved to user account
+		app.trigger('sisbot:save', this.toJSON());
+	},
+	/**************************** TRACKS **************************************/
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
@@ -84,6 +105,9 @@ app.model.playlist = {
 	},
 	cancel_edit: function () {
 		this.set('is_editing', 'false');
+
+		if (this.get('data.is_saved') == 'false')
+			app.trigger('session:active', { secondary: 'false' });
 	},
 	save_edit: function () {
 		this.set('is_editing', 'false')
@@ -121,9 +145,9 @@ app.model.playlist = {
 		app.trigger('sisuser:download_playlist', this.id);
 	},
 	publish: function () {
-
+		this.set('data.is_published', 'true').save();
 	},
 	unpublish: function () {
-
+		this.set('data.is_published', 'false').save();
 	},
 };

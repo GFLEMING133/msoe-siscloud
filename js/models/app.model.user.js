@@ -21,7 +21,8 @@ app.model.user = {
 				username		: '',
 				password		: '',
 
-				sisbot_ids		: []
+				sisbot_ids		: [],
+				playlist_ids	: [],
 			}
 		};
 
@@ -29,11 +30,22 @@ app.model.user = {
 	},
 	current_version: 1,
 	versions: {},
+	on_init: function () {
+		//this.listenTo(app, 'user:playlist_add', this.playlist_add);
+		//this.listenTo(app, 'user:playlist_remove', this.playlist_remove);
+	},
 	after_export: function () {
 		app.trigger('session:active', { user_id: 'false', tertiary: 'overview' });
 	},
-	/**************************** USER UPDATE *********************************/
-	
+	/**************************** PLAYLISTS ***********************************/
+	playlist_add: function (playlist_model) {
+		this.add_nx('data.playlist_ids', playlist_model.id);
+		this.save(true);
+	},
+	playlist_remove: function (playlist_model) {
+		this.remove('data.playlist_ids', playlist_model.id);
+		this.save(true);
+	},
 	/**************************** USER UPDATE *********************************/
 	update_setup: function () {
 		var fields = _.pick(this.get('data'), 'username', 'email', 'phone');

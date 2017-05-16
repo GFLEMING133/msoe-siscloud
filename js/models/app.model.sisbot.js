@@ -4,7 +4,6 @@ app.model.sisbot = {
 			id				: data.id,
 			type			: 'sisbot',
 
-			hostname		: 'false',			// sisyphus.local:3001
 
 			wifi_networks   : [],
 			wifi			: {
@@ -18,6 +17,9 @@ app.model.sisbot = {
 				id					: data.id,
 				type    			: 'sisbot',
 				version				: this.current_version,
+
+				hostname			: 'false',				// sisyphus.local:3001
+				local_ip			: '',					// 192.168.0.1:3001
 
 				pi_id				: '',
 				firmware_version	: '',
@@ -34,15 +36,13 @@ app.model.sisbot = {
 				track_ids			: [],
 
 				active_playlist_id	: 'false',
-				active_track_index	: 'false',
-				active_track_id		: 'false',
 
-				current_time		: 0,			// seconds
+				current_time		: 0,					// seconds
 
-				state				: 'playing',	// playing|homing|paused|waiting
+				state				: 'playing',			// playing|homing|paused|waiting
 
-				is_homed			: 'false',		// Not used
-				is_serial_open		: 'true',		// Not used
+				is_homed			: 'false',				// Not used
+				is_serial_open		: 'true',				// Not used
 
 				is_shuffle			: 'true',
 				is_loop				: 'false',
@@ -55,14 +55,16 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
-		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
-
 		//this.set('wifi.name', 'Sodo4');
 		//this.set('wifi.password', '60034715CF25')
 		//this.set('wifi.name', 'Nimbus');
 		//this.set('wifi.password', 'so202donimbus')
 		//this.connect_to_wifi();
 		//this.reset_to_hotspot();
+	},
+	setup_listeners: function () {
+		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
+		this.listenTo(app, 'sisbot:save', this.save_to_sisbot);
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -71,11 +73,14 @@ app.model.sisbot = {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
 	_update_sisbot: function (endpoint, data, cb) {
+		console.log('WE CONNECTED', this.get('is_connected'));
+
+
 		if (this.get('is_connected') == false)
 			return this;
 
 		var obj = {
-			_url	: 'http://' + this.get('hostname') + '/',
+			_url	: 'http://' + this.get('data.hostname') + '/',
 			_type	: 'POST',
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
@@ -159,23 +164,40 @@ app.model.sisbot = {
 			console.log('RESET', obj);
 		});
 	},
-	save: function () {
-		var data = app.collection.toJSON();
-
+	save_to_sisbot: function (data) {
 		this._update_sisbot('save', data, function(obj) {
-			console.log('SAVE');
+			console.log('WE SAVE');
 		});
 	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (data) {
+		console.log('DATA WE SEND IN', data);
+
+		this._update_sisbot('set_playlist', data, function(obj) {
+			// get back playlist obj
+			console.log('SET PLAYHLIST', obj);
+
+			if (obj.resp.id !== 'false')
+				app.collection.get(obj.resp.id).set('data', obj.resp);
+		});
+
+		this.set('data.active_playlist_id',	data.id);
+		this.set('data.active_track_id',	data.active_track_id);
+		this.set('data.state', 'playing');
+	},
+	play_track: function () {
 		data.repeat		= app.plugins.str_to_bool[this.get('data.is_loop')];
 		data.randomized = app.plugins.str_to_bool[this.get('data.is_shuffle')];
 
-		this._update_sisbot('setPlaylist', data);
+		this._update_sisbot('play_track', data, function(resp) {
+			// get back playlist obj
+			if (resp.id !== 'false') {
+				console.log('OUR RESPONSE', resp);
+				app.collection.get(resp.id).set('data.sorted_tracks', resp.sorted_tracks);
+			}
+		});
 
 		this.set('data.active_playlist_id',	data.id);
-		this.set('data.active_track_index', data.active_track_index);
-		this.set('data.active_track_id',	data.active_track_id);
 		this.set('data.state', 'playing');
 	},
 	brightness: function (level) {
@@ -205,6 +227,14 @@ app.model.sisbot = {
 		var level = +this.get('data.speed');
 		if (level >= .05) level = level - .05;
 		this.speed(level);
+	},
+	set_shuffle: function () {
+		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
+			// TODO: Returns current playlist.. Update frontend
+		});
+	},
+	set_loop: function () {
+		this._update_sisbot('set_loop', { value: this.get('data.is_loop') });
 	},
 	/******************** PLAYBACK ********************************************/
 	play: function () {
