@@ -63,10 +63,12 @@ app.model.sisbot = {
 		//this.connect_to_wifi();
 		//this.reset_to_hotspot();
 	},
-	setup_listeners: function () {
+	sisbot_listeners: function () {
 		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
-		this.listenTo(app, 'sisbot:play_track', this.play_track);
+		this.listenTo(app, 'sisbot:set_track', this.set_track);
 		this.listenTo(app, 'sisbot:save', this.save_to_sisbot);
+		this.listenTo(app, 'sisbot:playlist_add', this.playlist_add);
+		this.listenTo(app, 'sisbot:playlist_remove', this.playlist_remove);
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -188,8 +190,8 @@ app.model.sisbot = {
 		this.set('data.active_track_id',	data.active_track_id);
 		this.set('data.state', 'playing');
 	},
-	play_track: function (data) {
-		this._update_sisbot('play_track', data, function(resp) {
+	set_track: function (data) {
+		this._update_sisbot('set_track', data, function(resp) {
 			// get back track obj
 		});
 
@@ -238,6 +240,24 @@ app.model.sisbot = {
 		console.log('SET LOOP');
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') });
+	},
+	playlist_add: function (playlist_model) {
+		var self		= this;
+		var playlist	= playlist_model.get('data');
+
+		this._update_sisbot('add_playlist', playlist, function (obj) {
+			self.set('data', obj.resp);
+			console.log('PLAYLIST ADD', obj.resp);
+		});
+
+		this.add_nx('data.playlist_ids', playlist.id);
+	},
+	playlist_remove: function (playlist_model) {
+
+		this._update_sisbot('remove_playlist', playlist, function (obj) {
+			console.log('PLAYLIST ADD');
+		});
+
 	},
 	/******************** PLAYBACK ********************************************/
 	play: function () {

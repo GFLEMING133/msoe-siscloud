@@ -53,8 +53,7 @@ app.model.playlist = {
 			this.set('data.created_by_id', user_id);
 	},
 	after_save: function () {
-		app.trigger('sisbot:save', this.toJSON());
-		app.trigger('user:playlist_add', this);
+		app.trigger('sisbot:playlist_add', this);
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account

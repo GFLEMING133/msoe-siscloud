@@ -125,8 +125,6 @@ app.model.sisyphus_manager = {
 			password		: user.password
 		};
 
-		console.log('sign in data', data_arr);
-
 		var server_user = false;
 
 		_.each(data_arr, function (m) {
@@ -238,7 +236,6 @@ app.model.sisyphus_manager = {
 		var self		= this;
 		var sisbot_hostname = this.get('sisbot_hostname');
 
-		console.log('HOSTNAME', sisbot_hostname);
 		// ping sisbot for connection
 		var obj = {
 			_url	: 'http://' + sisbot_hostname + '/',
@@ -267,8 +264,7 @@ app.model.sisyphus_manager = {
 
 				if (data.type == 'sisbot') {
 					self.set('sisbot_id', data.id);
-					console.log('setup listeners');
-					app.collection.get(data.id).setup_listeners();
+					app.collection.get(data.id).sisbot_listeners();
 				}
 			});
 
