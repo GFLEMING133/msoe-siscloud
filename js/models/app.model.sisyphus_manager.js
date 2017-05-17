@@ -40,8 +40,8 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
-		this.listenTo(app, 'sisuser:download_playlist', this.download_playlist);
-		this.listenTo(app, 'sisuser:download_track', 	this.download_track);
+		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
+		this.listenTo(app, 'manager:download_track', 	this.download_track);
 
 		app.manager = this;
 
@@ -50,6 +50,8 @@ app.model.sisyphus_manager = {
 
 		//this.setup_sisbot_select();
 		this.setup_demo();
+
+		//this.save_new_tracks();
 
 		return this;
     },
@@ -340,6 +342,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var playlists = {
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_playlists',
 			data	: {}
@@ -376,6 +379,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var tracks = {
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_tracks',
 			data	: {}
@@ -390,9 +394,11 @@ app.model.sisyphus_manager = {
 
 			app.collection.add(obj.resp);
 
+			var resp_track_ids		= _.pluck(obj.resp, 'id');
 			var sisbot_track_ids	= self.get_model('sisbot_id').get('data.track_ids');
-			var new_track_ids		= _.difference(obj.resp, sisbot_track_ids);
-			self.set('community_playlist_ids', new_track_ids);
+			var new_track_ids		= _.difference(resp_track_ids, sisbot_track_ids);
+
+			self.set('community_track_ids', new_track_ids);
 			self.set('fetched_community_tracks', 'true');
 		}
 
@@ -418,8 +424,6 @@ app.model.sisyphus_manager = {
 		});
 	},
 	download_track: function (track_id) {
-		this.get_model('user_id').add_nx('data.track_ids', track_id);
-		this.get_model('sisbot_id').add_nx('data.track_ids', track_id);
 		this.remove('community_track_ids', track_id);
 	},
     /**************************** DEMO ****************************************/
@@ -505,7 +509,69 @@ app.model.sisyphus_manager = {
 				type        : 'track',
 				name        : 'Para 2B',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-			}
+			},
+			/******************************************************************/
+			{
+				id          : '_Test_1_01',
+				type        : 'track',
+				name        : 'Test 1 01',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_2_00',
+				type        : 'track',
+				name        : 'Test 2 00',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_3_11',
+				type        : 'track',
+				name        : 'Test 3 11',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_4_10',
+				type        : 'track',
+				name        : 'Test 4 10',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_5_11',
+				type        : 'track',
+				name        : 'Test 5 11',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_6_10',
+				type        : 'track',
+				name        : 'Test 6 10',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_7_10',
+				type        : 'track',
+				name        : 'Test 7 10',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_8_00',
+				type        : 'track',
+				name        : 'Test 8 00',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_9_00',
+				type        : 'track',
+				name        : 'Test 9 00',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_10_01',
+				type        : 'track',
+				name        : 'Test 10 01',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			},
 		];
 
 		return data;
@@ -520,5 +586,90 @@ app.model.sisyphus_manager = {
 		}, 250);
 
         return this;
-    }
+    },
+	save_new_tracks: function () {
+		var data = [
+			{
+				id          : '_Test_1_01',
+				type        : 'track',
+				name        : 'Test 1 01',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_2_00',
+				type        : 'track',
+				name        : 'Test 2 00',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_3_11',
+				type        : 'track',
+				name        : 'Test 3 11',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_4_10',
+				type        : 'track',
+				name        : 'Test 4 10',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_5_11',
+				type        : 'track',
+				name        : 'Test 5 11',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_6_10',
+				type        : 'track',
+				name        : 'Test 6 10',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_7_10',
+				type        : 'track',
+				name        : 'Test 7 10',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_8_00',
+				type        : 'track',
+				name        : 'Test 8 00',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_9_00',
+				type        : 'track',
+				name        : 'Test 9 00',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}, {
+				id          : '_Test_10_01',
+				type        : 'track',
+				name        : 'Test 10 01',
+				is_published: 'true',
+				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+			}
+		];
+
+		function save_track() {
+			if (data.length == 0)
+				return this;
+
+			var track = data.shift();
+
+			track._url		= 'https://api.sisyphus.withease.io/';
+			track._type		= 'POST';
+			track.endpoint	= 'set';
+
+			function cb(obj) {
+				console.log('SAVE TRACK', obj);
+				save_track();
+			}
+
+			app.post.fetch(track, cb, 0);
+		}
+
+		save_track();
+	}
 };

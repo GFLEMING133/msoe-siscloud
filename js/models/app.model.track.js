@@ -17,12 +17,15 @@ app.model.track = {
                 is_published		: 'false',
 				created_by_id		: 'false',
 				duration			: '90',		// minutes
+				created_by_id		: '',
+				created_by_name		: 'Author Name',
+
+				verts				: '',		// temporary
 
 				vel					: 1,
 				accel				: 0.5,
 				thvmax				: 1,
 				reversed			: false,
-				verts				: [],
 				firstR				: 0,
 				lastR				: 1,
 				type				: 'r01',
@@ -81,12 +84,37 @@ app.model.track = {
 	},
 	/**************************** STORE ***************************************/
 	download: function () {
-		app.trigger('sisuser:download_track', this.id);
+		var self = this;
+
+		console.log('we get you', this.get('data.verts'));
+
+		if (this.get('data.verts') !== '') {
+
+			app.trigger('manager:download_track', this.id);
+			app.trigger('sisbot:track_add', this);
+			return this;
+		}
+
+		var req_obj = {
+			_url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'POST',
+			endpoint: 'download_track',
+			id		: this.id
+		};
+
+		function cb(obj) {
+			console.log('TRACK DOWNLOAD', obj);
+			self.set('data.verts', obj.resp);
+			app.trigger('manager:download_track', self.id);
+			app.trigger('sisbot:track_add', self);
+		}
+
+		app.post.fetch(req_obj, cb, 0);
 	},
 	publish: function () {
-
+		this.set('data.is_published', 'true').save();
 	},
 	unpublish: function () {
-
-	},
+		this.set('data.is_published', 'false').save();
+	}
 };

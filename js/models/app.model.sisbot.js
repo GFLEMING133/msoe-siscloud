@@ -18,7 +18,7 @@ app.model.sisbot = {
 				type    			: 'sisbot',
 				version				: this.current_version,
 
-				hostname			: 'false',				// sisyphus.local:3001
+				hostname			: 'false',				// sisyphus.local
 				local_ip			: '',					// 192.168.0.1:3001
 
 				pi_id				: '',
@@ -69,6 +69,8 @@ app.model.sisbot = {
 		this.listenTo(app, 'sisbot:save', this.save_to_sisbot);
 		this.listenTo(app, 'sisbot:playlist_add', this.playlist_add);
 		this.listenTo(app, 'sisbot:playlist_remove', this.playlist_remove);
+		this.listenTo(app, 'sisbot:track_add', this.track_add);
+		this.listenTo(app, 'sisbot:track_remove', this.track_remove);
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -143,15 +145,10 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
-		this._update_sisbot('git_pull', { repo: 'siscloud' }, function(obj) {
+		this._update_sisbot('install_updates', {}, function(obj) {
 			console.log('Fetch Siscloud');
 		});
-		this._update_sisbot('git_pull', { repo: 'sisproxy' }, function(obj) {
-			console.log('Fetch Sisproxy');
-		});
-		this._update_sisbot('git_pull', { repo: 'sisbot' }, function(obj) {
-			console.log('Fetch Sisbot');
-		});
+		return this;
 	},
 	restart: function () {
 		this._update_sisbot('restart', {}, function(obj) {
@@ -241,6 +238,7 @@ app.model.sisbot = {
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') });
 	},
+	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
@@ -253,11 +251,37 @@ app.model.sisbot = {
 		this.add_nx('data.playlist_ids', playlist.id);
 	},
 	playlist_remove: function (playlist_model) {
+		var self		= this;
+		var playlist	= this.get('data');
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
-			console.log('PLAYLIST ADD');
+			self.set('data', obj.resp);
+			console.log('PLAYLIST REMOVE');
 		});
 
+		this.remove('data.playlist_ids', playlist_model.id);
+	},
+	track_add: function (track_model) {
+		var self	= this;
+		var track	= track_model.get('data');
+
+		this._update_sisbot('add_track', track, function (obj) {
+			self.set('data', obj.resp);
+			console.log('TRACK ADD', obj);
+		});
+
+		this.add_nx('data.track_ids', track.id);
+	},
+	track_remove: function (track_model) {
+		var self	= this;
+		var track	= this.get('data');
+
+		this._update_sisbot('remove_track', track, function (obj) {
+			self.set('data', obj.resp);
+			console.log('TRACK REMOVE');
+		});
+
+		this.remove('data.track_ids', track.id);
 	},
 	/******************** PLAYBACK ********************************************/
 	play: function () {
