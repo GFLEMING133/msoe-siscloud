@@ -30,31 +30,32 @@
     <div class="h100 scroll hide-scrollbar">
         <div class="flex p10 bb">
             <div class="w40 hvw40 bg-ll-grey shadow center vertical">
-                <span class="f-large">P</span>
+                <i class="fa fa-play-circle f-large f-xxxxxlarge h__k"
+                    data-if="{{= app.plugins.length(model.data.track_ids) }} > 0"
+                    data-on-click="model.play"
+                    data-msg="{{= 'false' }}"
+                    aria-hidden="true"
+                ></i></span>
             </div>
             <div class="w5 hvw40">&nbsp;</div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
-                <h2>
-                    <i class="fa fa-play-circle pull-right h__k"
-                        data-if="{{= app.plugins.length(model.data.track_ids) }} > 0"
-                        data-on-click="model.play"
-                        data-msg="{{= 'false' }}"
-                        aria-hidden="true"
-                    ></i></span>
-                    <span class="h__k">{{= model.data.name }}</span>
-                </h2>
+                <h2 class="h__k">{{= model.data.name }}</h2>
                 <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
                 <p class="no-stuffing h__k">{{= app.plugins.length(model.data.track_ids) }} Tracks</p>
                 <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>
-                <div class="h__k mt20" data-if="{{= app.manager.has_user() }} == true">
-                    <span class="no-stuffing bg-d-blue white p4 pr10 pl10 rounded h__k"
+                <div class="mt20">
+                    <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded h__k"
                         data-if="{{= model.data.is_published }} == true"
-                        data-on-click="model.unpublish"
-                    >Published</span>
-                    <span class="no-stuffing bg-green white p4 pr10 pl10 rounded h__k"
-                        data-if="{{= model.data.is_published }} == false"
-                        data-on-click="model.publish"
-                    >Publish?</span>
+                        title="Published"
+                    ></span>
+                    <span class="no-stuffing bg-green fa fa-random white p10 rounded h__k"
+                        data-if="{{= model.data.is_shuffle }} == true"
+                        title="Default Shuffle"
+                    ></span>
+                    <span class="no-stuffing bg-green fa fa-refresh white p10 rounded h__k"
+                        data-if="{{= model.data.is_loop }} == true"
+                        title="Default Loop"
+                    ></span>
                 </div>
             </div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == true">
@@ -63,6 +64,40 @@
                     data-value="{{= model.edit.name }}"
                     value="{{= model.edit.name }}"
                 />
+                <div class="h__k mt20" data-if="{{= app.manager.has_user() }} == true">
+                    <span class="no-stuffing bg-d-blue fa fa-cloud-upload white p10 rounded h__k"
+                        data-if="{{= model.data.is_published }} == true"
+                        data-field="model.data.is_published"
+                        data-on-click="toggle"
+                    ></span>
+                    <span class="no-stuffing bg-grey fa fa-cloud-upload black p10 rounded h__k"
+                        data-if="{{= model.data.is_published }} == false"
+                        data-field="model.data.is_published"
+                        data-on-click="toggle"
+                    ></span>
+                    <!--- SHUFFLE -->
+                    <span class="no-stuffing bg-d-blue fa fa-random white p10 rounded h__k"
+                        data-if="{{= model.data.is_shuffle }} == true"
+                        data-field="model.data.is_shuffle"
+                        data-on-click="toggle"
+                    ></span>
+                    <span class="no-stuffing bg-grey fa fa fa-random black p10 rounded h__k"
+                        data-if="{{= model.data.is_shuffle }} == false"
+                        data-field="model.data.is_shuffle"
+                        data-on-click="toggle"
+                    ></span>
+                    <!--- LOOP -->
+                    <span class="no-stuffing bg-d-blue fa fa-refresh white p10 rounded h__k"
+                        data-if="{{= model.data.is_loop }} == true"
+                        data-field="model.data.is_loop"
+                        data-on-click="toggle"
+                    ></span>
+                    <span class="no-stuffing bg-grey fa fa-refresh black p10 rounded h__k"
+                        data-if="{{= model.data.is_loop }} == false"
+                        data-field="model.data.is_loop"
+                        data-on-click="toggle"
+                    ></span>
+                </div>
             </div>
         </div>
         <!--------------------------- PLAYLIST DESCRIPTION -------------------->

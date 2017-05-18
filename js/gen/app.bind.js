@@ -474,8 +474,6 @@ var Binding = Backbone.View.extend({
     /***************************** FORM INPUT *********************************/
     clear: function () {
         var self = this;
-        // TODO: Figure out why it errors without the timeout
-
         setTimeout(function () {
             if (self.$el) self.$el.val('');
         }, 10);
@@ -515,7 +513,6 @@ var Binding = Backbone.View.extend({
     scroll: function () {
         var self = this;
 
-        // TODO: Figure out why there is a memory leak
         setTimeout(function () {
             if (self.$el) self.$el.scrollTop(self.$el.prop('scrollHeight'));
         }, 50);
@@ -834,7 +831,6 @@ var Binding = Backbone.View.extend({
             var l2      = [];
 
             _.each(list, function(item) {
-                // TODO: Figure out why this list can have undefined items in it
                 if (item && without.indexOf(item.id) < 0) l2.push(item);
             })
             list        = l2;
@@ -1125,7 +1121,6 @@ var Binding = Backbone.View.extend({
             .value();
     },
     render_attr: function (attr_name) {
-        // TODO: Figure out why this is needed. Related to event dispatching when an el is removed
         if (!this.$el) return false;
 
         var json    = this.get_json();

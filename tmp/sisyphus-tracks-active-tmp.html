@@ -45,9 +45,21 @@
             </div>
             <div class="w15">&nbsp;</div>
         </div>
-        <div class="mt10 pb10 mb10 bb">
-            <p class="no-stuffing">Created By: Author #1</p>
-            <p class="no-stuffing">Play Count: 15</p>
+        <div class="mt10 pb10 mb10 bb flex">
+            <div class="w50">
+                <p class="no-stuffing">Created By: Author #1</p>
+                <p class="no-stuffing">Play Count: 15</p>
+            </div>
+            <div class="w50 h__k" data-if="{{= app.manager.get('user_id') }} == {{= model.data.created_by_id }}">
+                <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded pull-right h__k"
+                    data-if="{{= model.data.is_published }} == true"
+                    data-on-click="model.unpublish"
+                ></span>
+                <span class="no-stuffing bg-grey fa fa-cloud-upload black p10 rounded pull-right h__k"
+                    data-if="{{= model.data.is_published }} == false"
+                    data-on-click="model.publish"
+                ></span>
+            </div>
         </div>
         <div class="mt10 h__k" data-run="model.get_playlists">
             <h3>Playlists</h3>

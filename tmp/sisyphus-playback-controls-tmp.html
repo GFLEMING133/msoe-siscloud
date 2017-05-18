@@ -1,0 +1,22 @@
+<div class="w33 center">
+    <i class="fa fa-refresh p10 rounded clickable h__k {{= (model.data.is_loop == 'true') ? 'bg-white' : '' }}"
+        data-on-click="model.set_loop"
+        aria-hidden="true"
+    ></i>
+</div>
+<div class="w33 center">
+    <i class="fa fa-play p10 clickable h__k" aria-hidden="true"
+        data-if="{{= model.data.state }} == paused"
+        data-on-click="model.play"
+    ></i>
+    <i class="fa fa-pause p10 clickable h__k" aria-hidden="true"
+        data-if="{{= model.data.state }} == playing"
+        data-on-click="model.pause"
+    ></i>
+</div>
+<div class="w33 center">
+    <i class="fa fa-random p10 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'bg-white' : '' }}"
+        data-on-click="model.set_shuffle"
+        aria-hidden="true"
+    ></i>
+</div>

@@ -330,7 +330,6 @@
             var path;
 
             if (_.isString(attrStrOrPath)) {
-                // TODO this parsing can probably be more efficient
                 path = (attrStrOrPath === '') ? [''] : attrStrOrPath.match(/[^\.\[\]]+/g);
 
                 if (debug)

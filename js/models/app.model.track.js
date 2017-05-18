@@ -17,7 +17,7 @@ app.model.track = {
                 is_published		: 'false',
 				created_by_id		: 'false',
 				duration			: '90',		// minutes
-				created_by_id		: '',
+				created_by_id		: 'false',
 				created_by_name		: 'Author Name',
 
 				verts				: '',		// temporary
@@ -54,6 +54,7 @@ app.model.track = {
 	},
 	playlist_add_finish: function (playlist_id) {
 		app.collection.get(playlist_id).add_nx('data.track_ids', this.id);
+		app.collection.get(playlist_id).add_nx('data.sorted_tracks', this.id);
 		this.remove('playlist_not_ids', playlist_id);
 		this.add('playlist_ids', playlist_id);
 		this.playlist_cancel();

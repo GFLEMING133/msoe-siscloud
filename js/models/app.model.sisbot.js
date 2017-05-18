@@ -40,7 +40,7 @@ app.model.sisbot = {
 
 				current_time		: 0,					// seconds
 
-				state				: 'playing',			// playing|homing|paused|waiting
+				state				: 'waiting',			// playing|homing|paused|waiting
 
 				is_homed			: 'false',				// Not used
 				is_serial_open		: 'true',				// Not used
@@ -71,6 +71,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'sisbot:playlist_remove', this.playlist_remove);
 		this.listenTo(app, 'sisbot:track_add', this.track_add);
 		this.listenTo(app, 'sisbot:track_remove', this.track_remove);
+		this.get_state();
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -79,9 +80,6 @@ app.model.sisbot = {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
 	_update_sisbot: function (endpoint, data, cb) {
-		console.log('WE CONNECTED', this.get('is_connected'));
-
-
 		if (this.get('is_connected') == false)
 			return this;
 
@@ -97,6 +95,22 @@ app.model.sisbot = {
 		});
 	},
 	/**************************** SISBOT ADMIN ********************************/
+	get_state: function () {
+		var self = this;
+
+		if (this.get('is_connected')) {
+			this._update_sisbot('state', {}, function(obj) {
+				if (obj.resp)
+					self.set('data', obj.resp);
+			});
+		}
+
+		setTimeout(function () {
+			self.get_state();
+		}, 1000);
+
+		return this;
+	},
 	get_networks: function () {
 		var self			= this;
 		var wifi_networks	= [];
@@ -171,11 +185,10 @@ app.model.sisbot = {
 		});
 	},
 	/**************************** PLAYBACK ************************************/
-	update_playlist: function (data) {
-		this.set('data.is_loop', data.is_loop);
-		this.set('data.is_shuffle', data.is_shuffle);
+	update_playlist: function (playlist_data) {
+		console.log('we are here', playlist_data.is_loop, playlist_data.is_shuffle);
 
-		this._update_sisbot('set_playlist', data, function(obj) {
+		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			// get back playlist obj
 			console.log('SET PLAYLIST', obj);
 
@@ -183,8 +196,10 @@ app.model.sisbot = {
 				app.collection.get(obj.resp.id).set('data', obj.resp);
 		});
 
-		this.set('data.active_playlist_id',	data.id);
-		this.set('data.active_track_id',	data.active_track_id);
+		this.set('data.is_loop', playlist_data.is_loop);
+		this.set('data.is_shuffle', playlist_data.is_shuffle);
+		this.set('data.active_playlist_id',	playlist_data.id);
+		this.set('data.active_track_id',	playlist_data.active_track_id);
 		this.set('data.state', 'playing');
 	},
 	set_track: function (data) {
@@ -228,7 +243,6 @@ app.model.sisbot = {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
-			// TODO: Returns current playlist.. Update frontend
 			console.log('SET SHUFFLE', obj);
 			app.collection.get(obj.resp.id).set('data', obj.resp);
 		});

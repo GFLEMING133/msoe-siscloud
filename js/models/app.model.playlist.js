@@ -33,14 +33,6 @@ app.model.playlist = {
 			}
 		};
 
-		/*
-		var b = {
-			name: 'default',
-			repeat: true,
-			track_ids: ['sine', 'circam2s', 'cwarp3b', 'dces4p', 'hep', 'india1p', 'para2b', 'tensig1$']
-		}
-		*/
-
 		return obj;
 	},
 	current_version: 1,
@@ -59,7 +51,7 @@ app.model.playlist = {
 		// we have a sisbot playlist we want saved to user account
 		app.trigger('sisbot:save', this.toJSON());
 	},
-	/**************************** TRACKS **************************************/
+	/**************************** GENERAL *************************************/
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
@@ -85,17 +77,7 @@ app.model.playlist = {
 
 		return this;
 	},
-	/**************************** TRACKS **************************************/
-	move_array: function (field, old_index, new_index) {
-		var val		= this.get(field);
-		var length	= val.length;
-		var opt		= val.splice(old_index, 1);
-
-		val.splice(new_index, 0, opt[0]);
-		this.set(field, val);
-
-		this.trigger('change:' + field);
-	},
+	/**************************** EDIT ****************************************/
 	edit: function () {
 		this.set('active_tracks', this.get('data.track_ids').slice())
 			.set('edit.name', this.get('data.name'))
@@ -113,6 +95,7 @@ app.model.playlist = {
 			.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.track_ids', this.get('active_tracks').slice())
+			.set('data.sorted_tracks', this.get('active_tracks').slice())
 			.update_duration()
 			.save();
 	},
@@ -125,8 +108,15 @@ app.model.playlist = {
 		this.remove('active_tracks', track_id);
 		this.add_nx('eligible_tracks', track_id);
 	},
-	reorder_track: function (track_id, new_index) {
+	move_array: function (field, old_index, new_index) {
+		var val		= this.get(field);
+		var length	= val.length;
+		var opt		= val.splice(old_index, 1);
 
+		val.splice(new_index, 0, opt[0]);
+		this.set(field, val);
+
+		this.trigger('change:' + field);
 	},
 	generate_eligible_tracks: function () {
 		var curr_tracks = this.get('data.track_ids');
@@ -142,11 +132,5 @@ app.model.playlist = {
 	/**************************** STORE ***************************************/
 	download: function () {
 		app.trigger('sisuser:download_playlist', this.id);
-	},
-	publish: function () {
-		this.set('data.is_published', 'true').save();
-	},
-	unpublish: function () {
-		this.set('data.is_published', 'false').save();
-	},
+	}
 };

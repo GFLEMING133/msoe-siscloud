@@ -187,7 +187,6 @@ app.model.session = {
 		if (session) app.trigger('session:sign_in', { username: session.username, password: session.password });
 	},
 	get_session: function () {
-		// TODO: Get rid of need to throw in Try / catch. Chrome related
 		try {
 			var session = window.localStorage.getItem('session');
 

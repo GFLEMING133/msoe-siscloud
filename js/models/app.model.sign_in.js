@@ -84,24 +84,13 @@ app.model.sign_in = {
 	_process_sign_in: function (user, data_arr) {
 		var session_data = {
 			user_id			: 'false',
-			organization_id	: 'false',
-			staff_id		: 'false',
 			username		: user.username,
 			password		: user.password
 		};
 
 		_.each(data_arr, function (m) {
-			m.is_saved = 'true';	// TODO: REMOVE WHEN DEFAULT IS OK FOR EVERYONE
-			if (m.type == 'organization')
-				session_data.organization_id = m.id;
-
 			if (m.type == 'user' && m.username == user.username)
 				session_data.user_id = m.id;
-		});
-
-		_.each(data_arr, function (m) {
-			if (m.type == 'staff' && m.user_id == session_data.user_id)
-				session_data.staff_id = m.id;
 		});
 
 		app.collection.add(data_arr);
