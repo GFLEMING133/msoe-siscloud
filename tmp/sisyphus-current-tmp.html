@@ -47,6 +47,7 @@
                 </div>
                 <div class="h__k"
                     data-foreach="model.data.sorted_tracks"
+                    data-foreach-change="foreach_reset"
                     data-foreach-map="true"
                 >
                     <div class="flex pt5 pb5 pl10 pr10 h__k {{= (scope.index == parent.data.active_track_index) ? 'bg-ll-grey' : 'bb' }}"
