@@ -1,5 +1,6 @@
 app.config = {
 	env		: 'alpha',
+	version	: '1.0',
 	envs	: {
 		alpha: {
 			base_url	: 'http://app.dev.withease.io:3000/',

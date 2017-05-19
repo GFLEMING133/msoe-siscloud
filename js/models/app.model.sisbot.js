@@ -22,7 +22,7 @@ app.model.sisbot = {
 				local_ip			: '',					// 192.168.0.1:3001
 
 				pi_id				: '',
-				firmware_version	: '',
+				firmware_version	: '1.0',
 				software_version	: '1.0',
 
 				is_hotspot			: 'true',
@@ -243,12 +243,11 @@ app.model.sisbot = {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
-			console.log('SET SHUFFLE', obj);
-			app.collection.get(obj.resp.id).set('data', obj.resp);
+			if (obj.resp)
+				app.collection.get(obj.resp.id).set('data', obj.resp);
 		});
 	},
 	set_loop: function () {
-		console.log('SET LOOP');
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') });
 	},
@@ -258,8 +257,8 @@ app.model.sisbot = {
 		var playlist	= playlist_model.get('data');
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
-			self.set('data', obj.resp);
-			console.log('PLAYLIST ADD', obj.resp);
+			if (obj.resp)
+				self.set('data', obj.resp);
 		});
 
 		this.add_nx('data.playlist_ids', playlist.id);
@@ -269,8 +268,8 @@ app.model.sisbot = {
 		var playlist	= this.get('data');
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
-			self.set('data', obj.resp);
-			console.log('PLAYLIST REMOVE');
+			if (obj.resp)
+				self.set('data', obj.resp);
 		});
 
 		this.remove('data.playlist_ids', playlist_model.id);
@@ -280,8 +279,8 @@ app.model.sisbot = {
 		var track	= track_model.get('data');
 
 		this._update_sisbot('add_track', track, function (obj) {
-			self.set('data', obj.resp);
-			console.log('TRACK ADD', obj);
+			if (obj.resp)
+				self.set('data', obj.resp);
 		});
 
 		this.add_nx('data.track_ids', track.id);
@@ -291,8 +290,8 @@ app.model.sisbot = {
 		var track	= this.get('data');
 
 		this._update_sisbot('remove_track', track, function (obj) {
-			self.set('data', obj.resp);
-			console.log('TRACK REMOVE');
+			if (obj.resp)
+				self.set('data', obj.resp);
 		});
 
 		this.remove('data.track_ids', track.id);
@@ -300,15 +299,24 @@ app.model.sisbot = {
 	/******************** PLAYBACK ********************************************/
 	play: function () {
 		this.set('data.state', 'playing');
-		this._update_sisbot('play', {});
+		this._update_sisbot('play', {}, function (obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
 	},
 	pause: function () {
 		this.set('data.state', 'paused');
-		this._update_sisbot('pause', {});
+		this._update_sisbot('pause', {}, function (obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
 	},
 	home: function () {
 		this.set('data.state', 'homing');
-		this._update_sisbot('home', {});
+		this._update_sisbot('home', {}, function (obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
 	},
 	jog_theta_left: function () {
 		var self = this;

@@ -6,7 +6,7 @@
         <div class="p20 center i h__k"
             data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
         >There are no new tracks to download</div>
-        <div class="h__k"
+        <div class="h__k pt10 pb100 mb75"
             data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
             data-foreach="model.community_track_ids"
             data-foreach-change="foreach_reset"

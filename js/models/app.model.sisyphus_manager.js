@@ -49,7 +49,9 @@ app.model.sisyphus_manager = {
 			return this.setup_as_sisbot();
 
 		//this.setup_sisbot_select();
-		this.setup_demo();
+		//this.setup_demo();
+		app.config.env = 'sisbot';
+		return this.setup_as_sisbot();
 
 		//this.save_new_tracks();
 
@@ -242,16 +244,16 @@ app.model.sisyphus_manager = {
 		var obj = {
 			_url	: 'http://' + sisbot_hostname + '/',
 			_type	: 'POST',
-			_timeout: 5000,
+			_timeout: 500,
 			endpoint: 'sisbot/connect',
 			data	: {},
 		};
 
 		app.post.fetch(obj, function(obj) {
-			//var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
-			//console.log('Connect to Sisbot:', obj);
+			var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
+			console.log('Connect to Sisbot:', obj);
 
-			/* */
+			/*
 			if (obj.err)
 				return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
 
@@ -446,6 +448,7 @@ app.model.sisyphus_manager = {
 				active_playlist_id	: 'false',
 				active_track_id		: 'false',
 				state				: 'waiting',
+				network_connected	: 'not connected',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 			 					'276A238C-21F0-4998-B0F8-305BFC0D25E9' ],
 				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',

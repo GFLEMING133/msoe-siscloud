@@ -1,4 +1,4 @@
-<div class="h__k" data-run="model.fetch_community_playlists">
+<div class="h__k mb100" data-run="model.fetch_community_playlists">
     <div class="h__k" data-if="{{= model.fetching_community_playlists }} == true">
         <div class="p20 center i h__k">Fetching playlists...</div>
     </div>
@@ -6,7 +6,7 @@
         <div class="p20 center i h__k"
             data-if="{{= app.plugins.length(model.community_playlist_ids) }} == 0"
         >There are no new playlists to download</div>
-        <div class="h__k"
+        <div class="h__k pt10 pb100 mb75"
             data-if="{{= app.plugins.length(model.community_playlist_ids) }} > 0"
             data-foreach="model.community_playlist_ids"
             data-foreach-change="foreach_reset"

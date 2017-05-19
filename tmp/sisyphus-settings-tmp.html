@@ -14,15 +14,15 @@
         Sisbot ID<span class="pull-right">{{= model.id }}</span>
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisbot Version<span class="pull-right">{{= model.data.current_version }}</span>
+        Sisbot Version<span class="pull-right">{{= model.data.firmware_version }}</span>
     </div>
-    <div class="bb p10 h__k" data-on-click="model.disconnect">
+    <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
         Disconnect from Sisbot
     </div>
-    <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
+    <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
         Install Updates
     </div>
-    <div class="bb p10 h__k"
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-model="{{= model.sisbot_id }}"
         data-on-click="model.factory_reset"
     >Reset Sisyphus to Factory Settings</div>
@@ -31,11 +31,11 @@
         Sisyphus Debug
     </div>
     <div class="h__k" data-model="{{= model.sisbot_id }}">
-        <div class="bb p10 h__k" data-on-click="model.home">Home</div>
-        <div class="bb p10 h__k" data-on-click="model.jog_theta_left">Jog Theta Left</div>
-        <div class="bb p10 h__k" data-on-click="model.jog_theta_right">Jog Theta Right</div>
-        <div class="bb p10 h__k" data-on-click="model.jog_rho_outward">Jog Rho Outward</div>
-        <div class="bb p10 h__k" data-on-click="model.jog_rho_inward">Jog Rho Inward</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.home">Home</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_theta_left">Jog Theta Left</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_theta_right">Jog Theta Right</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_rho_outward">Jog Rho Outward</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_rho_inward">Jog Rho Inward</div>
     </div>
     <!------------------------- WIFI SETTINGS ----------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
@@ -45,13 +45,13 @@
         <div class="bb p10 h__k">
             Network Status<span class="pull-right">{{= model.data.network_connected }}</span>
         </div>
-        <div class="bb p10 h__k"
+        <div class="bb p10 bg-ll-grey-hover clickable h__k"
             data-if="{{= model.data.network_connected }} == not connected"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'wifi'}"
         >Connect Sisbot to Wifi Network</div>
-        <div class="bb p10 h__k"
+        <div class="bb p10 bg-ll-grey-hover clickable h__k"
             data-if="{{= model.data.network_connected }} == connected"
             data-on-click="model.disconnect_wifi"
         >Disconnect from Wifi</div>
@@ -61,7 +61,7 @@
         Account Settings
     </div>
     <div class="h__k" data-if="{{= model.user_id }} == false">
-        <div class="bb p10 h__k"
+        <div class="bb p10 bg-ll-grey-hover clickable h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'create_account'}"
@@ -76,7 +76,7 @@
                 Password<span class="pull-right">(change password)</span>
             </div>
         </div>
-        <div class="bb p10 h__k" data-on-click="model.sign_out">
+        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.sign_out">
             Sign Out
         </div>
     </div>
@@ -84,19 +84,19 @@
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
         Company Info
     </div>
-    <div class="bb p10 h__k"
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'privacy'}"
     >Privacy Policy<span class="pull-right fa fa-chevron-right"></span>
     </div>
-    <div class="bb p10 h__k"
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'tos'}"
     >Terms of Use<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="p10 center i f-small">
-        v0.1
+    <div class="p10 center i f-small h__k">
+        v{{= app.config.version }}
     </div>
     <div class="mb50">&nbsp;</div>
     <div class="mb50">&nbsp;</div>
@@ -104,7 +104,7 @@
 <!------------------------- TOS ------------------------------------------->
 <div class="h__k" data-if="{{= parent.active.secondary }} == tos">
     <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
+        <div class="w15 pt30 center fa fa-arrow-left f-large clickable h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -121,7 +121,7 @@
 <!------------------------- PRIVACY --------------------------------------->
 <div class="h__k" data-if="{{= parent.active.secondary }} == privacy">
     <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
+        <div class="w15 pt30 center fa fa-arrow-left f-large clickable h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -138,42 +138,12 @@
 <!------------------------- WIFI CREDENTIALS ------------------------------>
 <div class="h__k" data-if="{{= parent.active.secondary }} == wifi" data-template="sisyphus-wifi-tmp"></div>
 <!------------------------- CREATE ACCOUNT ------------------------------>
-<div class="h__k" data-if="{{= parent.active.secondary }} == create_account">
-    <!-- TODO: IF WE'RE NOT NETWORK CONNECTED WE MUST BE CONNECTED FIRST -->
-    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'false'}"
-        >&nbsp;</div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">Create Account</h1>
-        </div>
-        <div class="w15 pt30 center f-large">&nbsp;</div>
-    </div>
-    <div class="h__k bg-white black">
-        <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div class="h__k" data-foreach="model.errors">
-                <div class="h__k red">{{= scope.value }}</div>
-            </div>
-        </div>
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Username</h4>
-        <div class="pl20 pr20 pb10">
-            <input class="h__k w100" type="text" placeholder="your_email@address.com"
-                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                data-field="model.registration.username"
-                value="{{= model.registration.username }}"
-            />
-        </div>
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Password</h4>
-        <div class="pl20 pr20 pb10">
-            <input class="h__k w100" type="password" placeholder="password"
-                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                data-field="model.registration.password"
-                value="{{= model.registration.password }}"
-            />
-        </div>
-        <br clear="both">
-    </div>
-    <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_up">Create Your Account</h2>
-</div>
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == create_account"
+    data-template="sisyphus-settings-create-account-tmp"
+></div>
+<!------------------------- SIGN IN ------------------------------>
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == sign_in"
+    data-template="sisyphus-settings-sign-in-tmp"
+></div>

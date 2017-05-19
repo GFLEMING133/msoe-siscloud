@@ -40,12 +40,9 @@ app.model.session = {
 	on_init: function () {
   		this.listenTo(app,	'session:sign_out',			this.sign_out);
 		this.listenTo(app,	'session:active',			this.set_active);
-		this.listenTo(app,	'session:active_secondary',	this.active_secondary);
-		this.listenTo(app,	'session:active_tertiary',	this.active_tertiary);
 		this.listenTo(app,	'session:user_sign_in',		this.after_sign_in);
 		this.listenTo(app,	'session:kiosk_sign_in',	this.sign_in_kiosk);
 
-		this.on('change:active.primary', this.reset_secondary);
 		this.on('change:active.new_type', this.create_new_active);
 		this.on('change:active.new_form_instance', this.create_new_form_instance);
 
@@ -141,19 +138,6 @@ app.model.session = {
 		_.each(msg, function(val, key) {
 			self.set('active.' + key, val);
 		});
-	},
-	reset_secondary: function (data) {
-		this.active_secondary('false');
-	},
-	active_secondary: function (data) {
-		this.set('active.secondary', '' + data);
-		this.active_tertiary('false');
-	},
-	reset_tertiary: function (data) {
-		this.active_tertiary('false');
-	},
-	active_tertiary: function (data) {
-		this.set('active.tertiary', '' + data);
 	},
 	/************************** SETUP SIGN IN **********************************/
 	after_sign_in: function (obj) {

@@ -735,6 +735,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .mt150									{	margin-top				: 150px !important;			            }
 
 .mb50						            {   margin-bottom		    : 50px;			                        }
+.mb75						            {   margin-bottom		    : 75px;			                        }
+.mb100						            {   margin-bottom		    : 100px;		                        }
 .mt50-child > div                       {   margin-top		        : 50px;			                        }
 
 .mt100									{	margin-top				: 100px !important;			            }
