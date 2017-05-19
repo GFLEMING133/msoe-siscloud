@@ -50,8 +50,8 @@ app.model.sisyphus_manager = {
 
 		//this.setup_sisbot_select();
 		//this.setup_demo();
-		app.config.env = 'sisbot';
-		return this.setup_as_sisbot();
+		//app.config.env = 'sisbot';
+		//return this.setup_as_sisbot();
 
 		//this.save_new_tracks();
 
