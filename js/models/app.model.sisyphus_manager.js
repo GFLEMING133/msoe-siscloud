@@ -501,8 +501,7 @@ app.model.sisyphus_manager = {
 	setup_as_sisbot: function () {
 		// we don't need to create account or connect... We're getting served by it
 		app.current_session().set('signed_in','true');
-		var hostname = 'sisyphus.local';
-		//var hostname = window.location.host;
+		var hostname = window.location.host		// sisyphus.local;
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},
