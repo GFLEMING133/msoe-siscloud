@@ -51,7 +51,7 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot')
 			return this.setup_as_sisbot();
 
-		this.setup_sisbot_select();
+		//this.setup_sisbot_select();
 		//this.setup_demo();
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();

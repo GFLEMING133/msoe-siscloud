@@ -35,6 +35,7 @@ app.config = {
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
 if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';
+if (window.location.href.indexOf('.local') < 0)				app.config.env = 'sisbot';
 
 // for any url not including dev, assumes prod env
 if (window.location.href.indexOf('sisyphus.withease') > -1)	app.config.env = 'prod';
