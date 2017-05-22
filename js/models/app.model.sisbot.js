@@ -188,8 +188,6 @@ app.model.sisbot = {
 	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (playlist_data) {
-		console.log('we are here', playlist_data.is_loop, playlist_data.is_shuffle);
-
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			// get back playlist obj
 			console.log('SET PLAYLIST', obj);

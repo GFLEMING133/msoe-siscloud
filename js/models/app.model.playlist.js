@@ -52,6 +52,18 @@ app.model.playlist = {
 		app.trigger('sisbot:save', this.toJSON());
 	},
 	/**************************** GENERAL *************************************/
+	play_from_current: function () {
+		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
+
+		var data = this.get('data');
+		data.active_track_index = track_index;
+		data.active_track_id	= this.get('data.track_ids')[track_index];
+		data.is_current			= true;
+
+		app.trigger('sisbot:update_playlist', data);
+		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
+
+	},
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
