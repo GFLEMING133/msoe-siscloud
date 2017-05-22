@@ -6,15 +6,21 @@
         </div>
         <div class="w15 pt30 center f-large">&nbsp;</div>
     </div>
-    <!------------------------- SISYPHUS SETTINGS ------------------------->
+    <!------------------------- SISBOT SETTINGS ------------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Sisyphus Settings
+        Sisbot Settings
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
         Sisbot ID<span class="pull-right">{{= model.id }}</span>
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisbot Version<span class="pull-right">{{= model.data.firmware_version }}</span>
+        Sisbot Firmware Version<span class="pull-right">{{= model.data.firmware_version }}</span>
+    </div>
+    <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
+        Sisbot Hostname<span class="pull-right">{{= model.data.hostname }}</span>
+    </div>
+    <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
+        Sisbot IP Address<span class="pull-right">{{= model.data.ip_address }}</span>
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
         Disconnect from Sisbot
@@ -32,10 +38,14 @@
     </div>
     <div class="h__k" data-model="{{= model.sisbot_id }}">
         <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.home">Home</div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_theta_left">Jog Theta Left</div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_theta_right">Jog Theta Right</div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_rho_outward">Jog Rho Outward</div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.jog_rho_inward">Jog Rho Inward</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k {{= (model.jog_type == 'jogThetaLeft') ? 'bg-ll-grey' : '' }}"
+            data-on-click="model.jog_theta_left">Jog Theta Left</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k {{= (model.jog_type == 'jogThetaRight') ? 'bg-ll-grey' : '' }}"
+            data-on-click="model.jog_theta_right">Jog Theta Right</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k {{= (model.jog_type == 'jogRhoOutward') ? 'bg-ll-grey' : '' }}"
+            data-on-click="model.jog_rho_outward">Jog Rho Outward</div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k {{= (model.jog_type == 'jogRhoInward') ? 'bg-ll-grey' : '' }}"
+            data-on-click="model.jog_rho_inward">Jog Rho Inward</div>
     </div>
     <!------------------------- WIFI SETTINGS ----------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
@@ -43,16 +53,16 @@
     </div>
     <div class="h__k" data-model="{{= model.sisbot_id }}">
         <div class="bb p10 h__k">
-            Network Status<span class="pull-right">{{= model.data.network_connected }}</span>
+            Internet Connected <span class="pull-right">{{= model.data.is_internet_connected }}</span>
         </div>
         <div class="bb p10 bg-ll-grey-hover clickable h__k"
-            data-if="{{= model.data.network_connected }} == not connected"
+            data-if="{{= model.data.is_internet_connected }} == false"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'wifi'}"
         >Connect Sisbot to Wifi Network</div>
         <div class="bb p10 bg-ll-grey-hover clickable h__k"
-            data-if="{{= model.data.network_connected }} == connected"
+            data-if="{{= model.data.is_internet_connected }} == true"
             data-on-click="model.disconnect_wifi"
         >Disconnect from Wifi</div>
     </div>

@@ -12,6 +12,8 @@ app.model.sisbot = {
 			},
 
 			is_connected	: false,
+			is_jogging		: false,
+			jog_type		: '',
 
 			data		: {
 				id					: data.id,
@@ -26,9 +28,9 @@ app.model.sisbot = {
 				software_version	: '1.0',
 
 				is_hotspot			: 'true',
-				is_internet_connected: 'false',
+				is_network_connected: 'false',
 
-				network_connected	: 'not connected',		// not connected|connected
+				is_internet_connected: 'false',
                 wifi_network        : '',
                 wifi_password       : '',
 
@@ -129,30 +131,30 @@ app.model.sisbot = {
 		var credentials = this.get('wifi');
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			self.set('data.network_connected', 'connected');
+			self.set('data.is_internet_connected', 'true');
 			self.set('data.wifi_network', credentials.name);
 			self.set('data.wifi_password', credentials.password);
 			app.current_session().set_active({ secondary: 'false' });
 
 			setTimeout(function() {
-				self.is_network_connected();
+				self.is_internet_connected();
 			}, 5000);
 		});
     },
 	disconnect_wifi: function () {
-		this.set('data.network_connected', 'not connected')
+		this.set('data.is_internet_connected', 'not connected')
 			.set('data.wifi_network', 'false')
 			.set('data.wifi_password', 'false');
 	},
-	is_network_connected: function () {
+	is_internet_connected: function () {
 		var self = this;
 
-		this._update_sisbot('is_network_connected', {}, function(obj) {
-			console.log('is network connected', obj);
+		this._update_sisbot('is_internet_connected', {}, function(obj) {
+			console.log('is_internet_connected', obj);
 			if (obj.resp == true) {
-				self.set('data.network_connected', 'connected');
+				self.set('data.is_internet_connected', 'true');
 			} else {
-				self.set('data.network_connected', 'not connected')
+				self.set('data.is_internet_connected', 'false')
 					.set('data.wifi_network', 'false')
 					.set('data.wifi_password', 'false');
 			}
@@ -317,36 +319,57 @@ app.model.sisbot = {
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
+		return this;
 	},
 	jog_theta_left: function () {
-		var self = this;
-		this._update_sisbot('pause', {}, function() {
-			self._update_sisbot('jogThetaLeft', {});
-		});
+		this.setup_jog('jogThetaLeft');
+		return this;
 	},
 	jog_theta_right: function () {
-		var self = this;
-		this._update_sisbot('pause', {}, function() {
-			self._update_sisbot('jogThetaRight', {});
-		});
+		this.setup_jog('jogThetaRight');
+		return this;
 	},
 	jog_rho_outward: function () {
-		var self = this;
-		this._update_sisbot('pause', {}, function() {
-			self._update_sisbot('jogRhoOutward', {});
-		});
+		this.setup_jog('jogRhoOutward');
+		return this;
 	},
 	jog_rho_inward: function () {
+		this.setup_jog('jogRhoInward');
+		return this;
+	},
+	setup_jog: function (jog_type) {
+		var curr_jog_type = this.get('jog_type');
+
+		if (jog_type == curr_jog_type) {
+			// stop jogging
+			this.set('is_jogging', false)
+				.set('jog_type', '');
+		} else if (curr_jog_type == ''){
+			// set jog type and start jogging
+			this.set('is_jogging', true)
+				.set('jog_type', jog_type)
+				._jog();
+		} else {
+			// we changed jog type
+			this.set('jog_type', jog_type);
+		}
+		return this;
+	},
+	_jog: function () {
 		var self = this;
-		this._update_sisbot('pause', {}, function() {
-			self._update_sisbot('jogRhoInward', {});
-		});
-	},
-	/**************************** COMMUNITY ***********************************/
-	download_playlist: function (playlist_id) {
 
-	},
-	download_track: function (track_id) {
+		if (this.get('is_jogging') == true) {
+			var jog_type = this.get('jog_type');
 
+			this._update_sisbot('pause', {}, function() {
+				self._update_sisbot(jog_type, {}, function() {
+					setTimeout(function() {
+						self._jog();
+					}, 100);
+				});
+			});
+		}
+
+		return this;
 	}
 };

@@ -83,7 +83,7 @@ app.model.track = {
 
 		this.set('playlist_ids', playlist_ids);
 	},
-	/**************************** STORE ***************************************/
+	/**************************** COMMUNITY ***********************************/
 	download: function () {
 		var self = this;
 

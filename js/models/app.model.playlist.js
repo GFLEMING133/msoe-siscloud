@@ -129,7 +129,7 @@ app.model.playlist = {
 
 		this.set('eligible_tracks', elig_tracks);
 	},
-	/**************************** STORE ***************************************/
+	/**************************** COMMUNITY ***********************************/
 	download: function () {
 		app.trigger('sisuser:download_playlist', this.id);
 	}

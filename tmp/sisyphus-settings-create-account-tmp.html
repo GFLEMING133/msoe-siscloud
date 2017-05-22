@@ -10,14 +10,14 @@
     <div class="w15 pt30 center f-large">&nbsp;</div>
 </div>
 <div class="h__k" data-model="{{= model.sisbot_id }}">
-    <div class="h__k" data-if="{{= model.data.network_connected }} == not connected">
+    <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
         <div class="i center shadow bg-ll-grey p30 m10 clickable h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'primary':'settings','secondary':'wifi'}"
         >Your sisbot must be connected to the internet via wifi before you can successfully create an account. Click here to connect</div>
     </div>
-    <div class="h__k" data-if="{{= model.data.network_connected }} == connected">
+    <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
         <div class="h__k bg-white black">
             <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
                 <div class="h__k" data-foreach="model.errors">

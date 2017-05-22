@@ -566,6 +566,11 @@ app.model.neuron = Backbone.NestedModel.extend({
 		}
 		return this;
 	},
+	toggle: function(field_name) {
+		var field = this.get(field_name);
+		this.set(field_name, !field);
+		return !field;
+	},
     /******************** EDITING FORM INSTANCE ******************************/
 	validate		: function () { return true; },
 	before_form		: function () {},

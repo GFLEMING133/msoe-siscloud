@@ -21,7 +21,6 @@ app.model.sisyphus_manager = {
 			sisbot_hostname			: '',
 			sisbot_connecting		: 'false',
 
-
 			merge_playlists			: [],
 
 			fetching_community_playlists: 'false',
@@ -56,7 +55,6 @@ app.model.sisyphus_manager = {
 		//this.setup_demo();
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();
-
 		//this.save_new_tracks();
 
 		return this;
@@ -183,6 +181,8 @@ app.model.sisyphus_manager = {
 		this.set('sisbots_networked', []);
 		this.set('sisbots_scanning', 'true');
 
+		this.find_localnet();
+
 		var exists = {
 			_url	: 'http://sisyphus.local/',
 			_type	: 'POST',
@@ -193,12 +193,12 @@ app.model.sisyphus_manager = {
 		function exists_cb(obj) {
 			if (obj.err) return self.scan_sisbots();
 
-			wifi_networks.push('sisyphus');
+			wifi_networks.push('sisyphus.local');
 
 			var wifi_ns = {
 				_url	: 'http://sisyphus.local/',
 				_type	: 'POST',
-				endpoint: 'sisbot/get_wifi',
+				endpoint: 'sisbot/local_sisbots',
 				data	: { iface: 'wlan0', show_hidden: true }
 			};
 
@@ -208,10 +208,10 @@ app.model.sisyphus_manager = {
 		function get_wifi_cb(obj) {
 			if (obj.err) return self.scan_sisbots();
 
-			_.each(obj.resp, function(network_obj) {
-				if (network_obj.ssid.indexOf('sisyphus') > -1)
-					wifi_networks.push(network_obj.ssid);
-			})
+			_.each(obj.resp, function(sisbot_addr) {
+				wifi_networks.push(sisbot_addr);
+			});
+
 			self.set('sisbots_networked', wifi_networks.sort());
 			self.set('sisbots_scanning', 'false');
 		}
@@ -220,9 +220,67 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+	find_localnet: function () {
+		var self	= this;
+		var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+
+		if (RTCPeerConnection) {
+			var rtc = new RTCPeerConnection({iceServers:[]});
+			if (1 || window.mozRTCPeerConnection) {      // FF [and now Chrome!] needs a channel/stream to proceed
+				rtc.createDataChannel('', {reliable:false});
+			};
+
+			rtc.onicecandidate = function (evt) {
+				// convert the candidate to SDP so we can run it through our general parser
+				// see https://twitter.com/lancestout/status/525796175425720320 for details
+				if (evt.candidate) grepSDP("a="+evt.candidate.candidate);
+			};
+			rtc.createOffer(function (offerDesc) {
+				grepSDP(offerDesc.sdp);
+				rtc.setLocalDescription(offerDesc);
+			}, function (e) { console.warn("offer failed", e); });
+
+
+			function updateDisplay(new_addr) {
+				if (newAddr !== "0.0.0.0")
+					self.scan_subnet(new_addr);
+			}
+
+			function grepSDP(sdp) {
+				var hosts = [];
+				sdp.split('\r\n').forEach(function (line) { // c.f. http://tools.ietf.org/html/rfc4566#page-39
+					if (~line.indexOf("a=candidate")) {     // http://tools.ietf.org/html/rfc4566#section-5.13
+						var parts = line.split(' '),        // http://tools.ietf.org/html/rfc5245#section-15.1
+							addr = parts[4],
+							type = parts[7];
+						if (type === 'host') updateDisplay(addr);
+					} else if (~line.indexOf("c=")) {       // http://tools.ietf.org/html/rfc4566#section-5.7
+						var parts = line.split(' '),
+							addr = parts[2];
+						updateDisplay(addr);
+					}
+				});
+			}
+		}
+
+		return this;
+	},
 	scan_sisbots: function () {
-		// assume 192.168.0.1
+		var self = this;
+		//var subnets = ['192.168.0.1', '192.168.1.1', '192.168.2.1', '192.168.3.1', '192.168.254.254', '169.254.24.119', '192.168.86.26'];
+		var subnets = [ '192.168.0.1' ];
+		_.each(subnets, function(ip) {
+			self.scan_subnet(ip);
+		});
+		return this;
+	},
+	scan_subnet: function (base_ip) {
+		// assume 192.168.0.1 for example
 		// 2-255
+		var ip = base_ip.split('.');
+		ip.pop();
+		base_ip = ip.join('.');
+		console.log('BASE IP', base_ip);
 
 		var self				= this;
 		var sisbots_networked	= this.get('sisbots_networked');
@@ -230,16 +288,16 @@ app.model.sisyphus_manager = {
 
 		function scan(last_num) {
 			var exists = {
-				_url	: 'http://192.168.0.' + last_num + '/',
+				_url	: 'http://' + base_ip + '.' + last_num + '/',
 				_type	: 'POST',
-				_timeout: 5000,
+				_timeout: 2500,
 				endpoint: 'sisbot/exists',
 				data	: {}
 			};
 
 			app.post.fetch(exists, function(obj) {
 				if (!obj.err)
-					sisbots_networked.push('192.168.0.' + last_num);
+					sisbots_networked.push(base_ip + '.' + last_num);
 				is_finished();
 			}, 0);
 		}
@@ -254,6 +312,8 @@ app.model.sisyphus_manager = {
 		for (var i = 2; i < 256; i++) {
 			scan(i);
 		}
+
+		return this;
 	},
 	connect_to_sisbot: function () {
 		if (this.get('sisbot_connecting') == 'true') return false;
@@ -272,15 +332,15 @@ app.model.sisyphus_manager = {
 		};
 
 		app.post.fetch(obj, function(obj) {
-			//var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
-			//console.log('Connect to Sisbot:', obj);
+			if (app.config.env == 'alpha') {
+				var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
+				console.log('Connect to Sisbot:', obj);
+			} else {
+				if (obj.err)
+					return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
 
-			/* */
-			if (obj.err)
-				return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
-
-			var sisbot_data = obj.resp;
-			/* */
+				var sisbot_data = obj.resp;
+			}
 
 			_.each(sisbot_data, function(data) {
 				if (app.collection.exists(data.id)) {
@@ -342,7 +402,7 @@ app.model.sisyphus_manager = {
 
 		this.set('merged_playlists', merged_playlists);
 	},
-    /**************************** STORE ***************************************/
+    /**************************** COMMUNITY ***********************************/
     fetch_community_playlists: function () {
 		if (this.get('fetched_community_playlists') == 'true')
 			return this;
@@ -464,7 +524,8 @@ app.model.sisyphus_manager = {
 				active_playlist_id	: 'false',
 				active_track_id		: 'false',
 				state				: 'waiting',
-				network_connected	: 'not connected',
+				is_network_connected: 'false',
+				is_internet_connected: 'false',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 			 					'276A238C-21F0-4998-B0F8-305BFC0D25E9' ],
 				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',

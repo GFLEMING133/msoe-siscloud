@@ -8,7 +8,7 @@
             <div class="w15 pt30 center f-large">&nbsp;</div>
         </div>
         <div class="h__k" data-model="{{= model.sisbot_id }}">
-            <div class="h__k" data-if="{{= model.data.network_connected }} == connected">
+            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
                 <div class="h__k" data-if="{{= parent.user_id }} !== false">
                     <div class="w100 center no-stuffing h__k hh35 flex">
                         <div class="w50 p10 h__k {{= (parent.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey  white' }}"
@@ -27,14 +27,14 @@
         </div>
     </div>
     <div class="h__k mt30" data-model="{{= model.sisbot_id }}">
-        <div class="h__k" data-if="{{= model.data.network_connected }} == not connected">
+        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
             <div class="i center shadow bg-ll-grey p30 clickable h__k"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'primary':'settings','secondary':'wifi'}"
             >Your sisbot must be connected to the internet via wifi. Click here to connect</div>
         </div>
-        <div class="h__k" data-if="{{= model.data.network_connected }} == connected">
+        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
             <div class="h__k" data-if="{{= parent.user_id }} == false">
                 <div class="i center shadow bg-ll-grey p30 clickable h__k"
                     data-on-click="publish"
@@ -44,8 +44,8 @@
             </div>
             <div class="h__k" data-if="{{= parent.user_id }} !== false">
                 <div class="h__k" data-model="{{= parent.id }}">
-                    <div class="h__k" data-if="{{= model.community_page }} == playlists" data-template="community-playlists-tmp"></div>
-                    <div class="h__k" data-if="{{= model.community_page }} == tracks" data-template="community-tracks-tmp"></div>
+                    <div class="h__k" data-if="{{= model.community_page }} == playlists" data-template="sisyphus-community-playlists-tmp"></div>
+                    <div class="h__k" data-if="{{= model.community_page }} == tracks" data-template="sisyphus-community-tracks-tmp"></div>
                 </div>
             </div>
         </div>
