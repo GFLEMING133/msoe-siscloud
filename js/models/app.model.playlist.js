@@ -60,7 +60,7 @@ app.model.playlist = {
 		data.active_track_id	= this.get('data.track_ids')[track_index];
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current' });
+		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	update_duration: function () {
 		var duration = 0;

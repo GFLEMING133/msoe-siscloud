@@ -51,8 +51,6 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot')
 			return this.setup_as_sisbot();
 
-		// TODO: REMOVE BEFORE COMMIT
-		this.setup_sisbot_select();
 		//this.setup_demo();
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();
@@ -336,9 +334,9 @@ app.model.sisyphus_manager = {
 		app.post.fetch(obj, function(obj) {
 			if (app.config.env == 'alpha') {
 				var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
-				console.log('Connect to Sisbot:', obj);
+				//console.log('Connect to Sisbot:', obj);
 			} else {
-				console.log('WE HAVE OUR DATA', obj);
+				//console.log('WE HAVE OUR DATA', obj);
 				if (obj.err)
 					return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
 

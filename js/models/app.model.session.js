@@ -82,7 +82,8 @@ app.model.session = {
 	},
 	sisyphus_mode: function () {
 		var m = app.collection.add({ type: 'sisyphus_manager' });
-		this.set('active.primary', 'current');
+		this.set('active.primary', 'current')
+			.set('active.secondary', 'false');
 		this.set('sisyphus_manager_id', m.id);
 	},
 	siscloud_mode: function () {
