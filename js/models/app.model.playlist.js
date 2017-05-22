@@ -57,7 +57,7 @@ app.model.playlist = {
 
 		var data = this.get('data');
 		data.active_track_index = track_index;
-		data.active_track_id	= this.get('data.track_ids')[track_index];
+		data.active_track_id	= this.get('data.sorted_tracks')[track_index];
 		data.is_current			= true;
 
 		app.trigger('sisbot:update_playlist', data);
