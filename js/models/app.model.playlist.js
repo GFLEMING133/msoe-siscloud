@@ -52,7 +52,7 @@ app.model.playlist = {
 		app.trigger('sisbot:save', this.toJSON());
 	},
 	/**************************** GENERAL *************************************/
-	play_from_current: function () {
+	play_from_current: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
 		var data = this.get('data');
