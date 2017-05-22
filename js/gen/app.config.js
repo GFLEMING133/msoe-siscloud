@@ -1,7 +1,13 @@
 app.config = {
-	env		: 'alpha',
+	env		: 'beta',
+	version	: '1.0',
 	envs	: {
-		alpha: {
+		alpha: {	// loads local data only
+			base_url	: 'http://app.dev.withease.io:3000/',
+			api_url		: 'http://api.dev.withease.io:3000/',
+			port		: 3001,
+		},
+		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3000/',
 			api_url		: 'http://api.dev.withease.io:3000/',
 			port		: 3001,
@@ -29,6 +35,7 @@ app.config = {
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
 if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';
+if (window.location.href.indexOf('.local') > -1)			app.config.env = 'sisbot';
 
 // for any url not including dev, assumes prod env
 if (window.location.href.indexOf('sisyphus.withease') > -1)	app.config.env = 'prod';

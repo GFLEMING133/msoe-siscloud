@@ -20,25 +20,49 @@ app.model.playlist = {
 				duration			: '',				// mins
 				duration_formatted	: '',				// HH:mm
                 track_ids           : [],
+				sorted_tracks		: [],				// display to users
+
 				is_published		: 'false',
+				is_shuffle			: 'false',			// same from sisbot
+				is_loop				: 'false',			// same from sisbot
+				active_track_id		: 'false',
+				active_track_index	: 'false',
+
 				created_by_id		: 'false',
 				created_by_name		: 'User Name',
 			}
 		};
-
-		/*
-		var b = {
-			name: 'default',
-			repeat: true,
-			track_ids: ['sine', 'circam2s', 'cwarp3b', 'dces4p', 'hep', 'india1p', 'para2b', 'tensig1$']
-		}
-		*/
 
 		return obj;
 	},
 	current_version: 1,
 	after_export: function () {
 		app.current_session().set_active({ playlist_id: 'false' });
+	},
+	before_save: function () {
+		var user_id = app.current_session().get_model('sisyphus_manager_id').get('user_id');
+		if (user_id !== 'false')
+			this.set('data.created_by_id', user_id);
+	},
+	after_save: function () {
+		app.trigger('sisbot:playlist_add', this);
+	},
+	save_sisbot_to_cloud: function () {
+		// we have a sisbot playlist we want saved to user account
+		app.trigger('sisbot:save', this.toJSON());
+	},
+	/**************************** GENERAL *************************************/
+	play_from_current: function () {
+		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
+
+		var data = this.get('data');
+		data.active_track_index = track_index;
+		data.active_track_id	= this.get('data.track_ids')[track_index];
+		data.is_current			= true;
+
+		app.trigger('sisbot:update_playlist', data);
+		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
+
 	},
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
@@ -48,7 +72,7 @@ app.model.playlist = {
 		data.active_track_id	= this.get('data.track_ids')[track_index];
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current' });
+		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	update_duration: function () {
 		var duration = 0;
@@ -65,17 +89,7 @@ app.model.playlist = {
 
 		return this;
 	},
-	/**************************** TRACKS **************************************/
-	move_array: function (field, old_index, new_index) {
-		var val		= this.get(field);
-		var length	= val.length;
-		var opt		= val.splice(old_index, 1);
-
-		val.splice(new_index, 0, opt[0]);
-		this.set(field, val);
-
-		this.trigger('change:' + field);
-	},
+	/**************************** EDIT ****************************************/
 	edit: function () {
 		this.set('active_tracks', this.get('data.track_ids').slice())
 			.set('edit.name', this.get('data.name'))
@@ -84,12 +98,16 @@ app.model.playlist = {
 	},
 	cancel_edit: function () {
 		this.set('is_editing', 'false');
+
+		if (this.get('data.is_saved') == 'false')
+			app.trigger('session:active', { secondary: 'false' });
 	},
 	save_edit: function () {
 		this.set('is_editing', 'false')
 			.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.track_ids', this.get('active_tracks').slice())
+			.set('data.sorted_tracks', this.get('active_tracks').slice())
 			.update_duration()
 			.save();
 	},
@@ -102,8 +120,15 @@ app.model.playlist = {
 		this.remove('active_tracks', track_id);
 		this.add_nx('eligible_tracks', track_id);
 	},
-	reorder_track: function (track_id, new_index) {
+	move_array: function (field, old_index, new_index) {
+		var val		= this.get(field);
+		var length	= val.length;
+		var opt		= val.splice(old_index, 1);
 
+		val.splice(new_index, 0, opt[0]);
+		this.set(field, val);
+
+		this.trigger('change:' + field);
 	},
 	generate_eligible_tracks: function () {
 		var curr_tracks = this.get('data.track_ids');
@@ -116,14 +141,8 @@ app.model.playlist = {
 
 		this.set('eligible_tracks', elig_tracks);
 	},
-	/**************************** STORE ***************************************/
+	/**************************** COMMUNITY ***********************************/
 	download: function () {
 		app.trigger('sisuser:download_playlist', this.id);
-	},
-	publish: function () {
-
-	},
-	unpublish: function () {
-
-	},
+	}
 };

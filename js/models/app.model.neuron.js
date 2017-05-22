@@ -42,7 +42,6 @@ app.model.neuron = Backbone.NestedModel.extend({
 				var obj		= ref_model.defaults(data);
 			}
 
-			// TODO: Figure out when this would be good to remove
 			if (!app.plugins.is_uuid(data.history_id) && data.history_id !== 'false') {
 				data.history_id = 'false';
 			}
@@ -52,7 +51,6 @@ app.model.neuron = Backbone.NestedModel.extend({
 			_.defaults(obj, this.model_defaults());
 			_.defaults(data, this.data_defaults(), obj.data);
 
-			// TODO: Remove after data migration of all forms and other objects to a version
 			if (_.isString(data.version)) data.version = 1;
 			app.model.neuron.check_version(data, ref_model);
 
@@ -79,7 +77,6 @@ app.model.neuron = Backbone.NestedModel.extend({
 	},
 	on_init: function () {},
 	select_all: function (obj) {
-		// TODO: works in theory.. doesn't work with deep dependency stuff
 		this.set('responses[' + obj.index + '][' + obj.key + ']', obj.cluster.pluck('id'));
 	},
 	/*************************** LISTENERS ************************************/
@@ -568,6 +565,11 @@ app.model.neuron = Backbone.NestedModel.extend({
 			this.add(attrStr, value, opts);
 		}
 		return this;
+	},
+	toggle: function(field_name) {
+		var field = this.get(field_name);
+		this.set(field_name, !field);
+		return !field;
 	},
     /******************** EDITING FORM INSTANCE ******************************/
 	validate		: function () { return true; },

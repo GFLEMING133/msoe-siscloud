@@ -657,6 +657,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 /**************************** PADDING & MARGIN ********************************/
 
 .p0										{	padding					: 0px !important;						}
+.p1										{	padding					: 1px !important;						}
+.p2										{	padding					: 2px !important;						}
+.p3										{	padding					: 3px !important;						}
+.p4										{	padding					: 4px !important;						}
 .p5										{	padding					: 5px !important;						}
 .p10									{	padding					: 10px !important;						}
 .p15									{	padding					: 15px !important;						}
@@ -731,6 +735,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .mt150									{	margin-top				: 150px !important;			            }
 
 .mb50						            {   margin-bottom		    : 50px;			                        }
+.mb75						            {   margin-bottom		    : 75px;			                        }
+.mb100						            {   margin-bottom		    : 100px;		                        }
 .mt50-child > div                       {   margin-top		        : 50px;			                        }
 
 .mt100									{	margin-top				: 100px !important;			            }

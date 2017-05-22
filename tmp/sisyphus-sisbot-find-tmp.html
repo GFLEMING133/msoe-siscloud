@@ -1,0 +1,37 @@
+<div class="h__k" data-run="model.find_sisbots">
+    <h1 class="bg-d-grey center white no-stuffing p20">Find Local Sisbot</h1>
+    <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+        <div class="h__k" data-foreach="model.errors">
+            <div class="h__k red">{{= scope.value }}</div>
+        </div>
+    </div>
+    <div class="bg-white p20 center i h__k" data-if="{{= model.sisbots_scanning }} == true">
+        Scanning for sisbots...
+    </div>
+    <div class="bg-white black h__k" data-if="{{= model.sisbots_scanning }} == false">
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Select Local Sisbot</h4>
+        <div class="pl20 pr20 pb10 h__k">
+            <select class="w100 h__k"
+                data-field="model.sisbot_hostname"
+                data-foreach="model.sisbots_networked"
+                data-foreach-default="Local Sisbots"
+                data-foreach-change="foreach_reset"
+            ><option class="h__k" value="{{= scope.value }}">http://{{= scope.value }}/</option></select>
+        </div>
+        <div class="center i p20">or</div>
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Enter Sisbot Hostname or IP Address</h4>
+        <div class="pl20 pr20 pb10">
+            <input class="h__k w100" type="text" placeholder="sisyphus.local or 192.168.0.1"
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                data-field="model.sisbot_hostname"
+                value="{{= model.sisbot_hostname }}"
+            />
+        </div>
+        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.connect_to_sisbot">Connect to Sisbot</h2>
+    </div>
+    <div class="h__k white p20 clickable center i"
+        data-on-click="set"
+        data-field="model.sisbot_registration"
+        data-value="{{= 'select' }}"
+    >Connect to Existing Sisbot?</div>
+</div>

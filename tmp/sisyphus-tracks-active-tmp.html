@@ -11,11 +11,11 @@
             <h1 class="h__k no-stuffing pt20 capitalize">{{= model.data.name }}</h1>
         </div>
         <div class="w15 pt30 center f-large">
-            <span class="fa fa-plus h__k"
+            <span class="fa fa-plus clickable h__k"
                 data-if="{{= model.is_adding }} == false"
                 data-on-click="model.playlist_add"
             ></span>
-            <span class="fa fa-times h__k"
+            <span class="fa fa-times clickable h__k"
                 data-if="{{= model.is_adding }} == true"
                 data-on-click="model.playlist_cancel"
             ></span>
@@ -31,7 +31,7 @@
             data-foreach-map="true"
             data-foreach-change="foreach_reset"
         >
-            <div class="p10 bb-med h__k"
+            <div class="p10 bb-med clickable bg-ll-grey-hover h__k"
                 data-on-click="parent.playlist_add_finish"
                 data-msg="{{= model.id }}"
             >Add to {{= model.data.name }}</div>
@@ -40,14 +40,26 @@
     <div class="h100 scroll pl10 pr10 hide-scrollbar">
         <div class="flex mt10 mb10 pb20 bb">
             <div class="w15">&nbsp;</div>
-            <div class="w70 hvw50 bg-ll-grey shadow center vertical">
-                <span class="fa fa-play f-xxxlarge h__k" data-on-click="model.play"></span>
-            </div>
+            <div class="w70 hvw50 bg-ll-grey shadow center vertical clickable h__k"
+                data-on-click="model.play"
+            ><span class="fa fa-play f-xxxlarge h__k"></span></div>
             <div class="w15">&nbsp;</div>
         </div>
-        <div class="mt10 pb10 mb10 bb">
-            <p class="no-stuffing">Created By: Author #1</p>
-            <p class="no-stuffing">Play Count: 15</p>
+        <div class="mt10 pb10 mb10 bb flex">
+            <div class="w50">
+                <p class="no-stuffing">Created By: Author #1</p>
+                <p class="no-stuffing">Play Count: 15</p>
+            </div>
+            <div class="w50 h__k" data-if="{{= app.manager.get('user_id') }} == {{= model.data.created_by_id }}">
+                <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded pull-right h__k"
+                    data-if="{{= model.data.is_published }} == true"
+                    data-on-click="model.unpublish"
+                ></span>
+                <span class="no-stuffing bg-grey fa fa-cloud-upload black p10 rounded pull-right h__k"
+                    data-if="{{= model.data.is_published }} == false"
+                    data-on-click="model.publish"
+                ></span>
+            </div>
         </div>
         <div class="mt10 h__k" data-run="model.get_playlists">
             <h3>Playlists</h3>
@@ -60,7 +72,7 @@
                 data-foreach-change="foreach_reset"
                 data-foreach-map="true"
             >
-                <div class="w25 center h__k"
+                <div class="w25 center clickable h__k"
                     data-on-click="publish"
                     data-publish="session:active"
                     data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','primary':'playlists'}"

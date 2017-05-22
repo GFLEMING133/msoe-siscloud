@@ -7,27 +7,27 @@
         <div class="w20 p15 bg-l-grey-hover fa fa-bullseye h__k {{= (parent.active.primary == 'current') ? 'bg-l-grey' : '' }}"
             data-on-click="publish"
     		data-publish="session:active"
-    		data-msg="{'primary':'current'}"
+    		data-msg="{'primary':'current','secondary':'false'}"
         ></div>
         <div class="w20 p15 bg-l-grey-hover fa fa-list-ul h__k {{= (parent.active.primary == 'playlists') ? 'bg-l-grey' : '' }}"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'primary':'playlists'}"
+            data-msg="{'primary':'playlists','secondary':'false'}"
         ></div>
         <div class="w20 p15 bg-l-grey-hover fa fa-circle-o-notch h__k {{= (parent.active.primary == 'tracks') ? 'bg-l-grey' : '' }}"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'primary':'tracks'}"
+            data-msg="{'primary':'tracks','secondary':'false'}"
         ></div>
-        <div class="w20 p15 bg-l-grey-hover fa fa-globe h__k {{= (parent.active.primary == 'store') ? 'bg-l-grey' : '' }}"
+        <div class="w20 p15 bg-l-grey-hover fa fa-globe h__k {{= (parent.active.primary == 'community') ? 'bg-l-grey' : '' }}"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'primary':'store'}"
+            data-msg="{'primary':'community','secondary':'false'}"
         ></div>
         <div class="w20 p15 bg-l-grey-hover fa fa-cog h__k {{= (parent.active.primary == 'settings') ? 'bg-l-grey' : '' }}"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'primary':'settings'}"
+            data-msg="{'primary':'settings','secondary':'false'}"
         ></div>
     </div>
 </div>

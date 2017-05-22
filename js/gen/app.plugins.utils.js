@@ -398,3 +398,8 @@ app.plugins.str_to_bool = {
 	'false'		: false,
 	'true'		: true
 };
+
+app.plugins.bool_opp = {
+	'false'		: 'true',
+	'true'		: 'false'
+};

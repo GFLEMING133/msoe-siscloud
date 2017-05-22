@@ -4,16 +4,31 @@
     </div>
     <div class="mt75 pt10 pl10 pr10 flex">
         <div class="w15 hv50">&nbsp;</div>
-        <div class="w70 h__k" data-if="{{= model.data.active_track_index }} == false">
+        <div class="w70 h__k" data-if="{{= model.data.active_track_id }} == false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical">
-                <span>No Current Track</span>
+                <p class="no-stuffing center">No Current Track</p>
             </div>
         </div>
         <div class="w70 hv50 h__k" data-if="{{= model.data.active_track_id }} !== false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical h__k"
                 data-model="{{= model.data.active_track_id }}"
             >
-                <span class="h__k">{{= model.data.name }}</span>
+                <div>
+                    <div class="fa fa-pause-circle black f-xxxxxlarge h__k"
+                        data-if="{{= parent.data.state }} == playing"
+                        data-on-click="parent.pause"
+                    ></div>
+                    <div class="fa fa-play-circle black f-xxxxxlarge h__k"
+                        data-if="{{= parent.data.state }} == paused"
+                        data-on-click="parent.play"
+                    ></div>
+                    <div class="fa fa-home bg-black white p30 rounded f-xxxxxlarge h__k"
+                        data-if="{{= parent.data.state }} == homing"
+                    ></div>
+                    <div class="fa fa-clock-o bg-black white pl30 pr30 pt25 pb25 rounded f-xxxxxlarge h__k"
+                        data-if="{{= parent.data.state }} == waiting"
+                    ></div>
+                </div>
             </div>
         </div>
         <div class="w15 hv50">&nbsp;</div>
@@ -31,12 +46,12 @@
                     <span class="h__k">{{= model.data.name }}</span>
                 </div>
                 <div class="h__k"
-                    data-foreach="model.data.track_ids"
+                    data-foreach="model.data.sorted_tracks"
+                    data-foreach-change="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex pt5 pb5 pl10 pr10 h__k {{= (scope.index == grandparent.data.active_track_index) ? 'bg-ll-grey' : 'bb' }}"
-                        data-if="{{= parent.active_track_index }} !== {{= scope.index }}"
-                        data-on-click="parent.play"
+                    <div class="flex pt5 pb5 pl10 pr10 clickable bg-ll-grey-hover h__k {{= (scope.index == parent.data.active_track_index) ? 'bg-ll-grey' : 'bb' }}"
+                        data-on-click="parent.play_from_current"
                         data-msg="{{= scope.index }}"
                     >
                         <div class="w10 hvw10 bg-ll-grey shadow center vertical">
@@ -80,31 +95,19 @@
                 <i class="fa fa-sun-o f-large clickable" aria-hidden="true"></i>
             </div>
         </div>
-        <div class="flex p10 pb20">
-            <div class="w33 center">
-                <i class="fa fa-refresh p10 rounded clickable h__k {{= (model.data.is_loop == 'false') ? 'bg-white' : '' }}"
-                    data-on-click="toggle"
-                    data-field="model.data.is_loop"
-                    aria-hidden="true"
-                ></i>
-            </div>
-            <div class="w33 center">
-                <i class="fa fa-play p10 clickable h__k" aria-hidden="true"
-                    data-if="{{= model.data.state }} == paused"
-                    data-on-click="model.play"
-                ></i>
-                <i class="fa fa-pause p10 clickable h__k" aria-hidden="true"
-                    data-if="{{= model.data.state }} == playing"
-                    data-on-click="model.pause"
-                ></i>
-            </div>
-            <div class="w33 center">
-                <i class="fa fa-random p10 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'bg-white' : '' }}"
-                    data-on-click="toggle"
-                    data-field="model.data.is_shuffle"
-                    aria-hidden="true"
-                ></i>
-            </div>
+        <div class="flex p10 pb20 h__k"
+            data-if="{{= model.data.state }} == playing"
+            data-template="sisyphus-playback-controls-tmp"
+        ></div>
+        <div class="flex p10 pb20 h__k"
+            data-if="{{= model.data.state }} == paused"
+            data-template="sisyphus-playback-controls-tmp"
+        ></div>
+        <div class="p10 pb20 center h__k" data-if="{{= model.data.state }} == homing">
+            (homing)
+        </div>
+        <div class="p10 pb20 center h__k" data-if="{{= model.data.state }} == waiting">
+            (waiting)
         </div>
     </div>
 </div>
