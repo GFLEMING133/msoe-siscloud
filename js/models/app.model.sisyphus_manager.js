@@ -51,7 +51,8 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot')
 			return this.setup_as_sisbot();
 
-		//this.setup_sisbot_select();
+		// TODO: REMOVE BEFORE COMMIT
+		this.setup_sisbot_select();
 		//this.setup_demo();
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();
@@ -186,6 +187,7 @@ app.model.sisyphus_manager = {
 		var exists = {
 			_url	: 'http://sisyphus.local/',
 			_type	: 'POST',
+			_timeout: 1250,
 			endpoint: 'sisbot/exists',
 			data	: {}
 		};
@@ -336,6 +338,7 @@ app.model.sisyphus_manager = {
 				var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
 				console.log('Connect to Sisbot:', obj);
 			} else {
+				console.log('WE HAVE OUR DATA', obj);
 				if (obj.err)
 					return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
 

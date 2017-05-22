@@ -41,7 +41,7 @@ app.model.track = {
 	},
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
-		app.trigger('session:active', { 'primary': 'current' });
+		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_cancel: function () {

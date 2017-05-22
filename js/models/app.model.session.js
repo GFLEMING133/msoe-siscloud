@@ -87,7 +87,7 @@ app.model.session = {
 	},
 	siscloud_mode: function () {
 		var m = app.collection.add({ type: 'siscloud_manager' });
-		this.set('active.primary', 'current');
+		this.set('active.primary', 'current').set('active.secondary', 'false');
 		this.set('siscloud_manager_id', m.id);
 	},
 	setup_sign_in_model: function () {

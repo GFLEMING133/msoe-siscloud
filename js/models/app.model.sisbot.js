@@ -300,6 +300,7 @@ app.model.sisbot = {
 	},
 	/******************** PLAYBACK ********************************************/
 	play: function () {
+		var self = this;
 		this.set('data.state', 'playing');
 		this._update_sisbot('play', {}, function (obj) {
 			if (obj.resp)
@@ -307,6 +308,7 @@ app.model.sisbot = {
 		});
 	},
 	pause: function () {
+		var self = this;
 		this.set('data.state', 'paused');
 		this._update_sisbot('pause', {}, function (obj) {
 			if (obj.resp)
@@ -314,6 +316,7 @@ app.model.sisbot = {
 		});
 	},
 	home: function () {
+		var self = this;
 		this.set('data.state', 'homing');
 		this._update_sisbot('home', {}, function (obj) {
 			if (obj.resp)

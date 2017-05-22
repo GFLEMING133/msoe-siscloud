@@ -29,7 +29,7 @@
     <!--------------------------- PLAYLIST DETAILS ---------------------------->
     <div class="h100 scroll hide-scrollbar">
         <div class="flex p10 bb">
-            <div class="w40 hvw40 bg-ll-grey shadow center vertical">
+            <div class="w40 hvw40 bg-ll-grey shadow center clickable vertical">
                 <i class="fa fa-play-circle f-large f-xxxxxlarge h__k"
                     data-if="{{= app.plugins.length(model.data.track_ids) }} > 0"
                     data-on-click="model.play"
@@ -114,13 +114,13 @@
             ></textarea>
         </div>
         <!--------------------------- PLAYLIST TRACKS ---------------------------->
-        <div class="mt10 pl10 pr10 pb10 h__k"
+        <div class="mt10 h__k"
             data-if="{{= model.is_editing }} == false"
             data-foreach="model.data.track_ids"
             data-foreach-change="foreach_reset"
             data-foreach-map="true"
         >
-            <div class="flex mt10 h__k"
+            <div class="flex pl10 pr10 pb10 pt10 bg-ll-grey-hover clickable h__k"
                 data-on-click="parent.play"
                 data-msg="{{= scope.index }}"
             >
@@ -152,7 +152,7 @@
                     data-foreach-add="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex mt10">
+                    <div class="flex bg-ll-grey-hover clickable pt10 pb10">
                         <div class="w10 hvw10 bg-ll-grey shadow center vertical">
                             <span>T</span>
                         </div>
@@ -183,7 +183,7 @@
                     data-foreach-change="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex mt10">
+                    <div class="flex bg-ll-grey-hover pt10 pb10">
                         <div class="w10 hvw10 bg-ll-grey shadow center vertical">
                             <span>T</span>
                         </div>
