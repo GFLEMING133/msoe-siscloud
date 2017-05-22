@@ -192,8 +192,11 @@ app.model.sisbot = {
 			// get back playlist obj
 			console.log('SET PLAYLIST', obj);
 
-			if (obj.resp.id !== 'false')
-				app.collection.get(obj.resp.id).set('data', obj.resp);
+			if (obj.resp.id !== 'false') {
+				app.collection.get(obj.resp.id)
+					.set('data', obj.resp)
+					.trigger('change:data.sorted_tracks');
+			}
 		});
 
 		this.set('data.is_loop', playlist_data.is_loop);
