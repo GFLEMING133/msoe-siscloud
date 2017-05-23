@@ -142,6 +142,13 @@ app.model.sisbot = {
 		});
     },
 	disconnect_wifi: function () {
+		var self = this;
+
+		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
+
 		this.set('data.is_internet_connected', 'not connected')
 			.set('data.wifi_network', 'false')
 			.set('data.wifi_password', 'false');
@@ -174,11 +181,6 @@ app.model.sisbot = {
 	factory_reset: function () {
 		this._update_sisbot('factory_reset', {}, function(obj) {
 			console.log('RESET');
-		});
-	},
-	reset_to_hotspot: function () {
-		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
-			console.log('RESET', obj);
 		});
 	},
 	save_to_sisbot: function (data) {
