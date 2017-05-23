@@ -365,12 +365,10 @@ app.model.sisbot = {
 		if (this.get('is_jogging') == true) {
 			var jog_type = this.get('jog_type');
 
-			this._update_sisbot('pause', {}, function() {
-				self._update_sisbot(jog_type, {}, function() {
-					setTimeout(function() {
-						self._jog();
-					}, 100);
-				});
+			self._update_sisbot(jog_type, {}, function() {
+				setTimeout(function() {
+					self._jog();
+				}, 100);
 			});
 		}
 
