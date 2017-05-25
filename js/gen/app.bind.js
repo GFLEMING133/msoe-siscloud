@@ -545,8 +545,6 @@ var Binding = Backbone.View.extend({
 
             if (self.model && self.model.on_file_upload)
                 self.model.on_file_upload(file_data);
-
-            app.trigger(self.data.file, file_data);
         }
 
         reader.readAsText(file);
