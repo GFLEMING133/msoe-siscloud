@@ -8,6 +8,8 @@ app.model.track = {
 			playlist_ids		: [],
 			playlist_not_ids	: [],
 
+			upload_status		: 'hidden',		// hidden|false|uploading|success
+
 			data		: {
 				id					: data.id,
 				type    			: 'track',
@@ -20,6 +22,7 @@ app.model.track = {
 				created_by_id		: 'false',
 				created_by_name		: 'Author Name',
 
+				has_verts_file		: 'false',
 				verts				: '',		// temporary
 
 				vel					: 1,
@@ -42,6 +45,28 @@ app.model.track = {
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
+	},
+	on_file_upload: function (verts_data) {
+		var self = this;
+		this.set('upload_status', 'uploading');
+
+		app.post.fetch({
+			_type	: 'POST',
+			endpoint: 'upload_track',
+			id		: this.id,
+			verts	: verts_data
+		}, function cb(obj) {
+			if (obj.err) {
+				self.set('upload_status', 'failure');
+			} else {
+				self.set('upload_status', 'success');
+				self.set('data.has_verts_file', 'true');
+
+				setTimeout(function () {
+					self.set('upload_status', 'hidden');
+				}, 2500);
+			}
+		}, 0);
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_cancel: function () {

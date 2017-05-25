@@ -6,7 +6,7 @@
                 data-selected="{{= model.data.value }}"
                 data-on-update="model.save"
                 value="{{= model.data.value }}"
-                data-cluster="{ 'type':'question', 'is_deleted': 'false', 'organization_id': '{{= app.current_organization().id }}' }"
+                data-cluster="{ 'type':'question', 'is_deleted': 'false' }"
                 data-cluster-comparator="{'key':'data.name','ord':'asc'}"
                 data-foreach="cluster"
                 data-foreach-add="foreach_reset"

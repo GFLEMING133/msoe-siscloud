@@ -173,7 +173,6 @@ app.model.question = {
         this.set('forminstance_keys', keys)
 	},
     before_save: function () {
-		if (app.plugins.falsy(this.get('data.organization_id')))
-			this.set('data.organization_id', app.current_organization().id, { silent: true });
+
     }
 };

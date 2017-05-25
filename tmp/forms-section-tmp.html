@@ -56,7 +56,7 @@
                     data-subscribe-ctx="model"
                     data-subscribe="change:data.question_ids"
                     data-on-subscribe="foreach_reset"
-                    data-cluster="{'type':'question', 'organization_id': '{{= app.current_organization().id }}'}"
+                    data-cluster="{'type':'question'}"
                     data-cluster-comparator="{'key':'data.name','ord':'asc'}"
                     data-foreach="cluster"
                     data-foreach-add="foreach_reset"

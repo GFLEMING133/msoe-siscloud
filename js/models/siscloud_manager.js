@@ -9,6 +9,8 @@ app.model.siscloud_manager = {
             users           : '0',
             sisbots         : '0',
 
+			fetched_forms	: 'false',
+
 			data		: {
 				id					: data.id,
 				type    			: 'siscloud_manager',
@@ -21,6 +23,7 @@ app.model.siscloud_manager = {
 	current_version: 1,
     on_init: function () {
         this.get_counts();
+		this.get_forms();
     },
 	/**************************** GET OBJECT COUNTS ***************************/
     get_counts: function () {
@@ -92,6 +95,42 @@ app.model.siscloud_manager = {
 			type: 'sisbot'
         }, function(obj) {
             app.collection.add(obj.resp);
+		});
+    },
+	get_forms: function () {
+		if (this.get('fetched_forms') == 'true')
+			return this;
+
+		var self = this;
+		var cbs = 3;
+		function end_cbs() {
+			if (--cbs == 0)
+				self.set('fetched_forms', 'true');
+		}
+
+        app.post.fetch({
+			_type	: 'POST',
+			endpoint: 'cluster',
+			type: 'form'
+        }, function(obj) {
+            app.collection.add(obj.resp);
+			end_cbs();
+		});
+		app.post.fetch({
+			_type	: 'POST',
+			endpoint: 'cluster',
+			type: 'section'
+        }, function(obj) {
+            app.collection.add(obj.resp);
+			end_cbs();
+		});
+		app.post.fetch({
+			_type	: 'POST',
+			endpoint: 'cluster',
+			type: 'question'
+        }, function(obj) {
+            app.collection.add(obj.resp);
+			end_cbs();
 		});
     }
 };

@@ -39,9 +39,6 @@ app.model.form = {
 		}
 	},
 	before_save: function () {
-		if (app.plugins.falsy(this.get('data.organization')))
-			this.set('data.organization_id', app.current_organization().id, { silent: true });
-
 		// Because we are saving. Not sure if it's a good place for it
 		app.collection.add(this);
 	},

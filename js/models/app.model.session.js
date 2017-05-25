@@ -142,7 +142,7 @@ app.model.session = {
 	},
 	/************************** SETUP SIGN IN **********************************/
 	after_sign_in: function (obj) {
-		// organization_id, user_id, staff_id, username, password
+		// user_id, staff_id, username, password
 		this.set(obj);
 
 		var session = this.get_session();

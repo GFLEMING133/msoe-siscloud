@@ -205,6 +205,7 @@ var Binding = Backbone.View.extend({
         if (this.data.dragula)          this.dragula();
         if (this.data.fullcalendar)     this.fullcalendar();
         if (this.data.svg)              this.svg();
+        if (this.data.d3)               this.d3();
         if (this.data.taggle)           this.taggle();
         if (this.data.gumwrapper)       this.gumwrapper();
         if (this.data.simplemde)        this.simplemde();
@@ -540,7 +541,12 @@ var Binding = Backbone.View.extend({
             return app.trigger('notifications:notify', 'Failed to load the file');
 
         reader.onload = function (file) {
-            app.trigger(self.data.file, file.target.result);
+            var file_data = file.target.result;
+
+            if (self.model && self.model.on_file_upload)
+                self.model.on_file_upload(file_data);
+
+            app.trigger(self.data.file, file_data);
         }
 
         reader.readAsText(file);
@@ -1173,6 +1179,45 @@ var Binding = Backbone.View.extend({
                 var svg = new app.view.svg({ el: self.$(self.data.svg), model: self.model });
                 self.subviews.push(svg);
             });
+        });
+    },
+    d3: function () {
+        var self = this;
+
+        app.scripts.fetch('js/libs/lib.d3.min.js', function () {
+            var w = 400,
+            h = 400
+            var svg = d3.select(self.$el[0])
+              .append('svg')
+              .attr('width', w)
+              .attr('height', h)
+              .style('border', '1px solid #d2d2d2');
+
+            var line = d3.radialLine()
+              .radius(function(d, i){ console.log('radius', d); return d.x * 150; })
+              .angle(function(d){ console.log('angle', d); return d.y; })
+              .curve(d3.curveCatmullRom);
+              //.interpolate('basis')
+
+            var data = [
+                {x: 0, y: 0 },
+                {x: .25, y: 1.5708 },
+                {x: .75, y: 4.71239 },
+                {x: 1.0, y: 3.14159 }
+            ];
+
+            var path = svg.append('path')
+              .datum(data)
+              .attr('d', line)
+              .attr('stroke', 'green')
+              .attr('stroke-width', 3)
+              .attr('fill', 'white')
+              .attr('transform', 'translate(' + w/2 +','+ h/2 +')');
+
+            function changeInterpolation(self){
+              line.interpolate(self.value);
+              path.attr('d', line);
+            }
         });
     },
     taggle: function () {

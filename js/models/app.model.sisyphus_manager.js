@@ -414,7 +414,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var playlists = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			//_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_playlists',
 			data	: {}
@@ -451,7 +451,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var tracks = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			//_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_tracks',
 			data	: {}
@@ -502,7 +502,7 @@ app.model.sisyphus_manager = {
 	setup_as_sisbot: function () {
 		// we don't need to create account or connect... We're getting served by it
 		app.current_session().set('signed_in','true');
-		var hostname = window.location.hostname;	// sisyphus.local;
+		var hostname = window.location.hostname;			// easesisyphus.local;
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},
