@@ -1,15 +1,17 @@
-<div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-    <div class="w15 pt30 center fa fa-arrow-left f-large h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'false'}"
-    >&nbsp;</div>
-    <div class="w70">
-        <h1 class="h__k no-stuffing pt20 capitalize">Connect to Wifi</h1>
+<div class="pull-top bg-white w100">
+    <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+        <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        >&nbsp;</div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing pt10 pb10 capitalize">Connect to Wifi</h1>
+        </div>
+        <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
-    <div class="w15 pt30 center f-large">&nbsp;</div>
 </div>
-<div class="h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
+<div class="body-header h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
     <div class="p20">
         <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Select Network Name</h4>
         <div class="pl20 pr20 pb10 h__k" data-run="model.get_networks">

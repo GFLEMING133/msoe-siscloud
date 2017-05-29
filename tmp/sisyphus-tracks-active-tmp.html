@@ -1,24 +1,26 @@
-<div class="mt75 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.track_id }}">
-    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center f-large clickable">
-            <div class="h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
-        </div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">{{= model.data.name }}</h1>
-        </div>
-        <div class="w15 pt30 center f-large">
-            <span class="fa fa-plus clickable h__k"
-                data-if="{{= model.is_adding }} == false"
-                data-on-click="model.playlist_add"
-            ></span>
-            <span class="fa fa-times clickable h__k"
-                data-if="{{= model.is_adding }} == true"
-                data-on-click="model.playlist_cancel"
-            ></span>
+<div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.track_id }}">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center f-large bg-grey-hover clickable">
+                <div class="h__k"
+                    data-on-click="publish"
+                    data-publish="session:active"
+                    data-msg="{'secondary':'false'}"
+                ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
+            </div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 one-line capitalize">{{= model.data.name }}</h1>
+            </div>
+            <div class="w15 pt20 center clickable bg-grey-hover f-large">
+                <span class="fa fa-plus h__k"
+                    data-if="{{= model.is_adding }} == false"
+                    data-on-click="model.playlist_add"
+                ></span>
+                <span class="fa fa-times h__k"
+                    data-if="{{= model.is_adding }} == true"
+                    data-on-click="model.playlist_cancel"
+                ></span>
+            </div>
         </div>
     </div>
     <div class="h__k bg-ll-grey bb" data-if="{{= model.is_adding }} == true">
@@ -37,7 +39,7 @@
             >Add to {{= model.data.name }}</div>
         </div>
     </div>
-    <div class="h100 scroll pl10 pr10 hide-scrollbar">
+    <div class="h100 scroll hide-scrollbar">
         <div class="flex mt10 mb10 pb20 bb">
             <div class="w15">&nbsp;</div>
             <div class="w70 hvw50 bg-ll-grey shadow center vertical clickable h__k"
@@ -45,7 +47,7 @@
             ><span class="fa fa-play f-xxxlarge h__k"></span></div>
             <div class="w15">&nbsp;</div>
         </div>
-        <div class="mt10 pb10 mb10 bb flex">
+        <div class="p10 bb flex">
             <div class="w50">
                 <p class="no-stuffing">Created By: Author #1</p>
                 <p class="no-stuffing">Play Count: 15</p>
@@ -61,8 +63,10 @@
                 ></span>
             </div>
         </div>
-        <div class="mt10 h__k" data-run="model.get_playlists">
-            <h3>Playlists</h3>
+        <div class="h__k" data-run="model.get_playlists">
+            <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+                Playlists
+            </div>
             <div class="p20 center i h__k"
                 data-if="{{= app.plugins.length(model.playlist_ids) }} == 0"
             >This track is not part of any playlists</div>
@@ -72,15 +76,17 @@
                 data-foreach-change="foreach_reset"
                 data-foreach-map="true"
             >
-                <div class="w25 center clickable h__k"
+                <div class="w25 center clickable bg-ll-grey-hover h__k"
                     data-on-click="publish"
                     data-publish="session:active"
                     data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','primary':'playlists'}"
                 >
-                    <div class="w90 hvw20 bg-ll-grey shadow center vertical">
-                        <span class="f-large">P</span>
+                    <div class="m10">
+                        <div class="w100 hvw20 bg-ll-grey shadow center vertical">
+                            <span class="f-large">P</span>
+                        </div>
                     </div>
-                    <div class="pt10 h__k">{{= model.data.name }}</div>
+                    <div class="pb10 h__k">{{= model.data.name }}</div>
                 </div>
             </div>
         </div>

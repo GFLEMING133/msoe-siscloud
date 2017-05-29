@@ -1,9 +1,9 @@
-<div class="mt75 pt25 pl10 pr10 h100 scroll hide-scrollbar h__k">
-    <div class="pull-top">
-        <div class="white bg-black w100 center no-stuffing h__k hh75 flex">
+<div class="body-header pt25 pl10 pr10 h100 scroll hide-scrollbar h__k">
+    <div class="pull-top bg-white">
+        <div class="white bg-black w100 center no-stuffing flex h__k flex {{= (app.is_app == true) ? 'mt20' : '' }}">
             <div class="w15 pt30 center f-large">&nbsp;</div>
             <div class="w70">
-                <h1 class="h__k no-stuffing pt20 capitalize">Community</h1>
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Community</h1>
             </div>
             <div class="w15 pt30 center f-large">&nbsp;</div>
         </div>
@@ -11,12 +11,12 @@
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
                 <div class="h__k" data-if="{{= parent.user_id }} !== false">
                     <div class="w100 center no-stuffing h__k hh35 flex">
-                        <div class="w50 p10 h__k {{= (parent.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey  white' }}"
+                        <div class="w50 p10 white h__k clickable bg-grey-hover {{= (parent.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey' }}"
                             data-on-click="set"
                             data-field="parent.community_page"
                             data-value="playlists"
                         >Playlists</div>
-                        <div class="w50 p10 h__k {{= (parent.community_page == 'tracks') ? 'bg-grey' : 'bg-d-grey white' }}"
+                        <div class="w50 p10 white h__k clickable bg-grey-hover {{= (parent.community_page == 'tracks') ? 'bg-grey' : 'bg-d-grey' }}"
                             data-on-click="set"
                             data-field="parent.community_page"
                             data-value="tracks"

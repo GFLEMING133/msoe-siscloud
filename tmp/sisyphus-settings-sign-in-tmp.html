@@ -1,15 +1,17 @@
-<div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-    <div class="w15 pt30 center fa fa-arrow-left f-large clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'false'}"
-    >&nbsp;</div>
-    <div class="w70">
-        <h1 class="h__k no-stuffing pt20 capitalize">Sign In</h1>
+<div class="pull-top bg-white w100">
+    <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+        <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        >&nbsp;</div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing pt10 pb10 capitalize">Sign In</h1>
+        </div>
+        <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
-    <div class="w15 pt30 center f-large">&nbsp;</div>
 </div>
-<div class="h__k" data-model="{{= model.sisbot_id }}">
+<div class="body-header h__k" data-model="{{= model.sisbot_id }}">
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
         <div class="i center shadow bg-ll-grey p30 m10 clickable h__k"
             data-on-click="publish"

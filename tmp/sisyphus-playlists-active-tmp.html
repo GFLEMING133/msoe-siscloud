@@ -1,29 +1,31 @@
-<div class="mt75 h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
-    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center f-large clickable">
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == true"
-                data-on-click="model.cancel_edit"
-            >Cancel</div>
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == false"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
-        </div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">{{= model.data.name }}</h1>
-        </div>
-        <div class="w15 pt30 center f-large clickable">
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == false"
-                data-on-click="model.edit"
-            >Edit</div>
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == true"
-                data-on-click="model.save_edit"
-            >Save</div>
+<div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing h__k flex {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center f-large clickable bg-grey-hover">
+                <div class="h__k"
+                    data-if="{{= model.is_editing }} == true"
+                    data-on-click="model.cancel_edit"
+                >Cancel</div>
+                <div class="h__k"
+                    data-if="{{= model.is_editing }} == false"
+                    data-on-click="publish"
+                    data-publish="session:active"
+                    data-msg="{'secondary':'false'}"
+                ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
+            </div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 one-line capitalize">{{= model.data.name }}</h1>
+            </div>
+            <div class="w15 pt20 center f-large clickable bg-grey-hover">
+                <div class="h__k"
+                    data-if="{{= model.is_editing }} == false"
+                    data-on-click="model.edit"
+                >Edit</div>
+                <div class="h__k"
+                    data-if="{{= model.is_editing }} == true"
+                    data-on-click="model.save_edit"
+                >Save</div>
+            </div>
         </div>
     </div>
     <!--------------------------- PLAYLIST DETAILS ---------------------------->
@@ -39,7 +41,7 @@
             </div>
             <div class="w5 hvw40">&nbsp;</div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
-                <h2 class="h__k">{{= model.data.name }}</h2>
+                <h3 class="h__k no-stuffing one-line">{{= model.data.name }}</h3>
                 <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
                 <p class="no-stuffing h__k">{{= app.plugins.length(model.data.track_ids) }} Tracks</p>
                 <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>
@@ -59,40 +61,40 @@
                 </div>
             </div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == true">
-                <input type="text" class="w100 f15 h__k"
+                <input type="text" class="w100 f15 clickable h__k"
                     data-field="model.edit.name"
                     data-value="{{= model.edit.name }}"
                     value="{{= model.edit.name }}"
                 />
                 <div class="h__k mt20" data-if="{{= app.manager.has_user() }} == true">
-                    <span class="no-stuffing bg-d-blue fa fa-cloud-upload white p10 rounded h__k"
+                    <span class="no-stuffing bg-d-blue fa fa-cloud-upload white p10 rounded clickable h__k"
                         data-if="{{= model.data.is_published }} == true"
                         data-field="model.data.is_published"
                         data-on-click="toggle"
                     ></span>
-                    <span class="no-stuffing bg-grey fa fa-cloud-upload black p10 rounded h__k"
+                    <span class="no-stuffing bg-grey fa fa-cloud-upload white p10 rounded clickable h__k"
                         data-if="{{= model.data.is_published }} == false"
                         data-field="model.data.is_published"
                         data-on-click="toggle"
                     ></span>
                     <!--- SHUFFLE -->
-                    <span class="no-stuffing bg-d-blue fa fa-random white p10 rounded h__k"
+                    <span class="no-stuffing bg-d-blue fa fa-random white p10 rounded clickable h__k"
                         data-if="{{= model.data.is_shuffle }} == true"
                         data-field="model.data.is_shuffle"
                         data-on-click="toggle"
                     ></span>
-                    <span class="no-stuffing bg-grey fa fa fa-random black p10 rounded h__k"
+                    <span class="no-stuffing bg-grey fa fa fa-random white p10 rounded clickable h__k"
                         data-if="{{= model.data.is_shuffle }} == false"
                         data-field="model.data.is_shuffle"
                         data-on-click="toggle"
                     ></span>
                     <!--- LOOP -->
-                    <span class="no-stuffing bg-d-blue fa fa-refresh white p10 rounded h__k"
+                    <span class="no-stuffing bg-d-blue fa fa-refresh white p10 rounded clickable h__k"
                         data-if="{{= model.data.is_loop }} == true"
                         data-field="model.data.is_loop"
                         data-on-click="toggle"
                     ></span>
-                    <span class="no-stuffing bg-grey fa fa-refresh black p10 rounded h__k"
+                    <span class="no-stuffing bg-grey fa fa-refresh white p10 rounded clickable h__k"
                         data-if="{{= model.data.is_loop }} == false"
                         data-field="model.data.is_loop"
                         data-on-click="toggle"
@@ -105,7 +107,7 @@
             <div class="h__k" data-if="{{= model.is_editing }} == false">
                 <div class="mt10 pt10 pb20 bb h__k"  data-if="{{= model.data.description }} !== ">{{= model.data.description }}</div>
             </div>
-            <textarea class="mt10 pt10 pb20 bb w100 h__k"
+            <textarea class="mt10 pt10 pb20 bb w100 clickable h__k"
                 placeholder="Playlist Description here"
                 data-if="{{= model.is_editing }} == true"
                 data-field="model.edit.description"
@@ -139,7 +141,7 @@
                 Current Tracks
                 <span class="pull-right">3:15</span>
             </div>
-            <div class="pl10 pr10 h__k">
+            <div class="h__k">
                 <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
                     There are no tracks in this playlist
                 </div>
@@ -152,7 +154,7 @@
                     data-foreach-add="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex bg-ll-grey-hover clickable pt10 pb10">
+                    <div class="flex bg-ll-grey-hover clickable p10">
                         <div class="w10 hvw10 bg-ll-grey shadow center vertical">
                             <span>T</span>
                         </div>
@@ -170,10 +172,10 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-d-grey white no-stuffing mt10 mb10 pl10 pr10 uppercase pt3 pb3">
+            <div class="bg-d-grey white no-stuffing pl10 pr10 uppercase pt3 pb3">
                 Eligible Tracks
             </div>
-            <div class="pl10 pr10 h__k" data-run="model.generate_eligible_tracks">
+            <div class="h__k" data-run="model.generate_eligible_tracks">
                 <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.eligible_tracks) }} == 0">
                     There are no eligible tracks
                 </div>
@@ -183,7 +185,7 @@
                     data-foreach-change="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex bg-ll-grey-hover pt10 pb10">
+                    <div class="flex bg-ll-grey-hover p10">
                         <div class="w10 hvw10 bg-ll-grey shadow center vertical">
                             <span>T</span>
                         </div>

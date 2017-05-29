@@ -20,6 +20,7 @@ app.model.session = {
 			},
 			debug_mode				: 'false',
 
+			platform				: 'app',			// app|web
 			user_id					: 'false',
 			sign_in_id				: '',
 			sisyphus_manager_id		: 'false',
@@ -51,6 +52,8 @@ app.model.session = {
  	},
 	on_reset: function () {
 		if (app.config.env == 'server') return this;
+
+		if (!app.is_app)	this.set('platform', 'web');
 
 		this.setup_mode();
 	},

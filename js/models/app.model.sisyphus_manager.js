@@ -51,7 +51,7 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot')
 			return this.setup_as_sisbot();
 
-		//this.setup_demo();
+		this.setup_demo();
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();
 		//this.save_new_tracks();
@@ -502,7 +502,9 @@ app.model.sisyphus_manager = {
 	setup_as_sisbot: function () {
 		// we don't need to create account or connect... We're getting served by it
 		app.current_session().set('signed_in','true');
-		var hostname = window.location.hostname;			// easesisyphus.local;
+
+		// TODO: Undo before commit
+		var hostname = 'easesisyphus.local'; //window.location.hostname;			// easesisyphus.local;
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},

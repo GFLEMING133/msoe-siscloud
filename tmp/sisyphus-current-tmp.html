@@ -1,8 +1,10 @@
 <div class="h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
-    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75">
-        <h1 class="h__k no-stuffing pt20 capitalize">{{= model.data.name }}</h1>
+    <div class="pull-top bg-white w100 h__k">
+        <div class="white bg-black w100 center no-stuffing h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <h1 class="h__k no-stuffing pt10 pb10 capitalize">{{= model.data.name }}</h1>
+        </div>
     </div>
-    <div class="mt75 pt10 pl10 pr10 flex">
+    <div class="body-header pt10 pl10 pr10 flex">
         <div class="w15 hv50">&nbsp;</div>
         <div class="w70 h__k" data-if="{{= model.data.active_track_id }} == false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical">
@@ -14,11 +16,11 @@
                 data-model="{{= model.data.active_track_id }}"
             >
                 <div>
-                    <div class="fa fa-pause-circle black f-xxxxxlarge h__k"
+                    <div class="fa fa-pause-circle black f-xxxxxlarge clickable h__k"
                         data-if="{{= parent.data.state }} == playing"
                         data-on-click="parent.pause"
                     ></div>
-                    <div class="fa fa-play-circle black f-xxxxxlarge h__k"
+                    <div class="fa fa-play-circle black f-xxxxxlarge clickable h__k"
                         data-if="{{= parent.data.state }} == paused"
                         data-on-click="parent.play"
                     ></div>
@@ -29,6 +31,9 @@
                         data-if="{{= parent.data.state }} == waiting"
                     ></div>
                 </div>
+            </div>
+            <div class="w100 center p10 h__k" data-model="{{= model.data.active_track_id }}">
+                {{= model.data.name }}
             </div>
         </div>
         <div class="w15 hv50">&nbsp;</div>
@@ -66,32 +71,36 @@
             </div>
         </div>
     </div>
-    <div class="pull-bottom-fixed mb50 bg-ll-grey">
-        <div class="flex p10 vertical-align">
-            <div class="w10 center clickable h__k" data-on-click="model.speed_down">
+    <div class="pull-bottom-fixed mb50 bg-l-grey">
+        <div class="flex vertical-align">
+            <div class="w10 center bg-ll-grey-hover rounded clickable p10 h__k" data-on-click="model.speed_min">
                 slow
             </div>
-            <div class="w80 center">
-                <input class="h__k" type="range" min="0" max="1" step=".05"
+            <div class="w80 flex center">
+                <span class="w5"></span>
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-on-input="model.speed"
                     value="{{= model.data.speed }}"
                 />
+                <span class="w5"></span>
             </div>
-            <div class="w10 center clickable h__k" data-on-click="model.speed_up">
+            <div class="w10 center bg-ll-grey-hover rounded clickable p10 h__k" data-on-click="model.speed_max">
                 fast
             </div>
         </div>
-        <div class="flex p10 vertical-align">
-            <div class="w10 center h__k" data-on-click="model.brightness_down">
+        <div class="flex vertical-align">
+            <div class="w10 center bg-ll-grey-hover rounded p10 h__k" data-on-click="model.brightness_min">
                 <i class="fa fa-sun-o  clickable" aria-hidden="true"></i>
             </div>
-            <div class="w80 center">
-                <input class="h__k" type="range" min="0" max="1" step=".05"
+            <div class="w80 flex center">
+                <span class="w5"></span>
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-on-input="model.brightness"
                     value="{{= model.data.brightness }}"
                 />
+                <span class="w5"></span>
             </div>
-            <div class="w10 center h__k" data-on-click="model.brightness_up">
+            <div class="w10 center rounded bg-ll-grey-hover p10 h__k" data-on-click="model.brightness_max">
                 <i class="fa fa-sun-o f-large clickable" aria-hidden="true"></i>
             </div>
         </div>

@@ -1,23 +1,25 @@
-<div class="mt75 pl10 pr10 h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
-    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center clickable h">&nbsp;</div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">Playlists</h1>
+<div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing h__k flex {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center clickable h">&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Playlists</h1>
+            </div>
+            <div class="w15 pt15 center f-xxlarge clickable bg-grey-hover h__k"
+                data-on-click="parent.playlist_create"
+            >+</div>
         </div>
-        <div class="w15 pt25 center f-xxlarge clickable h__k"
-            data-on-click="parent.playlist_create"
-        >+</div>
     </div>
     <div class="h__k center p20 i"
         data-if="{{= app.plugins.length(model.data.playlist_ids) }} == 0"
     >There are no playlists. <span class="clickable">Want to create one?</span>
     </div>
-    <div class="h__k mt10" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
+    <div class="h__k" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
         <div class="h__k"
             data-foreach="model.data.playlist_ids"
             data-foreach-map="true"
         >
-            <div class="flex mb10 clickable bg-ll-grey-hover h__k"
+            <div class="flex p10 clickable bg-ll-grey-hover h__k"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist'}"

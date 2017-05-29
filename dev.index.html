@@ -20,8 +20,8 @@
 </head>
 
 <body class="h100 no-stuffing">
-	<div class="body h100 h__k {{= model.mode }}" data-model="current_session">
-		<div class="content h100 bg-ll-grey">
+	<div class="body h100 h__k {{= model.mode }} {{= model.platform }}" data-model="current_session">
+		<div class="content h100">
 			<div class="h__k h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
 		</div>
 	</div>

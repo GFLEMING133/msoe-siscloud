@@ -230,6 +230,12 @@ app.model.sisbot = {
 		if (level >= .05) level = level - .05;
 		this.brightness(level);
 	},
+	brightness_max: function () {
+		this.brightness(1);
+	},
+	brightness_min: function () {
+		this.brightness(0);
+	},
 	speed: function (level) {
 		this.set('data.speed', +level);
 		this._update_sisbot('set_speed', { value: +level });
@@ -243,6 +249,12 @@ app.model.sisbot = {
 		var level = +this.get('data.speed');
 		if (level >= .05) level = level - .05;
 		this.speed(level);
+	},
+	speed_max: function () {
+		this.speed(1);
+	},
+	speed_min: function () {
+		this.speed(0);
 	},
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);

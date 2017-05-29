@@ -1,10 +1,12 @@
-<div class="mt75 h100 scroll hide-scrollbar h__k" data-if="{{= parent.active.secondary }} == false">
-    <div class="pull-top white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center f-large">&nbsp;</div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">Settings</h1>
+<div class="body-header h100 scroll hide-scrollbar h__k" data-if="{{= parent.active.secondary }} == false">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center f-large">&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Settings</h1>
+            </div>
+            <div class="w15 pt20 center f-large">&nbsp;</div>
         </div>
-        <div class="w15 pt30 center f-large">&nbsp;</div>
     </div>
     <!------------------------- SISBOT SETTINGS ------------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
@@ -23,7 +25,7 @@
         Sisbot IP Address<span class="pull-right">{{= model.data.local_ip }}</span>
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
-        Disconnect from Sisbot
+        Disconnect from Sisbot<span class="pull-right fa fa-chevron-right"></span>
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
         Install Updates
@@ -64,7 +66,7 @@
         <div class="bb p10 bg-ll-grey-hover clickable h__k"
             data-if="{{= model.data.is_internet_connected }} == true"
             data-on-click="model.disconnect_wifi"
-        >Disconnect from Wifi</div>
+        >Disconnect from Wifi<span class="pull-right fa fa-chevron-right"></span></div>
     </div>
     <!------------------------- ACCOUNT SETTINGS -------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
@@ -87,7 +89,7 @@
             </div>
         </div>
         <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.sign_out">
-            Sign Out
+            Sign Out<span class="pull-right fa fa-chevron-right"></span>
         </div>
     </div>
     <!------------------------- COMPANY INFO ------------------------------>
@@ -112,34 +114,38 @@
     <div class="mb50">&nbsp;</div>
 </div>
 <!------------------------- TOS ------------------------------------------->
-<div class="h__k" data-if="{{= parent.active.secondary }} == tos">
-    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center fa fa-arrow-left f-large clickable h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'false'}"
-        >&nbsp;</div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">Terms Of Service</h1>
+<div class="body-header h__k" data-if="{{= parent.active.secondary }} == tos">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'false'}"
+            >&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Terms Of Service</h1>
+            </div>
+            <div class="w15 pt20 center f-large">&nbsp;</div>
         </div>
-        <div class="w15 pt30 center f-large">&nbsp;</div>
     </div>
     <div class="p20 center i">
         Updated with Terms of Service Here
     </div>
 </div>
 <!------------------------- PRIVACY --------------------------------------->
-<div class="h__k" data-if="{{= parent.active.secondary }} == privacy">
-    <div class="top-nav white bg-black w100 center no-stuffing h__k hh75 flex">
-        <div class="w15 pt30 center fa fa-arrow-left f-large clickable h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'false'}"
-        >&nbsp;</div>
-        <div class="w70">
-            <h1 class="h__k no-stuffing pt20 capitalize">Privacy Policy</h1>
+<div class="body-header h__k" data-if="{{= parent.active.secondary }} == privacy">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'false'}"
+            >&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Privacy Policy</h1>
+            </div>
+            <div class="w15 pt20 center f-large">&nbsp;</div>
         </div>
-        <div class="w15 pt30 center f-large">&nbsp;</div>
     </div>
     <div class="p20 center i">
         Updated with Privacy Policy
