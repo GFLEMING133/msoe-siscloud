@@ -40,9 +40,11 @@ app.model.playlist = {
 		app.current_session().set_active({ playlist_id: 'false' });
 	},
 	before_save: function () {
-		var user_id = app.current_session().get_model('sisyphus_manager_id').get('user_id');
-		if (user_id !== 'false')
-			this.set('data.created_by_id', user_id);
+		if (app.current_session().get_model('sisyphus_manager_id')) {
+			var user_id = app.current_session().get_model('sisyphus_manager_id').get('user_id');
+			if (user_id !== 'false')
+				this.set('data.created_by_id', user_id);
+		}
 	},
 	after_save: function () {
 		app.trigger('sisbot:playlist_add', this);

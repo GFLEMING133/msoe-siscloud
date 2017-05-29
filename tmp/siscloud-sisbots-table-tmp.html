@@ -1,6 +1,6 @@
 <div class="flex bg-d-grey white">
     <div class="no-stuffing w5 p10"></div>
-    <div class="no-stuffing w75 p10 clickable bg-l-grey-hover h__k"
+    <div class="no-stuffing w35 p10 clickable bg-l-grey-hover h__k"
         data-on-click="model.comparator_change"
         data-msg="data.name"
     ><span class="clickable">
@@ -11,6 +11,10 @@
             </span>
         </span>
     </div>
+    <div class="no-stuffing w10 p10"># Playlists</div>
+    <div class="no-stuffing w10 p10"># Tracks</div>
+    <div class="no-stuffing w10 p10">Firmware</div>
+    <div class="no-stuffing w10 p10">Software</div>
     <div class="no-stuffing w20 p10"></div>
 </div>
 <div class="bg-white m0 h__k"
@@ -31,14 +35,34 @@
         data-foreach-remove="foreach_reset"
         data-foreach-sort="foreach_reset"
     >
-        <div class="flex p10 bb bg-white bg-ll-grey-hover clickable">
-            <div class="no-stuffing w5"><i class="fa fa-bars"></i></div>
-            <div class="no-stuffing w75 h__k"
+        <div class="flex bb bg-white bg-ll-grey-hover clickable">
+            <div class="no-stuffing w5 p10"><i class="fa fa-bars"></i></div>
+            <div class="no-stuffing w35 p10 h__k"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'sisbot_id':'{{= model.id }}'}"
             >{{= model.data.name }}</div>
-            <div class="no-stuffing w20 h__k" data-if="{{= _model_.is_owner() }} == true">
+            <div class="no-stuffing w10 p10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'sisbot_id':'{{= model.id }}'}"
+            >{{= app.plugins.length(model.data.playlist_ids) }}</div>
+            <div class="no-stuffing w10 p10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'sisbot_id':'{{= model.id }}'}"
+            >{{= app.plugins.length(model.data.track_ids) }}</div>
+            <div class="no-stuffing w10 p10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'sisbot_id':'{{= model.id }}'}"
+            >{{= model.data.firmware_version }}</div>
+            <div class="no-stuffing w10 p10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'sisbot_id':'{{= model.id }}'}"
+            >{{= model.data.software_version }}</div>
+            <div class="no-stuffing w20 p10 h__k">
                 <div class="h__k" data-on-click="model.erase" title="Delete">
                     <i class="fa fa-trash l-grey bblack-hover w25p pull-right"></i>
                 </div>

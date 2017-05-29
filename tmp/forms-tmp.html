@@ -2,32 +2,34 @@
     data-model="{{= model.siscloud_manager_id }}"
     data-run="model.get_forms"
 ></div>
-<div class="container shadow bg-white m20 no-stuffing h__k"
-    data-scope="true"
-    data-state="{'view_mode':'overview'}"
-    data-defaults="{'type':'generic'}"
->
-    <div class="bg-m-grey p10 white center h__k">
-        <div class="h__k" data-if="{{= parent.active.tertiary }} == false" data-template="forms-header-overview-tmp"></div>
-        <div class="h__k" data-if="{{= parent.active.tertiary }} == edit" data-template="forms-header-edit-tmp"></div>
-        <div class="h__k" data-if="{{= parent.active.tertiary }} == instance" data-template="forms-header-instance-tmp"></div>
-    </div>
-    <div class="flex">
-        <div class="h__k {{= (model.context_menu == 'true') ? 'w75' : 'w100' }} no-stuffing print-100">
-            <div class="h__k" data-if="{{= parent.active.tertiary }} == false" data-template="forms-overview-tmp"></div>
-            <div class="h__k" data-if="{{= parent.active.tertiary }} == edit" data-template="forms-edit-tmp"></div>
-            <div class="h__k" data-if="{{= parent.active.tertiary }} == instance" data-template="forms-instance-tmp"></div>
+<div class="container">
+    <div class="shadow bg-white m20 no-stuffing h__k"
+        data-scope="true"
+        data-state="{'view_mode':'overview'}"
+        data-defaults="{'type':'generic'}"
+    >
+        <div class="bg-m-grey white center h__k">
+            <div class="h__k" data-if="{{= parent.active.tertiary }} == false" data-template="forms-header-overview-tmp"></div>
+            <div class="h__k" data-if="{{= parent.active.tertiary }} == edit" data-template="forms-header-edit-tmp"></div>
+            <div class="h__k" data-if="{{= parent.active.tertiary }} == instance" data-template="forms-header-instance-tmp"></div>
         </div>
-        <div class="w25 h100 no-stuffing h__k bg-dd-grey white no-print"
-            data-if="{{= model.context_menu }} == true"
-            data-on-click="toggle"
-            data-field="model.context_menu"
-        >
-            <div class="p10 bg-m-grey-hover clickable h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'new_type':'form','tertiary':'edit'}"
-            ><i class="fa fa-plus w25p h__k"></i> Create Form</div>
+        <div class="flex">
+            <div class="h__k {{= (model.context_menu == 'true') ? 'w75' : 'w100' }} no-stuffing print-100">
+                <div class="h__k" data-if="{{= parent.active.tertiary }} == false" data-template="forms-overview-tmp"></div>
+                <div class="h__k" data-if="{{= parent.active.tertiary }} == edit" data-template="forms-edit-tmp"></div>
+                <div class="h__k" data-if="{{= parent.active.tertiary }} == instance" data-template="forms-instance-tmp"></div>
+            </div>
+            <div class="w25 h100 no-stuffing h__k bg-dd-grey white no-print"
+                data-if="{{= model.context_menu }} == true"
+                data-on-click="toggle"
+                data-field="model.context_menu"
+            >
+                <div class="p10 bg-m-grey-hover clickable h__k"
+                    data-on-click="publish"
+                    data-publish="session:active"
+                    data-msg="{'new_type':'form','tertiary':'edit'}"
+                ><i class="fa fa-plus w25p h__k"></i> Create Form</div>
+            </div>
         </div>
     </div>
 </div>

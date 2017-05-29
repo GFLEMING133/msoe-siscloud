@@ -17,8 +17,8 @@ app.model.track = {
 
                 name                : '',
                 is_published		: 'false',
-				created_by_id		: 'false',
 				duration			: '90',		// minutes
+
 				created_by_id		: 'false',
 				created_by_name		: 'Author Name',
 

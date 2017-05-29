@@ -20,6 +20,7 @@ app.model.user = {
 
 				username		: '',
 				password		: '',
+				name			: '',
 
 				sisbot_ids		: [],
 				playlist_ids	: [],

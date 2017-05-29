@@ -20,6 +20,8 @@ app.model.sisbot = {
 				type    			: 'sisbot',
 				version				: this.current_version,
 
+				name				: 'Default Name',
+				timezone_offset		: '0',					// 0 greenwich
 				hostname			: 'false',				// sisyphus.local
 				local_ip			: '',					// 192.168.0.1:3001
 

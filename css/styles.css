@@ -533,9 +533,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-blue 								{	background-color		: #22AEFF !important;		}
 .bg-orange								{	background-color		: #F4AE3D !important;		}
 .bg-green								{	background-color		: #32B150 !important;		}
-.bg-dd-grey								{	background-color		: #303542 !important;		}
+.bg-dd-grey								{	background-color		: #222222 !important;		}
 .bg-d-grey								{	background-color		: #292929 !important;		}
-.bg-m-grey								{	background-color		: #4a566e !important;		}
+.bg-m-grey								{	background-color		: #555 !important;		}
 .bg-grey								{	background-color		: #525252 !important;		}
 .bg-l-grey								{	background-color		: #8f8f8f !important;		}
 .bg-ll-grey								{	background-color		: #f7f7f7 !important;		}
@@ -589,9 +589,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-orange-hover:hover					{	background-color		: #BC5D00 !important;		}
 .bg-green-hover:hover					{	background-color		: #54BC00 !important;		}
 .bg-ll-grey-hover:hover					{	background-color		: #EFEFEF !important;		}
-.bg-l-grey-hover:hover					{	background-color		: #626e88 !important;		}
+.bg-l-grey-hover:hover					{	background-color		: #8f8f8f !important;		}
 .bg-grey-hover:hover					{	background-color		: #525252 !important;		}
-.bg-m-grey-hover:hover					{	background-color		: #4a566e !important;		}
+.bg-m-grey-hover:hover					{	background-color		: #454545 !important;		}
 .bg-d-grey-hover:hover					{	background-color		: #333 !important;			}
 
 .bg-danger								{	color					: #c7254e;					}

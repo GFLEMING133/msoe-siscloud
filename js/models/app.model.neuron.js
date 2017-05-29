@@ -568,8 +568,8 @@ app.model.neuron = Backbone.NestedModel.extend({
 	},
 	toggle: function(field_name) {
 		var field = this.get(field_name);
-		this.set(field_name, !field);
-		return !field;
+		this.set(field_name, app.plugins.bool_opp[field]);
+		return app.plugins.bool_opp[field];
 	},
     /******************** EDITING FORM INSTANCE ******************************/
 	validate		: function () { return true; },

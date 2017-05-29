@@ -1,6 +1,6 @@
 <div class="flex bg-d-grey white">
     <div class="no-stuffing w5 p10"></div>
-    <div class="no-stuffing w50 p10 clickable bg-l-grey-hover h__k"
+    <div class="no-stuffing w20 p10 clickable bg-l-grey-hover h__k"
         data-on-click="model.comparator_change"
         data-msg="data.name"
     ><span class="clickable">
@@ -11,12 +11,10 @@
             </span>
         </span>
     </div>
-    <div class="no-stuffing w25 p10">
-        Track File
-    </div>
-    <div class="no-stuffing w10 p10">
-        Published?
-    </div>
+    <div class="no-stuffing w10 p10">Duration</div>
+    <div class="no-stuffing w20 p10">User</div>
+    <div class="no-stuffing w10 p10">Published?</div>
+    <div class="no-stuffing w25 p10">Track File</div>
     <div class="no-stuffing w10 p10"></div>
 </div>
 <div class="bg-white m0 h__k"
@@ -37,14 +35,40 @@
         data-foreach-remove="foreach_reset"
         data-foreach-sort="foreach_reset"
     >
-        <div class="flex p10 bb bg-white bg-ll-grey-hover clickable">
-            <div class="no-stuffing w5"><i class="fa fa-bars"></i></div>
-            <div class="no-stuffing w50 h__k"
+        <div class="flex bb bg-white bg-ll-grey-hover clickable">
+            <div class="no-stuffing w5 p10"><i class="fa fa-bars"></i></div>
+            <div class="no-stuffing w20 p10 h__k"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'track_id':'{{= model.id }}'}"
             >{{= model.data.name }}</div>
-            <div class="no-stuffing w25">
+            <div class="no-stuffing w10 p10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'track_id':'{{= model.id }}'}"
+            >{{= model.data.duration }}</div>
+            <div class="no-stuffing w20 p10 h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'track_id':'{{= model.id }}'}"
+            >{{= model.data.created_by_name }}</div>
+            <div class="no-stuffing w10 p10">
+                <div class="h__k {{= (model.data.is_published == 'true') ? '' : 'hide' }}"
+                    data-field="model.data.is_published"
+                    data-on-click="toggle"
+                >
+                    <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox" checked>
+                    <label for="cmn-toggle-1"></label>
+                </div>
+                <div class="h__k {{= (model.data.is_published == 'false') ? '' : 'hide' }}"
+                    data-field="model.data.is_published"
+                    data-on-click="toggle"
+                >
+                    <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox">
+                    <label for="cmn-toggle-1" class="h__k"></label>
+                </div>
+            </div>
+            <div class="no-stuffing w25 p10">
                 <div class="h__k" data-if="{{= model.upload_status }} == uploading">
                     Uploading <i class="fa fa-spinner spin" aria-hidden="true"></i>
                 </div>
@@ -63,24 +87,7 @@
                     data-msg="{{= 'false' }}"
                 >Upload new track file?</div>
             </div>
-            <div class="no-stuffing w10">
-                <div class="h__k {{= (model.data.is_published == 'true') ? '' : 'hide' }}"
-                    data-field="model.data.is_published"
-                    data-on-click="toggle"
-                >
-                    <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox" checked>
-                    <label for="cmn-toggle-1"></label>
-                </div>
-                <div class="h__k {{= (model.data.is_published == 'false') ? '' : 'hide' }}"
-                    data-field="model.data.is_published"
-                    data-on-click="toggle"
-                >
-                    <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox">
-                    <label for="cmn-toggle-1" class="h__k"></label>
-                </div>
-
-            </div>
-            <div class="no-stuffing w10 h__k" data-if="{{= _model_.is_owner() }} == true">
+            <div class="no-stuffing w10 p10">
                 <div class="h__k" data-on-click="model.erase" title="Delete">
                     <i class="fa fa-trash l-grey bblack-hover w25p pull-right"></i>
                 </div>

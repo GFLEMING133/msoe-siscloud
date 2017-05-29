@@ -15,17 +15,10 @@
             data-shepherd="forms:overview:name:{{= model.id }}"
         >{{= model.data.name }}</div>
 
-        <div class="no-stuffing w20 h__k" data-if="{{= _model_.is_admin() }} == true">
+        <div class="no-stuffing w20">
             <div class="fa fa-trash l-grey bblack-hover w25p pull-right h__k"
                 data-on-click="model.erase"
                 title="Delete"
-            ></div>
-            <div class="fa fa-file-o l-grey bblack-hover w25p pull-right h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'new_form_instance':'{{= model.id }}','tertiary':'instance'}"
-                data-shepherd="forms:overview:instance:{{= model.id }}"
-                title="New Form Instance"
             ></div>
         </div>
     </div>
