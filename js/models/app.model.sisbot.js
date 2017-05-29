@@ -15,6 +15,9 @@ app.model.sisbot = {
 			is_jogging		: false,
 			jog_type		: '',
 
+			installing_updates	: 'false',
+			factory_resetting	: 'false',
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisbot',
@@ -169,19 +172,46 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
+		if (this.get('installing_updates') == 'true') return this;
+		var self = this;
+
+		this.set('installing_updates', 'true')
+
 		this._update_sisbot('install_updates', {}, function(obj) {
-			console.log('Fetch Siscloud');
+			if (obj.err) {
+				self.set('installing_updates', 'error');
+				self.set('installing_updates_error', obj.err);
+			} else if (obj.resp) {
+				setTimeout(function() {
+					self.set('installing_updates', 'false');
+					self.set('data', obj.resp);
+				}, 2500);
+			}
 		});
+
 		return this;
 	},
-	restart: function () {
-		this._update_sisbot('restart', {}, function(obj) {
-			console.log('RESTART');
+	factory_reset: function () {
+		if (this.get('factory_resetting') == 'true') return this;
+		var self = this;
+
+		this.set('factory_resetting', 'true')
+
+		this._update_sisbot('factory_reset', {}, function(obj) {
+			if (obj.err) {
+				self.set('factory_resetting', 'error');
+				self.set('factory_resetting_error', obj.err);
+			} else if (obj.resp) {
+				setTimeout(function() {
+					self.set('factory_resetting', 'false');
+					self.set('data', obj.resp);
+				}, 2500);
+			}
 		});
 	},
-	factory_reset: function () {
-		this._update_sisbot('factory_reset', {}, function(obj) {
-			console.log('RESET');
+	restart: function () {		// CURRENTLY UNUSED
+		this._update_sisbot('restart', {}, function(obj) {
+			console.log('RESTART');
 		});
 	},
 	save_to_sisbot: function (data) {		// CURRENTLY UNUSED

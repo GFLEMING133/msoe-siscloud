@@ -31,14 +31,27 @@
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'track_upload'}"
-    >Upload Track to Sisbot</div>
+    >Upload Track to Sisbot<span class="pull-right fa fa-chevron-right"></span></div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
         Install Updates
+
+
+        <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.installing_updates }} == false"></span>
+        <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.installing_updates }} == true"></span>
+        <span class="pull-right fa fa-exclamation-triangle h__k"
+            data-if="{{= model.installing_updates }} == error"
+            data-tooltip="{'placement':'left','title':'{{= model.installing_updates_error }}'}"
+        ></span>
     </div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-model="{{= model.sisbot_id }}"
-        data-on-click="model.factory_reset"
-    >Reset Sisyphus to Factory Settings</div>
+    <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.factory_reset">
+        Reset Sisyphus to Factory Settings
+        <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.factory_resetting }} == false"></span>
+        <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.factory_resetting }} == true"></span>
+        <span class="pull-right fa fa-exclamation-triangle h__k"
+            data-if="{{= model.factory_resetting }} == error"
+            data-tooltip="{'placement':'left','title':'{{= model.factory_resetting_error }}'}"
+        ></span>
+    </div>
     <!------------------------- SISYPHUS DEBUG ------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
         Sisyphus Debug
