@@ -159,7 +159,6 @@ app.model.sisbot = {
 		var self = this;
 
 		this._update_sisbot('is_internet_connected', {}, function(obj) {
-			console.log('is_internet_connected', obj);
 			if (obj.resp == true) {
 				self.set('data.is_internet_connected', 'true');
 			} else {
@@ -185,7 +184,7 @@ app.model.sisbot = {
 			console.log('RESET');
 		});
 	},
-	save_to_sisbot: function (data) {
+	save_to_sisbot: function (data) {		// CURRENTLY UNUSED
 		this._update_sisbot('save', data, function(obj) {
 			console.log('WE SAVE');
 		});

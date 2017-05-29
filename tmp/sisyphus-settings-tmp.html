@@ -27,6 +27,11 @@
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
         Disconnect from Sisbot<span class="pull-right fa fa-chevron-right"></span>
     </div>
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'track_upload'}"
+    >Upload Track to Sisbot</div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
         Install Updates
     </div>
@@ -114,45 +119,20 @@
     <div class="mb50">&nbsp;</div>
 </div>
 <!------------------------- TOS ------------------------------------------->
-<div class="body-header h__k" data-if="{{= parent.active.secondary }} == tos">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            >&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Terms Of Service</h1>
-            </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
-        </div>
-    </div>
-    <div class="p20 center i">
-        Updated with Terms of Service Here
-    </div>
-</div>
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == tos"
+    data-template="sisyphus-tos-tmp"
+></div>
 <!------------------------- PRIVACY --------------------------------------->
-<div class="body-header h__k" data-if="{{= parent.active.secondary }} == privacy">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            >&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Privacy Policy</h1>
-            </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
-        </div>
-    </div>
-    <div class="p20 center i">
-        Updated with Privacy Policy
-    </div>
-</div>
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == privacy"
+    data-template="sisyphus-privacy-tmp"
+></div>
 <!------------------------- WIFI CREDENTIALS ------------------------------>
-<div class="h__k" data-if="{{= parent.active.secondary }} == wifi" data-template="sisyphus-wifi-tmp"></div>
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == wifi"
+    data-template="sisyphus-wifi-tmp"
+></div>
 <!------------------------- CREATE ACCOUNT ------------------------------>
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == create_account"
@@ -162,4 +142,9 @@
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == sign_in"
     data-template="sisyphus-settings-sign-in-tmp"
+></div>
+<!------------------------- TRACK UPLOAD ------------------------------>
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == track_upload"
+    data-template="sisyphus-settings-track-upload-tmp"
 ></div>

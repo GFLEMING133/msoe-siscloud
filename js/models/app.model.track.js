@@ -9,6 +9,7 @@ app.model.track = {
 			playlist_not_ids	: [],
 
 			upload_status		: 'hidden',		// hidden|false|uploading|success
+			sisbot_upload		: 'false',
 
 			data		: {
 				id					: data.id,
@@ -47,6 +48,14 @@ app.model.track = {
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	on_file_upload: function (verts_data) {
+		if (this.get('sisbot_upload') == 'true') {
+			this.set('data.verts', verts_data);
+		} else {
+			this.upload_verts_to_cloud(verts_data);
+		}
+		return this;
+	},
+	upload_verts_to_cloud: function (verts_data) {
 		var self = this;
 		this.set('upload_status', 'uploading');
 
@@ -67,6 +76,32 @@ app.model.track = {
 				}, 2500);
 			}
 		}, 0);
+	},
+	upload_track_to_sisbot: function () {
+		var name	= this.get('data.name');
+		var verts	= this.get('data.verts');
+		var errors	= [];
+
+		if (name == '') errors.push('- Track Name cannot be empty');
+		if (verts == '') errors.push('- Track Verts File cannot be empty');
+
+		this.set('errors', errors);
+
+		if (errors.length > 0)	return this;
+
+		// track is good. Change some settings and upload to sisbot!
+		this.set('data.has_verts_file', 'true');
+
+		if (app.manager.get('user_id')) {
+			this.set('data.created_by_id', app.manager.get('user_id'));
+			this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
+		}
+
+		app.collection.add(this);
+		app.trigger('sisbot:track_add', this);
+		app.trigger('session:active', { primary: 'tracks', track_id: this.id });
+
+		return this;
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_cancel: function () {
@@ -112,10 +147,7 @@ app.model.track = {
 	download: function () {
 		var self = this;
 
-		console.log('we get you', this.get('data.verts'));
-
 		if (this.get('data.verts') !== '') {
-
 			app.trigger('manager:download_track', this.id);
 			app.trigger('sisbot:track_add', this);
 			return this;
@@ -129,7 +161,6 @@ app.model.track = {
 		};
 
 		function cb(obj) {
-			console.log('TRACK DOWNLOAD', obj);
 			self.set('data.verts', obj.resp);
 			app.trigger('manager:download_track', self.id);
 			app.trigger('sisbot:track_add', self);
