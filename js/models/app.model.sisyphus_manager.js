@@ -51,7 +51,7 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot')
 			return this.setup_as_sisbot();
 
-		this.setup_demo();
+		//this.setup_demo();
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();
 		//this.save_new_tracks();
@@ -504,7 +504,7 @@ app.model.sisyphus_manager = {
 		app.current_session().set('signed_in','true');
 
 		// TODO: Undo before commit
-		var hostname = 'easesisyphus.local'; //window.location.hostname;			// easesisyphus.local;
+		var hostname = window.location.hostname;			// easesisyphus.local;
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},
