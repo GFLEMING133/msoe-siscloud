@@ -93,6 +93,7 @@ app.model.sisbot = {
 		var obj = {
 			_url	: 'http://' + this.get('data.hostname') + '/',
 			_type	: 'POST',
+			_timeout: 60000,
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
@@ -176,6 +177,8 @@ app.model.sisbot = {
 		var self = this;
 
 		this.set('installing_updates', 'true')
+
+		console.log('called twice?');
 
 		this._update_sisbot('install_updates', {}, function(obj) {
 			if (obj.err) {
