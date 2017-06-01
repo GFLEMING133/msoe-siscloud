@@ -137,9 +137,10 @@ app.model.user = {
 			app.plugins.fetch(api_req_2, function (cbb) {
 				if (cbb.err) return self.set('password_errs', cbb.err);
 
-				self.set('data.password', cbb.resp.new.password);
+				self.set('data.password', cbb.resp.password);
 				self.set('password_msg', [ 'Successfully updated your Password' ]);
 				setTimeout(function() { self.set('password_msg', []); }, 5000);
+				app.current_session().set('password', api_req.new).save_session();
 			});
 		});
 	}

@@ -27,11 +27,6 @@
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
         Disconnect from Sisbot<span class="pull-right fa fa-chevron-right"></span>
     </div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'track_upload'}"
-    >Upload Track to Sisbot<span class="pull-right fa fa-chevron-right"></span></div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
         Install Updates
 
@@ -52,6 +47,20 @@
             data-tooltip="{'placement':'left','title':'{{= model.factory_resetting_error }}'}"
         ></span>
     </div>
+    <!------------------------- SISBOT SETTINGS ------------------------------->
+    <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+        Sisbot Admin
+    </div>
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'track_upload'}"
+    >Upload Track to Sisbot<span class="pull-right fa fa-chevron-right"></span></div>
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'default_playlist'}"
+    >Change Default Playlist<span class="pull-right fa fa-chevron-right"></span></div>
     <!------------------------- SISYPHUS DEBUG ------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
         Sisyphus Debug
@@ -102,15 +111,17 @@
             <div class="bb p10">
                 Email<span class="pull-right h__k">{{= model.data.username }}</span>
             </div>
-            <div class="bb p10">
-                Password<span class="pull-right">(change password)</span>
-            </div>
         </div>
+        <div class="bb p10 bg-ll-grey-hover clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'change_password'}"
+        >Change Password<span class="pull-right fa fa-chevron-right"></span></div>
         <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.sign_out">
             Sign Out<span class="pull-right fa fa-chevron-right"></span>
         </div>
     </div>
-    <!------------------------- COMPANY INFO ------------------------------>
+    <!------------------------- COMPANY INFO ---------------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
         Company Info
     </div>
@@ -131,33 +142,43 @@
     <div class="mb50">&nbsp;</div>
     <div class="mb50">&nbsp;</div>
 </div>
-<!------------------------- TOS ------------------------------------------->
+<!------------------------- TOS ----------------------------------------------->
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == tos"
     data-template="sisyphus-tos-tmp"
 ></div>
-<!------------------------- PRIVACY --------------------------------------->
+<!------------------------- PRIVACY ------------------------------------------->
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == privacy"
     data-template="sisyphus-privacy-tmp"
 ></div>
-<!------------------------- WIFI CREDENTIALS ------------------------------>
+<!------------------------- WIFI CREDENTIALS ---------------------------------->
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == wifi"
     data-template="sisyphus-wifi-tmp"
 ></div>
-<!------------------------- CREATE ACCOUNT ------------------------------>
+<!------------------------- CREATE ACCOUNT ------------------------------------>
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == create_account"
     data-template="sisyphus-settings-create-account-tmp"
 ></div>
-<!------------------------- SIGN IN ------------------------------>
+<!------------------------- SIGN IN ------------------------------------------->
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == sign_in"
     data-template="sisyphus-settings-sign-in-tmp"
 ></div>
-<!------------------------- TRACK UPLOAD ------------------------------>
+<!------------------------- TRACK UPLOAD -------------------------------------->
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == track_upload"
     data-template="sisyphus-settings-track-upload-tmp"
+></div>
+<!------------------------- DEFAULT PLAYLIST ---------------------------------->
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == default_playlist"
+    data-template="sisyphus-settings-default-playlist-tmp"
+></div>
+<!------------------------- CHANGE PASSWORD ----------------------------------->
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == change_password"
+    data-template="sisyphus-settings-change-password-tmp"
 ></div>

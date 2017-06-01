@@ -45,13 +45,15 @@ app.model.sisyphus_manager = {
     on_init: function () {
 		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
-
+		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session)
 		app.manager = this;
 
-		if (app.config.env == 'sisbot')
+		if (app.config.env == 'sisbot') {
 			return this.setup_as_sisbot();
-
-		//this.setup_demo();
+		} else {
+			app.current_session().check_session_sign_in();
+			//this.setup_demo();
+		}
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();
 		//this.save_new_tracks();
@@ -149,6 +151,11 @@ app.model.sisyphus_manager = {
 
 		if (this.get('sisbot_id') == 'false')
 			this.setup_sisbots_page();
+	},
+	sign_in_via_session: function (data) {
+		this.set('registration', data);
+		this.sign_in();
+		return this;
 	},
 	sign_out: function () {
 		this.set('sisbot_id', 'false');
@@ -503,8 +510,7 @@ app.model.sisyphus_manager = {
 		// we don't need to create account or connect... We're getting served by it
 		app.current_session().set('signed_in','true');
 
-		// TODO: Undo before commit
-		var hostname = window.location.hostname;			// easesisyphus.local;
+		var hostname = //window.location.hostname;			// easesisyphus.local;
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},

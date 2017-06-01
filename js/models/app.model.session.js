@@ -42,7 +42,6 @@ app.model.session = {
   		this.listenTo(app,	'session:sign_out',			this.sign_out);
 		this.listenTo(app,	'session:active',			this.set_active);
 		this.listenTo(app,	'session:user_sign_in',		this.after_sign_in);
-		this.listenTo(app,	'session:kiosk_sign_in',	this.sign_in_kiosk);
 
 		this.on('change:active.new_type', this.create_new_active);
 		this.on('change:active.new_form_instance', this.create_new_form_instance);
@@ -169,7 +168,7 @@ app.model.session = {
 	},
 	/************************** CHECK SESSION STORED LOCALLY ******************/
 	check_session_sign_in: function () {
-		if (app.is_app) return false;
+		//if (app.is_app) return false;
 
 		var session = this.get_session();
 		if (session) app.trigger('session:sign_in', { username: session.username, password: session.password });

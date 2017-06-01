@@ -75,6 +75,10 @@ var Binding = Backbone.View.extend({
         if (this.data.dragOver)     new_events['dragover']  = 'onDragOver';
         if (this.data.dragLeave)    new_events['dragleave'] = 'onDragLeave';
         if (this.data.drop)         new_events['drop']      = 'onDrop';
+        if (this.data.tap)          new_events['tap']       = 'onTap';
+        if (this.data.touchStart)   new_events['touchstart']= 'onTouchStart';
+        if (this.data.touchMove)    new_events['touchmove'] = 'onTouchMove';
+        if (this.data.touchEnd)     new_events['touchend']  = 'onTouchEnd';
 
         if (this.data.onMouseDown)  new_events['mousedown'] = 'onMouseDown';
         if (this.data.onMouseMove) {
@@ -273,6 +277,18 @@ var Binding = Backbone.View.extend({
     },
     onInput: function (e) {
         if (this.data.onInput)        this._call(this.data.onInput, this.$el.val());
+    },
+    onTap: function (e) {
+        if (this.data.touchStart)   this._call(this.data.touchStart, this.$el.val());
+    },
+    onTouchStart: function (e) {
+        if (this.data.touchStart)   this._call(this.data.touchStart, this.$el.val());
+    },
+    onTouchMove: function (e) {
+        if (this.data.touchMove)    this._call(this.data.touchMove, this.$el.val());
+    },
+    onTouchEnd: function (e) {
+        if (this.data.touchEnd)   this._call(this.data.touchEnd, this.$el.val());
     },
     onKey: function (e) {
         if (['INPUT', 'TEXTAREA'].indexOf(this.tagName) == -1) return false;
