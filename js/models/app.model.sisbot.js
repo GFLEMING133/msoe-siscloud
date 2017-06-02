@@ -17,6 +17,7 @@ app.model.sisbot = {
 
 			installing_updates	: 'false',
 			factory_resetting	: 'false',
+			default_playlist_id	: 'false',
 
 			data		: {
 				id					: data.id,
@@ -40,6 +41,7 @@ app.model.sisbot = {
                 wifi_password       : '',
 
 				playlist_ids		: [],
+				default_playlist_id	: 'false',
 				track_ids			: [],
 
 				active_playlist_id	: 'false',
@@ -63,12 +65,7 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	on_init: function () {
-		//this.set('wifi.name', 'Sodo4');
-		//this.set('wifi.password', '60034715CF25')
-		//this.set('wifi.name', 'Nimbus');
-		//this.set('wifi.password', 'so202donimbus')
-		//this.connect_to_wifi();
-		//this.reset_to_hotspot();
+
 	},
 	sisbot_listeners: function () {
 		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
@@ -102,12 +99,19 @@ app.model.sisbot = {
 			if (cb) cb(resp);
 		});
 	},
+	_update_cloud: function (data) {
+		// TODO: If internet connected, let's save to cloud
+		app.collection.outgoing('set', this, function (cbb) {
+			//console.log("Outgoing set", cbb);
+		});
+	},
 	/**************************** SISBOT ADMIN ********************************/
 	get_state: function () {
 		var self = this;
 
 		if (this.get('is_connected')) {
 			this._update_sisbot('state', {}, function(obj) {
+				// TODO: Error checking
 				if (obj.resp)
 					self.set('data', obj.resp);
 			});
@@ -124,6 +128,7 @@ app.model.sisbot = {
 		var wifi_networks	= [];
 
 		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
+			// TODO: Test with Matt
 			_.each(obj.resp, function(network_obj) {
 				if (network_obj.ssid.indexOf('sisyphus') < 0) {
 					wifi_networks.push(network_obj.ssid);
@@ -137,6 +142,8 @@ app.model.sisbot = {
 		var credentials = this.get('wifi');
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
+			// TODO: Test with matt
+
 			self.set('data.is_internet_connected', 'true');
 			self.set('data.wifi_network', credentials.name);
 			self.set('data.wifi_password', credentials.password);
@@ -151,6 +158,7 @@ app.model.sisbot = {
 		var self = this;
 
 		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
+			// TODO: Test with Matt
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -176,11 +184,12 @@ app.model.sisbot = {
 		if (this.get('installing_updates') == 'true') return this;
 		var self = this;
 
-		this.set('installing_updates', 'true')
+		this.set('installing_updates', 'true');
 
 		console.log('called twice?');
 
 		this._update_sisbot('install_updates', {}, function(obj) {
+			// TODO: Test with Matt
 			if (obj.err) {
 				self.set('installing_updates', 'error');
 				self.set('installing_updates_error', obj.err);
@@ -201,6 +210,7 @@ app.model.sisbot = {
 		this.set('factory_resetting', 'true')
 
 		this._update_sisbot('factory_reset', {}, function(obj) {
+			// TODO: Test with Matt
 			if (obj.err) {
 				self.set('factory_resetting', 'error');
 				self.set('factory_resetting_error', obj.err);
@@ -225,9 +235,8 @@ app.model.sisbot = {
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (playlist_data) {
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
-			// get back playlist obj
-			console.log('SET PLAYLIST', obj);
-
+			//get back playlist obj
+			//TODO: Error checking
 			if (obj.resp.id !== 'false') {
 				app.collection.get(obj.resp.id)
 					.set('data', obj.resp)
@@ -243,12 +252,36 @@ app.model.sisbot = {
 	},
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function(resp) {
-			// get back track obj
+			// TODO: Do something?
+			//TODO: Error checking
 		});
 
 		this.set('data.active_playlist_id',	'false');
 		this.set('data.active_track_id',	data.id);
 		this.set('data.state', 'playing');
+	},
+	setup_default_playlist: function () {
+		this.set('default_playlist_id', this.get('data.default_playlist_id'));
+		return this;
+	},
+	set_default_playlist: function () {
+		var self = this;
+
+		var data = {
+			default_playlist_id		: this.get('default_playlist_id')
+		};
+
+		// TODO: Matt needs to implement endpoint
+		this._update_sisbot('set_default_playlist', data, function(obj) {
+			if (obj.err) {
+				self.set('errors', resp.err);
+			} else if (obj.resp) {
+				self.set('data', obj.resp);
+				app.trigger('session:active', { secondary: 'false' });
+			}
+		});
+
+		return this;
 	},
 	brightness: function (level) {
 		this.set('data.brightness', +level);
@@ -294,6 +327,8 @@ app.model.sisbot = {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
+			//TODO: what is the response object on this?
+			//TODO: Error checking
 			if (obj.resp)
 				app.collection.get(obj.resp.id).set('data', obj.resp);
 		});
@@ -308,6 +343,8 @@ app.model.sisbot = {
 		var playlist	= playlist_model.get('data');
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
+			//TODO: Error checking?
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -319,6 +356,7 @@ app.model.sisbot = {
 		var playlist	= this.get('data');
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -330,6 +368,7 @@ app.model.sisbot = {
 		var track	= track_model.get('data');
 
 		this._update_sisbot('add_track', track, function (obj) {
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -341,6 +380,7 @@ app.model.sisbot = {
 		var track	= this.get('data');
 
 		this._update_sisbot('remove_track', track, function (obj) {
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -352,6 +392,7 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'playing');
 		this._update_sisbot('play', {}, function (obj) {
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -360,6 +401,7 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'paused');
 		this._update_sisbot('pause', {}, function (obj) {
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -368,6 +410,7 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'homing');
 		this._update_sisbot('home', {}, function (obj) {
+			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});

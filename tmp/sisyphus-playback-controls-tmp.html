@@ -16,6 +16,7 @@
 </div>
 <div class="w33 center">
     <i class="fa fa-random bg-ll-grey-hover f-large p5 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'bg-ll-grey' : '' }}"
+        data-if="{{= model.data.active_playlist_id }} !== false"
         data-on-click="model.set_shuffle"
         aria-hidden="true"
     ></i>
