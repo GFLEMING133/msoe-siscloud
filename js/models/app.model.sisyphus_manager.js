@@ -202,16 +202,22 @@ app.model.sisyphus_manager = {
 				data	: { iface: 'wlan0', show_hidden: true }
 			};
 
+			console.log("Wifi Networks", wifi_networks);
 			app.post.fetch(wifi_ns, get_wifi_cb, 0);
 		}
 
 		function get_wifi_cb(obj) {
-			if (obj.err) return self.scan_sisbots();
+			if (obj.err) {
+				console.log("Err, Scan Wifi Networks", wifi_networks);
+				self.set('sisbots_networked', wifi_networks.sort());
+				return self.scan_sisbots();
+			}
 
 			_.each(obj.resp, function(sisbot_addr) {
 				wifi_networks.push(sisbot_addr);
 			});
 
+			console.log("Wifi Networks", wifi_networks);
 			self.set('sisbots_networked', wifi_networks.sort());
 			self.set('sisbots_scanning', 'false');
 		}
