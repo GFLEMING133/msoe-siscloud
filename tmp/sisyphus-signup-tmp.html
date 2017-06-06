@@ -23,7 +23,14 @@
     </div>
     <br clear="both">
 </div>
-<h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_up">Create Your Account</h2>
+<h2 class="btn bg-green w100 m0 p20 h__k"
+    data-if="{{= model.signing_up }} == false"
+    data-on-click="model.sign_up"
+>Create Your Account</h2>
+<h2 class="btn bg-green w100 m0 p20 h__k"
+    data-if="{{= model.signing_up }} == true"
+>Processing <i class="fa fa-spinner spin" aria-hidden="true"></i></h2>
 <div class="h__k white p10 clickable center i"
+    data-if="{{= model.signing_up }} == false"
     data-on-click="model.setup_sign_in"
 >Sign In?</div>

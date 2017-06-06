@@ -1,5 +1,10 @@
 <div class="bg-white">
     <h1 class="bg-d-grey center white no-stuffing p20">Connect to Sisbot</h1>
+    <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+        <div class="h__k" data-foreach="model.errors">
+            <div class="h__k red">{{= scope.value }}</div>
+        </div>
+    </div>
     <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Select Sisbot</h4>
     <div class="pl20 pr20 pb10 h__k">
         <select class="w100 h__k"
@@ -10,10 +15,15 @@
             data-foreach-map="true"
         ><option class="h__k" value="{{= model.data.hostname }}">{{= model.data.name }}</option></select>
     </div>
-    <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.connect_to_sisbot">Connect to Sisbot</h2>
+    <h2 class="btn bg-green w100 m0 p20 h__k"
+        data-if="{{= model.sisbot_connecting }} == false"
+        data-on-click="model.connect_to_sisbot"
+    >Connect to Sisbot</h2>
+    <h2 class="btn bg-green w100 m0 p20 h__k"
+        data-if="{{= model.sisbot_connecting }} == true"
+    >Connecting <i class="fa fa-spinner spin" aria-hidden="true"></i></h2>
 </div>
 <div class="h__k white p20 clickable center i"
-    data-on-click="set"
-    data-field="model.sisbot_registration"
-    data-value="{{= 'find' }}"
+    data-if="{{= model.sisbot_connecting }} == false"
+    data-on-click="model.sisbot_find"
 >Find Local Sisbot?</div>

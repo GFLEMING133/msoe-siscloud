@@ -3,12 +3,15 @@
         data-if="{{= parent.active.primary }} !== false"
         data-template="sisyphus-{{= parent.active.primary }}-tmp"
     ></div>
-    <div class="bottom-nav pull-bottom-fixed white bg-black w100 center no-stuffing h__k f18 flex">
+    <div class="bottom-nav pull-bottom-fixed white bg-black w100 center no-stuffing h__k f18 flex h__k"
+        data-model="{{= model.sisbot_id }}"
+        data-if="{{= model.data.is_serial_open }} == true"
+    >
         <div class="w20 p15 bg-grey-hover fa fa-bullseye f-medium  h__k {{= (parent.active.primary == 'current') ? 'bg-grey' : '' }}"
             data-on-click="publish"
     		data-publish="session:active"
     		data-msg="{'primary':'current','secondary':'false'}"
-        ></div>
+        >{{= model.data.is_serial_open }}</div>
         <div class="w20 p15 bg-grey-hover fa fa-list-ul f-medium h__k {{= (parent.active.primary == 'playlists') ? 'bg-grey' : '' }}"
             data-on-click="publish"
             data-publish="session:active"

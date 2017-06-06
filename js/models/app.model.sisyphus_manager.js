@@ -6,6 +6,10 @@ app.model.sisyphus_manager = {
 
             user_id         		: 'false',
 			user_registration		: 'false',		// false|sign_up|sign_in
+
+			signing_up				: 'false',
+			signing_in				: 'false',
+
 			registration: {
 				username				: '',
 				password				: '',
@@ -163,6 +167,16 @@ app.model.sisyphus_manager = {
 		app.current_session().sign_out();
 	},
     /**************************** SISBOTS *************************************/
+	sisbot_select: function () {
+		this.set('errors', [])
+			.set('sisbot_registration', 'select');
+		return this;
+	},
+	sisbot_find: function () {
+		this.set('errors', [])
+			.set('sisbot_registration', 'find');
+		return this;
+	},
 	setup_sisbots_page: function () {
 		var _sisbots_user	= this.get('sisbots_user');;
 		var sisbots_user	= [];
@@ -175,7 +189,8 @@ app.model.sisyphus_manager = {
 		if (sisbots_user.length > 0)	this.set('sisbot_registration', 'select');
 		else							this.set('sisbot_registration', 'find');
 
-		this.set('sisbots_user', sisbots_user);
+		this.set('sisbots_user', sisbots_user)
+			.set('errors', []);
 
 		return this;
 	},
@@ -345,13 +360,16 @@ app.model.sisyphus_manager = {
 		};
 
 		app.post.fetch(obj, function(obj) {
+			self.set('sisbot_connecting', 'false')
+				.set('errors', [])
+
 			if (app.config.env == 'alpha') {
 				var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
 				//console.log('Connect to Sisbot:', obj);
 			} else {
 				//console.log('WE HAVE OUR DATA', obj);
 				if (obj.err)
-					return self.set('sisbot_connecting', 'false').set('errors', [ '- That sisbot does not appear to be on the network' ]);
+					return self.set('errors', [ '- That sisbot does not appear to be on the network' ]);
 
 				var sisbot_data = obj.resp;
 			}

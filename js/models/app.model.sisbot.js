@@ -75,6 +75,10 @@ app.model.sisbot = {
 		this.listenTo(app, 'sisbot:playlist_remove', this.playlist_remove);
 		this.listenTo(app, 'sisbot:track_add', this.track_add);
 		this.listenTo(app, 'sisbot:track_remove', this.track_remove);
+
+		this.on('change:data.is_serial_open', this._check_serial);
+		this.on('change:is_connected', this.check_connection);
+
 		this.get_state();
 	},
 	after_export: function () {
@@ -87,6 +91,8 @@ app.model.sisbot = {
 		if (this.get('is_connected') == false)
 			return this;
 
+		var self = this;
+
 		var obj = {
 			_url	: 'http://' + this.get('data.hostname') + '/',
 			_type	: 'POST',
@@ -97,13 +103,26 @@ app.model.sisbot = {
 
 		app.post.fetch(obj, function(resp) {
 			if (cb) cb(resp);
+			self._update_cloud();
 		});
 	},
 	_update_cloud: function (data) {
-		// TODO: If internet connected, let's save to cloud
 		app.collection.outgoing('set', this, function (cbb) {
 			//console.log("Outgoing set", cbb);
 		});
+	},
+	_check_serial: function () {
+		if (this.get('data.is_serial_open') == 'false') {
+			if (!this._active) {
+				this._active = app.current_session().get('active');
+				app.current_session().set('active.primary', 'serial');
+			}
+		} else {
+			if (this._active) {
+				app.current_session().set('active', this._active);
+				this._active = false;
+			}
+		}
 	},
 	/**************************** SISBOT ADMIN ********************************/
 	get_state: function () {
