@@ -115,9 +115,20 @@ app.model.sisbot = {
 		}, 0);
 	},
 	_update_cloud: function (data) {
-		app.collection.outgoing('set', this, function (cbb) {
-			//console.log("Outgoing set", cbb);
-		});
+		if (this.get('data.is_internet_connected') == 'true') {
+			var data = this.get('data');
+			var obj = {
+				_url	: 'https://api.sisyphus.withease.io/',
+				_type	: 'POST',
+				_timeout: 60000,
+				endpoint: 'set',
+				data	: data
+			};
+
+			app.post.fetch(obj, function(resp) {
+				// handle cloud differently
+			}, 0);
+		}
 	},
 	_check_serial: function () {
 		if (this.get('data.is_serial_open') == 'false') {
@@ -228,7 +239,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('install_updates', {}, function(obj) {
 			if (obj.err) {
-				self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
+				self.set('installing_updates_error', 'There was an error updating your Sisbot');
 			} else if (obj.resp) {
 				self.set('data', obj.resp);
 			}
@@ -244,7 +255,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('factory_reset', {}, function(obj) {
 			if (obj.err) {
-				self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
+				self.set('factory_resetting_error', 'There was an error resetting your Sisbot');
 			} else if (obj.resp) {
 				self.set('data', obj.resp);
 			}
