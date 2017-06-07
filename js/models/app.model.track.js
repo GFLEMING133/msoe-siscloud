@@ -92,7 +92,7 @@ app.model.track = {
 		// track is good. Change some settings and upload to sisbot!
 		this.set('data.has_verts_file', 'true');
 
-		if (app.manager.get('user_id')) {
+		if (app.manager.get('user_id') !== 'false') {
 			this.set('data.created_by_id', app.manager.get('user_id'));
 			this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
 		}

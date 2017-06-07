@@ -11,13 +11,15 @@ app.model.sisbot = {
 				password		: ''
 			},
 
-			is_connected	: false,
-			is_jogging		: false,
-			jog_type		: '',
+			is_available		: true,
+			is_connected		: false,
+			is_jogging			: false,
+			jog_type			: '',
 
 			installing_updates	: 'false',
 			factory_resetting	: 'false',
 			default_playlist_id	: 'false',
+
 
 			data		: {
 				id					: data.id,
@@ -76,6 +78,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'sisbot:track_add', this.track_add);
 		this.listenTo(app, 'sisbot:track_remove', this.track_remove);
 
+		this.on('change:is_available', this._available);
 		this.on('change:data.is_serial_open', this._check_serial);
 		this.on('change:is_connected', this.check_connection);
 
@@ -102,9 +105,14 @@ app.model.sisbot = {
 		};
 
 		app.post.fetch(obj, function(resp) {
-			if (cb) cb(resp);
-			self._update_cloud();
-		});
+			if (resp.err == 'Could not make request') {
+				return self.set('is_available', false);
+			} else {
+				self.set('is_available', true);
+				if (cb) cb(resp);
+				self._update_cloud();
+			}
+		}, 0);
 	},
 	_update_cloud: function (data) {
 		app.collection.outgoing('set', this, function (cbb) {
@@ -121,6 +129,19 @@ app.model.sisbot = {
 			if (this._active) {
 				app.current_session().set('active', this._active);
 				this._active = false;
+			}
+		}
+	},
+	_available: function () {
+		if (this.get('is_available') == false) {
+			if (!this._available_data) {
+				this._available_data = app.current_session().get('active');
+				app.current_session().set('active.primary', 'unavailable');
+			}
+		} else {
+			if (this._available_data) {
+				app.current_session().set('active', this._available_data);
+				this._available_data = false;
 			}
 		}
 	},
@@ -205,8 +226,6 @@ app.model.sisbot = {
 
 		this.set('installing_updates', 'true');
 
-		console.log('called twice?');
-
 		this._update_sisbot('install_updates', {}, function(obj) {
 			// TODO: Test with Matt
 			if (obj.err) {
@@ -272,7 +291,7 @@ app.model.sisbot = {
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function(resp) {
 			// TODO: Do something?
-			//TODO: Error checking
+			// TODO: Error checking
 		});
 
 		this.set('data.active_playlist_id',	'false');

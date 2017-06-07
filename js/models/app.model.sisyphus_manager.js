@@ -55,8 +55,8 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot') {
 			return this.setup_as_sisbot();
 		} else {
-			app.current_session().check_session_sign_in();
-			//this.setup_demo();
+			//app.current_session().check_session_sign_in();
+			this.setup_demo();
 		}
 		//app.config.env = 'sisbot';
 		//return this.setup_as_sisbot();

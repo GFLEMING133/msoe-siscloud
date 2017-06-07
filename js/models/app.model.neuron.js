@@ -214,6 +214,9 @@ app.model.neuron = Backbone.NestedModel.extend({
 	before_save	: function () {},
 	after_save	: function () {},
 	save: function (force_save) {
+		if (app.config.env == 'sisbot')
+			return this;
+
 		this.before_save();
 
 		var data	= this.get('data');
