@@ -399,7 +399,7 @@ app.model.sisyphus_manager = {
 		}, 0);
     },
     disconnect: function () {
-		this.set('sisbot_id','false');
+			this.set('sisbot_id','false');
     },
     /**************************** PLAYLISTS ***********************************/
     playlist_create: function () {
@@ -534,7 +534,7 @@ app.model.sisyphus_manager = {
 		// we don't need to create account or connect... We're getting served by it
 		app.current_session().set('signed_in','true');
 
-		var hostname = //window.location.hostname;			// easesisyphus.local;
+		var hostname = window.location.hostname;			// easesisyphus.local;
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},
