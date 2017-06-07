@@ -296,6 +296,7 @@ app.model.sisyphus_manager = {
 	scan_sisbots: function () {
 		var self = this;
 		//var subnets = ['192.168.0.1', '192.168.1.1', '192.168.2.1', '192.168.3.1', '192.168.254.254', '169.254.24.119', '192.168.86.26'];
+		// 192.168.42.1
 		var subnets = [ '192.168.0.1' ];
 		_.each(subnets, function(ip) {
 			self.scan_subnet(ip);

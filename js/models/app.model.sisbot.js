@@ -16,10 +16,7 @@ app.model.sisbot = {
 			is_jogging			: false,
 			jog_type			: '',
 
-			installing_updates	: 'false',
-			factory_resetting	: 'false',
 			default_playlist_id	: 'false',
-
 
 			data		: {
 				id					: data.id,
@@ -30,6 +27,9 @@ app.model.sisbot = {
 				timezone_offset		: '0',					// 0 greenwich
 				hostname			: 'false',				// sisyphus.local
 				local_ip			: '',					// 192.168.0.1:3001
+
+				installing_updates	: 'false',
+				factory_resetting	: 'false',
 
 				pi_id				: '',
 				firmware_version	: '1.0',
@@ -221,42 +221,64 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
-		if (this.get('installing_updates') == 'true') return this;
+		if (this.get('data.installing_updates') == 'true') return this;
 		var self = this;
 
-		this.set('installing_updates', 'true');
+		this.set('data.installing_updates', 'true');
 
 		this._update_sisbot('install_updates', {}, function(obj) {
-			// TODO: Test with Matt
 			if (obj.err) {
-				self.set('installing_updates', 'error');
-				self.set('installing_updates_error', obj.err);
+				self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
 			} else if (obj.resp) {
-				setTimeout(function() {
-					self.set('installing_updates', 'false');
-					self.set('data', obj.resp);
-				}, 2500);
+				self.set('data', obj.resp);
 			}
 		});
 
 		return this;
 	},
 	factory_reset: function () {
-		if (this.get('factory_resetting') == 'true') return this;
+		if (this.get('data.factory_resetting') == 'true') return this;
 		var self = this;
 
-		this.set('factory_resetting', 'true')
+		this.set('data.factory_resetting', 'true')
 
 		this._update_sisbot('factory_reset', {}, function(obj) {
-			// TODO: Test with Matt
 			if (obj.err) {
-				self.set('factory_resetting', 'error');
-				self.set('factory_resetting_error', obj.err);
+				self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
 			} else if (obj.resp) {
-				setTimeout(function() {
-					self.set('factory_resetting', 'false');
-					self.set('data', obj.resp);
-				}, 2500);
+				self.set('data', obj.resp);
+			}
+		});
+	},
+	setup_update_hostname: function () {
+		this.set('hostname', this.get('data.hostname').replace('.local', ''))
+			.set('errors', []);
+
+		return this;
+	},
+	update_hostname: function () {
+		var self		= this;
+		var hostname	= this.get('hostname');
+		var errors 		= [];
+
+		this.set('errors', []);
+
+		var valid_hostname = new RegExp("^[a-zA-Z][a-zA-Z0-9\-]*$");
+
+		if (hostname == '')
+			errors.push('Hostname cannot be empty');
+
+		if (hostname.search(valid_hostname) == -1)
+			errors.push('Hostname cannot contain invalid characters. Must start with a letter and consist of letters, numbers, and "-".');
+
+		if (errors.length > 0)
+			return this.set('errors', errors);
+
+		this._update_sisbot('set_hostname', { hostname: 'hostname' }, function(obj) {
+			if (obj.err) {
+				self.set('errors', [ obj.err ]);
+			} else if (obj.resp) {
+				self.set('data', obj.resp);
 			}
 		});
 	},
@@ -299,7 +321,8 @@ app.model.sisbot = {
 		this.set('data.state', 'playing');
 	},
 	setup_default_playlist: function () {
-		this.set('default_playlist_id', this.get('data.default_playlist_id'));
+		this.set('default_playlist_id', this.get('data.default_playlist_id'))
+			.set('errors', []);
 		return this;
 	},
 	set_default_playlist: function () {

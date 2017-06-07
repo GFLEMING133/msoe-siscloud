@@ -59,6 +59,11 @@
     <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-on-click="publish"
         data-publish="session:active"
+        data-msg="{'secondary':'change_hostname'}"
+    >Change Hostname<span class="pull-right fa fa-chevron-right"></span></div>
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
+        data-on-click="publish"
+        data-publish="session:active"
         data-msg="{'secondary':'default_playlist'}"
     >Change Default Playlist<span class="pull-right fa fa-chevron-right"></span></div>
     <!------------------------- SISYPHUS DEBUG ------------------------->
@@ -181,4 +186,9 @@
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == change_password"
     data-template="sisyphus-settings-change-password-tmp"
+></div>
+<!------------------------- CHANGE HOSTNAME ----------------------------------->
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == change_hostname"
+    data-template="sisyphus-settings-change-hostname-tmp"
 ></div>

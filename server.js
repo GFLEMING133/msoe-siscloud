@@ -24,13 +24,15 @@ var app = function(given_config,ansible) {
 	config = given_config;
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
-	fs.watch(config.dir + '/templates', regenerate_index_page);
-	fs.watch(config.dir + '/tmp', regenerate_index_page);
-	fs.watch(config.dir + '/js/gen', regenerate_index_page);
-	fs.watch(config.dir + '/js/libs', regenerate_index_page);
-	fs.watch(config.dir + '/js/models', regenerate_index_page);
-	fs.watch(config.dir + '/css', regenerate_index_page);
-	fs.watch(config.dir + '/dev.index.html', regenerate_index_page);
+	if (config.env.indexOf('sisbot') == -1) {
+		fs.watch(config.dir + '/templates', regenerate_index_page);
+		fs.watch(config.dir + '/tmp', regenerate_index_page);
+		fs.watch(config.dir + '/js/gen', regenerate_index_page);
+		fs.watch(config.dir + '/js/libs', regenerate_index_page);
+		fs.watch(config.dir + '/js/models', regenerate_index_page);
+		fs.watch(config.dir + '/css', regenerate_index_page);
+		fs.watch(config.dir + '/dev.index.html', regenerate_index_page);
+	}
 
 	app_service
 	.get('/tmp/*', function (req, res) {
