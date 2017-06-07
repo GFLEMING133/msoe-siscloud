@@ -285,7 +285,7 @@ app.model.sisbot = {
 		if (errors.length > 0)
 			return this.set('errors', errors);
 
-		this._update_sisbot('set_hostname', { hostname: 'hostname' }, function(obj) {
+		this._update_sisbot('set_hostname', { hostname: hostname }, function(obj) {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
