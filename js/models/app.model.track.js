@@ -99,7 +99,7 @@ app.model.track = {
 
 		app.collection.add(this);
 		app.trigger('sisbot:track_add', this);
-		app.trigger('session:active', { primary: 'tracks', track_id: this.id });
+		app.trigger('session:active', { primary: 'tracks', secondary: 'track', track_id: this.id });
 
 		return this;
 	},
