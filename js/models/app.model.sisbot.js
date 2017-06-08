@@ -163,8 +163,8 @@ app.model.sisbot = {
 				this.set('installing_updates', 'false');
 				location.reload();
 			}
-			
-			self.set('reason_unavailable', '');
+
+			this.set('reason_unavailable', '');
 		}
 	},
 	/**************************** SISBOT ADMIN ********************************/
