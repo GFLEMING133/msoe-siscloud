@@ -431,6 +431,9 @@ var Binding = Backbone.View.extend({
         if (this.data.drag) this.onDrop(e);
     },
     onMouseDown: function (e) {
+        if (this.data.onMouseDown !== 'true')
+            this._call(this.data.onMouseDown, this.get_value(this.data.msg));
+
         app.mouse_is_down = true;
     },
     onMouseMove: function (e) {
@@ -443,6 +446,9 @@ var Binding = Backbone.View.extend({
 
     },
     onMouseUp: function (e) {
+        if (this.data.onMouseUp !== 'true')
+            this._call(this.data.onMouseUp, this.get_value(this.data.msg));
+
         app.mouse_is_down = false;
     },
     on_remove: function () {

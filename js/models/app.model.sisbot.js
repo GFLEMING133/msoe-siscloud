@@ -488,38 +488,12 @@ app.model.sisbot = {
 		});
 		return this;
 	},
-	jog_theta_left: function () {
-		this.setup_jog('jogThetaLeft');
+	jog_start: function(jog_type) {
+		this.set('jog_type', jog_type).set('is_jogging', true)._jog();
 		return this;
 	},
-	jog_theta_right: function () {
-		this.setup_jog('jogThetaRight');
-		return this;
-	},
-	jog_rho_outward: function () {
-		this.setup_jog('jogRhoOutward');
-		return this;
-	},
-	jog_rho_inward: function () {
-		this.setup_jog('jogRhoInward');
-		return this;
-	},
-	setup_jog: function (jog_type) {
-		var curr_jog_type = this.get('jog_type');
-
-		if (jog_type == curr_jog_type) {
-			// stop jogging
-			this.set('is_jogging', false)
-				.set('jog_type', '');
-		} else if (curr_jog_type == ''){
-			// set jog type and start jogging
-			this.set('is_jogging', true)
-				.set('jog_type', jog_type)
-				._jog();
-		} else {
-			// we changed jog type
-			this.set('jog_type', jog_type);
-		}
+	jog_end: function (jog_type) {
+		this.set('is_jogging', false).set('jog_type', '');
 		return this;
 	},
 	_jog: function () {

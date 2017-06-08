@@ -147,11 +147,13 @@ label {
   -webkit-text-size-adjust			: none;		/* prevent webkit from resizing text to fit */
 }
 
-.touchable {
+.touchable:after {
 	content:'';
     position:absolute;
-    top:-10px; bottom:-10px;
-    left:-10px; right:-10px;
+    top:-5px;
+	bottom:-5px;
+    left:-5px;
+	right:-5px;
 }
 
 .scroll {
@@ -644,6 +646,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .s3						                {   font-size		        : 18px;			            }
 .s4						                {   font-size		        : 12px;			            }
 
+.f-xxxxsmall							{	font-size				: .3em;						}
+.f-xxxsmall								{	font-size				: .4em;						}
+.f-xxsmall								{	font-size				: .5em;						}
 .f-xsmall								{	font-size				: .6em;						}
 .f-small								{	font-size				: .8em;						}
 .f-medium								{	font-size				: 1.2em;					}
@@ -755,11 +760,19 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .mr40									{	margin-right			: 40px !important;			            }
 
 .mt50									{	margin-top				: 50px !important;			            }
+.mb50						            {   margin-bottom		    : 50px !important;			            }
+
+.mt60									{	margin-top				: 60px !important;			            }
+.mb60						            {   margin-bottom		    : 60px !important;			            }
+
+.mt70									{	margin-top				: 70px !important;			            }
+.mb70						            {   margin-bottom		    : 70px !important;			            }
+
 .mt75									{	margin-top				: 75px !important;			            }
 .mt100									{	margin-top				: 100px !important;			            }
 .mt150									{	margin-top				: 150px !important;			            }
 
-.mb50						            {   margin-bottom		    : 50px;			                        }
+
 .mb75						            {   margin-bottom		    : 75px;			                        }
 .mb100						            {   margin-bottom		    : 100px;		                        }
 .mt50-child > div                       {   margin-top		        : 50px;			                        }

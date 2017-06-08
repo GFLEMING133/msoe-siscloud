@@ -13,7 +13,7 @@
             data-foreach-default="Sisbot Names"
             data-foreach-change="foreach_reset"
             data-foreach-map="true"
-        ><option class="h__k" value="{{= model.data.hostname }}">{{= model.data.name }}</option></select>
+        ><option class="h__k" value="{{= model.data.hostname }}">{{= model.data.name }} ({{= model.data.hostname }})</option></select>
     </div>
     <h2 class="btn bg-green w100 m0 p20 h__k"
         data-if="{{= model.sisbot_connecting }} == false"

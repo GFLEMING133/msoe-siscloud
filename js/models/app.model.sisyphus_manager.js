@@ -54,13 +54,11 @@ app.model.sisyphus_manager = {
 
 		if (app.config.env == 'sisbot') {
 			return this.setup_as_sisbot();
-		} else {
-			//app.current_session().check_session_sign_in();
+		} else if (app.config.env == 'beta'){
 			this.setup_demo();
+		} else {
+			app.current_session().check_session_sign_in();
 		}
-		//app.config.env = 'sisbot';
-		//return this.setup_as_sisbot();
-		//this.save_new_tracks();
 
 		return this;
     },
@@ -535,7 +533,12 @@ app.model.sisyphus_manager = {
 		// we don't need to create account or connect... We're getting served by it
 		app.current_session().set('signed_in','true');
 
-		var hostname = window.location.hostname;			// easesisyphus.local;
+		if (app.config.env == 'beta') {
+			var hostname = 'sisbot-123.local';
+		} else {
+			var hostname = window.location.hostname;
+		}
+
 		this.set('sisbot_hostname', hostname);
 		this.connect_to_sisbot();
 	},

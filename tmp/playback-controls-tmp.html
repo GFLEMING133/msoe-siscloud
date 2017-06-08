@@ -1,6 +1,0 @@
-<i class="{{= (model.current_index < model.end_index-1) ? 'clickable' : 'grey' }} fa fa-fast-backward pr10 h__k" data-on-click="model.step_start" title="Start" aria-hidden="true"></i>
-<i class="{{= (model.current_index < model.end_index-1) ? 'clickable' : 'grey' }} fa fa-step-backward pr10 h__k" data-on-click="model.step_prev" title="Prev" aria-hidden="true"></i>
-<i class="clickable fa fa-play pr10 h__k" data-if="{{= model.playing }} == false" data-on-click="model.play" title="Play" aria-hidden="true"></i>
-<i class="clickable fa fa-stop pr10 h__k" data-if="{{= model.playing }} == true" data-on-click="model.stop" title="Stop" aria-hidden="true"></i>
-<i class="{{= (model.current_index > model.start_index) ? 'clickable' : 'grey' }} fa fa-step-forward pr10 h__k" data-on-click="model.step_next" title="Next" aria-hidden="true"></i>
-<i class="{{= (model.current_index > model.start_index) ? 'clickable' : 'grey' }} fa fa-fast-forward h__k" data-on-click="model.step_end" title="End" aria-hidden="true"></i>

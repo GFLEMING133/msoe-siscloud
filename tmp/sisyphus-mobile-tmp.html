@@ -6,31 +6,41 @@
 
     <div class="h__k" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.is_serial_open }} == true">
         <div class="bottom-nav pull-bottom-fixed white bg-black w100 center no-stuffing f18 flex h__k" data-if="{{= model.is_available }} == true">
-            <div class="w20 p15 bg-grey-hover fa fa-bullseye f-medium  h__k {{= (grandparent.active.primary == 'current') ? 'bg-grey' : '' }}"
+            <div class="w20 pt15 pb15 bg-grey-hover h__k {{= (grandparent.active.primary == 'current') ? 'bg-grey' : '' }}"
                 data-on-click="publish"
         		data-publish="session:active"
         		data-msg="{'primary':'current','secondary':'false'}"
-            ></div>
-            <div class="w20 p15 bg-grey-hover fa fa-list-ul f-medium h__k {{= (grandparent.active.primary == 'playlists') ? 'bg-grey' : '' }}"
+            ><i class="fa fa-bullseye f-medium w100 center" />
+                <span class="f-xxxsmall">Current</span>
+            </div>
+            <div class="w20 pt15 pb15 bg-grey-hover h__k {{= (grandparent.active.primary == 'playlists') ? 'bg-grey' : '' }}"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'primary':'playlists','secondary':'false'}"
-            ></div>
-            <div class="w20 p15 bg-grey-hover fa fa-circle-o-notch f-medium h__k {{= (grandparent.active.primary == 'tracks') ? 'bg-grey' : '' }}"
+            ><i class="fa fa-list-ul f-medium w100 center" />
+                <span class="f-xxxsmall">Playlists</span>
+            </div>
+            <div class="w20 pt15 pb15 bg-grey-hover h__k {{= (grandparent.active.primary == 'tracks') ? 'bg-grey' : '' }}"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'primary':'tracks','secondary':'false'}"
-            ></div>
-            <div class="w20 p15 bg-grey-hover fa fa-globe f-medium h__k {{= (grandparent.active.primary == 'community') ? 'bg-grey' : '' }}"
+            ><i class="fa fa-circle-o-notch f-medium w100 center" />
+                <span class="f-xxxsmall w100">Tracks</span>
+            </div>
+            <div class="w20 pt15 pb15 bg-grey-hover h__k {{= (grandparent.active.primary == 'community') ? 'bg-grey' : '' }}"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'primary':'community','secondary':'false'}"
-            ></div>
-            <div class="w20 p15 bg-grey-hover fa fa-cog f-medium h__k {{= (grandparent.active.primary == 'settings') ? 'bg-grey' : '' }}"
+            ><i class="fa fa-globe f-medium w100 center" />
+                <span class="f-xxxsmall">Community</span>
+            </div>
+            <div class="w20 pt15 pb15 bg-grey-hover h__k {{= (grandparent.active.primary == 'settings') ? 'bg-grey' : '' }}"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'primary':'settings','secondary':'false'}"
-            ></div>
+            ><i class="fa fa-cog f-medium w100 center" />
+                <span class="f-xxxsmall">Settings</span>
+            </div>
         </div>
     </div>
 </div>

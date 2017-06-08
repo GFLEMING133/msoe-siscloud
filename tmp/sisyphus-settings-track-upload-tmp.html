@@ -34,6 +34,16 @@
         <div class="pl20 pr20 pb10">
             <input class="h__k w100" type="file" />
         </div>
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Publish to Community</h4>
+        <div class="pl20 pr20 pb10">
+            <label>
+                <input class="h__k ml15 mr15" type="checkbox"
+                    data-field="model.data.is_published"
+                    data-on-click="toggle"
+                    value="{{= model.data.is_published }}"
+                /> Make track public to the community?
+            </label>
+        </div>
         <br clear="both">
         <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.upload_track_to_sisbot">Upload Track to Sisbot</h2>
     </div>
