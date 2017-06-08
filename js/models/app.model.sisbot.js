@@ -12,12 +12,13 @@ app.model.sisbot = {
 			},
 
 			is_available		: true,
+			reason_unavailable	: 'false',
+
 			is_connected		: false,
 			is_jogging			: false,
 			jog_type			: '',
 
 			default_playlist_id	: 'false',
-
 			data		: {
 				id					: data.id,
 				type    			: 'sisbot',
@@ -90,7 +91,9 @@ app.model.sisbot = {
 	_update_sisbot_msg: function(obj) {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
-	_update_sisbot: function (endpoint, data, cb) {
+	_update_sisbot: function (endpoint, data, cb, _timeout) {
+		if (!_timeout) _timeout = 60000;
+
 		if (this.get('is_connected') == false)
 			return this;
 
@@ -193,7 +196,8 @@ app.model.sisbot = {
 		var credentials = this.get('wifi');
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			// TODO: Test with matt
+			self.set('is_available', false);
+			self.set('reason_unavailable', 'connect_to_wifi');
 
 			self.set('data.is_internet_connected', 'true');
 			self.set('data.wifi_network', credentials.name);
@@ -209,7 +213,9 @@ app.model.sisbot = {
 		var self = this;
 
 		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
-			// TODO: Test with Matt
+			self.set('is_available', false);
+			self.set('reason_unavailable', 'reset_to_hotspot');
+
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});

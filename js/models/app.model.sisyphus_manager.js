@@ -203,7 +203,7 @@ app.model.sisyphus_manager = {
 		this.find_localnet();
 
 		var exists = {
-			_url	: 'http://sisyphus.local/',
+			_url	: 'http://192.168.42.1/',
 			_type	: 'POST',
 			_timeout: 1250,
 			endpoint: 'sisbot/exists',
@@ -213,10 +213,10 @@ app.model.sisyphus_manager = {
 		function exists_cb(obj) {
 			if (obj.err) return self.scan_sisbots();
 
-			wifi_networks.push('sisyphus.local');
+			wifi_networks.push('192.168.42.1');
 
 			var wifi_ns = {
-				_url	: 'http://sisyphus.local/',
+				_url	: 'http://192.168.42.1/',
 				_type	: 'POST',
 				endpoint: 'sisbot/local_sisbots',
 				data	: { iface: 'wlan0', show_hidden: true }

@@ -11,15 +11,41 @@
         </div>
         <div class="h__k bg-white black">
             <div>&nbsp;</div>
-            <div class="bg-ll-grey ml10 mr10 p20 center">
-                <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
-                <div class="pt50 left justify">We are having difficulty connecting to your sisbot.
-                    If this issue does not go away in 30 seconds please unplug and replug in your Sisyphus table.
-                    If this issue does not disappear on restart, please contact us.
+            <div class="bg-ll-grey ml10 mr10 p20 center h__k" data-model="{{= model.sisbot_id }}">
+                <div class="h__k" data-if="{{= model.reason_unavailable }} == false">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">We are having difficulty connecting to your sisbot.
+                        If this issue does not go away in 30 seconds please unplug and replug in your Sisyphus table.
+                        If this issue does not disappear on restart, please contact us.
+                    </div>
+                    <div class="p10 pt50 i clickable center h__k"
+                        data-on-click="model.disconnect"
+                    >Disconnect from Sisbot</div>
                 </div>
-                <div class="p10 pt50 i clickable center h__k"
-                    data-on-click="model.disconnect"
-                >Disconnect from Sisbot</div>
+                <div class="h__k" data-if="{{= model.reason_unavailable }} == reset_to_hotspot">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">The Sisyphus table is no longer on this network.
+                        Look in your network list for a network named "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>".
+                    </div>
+                    <div class="pt10 left justify">
+                        If the network does not show in your network list within 5 minutes,
+                            please unplug and replug in your Sisyphus table.
+                    </div>
+                </div>
+                <div class="h__k" data-if="{{= model.reason_unavailable }} == connect_to_wifi">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">The Sisyphus table is no longer a hotspot.
+                        Connect to "<span class="strong h__k">{{= model.data.wifi_network }}</span>" in your network list to reconnect to the Sisyphus table.
+                    </div>
+                    <div class="pt10 left justify">
+                        If you are unable to connect to the table in 5 minutes,
+                            please unplug and replug in your Sisyphus table.
+                    </div>
+                    <div class="pt10 left justify">
+                        If you are still unable to connect to the table after restarting,
+                            check your network list for "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>" to see if it reverted back to a hotspot.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
