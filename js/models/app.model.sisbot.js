@@ -219,8 +219,10 @@ app.model.sisbot = {
 		var self = this;
 
 		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
-			self.set('is_available', false);
-			self.set('reason_unavailable', 'reset_to_hotspot');
+			setTimeout(function () {
+				self.set('is_available', false);
+				self.set('reason_unavailable', 'reset_to_hotspot');
+			}, 5500);
 
 			if (obj.resp)
 				self.set('data', obj.resp);
