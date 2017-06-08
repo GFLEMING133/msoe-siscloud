@@ -13,6 +13,7 @@ app.model.sisbot = {
 
 			is_available		: true,
 			reason_unavailable	: 'false',
+			installing_updates	: 'false',
 
 			is_connected		: false,
 			is_jogging			: false,
@@ -157,6 +158,11 @@ app.model.sisbot = {
 				app.current_session().set('active', this._available_data);
 				this._available_data = false;
 			}
+
+			if (this.get('installing_updates') == 'true') {
+				this.set('installing_updates', 'false');
+				location.reload();
+			}
 		}
 	},
 	/**************************** SISBOT ADMIN ********************************/
@@ -241,7 +247,8 @@ app.model.sisbot = {
 		if (this.get('data.installing_updates') == 'true') return this;
 		var self = this;
 
-		this.set('data.installing_updates', 'true');
+		this.set('data.installing_updates', 'true')
+			.set('installing_updates', 'true')
 
 		this._update_sisbot('install_updates', {}, function(obj) {
 			if (obj.err) {
