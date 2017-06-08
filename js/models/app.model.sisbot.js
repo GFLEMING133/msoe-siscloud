@@ -205,14 +205,10 @@ app.model.sisbot = {
 			self.set('is_available', false);
 			self.set('reason_unavailable', 'connect_to_wifi');
 
-			self.set('data.is_internet_connected', 'true');
-			self.set('data.wifi_network', credentials.name);
-			self.set('data.wifi_password', credentials.password);
-			app.current_session().set_active({ secondary: 'false' });
+			if (obj.resp)
+				self.set('data', obj.resp);
 
-			setTimeout(function() {
-				self.is_internet_connected();
-			}, 5000);
+			app.current_session().set_active({ secondary: 'false' });
 		});
     },
 	disconnect_wifi: function () {
