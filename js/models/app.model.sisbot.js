@@ -204,8 +204,10 @@ app.model.sisbot = {
 		var credentials = this.get('wifi');
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			self.set('is_available', false);
-			self.set('reason_unavailable', 'connect_to_wifi');
+			setTimeout(function () {
+				self.set('is_available', false);
+				self.set('reason_unavailable', 'connect_to_wifi');
+			}, 5500);
 
 			if (obj.resp)
 				self.set('data', obj.resp);
