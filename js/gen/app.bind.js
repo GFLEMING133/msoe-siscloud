@@ -282,13 +282,13 @@ var Binding = Backbone.View.extend({
         if (this.data.touchStart)   this._call(this.data.touchStart, this.$el.val());
     },
     onTouchStart: function (e) {
-        if (this.data.touchStart)   this._call(this.data.touchStart, this.$el.val());
+        if (this.data.touchStart)   this._call(this.data.touchStart, this.get_value(this.data.msg));
     },
     onTouchMove: function (e) {
-        if (this.data.touchMove)    this._call(this.data.touchMove, this.$el.val());
+        if (this.data.touchMove)    this._call(this.data.touchMove, this.get_value(this.data.msg));
     },
     onTouchEnd: function (e) {
-        if (this.data.touchEnd)   this._call(this.data.touchEnd, this.$el.val());
+        if (this.data.touchEnd)   this._call(this.data.touchEnd, this.get_value(this.data.msg));
     },
     onKey: function (e) {
         if (['INPUT', 'TEXTAREA'].indexOf(this.tagName) == -1) return false;

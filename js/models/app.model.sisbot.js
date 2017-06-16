@@ -109,7 +109,7 @@ app.model.sisbot = {
 		};
 
 		app.post.fetch(obj, function(resp) {
-			if (resp.err == 'Could not make request') {
+			if (resp.err == 'Could not make request' && app.config.env !== 'alpha') {
 				return self.set('is_available', false);
 			} else {
 				self.set('is_available', true);

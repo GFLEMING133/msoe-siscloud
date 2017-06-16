@@ -54,6 +54,8 @@ app.model.sisyphus_manager = {
 
 		if (app.config.env == 'sisbot') {
 			return this.setup_as_sisbot();
+		} else if (app.config.env == 'alpha') {
+			this.setup_demo();
 		} else if (app.config.env == 'beta'){
 			this.setup_demo();
 		} else {
@@ -71,9 +73,11 @@ app.model.sisyphus_manager = {
 			this.setup_sign_up();
 	},
 	setup_sign_up: function () {
+		this.set('errors', []);
 		this.set('user_registration', 'sign_up');
 	},
 	setup_sign_in: function () {
+		this.set('errors', []);
 		this.set('user_registration', 'sign_in');
 	},
 	sign_up: function () {
@@ -107,6 +111,8 @@ app.model.sisyphus_manager = {
 		var user_data   = this.get('registration');
 		var errors		= this.get_errors(user_data);
 
+		user_data._timeout = 5000;
+
 		if (errors.length > 0)
 			return this.set('signing_in', 'false').set('errors', errors);
 
@@ -119,12 +125,12 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint = 'sign_in';
-		app.plugins.fetch(user_data, cb);
+		app.plugins.fetch(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
 		var errors = [];
-		if (user_data.username == '')	errors.push('- Username cannot be blank');
-		if (user_data.password == '')	errors.push('- Password cannot be blank');
+		if (!user_data.username || user_data.username == '')	errors.push('- Username cannot be blank');
+		if (!user_data.password || user_data.password == '')	errors.push('- Password cannot be blank');
 		return errors;
 	},
 	_process_registration: function (user, data_arr) {
@@ -562,6 +568,7 @@ app.model.sisyphus_manager = {
 				state				: 'waiting',
 				is_network_connected: 'false',
 				is_internet_connected: 'false',
+				is_serial_open		: 'true',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 			 					'276A238C-21F0-4998-B0F8-305BFC0D25E9' ],
 				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
