@@ -14,16 +14,17 @@ app.model.user = {
 			password_msg: [],
 
 			data		: {
-				id				: data.id,
-				type    		: 'user',
-				version			: this.current_version,
+				id					: data.id,
+				type    			: 'user',
+				version				: this.current_version,
 
-				username		: '',
-				password		: '',
-				name			: '',
+				username			: '',
+				password			: '',
+				name				: '',
 
-				sisbot_ids		: [],
-				playlist_ids	: [],
+				sisbot_ids			: [],
+				sisbot_hostnames	: [],
+				playlist_ids		: [],
 			}
 		};
 

@@ -19,6 +19,7 @@ app.model.session = {
 				sisbot_id			: 'false'
 			},
 			debug_mode				: 'false',
+			sisbot_hostnames		: [],
 
 			platform				: 'app',			// app|web
 			user_id					: 'false',
@@ -158,6 +159,7 @@ app.model.session = {
 
 		this.set('signed_in', 'true');
 		this.save_session();
+		console.log('AFTER SIGN IN');
 	},
 	sign_out: function () {
 		this.remove_session();
@@ -172,6 +174,20 @@ app.model.session = {
 
 		var session = this.get_session();
 		if (session) app.trigger('session:sign_in', { username: session.username, password: session.password });
+	},
+	get_sisbots: function () {
+		try {
+			var sisbots = window.localStorage.getItem('sisbots');
+
+			if (sisbots)
+				sisbots = JSON.parse(sisbots);
+			else
+				sisbots = [];
+
+			return sisbots;
+		} catch(err) {
+			return [];
+		}
 	},
 	get_session: function () {
 		try {
@@ -190,8 +206,13 @@ app.model.session = {
 			if (!window.localStorage)
 				return false;
 
-			if (this.get('signed_in') == 'true')
-				localStorage.setItem('session', JSON.stringify(this.toJSON()));
+			localStorage.setItem('session', JSON.stringify(this.toJSON()));
+
+			var curr_sisbots = this.get_sisbots();
+			var sess_sisbots = this.get('sisbot_hostnames');
+			var uniq_sisbots = _.uniq(_.union(sess_sisbots, curr_sisbots));
+
+			localStorage.setItem('sisbots', JSON.stringify(uniq_sisbots));
 		} catch (err) {}
 	},
 	remove_session: function () {

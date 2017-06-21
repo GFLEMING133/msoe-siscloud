@@ -5,14 +5,10 @@
     <div class="spacer">&nbsp;</div>
     <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
     <div class="col-md-6 col-sm-8 col-xs-12 black">
-        <div class="h__k"
-            data-if="{{= model.sisbot_registration }} == select"
-            data-template="sisyphus-sisbot-connect-tmp"
-        ></div>
-        <div class="h__k"
-            data-if="{{= model.sisbot_registration }} == find"
-            data-template="sisyphus-sisbot-find-tmp"
-        ></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == find" data-template="sisyphus-sisbot-find-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == hotspot" data-template="sisyphus-sisbot-hotspot-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == wifi" data-template="sisyphus-sisbot-wifi-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == hostname" data-template="sisyphus-sisbot-hostname-tmp"></div>
     </div>
     <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
 </div>

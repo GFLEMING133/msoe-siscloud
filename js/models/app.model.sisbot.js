@@ -30,6 +30,8 @@ app.model.sisbot = {
 				hostname			: 'false',				// sisyphus.local
 				local_ip			: '',					// 192.168.0.1:3001
 
+				do_not_remind		: 'false',				// wifi
+
 				installing_updates	: 'false',
 				factory_resetting	: 'false',
 
@@ -185,6 +187,9 @@ app.model.sisbot = {
 
 		return this;
 	},
+	do_not_remind: function () {
+		this._update_sisbot('stop_wifi_reminder', {}, function(obj) {});
+	},
 	get_networks: function () {
 		var self			= this;
 		var wifi_networks	= [];
@@ -228,7 +233,7 @@ app.model.sisbot = {
 				self.set('data', obj.resp);
 		});
 
-		this.set('data.is_internet_connected', 'not connected')
+		this.set('data.is_internet_connected', 'false')
 			.set('data.wifi_network', 'false')
 			.set('data.wifi_password', 'false');
 	},

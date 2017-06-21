@@ -1,0 +1,16 @@
+<h1 class="bg-d-grey center white no-stuffing p20">Network Error</h1>
+<div class="bg-white black">
+    <p class="p20 center justify">
+        No Sisyphus was found. If you are setting up a new Sisyphus go to your
+        wifi settings and connect to the Sisyphus network then click "Find Sisyphus" below.
+    </p>
+    <p class="p10 mb20 float-center center btn bg-blue h__k" style="max-width: 80%;"
+        data-if="{{= app.is_app }} == true"
+        data-on-click="model.open_network_settings"
+    >Open Wifi Settings</p>
+    <h2 class="btn bg-green w100 m0 p20 h__k"
+        data-on-click="set"
+        data-field="model.sisbot_registration"
+        data-value="find"
+    >Find Sisyphus</h2>
+</div>

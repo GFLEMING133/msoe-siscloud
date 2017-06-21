@@ -1,7 +1,4 @@
-<div class="sisyphus-mode-tmp h100 no-scroll h__k"  data-model="{{= model.sisyphus_manager_id }}">
-    <div class="h__k h100 bg-black" data-if="{{= parent.signed_in }} == false" data-template="sisyphus-registration-tmp"></div>
-    <div class="h__k h100 bg-black" data-if="{{= parent.signed_in }} == true">
-        <div class="h__k" data-if="{{= model.sisbot_id }} == false" data-template="sisyphus-sisbot-tmp"></div>
-        <div class="h__k h100 bg-white" data-if="{{= model.sisbot_id }} !== false" data-template="sisyphus-mobile-tmp"></div>
-    </div>
+<div class="sisyphus-mode-tmp h100 bg-black no-scroll h__k"  data-model="{{= model.sisyphus_manager_id }}">
+    <div class="h__k" data-if="{{= model.sisbot_id }} == false" data-template="sisyphus-sisbot-tmp"></div>
+    <div class="h__k" data-if="{{= model.sisbot_id }} !== false" data-template="sisyphus-connected-tmp"></div>
 </div>
