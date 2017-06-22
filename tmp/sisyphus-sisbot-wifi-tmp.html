@@ -10,7 +10,7 @@
             <p class="no-stuffing p20">Would you like to connect your Sisyphus to your home wifi network?</p>
             <div class="pl20 pr20 pb10">
                 <input class="h__k mr10" data-model="{{= model.sisbot_id }}" type="checkbox"
-                    data-on-click="model.stop_wifi_reminder"
+                    data-on-click="model.do_not_remind"
                 /> Do not ask me again
             </div>
             <br clear="both" />
@@ -19,11 +19,11 @@
                 data-field="model.show_wifi_page"
                 data-value="{{= 'false' }}"
             >
-                <h2 class="btn bg-l-grey w50 m0 p20 h__k">No</h2>
+                <h2 class="btn bg-l-grey w50 m0 p20">No</h2>
                 <h2 class="btn bg-green w50 m0 p20 h__k"
                     data-on-click="publish"
                     data-publish="session:active"
-                    data-value="{'secondary':'wifi','primary':'settings'}"
+                    data-msg="{'secondary':'wifi','primary':'settings'}"
                 >Yes</h2>
             </div>
         </div>

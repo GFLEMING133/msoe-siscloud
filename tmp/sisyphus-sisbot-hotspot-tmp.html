@@ -14,3 +14,9 @@
         data-value="find"
     >Find Sisyphus</h2>
 </div>
+<div class="h__k white p20 clickable center i"
+    data-if="{{= model.sisbots_scanning }} == false"
+    data-on-click="set"
+    data-field="model.sisbot_registration"
+    data-value="hostname"
+>Enter IP Address?</div>

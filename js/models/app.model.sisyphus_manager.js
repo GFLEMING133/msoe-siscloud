@@ -190,8 +190,6 @@ app.model.sisyphus_manager = {
 		return this;
 	},
 	should_show_wifi: function () {
-		return this;
-
 		var sisbot			= this.get_model('sisbot_id');
 		var hotspot_status	= sisbot.get('data.is_hotspot');
 		var reminder_status = sisbot.get('data.do_not_remind');
