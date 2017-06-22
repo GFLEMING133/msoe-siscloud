@@ -90,13 +90,37 @@ label {
 
 /****************************** TARGETED **************************************/
 
+.web .app-container {
+	max-width				: 480px;
+	position				: relative;
+	margin					: 0px auto;
+	height					: 90%;
+	margin-top				: 20px;
+
+}
+
+
 .body-header {
 	margin-top				: 75px;
 }
 
-.web .body-header {
-	margin-top				: 55px;
+.web {
+	background-color		: #f7f7f7 !important;
 }
+
+.app {
+	background-color		: #000000 !important;
+}
+
+.web .body-header {
+	padding-top				: 55px;
+	margin-top				: 0px;
+}
+
+.web .hvw50 {
+	height					: 240px;
+}
+
 
 .form-control {
 	height: 22px;
@@ -372,7 +396,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 /**************************** Generic ******************************************/
 
 .pull-top {
-	position		: fixed;
+	position		: absolute;
 	top				: 0px;
 	right			: 0px;
 	width			: 100%;
