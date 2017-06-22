@@ -11,10 +11,6 @@ app.model.sisbot = {
 				password		: ''
 			},
 
-			is_available		: true,
-			reason_unavailable	: 'false',
-			installing_updates	: 'false',
-
 			is_connected		: false,
 			is_jogging			: false,
 			jog_type			: '',
@@ -32,6 +28,8 @@ app.model.sisbot = {
 
 				do_not_remind		: 'false',				// wifi
 
+				is_available		: true,
+				reason_unavailable	: 'false',
 				installing_updates	: 'false',
 				factory_resetting	: 'false',
 
@@ -82,7 +80,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'sisbot:track_add', this.track_add);
 		this.listenTo(app, 'sisbot:track_remove', this.track_remove);
 
-		this.on('change:is_available', this._available);
+		this.on('change:data.is_available', this._available);
 		this.on('change:data.is_serial_open', this._check_serial);
 		this.on('change:is_connected', this.check_connection);
 
@@ -112,9 +110,9 @@ app.model.sisbot = {
 
 		app.post.fetch(obj, function(resp) {
 			if (resp.err == 'Could not make request' && app.config.env !== 'alpha') {
-				return self.set('is_available', false);
+				return self.set('data.is_available', false);
 			} else {
-				self.set('is_available', true);
+				self.set('data.is_available', true);
 				if (cb) cb(resp);
 				self._update_cloud();
 			}
@@ -150,7 +148,7 @@ app.model.sisbot = {
 		}
 	},
 	_available: function () {
-		if (this.get('is_available') == false) {
+		if (this.get('data.is_available') == false) {
 			if (!this._available_data) {
 				this._available_data = app.current_session().get('active');
 				app.current_session().set('active.primary', 'unavailable');
@@ -161,12 +159,12 @@ app.model.sisbot = {
 				this._available_data = false;
 			}
 
-			if (this.get('installing_updates') == 'true') {
-				this.set('installing_updates', 'false');
+			if (this.get('data.installing_updates') == 'true') {
+				this.set('data.installing_updates', 'false');
 				location.reload();
 			}
 
-			this.set('reason_unavailable', '');
+			this.set('data.reason_unavailable', '');
 		}
 	},
 	/**************************** SISBOT ADMIN ********************************/
@@ -220,8 +218,8 @@ app.model.sisbot = {
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			setTimeout(function () {
-				self.set('is_available', false);
-				self.set('reason_unavailable', 'connect_to_wifi');
+				self.set('data.is_available', false);
+				self.set('data.reason_unavailable', 'connect_to_wifi');
 			}, 5500);
 
 			if (obj.resp)
@@ -235,8 +233,8 @@ app.model.sisbot = {
 
 		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
 			setTimeout(function () {
-				self.set('is_available', false);
-				self.set('reason_unavailable', 'reset_to_hotspot');
+				self.set('data.is_available', false);
+				self.set('data.reason_unavailable', 'reset_to_hotspot');
 			}, 5500);
 
 			if (obj.resp)
@@ -264,12 +262,11 @@ app.model.sisbot = {
 		if (this.get('data.installing_updates') == 'true') return this;
 		var self = this;
 
-		this.set('data.installing_updates', 'true')
-			.set('installing_updates', 'true')
+		this.set('data.installing_updates', 'true');
 
 		this._update_sisbot('install_updates', {}, function(obj) {
 			if (obj.err) {
-				self.set('installing_updates_error', 'There was an error updating your Sisbot');
+				self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
 			} else if (obj.resp) {
 				self.set('data', obj.resp);
 			}
@@ -285,7 +282,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('factory_reset', {}, function(obj) {
 			if (obj.err) {
-				self.set('factory_resetting_error', 'There was an error resetting your Sisbot');
+				self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
 			} else if (obj.resp) {
 				self.set('data', obj.resp);
 			}

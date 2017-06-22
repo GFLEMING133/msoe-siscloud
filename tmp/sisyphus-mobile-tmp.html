@@ -5,7 +5,7 @@
     ></div>
 
     <div class="h__k" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.is_serial_open }} == true">
-        <div class="bottom-nav pull-bottom white bg-black w100 center no-stuffing f18 flex h__k" data-if="{{= model.is_available }} == true">
+        <div class="bottom-nav pull-bottom white bg-black w100 center no-stuffing f18 flex h__k" data-if="{{= model.data.is_available }} == true">
             <div class="w20 pt15 pb15 bg-grey-hover clickable h__k {{= (grandparent.active.primary == 'current') ? 'bg-grey' : '' }}"
                 data-on-click="publish"
         		data-publish="session:active"

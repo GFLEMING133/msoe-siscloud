@@ -10,22 +10,22 @@
     </div>
     <!------------------------- SISBOT SETTINGS ------------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Sisbot Settings
+        Sisyphus Settings
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisbot ID<span class="pull-right">{{= model.id }}</span>
+        Sisyphus ID<span class="pull-right">{{= model.id }}</span>
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisbot Firmware Version<span class="pull-right">{{= model.data.firmware_version }}</span>
+        Sisyphus Firmware Version<span class="pull-right">{{= model.data.firmware_version }}</span>
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisbot Hostname<span class="pull-right">{{= model.data.hostname }}</span>
+        Sisyphus Hostname<span class="pull-right">{{= model.data.hostname }}</span>
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisbot IP Address<span class="pull-right">{{= model.data.local_ip }}</span>
+        Sisyphus IP Address<span class="pull-right">{{= model.data.local_ip }}</span>
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
-        Disconnect from Sisbot<span class="pull-right fa fa-chevron-right"></span>
+        Disconnect from Sisyphus<span class="pull-right fa fa-chevron-right"></span>
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.install_updates">
         Install Updates
@@ -35,7 +35,7 @@
         <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.installing_updates }} == true"></span>
         <span class="pull-right fa fa-exclamation-triangle h__k"
             data-if="{{= model.data.installing_updates }} == error"
-            data-tooltip="{'placement':'left','title':'{{= model.installing_updates_error }}'}"
+            data-tooltip="{'placement':'left','title':'{{= model.data.installing_updates_error }}'}"
         ></span>
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.factory_reset">
@@ -44,18 +44,18 @@
         <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.factory_resetting }} == true"></span>
         <span class="pull-right fa fa-exclamation-triangle h__k"
             data-if="{{= model.data.factory_resetting }} == error"
-            data-tooltip="{'placement':'left','title':'{{= model.factory_resetting_error }}'}"
+            data-tooltip="{'placement':'left','title':'{{= model.data.factory_resetting_error }}'}"
         ></span>
     </div>
-    <!------------------------- SISBOT SETTINGS ------------------------------->
+    <!------------------------- Sisyphus SETTINGS ------------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Sisbot Admin
+        Sisyphus Admin
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'track_upload'}"
-    >Upload Track to Sisbot<span class="pull-right fa fa-chevron-right"></span></div>
+    >Upload Track to Sisyphus<span class="pull-right fa fa-chevron-right"></span></div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-on-click="publish"
         data-publish="session:active"
@@ -114,11 +114,11 @@
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'wifi'}"
-        >Connect Sisbot to Wifi Network</div>
+        >Connect Sisyphus to Wifi Network</div>
         <div class="bb p10 bg-ll-grey-hover clickable h__k"
             data-if="{{= model.data.is_internet_connected }} == true"
             data-on-click="model.disconnect_wifi"
-        >Disconnect Sisbot from Wifi Network<span class="pull-right fa fa-chevron-right"></span></div>
+        >Disconnect Sisyphus from Wifi Network<span class="pull-right fa fa-chevron-right"></span></div>
     </div>
     <!------------------------- ACCOUNT SETTINGS -------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
