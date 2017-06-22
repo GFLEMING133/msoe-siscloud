@@ -46,6 +46,36 @@
                             check your network list for "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>" to see if it reverted back to a hotspot.
                     </div>
                 </div>
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == resetting">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">The Sisyphus table is resetting to factory settings.
+											It should reconnect in a few minutes.
+										</div>
+                    <div class="pt10 left justify">
+                        If the network does not show in your network list within 5 minutes,
+                            please unplug and replug in your Sisyphus table.
+                    </div>
+                </div>
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == restarting">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">The Sisyphus table is restarting.
+											It should reconnect in a minute or less.
+										</div>
+                    <div class="pt10 left justify">
+                        If the network does not show in your network list within 5 minutes,
+                            please unplug and replug in your Sisyphus table.
+                    </div>
+                </div>
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == rebooting">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">The Sisyphus table is rebooting.
+											It should reconnect in a few minutes.
+										</div>
+                    <div class="pt10 left justify">
+                        If the network does not show in your network list within 5 minutes,
+                            please unplug and replug in your Sisyphus table.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
