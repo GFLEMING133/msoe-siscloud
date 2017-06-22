@@ -12,7 +12,7 @@
         <div class="h__k bg-white black">
             <div>&nbsp;</div>
             <div class="bg-ll-grey ml10 mr10 p20 center h__k" data-model="{{= model.sisbot_id }}">
-                <div class="h__k" data-if="{{= model.reason_unavailable }} == false">
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
                     <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
                     <div class="pt50 left justify">We are having difficulty connecting to your Sisyphus.
                         If this issue does not go away in 30 seconds please unplug and replug in your Sisyphus table.
@@ -22,7 +22,7 @@
                         data-on-click="model.disconnect"
                     >Disconnect from Sisyphus</div>
                 </div>
-                <div class="h__k" data-if="{{= model.reason_unavailable }} == reset_to_hotspot">
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
                     <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
                     <div class="pt50 left justify">The Sisyphus table is no longer on this network.
                         Look in your network list for a network named "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>".
@@ -32,7 +32,7 @@
                             please unplug and replug in your Sisyphus table.
                     </div>
                 </div>
-                <div class="h__k" data-if="{{= model.reason_unavailable }} == connect_to_wifi">
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
                     <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
                     <div class="pt50 left justify">The Sisyphus table is no longer a hotspot.
                         Connect to "<span class="strong h__k">{{= model.data.wifi_network }}</span>" in your network list to reconnect to the Sisyphus table.
