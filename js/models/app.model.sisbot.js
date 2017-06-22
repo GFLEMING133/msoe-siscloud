@@ -148,7 +148,7 @@ app.model.sisbot = {
 		}
 	},
 	_available: function () {
-		if (this.get('data.is_available') == false) {
+		if (this.get('data.is_available') == false || this.get('data.is_available') == "false" ) {
 			if (!this._available_data) {
 				this._available_data = app.current_session().get('active');
 				app.current_session().set('active.primary', 'unavailable');
