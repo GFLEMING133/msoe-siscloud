@@ -164,6 +164,10 @@ app.model.sisbot = {
 				location.reload();
 			}
 
+			if (this.get('data.reason_unavailable') == "connect_to_wifi" && app.current_session().get('active.secondary') == "wifi") {
+				app.current_session().set('active.secondary', "false");
+			}
+
 			this.set('data.reason_unavailable', '');
 		}
 	},
