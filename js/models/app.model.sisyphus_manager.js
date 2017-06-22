@@ -693,9 +693,6 @@ app.model.sisyphus_manager = {
     setup_demo: function () {
 		var self = this;
 
-		// TODO: Remove before committing!!
-		//return this;
-
 		this.setup_sisbot_select();
 
 		setTimeout(function() {
