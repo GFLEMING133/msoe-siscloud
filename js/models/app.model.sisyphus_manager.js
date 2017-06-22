@@ -369,16 +369,16 @@ app.model.sisyphus_manager = {
 				self.get_model('user_id').save(true);
 			}
 		}, 0);
-    },
-    disconnect: function () {
-			this.set('sisbot_id','false');
-    },
-    /**************************** PLAYLISTS ***********************************/
-    playlist_create: function () {
+  },
+  disconnect: function () {
+		this.set('sisbot_id','false');
+  },
+  /**************************** PLAYLISTS ***********************************/
+  playlist_create: function () {
 		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
 		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist' });
 		playlist.edit();
-    },
+  },
 	merge_playlists: function () {	// unused at this point
 		var merged_playlists = [];
 
@@ -407,7 +407,7 @@ app.model.sisyphus_manager = {
 		this.set('merged_playlists', merged_playlists);
 	},
     /**************************** COMMUNITY ***********************************/
-    fetch_community_playlists: function () {
+  fetch_community_playlists: function () {
 		if (this.get('fetched_community_playlists') == 'true')
 			return this;
 
@@ -443,7 +443,7 @@ app.model.sisyphus_manager = {
 		app.post.fetch(playlists, cb, 0);
 
 		return this;
-    },
+  },
 	fetch_community_tracks: function () {
 		if (this.get('fetched_community_tracks') == 'true')
 			return this;

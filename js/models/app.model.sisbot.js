@@ -159,8 +159,8 @@ app.model.sisbot = {
 				this._available_data = false;
 			}
 
-			if (this.get('data.installing_updates') == 'true') {
-				this.set('data.installing_updates', 'false');
+			if (this.get('data.installed_updates') == 'true') {
+				this.set('data.installed_updates', 'false');
 				location.reload();
 			}
 
