@@ -188,7 +188,17 @@ app.model.sisbot = {
 		return this;
 	},
 	do_not_remind: function () {
-		this._update_sisbot('stop_wifi_reminder', {}, function(obj) {});
+		var self = this;
+
+		this._update_sisbot('stop_wifi_reminder', data, function(obj) {
+			if (obj.err) {
+				self.set('errors', resp.err);
+			} else if (obj.resp) {
+				self.set('data', obj.resp);
+			}
+		});
+
+		return this;
 	},
 	get_networks: function () {
 		var self			= this;
