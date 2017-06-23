@@ -53,7 +53,8 @@ app.model.session = {
 	on_reset: function () {
 		if (app.config.env == 'server') return this;
 
-		if (!app.is_app)	this.set('platform', 'web');
+		if (!app.is_app)
+			this.set('platform', 'web');
 
 		this.setup_mode();
 	},
@@ -173,7 +174,9 @@ app.model.session = {
 		//if (app.is_app) return false;
 
 		var session = this.get_session();
-		if (session) app.trigger('session:sign_in', { username: session.username, password: session.password });
+
+		if (session && session.username && session.password && session.username !== '' && session.password !== '')
+			app.trigger('session:sign_in', { username: session.username, password: session.password });
 	},
 	get_sisbots: function () {
 		try {

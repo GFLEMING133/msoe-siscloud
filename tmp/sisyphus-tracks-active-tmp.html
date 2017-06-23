@@ -49,8 +49,9 @@
         </div>
         <div class="p10 bb flex">
             <div class="w50">
-                <p class="no-stuffing">Created By: Author #1</p>
-                <p class="no-stuffing">Play Count: 15</p>
+                <p class="no-stuffing h__k">Name: {{= model.data.name }}</p>
+                <p class="no-stuffing h__k">Created By: {{= model.data.created_by_name }}</p>
+                <p class="no-stuffing h__k">Public Track: {{= (model.data.is_published == 'true') ? 'Yes' : 'No' }}</p>
             </div>
             <div class="w50 h__k" data-if="{{= app.manager.get('user_id') }} == {{= model.data.created_by_id }}">
                 <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded pull-right h__k"

@@ -21,7 +21,7 @@ app.model.track = {
 				duration			: '90',		// minutes
 
 				created_by_id		: 'false',
-				created_by_name		: 'Author Name',
+				created_by_name		: 'Sisyphus Industries',
 
 				has_verts_file		: 'false',
 				verts				: '',		// temporary

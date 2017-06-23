@@ -61,6 +61,11 @@ var Binding = Backbone.View.extend({
     setup_events: function () {
         var new_events = {};
 
+        // DEFAULT HANDLERS
+        new_events['touchstart']    = 'touchStart';
+        new_events['touchend']      = 'touchEnd';
+
+
         if (['SELECT', 'INPUT', 'TEXTAREA'].indexOf(this.tagName) > -1)
                                     new_events['change']    = 'update';
 
@@ -280,6 +285,12 @@ var Binding = Backbone.View.extend({
     },
     onTap: function (e) {
         if (this.data.touchStart)   this._call(this.data.touchStart, this.$el.val());
+    },
+    touchStart: function () {
+        $('.body').addClass('touch-hover');
+    },
+    touchEnd: function () {
+        $('.body').removeClass('touch-hover');
     },
     onTouchStart: function (e) {
         if (this.data.touchStart)   this._call(this.data.touchStart, this.get_value(this.data.msg));

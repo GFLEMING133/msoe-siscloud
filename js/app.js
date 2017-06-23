@@ -23,6 +23,11 @@ var app = {
 	},
 	setup: function () {
 		if (window.cordova)						app.is_app = true;
+		if (app.plugins.is_mobile() !== false)	app.is_app = true;
+
+		// FOR TOUCH EVENTS
+		if (app.is_app)
+			$('.body').removeClass('touch-hover');
 
 		_.extend(app, Backbone.Events);
 

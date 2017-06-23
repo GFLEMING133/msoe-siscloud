@@ -37,6 +37,11 @@ h1, h2, h3 {
 	font-weight					: 300;
 }
 
+h1 {
+	font-size					: 2.25em;
+	line-height					: 1.25em;
+}
+
 p {
 	font-size					: 1em;
 	padding-bottom				: 1em;
@@ -96,7 +101,11 @@ label {
 	margin					: 0px auto;
 	height					: 90%;
 	margin-top				: 20px;
+	max-height				: 960px;
+}
 
+.app .app-container {
+	height					: 100%;
 }
 
 
@@ -121,6 +130,9 @@ label {
 	height					: 240px;
 }
 
+.web .hvw25 {
+	height					: 120px;
+}
 
 .form-control {
 	height: 22px;
@@ -619,16 +631,16 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-blue-l 								{	background-color		: #51BEFC !important;		}
 .bg-blue-ll 							{	background-color		: #B6E1FA !important;		}
 
-.bg-yellow-hover:hover 					{	background-color		: #BCA300 !important;		}
-.bg-red-hover:hover 					{	background-color		: #990033 !important;		}
-.bg-white-hover:hover 					{	background-color		: #ffffff !important;		}
-.bg-orange-hover:hover					{	background-color		: #BC5D00 !important;		}
-.bg-green-hover:hover					{	background-color		: #54BC00 !important;		}
-.bg-ll-grey-hover:hover					{	background-color		: #EFEFEF !important;		}
-.bg-l-grey-hover:hover					{	background-color		: #8f8f8f !important;		}
-.bg-grey-hover:hover					{	background-color		: #525252 !important;		}
-.bg-m-grey-hover:hover					{	background-color		: #454545 !important;		}
-.bg-d-grey-hover:hover					{	background-color		: #333 !important;			}
+.touch-hover .bg-yellow-hover:hover 	{	background-color		: #BCA300 !important;		}
+.touch-hover .bg-red-hover:hover 		{	background-color		: #990033 !important;		}
+.touch-hover .bg-white-hover:hover 		{	background-color		: #ffffff !important;		}
+.touch-hover .bg-orange-hover:hover		{	background-color		: #BC5D00 !important;		}
+.touch-hover .bg-green-hover:hover		{	background-color		: #54BC00 !important;		}
+.touch-hover .bg-ll-grey-hover:hover	{	background-color		: #EFEFEF !important;		}
+.touch-hover .bg-l-grey-hover:hover		{	background-color		: #8f8f8f !important;		}
+.touch-hover .bg-grey-hover:hover		{	background-color		: #525252 !important;		}
+.touch-hover .bg-m-grey-hover:hover		{	background-color		: #454545 !important;		}
+.touch-hover .bg-d-grey-hover:hover		{	background-color		: #333 !important;			}
 
 .bg-danger								{	color					: #c7254e;					}
 .error-msg 								{	width					: 100%;						}
