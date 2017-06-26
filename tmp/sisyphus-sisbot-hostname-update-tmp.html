@@ -1,0 +1,29 @@
+<div class="container h100 white">
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="spacer">&nbsp;</div>
+    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
+    <div class="col-md-6 col-sm-8 col-xs-12 black">
+        <h1 class="bg-d-grey center white no-stuffing p20 truncate">Sisyphus Hostname</h1>
+        <div class="bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_update_hostname">
+            <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+                <div class="h__k" data-foreach="model.errors">
+                    <div class="h__k red">{{= scope.value }}</div>
+                </div>
+            </div>
+            <p class="no-stuffing p20">Set Sisyphus Hostname</p>
+
+            <div class="pl20 pr20 pb10">
+                <input class="h__k w100" type="text" placeholder="sisyphus.local or 192.168.0.1"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.hostname"
+                    value="{{= model.hostname }}"
+                />
+            </div>
+            <br clear="both" />
+        </div>
+        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.save_hostname">Set Hostname</h2>
+    </div>
+    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
+</div>

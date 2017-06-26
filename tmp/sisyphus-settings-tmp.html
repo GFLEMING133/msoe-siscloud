@@ -3,7 +3,7 @@
         <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
             <div class="w15 pt20 center f-large">&nbsp;</div>
             <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Settings</h1>
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Settings</h1>
             </div>
             <div class="w15 pt20 center f-large">&nbsp;</div>
         </div>
@@ -12,8 +12,9 @@
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
         Sisyphus Settings
     </div>
-    <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisyphus ID<span class="pull-right">{{= model.id }}</span>
+    <div class="bb p10 flex h__k" data-model="{{= model.sisbot_id }}">
+        <div class="w40">Sisyphus ID</div>
+        <div class="w60 truncate pull-right">{{= model.id }}</div>
     </div>
     <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
         Sisyphus Firmware Version<span class="pull-right">{{= model.data.firmware_version }}</span>
@@ -52,7 +53,7 @@
         Sisyphus Admin
     </div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-if="{{= app.is_app }} == true"
+        data-if="{{= app.is_app }} == false"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'track_upload'}"
@@ -72,6 +73,12 @@
         data-publish="session:active"
         data-msg="{'secondary':'advanced_movement'}"
     >Advanced Movement<span class="pull-right fa fa-chevron-right"></span></div>
+    <div class="bb p10 bg-ll-grey-hover clickable h__k"
+        data-if="{{= app.is_app }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced_settings'}"
+    >Advanced Settings<span class="pull-right fa fa-chevron-right"></span></div>
     <!------------------------- WIFI SETTINGS ----------------------------->
     <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
         Wifi Settings
@@ -177,6 +184,11 @@
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == advanced_movement"
     data-template="sisyphus-settings-advanced-movement-tmp"
+></div>
+<!------------------------- ADVANCED SETTINGS --------------------------------->
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == advanced_settings"
+    data-template="sisyphus-settings-advanced-settings-tmp"
 ></div>
 <!------------------------- CHANGE PASSWORD ----------------------------------->
 <div class="h__k"

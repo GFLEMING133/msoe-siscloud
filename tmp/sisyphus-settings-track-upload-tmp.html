@@ -7,7 +7,7 @@
                 data-msg="{'secondary':'false'}"
             >&nbsp;</div>
             <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize">Upload Track</h1>
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Upload Track</h1>
             </div>
             <div class="w15 pt20 center f-large">&nbsp;</div>
         </div>
@@ -21,14 +21,6 @@
             <div class="h__k" data-foreach="model.errors">
                 <div class="h__k pb5 red">{{= scope.value }}</div>
             </div>
-        </div>
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Name</h4>
-        <div class="pl20 pr20 pb10">
-            <input class="h__k w100" type="text" placeholder="New Track Name"
-                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                data-field="model.data.name"
-                value="{{= model.data.name }}"
-            />
         </div>
         <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Verts File</h4>
         <div class="pl20 pr20 pb10">

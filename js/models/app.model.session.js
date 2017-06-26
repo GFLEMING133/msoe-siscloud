@@ -166,6 +166,7 @@ app.model.session = {
 		this.remove_session();
 		this.set('sign_in_id', '')
 			.set('user_id', 'false')
+			.set('sisyphus_manager_id', 'false')
 			.set('signed_in', 'false');
 		app.collection.on_init();
 	},

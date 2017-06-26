@@ -14,6 +14,7 @@ app.model.sisbot = {
 			is_connected		: false,
 			is_jogging			: false,
 			jog_type			: '',
+			updating_hostname	: 'false',
 
 			default_playlist_id	: 'false',
 			data		: {
@@ -27,6 +28,7 @@ app.model.sisbot = {
 				local_ip			: '',					// 192.168.0.1:3001
 
 				do_not_remind		: 'false',				// wifi
+				hostname_prompt		: 'false',				// hostname change
 
 				is_available		: true,
 				reason_unavailable	: 'false',
@@ -218,6 +220,7 @@ app.model.sisbot = {
     connect_to_wifi: function () {
 		var self		= this;
 		var credentials = this.get('wifi');
+		var tertiary	=
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			setTimeout(function () {
@@ -228,7 +231,11 @@ app.model.sisbot = {
 			if (obj.resp)
 				self.set('data', obj.resp);
 
-			app.current_session().set_active({ secondary: 'false' });
+			if (app.current_session().get('active.tertiary') !== 'false') {
+				app.current_session().set_active({ tertiary: 'false', secondary: 'false', primary: 'current' });
+			} else {
+				app.current_session().set_active({ secondary: 'false' });
+			}
 		});
     },
 	disconnect_wifi: function () {
@@ -303,8 +310,13 @@ app.model.sisbot = {
 		var errors 		= [];
 
 		this.set('errors', []);
+		this.set('updating_hostname', 'true');
 
 		var valid_hostname = new RegExp("^[a-zA-Z][a-zA-Z0-9\-]*$");
+
+		setTimeout(function() {
+			self.set('updating_hostname', 'false');
+		}, 1000)
 
 		if (hostname == '')
 			errors.push('Hostname cannot be empty');
@@ -319,6 +331,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
+				self.set('updating_hostname', 'true');
 				self.set('data', obj.resp);
 			}
 		});

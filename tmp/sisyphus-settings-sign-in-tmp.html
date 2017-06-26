@@ -6,7 +6,7 @@
             data-msg="{'secondary':'false'}"
         >&nbsp;</div>
         <div class="w70">
-            <h1 class="h__k no-stuffing pt10 pb10 capitalize">Sign In</h1>
+            <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Sign In</h1>
         </div>
         <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
@@ -20,7 +20,7 @@
         >Your Sisyphus must be connected to the internet via wifi before you can successfully create an account. Click here to connect</div>
     </div>
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
-        <div class="h__k bg-white black">
+        <div class="bg-white black h__k" data-model="{{= app.manager.id }}">
             <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
                 <div class="h__k" data-foreach="model.errors">
                     <div class="h__k red">{{= scope.value }}</div>
@@ -43,8 +43,8 @@
                 />
             </div>
             <br clear="both">
+            <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_in_via_settings">Sign In</h2>
         </div>
-        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_in">Sign In</h2>
         <div class="h__k p30 clickable center i"
             data-on-click="publish"
             data-publish="session:active"

@@ -14,7 +14,7 @@
                 ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
             </div>
             <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 one-line capitalize">{{= model.data.name }}</h1>
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">{{= model.data.name }}</h1>
             </div>
             <div class="w15 pt20 center f-large clickable bg-grey-hover">
                 <div class="h__k"
@@ -41,7 +41,7 @@
             </div>
             <div class="w5 hvw40">&nbsp;</div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
-                <h3 class="h__k no-stuffing one-line">{{= model.data.name }}</h3>
+                <h3 class="h__k no-stuffing truncate">{{= model.data.name }}</h3>
                 <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
                 <p class="no-stuffing h__k">{{= app.plugins.length(model.data.track_ids) }} Tracks</p>
                 <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>

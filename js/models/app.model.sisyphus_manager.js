@@ -18,6 +18,7 @@ app.model.sisyphus_manager = {
 			sisbot_id       		: 'false',
 			sisbot_registration		: 'find',		// find|hotspot|wifi|hostname
 			show_wifi_page			: 'false',
+			show_hostname_page		: 'false',
 
 			sisbots_user			: [],
 			sisbots_networked		: [],
@@ -107,6 +108,7 @@ app.model.sisyphus_manager = {
 		user_data.endpoint	= 'sign_up';
 		app.plugins.fetch(user_data, cb);
 	},
+
 	sign_in: function () {
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
@@ -158,11 +160,24 @@ app.model.sisyphus_manager = {
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
 
+
 		// setup user info here
 		this.set('user_id', session_data.user_id);
 
 		if (this.get('sisbot_id') == 'false')
 			this.setup_sisbots_page();
+	},
+	sign_up_via_settings: function () {
+		this.on('change:user_id', this.after_settings);
+		this.sign_up();
+	},
+	sign_in_via_settings: function () {
+		this.on('change:user_id', this.after_settings);
+		this.sign_in();
+	},
+	after_settings: function () {
+		this.off('change:user_id');
+		app.trigger('session:active', { secondary: 'false' });
 	},
 	sign_in_via_session: function (data) {
 		this.set('registration', data);
@@ -189,10 +204,14 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
-	should_show_wifi: function () {
-		var sisbot			= this.get_model('sisbot_id');
-		var hotspot_status	= sisbot.get('data.is_hotspot');
-		var reminder_status = sisbot.get('data.do_not_remind');
+	should_show_hostname_wifi: function () {
+		var sisbot				= this.get_model('sisbot_id');
+		var hotspot_status		= sisbot.get('data.is_hotspot');
+		var reminder_status 	= sisbot.get('data.do_not_remind');
+		var hostname_prompt		= sisbot.get('data.hostname_prompt');
+
+		if (hostname_prompt == 'false')
+			this.set('show_hostname_page', 'true');
 
 		if (hotspot_status == 'true' && reminder_status == 'false')
 			this.set('show_wifi_page', 'true');
@@ -212,14 +231,23 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+	save_hostname: function () {
+		var sisbot				= this.get_model('sisbot_id');
+		sisbot.set('updating_hostname', 'true');
+		this.listenTo(sisbot, 'change:updating_hostname', this.after_hostname);
+		sisbot.update_hostname();
+	},
+	after_hostname: function () {
+		var sisbot	= this.get_model('sisbot_id');
+		this.stopListening(sisbot, 'change:updating_hostname');
+		this.set('show_hostname_page', 'false');
+	},
 	check_number_sisbots: function () {
 		var sisbots_available = _.uniq(this.get('sisbots_networked'));
 		this.set('sisbots_networked', sisbots_available);
 
 		if (sisbots_available.length == 0)
 			this.set('sisbot_registration', 'hotspot');
-
-		console.log('CHECK NUMBER SISBOTS', sisbots_available);
 
 		return this;
 	},
@@ -247,8 +275,6 @@ app.model.sisyphus_manager = {
 	find_hotspot: function (cb) {
 		var hotspot_hostname	= '192.168.42.1';
 
-		console.log('FIND HOTSPOTS');
-
 		this.ping_sisbot(hotspot_hostname, cb);
 
 		return this;
@@ -257,8 +283,6 @@ app.model.sisyphus_manager = {
 		var self			= this;
 		var session_sisbots = app.current_session().get_sisbots();
 		var num_cbs			= session_sisbots.length + 1;
-
-		console.log('FIND SESSION SISBOTS', session_sisbots);
 
 		function on_cb() {
 			if (--num_cbs == 0) cb();
@@ -279,8 +303,6 @@ app.model.sisyphus_manager = {
 		var self			= this;
 		var user_sisbots	= this.get_model('user_id').get('data.sisbot_hostnames');
 		var num_cbs			= user_sisbots.length + 1;
-
-		console.log('FIND SESSION SISBOTS', user_sisbots);
 
 		function on_cb() {
 			if (--num_cbs == 0) cb();
@@ -338,7 +360,6 @@ app.model.sisyphus_manager = {
 				var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
 				console.log('Connect to Sisbot:', sisbot_data);
 			} else {
-				//console.log('WE HAVE OUR DATA', obj);
 				if (obj.err)
 					return self.set('errors', [ '- That sisbot does not appear to be on the network' ]);
 
@@ -403,8 +424,6 @@ app.model.sisyphus_manager = {
 		_.each(in_common, function(p_id) {
 			merged_playlists.push({ id: p_id, status: 'both' });
 		});
-
-		console.log('MERGED', user, user_playlist_ids);
 
 		this.set('merged_playlists', merged_playlists);
 	},
@@ -531,12 +550,15 @@ app.model.sisyphus_manager = {
 				type        		: 'sisbot',
 				active_playlist_id	: 'false',
 				active_track_id		: 'false',
-				state				: 'waiting',
+				state				: 'paused',
 				is_available		: 'true',
 				is_network_connected: 'false',
 				is_internet_connected: 'false',
 				is_serial_open		: 'true',
-				hostname			: 'sisyphus.local',
+				hostname			: 'sisyphus-dummy.local',
+				is_hotspot			: 'true',
+				hostname_prompt		: 'true',
+				do_not_remind		: 'true',
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 			 					'276A238C-21F0-4998-B0F8-305BFC0D25E9' ],

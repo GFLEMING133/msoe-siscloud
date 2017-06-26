@@ -47,11 +47,14 @@ app.model.track = {
 		app.trigger('sisbot:set_track', this.get('data'));
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
-	on_file_upload: function (verts_data) {
+	on_file_upload: function (file) {
 		if (this.get('sisbot_upload') == 'true') {
-			this.set('data.verts', verts_data);
+			this.set('data.name', file.name.replace('.thr', ''));
+			this.set('data.verts', file.data);
+
+			console.log('WHAT IS OUR DATA', this.get('data'));
 		} else {
-			this.upload_verts_to_cloud(verts_data);
+			this.upload_verts_to_cloud(file.data);
 		}
 		return this;
 	},
@@ -130,6 +133,7 @@ app.model.track = {
 		});
 
 		this.set('playlist_not_ids', playlist_ids);
+		this.trigger('change:playlist_not_ids');
 	},
 	get_playlists: function () {
 		var sisbot			= app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');

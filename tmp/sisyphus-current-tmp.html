@@ -1,7 +1,7 @@
 <div class="h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
     <div class="pull-top bg-white w100 h__k">
         <div class="white bg-black w100 center no-stuffing h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <h1 class="h__k no-stuffing pt10 pb10 capitalize">{{= model.data.name }}</h1>
+            <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">{{= model.data.name }}</h1>
         </div>
     </div>
     <div class="body-header pl10 pr10 flex">
@@ -78,7 +78,8 @@
             </div>
             <div class="w80 flex relative center">
                 <span class="w5"></span>
-                <input class="h__k touchable w90" type="range" min="0" max="1" step=".05"
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
+                    data-rangetouch="true"
                     data-on-input="model.speed"
                     value="{{= model.data.speed }}"
                 />
@@ -94,7 +95,7 @@
             </div>
             <div class="w80 flex relative center">
                 <span class="w5"></span>
-                <input class="h__k touchable w90" type="range" min="0" max="1" step=".05"
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-on-input="model.brightness"
                     value="{{= model.data.brightness }}"
                 />

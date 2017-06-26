@@ -222,6 +222,7 @@ var Binding = Backbone.View.extend({
         if (this.data.chart)            this.chart();
       	if (this.data.leaflet)          this.leaflet();
         if (this.data.tooltip)          this.tooltip();
+        if (this.data.rangetouch)       this.rangetouch();
 
         // RUN FOREACH AT THE VERY END
         if (this.data.foreach)          this.foreach();
@@ -573,11 +574,12 @@ var Binding = Backbone.View.extend({
         if (!file)
             return app.trigger('notifications:notify', 'Failed to load the file');
 
-        reader.onload = function (file) {
-            var file_data = file.target.result;
+        reader.onload = function (file_results) {
+            file.data = file_results.target.result
+            console.log('WHAT IS OUR FILE', file);
 
             if (self.model && self.model.on_file_upload)
-                self.model.on_file_upload(file_data);
+                self.model.on_file_upload(file);
         }
 
         reader.readAsText(file);
@@ -1352,6 +1354,14 @@ var Binding = Backbone.View.extend({
 
             var tooltip = self.get_value(self.data.tooltip);
             self._tooltip = $(self.el).tooltip(tooltip);
+        });
+    },
+    rangetouch: function (e) {
+        var self = this;
+
+        app.scripts.fetch('js/libs/lib.rangetouch.js', function () {
+            if (!self.$el) return false;
+            // do nothing, it auto binds and delegates
         });
     },
     date: function () {

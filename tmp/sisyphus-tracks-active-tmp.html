@@ -9,7 +9,7 @@
                 ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
             </div>
             <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 one-line capitalize">{{= model.data.name }}</h1>
+                <h1 class="h__k no-stuffing pt10 pb10 truncate capitalize">{{= model.data.name }}</h1>
             </div>
             <div class="w15 pt20 center clickable bg-grey-hover f-large">
                 <span class="fa fa-plus h__k"
@@ -36,7 +36,7 @@
             <div class="p10 bb-med clickable bg-ll-grey-hover h__k"
                 data-on-click="parent.playlist_add_finish"
                 data-msg="{{= model.id }}"
-            >Add to {{= model.data.name }}</div>
+            >Add to "{{= model.data.name }}"</div>
         </div>
     </div>
     <div class="h100 scroll hide-scrollbar">
