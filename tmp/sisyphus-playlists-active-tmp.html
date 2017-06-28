@@ -33,7 +33,7 @@
         <div class="flex p10 bb">
             <div class="w40 hvw40 bg-ll-grey shadow center clickable vertical">
                 <i class="fa fa-play-circle f-large f-xxxxxlarge h__k"
-                    data-if="{{= app.plugins.length(model.data.track_ids) }} > 0"
+                    data-if="{{= app.plugins.length(model.data.tracks) }} > 0"
                     data-on-click="model.play"
                     data-msg="{{= 'false' }}"
                     aria-hidden="true"
@@ -43,7 +43,7 @@
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
                 <h3 class="h__k no-stuffing truncate">{{= model.data.name }}</h3>
                 <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
-                <p class="no-stuffing h__k">{{= app.plugins.length(model.data.track_ids) }} Tracks</p>
+                <p class="no-stuffing h__k">{{= app.plugins.length(model.data.tracks) }} Tracks</p>
                 <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>
                 <div class="mt20">
                     <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded h__k"
@@ -118,7 +118,7 @@
         <!--------------------------- PLAYLIST TRACKS ---------------------------->
         <div class="mt10 h__k"
             data-if="{{= model.is_editing }} == false"
-            data-foreach="model.data.track_ids"
+            data-foreach="model.data.tracks"
             data-foreach-change="foreach_reset"
             data-foreach-map="true"
         >
@@ -152,6 +152,7 @@
                     data-foreach="model.active_tracks"
                     data-foreach-change="foreach_reset"
                     data-foreach-add="foreach_reset"
+                    data-foreach-remove="foreach_reset"
                     data-foreach-map="true"
                 >
                     <div class="flex bg-ll-grey-hover clickable p10">
@@ -167,7 +168,7 @@
                         </div>
                         <div class="w10 hvw10 center bb vertical h__k"
                             data-on-click="parent.remove_track"
-                            data-msg="{{= model.id }}"
+                            data-msg="{{= scope.index }}"
                         ><i class="fa fa-minus-circle f-large" aria-hidden="true"></i></div>
                     </div>
                 </div>

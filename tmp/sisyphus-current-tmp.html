@@ -6,14 +6,14 @@
     </div>
     <div class="body-header pl10 pr10 flex">
         <div class="w15 hv50">&nbsp;</div>
-        <div class="w70 h__k" data-if="{{= model.data.active_track_id }} == false">
+        <div class="w70 h__k" data-if="{{= model.data.active_track.id }} == false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical">
                 <p class="no-stuffing center">No Current Track</p>
             </div>
         </div>
-        <div class="w70 hv50 h__k" data-if="{{= model.data.active_track_id }} !== false">
+        <div class="w70 hv50 h__k" data-if="{{= model.data.active_track.id }} !== false">
             <div class="w100 hvw50 bg-ll-grey shadow center vertical h__k"
-                data-model="{{= model.data.active_track_id }}"
+                data-model="{{= model.data.active_track.id }}"
             >
                 <div>
                     <div class="fa fa-pause-circle black f-xxxxxlarge clickable h__k"
@@ -32,7 +32,7 @@
                     ></div>
                 </div>
             </div>
-            <div class="w100 center p10 h__k" data-model="{{= model.data.active_track_id }}">
+            <div class="w100 center p10 h__k" data-model="{{= model.data.active_track.id }}">
                 {{= model.data.name }}
             </div>
         </div>
@@ -47,27 +47,16 @@
         <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
             <div class="h__k" data-model="{{= model.data.active_playlist_id }}">
                 <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3 pl10 pr10">
+                    <span class="h__k pull-right" data-if="{{= model.data.is_shuffle }} == true">(shuffled)</span>
                     <span class="h__k pull-right">{{= model.data.duration_formatted }}</span>
                     <span class="h__k">{{= model.data.name }}</span>
                 </div>
                 <div class="h__k"
                     data-foreach="model.data.sorted_tracks"
                     data-foreach-change="foreach_reset"
-                    data-foreach-map="true"
                 >
-                    <div class="flex pt5 pb5 pl10 pr10 clickable bg-ll-grey-hover h__k {{= (parent.data.active_track_index == scope.index) ? 'bg-ll-grey' : 'bb' }}"
-                        data-on-click="parent.play_from_current"
-                        data-msg="{{= scope.index }}"
-                    >
-                        <div class="w10 hvw10 bg-ll-grey shadow center vertical">
-                            <span>T</span>
-                        </div>
-                        <div class="w5 hvw10">&nbsp;</div>
-                        <div class="w85 hvw10 vertical h__k">
-                            <div>{{= model.data.name }}</div>
-                        </div>
-                    </div>
-                </div>
+									<div class="h__k" data-template="sisyphus-upcoming-track-tmp"></div>
+								</div>
             </div>
         </div>
     </div>

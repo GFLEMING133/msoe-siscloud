@@ -1,0 +1,15 @@
+<div class="flex pt5 pb5 pl10 pr10 clickable bg-ll-grey-hover h__k {{= (parent.data.active_track_index == scope.value) ? 'bg-ll-grey' : 'bb' }}"
+			data-on-click="parent.play_from_current"
+			data-msg="{{= scope.value }}"
+			data-model="{{= model.data.tracks[scope.value].id }}"
+	>
+			<div class="w10 hvw10 bg-ll-grey shadow center vertical">
+					<span>T</span>
+			</div>
+			<div class="w5 hvw10">&nbsp;</div>
+			<div class="w85 hvw10 vertical">
+					<div class="h__k">{{= model.data.name }}
+						<!-- <br/>{{= parent.data.tracks[scope.value].firstR }} :: {{= parent.data.tracks[scope.value].lastR }} -->
+					</div>
+			</div>
+	</div>

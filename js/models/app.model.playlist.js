@@ -19,7 +19,7 @@ app.model.playlist = {
                 description         : '',
 				duration			: '',				// mins
 				duration_formatted	: '',				// HH:mm
-                track_ids           : [],
+        tracks           : [], // list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
 				sorted_tracks		: [],				// display to users
 
 				is_published		: 'false',
@@ -59,7 +59,7 @@ app.model.playlist = {
 
 		var data = this.get('data');
 		data.active_track_index = track_index;
-		data.active_track_id	= this.get('data.sorted_tracks')[track_index];
+		data.active_track_id	= this.get('data.tracks')[track_index].id;
 		data.is_current			= true;
 
 		app.trigger('sisbot:update_playlist', data);
@@ -71,7 +71,7 @@ app.model.playlist = {
 
 		var data = this.get('data');
 		data.active_track_index = track_index;
-		data.active_track_id	= this.get('data.track_ids')[track_index];
+		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
 		app.trigger('sisbot:update_playlist', data);
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
@@ -79,7 +79,8 @@ app.model.playlist = {
 	update_duration: function () {
 		var duration = 0;
 
-		_.each(this.get_model('data.track_ids'), function(track) {
+		_.each(this.get_model('data.tracks'), function(track_obj) {
+			var track = app.collection.get(track_obj.id);
 			duration += +track.get('data.duration');
 		});
 
@@ -93,7 +94,7 @@ app.model.playlist = {
 	},
 	/**************************** EDIT ****************************************/
 	edit: function () {
-		this.set('active_tracks', this.get('data.track_ids').slice())
+		this.set('active_tracks', this.get('data.tracks').slice())
 			.set('edit.name', this.get('data.name'))
 			.set('edit.description', this.get('data.description'))
 			.set('is_editing', 'true');
@@ -108,19 +109,36 @@ app.model.playlist = {
 		this.set('is_editing', 'false')
 			.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
-			.set('data.track_ids', this.get('active_tracks').slice())
-			.set('data.sorted_tracks', this.get('active_tracks').slice())
-			.update_duration()
-			.save();
+			.set('data.tracks', this.get('active_tracks').slice());
+			//.update_duration()
+
+		var sorted_tracks = [];
+		_.each(this.get('data.tracks'), function(obj,index) {
+			sorted_tracks.push(index);
+		});
+		this.set("data.sorted_tracks", sorted_tracks);
+
+		this.save();
 	},
 	/**************************** TRACKS **************************************/
 	add_track: function (track_id) {
-		this.add('active_tracks', track_id);
+		var track = app.collection.get(track_id);
+		var track_obj = {
+			id: track_id,
+			vel: track.get('data.default_vel'),
+			accel: track.get('data.default_accel'),
+			thvmax: track.get('data.default_thvmax'),
+			firstR: track.get('data.firstR'),
+			lastR: track.get('data.lastR')
+		};
+		this.add('active_tracks', track_obj);
 		this.trigger('change:active_tracks');
 	},
-	remove_track: function (track_id) {
-		this.remove('active_tracks', track_id);
-		this.add_nx('eligible_tracks', track_id);
+	remove_track: function (track_index) {
+		console.log("Remove", track_index,this.get('active_tracks')[+track_index].id);
+		var track = app.collection.get(this.get('active_tracks')[+track_index].id);
+		this.remove('active_tracks['+track_index+']');
+		this.add_nx('eligible_tracks', track.id);
 	},
 	move_array: function (field, old_index, new_index) {
 		var val		= this.get(field);
@@ -133,12 +151,12 @@ app.model.playlist = {
 		this.trigger('change:' + field);
 	},
 	generate_eligible_tracks: function () {
-		var curr_tracks = this.get('data.track_ids');
+		var curr_tracks = this.get('data.tracks');
 		var elig_tracks = [];
 
 		app.collection.get_cluster({ type: 'track' }).each(function(track) {
-			if (curr_tracks.indexOf(track.id) == -1)
-				elig_tracks.push(track.id);
+			//if (_.findIndex(curr_tracks, {id: track.id}) == -1) elig_tracks.push(track.id);
+			elig_tracks.push(track.id);
 		});
 
 		this.set('eligible_tracks', elig_tracks);

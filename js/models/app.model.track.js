@@ -26,14 +26,14 @@ app.model.track = {
 				has_verts_file		: 'false',
 				verts				: '',		// temporary
 
-				vel					: 1,
-				accel				: 0.5,
-				thvmax				: 1,
+				default_vel:				1,
+				default_accel:			0.5,
+				default_thvmax:			1,
 				reversed			: false,
-				firstR				: 0,
-				lastR				: 1,
-				type				: 'r01',
-				reversible			: true
+				firstR				: -1,
+				lastR				: -1,
+				type				: 'r',
+				reversible			: false
 			}
 		};
 
@@ -107,6 +107,19 @@ app.model.track = {
 		return this;
 	},
 	/**************************** PLAYLISTS ***********************************/
+	playlist_obj: function() { // returns object to save in playlist (to retain speeds/reversed/etc per instance)
+		var return_obj = {
+			id: this.get('id'),
+			vel: this.get('data.default_vel'),
+			accel: this.get('data.default_accel'),
+			thvmax: this.get('data.default_thvmax'),
+			reversed: this.get('data.revered'),
+			firstR: this.get('data.firstR'),
+			lastR: this.get('data.lastR'),
+			reversible: this.get('data.reversible')
+		};
+		return return_obj;
+	},
 	playlist_cancel: function () {
 		this.set('is_adding', 'false');
 		return this;
@@ -116,8 +129,9 @@ app.model.track = {
 		this.set('is_adding', 'true');
 	},
 	playlist_add_finish: function (playlist_id) {
-		app.collection.get(playlist_id).add_nx('data.track_ids', this.id);
-		app.collection.get(playlist_id).add_nx('data.sorted_tracks', this.id);
+		var playlist = app.collection.get(playlist_id);
+		playlist.add_nx('data.tracks', this.playlist_obj());
+		playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
 		this.remove('playlist_not_ids', playlist_id);
 		this.add('playlist_ids', playlist_id);
 		this.playlist_cancel();
@@ -128,7 +142,7 @@ app.model.track = {
 		var track_id		= this.id;
 
 		_.each(sisbot.get_model('data.playlist_ids'), function(p) {
-			if (p.get('data.track_ids').indexOf(track_id) == -1)
+			if (_.findIndex(p.get('data.tracks'), {id:track_id}) == -1)
 				playlist_ids.push(p.id);
 		});
 
@@ -141,7 +155,7 @@ app.model.track = {
 		var track_id		= this.id;
 
 		_.each(sisbot.get_model('data.playlist_ids'), function(p) {
-			if (p.get('data.track_ids').indexOf(track_id) > -1)
+			if (_.findIndex(p.get('data.tracks'), {id: track_id}) > -1)
 				playlist_ids.push(p.id);
 		});
 
