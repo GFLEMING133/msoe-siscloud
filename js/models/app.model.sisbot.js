@@ -458,10 +458,9 @@ app.model.sisbot = {
 		var playlist	= playlist_model.get('data');
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
-			//TODO: Error checking?
 			//TODO: Error checking
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp)	app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			//if (obj.resp) self.set('data', obj.resp);
 		});
 
 		this.add_nx('data.playlist_ids', playlist.id);
@@ -482,10 +481,12 @@ app.model.sisbot = {
 		var self	= this;
 		var track	= track_model.get('data');
 
+		console.log("Add Track", track);
+
 		this._update_sisbot('add_track', track, function (obj) {
 			//TODO: Error checking
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp)	app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			//if (obj.resp)	self.set('data', obj.resp);
 		});
 
 		this.add_nx('data.track_ids', track.id);

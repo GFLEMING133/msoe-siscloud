@@ -68,7 +68,25 @@ app.model.sisyphus_manager = {
 		}
 
 		return this;
-    },
+  },
+	intake_data: function(given_data) {
+		if (!_.isArray(given_data)) given_data = [given_data];
+
+		console.log("Intake Data:", given_data);
+
+		_.each(given_data, function(data) {
+			if (app.collection.exists(data.id)) {
+				app.collection.get(data.id).set('data', data);
+			} else {
+				app.collection.add(data);
+			}
+
+			if (data.type == 'sisbot') {
+				self.set('sisbot_id', data.id);
+				app.collection.get(data.id).sisbot_listeners();
+			}
+		});
+	},
 	has_user: function () {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
