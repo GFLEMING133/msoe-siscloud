@@ -124,6 +124,8 @@ app.model.sisyphus_manager = {
 
 		user_data.type		= 'user';
 		user_data.endpoint	= 'sign_up';
+		user_data._url		= 'https://api.sisyphus.withease.io';
+
 		app.plugins.fetch(user_data, cb);
 	},
 
@@ -149,6 +151,8 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint = 'sign_in';
+		user_data._url		= 'https://api.sisyphus.withease.io';
+
 		app.plugins.fetch(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
