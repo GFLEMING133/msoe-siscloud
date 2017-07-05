@@ -31,7 +31,7 @@ app.model.sisbot = {
 				hostname_prompt		: 'false',				// hostname change
 
 				is_available		: true,
-				reason_unavailable	: 'false',
+				reason_unavailable	: 'false',				// connect_to_wifi|reset_to_hotspot|resetting|restarting|rebooting
 				installing_updates	: 'false',
 				factory_resetting	: 'false',
 

@@ -450,7 +450,7 @@ app.model.sisyphus_manager = {
 		this.set('merged_playlists', merged_playlists);
 	},
     /**************************** COMMUNITY ***********************************/
-  fetch_community_playlists: function () {
+	fetch_community_playlists: function () {
 		if (this.get('fetched_community_playlists') == 'true')
 			return this;
 
@@ -460,7 +460,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var playlists = {
-			//_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_playlists',
 			data	: {}
@@ -497,7 +497,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var tracks = {
-			//_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_tracks',
 			data	: {}
