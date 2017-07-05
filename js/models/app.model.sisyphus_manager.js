@@ -70,9 +70,10 @@ app.model.sisyphus_manager = {
 		return this;
   },
 	intake_data: function(given_data) {
+		var self = this;
 		if (!_.isArray(given_data)) given_data = [given_data];
 
-		console.log("Intake Data:", given_data);
+		// console.log("Intake Data:", given_data);
 
 		_.each(given_data, function(data) {
 			if (app.collection.exists(data.id)) {
