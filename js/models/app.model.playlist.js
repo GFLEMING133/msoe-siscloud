@@ -151,13 +151,13 @@ app.model.playlist = {
 		this.trigger('change:' + field);
 	},
 	generate_eligible_tracks: function () {
-		var curr_tracks = this.get('data.tracks');
-		var elig_tracks = [];
+		// var curr_tracks = app.manager.get_model('sisbot_id').get('data.track_ids');
+		var elig_tracks = app.manager.get_model('sisbot_id').get('data.track_ids').splice();
 
-		app.collection.get_cluster({ type: 'track' }).each(function(track) {
-			//if (_.findIndex(curr_tracks, {id: track.id}) == -1) elig_tracks.push(track.id);
-			elig_tracks.push(track.id);
-		});
+		// app.collection.get_cluster({ type: 'track' }).each(function(track) {
+		// 	if (curr_tracks.indexOf(track.id) != -1) elig_tracks.push(track.id);
+		// 	// elig_tracks.push(track.id);
+		// });
 
 		this.set('eligible_tracks', elig_tracks);
 	},
