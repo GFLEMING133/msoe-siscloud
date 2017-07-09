@@ -4,19 +4,35 @@ app.model.sisbot = {
 			id				: data.id,
 			type			: 'sisbot',
 
-
 			wifi_networks   : [],
 			wifi			: {
 				name			: '',
 				password		: ''
 			},
 
-			is_connected		: false,
-			is_jogging			: false,
-			jog_type			: '',
-			updating_hostname	: 'false',
+			local_versions: {
+				proxy	: '-',
+				app		: '-',
+				api		: '-',
+				sisbot	: '-',
+			},
+			remote_versions: {
+				proxy	: '-',
+				app		: '-',
+				api		: '-',
+				sisbot	: '-',
+			},
 
-			default_playlist_id	: 'false',
+			is_connected					: false,
+			is_jogging						: false,
+			jog_type						: '',
+			updating_hostname				: 'false',
+
+			is_firmware_update_available	: 'false',
+			is_software_update_available	: 'false',
+
+			default_playlist_id				: 'false',
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisbot',
@@ -36,8 +52,7 @@ app.model.sisbot = {
 				factory_resetting	: 'false',
 
 				pi_id				: '',
-				firmware_version	: '1.0',
-				software_version	: '1.0',
+				firmware_version	: '0.5.1',
 
 				is_hotspot			: 'true',
 				is_network_connected: 'false',
@@ -70,9 +85,6 @@ app.model.sisbot = {
 		return obj;
 	},
 	current_version: 1,
-	on_init: function () {
-
-	},
 	sisbot_listeners: function () {
 		this.listenTo(app, 'sisbot:update_playlist', this.update_playlist);
 		this.listenTo(app, 'sisbot:set_track', this.set_track);
@@ -85,7 +97,6 @@ app.model.sisbot = {
 		this.on('change:data.is_available', this._available);
 		this.on('change:data.is_serial_open', this._check_serial);
 		this.on('change:is_connected', this.check_connection);
-
 		this.get_state();
 	},
 	after_export: function () {
@@ -552,6 +563,43 @@ app.model.sisbot = {
 				}, 100);
 			});
 		}
+
+		return this;
+	},
+	/******************** VERSIONING ******************************************/
+	check_for_version_update: function () {
+		if (this.get('is_connected'))
+			this.check_local_versions();
+
+		if (this.get('data.is_internet_connected') !== 'false')
+			this.check_remote_versions();
+
+		return this;
+	},
+	check_local_versions: function () {
+		var self = this;
+
+		this._update_sisbot('latest_software_version', {}, function(cbb) {
+			console.log('LOCAL VERSIONS', cbb);
+			self.set('local_versions', cbb.resp);
+		});
+
+		return this;
+	},
+	check_remote_versions: function () {
+		var self = this;
+
+		var obj = {
+			_url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'POST',
+			endpoint: 'latest_software_version',
+			data	: {}
+		};
+
+		app.post.fetch(obj, function(cbb) {
+			console.log('REMOTE VERSIONS', cbb);
+			self.set('remote_versions', cbb.resp);
+		}, 0);
 
 		return this;
 	}
