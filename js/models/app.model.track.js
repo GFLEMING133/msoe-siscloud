@@ -48,14 +48,10 @@ app.model.track = {
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	on_file_upload: function (file) {
-		if (this.get('sisbot_upload') == 'true') {
-			this.set('data.name', file.name.replace('.thr', ''));
-			this.set('data.verts', file.data);
+		console.log('WHAT IS OUR DATA', file);
 
-			console.log('WHAT IS OUR DATA', this.get('data'));
-		} else {
-			this.upload_verts_to_cloud(file.data);
-		}
+		this.upload_verts_to_cloud(file.data);
+
 		return this;
 	},
 	upload_verts_to_cloud: function (verts_data) {
@@ -81,6 +77,8 @@ app.model.track = {
 		}, 0);
 	},
 	upload_track_to_sisbot: function () {
+		return this;
+
 		var name	= this.get('data.name');
 		var verts	= this.get('data.verts');
 		var errors	= [];

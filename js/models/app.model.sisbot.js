@@ -126,6 +126,7 @@ app.model.sisbot = {
 				return self.set('data.is_available', false);
 			} else {
 				self.set('data.is_available', true);
+				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
 				self._update_cloud();
 			}
@@ -280,7 +281,14 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
-		if (this.get('data.installing_updates') == 'true') return this;
+		if (this.get('data.installing_updates') == 'true')
+			return this;
+
+		var confirmation = confirm('Are you sure you want to install updates?');
+
+		if (!confirmation)
+			return this;
+
 		var self = this;
 
 		this.set('data.installing_updates', 'true');
@@ -296,7 +304,14 @@ app.model.sisbot = {
 		return this;
 	},
 	factory_reset: function () {
-		if (this.get('data.factory_resetting') == 'true') return this;
+		if (this.get('data.factory_resetting') == 'true')
+			return this;
+
+		var confirmation = confirm('Are you sure you want to factory reset?');
+
+		if (!confirmation)
+			return this;
+
 		var self = this;
 
 		this.set('data.factory_resetting', 'true')

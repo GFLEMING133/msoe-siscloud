@@ -29,6 +29,9 @@ app.model.sisyphus_manager = {
 
 			merge_playlists			: [],
 
+			tracks_to_upload		: [],
+			publish_track			: 'false',
+
 			fetching_community_playlists: 'false',
 			fetching_community_tracks	: 'false',
 			fetched_community_playlists	: 'false',
@@ -286,6 +289,10 @@ app.model.sisyphus_manager = {
 		function on_cb() {
 			--num_checks;
 			if (num_checks == 0) {
+				var sisbots = self.get('sisbots_networked');
+				if (sisbots.length == 1)
+					self.set('sisbot_hostname', sisbots[0]);
+
 				self.set('sisbots_scanning', 'false');
 				self.check_number_sisbots();
 			}
@@ -449,6 +456,35 @@ app.model.sisyphus_manager = {
 		});
 
 		this.set('merged_playlists', merged_playlists);
+	},
+	/******************** TRACK UPLOAD ****************************************/
+	on_file_upload: function (track_file) {
+		var track_obj = {
+			type		: 'track',
+			name		: track_file.name.replace('.thr', ''),
+			verts		: track_file.data
+		};
+
+		this.add('tracks_to_upload', track_obj);
+
+		console.log('we on file upload', track_obj);
+
+		return this;
+	},
+	process_upload_track: function () {
+		var self			= this;
+		var track_objs		= this.get('tracks_to_upload');
+		var publish_track 	= this.get('publish_track');
+
+		_.each(track_objs, function(track_obj) {
+			track_obj.is_published = publish_track;
+			var track_model = app.collection.add(track_obj);
+			track_model.upload_track_to_sisbot();
+		});
+
+		this.set('tracks_to_upload', []);
+
+		return this;
 	},
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {

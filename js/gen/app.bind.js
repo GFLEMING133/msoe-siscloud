@@ -567,22 +567,32 @@ var Binding = Backbone.View.extend({
         this.ctx.set(field, val).trigger('change:' + field).save();
 	},
     file_reader: function (e) {
-        var self    = this;
-        var file    = e.target.files[0];
-        var reader  = new FileReader();
+        var self            = this;
+        var files           = e.target.files;
 
-        if (!file)
+        if (files.length == 0)
             return app.trigger('notifications:notify', 'Failed to load the file');
 
+        _.each(files, function(file_obj) {
+            self._read_file(file_obj);
+        });
+
+        return this;
+    },
+    _read_file: function (file_obj, cb) {
+        var self    = this;
+        var reader  = new FileReader();
+
         reader.onload = function (file_results) {
-            file.data = file_results.target.result
-            console.log('WHAT IS OUR FILE', file);
+            file_obj.data = file_results.target.result;
 
             if (self.model && self.model.on_file_upload)
-                self.model.on_file_upload(file);
+                self.model.on_file_upload(file_obj);
         }
 
-        reader.readAsText(file);
+        reader.readAsText(file_obj);
+
+        return this;
     },
     trigger: function () {
         this.model.trigger(this.data.trigger);

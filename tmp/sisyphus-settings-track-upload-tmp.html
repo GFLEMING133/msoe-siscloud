@@ -12,31 +12,27 @@
             <div class="w15 pt20 center f-large">&nbsp;</div>
         </div>
     </div>
-    <div class="h__k bg-white black h__k"
-        data-scope="true"
-        data-defaults="{'type':'track'}"
-        data-state="{'sisbot_upload':'true'}"
-    >
+    <div class="h__k bg-white black h__k">
         <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
             <div class="h__k" data-foreach="model.errors">
                 <div class="h__k pb5 red">{{= scope.value }}</div>
             </div>
         </div>
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Verts File</h4>
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Verts File(s)</h4>
         <div class="pl20 pr20 pb10">
-            <input class="h__k w100" type="file" />
+            <input class="h__k w100" type="file" multiple />
         </div>
         <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Publish to Community</h4>
         <div class="pl20 pr20 pb10">
             <label>
                 <input class="h__k ml15 mr15" type="checkbox"
-                    data-field="model.data.is_published"
+                    data-field="model.publish_track"
                     data-on-click="toggle"
-                    value="{{= model.data.is_published }}"
-                /> Make track public to the community?
+                    value="{{= model.publish_track }}"
+                /> Make track(s) public to the community?
             </label>
         </div>
         <br clear="both">
-        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.upload_track_to_sisbot">Upload Track to Sisbot</h2>
+        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.process_upload_track">Upload Track(s) to Sisyphus</h2>
     </div>
 </div>
