@@ -9,6 +9,13 @@ app.model.siscloud_manager = {
             users           : '0',
             sisbots         : '0',
 
+			loaded: {
+				playlists	: 'false',
+				tracks		: 'false',
+				users		: 'false',
+				sisbots		: 'false'
+			},
+
 			fetched_forms	: 'false',
 
 			data		: {
@@ -62,38 +69,47 @@ app.model.siscloud_manager = {
     },
     /**************************** GET OBJECTS *********************************/
     get_playlists: function () {
+		var self = this;
+
         app.post.fetch({
 			_type	: 'POST',
 			endpoint: 'cluster',
 			type: 'playlist'
         }, function(obj) {
+			self.set('loaded.playlists', 'true');
             app.collection.add(obj.resp);
 		});
     },
     get_tracks: function () {
+		var self = this;
         app.post.fetch({
 			_type	: 'POST',
 			endpoint: 'cluster',
 			type: 'track'
         }, function(obj) {
+			self.set('loaded.tracks', 'true');
             app.collection.add(obj.resp);
 		});
     },
     get_users: function () {
+		var self = this;
         app.post.fetch({
 			_type	: 'POST',
 			endpoint: 'cluster',
 			type: 'user'
         }, function(obj) {
+			self.set('loaded.users', 'true');
             app.collection.add(obj.resp);
 		});
     },
     get_sisbots: function () {
+		var self = this;
         app.post.fetch({
 			_type	: 'POST',
 			endpoint: 'cluster',
 			type: 'sisbot'
         }, function(obj) {
+			self.set('loaded.sisbots', 'true');
             app.collection.add(obj.resp);
 		});
     },

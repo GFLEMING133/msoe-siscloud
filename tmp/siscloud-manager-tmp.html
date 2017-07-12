@@ -53,7 +53,10 @@
         >Sign Out</li>
     </ul>
 </div>
-<div class="page-content no-stuffing mt50 h__k"
-    data-if="{{= model.active.primary }} !== negative"
-    data-template="siscloud-{{= model.active.primary }}-tmp"
-></div>
+<div class="h__k" data-model="{{= model.siscloud_manager_id }}">
+    <div class="page-content no-stuffing mt50 h__k"
+        data-model="{{= parent.id }}"
+        data-if="{{= model.active.primary }} !== negative"
+        data-template="siscloud-{{= model.active.primary }}-tmp"
+    ></div>
+</div>

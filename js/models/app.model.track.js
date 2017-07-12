@@ -48,17 +48,40 @@ app.model.track = {
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	on_file_upload: function (file) {
-		console.log('WHAT IS OUR DATA', file);
-
 		this.upload_verts_to_cloud(file.data);
+		return this;
+	},
+	upload_track_to_cloud: function () {
+		this.set('data.is_saved', 'true');
+
+		console.log('WE SAVING TO CLOUD');
+
+		var post_data		= this.get('data');
+
+		post_data._url		= 'https://api.sisyphus.withease.io/';
+		post_data._type		= 'POST';
+		post_data.endpoint	= 'set';
+
+		var verts_data		= post_data.verts;
+		post_data.verts		= '';
+
+		app.post.fetch(post_data, function cb(obj) {}, 0);
+
+		this.upload_verts_to_cloud(verts_data);
 
 		return this;
 	},
 	upload_verts_to_cloud: function (verts_data) {
+		console.log('UPLOAD VERTS????', verts_data);
+
+		return this;
+
 		var self = this;
 		this.set('upload_status', 'uploading');
 
+
 		app.post.fetch({
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'upload_track',
 			id		: this.id,
@@ -77,8 +100,6 @@ app.model.track = {
 		}, 0);
 	},
 	upload_track_to_sisbot: function () {
-		return this;
-
 		var name	= this.get('data.name');
 		var verts	= this.get('data.verts');
 		var errors	= [];
@@ -88,7 +109,8 @@ app.model.track = {
 
 		this.set('errors', errors);
 
-		if (errors.length > 0)	return this;
+		if (errors.length > 0)
+			return this;
 
 		// track is good. Change some settings and upload to sisbot!
 		this.set('data.has_verts_file', 'true');

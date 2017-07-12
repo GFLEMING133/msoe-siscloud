@@ -17,7 +17,11 @@
     <div class="no-stuffing w25 p10">Track File</div>
     <div class="no-stuffing w10 p10"></div>
 </div>
+<div class="bg-white m0 center i p20 h__k" data-if="{{= grandparent.loaded.tracks }} == false">
+    Loading tracks...
+</div>
 <div class="bg-white m0 h__k"
+    data-if="{{= grandparent.loaded.tracks }} == true"
     data-cluster="{'type':'track','is_deleted':'false','is_saved':'true'}"
     data-cluster-comparator="model.comparator"
     data-subscribe-ctx="model"

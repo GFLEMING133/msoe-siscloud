@@ -467,22 +467,27 @@ app.model.sisyphus_manager = {
 
 		this.add('tracks_to_upload', track_obj);
 
-		console.log('we on file upload', track_obj);
-
 		return this;
 	},
 	process_upload_track: function () {
 		var self			= this;
 		var track_objs		= this.get('tracks_to_upload');
 		var publish_track 	= this.get('publish_track');
+		var num_tracks		= track_objs.length;
 
 		_.each(track_objs, function(track_obj) {
 			track_obj.is_published = publish_track;
 			var track_model = app.collection.add(track_obj);
 			track_model.upload_track_to_sisbot();
+
+			if (publish_track == 'true')
+				track_model.upload_track_to_cloud();
 		});
 
 		this.set('tracks_to_upload', []);
+
+		if (num_tracks > 1)
+			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
 
 		return this;
 	},
