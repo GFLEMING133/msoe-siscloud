@@ -206,7 +206,7 @@ app.model.sisbot = {
 	do_not_remind: function () {
 		var self = this;
 
-		this._update_sisbot('stop_wifi_reminder', data, function(obj) {
+		this._update_sisbot('stop_wifi_reminder', {}, function(obj) {
 			if (obj.err) {
 				self.set('errors', resp.err);
 			} else if (obj.resp) {
@@ -510,10 +510,11 @@ app.model.sisbot = {
 		console.log("Add Track", track);
 
 		this._update_sisbot('add_track', track, function (obj) {
-			console.log("SISBOT: TRACK ADD", obj);
-			//TODO: Error checking
-			if (obj.resp)	app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
-			//if (obj.resp)	self.set('data', obj.resp);
+			if (obj.err) {
+				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
+			} else if (obj.resp) {
+				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			}
 		});
 
 		this.add_nx('data.track_ids', track.id);
@@ -523,9 +524,11 @@ app.model.sisbot = {
 		var track	= this.get('data');
 
 		this._update_sisbot('remove_track', track, function (obj) {
-			//TODO: Error checking
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.err) {
+				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
+			} else if (obj.resp) {
+				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			}
 		});
 
 		this.remove('data.track_ids', track.id);
