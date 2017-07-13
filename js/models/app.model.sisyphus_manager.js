@@ -528,7 +528,7 @@ app.model.sisyphus_manager = {
 		app.post.fetch(playlists, cb, 0);
 
 		return this;
-  },
+	},
 	fetch_community_tracks: function () {
 		if (this.get('fetched_community_tracks') == 'true')
 			return this;

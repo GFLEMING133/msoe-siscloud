@@ -510,6 +510,7 @@ app.model.sisbot = {
 		console.log("Add Track", track);
 
 		this._update_sisbot('add_track', track, function (obj) {
+			console.log("SISBOT: TRACK ADD", obj);
 			//TODO: Error checking
 			if (obj.resp)	app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
 			//if (obj.resp)	self.set('data', obj.resp);

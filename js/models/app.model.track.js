@@ -72,13 +72,8 @@ app.model.track = {
 		return this;
 	},
 	upload_verts_to_cloud: function (verts_data) {
-		console.log('UPLOAD VERTS????', verts_data);
-
-		return this;
-
 		var self = this;
 		this.set('upload_status', 'uploading');
-
 
 		app.post.fetch({
 			_url	: 'https://api.sisyphus.withease.io/',
@@ -98,6 +93,8 @@ app.model.track = {
 				}, 2500);
 			}
 		}, 0);
+
+		return this;
 	},
 	upload_track_to_sisbot: function () {
 		var name	= this.get('data.name');
@@ -199,9 +196,13 @@ app.model.track = {
 		};
 
 		function cb(obj) {
-			self.set('data.verts', obj.resp);
-			app.trigger('manager:download_track', self.id);
-			app.trigger('sisbot:track_add', self);
+			if (obj.err) {
+				alert('There was an error downloading this track. Please try again later')
+			} else {
+				self.set('data.verts', obj.resp);
+				app.trigger('manager:download_track', self.id);
+				app.trigger('sisbot:track_add', self);
+			}
 		}
 
 		app.post.fetch(req_obj, cb, 0);
