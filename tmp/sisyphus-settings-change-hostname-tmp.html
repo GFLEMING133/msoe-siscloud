@@ -27,6 +27,12 @@
             />
         </div>
         <br clear="both">
-        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.update_hostname">Update Hostname</h2>
+        <h2 class="btn bg-green w100 m0 p20 h__k"
+            data-if="{{= model.updating_hostname }} == false"
+            data-on-click="model.update_hostname"
+        >Update Hostname</h2>
+        <h2 class="btn bg-blue w100 m0 p20 h__k"
+            data-if="{{= model.updating_hostname }} == true"
+        >Updating Hostname <i class="fa fa-spinner spin" aria-hidden="true"></i></h2>
     </div>
 </div>

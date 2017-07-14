@@ -111,10 +111,15 @@ app.model.sisbot = {
 		if (this.get('is_connected') == false)
 			return this;
 
-		var self = this;
+		var self	= this;
+		var address	= this.get('data.hostname')
+
+		if (app.platform == 'Android') {
+			address = this.get('data.local_ip');
+		}
 
 		var obj = {
-			_url	: 'http://' + this.get('data.hostname') + '/',
+			_url	: 'http://' + address + '/',
 			_type	: 'POST',
 			_timeout: 60000,
 			endpoint: 'sisbot/' + endpoint,
@@ -340,10 +345,6 @@ app.model.sisbot = {
 
 		var valid_hostname = new RegExp("^[a-zA-Z][a-zA-Z0-9\-]*$");
 
-		setTimeout(function() {
-			self.set('updating_hostname', 'false');
-		}, 1000)
-
 		if (hostname == '')
 			errors.push('Hostname cannot be empty');
 
@@ -351,13 +352,15 @@ app.model.sisbot = {
 			errors.push('Hostname cannot contain invalid characters. Must start with a letter and consist of letters, numbers, and "-".');
 
 		if (errors.length > 0)
-			return this.set('errors', errors);
+			return this.set('updating_hostname', 'false').set('errors', errors);
 
 		this._update_sisbot('set_hostname', { hostname: hostname }, function(obj) {
+			self.set('updating_hostname', 'false');
+
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
-				self.set('updating_hostname', 'true');
+				app.trigger('session:active', { secondary: 'false' });
 				self.set('data', obj.resp);
 			}
 		});

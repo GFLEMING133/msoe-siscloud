@@ -129,10 +129,10 @@ app.model.sisyphus_manager = {
 		user_data.type		= 'user';
 		user_data.endpoint	= 'sign_up';
 		user_data._url		= 'https://api.sisyphus.withease.io/';
+		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb);
 	},
-
 	sign_in: function () {
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
@@ -154,8 +154,9 @@ app.model.sisyphus_manager = {
 			self._process_registration(user_data, obj.resp);
 		};
 
-		user_data.endpoint = 'sign_in';
+		user_data.endpoint	= 'sign_in';
 		user_data._url		= 'https://api.sisyphus.withease.io/';
+		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb, 0);
 	},

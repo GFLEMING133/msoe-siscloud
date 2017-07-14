@@ -4,6 +4,8 @@ function setup_platforms(cb) {
 		if (cbs == 0) cb();
 	};
 
+	app.platform = device.platform;
+
 	if (window && window.plugins && window.plugins.uniqueDeviceID) {
 		cbs++;
 
