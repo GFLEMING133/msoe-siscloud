@@ -536,6 +536,9 @@ var Binding = Backbone.View.extend({
         var self    = this;
         var val     = this.ctx.get(this.get_value(this.data.field));
 
+        if (val == '')
+            return this;
+
         // gives ability for foreach to render each attribute then make sure it's checked
         setTimeout(function () {
             if (self.$el) {
@@ -851,7 +854,7 @@ var Binding = Backbone.View.extend({
         var defaultValue    = this.get_value('' + this.data.foreachDefaultValue) || '';
         var defaultLabel    = this.get_value(this.data.foreachDefault) || '';
         // SET THE DEFAULT IF ITS A SELECT
-        if (this.tagName == 'SELECT')
+        if (this.tagName == 'SELECT' && defaultValue !== 'undefined')
             this.$el.append('<option value="' + defaultValue + '">' + defaultLabel + '</option>');
 
         if (this.data.if && !this.if_evaluation)

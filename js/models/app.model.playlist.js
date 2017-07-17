@@ -19,14 +19,16 @@ app.model.playlist = {
                 description         : '',
 				duration			: '',				// mins
 				duration_formatted	: '',				// HH:mm
-        tracks           : [], // list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
-				sorted_tracks		: [],				// display to users
 
 				is_published		: 'false',
 				is_shuffle			: 'false',			// same from sisbot
-				is_loop				: 'false',			// same from sisbot
+				is_loop				: 'true',			// same from sisbot
+
+				active_track_index	: -1,
 				active_track_id		: 'false',
-				active_track_index	: 'false',
+
+				tracks           	: [], 				// list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
+				sorted_tracks		: [],				// display to users
 
 				created_by_id		: 'false',
 				created_by_name		: 'User Name',

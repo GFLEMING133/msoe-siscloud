@@ -168,7 +168,7 @@ app.model.session = {
 			.set('user_id', 'false')
 			.set('sisyphus_manager_id', 'false')
 			.set('signed_in', 'false');
-		app.collection.on_init();
+		window.location.reload();
 	},
 	/************************** CHECK SESSION STORED LOCALLY ******************/
 	check_session_sign_in: function () {

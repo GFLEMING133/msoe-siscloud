@@ -272,6 +272,7 @@ app.model.sisyphus_manager = {
 	check_number_sisbots: function () {
 		var sisbots_available = _.uniq(this.get('sisbots_networked'));
 		this.set('sisbots_networked', sisbots_available);
+		this.trigger('change:sisbots_networked');
 
 		if (sisbots_available.length == 0)
 			this.set('sisbot_registration', 'hotspot');
