@@ -65,7 +65,7 @@ app.model.sisyphus_manager = {
 		} else if (app.config.env == 'alpha') {
 			this.setup_demo();
 		} else if (app.config.env == 'beta'){
-			this.setup_demo();
+			//this.setup_demo();
 		} else {
 			app.current_session().check_session_sign_in();
 		}
@@ -291,7 +291,7 @@ app.model.sisyphus_manager = {
 		function on_cb() {
 			--num_checks;
 			if (num_checks == 0) {
-				var sisbots = self.get('sisbots_networked');
+				var sisbots = _.uniq(self.get('sisbots_networked'));
 				if (sisbots.length == 1)
 					self.set('sisbot_hostname', sisbots[0]);
 
@@ -372,7 +372,9 @@ app.model.sisyphus_manager = {
 		if (this.get('sisbot_connecting') == 'true') return false;
 		else this.set('sisbot_connecting', 'true');
 
-		var self		= this;
+		this.set('errors', []);
+
+		var self			= this;
 		var sisbot_hostname = this.get('sisbot_hostname');
 
 		// ping sisbot for connection

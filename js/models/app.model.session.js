@@ -188,7 +188,7 @@ app.model.session = {
 			else
 				sisbots = [];
 
-			return sisbots;
+			return _.uniq(sisbots);
 		} catch(err) {
 			return [];
 		}

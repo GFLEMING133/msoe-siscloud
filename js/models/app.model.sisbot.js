@@ -357,6 +357,10 @@ app.model.sisbot = {
 		this._update_sisbot('set_hostname', { hostname: hostname }, function(obj) {
 			self.set('updating_hostname', 'false');
 
+			// Remember hostname for refresh
+			app.current_session().add_nx('sisbot_hostnames', hostname);
+			app.current_session().save_session();
+
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
