@@ -12,6 +12,10 @@
     </div>
 </div>
 <div class="body-header h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
+    <div class="bg-red white center i p20">
+        We were unable to connect your Sisyphus to your local WiFi network with the credentials you provided.
+        Please double check that you entered them correctly and try again.
+    </div>
     <div class="p20">
         <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Select Network Name</h4>
         <div class="pl20 pr20 pb10 h__k" data-run="model.get_networks">

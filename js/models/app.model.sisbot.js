@@ -60,6 +60,7 @@ app.model.sisbot = {
 				is_internet_connected: 'false',
                 wifi_network        : '',
                 wifi_password       : '',
+				failed_to_connect_to_wifi: 'false',
 
 				playlist_ids		: [],
 				default_playlist_id	: 'false',
@@ -96,7 +97,12 @@ app.model.sisbot = {
 
 		this.on('change:data.is_available', this._available);
 		this.on('change:data.is_serial_open', this._check_serial);
+		this.on('change:data.failed_to_connect_to_wifi', this.failed_to_connect_to_wifi);
 		this.on('change:is_connected', this.check_connection);
+
+		var is_failed = this.get('data.failed_to_connect_to_wifi');
+		if (is_failed) this.failed_to_connect_to_wifi();
+
 		this.get_state();
 	},
 	after_export: function () {
@@ -234,6 +240,11 @@ app.model.sisbot = {
 			self.set('wifi_networks', _.uniq(wifi_networks.sort()));
 		});
     },
+	failed_to_connect_to_wifi: function () {
+		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
+			app.trigger('session:active', { primary: 'settings', secondary: 'wifi' });
+		}
+	},
     connect_to_wifi: function () {
 		var self		= this;
 		var credentials = this.get('wifi');
