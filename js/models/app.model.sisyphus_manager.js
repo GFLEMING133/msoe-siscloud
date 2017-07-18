@@ -362,7 +362,12 @@ app.model.sisyphus_manager = {
 				return cb();
 			}
 
-			self.add('sisbots_networked', obj.resp.hostname);
+			if (app.platform == 'Android') {
+				self.add('sisbots_networked', obj.resp.local_ip);
+			} else {
+				self.add('sisbots_networked', obj.resp.hostname);
+			}
+
 			cb();
 		}, 0);
 

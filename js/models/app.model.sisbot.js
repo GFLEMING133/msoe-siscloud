@@ -101,7 +101,8 @@ app.model.sisbot = {
 		this.on('change:is_connected', this.check_connection);
 
 		var is_failed = this.get('data.failed_to_connect_to_wifi');
-		if (is_failed) this.failed_to_connect_to_wifi();
+		if (is_failed == 'true')
+			this.failed_to_connect_to_wifi();
 
 		this.get_state();
 	},
@@ -158,6 +159,48 @@ app.model.sisbot = {
 				// handle cloud differently
 			}, 0);
 		}
+	},
+	_fetch_cloud_tries: 5,
+	_fetch_cloud: function () {
+		if (app.platform !== 'Android') {
+			// this is only for android
+			return this;
+		}
+
+		var self = this;
+		app.post.fetch(exists = {
+			_url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'GET',
+			_timeout: 1250,
+			endpoint: 'sisbot_state/' + this.id,
+		}, function exists_cb(obj) {
+			//alert('FETCH ENDPOINT');
+
+			if (obj.err) {
+				if (--self._fetch_cloud_tries == 0) {
+					self._fetch_cloud_tries = 5;
+					return this;
+				}
+				//alert('WE GOT ERROR', obj);
+				setTimeout(function () {
+					//alert('try again');
+					self._fetch_cloud();
+				}, 5000);
+			} else {
+				// WE HAVE A REFERENCE FROM THE CLOUD..
+				var ip = obj.resp.local_ip;
+				//alert('WE GOT RESP', obj.resp);
+				alert('local ip: ' + ip);
+
+				// Remember hostname for refresh
+				app.current_session().add_nx('sisbot_hostnames', ip);
+				app.current_session().save_session();
+
+				self.set('data.local_ip', obj.resp.local_ip);
+			}
+		}, 0);
+
+		return this;
 	},
 	_check_serial: function () {
 		if (this.get('data.is_serial_open') == 'false') {
@@ -258,6 +301,8 @@ app.model.sisbot = {
 
 			if (obj.resp)
 				self.set('data', obj.resp);
+
+			self._fetch_cloud();
 
 			if (app.current_session().get('active.tertiary') !== 'false') {
 				app.current_session().set_active({ tertiary: 'false', secondary: 'false', primary: 'current' });
