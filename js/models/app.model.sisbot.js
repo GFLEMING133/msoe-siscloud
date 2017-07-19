@@ -160,7 +160,7 @@ app.model.sisbot = {
 			}, 0);
 		}
 	},
-	_fetch_cloud_tries: 5,
+	_fetch_cloud_tries: 10,
 	_fetch_cloud: function () {
 		if (app.platform !== 'Android') {
 			// this is only for android
@@ -178,7 +178,7 @@ app.model.sisbot = {
 
 			if (obj.err) {
 				if (--self._fetch_cloud_tries == 0) {
-					self._fetch_cloud_tries = 5;
+					self._fetch_cloud_tries = 10;
 					return this;
 				}
 				//alert('WE GOT ERROR', obj);
@@ -190,7 +190,7 @@ app.model.sisbot = {
 				// WE HAVE A REFERENCE FROM THE CLOUD..
 				var ip = obj.resp.local_ip;
 				//alert('WE GOT RESP', obj.resp);
-				alert('local ip: ' + ip);
+				//alert('local ip: ' + ip);
 
 				// Remember hostname for refresh
 				app.current_session().add_nx('sisbot_hostnames', ip);
@@ -217,10 +217,9 @@ app.model.sisbot = {
 	},
 	_available: function () {
 		if (this.get('data.is_available') == false || this.get('data.is_available') == "false" ) {
-			if (!this._available_data) {
+			if (!this._available_data)
 				this._available_data = app.current_session().get('active');
-				app.current_session().set('active.primary', 'unavailable');
-			}
+			app.current_session().set('active.primary', 'unavailable');
 		} else {
 			if (this._available_data) {
 				app.current_session().set('active', this._available_data);
@@ -275,8 +274,10 @@ app.model.sisbot = {
 		var wifi_networks	= [];
 
 		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
+			//alert('GET WIFI');
+			//alert(JSON.stringify(obj));
 			if (obj.err) {
-				return alert('There was an error fetching wifi networks. Please try again later');
+				//alert('There was an error fetching wifi networks. Please try again later');
 			}
 			_.each(obj.resp, function(network_obj) {
 				if (network_obj && network_obj.ssid && network_obj.ssid.indexOf('sisyphus') < 0)
@@ -287,7 +288,9 @@ app.model.sisbot = {
     },
 	failed_to_connect_to_wifi: function () {
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
-			app.trigger('session:active', { primary: 'settings', secondary: 'wifi' });
+			setTimeout(function () {
+				app.trigger('session:active', { primary: 'settings', secondary: 'wifi' });
+			}, 500);
 		}
 	},
     connect_to_wifi: function () {
@@ -297,14 +300,25 @@ app.model.sisbot = {
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			setTimeout(function () {
-				self.set('data.is_available', false);
 				self.set('data.reason_unavailable', 'connect_to_wifi');
+				self.set('data.is_available', false);
 			}, 5500);
+			setTimeout(function () {
+				self.set('data.reason_unavailable', 'connect_to_wifi');
+				self.set('data.is_available', false);
+			}, 2500);
+			setTimeout(function () {
+				self.set('data.reason_unavailable', 'connect_to_wifi');
+				self.set('data.is_available', false);
+			}, 500);
 
 			if (obj.resp)
 				self.set('data', obj.resp);
 
-			self._fetch_cloud();
+			setTimeout(function () {
+				// give the sisbot 10 seconds to connect and post update
+				self._fetch_cloud();
+			}, 10000);
 
 			if (app.current_session().get('active.tertiary') !== 'false') {
 				app.current_session().set_active({ tertiary: 'false', secondary: 'false', primary: 'current' });
@@ -317,6 +331,14 @@ app.model.sisbot = {
 		var self = this;
 
 		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
+			setTimeout(function () {
+				self.set('data.is_available', false);
+				self.set('data.reason_unavailable', 'reset_to_hotspot');
+			}, 500);
+			setTimeout(function () {
+				self.set('data.is_available', false);
+				self.set('data.reason_unavailable', 'reset_to_hotspot');
+			}, 2500);
 			setTimeout(function () {
 				self.set('data.is_available', false);
 				self.set('data.reason_unavailable', 'reset_to_hotspot');

@@ -85,7 +85,7 @@ app.model.sisyphus_manager = {
 				app.collection.add(data);
 			}
 
-			if (data.type == 'sisbot') {
+			if (self.get('sisbot_id') == 'false' && data.type == 'sisbot') {
 				self.set('sisbot_id', data.id);
 				app.collection.get(data.id).sisbot_listeners();
 			}

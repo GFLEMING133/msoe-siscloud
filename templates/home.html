@@ -44,6 +44,9 @@
                     <div class="pt10 left justify">
                         If you are still unable to connect to the table after restarting,
                             check your network list for "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>" to see if it reverted back to a hotspot.
+                        <br />
+                        <br />
+                        If it has reverted back to a hotspot, check your credentials and try again.    
                     </div>
                 </div>
                 <div class="h__k" data-if="{{= model.data.reason_unavailable }} == resetting">
