@@ -292,7 +292,7 @@ app.model.sisyphus_manager = {
 			--num_checks;
 			if (num_checks == 0) {
 				var sisbots = _.uniq(self.get('sisbots_networked'));
-				if (sisbots.length == 1)
+				if (sisbots.length > 0)
 					self.set('sisbot_hostname', sisbots[0]);
 
 				self.set('sisbots_scanning', 'false');

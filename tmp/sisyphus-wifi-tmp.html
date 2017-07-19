@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="body-header h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
-    <div class="bg-red white center i p20">
+    <div class="bg-red white center i p20 h__k" data-if="{{= model.data.failed_to_connect_to_wifi }} == true">
         We were unable to connect your Sisyphus to your local WiFi network with the credentials you provided.
         Please double check that you entered them correctly and try again.
     </div>

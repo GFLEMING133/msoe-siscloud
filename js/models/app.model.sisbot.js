@@ -275,10 +275,12 @@ app.model.sisbot = {
 		var wifi_networks	= [];
 
 		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
+			if (obj.err) {
+				return alert('There was an error fetching wifi networks. Please try again later');
+			}
 			_.each(obj.resp, function(network_obj) {
-				if (network_obj.ssid.indexOf('sisyphus') < 0) {
+				if (network_obj && network_obj.ssid && network_obj.ssid.indexOf('sisyphus') < 0)
 					wifi_networks.push(network_obj.ssid);
-				}
 			})
 			self.set('wifi_networks', _.uniq(wifi_networks.sort()));
 		});
