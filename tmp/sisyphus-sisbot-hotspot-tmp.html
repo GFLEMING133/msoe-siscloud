@@ -14,9 +14,11 @@
         data-value="find"
     >Find Sisyphus</h2>
 </div>
-<div class="h__k p20 clickable center i {{= (app.is_app == true) ? 'white' : 'black' }}"
-    data-if="{{= model.sisbots_scanning }} == false"
-    data-on-click="set"
-    data-field="model.sisbot_registration"
-    data-value="hostname"
->Enter IP Address?</div>
+<div class="h__k" data-if="{{= app.is_app }} == true">
+    <div class="h__k p20 clickable center i white"
+        data-if="{{= model.sisbots_scanning }} == false"
+        data-on-click="set"
+        data-field="model.sisbot_registration"
+        data-value="hostname"
+    >Enter IP Address here?</div>
+</div>
