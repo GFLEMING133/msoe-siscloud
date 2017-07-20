@@ -80,6 +80,7 @@ app.model.sisbot = {
 				is_loop				: 'false',
 				brightness			: .5,
 				speed				: .3,
+				is_autodim			: 'true'
 			}
 		};
 
@@ -669,6 +670,20 @@ app.model.sisbot = {
 				}, 100);
 			});
 		}
+
+		return this;
+	},
+	/******************** VERSIONING ******************************************/
+	set_autodim: function () {
+		var new_value = app.plugins.bool_opp[this.get('data.is_autodim')];
+
+		this.set('data.is_autodim', new_value);
+
+		this._update_sisbot('set_autodim', { value: new_value }, function(obj) {
+			console.log('autodim', obj);
+			if (obj.resp)
+				app.collection.get(obj.resp.id).set('data', obj.resp);
+		});
 
 		return this;
 	},

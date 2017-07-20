@@ -13,6 +13,19 @@
         </div>
     </div>
     <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}">
-        <div class="bb p10 bg-ll-grey-hover clickable">Setup Settings Here</div>
+        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
+            Sisyphus Advanced Settings
+        </div>
+        <div class="bb p10">
+            <span class="h__k">Auto Dim</span>
+            <div class="pull-right h__k" data-on-click="model.set_autodim">
+                <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox"
+                    data-if="{{= model.data.is_autodim }} !== undefined"
+                    data-checked="{{= 'true' }}"
+                    data-field="model.data.is_autodim"
+                />
+                <label for="cmn-toggle-1"></label>
+            </div>
+        </div>
     </div>
 </div>
