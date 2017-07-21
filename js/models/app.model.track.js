@@ -54,8 +54,6 @@ app.model.track = {
 	upload_track_to_cloud: function () {
 		this.set('data.is_saved', 'true');
 
-		console.log('WE SAVING TO CLOUD');
-
 		var post_data		= this.get('data');
 
 		post_data._url		= 'https://api.sisyphus.withease.io/';
@@ -179,6 +177,27 @@ app.model.track = {
 		this.set('playlist_ids', playlist_ids);
 	},
 	/**************************** COMMUNITY ***********************************/
+	fetch_then_download: function () {
+		var self = this;
+
+		var req_obj = {
+			_url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'POST',
+			endpoint: 'get',
+			id		: this.id
+		};
+
+		function cb(obj) {
+			if (obj.err || obj.resp.length == 0) {
+				alert('There was an error downloading this track. Please try again later')
+			} else {
+				self.set('data', obj.resp[0]);
+				self.download();
+			}
+		}
+
+		app.post.fetch(req_obj, cb, 0);
+	},
 	download: function () {
 		var self = this;
 
@@ -207,10 +226,31 @@ app.model.track = {
 
 		app.post.fetch(req_obj, cb, 0);
 	},
+	publish_upload: function() {
+		var self = this;
+
+		app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
+			self.set('data.verts', verts);
+			self.set('data.is_published', 'true');
+			self.upload_track_to_cloud();
+		})
+		return this;
+	},
 	publish: function () {
 		this.set('data.is_published', 'true').save();
 	},
 	unpublish: function () {
 		this.set('data.is_published', 'false').save();
-	}
+	},
+	_save: function (track_data) {
+		if (!track_data)	track_data = this.get('data');
+
+		track_data._url			= 'https://api.sisyphus.withease.io/';
+		track_data._type		= 'POST';
+		track_data.endpoint		= 'set';
+
+		app.post.fetch(track_data, function cb(obj) {
+			if (obj.err)	alert('Error saving track to cloud');
+		}, 0);
+	},
 };

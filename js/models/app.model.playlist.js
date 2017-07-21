@@ -38,6 +38,10 @@ app.model.playlist = {
 		return obj;
 	},
 	current_version: 1,
+	on_init: function () {
+		this.on('change:data.is_published', this.check_publish);
+		return this;
+	},
 	after_export: function () {
 		app.current_session().set_active({ playlist_id: 'false' });
 	},
@@ -50,6 +54,8 @@ app.model.playlist = {
 	},
 	after_save: function () {
 		app.trigger('sisbot:playlist_add', this);
+		if (this.get('data.is_published') == 'true')
+			this.publish();
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account
@@ -158,7 +164,45 @@ app.model.playlist = {
 		this.set('eligible_tracks', elig_tracks);
 	},
 	/**************************** COMMUNITY ***********************************/
+	check_publish: function () {
+		if (this.get('data.is_published') == 'true')	this.publish()
+		else 											this.unpublish();
+	},
+	publish: function () {
+		this._save();
+		this._publish_tracks();
+	},
+	unpublish: function () {
+		this._save();
+	},
+	_save: function () {
+		var playlist_data = this.get('data');
+
+		playlist_data._url		= 'https://api.sisyphus.withease.io/';
+		playlist_data._type		= 'POST';
+		playlist_data.endpoint	= 'set';
+
+		app.post.fetch(playlist_data, function cb(obj) {
+			if (obj.err)	alert('Error saving playlist to cloud');
+		}, 0);
+	},
+	_publish_tracks: function () {
+		_.each(this.get('data.tracks'), function(track_obj) {
+			app.collection.get(track_obj.id).publish_upload();
+		});
+	},
 	download: function () {
-		app.trigger('sisuser:download_playlist', this.id);
+		var self				= this;
+		var curr_track_ids		= app.manager.get_model('sisbot_id').get('data.track_ids');
+		var track_ids			= _.pluck(this.get('data.tracks'), 'id');
+		var tracks_to_download	= _.difference(track_ids, curr_track_ids);
+
+		app.trigger('sisbot:playlist_add', this);
+		app.trigger('manager:download_playlist', this.id);
+
+		_.each(tracks_to_download, function (track_id) {
+			var track_model = app.collection.add({ id: track_id, type: 'track' });
+			track_model.fetch_then_download();
+		});
 	}
 };

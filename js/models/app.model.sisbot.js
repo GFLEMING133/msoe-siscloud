@@ -435,12 +435,12 @@ app.model.sisbot = {
 		if (errors.length > 0)
 			return this.set('updating_hostname', 'false').set('errors', errors);
 
+		// Remember hostname for refresh
+		app.current_session().add_nx('sisbot_hostnames', hostname);
+		app.current_session().save_session();
+
 		this._update_sisbot('set_hostname', { hostname: hostname }, function(obj) {
 			self.set('updating_hostname', 'false');
-
-			// Remember hostname for refresh
-			app.current_session().add_nx('sisbot_hostnames', hostname);
-			app.current_session().save_session();
 
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
@@ -571,10 +571,15 @@ app.model.sisbot = {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
 
+		console.log('Before add: Sisbot add playlist', playlist_model);
+
 		this._update_sisbot('add_playlist', playlist, function (obj) {
-			//TODO: Error checking
-			if (obj.resp)	app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
-			//if (obj.resp) self.set('data', obj.resp);
+			console.log('Sisbot: Add playlist', obj);
+			if (obj.err) {
+				alert('There was an error adding the playlist to your Sisyphus. Please try again later.')
+			} else if (obj.resp) {
+				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			}
 		});
 
 		this.add_nx('data.playlist_ids', playlist.id);
@@ -620,6 +625,20 @@ app.model.sisbot = {
 		});
 
 		this.remove('data.track_ids', track.id);
+	},
+	track_get_verts: function (track_model, cb) {
+		console.log('we got verts', track_model.id);
+
+		this._update_sisbot('get_track_verts', { id: track_model.id }, function (obj) {
+			console.log('track get verts', obj);
+
+			if (obj.err) {
+				alert('There was an error getting the track verts.');
+			} else if (obj.resp) {
+				cb(obj.resp);
+			}
+		});
+
 	},
 	/******************** PLAYBACK ********************************************/
 	play: function () {

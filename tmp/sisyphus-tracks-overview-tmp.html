@@ -9,12 +9,12 @@
         </div>
     </div>
     <div class="h__k center p20 i"
-        data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
+        data-if="{{= app.plugins.length(model.data.tracks) }} == 0"
     >
         <span>There are no tracks on this Sisyphus.</span>
         <span class="clickable">Visit the Community tab to download some</span>
     </div>
-    <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
+    <div class="h__k" data-if="{{= app.plugins.length(model.data.tracks) }} !== 0">
         <div class="h__k"
             data-foreach="model.data.track_ids"
             data-foreach-map="true"

@@ -49,6 +49,12 @@ app.model.sign_in = {
 		if (user_data.username == '')	errors.push('- Username cannot be blank');
 		if (user_data.password == '')	errors.push('- Password cannot be blank');
 
+		if (window.location.href == 'https://siscloud.withease.io/') {
+			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+				errors.push('- Username is not authorized to administer domain');
+			}
+		}
+
 		if (errors.length > 0) {
 			this.set('signing_in', 'false')
 			return this.set('errors', errors);

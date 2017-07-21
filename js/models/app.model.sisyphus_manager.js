@@ -65,7 +65,7 @@ app.model.sisyphus_manager = {
 		} else if (app.config.env == 'alpha') {
 			this.setup_demo();
 		} else if (app.config.env == 'beta'){
-			//this.setup_demo();
+			this.setup_demo();
 		} else {
 			app.current_session().check_session_sign_in();
 		}
@@ -238,7 +238,7 @@ app.model.sisyphus_manager = {
 		var hostname_prompt		= sisbot.get('data.hostname_prompt');
 
 		if (hostname_prompt == 'false')
-			this.set('show_hostname_page', 'true');
+			this.set('show_hostname_page', 'false');
 
 		if (hotspot_status == 'true' && reminder_status == 'false')
 			this.set('show_wifi_page', 'true');
@@ -361,6 +361,9 @@ app.model.sisyphus_manager = {
 			if (obj.err) {
 				return cb();
 			}
+
+			// Default select the one we are already on
+			self.set('sisbot_hostname', hostname);
 
 			if (app.platform == 'Android') {
 				self.add('sisbots_networked', obj.resp.local_ip);
@@ -576,21 +579,7 @@ app.model.sisyphus_manager = {
 		return this;
     },
 	download_playlist: function(playlist_id) {
-		var self = this;
-
 		this.remove('community_playlist_ids', playlist_id);
-
-		var user	= this.get_model('user_id');
-		var sisbot	= this.get_model('sisbot_id');
-
-		user.add_nx('data.playlist_ids', playlist_id);
-		sisbot.add_nx('data.playlist_ids', playlist_id);
-
-		_.each(app.collection.get(playlist_id).get('data.track_ids'), function (track_id) {
-			user.add_nx('data.track_ids',	track_id);
-			sisbot.add_nx('data.track_ids', track_id);
-			self.remove('community_track_ids', track_id);
-		});
 	},
 	download_track: function (track_id) {
 		this.remove('community_track_ids', track_id);
@@ -598,7 +587,7 @@ app.model.sisyphus_manager = {
     /**************************** DEMO ****************************************/
 	setup_as_sisbot: function () {
 		if (app.config.env == 'beta') {
-			var hostname = 'sisbot-123.local';
+			var hostname = 'sisbot-forever.local';
 		} else {
 			var hostname = window.location.hostname;
 		}
@@ -896,7 +885,6 @@ app.model.sisyphus_manager = {
 			track.endpoint	= 'set';
 
 			function cb(obj) {
-				console.log('SAVE TRACK', obj);
 				save_track();
 			}
 
