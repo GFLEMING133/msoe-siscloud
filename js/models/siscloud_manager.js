@@ -76,8 +76,8 @@ app.model.siscloud_manager = {
 			endpoint: 'cluster',
 			type: 'playlist'
         }, function(obj) {
-			self.set('loaded.playlists', 'true');
             app.collection.add(obj.resp);
+			self.set('loaded.playlists', 'true');
 		});
     },
     get_tracks: function () {
@@ -87,8 +87,8 @@ app.model.siscloud_manager = {
 			endpoint: 'cluster',
 			type: 'track'
         }, function(obj) {
-			self.set('loaded.tracks', 'true');
             app.collection.add(obj.resp);
+			self.set('loaded.tracks', 'true');
 		});
     },
     get_users: function () {
@@ -98,8 +98,8 @@ app.model.siscloud_manager = {
 			endpoint: 'cluster',
 			type: 'user'
         }, function(obj) {
-			self.set('loaded.users', 'true');
             app.collection.add(obj.resp);
+			self.set('loaded.users', 'true');
 		});
     },
     get_sisbots: function () {
@@ -109,8 +109,8 @@ app.model.siscloud_manager = {
 			endpoint: 'cluster',
 			type: 'sisbot'
         }, function(obj) {
-			self.set('loaded.sisbots', 'true');
             app.collection.add(obj.resp);
+			self.set('loaded.sisbots', 'true');
 		});
     },
 	get_forms: function () {
