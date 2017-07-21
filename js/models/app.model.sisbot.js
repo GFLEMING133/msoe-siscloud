@@ -436,7 +436,8 @@ app.model.sisbot = {
 			return this.set('updating_hostname', 'false').set('errors', errors);
 
 		// Remember hostname for refresh
-		app.current_session().add_nx('sisbot_hostnames', hostname);
+		var to_remember = hostname + '.local';
+		app.current_session().add_nx('sisbot_hostnames', to_remember);
 		app.current_session().save_session();
 
 		this._update_sisbot('set_hostname', { hostname: hostname }, function(obj) {
