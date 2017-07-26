@@ -921,21 +921,21 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
 input.cmn-toggle-round + label {
-  padding: 2px;
-  width: 30px;
-  height: 15px;
+  padding: 3px;
+  width: 45px;
+  height: 22.5px;
   background-color: #dddddd;
-  border-radius: 30px;
+  border-radius: 45px;
 }
 input.cmn-toggle-round + label:after {
-  width: 15px;
+  width: 22.5px;
   background-color: #fff;
   border-radius: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   transition: margin 0.4s;
 }
 input.cmn-toggle-round:checked + label:after {
-  margin-left: 15px;
+  margin-left: 22.5px;
 }
 
 .cmn-toggle {

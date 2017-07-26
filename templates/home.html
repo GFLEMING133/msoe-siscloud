@@ -46,7 +46,7 @@
                             check your network list for "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>" to see if it reverted back to a hotspot.
                         <br />
                         <br />
-                        If it has reverted back to a hotspot, check your credentials and try again.    
+                        If it has reverted back to a hotspot, check your credentials and try again.
                     </div>
                 </div>
                 <div class="h__k" data-if="{{= model.data.reason_unavailable }} == resetting">
@@ -77,6 +77,15 @@
                     <div class="pt10 left justify">
                         If the network does not show in your network list within 5 minutes,
                             please unplug and replug in your Sisyphus table.
+                    </div>
+                </div>
+                <div class="h__k" data-if="{{= model.data.reason_unavailable }} == fault_detected">
+                    <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
+                    <div class="pt50 left justify">A servo motor error has been detected in your Sisyphus table
+                        and will not run until it is reset. Try unplugging your table and plugging it back in.
+                    </div>
+                    <div class="pt10 left justify">
+                        If you see this error message again, send an email to support@sisyphus-industries.com and we will assist you.
                     </div>
                 </div>
             </div>

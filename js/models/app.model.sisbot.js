@@ -245,7 +245,6 @@ app.model.sisbot = {
 
 		if (this.get('is_connected')) {
 			this._update_sisbot('state', {}, function(obj) {
-				// TODO: Error checking
 				if (obj.resp)
 					self.set('data', obj.resp);
 			});
@@ -465,7 +464,6 @@ app.model.sisbot = {
 	update_playlist: function (playlist_data) {
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			//get back playlist obj
-			//TODO: Error checking
 			if (obj.resp.id !== 'false') {
 				app.collection.get(obj.resp.id)
 					.set('data', obj.resp)
@@ -481,8 +479,7 @@ app.model.sisbot = {
 	},
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function(resp) {
-			// TODO: Do something?
-			// TODO: Error checking
+
 		});
 
 		this.set('data.active_playlist_id',	'false');
@@ -501,7 +498,6 @@ app.model.sisbot = {
 			default_playlist_id		: this.get('default_playlist_id')
 		};
 
-		// TODO: Matt needs to implement endpoint
 		this._update_sisbot('set_default_playlist', data, function(obj) {
 			if (obj.err) {
 				self.set('errors', resp.err);
@@ -557,8 +553,6 @@ app.model.sisbot = {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
-			//TODO: what is the response object on this?
-			//TODO: Error checking
 			if (obj.resp)
 				app.collection.get(obj.resp.id).set('data', obj.resp);
 		});
@@ -590,7 +584,6 @@ app.model.sisbot = {
 		var playlist	= this.get('data');
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
-			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -646,7 +639,6 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'playing');
 		this._update_sisbot('play', {}, function (obj) {
-			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -655,7 +647,6 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'paused');
 		this._update_sisbot('pause', {}, function (obj) {
-			//TODO: Error checking
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
@@ -663,8 +654,7 @@ app.model.sisbot = {
 	home: function () {
 		var self = this;
 		this.set('data.state', 'homing');
-		this._update_sisbot('home', {}, function (obj) {
-			//TODO: Error checking
+		this._update_sisbot('home', { clear_tracks: true }, function (obj) {
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
