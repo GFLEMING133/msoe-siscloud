@@ -1231,39 +1231,112 @@ var Binding = Backbone.View.extend({
         var self = this;
 
         app.scripts.fetch('js/libs/lib.d3.min.js', function () {
-            var w = 400,
-            h = 400
-            var svg = d3.select(self.$el[0])
-              .append('svg')
-              .attr('width', w)
-              .attr('height', h)
-              .style('border', '1px solid #d2d2d2');
+					if (!self.$el) return false;
 
-            var line = d3.radialLine()
-              .radius(function(d, i){ console.log('radius', d); return d.x * 150; })
-              .angle(function(d){ console.log('angle', d); return d.y; })
-              .curve(d3.curveCatmullRom);
-              //.interpolate('basis')
+          var w = 400, h = 400;
+					if (self.data.d3W) w = self.data.d3W;
+					if (self.data.d3H) h = self.data.d3H;
+          var svg = d3.select(self.$el[0])
+            .append('svg')
+            .attr('width', w)
+            .attr('height', h);
 
-            var data = [
-                {x: 0, y: 0 },
-                {x: .25, y: 1.5708 },
-                {x: .75, y: 4.71239 },
-                {x: 1.0, y: 3.14159 }
-            ];
+					var stroke_width = +self.model.get("d3_data.stroke_width") * w / 400;
+					var stroke_edge_width = +self.model.get("d3_data.stroke_edge_width") * w / 400;
 
-            var path = svg.append('path')
-              .datum(data)
-              .attr('d', line)
-              .attr('stroke', 'green')
-              .attr('stroke-width', 3)
-              .attr('fill', 'white')
-              .attr('transform', 'translate(' + w/2 +','+ h/2 +')');
+          var line = d3.radialLine()
+            .radius(function(d, i){
+							// console.log('radius', d);
+							return d.x * (w/2 - stroke_edge_width/2); })
+            .angle(function(d){
+							// console.log('angle', d);
+							return d.y; })
+            .curve(d3.curveMonotoneX); //curveCatmullRom
+            //.interpolate('basis')
 
-            function changeInterpolation(self){
-              line.interpolate(self.value);
-              path.attr('d', line);
-            }
+					if (self.model.get("d3_data.square") == "true") {
+						svg.append("rect")
+					    .attr("width", "100%")
+					    .attr("height", "100%")
+					    .attr("fill", self.model.get("d3_data.background"));
+					}
+
+					if (self.model.get("d3_data.circle") == "true") {
+						svg.append("circle")
+							.attr("cx", w/2)
+							.attr("cy", h/2)
+							.attr("r", w/2-(+self.model.get("d3_data.circle_stroke_width")/2))
+							.attr('stroke', self.model.get("d3_data.circle_stroke"))
+							.attr('stroke-width', self.model.get("d3_data.circle_stroke_width"))
+							.attr("fill", self.model.get("d3_data.background"));
+					}
+
+					console.log("Background", self.model.get("d3_data.background"));
+
+					var interpolated_points = [];
+					if (self.model != undefined) {
+						var data = self.model.get("d3_data");
+
+						interpolated_points.push(data.points[0]);
+						var last_point = interpolated_points[0];
+						var r_max_dist = Math.min(0.785398, data.r_max_dist);
+
+						_.each(data.points, function(point, index) {
+							if (index > 0) {
+								var diff = Math.abs(last_point.y-point.y);
+								if (diff > r_max_dist){
+									var steps = Math.ceil(diff / r_max_dist);
+									for (var i=1; i< steps-1; i++) {
+										interpolated_points.push({x: last_point.x + (point.x - last_point.x) * i / steps, y: last_point.y + (point.y - last_point.y) * i / steps })
+									}
+								}
+								interpolated_points.push(point);
+								last_point = point;
+							}
+						});
+					}
+
+					// debug with fewer points
+					// interpolated_points.reverse();
+					// interpolated_points.length = 500;
+
+					//console.log("D3 Rendered Points", interpolated_points);
+					console.log("D3 Model: ", self.model.id, interpolated_points.length, self.model.get("d3_data.stroke"), self.model.get("d3_data.stroke_width"));
+
+					var last_points = [];
+					var point_count = Math.max(1,self.model.get('d3_data.retrace_steps'));
+					_.each(interpolated_points, function(point, index) {
+						if (index < interpolated_points.length-1) {
+							// setTimeout(function() {
+								var line_array = [point, interpolated_points[index+1]];
+								// lighter edge
+								var edge_path = svg.append('path')
+									.datum(line_array)
+									.attr('d', line)
+									.attr('stroke', self.model.get("d3_data.stroke_edge"))
+									.attr('stroke-width', stroke_edge_width)
+									.style("stroke-linecap", "round")  // stroke-linecap type
+									.attr('fill', 'transparent')
+									.attr('transform', 'translate(' + w/2 +','+ h/2 +')');
+
+								var second_array = [];
+								if (last_points.length > 0) second_array = last_points.concat(line_array);
+
+								// darker path
+								var path = svg.append('path')
+									.datum(second_array)
+									.attr('d', line)
+									.attr('stroke', self.model.get("d3_data.stroke"))
+									.attr('stroke-width', stroke_width)
+									.style("stroke-linecap", "round")  // stroke-linecap type
+									.attr('fill', 'transparent')
+									.attr('transform', 'translate(' + w/2 +','+ h/2 +')');
+
+								last_points.push(point);
+								if (last_points.length > point_count) last_points.shift();
+							// }, 50*index);
+						}
+					});
         });
     },
     taggle: function () {

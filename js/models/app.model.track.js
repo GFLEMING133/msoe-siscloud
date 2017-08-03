@@ -11,6 +11,23 @@ app.model.track = {
 			upload_status		: 'hidden',		// hidden|false|uploading|success
 			sisbot_upload		: 'false',
 
+			d3_data : {
+				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
+				stroke: '#797977', // #797977, #948252
+				stroke_width: 3,
+				stroke_edge: '#fdfaf3', // #fdfaf3, #f6ebcd
+				stroke_edge_width: 7,
+				points:	[],
+				steps: 0,
+				r_max_dist: 0.1,
+				retrace_steps: 5,
+				loaded: "false",
+				circle: "true",
+				circle_stroke: '#d6d2ca',
+				circle_stroke_width: 2,
+				square: "false"
+			},
+
 			data		: {
 				id					: data.id,
 				type    			: 'track',
@@ -43,6 +60,38 @@ app.model.track = {
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });
 	},
+	/**************************** D3 RENDERING ***********************************/
+	load_d3_data: function() {
+		console.log("Load D3 Data", this.id);
+		var self = this;
+		self.set("d3_data.loaded", "false");
+		app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
+			var points = self._convert_verts_to_d3(verts);
+
+			// console.log("Points:", points);
+			self.set("d3_data.points", points);
+			self.set("d3_data.loaded", "true");
+		});
+	},
+	_convert_verts_to_d3: function(data) {
+		var return_value = [];
+		// Step the file, line by line
+		var lines = data.toString().trim().split('\n');
+		var regex = /^\s*$/; // eliminate empty lines
+
+		_.map(lines, function(line) {
+			line.trim();
+
+			if (line.length > 0 && line.substring(0,1) != '#' && !line.match(regex)) {
+				var values = line.split(/\s+/);
+				var entry = {y:parseFloat(values[0]), x:parseFloat(values[1])}; // [theta, rho]
+				return_value.push(entry);
+			}
+		});
+
+		return return_value;
+	},
+	/**************************** GENERAL ***********************************/
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
@@ -233,7 +282,7 @@ app.model.track = {
 			self.set('data.verts', verts);
 			self.set('data.is_published', 'true');
 			self.upload_track_to_cloud();
-		})
+		});
 		return this;
 	},
 	publish: function () {
