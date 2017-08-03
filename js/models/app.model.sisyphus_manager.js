@@ -587,7 +587,7 @@ app.model.sisyphus_manager = {
     /**************************** DEMO ****************************************/
 	setup_as_sisbot: function () {
 		if (app.config.env == 'beta') {
-			var hostname = 'sisbot-forever.local';
+			var hostname = 'sisbot-123.local';
 		} else {
 			var hostname = window.location.hostname;
 		}
