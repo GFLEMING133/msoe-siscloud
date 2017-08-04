@@ -406,7 +406,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex .w100 					{	flex-basis: 100%;		width: 100%;			}
 .flex .h100						{	height: auto;			align-items: stretch;	}
 
-.flex .h5 						{	height: 5vw;									}
+.flex .h5 						{	height: 5vw;	height: 5%;						}
 .flex .h10 						{	height: 10vw;									}
 .flex .h14						{	height: 14vw;									}
 .flex .h15 						{	height: 15vw;									}
@@ -417,7 +417,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex .h35 						{	height: 35vw;									}
 .flex .h40 						{	height: 40vw;									}
 .flex .h45 						{	height: 45vw;									}
-.flex .h50 						{	height: 50vw;									}
+.flex .h50 						{	height: 50vw;	height: 50%;					}
 .flex .h55 						{	height: 55vw;									}
 .flex .h60 						{	height: 60vw;									}
 .flex .h65 						{	height: 65vw;									}

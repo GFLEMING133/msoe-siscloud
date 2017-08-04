@@ -385,6 +385,10 @@ app.model.sisyphus_manager = {
 		var self			= this;
 		var sisbot_hostname = this.get('sisbot_hostname');
 
+		if (sisbot_hostname == 'apple.auth') {
+			app.config.env = 'alpha';
+		}
+
 		// ping sisbot for connection
 		var obj = {
 			_url	: 'http://' + sisbot_hostname + '/',
@@ -611,7 +615,9 @@ app.model.sisyphus_manager = {
 				name				: 'Default Sisbot',
 				type        		: 'sisbot',
 				active_playlist_id	: 'false',
-				active_track_id		: 'false',
+				active_track		: {
+					id: 'false'
+				},
 				state				: 'paused',
 				is_available		: 'true',
 				is_network_connected: 'false',
@@ -622,8 +628,7 @@ app.model.sisyphus_manager = {
 				hostname_prompt		: 'true',
 				do_not_remind		: 'true',
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
-				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
-			 					'276A238C-21F0-4998-B0F8-305BFC0D25E9' ],
+				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492' ],
 				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
 								'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
 							 	'2B34822B-0A27-4398-AE19-23A3C83F1220',
@@ -644,29 +649,17 @@ app.model.sisyphus_manager = {
 				is_loop				: 'false',
 				active_track_id		: 'false',
 				active_track_index	: 'false',
-				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
-								'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
-								'93A90B6B-EAEE-48A3-9742-C688235D837D' ],
-				sorted_tracks: [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
-								'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
-								'93A90B6B-EAEE-48A3-9742-C688235D837D' ],
-			}, {
-				id          		: '276A238C-21F0-4998-B0F8-305BFC0D25E9',
-				type        		: 'playlist',
-				name        		: 'Awesome Playlist',
-				description 		: 'Description of Awesome Playlist',
-				is_saved			: 'true',
-				is_published		: 'false',
-				is_shuffle			: 'true',
-				is_loop				: 'true',
-				active_track_id		: 'false',
-				active_track_index	: 'false',
-				track_ids   : [ '_Test_2_00',
-								'_Test_1_01',
-								'_Test_3_11' ],
-				sorted_tracks: [ '_Test_2_00',
-								'_Test_1_01',
-								'_Test_3_11' ],
+				tracks   : [{
+					id			: '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+					reversible	: 'false'
+				}, {
+					id			: 'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+					reversible	: 'false'
+				}, {
+					id			: '93A90B6B-EAEE-48A3-9742-C688235D837D',
+					reversible	: 'false'
+				}],
+				sorted_tracks: [ 0, 1, 2 ],
 			}, {
 				id          : '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
 				type        : 'track',
