@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'beta',
-	version				: '1.0.1',
+	version				: '1.0.2',
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/',
@@ -34,9 +34,10 @@ app.config = {
 	get_thumb_url: function () {
 		if (this.env == 'alpha') {
 			return '';
+		} else if (app.platform == 'Android') {
+			return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
 		} else if (app.is_app == true || this.env == 'sisbot') {
-			var url = 'http://' + app.manager.get_model('sisbot_id').get('data.hostname') + ':3001/';
-			return url;
+			return 'http://' + app.manager.get_model('sisbot_id').get('data.hostname') + ':3001/';
 		} else {
 			return 'https://app.sisyphus.withease.io/';
 		}
