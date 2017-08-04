@@ -1,14 +1,14 @@
 app.config = {
 	env					: 'beta',
-	version				: '0.5.21',
+	version				: '1.0.0',
 	envs	: {
 		alpha: {	// loads local data only
-			base_url	: 'http://app.dev.withease.io:3000/',
+			base_url	: 'http://app.dev.withease.io:3001/',
 			api_url		: 'http://api.dev.withease.io:3000/',
 			port		: 3001,
 		},
 		beta: {		// tests local network
-			base_url	: 'http://app.dev.withease.io:3000/',
+			base_url	: 'http://app.dev.withease.io:3001/',
 			api_url		: 'http://api.dev.withease.io:3000/',
 			port		: 3001,
 		},

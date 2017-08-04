@@ -122,11 +122,11 @@ label {
 }
 
 .web .hvw50 {
-	height					: 240px;
+	height					: 250px;
 }
 
 .web .hvw40 {
-	height					: 192px;
+	height					: 200px;
 }
 
 .web .hvw25 {
@@ -134,12 +134,35 @@ label {
 }
 
 .web .hvw20 {
-	height					: 96px;
+	height					: 100px;
 }
 
 .web .hvw10 {
-	height					: 46px;
+	height					: 50px;
 }
+
+.web .flex .h5 					{	height: 5%;									}
+.web .flex .h10 				{	height: 10%;								}
+.web .flex .h14					{	height: 14%;								}
+.web .flex .h15 				{	height: 15%;								}
+.web .flex .h20 				{	height: 20%;								}
+.web .flex .h25 				{	height: 25%;								}
+.web .flex .h30 				{	height: 30%;								}
+.web .flex .h33 				{	height: 33%;								}
+.web .flex .h35 				{	height: 35%;								}
+.web .flex .h40 				{	height: 40%;								}
+.web .flex .h45 				{	height: 45%;								}
+.web .flex .h50 				{	height: 50%;								}
+.web .flex .h55 				{	height: 55%;								}
+.web .flex .h60 				{	height: 60%;								}
+.web .flex .h65 				{	height: 65%;								}
+.web .flex .h66 				{	height: 66%;								}
+.web .flex .h70 				{	height: 70%;								}
+.web .flex .h75 				{	height: 75%;								}
+.web .flex .h80 				{	height: 80%;								}
+.web .flex .h85 				{	height: 85%;								}
+.web .flex .h90 				{	height: 90%;								}
+.web .flex .h95 				{	height: 95%;								}
 
 .form-control {
 	height: 22px;
@@ -505,6 +528,14 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .capitalize								{	text-transform			: capitalize;				}
 .relative								{	position				: relative;					}
 
+.absolute {
+	position		: absolute;
+	left			: 0;
+	right			: 0;
+	top				: 0;
+	bottom			: 0;
+}
+
 .truncate {
 	white-space		: nowrap;
 	overflow		: hidden;
@@ -803,6 +834,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 .mt50									{	margin-top				: 50px !important;			            }
 .mb50						            {   margin-bottom		    : 50px !important;			            }
+.ml50									{	margin-left				: 50px !important;			            }
+.mr50						            {   margin-right		    : 50px !important;			            }
 
 .mt60									{	margin-top				: 60px !important;			            }
 .mb60						            {   margin-bottom		    : 60px !important;			            }

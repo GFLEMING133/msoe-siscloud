@@ -31,13 +31,16 @@
     <!--------------------------- PLAYLIST DETAILS ---------------------------->
     <div class="h100 scroll hide-scrollbar">
         <div class="flex p10 bb">
-            <div class="w40 hvw40 bg-ll-grey shadow center clickable vertical">
-                <i class="fa fa-play-circle f-large f-xxxxxlarge h__k"
-                    data-if="{{= app.plugins.length(model.data.tracks) }} > 0"
-                    data-on-click="model.play"
-                    data-msg="{{= 'false' }}"
-                    aria-hidden="true"
-                ></i></span>
+            <div class="w40 hvw40 relative">
+                <div class="absolute hvw40 center clickable vertical z20">
+                    <i class="fa fa-play-circle f-large f-xxxxxlarge h__k"
+                        data-if="{{= app.plugins.length(model.data.tracks) }} > 0"
+                        data-on-click="model.play"
+                        data-msg="{{= 'false' }}"
+                        aria-hidden="true"
+                    ></i></span>
+                </div>
+                <div class="h__k z10" data-template="sisyphus-playlist-rendering"></div>
             </div>
             <div class="w5 hvw40">&nbsp;</div>
             <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
@@ -126,8 +129,8 @@
                 data-on-click="parent.play"
                 data-msg="{{= scope.index }}"
             >
-                <div class="w10 hvw10 bg-ll-grey shadow center vertical">
-                    <span>T</span>
+                <div class="w10 hvw10 center vertical">
+                    <img src="thumbnail/50/{{= model.id }}.png" class="w100 center h__k" alt="{{= model.data.name }}" />
                 </div>
                 <div class="w5 hvw10">&nbsp;</div>
                 <div class="w85 hvw10 bb vertical">

@@ -10,6 +10,7 @@ app.model.track = {
 
 			upload_status		: 'hidden',		// hidden|false|uploading|success
 			sisbot_upload		: 'false',
+			generating_thumbnails: 'false',
 
 			d3_data : {
 				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -90,6 +91,30 @@ app.model.track = {
 		});
 
 		return return_value;
+	},
+	generate_thumbnails: function () {
+		if (this.get('generating_thumbnails') == 'true')
+			return this;
+
+		this.set('generating_thumbnails', 'true');
+		var self = this;
+
+		app.post.fetch({
+			_type	: 'POST',
+			endpoint: 'thumbnail_generate',
+			host_url: app.config.get_base_url(),
+			id		: this.id,
+		}, function exists_cb(obj) {
+			self.set('generating_thumbnails', 'false');
+			console.log(obj);
+			if (obj.err) {
+				alert(obj.err)
+			} else {
+				alert('Thumbnails generated');
+			}
+		}, 0);
+
+		return this;
 	},
 	/**************************** GENERAL ***********************************/
 	play: function () {

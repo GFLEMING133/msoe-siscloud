@@ -51,8 +51,12 @@
             <div class="w70 hvw50 center vertical clickable h__k"
                 data-on-click="model.play"
             >
-                <img src="img/tracks/{{= model.id }}_400.png" class="w100 center h__k" alt="slow" />
-                <!--<span class="fa fa-play f-xxxlarge h__k"></span>-->
+                <div class="h__k" data-if="{{= model.generating_thumbnails }} == false">
+                    <img src="thumbnail/400/{{= model.id }}.png" class="w100 center h__k" alt="slow" />
+                </div>
+                <div class="h__k" data-if="{{= model.generating_thumbnails }} == true">
+                    <img src="thumbnail/400/_default.png" class="w100 center h__k" alt="slow" />
+                </div>
             </div>
             <div class="w15">&nbsp;</div>
         </div>
@@ -61,6 +65,13 @@
                 <p class="no-stuffing h__k">Name: {{= model.data.name }}</p>
                 <p class="no-stuffing h__k">Created By: {{= model.data.created_by_name }}</p>
                 <p class="no-stuffing h__k">Public Track: {{= (model.data.is_published == 'true') ? 'Yes' : 'No' }}</p>
+                <!--
+                <p class="no-stuffing clickable h__k"
+                    data-if="{{= model.generating_thumbnails }} == false"
+                    data-on-click="model.generate_thumbnails"
+                >Generate Thumbnails?</p>
+                <p class="no-stuffing h__k" data-if="{{= model.generating_thumbnails }} == true">Generating Thumbnails <i class="fa fa-spinner spin" aria-hidden="true"></i></p>
+                -->
             </div>
             <div class="w50 h__k" data-if="{{= app.manager.get('user_id') }} == {{= model.data.created_by_id }}">
                 <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded pull-right h__k"
@@ -92,8 +103,8 @@
                     data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','primary':'playlists'}"
                 >
                     <div class="m10">
-                        <div class="w100 hvw20 bg-ll-grey shadow center vertical">
-                            <span class="f-large">P</span>
+                        <div class="w100 hvw20 center vertical relative">
+                            <div class="h__k z10" data-template="sisyphus-playlist-rendering"></div>
                         </div>
                     </div>
                     <div class="pb10 h__k">{{= model.data.name }}</div>
