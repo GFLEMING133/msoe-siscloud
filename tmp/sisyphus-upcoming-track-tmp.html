@@ -4,7 +4,7 @@
 		data-model="{{= model.data.tracks[scope.value].id }}"
 >
 	<div class="w10 hvw10 center vertical">
-		<img src="thumbnail/50/{{= model.id }}.png" class="w100 center h__k" alt="{{= model.data.name }}" />
+		<img src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png" class="w100 center h__k" alt="{{= model.data.name }}" />
 	</div>
 	<div class="w5 hvw10">&nbsp;</div>
 	<div class="w85 hvw10 vertical">

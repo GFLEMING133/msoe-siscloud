@@ -612,7 +612,7 @@ app.model.sisyphus_manager = {
 			{
 				id          		: '57DB5833-72EF-4D16-BCD8-7B832B423554',
 				pi_id				: '',
-				name				: 'Default Sisbot',
+				name				: 'Sisyphus',
 				type        		: 'sisbot',
 				active_playlist_id	: 'false',
 				active_track		: {
@@ -629,15 +629,7 @@ app.model.sisyphus_manager = {
 				do_not_remind		: 'true',
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492' ],
-				track_ids   : [ '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
-								'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
-							 	'2B34822B-0A27-4398-AE19-23A3C83F1220',
-								'93A90B6B-EAEE-48A3-9742-C688235D837D',
-								'B7407A2F-04C3-4C92-B907-4C3869DA86D6',
-								'7C046710-9F19-4423-B291-7394996F0913',
-								'D14E0B41-E572-4B69-9827-4A07C503D031',
-								'26FBFB10-4BC7-46BF-8D55-85AA52C19ADF',
-								'75518177-0D28-4B2A-9B73-29E4974FB702' ]
+				track_ids   : [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
 			}, {
 				id          		: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				type        		: 'playlist',
@@ -650,143 +642,71 @@ app.model.sisyphus_manager = {
 				active_track_id		: 'false',
 				active_track_index	: 'false',
 				tracks   : [{
-					id			: '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+					id			: '1',
 					reversible	: 'false'
 				}, {
-					id			: 'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+					id			: '2',
 					reversible	: 'false'
 				}, {
-					id			: '93A90B6B-EAEE-48A3-9742-C688235D837D',
+					id			: '3',
 					reversible	: 'false'
 				}],
 				sorted_tracks: [ 0, 1, 2 ],
 			}, {
-				id          : '2CBDAE96-EC22-48B4-A369-BFC624463C5F',
+				id          : '1',
 				type        : 'track',
 				name        : 'Erase',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : 'C3D8BC17-E2E1-4D6D-A91F-80FBB65620B8',
+				id          : '2',
 				type        : 'track',
 				name        : 'Tensig 1',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '2B34822B-0A27-4398-AE19-23A3C83F1220',
+				id          : '3',
 				type        : 'track',
 				name        : 'Sine',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '93A90B6B-EAEE-48A3-9742-C688235D837D',
+				id          : '4',
 				type        : 'track',
 				name        : 'Circam 2S',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : 'B7407A2F-04C3-4C92-B907-4C3869DA86D6',
+				id          : '5',
 				type        : 'track',
 				name        : 'C Warp 3B',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '7C046710-9F19-4423-B291-7394996F0913',
+				id          : '6',
 				type        : 'track',
 				name        : 'D Ces 4P',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : 'D14E0B41-E572-4B69-9827-4A07C503D031',
+				id          : '7',
 				type        : 'track',
 				name        : 'Hep',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '26FBFB10-4BC7-46BF-8D55-85AA52C19ADF',
+				id          : '8',
 				type        : 'track',
 				name        : 'India 1P',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '75518177-0D28-4B2A-9B73-29E4974FB702',
+				id          : '9',
 				type        : 'track',
 				name        : 'Para 2B',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
-			},
-			/******************************************************************/
-			{
-				id          : '_Test_1_01',
-				type        : 'track',
-				name        : 'Test 1 01',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_2_00',
-				type        : 'track',
-				name        : 'Test 2 00',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_3_11',
-				type        : 'track',
-				name        : 'Test 3 11',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_4_10',
-				type        : 'track',
-				name        : 'Test 4 10',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_5_11',
-				type        : 'track',
-				name        : 'Test 5 11',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_6_10',
-				type        : 'track',
-				name        : 'Test 6 10',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_7_10',
-				type        : 'track',
-				name        : 'Test 7 10',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_8_00',
-				type        : 'track',
-				name        : 'Test 8 00',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_9_00',
-				type        : 'track',
-				name        : 'Test 9 00',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			}, {
-				id          : '_Test_10_01',
-				type        : 'track',
-				name        : 'Test 10 01',
-				is_published: 'true',
-				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-				created_by_name: 'Sisyphus Industries',
-			},
+			}
 		];
 
 		return data;

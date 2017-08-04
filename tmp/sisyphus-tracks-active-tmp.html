@@ -52,10 +52,10 @@
                 data-on-click="model.play"
             >
                 <div class="h__k" data-if="{{= model.generating_thumbnails }} == false">
-                    <img src="thumbnail/400/{{= model.id }}.png" class="w100 center h__k" alt="slow" />
+                    <img src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" class="w100 center h__k" alt="slow" />
                 </div>
                 <div class="h__k" data-if="{{= model.generating_thumbnails }} == true">
-                    <img src="thumbnail/400/_default.png" class="w100 center h__k" alt="slow" />
+                    <img src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" class="w100 center h__k" alt="slow" />
                 </div>
             </div>
             <div class="w15">&nbsp;</div>
