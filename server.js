@@ -35,6 +35,18 @@ var app = function(given_config,ansible) {
 	}
 
 	app_service
+	.get('/thumbnail_exists/:id', function (req, res) {
+		var id 				= req.params.id;
+		var file_loc		= config.dir + '/img/tracks/' + id + '_50.png';
+
+		fs.readFile(file_loc, function(err, img) {
+			if (err) {
+				res.json({ err: 'Thumbnail does not exist', resp: false })
+			} else {
+				res.json({ err: null, resp: true })
+			}
+		});
+	})
 	.get('/thumbnail/:size/:filename', function (req, res) {
 		var filename 		= req.params.filename.replace('.png', '');
 		var size			= req.params.size;

@@ -152,7 +152,8 @@ app.model.track = {
 			_type	: 'POST',
 			endpoint: 'upload_track',
 			id		: this.id,
-			verts	: verts_data
+			verts	: verts_data,
+			host_url: 'https://app.sisyphus.withease.io/',
 		}, function cb(obj) {
 			if (obj.err) {
 				self.set('upload_status', 'failure');

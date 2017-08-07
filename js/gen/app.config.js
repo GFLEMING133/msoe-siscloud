@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'beta',
-	version				: '1.0.3',
+	version				: '1.0.4',
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/',
@@ -32,7 +32,7 @@ app.config = {
 		return this.envs[this.env].api_url;
 	},
 	get_thumb_url: function () {
-		if (this.env == 'alpha') {
+		if (this.env == 'alpha' || this.env == 'beta') {
 			return '';
 		} else if (app.platform == 'Android') {
 			return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
