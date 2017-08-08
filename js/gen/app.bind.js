@@ -1251,7 +1251,7 @@ var Binding = Backbone.View.extend({
             .angle(function(d){
 							// console.log('angle', d);
 							return d.y; })
-            .curve(d3.curveMonotoneX); //curveCatmullRom
+            .curve(d3.curveLinear); //curveCatmullRom
             //.interpolate('basis')
 
 					if (self.model.get("d3_data.square") == "true") {

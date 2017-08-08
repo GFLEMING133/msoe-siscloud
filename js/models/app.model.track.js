@@ -12,6 +12,7 @@ app.model.track = {
 			sisbot_upload		: 'false',
 			generating_thumbnails: 'false',
 
+			d3: 'false',
 			d3_data : {
 				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
 				stroke: '#797977', // #797977, #948252
@@ -192,7 +193,6 @@ app.model.track = {
 
 		app.collection.add(this);
 		app.trigger('sisbot:track_add', this);
-		app.trigger('session:active', { track_id: this.id, secondary: 'track', primary: 'tracks' });
 
 		return this;
 	},

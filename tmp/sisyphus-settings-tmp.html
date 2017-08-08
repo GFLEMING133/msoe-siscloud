@@ -40,6 +40,12 @@
         data-publish="session:active"
         data-msg="{'secondary':'track_upload'}"
     >Upload Track to Sisyphus<span class="pull-right fa fa-chevron-right"></span></div>
+		<div class="bb p10 bg-ll-grey-hover clickable h__k"
+        data-if="{{= app.is_app }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'upload_svg'}"
+    >Upload SVG to Sisyphus<span class="pull-right fa fa-chevron-right"></span></div>
     <div class="bb p10 bg-ll-grey-hover clickable h__k"
         data-on-click="publish"
         data-publish="session:active"
@@ -158,6 +164,11 @@
 <div class="h__k"
     data-if="{{= parent.active.secondary }} == track_upload"
     data-template="sisyphus-settings-track-upload-tmp"
+></div>
+<!------------------------- UPLOAD SVG -------------------------------------->
+<div class="h__k"
+    data-if="{{= parent.active.secondary }} == upload_svg"
+    data-template="sisyphus-settings-upload-svg-tmp"
 ></div>
 <!------------------------- DEFAULT PLAYLIST ---------------------------------->
 <div class="h__k"

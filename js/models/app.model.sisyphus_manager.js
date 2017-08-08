@@ -475,6 +475,7 @@ app.model.sisyphus_manager = {
 	},
 	/******************** TRACK UPLOAD ****************************************/
 	on_file_upload: function (track_file) {
+		console.log("On File Upload", track_file.name);
 		var track_obj = {
 			type		: 'track',
 			name		: track_file.name.replace('.thr', ''),
@@ -484,6 +485,203 @@ app.model.sisyphus_manager = {
 		this.add('tracks_to_upload', track_obj);
 
 		return this;
+	},
+	process_upload_svg: function() {
+		var self			= this;
+		var svg_objs		= this.get('tracks_to_upload');
+		var publish_track 	= this.get('publish_track');
+		var num_svgs		= svg_objs.length;
+
+		_.each(svg_objs, function(svg_obj) {
+			svg_obj.is_published = publish_track;
+			var track_model = app.collection.add(svg_obj);
+
+			// verts stores the file data
+			var svg_xml = track_model.get('data.verts');
+
+			var oParser = new DOMParser();
+			var oDOM = oParser.parseFromString(svg_xml, "text/xml");
+			var pathElements = oDOM.getElementsByTagName("path");
+
+			var verts = [];
+			var steps = 20;
+
+			_.each(pathElements, function(pathEl) {
+				var path = pathEl.attributes.getNamedItem("d").value;
+				var commands = path.split(/(?=[LMClmc])/);
+				console.log("Commands:", commands);
+
+				_.each(commands, function(entry) {
+					var command = entry.substring(0,1);
+					var points_string = entry.substring(1);
+					var data = points_string.split(/(?=[,-])/);
+
+					// trim extras, convert to numbers
+					for (var i=0; i<data.length; i++) {
+						data[i] = +data[i].replace(/^[\s,]+|\s+$/gm,'');
+					}
+
+					switch (command) {
+						case 'M':
+							// console.log("Start pos", data);
+							if (data.length == 2) verts.push(data);
+							else console.log("Error, too many start points");
+							break;
+						case 'm':
+							// console.log("start pos", data);
+							if (data.length == 2) {
+								if (verts.length > 0) {
+									var p0 = verts[verts.length-1];
+									verts.push([p0[0]+data[0],p0[1]+data[1]]);
+								} else verts.push(data);
+							}
+							else console.log("Error, too many start points");
+							break;
+						case 'L':
+							// console.log("Line", data);
+							verts.push([data[0],data[1]]);
+							break;
+						case 'l':
+							// console.log("line", data);
+							var p0 = verts[verts.length-1];
+							verts.push([p0[0]+data[0],p0[1]+data[1]]);
+							break;
+						case 'C':
+							// console.log("Curve", data);
+							if (data.length == 6) {
+								var p0 = verts[verts.length-1];
+								var p1 = [data[0],p0[1]+data[1]];
+								var p2 = [data[2],p0[1]+data[3]];
+								var p3 = [data[4],p0[1]+data[5]];
+								// console.log("curve", p0, p1, p2, p3);
+								for (var i=1; i<=steps; i++) {
+									var point = self._calculate_bezier_point(i/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}	else console.log("Error, too many Curve points");
+							break;
+						case 'c':
+							// console.log("curve", data);
+							if (data.length == 6) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0]+data[0],p0[1]+data[1]];
+								var p2 = [p0[0]+data[2],p0[1]+data[3]];
+								var p3 = [p0[0]+data[4],p0[1]+data[5]];
+								console.log("curve", p0, p1, p2, p3);
+								for (var i=1; i<=steps; i++) {
+									var point = self._calculate_bezier_point(i/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}	else console.log("Error, too many curve points");
+							break;
+					}
+				});
+			});
+
+			// center resulting verts
+			var min_max = self._min_max(verts);
+			var half_x = (min_max[2]-min_max[0]) / 2;
+			var half_y = (min_max[3]-min_max[1]) / 2;
+			_.each(verts, function(point) {
+				point[0] = point[0] - min_max[0] - half_x;
+				point[1] = point[1] - min_max[1] - half_y;
+			});
+			console.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
+
+			// convert to polar
+			var th_offset = 0;
+			var last_th = 0;
+			var pi = Math.PI;
+			var loop_th = pi*2;
+			_.each(verts, function(point) {
+				var rho = Math.sqrt(point[0]*point[0]+point[1]*point[1]);
+				var new_th =  Math.atan2(point[1],point[0])+pi/2;
+				if (Math.abs(new_th) == pi) new_th = 0;
+				// if (new_th > 0 && last_th < 0) {
+				if (new_th - last_th > pi) {
+					th_offset -= loop_th;
+					console.log("- Point Th", point[0], "=", new_th, "+", th_offset);
+				// } else if (new_th < 0 && last_th > 0) {
+				} else if (new_th - last_th < -pi) {
+					th_offset += loop_th;
+					console.log("+ Point Th", point[0], "=", new_th, "+", th_offset);
+				}
+				point[0] = new_th + th_offset; // th
+				point[1] = rho; // rho
+
+				last_th = new_th;
+			});
+
+			// normalize
+			var polar_min_max = self._min_max(verts);
+			_.each(verts, function(point) {
+				point[1] = point[1]/polar_min_max[3];
+			});
+			console.log("Normalized Polar Verts", verts.join(' '));
+
+			// make sure start/end are 0 or 1
+			var start_rho = verts[0][1];
+			if (start_rho != 1 && start_rho != 0) {
+				if (start_rho <= 0.5) verts.unshift([verts[0][0], 0]);
+				else verts.unshift([verts[0][0], 1]);
+			}
+			var end_rho = verts[verts.length-1][1];
+			if (end_rho != 1 && end_rho != 0) {
+				if (end_rho <= 0.5) verts.push([verts[verts.length-1][0], 0]);
+				else verts.push([verts[verts.length-1][0], 1]);
+			}
+
+			// convert to space separates, line separated string
+			var verts_string = "";
+			_.each(verts, function(point) {
+				verts_string += point[0]+" "+point[1]+"\n";
+			});
+
+			// send to page for confirming the appearance/upload
+			track_model.set("data.verts", verts_string);
+			track_model.upload_track_to_sisbot();
+
+			if (publish_track == 'true') track_model.upload_track_to_cloud();
+
+			// track_model.set("d3", true); // for debugging
+			// app.trigger('session:active', { track_id: track_model.id, secondary: 'track', primary: 'tracks' });
+		});
+
+		this.set('tracks_to_upload', []);
+
+		if (num_svgs > 1) app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+
+		return this;
+	},
+	_calculate_bezier_point: function(t, p0, p1, p2, p3) { // time 0-1, start point, control 1, control 2, end point
+	  var u = 1.0 - t;
+	  var tt = t*t;
+	  var uu = u*u;
+	  var uuu = uu * u;
+	  var ttt = tt * t;
+		//
+		var p = [];
+	  p[0] = uuu * p0[0]; //first term
+	  p[1] = uuu * p0[1]; //first term
+	  p[0] += 3 * uu * t * p1[0]; //second term
+	  p[1] += 3 * uu * t * p1[1]; //second term
+	  p[0] += 3 * u * tt * p2[0]; //third term
+	  p[1] += 3 * u * tt * p2[1]; //third term
+	  p[0] += ttt * p3[0]; //fourth term
+	  p[1] += ttt * p3[1]; //fourth term
+
+	  return p;
+	},
+	_min_max: function(given_array) {
+		var min_x, max_x, min_y, max_y;
+		_.each(given_array, function(point) {
+			if (min_x == undefined || point[0] < min_x) min_x = point[0];
+			if (max_x == undefined || point[0] > max_x) max_x = point[0];
+			if (min_y == undefined || point[1] < min_y) min_y = point[1];
+			if (max_y == undefined || point[1] > max_y) max_y = point[1];
+		});
+
+		return [min_x, min_y, max_x, max_y];
 	},
 	process_upload_track: function () {
 		var self			= this;
@@ -496,8 +694,7 @@ app.model.sisyphus_manager = {
 			var track_model = app.collection.add(track_obj);
 			track_model.upload_track_to_sisbot();
 
-			if (publish_track == 'true')
-				track_model.upload_track_to_cloud();
+			if (publish_track == 'true') track_model.upload_track_to_cloud();
 		});
 
 		this.set('tracks_to_upload', []);

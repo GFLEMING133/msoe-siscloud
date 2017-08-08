@@ -601,6 +601,8 @@ app.model.sisbot = {
 				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
 				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+
+				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'tracks' });
 			}
 		});
 

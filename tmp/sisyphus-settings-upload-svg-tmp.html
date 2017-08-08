@@ -1,0 +1,39 @@
+<div class="body-header">
+    <div class="pull-top bg-white w100">
+        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'false'}"
+            >&nbsp;</div>
+            <div class="w70">
+                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Upload SVG</h1>
+            </div>
+            <div class="w15 pt20 center f-large">&nbsp;</div>
+        </div>
+    </div>
+    <div class="h__k bg-white black h__k">
+        <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+            <div class="h__k" data-foreach="model.errors">
+                <div class="h__k pb5 red">{{= scope.value }}</div>
+            </div>
+        </div>
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">SVG File</h4>
+				<p class="pl20 pr20 f-small">Choose an SVG file to upload. Currently supports Adobe Illustrator exported SVGs.</p>
+        <div class="pl20 pr20 pb10">
+            <input class="h__k w100" type="file" />
+        </div>
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Publish to Community</h4>
+        <div class="pl20 pr20 pb10">
+            <label>
+                <input class="h__k ml15 mr15" type="checkbox"
+                    data-field="model.publish_track"
+                    data-on-click="toggle"
+                    value="{{= model.publish_track }}"
+                /> Make track public to the community?
+            </label>
+        </div>
+        <br clear="both">
+        <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.process_upload_svg">Upload SVG to Sisyphus</h2>
+    </div>
+</div>
