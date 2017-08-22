@@ -70,6 +70,7 @@ $(document).ready(function() {
 		var regex = /^\s*$/; // eliminate empty lines
 
 		_.map(lines, function(line) {
+			// line.replace('\r','');
 			line.trim();
 
 			if (line.length > 0 && line.substring(0,1) != '#' && !line.match(regex)) {
