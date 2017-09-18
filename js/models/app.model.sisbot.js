@@ -10,6 +10,12 @@ app.model.sisbot = {
 				password		: ''
 			},
 
+			local_branches: {
+				proxy	: '-',
+				app		: '-',
+				api		: '-',
+				sisbot	: '-',
+			},
 			local_versions: {
 				proxy	: '-',
 				app		: '-',
@@ -715,6 +721,11 @@ app.model.sisbot = {
 		this._update_sisbot('latest_software_version', {}, function(cbb) {
 			console.log('LOCAL VERSIONS', cbb);
 			self.set('local_versions', cbb.resp);
+
+			this._update_sisbot('software_branch', {}, function(cbb) {
+				console.log('LOCAL BRANCHES', cbb);
+				self.set('local_branches', cbb.resp);
+			});
 		});
 
 		return this;

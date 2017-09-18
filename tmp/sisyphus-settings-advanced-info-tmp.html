@@ -17,10 +17,10 @@
             Sisyphus Version
         </div>
         <div class="bb p10 h__k">
-            Sisbot<span class="pull-right">{{= model.local_versions.sisbot }}</span>
+            Sisbot<span> ({{= model.local_branches.sisbot }})</span><span class="pull-right">{{= model.local_versions.sisbot }}</span>
         </div>
         <div class="bb p10 h__k">
-            Proxy<span class="pull-right">{{= model.local_versions.proxy }}</span>
+            Proxy<span> ({{= model.local_branches.sisbot }})</span><span class="pull-right">{{= model.local_versions.proxy }}</span>
         </div>
         <!--
         <div class="bb p10 h__k">
@@ -28,7 +28,7 @@
         </div>
         -->
         <div class="bb p10 h__k">
-            App<span class="pull-right">{{= model.local_versions.app }}</span>
+            App<span> ({{= model.local_branches.sisbot }})</span><span class="pull-right">{{= model.local_versions.app }}</span>
         </div>
         <div class="bb p10 h__k" data-if="{{= app.is_app }} == true">
             Mobile<span class="pull-right">{{= app.config.version }}</span>
