@@ -10,6 +10,7 @@ app.model.sisbot = {
 				password		: ''
 			},
 
+			is_master_branch: 'true',
 			local_branches: {
 				proxy	: 'master',
 				app		: 'master',
@@ -721,14 +722,23 @@ app.model.sisbot = {
 		this._update_sisbot('latest_software_version', {}, function(cbb) {
 			console.log('LOCAL VERSIONS', cbb);
 			self.set('local_versions', cbb.resp);
-
-			self._update_sisbot('software_branch', {}, function(cbb) {
-				console.log('LOCAL BRANCHES', cbb);
-				self.set('local_branches', cbb.resp);
-			});
 		});
 
 		return this;
+	},
+	check_local_branches: function() {
+		var self = this;
+		this._update_sisbot('software_branch', {}, function(cbb) {
+			console.log('LOCAL BRANCHES', cbb);
+			self.set('local_branches', cbb.resp);
+
+			// set bool for knowing if on master
+			var is_master_branch = 'true';
+			_.each(self.get('local_branches'), function(branch) {
+				if (branch != 'master') is_master_branch = 'false';
+			});
+			self.set('is_master_branch', is_master_branch); // reset
+		});
 	},
 	check_remote_versions: function () {
 		var self = this;
