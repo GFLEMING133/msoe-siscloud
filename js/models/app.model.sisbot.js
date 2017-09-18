@@ -11,10 +11,10 @@ app.model.sisbot = {
 			},
 
 			local_branches: {
-				proxy	: '-',
-				app		: '-',
-				api		: '-',
-				sisbot	: '-',
+				proxy	: 'master',
+				app		: 'master',
+				api		: 'master',
+				sisbot	: 'master',
 			},
 			local_versions: {
 				proxy	: '-',
