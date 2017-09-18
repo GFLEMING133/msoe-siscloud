@@ -722,7 +722,7 @@ app.model.sisbot = {
 			console.log('LOCAL VERSIONS', cbb);
 			self.set('local_versions', cbb.resp);
 
-			this._update_sisbot('software_branch', {}, function(cbb) {
+			self._update_sisbot('software_branch', {}, function(cbb) {
 				console.log('LOCAL BRANCHES', cbb);
 				self.set('local_branches', cbb.resp);
 			});
