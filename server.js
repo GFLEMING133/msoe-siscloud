@@ -56,6 +56,7 @@ var app = function(given_config,ansible) {
 		fs.readFile(file_loc, function(err, img) {
 			if (err) {
 				fs.readFile(default_img, function(err, img) {
+					if (err) return console.log("Default image err", err);
 					res.contentType		= 'image/png';
 					res.contentLength	= img.length;
 					res.end(img, 'binary');
