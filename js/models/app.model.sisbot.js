@@ -11,6 +11,7 @@ app.model.sisbot = {
 			},
 
 			is_master_branch: 'true',
+			branch_label: 'false',
 			local_branches: {
 				proxy	: 'master',
 				app		: 'master',
@@ -731,13 +732,21 @@ app.model.sisbot = {
 		this._update_sisbot('software_branch', {}, function(cbb) {
 			console.log('LOCAL BRANCHES', cbb);
 			self.set('local_branches', cbb.resp);
+			var branch_labels = [];
 
 			// set bool for knowing if on master
 			var is_master_branch = 'true';
 			_.each(self.get('local_branches'), function(branch) {
-				if (branch != 'master') is_master_branch = 'false';
+				if (branch != 'master') {
+					is_master_branch = 'false';
+					if (branch_labels.indexOf(branch) < 0) branch_labels.push(branch);
+				}
 			});
 			self.set('is_master_branch', is_master_branch); // reset
+
+			// make clear string for displaying
+			if (branch_labels.length > 0) self.set('branch_label', branch_labels.join());
+			else self.set('branch_label', 'false');
 		});
 	},
 	check_remote_versions: function () {
