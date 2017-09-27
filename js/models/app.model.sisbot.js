@@ -301,10 +301,9 @@ app.model.sisbot = {
 			}, 500);
 		}
 	},
-    connect_to_wifi: function () {
+  connect_to_wifi: function () {
 		var self		= this;
 		var credentials = this.get('wifi');
-		var tertiary	=
 
 		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			setTimeout(function () {
@@ -334,7 +333,7 @@ app.model.sisbot = {
 				app.current_session().set_active({ secondary: 'false' });
 			}
 		});
-    },
+  },
 	disconnect_wifi: function () {
 		var self = this;
 
