@@ -6,3 +6,4 @@ Tech Stack
 - Cordova
 - BackboneJS
 - jQuery
+- Websocket
