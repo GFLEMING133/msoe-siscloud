@@ -157,6 +157,7 @@ app.model.sisyphus_manager = {
             function on_error(error) {
                 //alert('Bluetooth Service Data Error: ' + error);
 				self.ble_cb();
+				evothings.ble.close(device);
             }
 		);
 	},
@@ -167,9 +168,11 @@ app.model.sisyphus_manager = {
 			var ip_address_arr = new Uint8Array(d);
 			self._ble_ip = ip_address_arr.join('.');
 			self.ble_cb(self._ble_ip);
+			evothings.ble.close(device);
         }, function on_fail(error) {
             //alert('Reach Characteristic Error: ' + error);
 			self.ble_cb();
+			evothings.ble.close(device);
         });
 	},
 	/**************************** USER REGISTRATION ***************************/
