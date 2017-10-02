@@ -95,17 +95,14 @@ app.model.sisyphus_manager = {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
 	/**************************** BLUETOOTH ***********************************/
-	start_scan: function (cb) {
-		if (!app.is_app)
-			return cb();
-
+	start_ble_scan: function (cb) {
 		var self = this;
 
 		this._ble_cb = cb;
 
 		evothings.ble.startScan(
 			function(device) {
-				if (device.name.indexOf('sisyphus') > -1) {
+				if (device && device.advertisementData.kCBAdvDataLocalName == 'sisyphus') {
 					self.ble_connect(device);
 				}
 			},
@@ -120,6 +117,7 @@ app.model.sisyphus_manager = {
 			self.ble_stop_scan();
 		}, 5000);
 	},
+	_ble_ip	: 'false',
 	_char	: false,
 	_ble_cb	: false,
 	ble_cb: function (value) {
@@ -140,10 +138,10 @@ app.model.sisyphus_manager = {
 		evothings.ble.connectToDevice(device, function on_connect(device) {
 			self.get_service_data(device);
 		}, function on_disconnect(device) {
-			alert('Disconnected from Device');
+			//alert('Disconnected from Device');
 			self.ble_cb();
 		}, function on_error(error) {
-			alert('Bluetooth Connect Error: ' + error);
+			//alert('Bluetooth Connect Error: ' + error);
 			self.ble_cb();
 		});
 	},
@@ -157,7 +155,7 @@ app.model.sisyphus_manager = {
                 self.setup_read_chars(device);
             },
             function on_error(error) {
-                alert('Bluetooth Service Data Error: ' + error);
+                //alert('Bluetooth Service Data Error: ' + error);
 				self.ble_cb();
             }
 		);
@@ -167,9 +165,10 @@ app.model.sisyphus_manager = {
 
         evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
 			var ip_address_arr = new Uint8Array(d);
-			self.ble_cb(ip_address_arr.join('.'));
+			self._ble_ip = ip_address_arr.join('.');
+			self.ble_cb(self._ble_ip);
         }, function on_fail(error) {
-            alert('Reach Characteristic Error: ' + error);
+            //alert('Reach Characteristic Error: ' + error);
 			self.ble_cb();
         });
 	},
@@ -365,7 +364,7 @@ app.model.sisyphus_manager = {
 		this.set('sisbots_networked', []);
 		this.set('sisbots_scanning', 'true');
 
-		var num_checks = 4;
+		var num_checks = 5;
 
 		function on_cb() {
 			--num_checks;
@@ -383,6 +382,7 @@ app.model.sisyphus_manager = {
 		this.find_session_sisbots(on_cb);
 		this.find_user_sisbots(on_cb);
 		this.find_bluetooth_sisbots(on_cb);
+		this.find_network_sisbots(on_cb);
 	},
 	find_hotspot: function (cb) {
 		var hotspot_hostname	= '192.168.42.1';
@@ -429,14 +429,43 @@ app.model.sisyphus_manager = {
 		return this;
 	},
 	find_bluetooth_sisbots: function (cb) {
+		if (!app.is_app)
+			return cb();
+
 		var self		= this;
 		var ip_address	= false;
 
-		this.start_scan(function (ip_address) {
+
+		this.start_ble_scan(function (ip_address) {
 			if (ip_address)
 				self.ping_sisbot(ip_address, cb);
 			else
 				cb();
+		});
+
+		return this;
+	},
+	find_network_sisbots: function (cb) {
+		if (!app.is_app)
+			return cb();
+
+		var self = this;
+
+		this.get_network_ip_address(function(ip_address) {
+			if (!ip_address)	return cb();
+
+			var ip_add	= ip_address.split('.');
+			ip_add.pop();
+
+			var ip_base = ip_add.join('.');
+			var count = 256;
+
+			// scan network
+			for (var i = 0; i < 256; i++) {
+				self.ping_sisbot(ip_base + '.' + i, function() {
+					if (--count == 0) cb();
+				});
+			}
 		});
 
 		return this;
@@ -451,8 +480,11 @@ app.model.sisyphus_manager = {
 			endpoint: 'sisbot/exists',
 			data	: {}
 		}, function exists_cb(obj) {
-			if (obj.err)
+			if (obj.err) {
+				if (hostname == self._ble_ip)
+					alert('Your sisbot is a hotspot. Go to network settings to connect now: ' + self._ble_ip);
 				return cb();
+			}
 
 			// Default select the one we are already on
 			self.set('sisbot_hostname', hostname);
@@ -530,10 +562,22 @@ app.model.sisyphus_manager = {
 				self.get_model('user_id').save(true);
 			}
 		}, 0);
-  },
-  disconnect: function () {
+	},
+    disconnect: function () {
 		this.set('sisbot_id','false');
   },
+
+	/**************************** BLUETOOTH ***********************************/
+	get_network_ip_address: function (cb) {
+		networkinterface.getWiFiIPAddress(function on_success(ip_address) {
+			//alert('we got ip address');
+			cb(ip_address);
+		}, function on_error(err) {
+			cb();
+			//alert('error getting ip address');
+			//alert(err);
+		});
+	},
   /**************************** PLAYLISTS ***********************************/
   playlist_create: function () {
 		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
