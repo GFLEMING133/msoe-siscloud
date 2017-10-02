@@ -143,7 +143,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 			} else {
 				if (!_.isArray(obj.err)) obj.err = [ obj.err ];
 
-				self.set('is_unfetchable', 'true');
+				self.set('is_unfetchable', 'false');
 				self.set('is_fetched', 'true');
 			}
 		});

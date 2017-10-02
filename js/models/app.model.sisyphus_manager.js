@@ -385,7 +385,7 @@ app.model.sisyphus_manager = {
 		this.find_network_sisbots(on_cb);
 	},
 	find_hotspot: function (cb) {
-		var hotspot_hostname	= '192.168.42.1';
+		var hotspot_hostname	= '192.168.86.32'; //'192.168.42.1';
 
 		this.ping_sisbot(hotspot_hostname, cb);
 
@@ -547,6 +547,7 @@ app.model.sisyphus_manager = {
 				if (data.type == 'sisbot') {
 					self.set('sisbot_id', data.id);
 					app.collection.get(data.id).sisbot_listeners();
+					app.socket.initialize();
 				}
 			});
 
