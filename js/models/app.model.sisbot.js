@@ -244,7 +244,7 @@ app.model.sisbot = {
 				app.current_session().set('active.secondary', "false");
 			}
 
-			this.set('data.reason_unavailable', '');
+			this.set('data.reason_unavailable', 'false');
 		}
 	},
 	/**************************** SISBOT ADMIN ********************************/
@@ -301,11 +301,11 @@ app.model.sisbot = {
 			}, 500);
 		}
 	},
-  connect_to_wifi: function () {
+  	connect_to_wifi: function () {
 		var self		= this;
 		var credentials = this.get('wifi');
 
-		this._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
+		this._update_sisbot('connect_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			setTimeout(function () {
 				self.set('data.reason_unavailable', 'connect_to_wifi');
 				self.set('data.is_available', false);
@@ -319,8 +319,7 @@ app.model.sisbot = {
 				self.set('data.is_available', false);
 			}, 500);
 
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) self.set('data', obj.resp);
 
 			setTimeout(function () {
 				// give the sisbot 10 seconds to connect and post update
@@ -333,11 +332,11 @@ app.model.sisbot = {
 				app.current_session().set_active({ secondary: 'false' });
 			}
 		});
-  },
+  	},
 	disconnect_wifi: function () {
 		var self = this;
 
-		this._update_sisbot('reset_to_hotspot', {}, function(obj) {
+		this._update_sisbot('disconnect_wifi', {}, function(obj) {
 			setTimeout(function () {
 				self.set('data.is_available', false);
 				self.set('data.reason_unavailable', 'reset_to_hotspot');
