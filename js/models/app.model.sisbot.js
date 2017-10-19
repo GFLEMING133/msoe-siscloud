@@ -291,7 +291,12 @@ app.model.sisbot = {
 				if (network_obj && network_obj.ssid && network_obj.ssid.indexOf('sisyphus') < 0)
 					wifi_networks.push(network_obj.ssid);
 			})
-			self.set('wifi_networks', _.uniq(wifi_networks.sort()));
+			var uniq_wifi = _.uniq(wifi_networks.sort());
+
+			if (uniq_wifi.length > 0)
+				self.set('wifi.name', uniq_wifi[0]);
+
+			self.set('wifi_networks', uniq_wifi);
 		});
     },
 	failed_to_connect_to_wifi: function () {

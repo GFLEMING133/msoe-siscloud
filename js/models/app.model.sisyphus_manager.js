@@ -388,7 +388,7 @@ app.model.sisyphus_manager = {
 		this.find_network_sisbots(on_cb);
 	},
 	find_hotspot: function (cb) {
-		var hotspot_hostname	= '192.168.86.32'; //'192.168.42.1';
+		var hotspot_hostname	= '192.168.42.1';
 
 		this.ping_sisbot(hotspot_hostname, cb);
 
@@ -485,9 +485,12 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == self._ble_ip)
-					alert('Your sisbot is a hotspot. Go to network settings to connect now: ' + self._ble_ip);
+					alert('Your sisbot is a hotspot. Go to your network settings and connect to the Sisyphus network');
 				return cb();
 			}
+
+			if (!obj.resp || !obj.resp.hostname)
+				return cb();
 
 			// Default select the one we are already on
 			self.set('sisbot_hostname', hostname);
@@ -550,7 +553,8 @@ app.model.sisyphus_manager = {
 				if (data.type == 'sisbot') {
 					self.set('sisbot_id', data.id);
 					app.collection.get(data.id).sisbot_listeners();
-					app.socket.initialize();
+					//TODO: UNDO AFTER RELEASE TO APP STORE
+					//app.socket.initialize();
 				}
 			});
 

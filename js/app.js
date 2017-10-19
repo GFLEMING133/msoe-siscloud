@@ -33,7 +33,6 @@ var app = {
 
 		if (app.config.env !== 'server')		app.setup_error_listener();
 		if (app.config.env !== 'server')		app.templates.initialize();
-		if (app.config.env !== 'server')		app.socket.initialize();
 
 		app.collection							= new app.base.collection(null, { model: app.model.neuron });
 		app.collection.on_init();
