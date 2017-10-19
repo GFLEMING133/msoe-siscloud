@@ -38,9 +38,10 @@ app.socket = {
 		app.trigger("socket:disconnect", null);
     },
     on_set: function(data) {
-        console.log('socket: on_set');
 
         if (!_.isArray(data)) data = [data];
+
+		console.log('socket: on_set', data.length);
 
         _.each(data, function(datum) {
             if (datum && datum.id) app.collection.get(datum.id).set('data', datum);
