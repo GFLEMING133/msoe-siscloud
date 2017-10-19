@@ -17,6 +17,7 @@ app.socket = {
 			self.socket.on('connect', function () {			self.on_connect();		});
             self.socket.on('reconnect', function() {        self.on_reconnect();    });
             self.socket.on('disconnect', function() {       self.on_disconnect();   });
+			self.socket.on('error', function(err) { 		self.on_error(err); 	});
 
             self.socket.on('set', function(d) {             self.on_set(d);         });
             self.socket.on('erase', function(d) {           self.on_erase(d);       });
@@ -36,6 +37,10 @@ app.socket = {
     on_disconnect: function() {
         console.log('socket: disconnect');
 		app.trigger("socket:disconnect", null);
+    },
+    on_error: function(err) {
+        console.log('socket: error', err);
+		app.trigger("socket:error", err);
     },
     on_set: function(data) {
 

@@ -585,10 +585,7 @@ app.model.sisbot = {
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
-		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function(obj) {
-			if (obj.resp)
-				app.collection.get(obj.resp.id).set('data', obj.resp);
-		});
+		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') });
 	},
 	set_loop: function () {
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
