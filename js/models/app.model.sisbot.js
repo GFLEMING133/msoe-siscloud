@@ -1,4 +1,5 @@
 app.model.sisbot = {
+	polling_timeout: null,
 	defaults: function (data) {
 		var obj = {
 			id				: data.id,
@@ -32,6 +33,7 @@ app.model.sisbot = {
 			},
 
 			is_connected					: false,
+			is_polling						: 'false',
 			is_jogging						: false,
 			jog_type						: '',
 			updating_hostname				: 'false',
@@ -103,6 +105,10 @@ app.model.sisbot = {
 		this.listenTo(app, 'sisbot:playlist_remove', this.playlist_remove);
 		this.listenTo(app, 'sisbot:track_add', this.track_add);
 		this.listenTo(app, 'sisbot:track_remove', this.track_remove);
+
+		this.listenTo(app, 'socket:connect', this._socket_connect);
+		this.listenTo(app, 'socket:reconnect', this._socket_connect);
+		this.listenTo(app, 'socket:disconnect', this._socket_disconnect);
 
 		this.on('change:data.is_available', this._available);
 		this.on('change:data.is_serial_open', this._check_serial);
@@ -247,6 +253,20 @@ app.model.sisbot = {
 			this.set('data.reason_unavailable', 'false');
 		}
 	},
+	/**************************** sockets ********************************/
+	_socket_connect: function() {
+		console.log("Socket Connect");
+
+		this.set('is_polling', "false");
+		clearTimeout(this.polling_timeout);
+	},
+	_socket_disconnect: function() {
+		console.log("Socket Disconnect");
+		if (this.get('is_polling') == "false") {
+			this.set('is_polling', "true");
+			this.get_state();
+		}
+	},
 	/**************************** SISBOT ADMIN ********************************/
 	get_state: function () {
 		var self = this;
@@ -258,9 +278,11 @@ app.model.sisbot = {
 			});
 		}
 
-		setTimeout(function () {
-			self.get_state();
-		}, 1000);
+		if (this.get('is_polling') != "false") {
+			this.polling_timeout = setTimeout(function () {
+				self.get_state();
+			}, 1000);
+		}
 
 		return this;
 	},
@@ -696,7 +718,7 @@ app.model.sisbot = {
 
 		return this;
 	},
-	/******************** VERSIONING ******************************************/
+	/******************** AUTODIM ******************************************/
 	set_autodim: function () {
 		var new_value = app.plugins.bool_opp[this.get('data.is_autodim')];
 

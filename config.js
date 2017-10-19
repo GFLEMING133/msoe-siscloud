@@ -1,5 +1,5 @@
 var config = {
-    version : '1.2.0b',
+    version : '1.2.1b',
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

@@ -76,7 +76,7 @@ app.model.sisyphus_manager = {
 		var self = this;
 		if (!_.isArray(given_data)) given_data = [given_data];
 
-		// console.log("Intake Data:", given_data);
+		console.log("Intake Data:", given_data);
 
 		_.each(given_data, function(data) {
 			if (app.collection.exists(data.id)) {
@@ -85,10 +85,10 @@ app.model.sisyphus_manager = {
 				app.collection.add(data);
 			}
 
-			if (self.get('sisbot_id') == 'false' && data.type == 'sisbot') {
-				self.set('sisbot_id', data.id);
-				app.collection.get(data.id).sisbot_listeners();
-			}
+			// if (self.get('sisbot_id') == 'false' && data.type == 'sisbot') {
+			// 	self.set('sisbot_id', data.id);
+			// 	app.collection.get(data.id).sisbot_listeners();
+			// }
 		});
 	},
 	has_user: function () {
@@ -554,7 +554,7 @@ app.model.sisyphus_manager = {
 					self.set('sisbot_id', data.id);
 					app.collection.get(data.id).sisbot_listeners();
 					//TODO: UNDO AFTER RELEASE TO APP STORE
-					//app.socket.initialize();
+					app.socket.initialize();
 				}
 			});
 

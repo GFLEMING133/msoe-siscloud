@@ -14,8 +14,9 @@ app.socket = {
 
             self.socket = io.connect(sisbot_ip + ':3002');
 
-            self.socket.on('disconnect', function() {       self.on_disconnect();   });
+			self.socket.on('connect', function () {			self.on_connect();		});
             self.socket.on('reconnect', function() {        self.on_reconnect();    });
+            self.socket.on('disconnect', function() {       self.on_disconnect();   });
 
             self.socket.on('set', function(d) {             self.on_set(d);         });
             self.socket.on('erase', function(d) {           self.on_erase(d);       });
@@ -24,16 +25,22 @@ app.socket = {
             self.socket.emit('register', { id: sisbot_id });
         });
     },
-    on_disconnect: function() {
-        console.log('socket: disconnected');
+    on_connect: function() {
+        console.log('socket: connect');
+		app.trigger("socket:connect", null);
     },
     on_reconnect: function() {
         console.log('socket: reconnect');
+		app.trigger("socket:reconnect", null);
+    },
+    on_disconnect: function() {
+        console.log('socket: disconnect');
+		app.trigger("socket:disconnect", null);
     },
     on_set: function(data) {
         console.log('socket: on_set');
 
-        if (!_.isArray(data)) data = [ data];
+        if (!_.isArray(data)) data = [data];
 
         _.each(data, function(datum) {
             if (datum && datum.id) app.collection.get(datum.id).set('data', datum);
