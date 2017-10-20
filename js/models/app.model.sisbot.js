@@ -109,6 +109,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'socket:connect', this._socket_connect);
 		this.listenTo(app, 'socket:reconnect', this._socket_connect);
 		this.listenTo(app, 'socket:disconnect', this._socket_disconnect);
+		this.listenTo(app, 'socket:error', this._socket_error);
 
 		this.on('change:data.is_available', this._available);
 		this.on('change:data.is_serial_open', this._check_serial);
@@ -266,6 +267,13 @@ app.model.sisbot = {
 			this.set('is_polling', "true");
 			this.get_state();
 		}
+	},
+	_socket_error: function(data) {
+		console.log("Socket Error", data);
+		// if (this.get('is_polling') == "false") {
+		// 	this.set('is_polling', "true");
+		// 	this.get_state();
+		// }
 	},
 	/**************************** SISBOT ADMIN ********************************/
 	get_state: function () {
