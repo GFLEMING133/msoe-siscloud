@@ -46,10 +46,13 @@ app.socket = {
 
         if (!_.isArray(data)) data = [data];
 
-		console.log('socket: on_set', data.length);
+		console.log('socket: on_set', _.pluck(data, 'id'));
 
         _.each(data, function(datum) {
-            if (datum && datum.id) app.collection.get(datum.id).set('data', datum);
+            if (datum && datum.id) {
+				if (app.collection.exists(datum.id)) app.collection.get(datum.id).set('data', datum);
+				else app.collection.add(datum);
+			}
         });
     },
     on_erase: function(data) {

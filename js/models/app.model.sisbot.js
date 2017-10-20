@@ -279,6 +279,8 @@ app.model.sisbot = {
 	get_state: function () {
 		var self = this;
 
+		if (this.get('is_master_branch') == 'false') console.log("Get State: ", this.get('is_connected'), this.get('is_polling'));
+
 		if (this.get('is_connected')) {
 			this._update_sisbot('state', {}, function(obj) {
 				if (obj.resp)
