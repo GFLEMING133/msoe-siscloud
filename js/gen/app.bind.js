@@ -846,7 +846,8 @@ var Binding = Backbone.View.extend({
     foreach_ref: false,
     foreach_listeners: false,
     foreach: function () {
-        this.$el.html('');
+        if (this.$el != undefined)
+			this.$el.html('');
 
         if (this.data.console)
             console.log('Foreach', this);

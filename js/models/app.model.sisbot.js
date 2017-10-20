@@ -38,6 +38,8 @@ app.model.sisbot = {
 			jog_type						: '',
 			updating_hostname				: 'false',
 
+			timestamp						: 'false',
+
 			is_firmware_update_available	: 'false',
 			is_software_update_available	: 'false',
 
@@ -78,6 +80,7 @@ app.model.sisbot = {
 
 				active_playlist_id	: 'false',
 				active_track_id		: 'false',
+				active_track		: 'false',
 
 				current_time		: 0,					// seconds
 
@@ -119,6 +122,8 @@ app.model.sisbot = {
 		var is_failed = this.get('data.failed_to_connect_to_wifi');
 		if (is_failed == 'true')
 			this.failed_to_connect_to_wifi();
+
+		// this.on('change:data', this._update_timestamp);
 
 		this.get_state();
 	},
@@ -231,6 +236,10 @@ app.model.sisbot = {
 			}
 		}
 	},
+	_update_timestamp: function() {
+		this.set('timestamp', ''+Date.now());
+		console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
+	},
 	_available: function () {
 		if (this.get('data.is_available') == false || this.get('data.is_available') == "false" ) {
 			if (!this._available_data)
@@ -283,8 +292,14 @@ app.model.sisbot = {
 
 		if (this.get('is_connected')) {
 			this._update_sisbot('state', {}, function(obj) {
-				if (obj.resp)
+				if (obj.resp) {
 					self.set('data', obj.resp);
+
+					if (self.get('is_polling') != "false") {
+						// try to connect to socket
+						app.socket._setup();
+					}
+				}
 			});
 		}
 

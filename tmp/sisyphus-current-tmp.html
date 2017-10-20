@@ -52,11 +52,13 @@
                     <span class="h__k pull-right">{{= model.data.duration_formatted }}</span>
                     <span class="h__k">{{= model.data.name }}</span>
                 </div>
-                <div class="h__k"
-                    data-foreach="model.data.sorted_tracks"
-                    data-foreach-change="foreach_reset"
-                    data-item="sisyphus-upcoming-track-tmp"
-                ></div>
+				<div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+	                <div class="h__k"
+	                    data-foreach="model.data.sorted_tracks"
+	                    data-foreach-change="foreach_reset"
+	                    data-item="sisyphus-upcoming-track-tmp"
+	                ></div>
+				</div>
             </div>
         </div>
     </div>

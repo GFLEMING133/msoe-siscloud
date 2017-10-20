@@ -224,6 +224,9 @@ app.model.track = {
 		playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
 		this.remove('playlist_not_ids', playlist_id);
 		this.add('playlist_ids', playlist_id);
+
+		playlist.save();
+
 		this.playlist_cancel();
 	},
 	get_not_playlists: function() {

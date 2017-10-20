@@ -1,31 +1,45 @@
 app.socket = {
+	server_ip: null,
     initialize: function() {
         var self = this;
 
         app.scripts.fetch('js/libs/lib.socket.io.min.js', function() {
             if (!window.io) return false;
 
-            var sisbot_id = app.manager.get('sisbot_id');
-            if (sisbot_id == 'false')
-                return this;
-
-            var sisbot_ip = app.collection.get(sisbot_id).get('data.local_ip');
-            console.log('Socket session', sisbot_ip);
-
-            self.socket = io.connect(sisbot_ip + ':3002');
-
-			self.socket.on('connect', function () {			self.on_connect();		});
-            self.socket.on('reconnect', function() {        self.on_reconnect();    });
-            self.socket.on('disconnect', function() {       self.on_disconnect();   });
-			self.socket.on('error', function(err) { 		self.on_error(err); 	});
-
-            self.socket.on('set', function(d) {             self.on_set(d);         });
-            self.socket.on('erase', function(d) {           self.on_erase(d);       });
-            self.socket.on('test', function(d) {            self.on_test(d);        });
-
-            self.socket.emit('register', { id: sisbot_id });
+			self._setup();
         });
     },
+	_setup: function() {
+		var self = this;
+
+	    var sisbot_id = app.manager.get('sisbot_id');
+	    if (sisbot_id == 'false') return this;
+
+		// compare ip, if new, reset
+	    var ip = app.collection.get(sisbot_id).get('data.local_ip');
+		if (ip != this.server_ip) {
+			this.server_ip = ip;
+		    console.log('Socket session', this.server_ip);
+
+			if (self.socket) {
+				self.socket.close();
+				delete self.socket;
+			}
+
+		    self.socket = io.connect(this.server_ip + ':3002');
+
+			self.socket.on('connect', function () {			self.on_connect();		});
+		    self.socket.on('reconnect', function() {        self.on_reconnect();    });
+		    self.socket.on('disconnect', function() {       self.on_disconnect();   });
+			self.socket.on('error', function(err) { 		self.on_error(err); 	});
+
+		    self.socket.on('set', function(d) {             self.on_set(d);         });
+		    self.socket.on('erase', function(d) {           self.on_erase(d);       });
+		    self.socket.on('test', function(d) {            self.on_test(d);        });
+
+		    self.socket.emit('register', { id: sisbot_id });
+		}
+	},
     on_connect: function() {
         console.log('socket: connect');
 		app.trigger("socket:connect", null);
