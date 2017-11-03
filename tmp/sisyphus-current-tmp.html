@@ -14,7 +14,8 @@
         <div class="w70 hv50 h__k" data-if="{{= model.data.active_track.id }} !== false">
             <div class="h__k hvw70 relative" data-model="{{= model.data.active_track.id }}">
                 <div class="absolute z10 pt10">
-                    <img src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" class="h__k float-center o50" alt="{{= model.data.name }}" style="width: 220px; height: 220px;" />
+                    <img src="" class="h__k float-center o50" alt="{{= model.data.name }}" style="width: 220px; height: 220px;"
+                        data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
                 </div>
                 <div class="w100 hvw70 center vertical" style="z-index: 20; position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 10;">
                     <div class="fa fa-pause-circle black f-xxxxxlarge clickable h__k"

@@ -1,0 +1,63 @@
+<div class="app-container">
+    <h1 class="center white no-stuffing p10 uppercase kern">Sisyphus</h1>
+    <div class="bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.defaults_setup">
+        <p class="no-stuffing fa fa-cog f-xxxlarge center w100 mt50" aria-hidden="true"></>
+        <h3 class="p20 center justify">
+            Set Up Your Sisyphus
+        </h3>
+        <p class="p20 center">
+            You can easily change these settings later.
+        </p>
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Name Your Sisyphus</h4>
+        <div class="pl20 pr20 pb10 h__k" data-if="{{= model.default_settings_error }} == true">
+            <input class="h__k error-border w100" type="text" placeholder="Sisyphus Name"
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                data-field="model.default_settings.name"
+                value="{{= model.default_settings.name }}"
+            />
+            <div class="pull-right error f-small h__k">Table Name Required</div>
+        </div>
+        <div class="pl20 pr20 pb10 h__k" data-if="{{= model.default_settings_error }} == false">
+            <input class="h__k w100" type="text" placeholder="Sisyphus Name"
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                data-field="model.default_settings.name"
+                value="{{= model.default_settings.name }}"
+            />
+        </div>
+
+        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Adjust Brightness</h4>
+        <div class="flex vertical-align">
+            <div class="w10 center pt15 pb15">
+                <i class="fa fa-sun-o center" aria-hidden="true"></i>
+            </div>
+            <div class="w80 flex relative center">
+                <span class="w5"></span>
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
+                    data-on-input="model.brightness"
+                    data-on-update="bg_test"
+                    value="{{= model.data.brightness }}"
+                />
+                <span class="w5"></span>
+            </div>
+            <div class="w10 center pt15 pb15">
+                <i class="fa fa-sun-o f-large center" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <label class="p20 vertical">
+            <input class="hidden h__k" type="checkbox"
+                data-on-click="toggle"
+                data-field="model.data.is_autodim"
+                data-checked="{{= model.data.is_autodim }}"
+            />
+            <span></span>
+            <p class="no-stuffing pl10">Auto-brightness</p>
+        </label>
+
+        <div class="m20 pb20">
+            <p class="p10 mb20 float-center center btn bg-blue corner-5px uppercase h__k"
+                data-on-click="model.defaults_save"
+            >Next Steps</p>
+        </div>
+    </div>
+</div>

@@ -16,9 +16,10 @@ app.model.sisyphus_manager = {
 			},
 
 			sisbot_id       		: 'false',
-			sisbot_registration		: 'find',		// find|hotspot|wifi|hostname
+			sisbot_registration		: 'find',		// find|none|hotspot|multiple
 			show_wifi_page			: 'false',
 			show_hostname_page		: 'false',
+			current_ssid			: 'false',
 
 			sisbots_user			: [],
 			sisbots_networked		: [],
@@ -57,6 +58,8 @@ app.model.sisyphus_manager = {
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);
 		app.manager = this;
 
+		this.get_current_ssid();
+
 		// Skip account creation at the beginning
 		app.current_session().set('signed_in','true');
 
@@ -65,7 +68,7 @@ app.model.sisyphus_manager = {
 		} else if (app.config.env == 'alpha') {
 			this.setup_demo();
 		} else if (app.config.env == 'beta'){
-			this.setup_demo();
+			//this.setup_demo();
 		} else {
 			app.current_session().check_session_sign_in();
 		}
@@ -297,7 +300,39 @@ app.model.sisyphus_manager = {
 		this.set('user_id', 'false');
 		app.current_session().sign_out();
 	},
-    /**************************** SISBOTS *************************************/
+	/*********************** SISBOT ONBOARDING ********************************/
+	should_show_onboarding: function () {
+		var sisbot				= this.get_model('sisbot_id');
+		var hotspot_status		= sisbot.get('data.is_hotspot');
+		var reminder_status 	= sisbot.get('data.do_not_remind');
+
+		if (reminder_status == 'false') {
+			if (hotspot_status == 'true') {
+				this.set('show_wifi_page', 'true');
+			} else {
+				this.set('show_setup_page', 'true');
+			}
+		}
+
+		return this;
+	},
+	should_skip_wifi: function () {
+		console.log('we are here');
+		this.set('show_wifi_page', 'false');
+		this.set('show_setup_page', 'true')
+	},
+	save_hostname: function () {
+		var sisbot				= this.get_model('sisbot_id');
+		sisbot.set('updating_hostname', 'true');
+		this.listenTo(sisbot, 'change:updating_hostname', this.after_hostname);
+		sisbot.update_hostname();
+	},
+	after_hostname: function () {
+		var sisbot	= this.get_model('sisbot_id');
+		this.stopListening(sisbot, 'change:updating_hostname');
+		this.set('show_hostname_page', 'false');
+	},
+	/*********************** SISBOT FIND **************************************/
 	setup_sisbots_page: function () {
 		var _sisbots_user	= this.get('sisbots_user');
 		var sisbots_user	= [];
@@ -309,20 +344,6 @@ app.model.sisyphus_manager = {
 
 		this.set('sisbots_user', sisbots_user)
 			.set('errors', []);
-
-		return this;
-	},
-	should_show_hostname_wifi: function () {
-		var sisbot				= this.get_model('sisbot_id');
-		var hotspot_status		= sisbot.get('data.is_hotspot');
-		var reminder_status 	= sisbot.get('data.do_not_remind');
-		var hostname_prompt		= sisbot.get('data.hostname_prompt');
-
-		if (hostname_prompt == 'false')
-			this.set('show_hostname_page', 'false');
-
-		if (hotspot_status == 'true' && reminder_status == 'false')
-			this.set('show_wifi_page', 'true');
 
 		return this;
 	},
@@ -339,27 +360,7 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
-	save_hostname: function () {
-		var sisbot				= this.get_model('sisbot_id');
-		sisbot.set('updating_hostname', 'true');
-		this.listenTo(sisbot, 'change:updating_hostname', this.after_hostname);
-		sisbot.update_hostname();
-	},
-	after_hostname: function () {
-		var sisbot	= this.get_model('sisbot_id');
-		this.stopListening(sisbot, 'change:updating_hostname');
-		this.set('show_hostname_page', 'false');
-	},
-	check_number_sisbots: function () {
-		var sisbots_available = _.uniq(this.get('sisbots_networked'));
-		this.set('sisbots_networked', sisbots_available);
-		this.trigger('change:sisbots_networked');
-
-		if (sisbots_available.length == 0)
-			this.set('sisbot_registration', 'hotspot');
-
-		return this;
-	},
+	/**************************** FIND SISBOTS ********************************/
 	find_sisbots: function () {
 		// this will find the sisbots on the local network
 		var self			= this;
@@ -373,11 +374,22 @@ app.model.sisyphus_manager = {
 			--num_checks;
 			if (num_checks == 0) {
 				var sisbots = _.uniq(self.get('sisbots_networked'));
-				if (sisbots.length > 0)
-					self.set('sisbot_hostname', sisbots[0]);
-
+				self.set('sisbots_networked', sisbots);
 				self.set('sisbots_scanning', 'false');
-				self.check_number_sisbots();
+				var curr_reg = self.get('sisbot_registration');
+
+				if (sisbots.length == 1) {
+					// autoconnect
+					self.connect_to_sisbot(sisbots[0]);
+				} else if (curr_reg == 'hotspot') {
+					// do nothing, we're already notifying user
+				} else if (sisbots.length == 0) {
+					// show screen that we found none
+					self.set('sisbot_registration', 'none');
+				} else if (sisbots.length > 1) {
+					// show screen to select sisbot
+					self.set('sisbot_registration', 'multiple');
+				}
 			}
 		}
 
@@ -484,8 +496,9 @@ app.model.sisyphus_manager = {
 			data	: {}
 		}, function exists_cb(obj) {
 			if (obj.err) {
-				if (hostname == self._ble_ip)
-					alert('Your sisbot is a hotspot. Go to your network settings and connect to the Sisyphus network');
+				if (hostname == self._ble_ip) {
+					self.set('sisbot_registration', 'hotspot')
+				}
 				return cb();
 			}
 
@@ -494,12 +507,7 @@ app.model.sisyphus_manager = {
 
 			// Default select the one we are already on
 			self.set('sisbot_hostname', hostname);
-
-			if (app.platform == 'Android') {
-				self.add('sisbots_networked', obj.resp.local_ip);
-			} else {
-				self.add('sisbots_networked', obj.resp.hostname);
-			}
+			self.add('sisbots_networked', obj.resp.hostname);
 
 			cb();
 		}, 0);
@@ -553,7 +561,6 @@ app.model.sisyphus_manager = {
 				if (data.type == 'sisbot') {
 					self.set('sisbot_id', data.id);
 					app.collection.get(data.id).sisbot_listeners();
-					//TODO: UNDO AFTER RELEASE TO APP STORE
 					app.socket.initialize();
 				}
 			});
@@ -573,9 +580,8 @@ app.model.sisyphus_manager = {
 	},
     disconnect: function () {
 		this.set('sisbot_id','false');
-  },
-
-	/**************************** BLUETOOTH ***********************************/
+	},
+	/**************************** NETWORK INFO **********************************/
 	get_network_ip_address: function (cb) {
 		networkinterface.getWiFiIPAddress(function on_success(ip_address) {
 			//alert('we got ip address');
@@ -586,12 +592,24 @@ app.model.sisyphus_manager = {
 			//alert(err);
 		});
 	},
-  /**************************** PLAYLISTS ***********************************/
-  playlist_create: function () {
+	get_current_ssid: function () {
+		if (!app.is_app)
+			return this;
+
+		var self = this;
+
+		WifiWizard.getCurrentSSID(function on_success(ssid) {
+			self.set('current_ssid', ssid);
+		}, function on_error(err) {
+			// alert(err);
+		});
+	},
+	/**************************** PLAYLISTS ***********************************/
+	playlist_create: function () {
 		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
 		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist' });
 		playlist.edit();
-  },
+	},
 	merge_playlists: function () {	// unused at this point
 		var merged_playlists = [];
 
@@ -967,7 +985,7 @@ app.model.sisyphus_manager = {
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'true',
 				hostname_prompt		: 'true',
-				do_not_remind		: 'true',
+				do_not_remind		: 'false',
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492' ],
 				track_ids   : [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]

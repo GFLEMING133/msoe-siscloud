@@ -1,32 +1,71 @@
-<div class="container h100 white">
-    <div class="spacer">&nbsp;</div>
-    <div class="spacer">&nbsp;</div>
-    <div class="spacer">&nbsp;</div>
-    <div class="spacer">&nbsp;</div>
-    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
-    <div class="col-md-6 col-sm-8 col-xs-12 black">
-        <h1 class="bg-d-grey center white no-stuffing p20 truncate">Connect to Wifi</h1>
-        <div class="bg-white black">
-            <p class="no-stuffing p20">Would you like to connect your Sisyphus to your home wifi network?</p>
-            <div class="pl20 pr20 pb10">
-                <input class="h__k mr10" data-model="{{= model.sisbot_id }}" type="checkbox"
-                    data-on-click="model.do_not_remind"
-                /> Do not ask me again
+<div class="app-container">
+    <h1 class="center white no-stuffing p10 uppercase kern">Sisyphus</h1>
+    <div class="bg-white black relative pb50">
+        <p class="no-stuffing fa fa-wifi f-xxxlarge center w100 mt50" aria-hidden="true"></>
+        <h3 class="p20 center justify">
+            Connect Sisyphus to your home network
+        </h3>
+        <div class="m20 pb20 h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
+            <p class="no-stuffing strong">Network Name</p>
+            <div class="select-box block mb50 relative">
+                <div class="absolute z20">
+                    <select class="w100 h__k p10"
+                        data-field="model.wifi.name"
+                        data-foreach="model.wifi_networks"
+                        data-foreach-add="foreach_reset"
+                        data-foreach-change="foreach_reset"
+                        data-foreach-default="WiFi Networks"
+                        data-on-change="foreach_reset"
+                    ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+                </div>
+                <div class="absolute z10">
+                    <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
+                        style="padding-bottom: 12px !important;"
+                        aria-hidden="true"
+                    ></>
+                </div>
             </div>
-            <br clear="both" />
-            <div class="h__k flex"
-                data-on-click="set"
-                data-field="model.show_wifi_page"
-                data-value="{{= 'false' }}"
-            >
-                <h2 class="btn bg-l-grey w50 m0 p20">No</h2>
-                <h2 class="btn bg-green w50 m0 p20 h__k"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'tertiary':'setup','secondary':'wifi','primary':'settings'}"
-                >Yes</h2>
+
+            <p class="no-stuffing mt20 strong">Network Password</p>
+            <div class="h__k" data-if="{{= model.wifi_error }} == false">
+                <input class="h__k corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.wifi.password"
+                    value="{{= model.wifi.wifi_password }}"
+                />
+            </div>
+            <div class="h__k" data-if="{{= model.wifi_error }} == true">
+                <input class="h__k error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.wifi.password"
+                    value="{{= model.wifi.wifi_password }}"
+                />
+                <div class="pull-right error f-small h__k">Wi-Fi password cannot be blank</div>
+            </div>
+            <div class="h__k" data-if="{{= model.wifi_error }} == incorrect">
+                <input class="h__k error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.wifi.password"
+                    value="{{= model.wifi.wifi_password }}"
+                />
+                <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
+            </div>
+
+
+            <p class="btn bg-blue w100 m0 mt20 p20 corner-5px uppercase h__k"
+                data-if="{{= model.is_connecting_to_wifi }} == false"
+                data-on-click="model.connect_to_wifi"
+            >Connect</p>
+            <div class="p20 center clickable pull-bottom blue h__k"
+                data-if="{{= model.is_connecting_to_wifi }} == false"
+                data-on-click="parent.should_skip_wifi"
+            >Skip this step</div>
+            <div class="p20 center i pull-bottom h__k" data-if="{{= model.is_connecting_to_wifi }} == true">
+                <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
+                <div class="h__k">
+                    Connecting...
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3 col-sm-2 hidden-xs">&nbsp;</div>
 </div>

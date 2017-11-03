@@ -527,6 +527,8 @@ var Binding = Backbone.View.extend({
         var ref         = this.ctx.get(this.get_value(this.data.field));
         var value       = this.get_value(this.data.checked);
         var is_checked  = (_.isArray(ref)) ? _.contains(ref, value) : ('' + ref) == ('' + value);
+        console.log('checked:', ref, value, is_checked);
+
         this.$el.prop('checked', is_checked);
     },
     is_checked: function () {
@@ -782,6 +784,7 @@ var Binding = Backbone.View.extend({
         if (['SELECT', 'INPUT', 'TEXTAREA'].indexOf(this.tagName) == -1) return false;
 
         if (this.type == 'file')            return this.file_reader(e);
+        if (this.type == 'checkbox')        return this;
 
         this.data.value = this.$el.val();
 

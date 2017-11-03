@@ -36,6 +36,12 @@
         </div>
         <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
             <div class="h__k" data-if="{{= parent.user_id }} == false">
+                <div class="i center shadow bg-ll-grey p30 clickable h__k">
+                    Community coming soon!
+                </div>
+            </div>
+            <!--
+            <div class="h__k" data-if="{{= parent.user_id }} == false">
                 <div class="i center shadow bg-ll-grey p30 clickable h__k"
                     data-on-click="publish"
                     data-publish="session:active"
@@ -48,6 +54,7 @@
                     <div class="h__k" data-if="{{= model.community_page }} == tracks" data-template="sisyphus-community-tracks-tmp"></div>
                 </div>
             </div>
+            -->
         </div>
     </div>
 </div>

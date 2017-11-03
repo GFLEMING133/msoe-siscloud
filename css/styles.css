@@ -25,12 +25,15 @@ a, a:hover {
 }
 
 body, h1, h2, h3, h4, h5, h6, p {
-	font-family					: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
+	font-family					: "Montserrat", Roboto, sans-serif;
 	text-rendering				: optimizeLegibility;
     -webkit-font-smoothing		: antialiased;
     -moz-osx-font-smoothing		: grayscale;
-    letter-spacing				: 0.02em;
 	line-height					: 1em;
+}
+
+.kern {
+	letter-spacing				: 0.2em;
 }
 
 h1, h2, h3 {
@@ -49,9 +52,7 @@ p {
 }
 
 input, textarea {
-    border                      : none !important;
     box-shadow                  : none !important;
-    border-bottom               : 1px solid #efefef !important;
     padding                     : 7px 5px;
     font-size                   : inherit;
     line-height                 : 1.4em;
@@ -78,6 +79,8 @@ li {
 
 input {
     background-color			: inherit !important;
+	border						: 2px solid #838383;
+	border-radius				: 5px;
 }
 
 input:focus {
@@ -86,6 +89,12 @@ input:focus {
 
 label {
 	font-weight: inherit;
+}
+
+.border-box {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /****************************** TARGETED **************************************/
@@ -109,7 +118,7 @@ label {
 }
 
 .web {
-	background-color		: #f7f7f7 !important;
+	background-color		: #000 !important;
 }
 
 .app {
@@ -410,6 +419,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex .w100 					{	flex-basis: 100%;		width: 100%;			}
 .flex .h100						{	height: auto;			align-items: stretch;	}
 
+.w1p							{	width: 1px;										}
+
 .flex .h5 						{	height: 5vw;	height: 5%;						}
 .flex .h10 						{	height: 10vw;									}
 .flex .h14						{	height: 14vw;									}
@@ -438,6 +449,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .w15p							{	width		: 15px;								}
 .w20p							{	width		: 20px;								}
 .w25p							{	width		: 25px;								}
+
+.mh-480							{	min-height	: 480px;							}
 
 /**************************** Generic ******************************************/
 
@@ -520,7 +533,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .clickable 								{	cursor		: pointer;								}
 .no-stuffing							{	margin		: 0px;			padding: 0px;			}
 .stuffing								{	margin		: 0px;			padding: 10px;			}
-.block									{ display: block; }
+.block									{	display: block;										}
 .inline									{	float		: left;			display: inline;		}
 .inline-block							{	display		: inline-block;							}
 .left									{   text-align	: left;									}
@@ -552,6 +565,70 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .corner-3px								{	border-radius			: 3px;						}
 .corner-4px								{	border-radius			: 4px;						}
 .corner-5px								{	border-radius			: 5px;						}
+
+.spinner-bounce {
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner-bounce > div {
+  width: 10px;
+  height: 10px;
+
+  background-color: #fff;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner-bounce .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner-bounce .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+select {
+    padding						: 7px 8px;
+	border						: 2px solid #838383;
+    box-shadow					: none;
+    background					: transparent;
+    background-image			: none;
+    -webkit-appearance			: none;
+}
+
+select:focus {
+    outline: none;
+}
+
+.select-box .fa-chevron-down {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+
+}
 
 /**************************** ZINDEX ******************************************/
 
@@ -598,7 +675,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bl-orange								{	border-left				: 3px solid #F4AE3D;		}
 
 .black 									{	color		: #333 !important;						}
-.blue 									{	color		: #134550 !important;					}
+.blue 									{	color		: #25b3f8 !important;					}
 .blue-l 								{	color		: #22AEFF !important;					}
 .orange									{	color		: #b44a27 !important;					}
 .green									{	color		: #32B150 !important;					}
@@ -619,7 +696,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-red 								{	background-color		: #990033 !important;		}
 .bg-white 								{	background-color		: #ffffff !important;		}
 .bg-d-blue 								{	background-color		: #0F72AB !important;		}
-.bg-blue 								{	background-color		: #22AEFF !important;		}
+.bg-blue 								{	background-color		: #25b3f8 !important;		}
 .bg-orange								{	background-color		: #F4AE3D !important;		}
 .bg-green								{	background-color		: #32B150 !important;		}
 .bg-dd-grey								{	background-color		: #222222 !important;		}
@@ -686,27 +763,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-danger								{	color					: #c7254e;					}
 .error-msg 								{	width					: 100%;						}
 
-.calendar-schedule-start {
-	border-top-left-radius		: 25px;
-	border-bottom-left-radius	: 25px;
-}
-.calendar-schedule-end {
-	border-top-right-radius		: 25px;
-	border-bottom-right-radius	: 25px;
-}
+.error-border							{	border-color			: #de0000;					}
+.error									{	color					: #de0000;					}
 
-.calendar-schedule-published {
-	background-color			: #0F72AB;
-}
-.calendar-schedule-generated {
-	background-color			: #22AEFF;
-}
-.calendar-schedule-setup {
-	background-color			: #A8E4F7;
-}
-
-.calendar-active						{	background-color		: #d9edf7;					}
-.calendar-active-hover:hover			{	background-color		: #d9edf7;					}
 
 /**************************** FONT SIZE ***************************************/
 
@@ -756,6 +815,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bl-med									{	border-left				: 1px solid #ccc !important;		}
 .br-med									{	border-right			: 1px solid #ccc !important;		}
 
+.b-dark									{	border					: 2px solid #444444 !important;		}
 .bt-dark								{	border-top				: 1px solid #444444 !important;		}
 .bb-dark								{	border-bottom			: 1px solid #444444 !important;		}
 .bl-dark								{	border-left				: 1px solid #444444 !important;		}
@@ -1018,12 +1078,13 @@ input[type=range] {
     appearance: none;
     cursor: pointer;
     border: none !important;
-    background: 0 0
+    background: 0 0;
+	overflow: hidden;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
     height: 5px;
-    background: #333;
+    background: #efefef;
     border: 0;
     border-radius: 5px;
     -webkit-user-select: none;
@@ -1036,8 +1097,49 @@ input[type=range]::-webkit-slider-thumb {
     position: relative;
     height: 20px;
     width: 20px;
-    background: #fff;
-    border: 1px solid #555;
+    background: #00b1fa;
+    border: 1px solid #fff;
     border-radius: 100%;
-    box-sizing: border-box
+    box-sizing: border-box;
+}
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+  background-color: #00b1fa;
+}
+input[type="range"]::-moz-range-track {
+  background-color: #efefef;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+  background-color: #00b1fa;
+}
+input[type="range"]::-ms-fill-upper {
+  background-color: #efefef;
+}
+
+
+label input {
+  display: none;/* <-- hide the default checkbox */
+}
+label span {/* <-- style the artificial checkbox */
+  height		: 20px;
+  width			: 20px;
+  border		: 1px solid #333;
+  border-radius	: 3px;
+  display		: inline-block;
+  position		: relative;
+}
+
+[type=checkbox]:checked + span {
+	background-color: #333;
+	border			: none;
+}
+
+[type=checkbox]:checked + span:before {/* <-- style its checked state..with a ticked icon */
+  content		: '\2714';
+  position		: absolute;
+  color			: #fff;
+  top			: 3px;
+  left			: 5px;
 }

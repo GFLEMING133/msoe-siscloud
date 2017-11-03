@@ -1,9 +1,4 @@
-<div class="shadow app-container">
-	<div class="h__k" data-model="{{= model.sisbot_id }}" data-if="{{= model.is_master_branch }} !== true" data-run="model.check_local_branches">
-		<div class="white bg-d-blue h__k" style="position: absolute; text-align: center; top: 0; left: 0; right: 0; z-index: 1002;">({{= model.branch_label }})</div>
-		<div class="white bg-d-blue h__k" style="position: absolute; text-align: center; bottom: 0; left: 0; right: 0; z-index: 1002;">({{= model.branch_label }})</div>
-	</div>
-
+<div class="app-container">
 	<div class="page-content no-stuffing bg-white h100 h__k w100" data-if="{{= parent.active.primary }} !== false" data-template="sisyphus-{{= parent.active.primary }}-tmp"></div>
 
 	<div class="h__k" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.is_serial_open }} == true">

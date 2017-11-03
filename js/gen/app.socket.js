@@ -12,6 +12,9 @@ app.socket = {
 	_setup: function() {
 		var self = this;
 
+		if (app.config.env == 'alpha')
+			return this;
+
 	    var sisbot_id = app.manager.get('sisbot_id');
 	    if (sisbot_id == 'false') return this;
 

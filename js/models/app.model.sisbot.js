@@ -10,6 +10,7 @@ app.model.sisbot = {
 				name			: '',
 				password		: ''
 			},
+			wifi_error		: 'false',
 
 			is_master_branch: 'true',
 			branch_label: 'false',
@@ -40,10 +41,14 @@ app.model.sisbot = {
 
 			timestamp						: 'false',
 
+			is_connecting_to_wifi			: 'false',
 			is_firmware_update_available	: 'false',
 			is_software_update_available	: 'false',
 
 			default_playlist_id				: 'false',
+
+			default_settings				: {},
+			default_settings_error			: 'false',
 
 			data		: {
 				id					: data.id,
@@ -136,6 +141,9 @@ app.model.sisbot = {
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
 		if (!_timeout) _timeout = 60000;
 
+		if (app.config.env == 'alpha')
+			return this;
+
 		if (this.get('is_connected') == false)
 			return this;
 
@@ -212,6 +220,9 @@ app.model.sisbot = {
 				var ip = obj.resp.local_ip;
 				//alert('WE GOT RESP', obj.resp);
 				//alert('local ip: ' + ip);
+
+				self.set('is_connecting_to_wifi', 'false');
+
 
 				// Remember hostname for refresh
 				app.current_session().add_nx('sisbot_hostnames', ip);
@@ -324,9 +335,50 @@ app.model.sisbot = {
 
 		return this;
 	},
+	defaults_setup: function () {
+		var data = this.get('data');
+
+		var defaults = {
+			name		: data.name,
+			brightness	: data.brightness,
+			is_autodim	: data.is_autodim
+		}
+
+		this.set('default_settings', defaults);
+	},
+	defaults_brightness: function (level) {
+		this.set('default_settings.brightness', level);
+	},
+	defaults_save: function () {
+		this.set('default_settings_error', 'false');
+
+		var self		= this;
+		var data		= this.get('data');
+		var reg_data	= this.get('default_settings');
+
+		if (reg_data.name == '') {
+			this.set('default_settings_error', 'true');
+			return this;
+		}
+
+		_.extend(data, reg_data)
+
+		data.do_not_remind = 'true';
+
+		app.manager.set('show_setup_page', 'false');
+
+		this._update_sisbot('save', data, function(obj) {
+			console.log('WE SAVE THE UPDATE');
+		});
+	},
 	get_networks: function () {
 		var self			= this;
 		var wifi_networks	= [];
+
+		if (app.config.env == 'alpha') {
+			this.set('wifi_networks', ['test', 'test 2', 'test 3']);
+			return this;
+		}
 
 		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
 			//alert('GET WIFI');
@@ -340,37 +392,42 @@ app.model.sisbot = {
 			})
 			var uniq_wifi = _.uniq(wifi_networks.sort());
 
-			if (uniq_wifi.length > 0)
+			var current_ssid = app.manager.get('current_ssid');
+
+			if (uniq_wifi.indexOf(current_ssid) > -1) {
+				self.set('wifi.name', current_ssid);
+			} else if (uniq_wifi.length > 0) {
 				self.set('wifi.name', uniq_wifi[0]);
+			}
 
 			self.set('wifi_networks', uniq_wifi);
 		});
     },
 	failed_to_connect_to_wifi: function () {
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
+			this.set('wifi_error', 'incorrect');
+
 			setTimeout(function () {
 				app.trigger('session:active', { primary: 'settings', secondary: 'wifi' });
 			}, 500);
+		} else {
+			this.set('wifi_error', 'false');
 		}
 	},
   	connect_to_wifi: function () {
+		this.set('wifi_error', 'false');
+
 		var self		= this;
 		var credentials = this.get('wifi');
 
-		this._update_sisbot('connect_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			setTimeout(function () {
-				self.set('data.reason_unavailable', 'connect_to_wifi');
-				self.set('data.is_available', false);
-			}, 5500);
-			setTimeout(function () {
-				self.set('data.reason_unavailable', 'connect_to_wifi');
-				self.set('data.is_available', false);
-			}, 2500);
-			setTimeout(function () {
-				self.set('data.reason_unavailable', 'connect_to_wifi');
-				self.set('data.is_available', false);
-			}, 500);
+		if (credentials.password == '') {
+			this.set('wifi_error', 'true');
+			return this;
+		}
 
+		this.set('is_connecting_to_wifi', 'true');
+
+		this._update_sisbot('connect_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			if (obj.resp) self.set('data', obj.resp);
 
 			setTimeout(function () {

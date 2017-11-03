@@ -1,4 +1,10 @@
 <div class="h__k h100" data-model="{{= model.sisyphus_manager_id }}">
-    <div class="h__k h100" data-if="{{= model.sisbot_id }} == false" data-template="sisyphus-sisbot-tmp"></div>
     <div class="h__k h100" data-if="{{= model.sisbot_id }} !== false" data-template="sisyphus-connected-tmp"></div>
+    <div class="h__k app-container" data-if="{{= model.sisbot_id }} == false">
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == find" data-template="sisyphus-sisbot-find-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == none" data-template="sisyphus-sisbot-none-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == hotspot" data-template="sisyphus-sisbot-hotspot-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == multiple" data-template="sisyphus-sisbot-multiple-tmp"></div>
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == connecting" data-template="sisyphus-sisbot-connecting-tmp"></div>
+    </div>
 </div>

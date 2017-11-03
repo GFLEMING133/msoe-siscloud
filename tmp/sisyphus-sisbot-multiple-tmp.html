@@ -1,0 +1,34 @@
+<h1 class="center white no-stuffing p10 uppercase kern">Sisyphus</h1>
+<div class="bg-white black">
+    <p class="no-stuffing fa fa-check-square-o f-xxxlarge center w100 mt50" aria-hidden="true"></>
+    <h3 class="p20 center justify">
+        Multiple Tables Found
+    </h3>
+    <p class="p20 center">
+        Select which table you would like to connect to.
+    </p>
+
+    <p class="strong">Available Tables</p>
+    <div class="pl20 pr20 pb10 h__k">
+        <select class="w100 h__k"
+            data-field="model.sisbot_hostname"
+            data-foreach="model.sisbots_networked"
+            data-foreach-change="foreach_reset"
+            data-foreach-map="true"
+        ><option class="h__k" value="{{= model.data.hostname }}">{{= model.data.name }}</option></select>
+    </div>
+    <div class="m20 pb20">
+        <p class="p10 mb20 float-center center btn bg-blue corner-5px uppercase h__k"
+            data-if="{{+ model.sisbot_connecting }} == false"
+            data-on-click="model.connect_to_sisbot"
+        >Connect to Sisyphus</h2>
+    </div>
+
+    <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_connecting }} == true">
+        <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
+        <div class="h__k">
+            Connecting...
+        </div>
+    </div>
+
+</div>
