@@ -17,6 +17,7 @@ app.model.sisyphus_manager = {
 
 			sisbot_id       		: 'false',
 			sisbot_registration		: 'find',		// find|none|hotspot|multiple
+			show_setup_page			: 'false',
 			show_wifi_page			: 'false',
 			show_hostname_page		: 'false',
 			current_ssid			: 'false',
@@ -371,6 +372,7 @@ app.model.sisyphus_manager = {
 		var num_checks = 5;
 
 		function on_cb() {
+			console.log("Find CB");
 			--num_checks;
 			if (num_checks == 0) {
 				var sisbots = _.uniq(self.get('sisbots_networked'));
@@ -378,6 +380,7 @@ app.model.sisyphus_manager = {
 				self.set('sisbots_scanning', 'false');
 				var curr_reg = self.get('sisbot_registration');
 
+				console.log()
 				if (sisbots.length == 1) {
 					// autoconnect
 					self.connect_to_sisbot(sisbots[0]);
@@ -393,10 +396,15 @@ app.model.sisyphus_manager = {
 			}
 		}
 
+		console.log("Find Hotspot");
 		this.find_hotspot(on_cb);
+		console.log("Find Session");
 		this.find_session_sisbots(on_cb);
+		console.log("Find User Sisbots");
 		this.find_user_sisbots(on_cb);
+		console.log("Find Bluetooth Sisbots");
 		this.find_bluetooth_sisbots(on_cb);
+		console.log("Find Network Sisbots");
 		this.find_network_sisbots(on_cb);
 	},
 	find_hotspot: function (cb) {
