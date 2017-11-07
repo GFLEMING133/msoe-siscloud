@@ -654,8 +654,7 @@ app.model.sisbot = {
 
 		this.set('data.speed', +level);
 		this._update_sisbot('set_speed', { value: +level }, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) self.set('data', obj.resp);
 		});
 	},
 	speed_up: function () {
@@ -687,7 +686,7 @@ app.model.sisbot = {
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
 			if (obj.resp)
-				self.set('data', obj.resp);
+				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
 		});
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
