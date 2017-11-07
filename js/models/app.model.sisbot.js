@@ -626,6 +626,7 @@ app.model.sisbot = {
 		return this;
 	},
 	brightness: function (level) {
+		var self = this;
 		this.set('data.brightness', +level);
 		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
 			if (obj.resp)
@@ -649,6 +650,8 @@ app.model.sisbot = {
 		this.brightness(0);
 	},
 	speed: function (level) {
+		var self = this;
+
 		this.set('data.speed', +level);
 		this._update_sisbot('set_speed', { value: +level }, function (obj) {
 			if (obj.resp)
@@ -680,6 +683,7 @@ app.model.sisbot = {
 		});
 	},
 	set_loop: function () {
+		var self = this;
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
 			if (obj.resp)
