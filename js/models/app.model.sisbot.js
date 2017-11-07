@@ -446,18 +446,18 @@ app.model.sisbot = {
 		var self = this;
 
 		this._update_sisbot('disconnect_wifi', {}, function(obj) {
-			setTimeout(function () {
-				self.set('data.is_available', false);
-				self.set('data.reason_unavailable', 'reset_to_hotspot');
-			}, 500);
-			setTimeout(function () {
-				self.set('data.is_available', false);
-				self.set('data.reason_unavailable', 'reset_to_hotspot');
-			}, 2500);
-			setTimeout(function () {
-				self.set('data.is_available', false);
-				self.set('data.reason_unavailable', 'reset_to_hotspot');
-			}, 5500);
+			// setTimeout(function () {
+			// 	self.set('data.is_available', false);
+			// 	self.set('data.reason_unavailable', 'reset_to_hotspot');
+			// }, 500);
+			// setTimeout(function () {
+			// 	self.set('data.is_available', false);
+			// 	self.set('data.reason_unavailable', 'reset_to_hotspot');
+			// }, 2500);
+			// setTimeout(function () {
+			// 	self.set('data.is_available', false);
+			// 	self.set('data.reason_unavailable', 'reset_to_hotspot');
+			// }, 5500);
 
 			if (obj.resp)
 				self.set('data', obj.resp);
@@ -593,8 +593,9 @@ app.model.sisbot = {
 		this.set('data.state', 'playing');
 	},
 	set_track: function (data) {
-		this._update_sisbot('set_track', data, function(resp) {
-
+		this._update_sisbot('set_track', data, function (obj) {
+			if (obj.resp)
+				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
 		});
 
 		this.set('data.active_playlist_id',	'false');
@@ -626,7 +627,10 @@ app.model.sisbot = {
 	},
 	brightness: function (level) {
 		this.set('data.brightness', +level);
-		this._update_sisbot('set_brightness', { value: +level });
+		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
 	},
 	brightness_up: function () {
 		var level = +this.get('data.brightness');
@@ -646,7 +650,10 @@ app.model.sisbot = {
 	},
 	speed: function (level) {
 		this.set('data.speed', +level);
-		this._update_sisbot('set_speed', { value: +level });
+		this._update_sisbot('set_speed', { value: +level }, function (obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
 	},
 	speed_up: function () {
 		var level = +this.get('data.speed');
@@ -667,11 +674,17 @@ app.model.sisbot = {
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
-		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') });
+		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function (obj) {
+			if (obj.resp)
+				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+		});
 	},
 	set_loop: function () {
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
-		this._update_sisbot('set_loop', { value: this.get('data.is_loop') });
+		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
+			if (obj.resp)
+				self.set('data', obj.resp);
+		});
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
