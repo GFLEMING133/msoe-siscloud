@@ -22,7 +22,7 @@ app.socket = {
 	    var ip = app.collection.get(sisbot_id).get('data.local_ip');
 		if (ip != this.server_ip) {
 			this.server_ip = ip;
-		    console.log('Socket session', this.server_ip);
+		    //console.log('Socket session', this.server_ip);
 
 			if (self.socket) {
 				self.socket.close();
@@ -44,26 +44,26 @@ app.socket = {
 		}
 	},
     on_connect: function() {
-        console.log('socket: connect');
+        //console.log('socket: connect');
 		app.trigger("socket:connect", null);
     },
     on_reconnect: function() {
-        console.log('socket: reconnect');
+        //console.log('socket: reconnect');
 		app.trigger("socket:reconnect", null);
     },
     on_disconnect: function() {
-        console.log('socket: disconnect');
+        //console.log('socket: disconnect');
 		app.trigger("socket:disconnect", null);
     },
     on_error: function(err) {
-        console.log('socket: error', err);
+        //console.log('socket: error', err);
 		app.trigger("socket:error", err);
     },
     on_set: function(data) {
 
         if (!_.isArray(data)) data = [data];
 
-		console.log('socket: on_set', _.pluck(data, 'id'));
+		//console.log('socket: on_set', _.pluck(data, 'id'));
 
         _.each(data, function(datum) {
             if (datum && datum.id) {
@@ -73,10 +73,10 @@ app.socket = {
         });
     },
     on_erase: function(data) {
-        console.log('socket: erase');
+        //console.log('socket: erase');
         //app.collection.remove(data.id);
     },
     on_test: function(data) {
-        console.log('socket: test', data);
+        //console.log('socket: test', data);
     },
 };

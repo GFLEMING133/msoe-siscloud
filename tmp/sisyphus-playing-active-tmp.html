@@ -1,0 +1,10 @@
+<div class="h__k" data-model="{{= manager.sisbot_id }}">
+    <div class="h__k white" data-if="{{= model.data.active_playlist_id }} !== false">
+        <h3 class="h__k fs13 lh18 no-stuffing capitalize truncate h__k"
+            data-model="{{= model.data.active_playlist_id }}"
+        >Playing from {{= model.data.name }}</h3>
+        <h2 class="h__k fs18 lh18 no-stuffing capitalize truncate"
+            data-model="{{= model.data.active_track.id }}"
+        >{{= model.data.name }}</h2>
+    </div>
+</div>

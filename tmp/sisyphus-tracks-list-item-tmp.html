@@ -1,0 +1,22 @@
+<div>
+	<div class="flex pt10 pb10 pl20 pr20 clickable h__k {{= (model.is_expanded == 'true') ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}">
+		<div class="w80p hh80 center vertical">
+			<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+				data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
+			/>
+		</div>
+		<div class="w80 pt20 pl20">
+	        <div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
+	        <div class="fs12 lh18 grey block h__k">by {{= model.data.created_by_name }}</div>
+		</div>
+	    <div class="w20 h100 vertical h__k" data-on-click="toggle" data-field="model.is_expanded">
+	        <i class="fa fa-ellipsis-h f-xlarge grey pt30 pull-right pr20" aria-hidden="true"></i>
+	    </div>
+	</div>
+	<div class="bg-grey-l flex pt15 pb15 h__k" data-if="{{= model.is_expanded }} == true">
+		<div class="w25 f-large fa fa-play white blue-hover clickable center"></div>
+		<div class="w25 f-large fa fa-heart-o white blue-hover clickable center"></div>
+		<div class="w25 f-large fa fa-plus-square-o white blue-hover clickable center"></div>
+		<div class="w25 f-large fa fa-expand white blue-hover clickable center"></div>
+	</div>
+</div>

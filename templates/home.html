@@ -1,7 +1,7 @@
 <div class="sisyphus-unavailable-tmp">
     <div class="body-header">
         <div class="pull-top bg-white w100">
-            <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="white bg-black w100 center no-stuffing flex">
                 <div class="w15 pt20 center f-large">&nbsp;</div>
                 <div class="w70">
                     <h1 class="h__k no-stuffing pt10 pb10 capitalize">Sisyphus Unavailable</h1>
@@ -11,7 +11,7 @@
         </div>
         <div class="h__k bg-white black">
             <div>&nbsp;</div>
-            <div class="bg-ll-grey ml10 mr10 p20 center h__k" data-model="{{= model.sisbot_id }}">
+            <div class="bg-grey-ll ml10 mr10 p20 center h__k" data-model="{{= model.sisbot_id }}">
                 <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
                     <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
                     <div class="pt50 left justify">We are having difficulty connecting to your Sisyphus.
@@ -145,7 +145,7 @@
 </div>
 
 <div class="debug-tmp">
-    <div class="bg-ll-grey no-stuffing p10 bt h__k" data-if="{{= app.current_session().get('debug_mode') }} == true" data-state="{'admin_expanded':'false'}">
+    <div class="bg-grey-ll no-stuffing p10 bt h__k" data-if="{{= app.current_session().get('debug_mode') }} == true" data-state="{'admin_expanded':'false'}">
         <div class="no-stuffing pull-right inline h__k" data-field="model.admin_expanded" data-on-click="toggle">
             <i class="fa fa-bars"></i>
         </div>

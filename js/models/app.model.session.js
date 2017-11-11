@@ -40,6 +40,8 @@ app.model.session = {
 	},
 	current_version: 1,
 	on_init: function () {
+		app.session = this;
+		
   		this.listenTo(app,	'session:sign_out',			this.sign_out);
 		this.listenTo(app,	'session:active',			this.set_active);
 		this.listenTo(app,	'session:user_sign_in',		this.after_sign_in);

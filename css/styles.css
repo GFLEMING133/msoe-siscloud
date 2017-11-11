@@ -37,7 +37,7 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-weight					: 300;
+	font-weight					: 700;
 }
 
 h1 {
@@ -100,12 +100,13 @@ label {
 /****************************** TARGETED **************************************/
 
 .web .app-container {
-	max-width				: 480px;
+	max-width				: 375px;
 	position				: relative;
 	margin					: 0px auto;
 	height					: 90%;
 	margin-top				: 20px;
-	max-height				: 960px;
+	max-height				: 640px;
+	box-shadow				: 0px 1px 1px #000;
 }
 
 .app .app-container {
@@ -114,11 +115,11 @@ label {
 
 
 .body-header {
-	margin-top				: 75px;
+	margin-top				: 50px;
 }
 
 .web {
-	background-color		: #000 !important;
+	background-color		: #222 !important;
 }
 
 .app {
@@ -126,7 +127,7 @@ label {
 }
 
 .web .body-header {
-	padding-top				: 55px;
+	padding-top				: 50px;
 	margin-top				: 0px;
 }
 
@@ -238,6 +239,7 @@ label {
 .scroll {
 	overflow-y					: scroll;
 	overflow-x					: hidden;
+	-webkit-overflow-scrolling	: touch;
 }
 
 .no-scroll {
@@ -383,6 +385,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .vertical-align {
 	align-items				: center;
 	vertical-align			: middle;
+	-ms-flex-align			: center;
+	-webkit-align-items		: center;
+	-webkit-box-align		: center;
+	align-items				: center;
 }
 
 /**************************** Flex ********************************************/
@@ -390,6 +396,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex {
 	display					: -webkit-box;
 	display					: -webkit-flex;
+	-webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
 	display					: flex;
 	width					: 100%;
 }
@@ -418,6 +426,77 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex .w95 						{	flex-basis: 95%;		width: 95%;				}
 .flex .w100 					{	flex-basis: 100%;		width: 100%;			}
 .flex .h100						{	height: auto;			align-items: stretch;	}
+
+.flex .w24-1 					{	flex-basis: 4.165%;		width: 4.165%;			}
+.flex .w24-2 					{	flex-basis: 8.33%;		width: 8.33%;			}
+.flex .w24-4 					{	flex-basis: 16.66%;		width: 16.66%;			}
+.flex .w24-6 					{	flex-basis: 25%;		width: 25%;				}
+.flex .w24-8 					{	flex-basis: 33.33%;		width: 33.33%;			}
+.flex .w24-10 					{	flex-basis: 41.66%;		width: 41.66%;			}
+.flex .w24-12 					{	flex-basis: 50%;		width: 50%;				}
+.flex .w24-14 					{	flex-basis: 58.33%;		width: 58.33%;			}
+.flex .w24-16 					{	flex-basis: 66.66%;		width: 66.66%;			}
+.flex .w24-18 					{	flex-basis: 75%;		width: 75%;				}
+.flex .w24-19 					{	flex-basis: 79.165%;	width: 79.165%;			}
+.flex .w24-20 					{	flex-basis: 83.33%;		width: 83.33%;			}
+.flex .w24-22 					{	flex-basis: 91.66%;		width: 91.66%;			}
+.flex .w24-24 					{	flex-basis: 100%;		width: 100%;			}
+
+.flex .pl24-1 					{	padding-left: 4.165%;							}
+.flex .pl24-2 					{	padding-left: 8.33%;							}
+.flex .pl24-4 					{	padding-left: 16.66%;							}
+.flex .pl24-6 					{	padding-left: 25%;								}
+.flex .pl24-8 					{	padding-left: 33.33%;							}
+.flex .pl24-10 					{	padding-left: 41.66%;							}
+.flex .pl24-12 					{	padding-left: 50%;								}
+.flex .pl24-14 					{	padding-left: 58.33%;							}
+.flex .pl24-16 					{	padding-left: 66.66%;							}
+.flex .pl24-18 					{	padding-left: 75%;								}
+.flex .pl24-20 					{	padding-left: 83.33%;							}
+.flex .pl24-22 					{	padding-left: 91.66%;							}
+.flex .pl24-24 					{	padding-left: 100%;								}
+
+.flex .pr24-1 					{	padding-right: 4.165%;							}
+.flex .pr24-2 					{	padding-right: 8.33%;							}
+.flex .pr24-4 					{	padding-right: 16.66%;							}
+.flex .pr24-6 					{	padding-right: 25%;								}
+.flex .pr24-8 					{	padding-right: 33.33%;							}
+.flex .pr24-10 					{	padding-right: 41.66%;							}
+.flex .pr24-12 					{	padding-right: 50%;								}
+.flex .pr24-14					{	padding-right: 58.33%;							}
+.flex .pr24-16 					{	padding-right: 66.66%;							}
+.flex .pr24-18 					{	padding-right: 75%;								}
+.flex .pr24-20 					{	padding-right: 83.33%;							}
+.flex .pr24-22 					{	padding-right: 91.66%;							}
+.flex .pr24-24 					{	padding-right: 100%;							}
+
+.flex .pt24-1 					{	padding-top: 4.165%;							}
+.flex .pt24-2 					{	padding-top: 8.33%;								}
+.flex .pt24-4 					{	padding-top: 16.66%;							}
+.flex .pt24-6 					{	padding-top: 25%;								}
+.flex .pt24-8 					{	padding-top: 33.33%;							}
+.flex .pt24-10 					{	padding-top: 41.66%;							}
+.flex .pt24-12 					{	padding-top: 50%;								}
+.flex .pt24-14					{	padding-top: 58.33%;							}
+.flex .pt24-16 					{	padding-top: 66.66%;							}
+.flex .pt24-18 					{	padding-top: 75%;								}
+.flex .pt24-20 					{	padding-top: 83.33%;							}
+.flex .pt24-22 					{	padding-top: 91.66%;							}
+.flex .pt24-24 					{	padding-top: 100%;								}
+
+.flex .pb24-1 					{	padding-bottom: 4.165%;							}
+.flex .pb24-2 					{	padding-bottom: 8.33%;							}
+.flex .pb24-4 					{	padding-bottom: 16.66%;							}
+.flex .pb24-6 					{	padding-bottom: 25%;							}
+.flex .pb24-8 					{	padding-bottom: 33.33%;							}
+.flex .pb24-10 					{	padding-bottom: 41.66%;							}
+.flex .pb24-12 					{	padding-bottom: 50%;							}
+.flex .pb24-14					{	padding-bottom: 58.33%;							}
+.flex .pb24-16 					{	padding-bottom: 66.66%;							}
+.flex .pb24-18 					{	padding-bottom: 75%;							}
+.flex .pb24-20 					{	padding-bottom: 83.33%;							}
+.flex .pb24-22 					{	padding-bottom: 91.66%;							}
+.flex .pb24-24 					{	padding-bottom: 100%;							}
 
 .w1p							{	width: 1px;										}
 
@@ -449,6 +528,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .w15p							{	width		: 15px;								}
 .w20p							{	width		: 20px;								}
 .w25p							{	width		: 25px;								}
+.w80p							{	width		: 80px;								}
 
 .mh-480							{	min-height	: 480px;							}
 
@@ -503,10 +583,12 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .va-top									{	vertical-align			: top;						}
 
 .hh25									{	height					: 25px;						}
+.hh40									{	height					: 40px;						}
 .hh50									{	height					: 50px;						}
 .hh75									{	height					: 75px;						}
 .hh80									{	height					: 80px;						}
 .hh100									{	height					: 100px;					}
+.hh120									{	height					: 120px;					}
 .hh125									{	height					: 125px;					}
 .hh150									{	height					: 150px;					}
 .hh200									{	height					: 200px;					}
@@ -533,7 +615,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .clickable 								{	cursor		: pointer;								}
 .no-stuffing							{	margin		: 0px;			padding: 0px;			}
 .stuffing								{	margin		: 0px;			padding: 10px;			}
-.block									{	display: block;										}
+.block									{	display		: block;								}
 .inline									{	float		: left;			display: inline;		}
 .inline-block							{	display		: inline-block;							}
 .left									{   text-align	: left;									}
@@ -561,10 +643,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 .img-rounded, .rounded					{ 	border-radius			: 100px;					}
 
-.corner-2px								{	border-radius			: 2px;						}
-.corner-3px								{	border-radius			: 3px;						}
-.corner-4px								{	border-radius			: 4px;						}
-.corner-5px								{	border-radius			: 5px;						}
+.corner-2px, .corner-2px:hover			{	border-radius			: 2px;						}
+.corner-3px, .corner-3px:hover			{	border-radius			: 3px;						}
+.corner-4px, .corner-4px:hover			{	border-radius			: 4px;						}
+.corner-5px, .corner-5px:hover			{	border-radius			: 5px;						}
 
 .spinner-bounce {
   margin: 100px auto 0;
@@ -675,17 +757,16 @@ select:focus {
 .bl-orange								{	border-left				: 3px solid #F4AE3D;		}
 
 .black 									{	color		: #333 !important;						}
-.blue 									{	color		: #25b3f8 !important;					}
 .blue-l 								{	color		: #22AEFF !important;					}
+.blue, .blue-hover:hover 				{	color		: #11b2fb !important;					}
 .orange									{	color		: #b44a27 !important;					}
 .green									{	color		: #32B150 !important;					}
 .red									{	color		: #B53316 !important;					}
 .xl-grey								{	color		: #EEE !important;						}
-.l-grey									{	color		: #999 !important;						}
-.l-grey-hover:hover						{	color		: #999 !important;						}
-.grey									{	color		: #444 !important;						}
-.white, .white:hover					{	color		: #fff !important;						}
-.white-hover:hover						{	color		: #fff !important;						}
+.grey-l									{	color		: #acacac !important;					}
+.grey-l-hover:hover						{	color		: #acacac !important;					}
+.grey									{	color		: #838383 !important;					}
+.white, .white-hover:hover				{	color		: #fff !important;						}
 .black-hover:hover 						{	color		: #333 !important;						}
 .bblack-hover:hover 					{	color		: #000 !important;						}
 
@@ -701,10 +782,10 @@ select:focus {
 .bg-green								{	background-color		: #32B150 !important;		}
 .bg-dd-grey								{	background-color		: #222222 !important;		}
 .bg-d-grey								{	background-color		: #292929 !important;		}
-.bg-m-grey								{	background-color		: #555 !important;		}
-.bg-grey								{	background-color		: #525252 !important;		}
-.bg-l-grey								{	background-color		: #8f8f8f !important;		}
-.bg-ll-grey								{	background-color		: #f7f7f7 !important;		}
+.bg-m-grey								{	background-color		: #555 !important;			}
+.bg-grey								{	background-color		: #838383 !important;		}
+.bg-grey-l								{	background-color		: #9b9b9b !important;		}
+.bg-grey-ll								{	background-color		: #e7e7e7 !important;		}
 .bg-ll-blue								{	background-color		: #d9edf7 !important;		}
 .bg-ll-green							{	background-color		: #dff0d8 !important;		}
 .bg-ll-red								{	background-color		: #f9f2f4 !important;		}
@@ -754,8 +835,8 @@ select:focus {
 .touch-hover .bg-white-hover:hover 		{	background-color		: #ffffff !important;		}
 .touch-hover .bg-orange-hover:hover		{	background-color		: #BC5D00 !important;		}
 .touch-hover .bg-green-hover:hover		{	background-color		: #54BC00 !important;		}
-.touch-hover .bg-ll-grey-hover:hover	{	background-color		: #EFEFEF !important;		}
-.touch-hover .bg-l-grey-hover:hover		{	background-color		: #8f8f8f !important;		}
+.touch-hover .bg-grey-ll-hover:hover	{	background-color		: #EFEFEF !important;		}
+.touch-hover .bg-grey-l-hover:hover		{	background-color		: #8f8f8f !important;		}
 .touch-hover .bg-grey-hover:hover		{	background-color		: #525252 !important;		}
 .touch-hover .bg-m-grey-hover:hover		{	background-color		: #454545 !important;		}
 .touch-hover .bg-d-grey-hover:hover		{	background-color		: #333 !important;			}
@@ -797,10 +878,19 @@ select:focus {
 
 .ff-xlarge								{	font-size				: 48px;						}
 
+.fs12									{	font-size				: 12px;						}
+.fs13									{	font-size				: 13px;						}
+.fs14									{	font-size				: 14px;						}
+.fs18									{	font-size				: 18px;						}
+.fs24									{	font-size				: 24px;						}
 
-.fl10										{ line-height: 1.0em }
-.fl15										{ line-height: 1.5em }
-.fl20										{ line-height: 2.0em }
+.fl10									{	line-height				: 1.0em;					}
+.fl15									{	line-height				: 1.5em;					}
+.fl20									{	line-height				: 2.0em;					}
+
+.lh12									{	line-height				: 12px;						}
+.lh18									{	line-height				: 18px;						}
+.lh24									{	line-height				: 24px;						}
 
 /**************************** BORDERS *****************************************/
 
@@ -809,6 +899,14 @@ select:focus {
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
+
+.b-white-2px							{	border					: 2px solid #fff !important;		}
+.b-white								{	border					: 1px solid #fff !important;		}
+.bt-white								{	border-top				: 1px solid #fff !important;		}
+.bb-white								{	border-bottom			: 1px solid #fff !important;		}
+.bl-white								{	border-left				: 1px solid #fff !important;		}
+.br-white								{	border-right			: 1px solid #fff !important;		}
+
 
 .bt-med									{	border-top				: 1px solid #ccc !important;		}
 .bb-med									{	border-bottom			: 1px solid #ccc !important;		}
@@ -989,33 +1087,17 @@ select:focus {
 .pl100									{	padding-left			: 100px !important;						}
 .pr100									{	padding-right			: 100px !important;						}
 
+.pt150						            {   padding-top             : 150px !important;			            }
+.pb150						            {   padding-bottom	        : 150px !important;			            }
+.pl150									{	padding-left			: 150px !important;						}
+.pr150									{	padding-right			: 150px !important;						}
+
 .pt250						            {   padding-top             : 250px !important;			            }
 .pb250						            {   padding-bottom	        : 250px !important;			            }
 .pl250									{	padding-left			: 250px !important;						}
 .pr250									{	padding-right			: 250px !important;						}
 
 /**************************** CSS CHECKBOXES **********************************/
-
-.checkbox {
-	width						: 25px;
-	height						: 25px;
-	border						: 1px solid #C0C0C0;
-	border-radius				: 5px;
-	cursor						: pointer;
-	background-color			: #F8F8F8;
-	margin						: 5px;
-}
-
-.checked .checkbox:after {
-	content						: '✔';
-    position					: absolute;
-    top							: 3px;
-    left						: -2px;
-    font-size					: 40px;
-	font-weight					: 100;
-    color						: green;
-    transition					: all .2s;
-}
 
 input.cmn-toggle-round + label {
   padding: 3px;
@@ -1116,30 +1198,4 @@ input[type="range"]::-ms-fill-lower {
 }
 input[type="range"]::-ms-fill-upper {
   background-color: #efefef;
-}
-
-
-label input {
-  display: none;/* <-- hide the default checkbox */
-}
-label span {/* <-- style the artificial checkbox */
-  height		: 20px;
-  width			: 20px;
-  border		: 1px solid #333;
-  border-radius	: 3px;
-  display		: inline-block;
-  position		: relative;
-}
-
-[type=checkbox]:checked + span {
-	background-color: #333;
-	border			: none;
-}
-
-[type=checkbox]:checked + span:before {/* <-- style its checked state..with a ticked icon */
-  content		: '\2714';
-  position		: absolute;
-  color			: #fff;
-  top			: 3px;
-  left			: 5px;
 }

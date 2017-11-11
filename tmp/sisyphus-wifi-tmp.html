@@ -1,41 +1,49 @@
-<div class="pull-top bg-white w100">
-    <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-        <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w15 center fa fa-chevron-left f-large clickable blue-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'secondary':'false'}"
+            data-msg="{'secondary':'advanced_settings'}"
         >&nbsp;</div>
         <div class="w70">
-            <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Connect to Wifi</h1>
+            <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Connect to Wifi</h1>
         </div>
-        <div class="w15 pt20 center f-large">&nbsp;</div>
+        <div class="w15 center f-large">&nbsp;</div>
     </div>
-</div>
-<div class="body-header h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
-    <div class="bg-red white center i p20 h__k" data-if="{{= model.data.failed_to_connect_to_wifi }} == true">
-        We were unable to connect your Sisyphus to your local WiFi network with the credentials you provided.
-        Please double check that you entered them correctly and try again.
-    </div>
-    <div class="p20">
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Select Network Name</h4>
-        <div class="pl20 pr20 pb10 h__k" data-run="model.get_networks">
-            <select class="w100 h__k"
-                data-field="model.wifi.name"
-                data-foreach="model.wifi_networks"
-                data-foreach-add="foreach_reset"
-                data-foreach-change="foreach_reset"
-                data-foreach-default="WiFi Networks"
-                data-on-chang="foreach_reset"
-            ><option class="h__k" value="{{= scope.value }}">{{= scope.value }}</option></select>
+    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
+        <div class="bg-red white center i p20 h__k" data-if="{{= model.data.failed_to_connect_to_wifi }} == true">
+            We were unable to connect your Sisyphus to your local WiFi network with the credentials you provided.
+            Please double check that you entered them correctly and try again.
         </div>
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Wifi Password</h4>
-        <div class="pl20 pr20 pb10">
-            <input class="h__k w100" type="text" placeholder="password"
-                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                data-field="model.wifi.password"
-                value="{{= model.wifi.wifi_password }}"
-            />
+        <div class="p20">
+            <h4 class="no-stuffing fs18 lh18 strong">Network Name</h4>
+            <div class="select-box block mb50 relative">
+                <div class="absolute z20">
+                    <select class="w100 h__k p10"
+                        data-field="model.wifi.name"
+                        data-foreach="model.wifi_networks"
+                        data-foreach-add="foreach_reset"
+                        data-foreach-change="foreach_reset"
+                        data-foreach-default="WiFi Networks"
+                        data-on-change="foreach_reset"
+                    ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+                </div>
+                <div class="absolute z10">
+                    <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
+                        style="padding-bottom: 12px !important;"
+                        aria-hidden="true"
+                    ></>
+                </div>
+            </div>
+            <h4 class="no-stuffing pt20 fs18 lh18 strong">Network Password</h4>
+            <div class="pb20">
+                <input class="h__k w100" type="text" placeholder="password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.wifi.password"
+                    value="{{= model.wifi.wifi_password }}"
+                />
+            </div>
+            <h2 class="p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k" data-on-click="model.connect_to_wifi">Connect</h2>
         </div>
     </div>
-    <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.connect_to_wifi">Connect Sisyphus to Wifi</h2>
 </div>

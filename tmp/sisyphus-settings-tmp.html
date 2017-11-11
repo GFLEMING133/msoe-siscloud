@@ -1,197 +1,158 @@
-<div class="body-header h100 scroll hide-scrollbar h__k" data-if="{{= parent.active.secondary }} == false">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center f-large">&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Settings</h1>
+<div class="h100 h__k" data-if="{{= parent.active.secondary }} == false">
+    <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
+        <div class="w15 center f-large">&nbsp;</div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing capitalize truncate fs18 lh18">Settings</h1>
+        </div>
+        <div class="w15 center f-large">&nbsp;</div>
+    </div>
+    <div class="body-header h100 scroll hide-scrollbar">
+        <!------------------------- SISBOT SETTINGS ------------------------------->
+        <h3 class="no-stuffing p20 fs18 lh18">Speed & Brightness</h3>
+        <div class="flex vertical-align h__k" data-model="{{= model.sisbot_id }}">
+            <div class="w24-2 pl24-1 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
+                <i class="fa fa-sun-o center clickable grey" aria-hidden="true"></i>
             </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
-        </div>
-    </div>
-    <!------------------------- SISBOT SETTINGS ------------------------------->
-    <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Sisyphus Settings
-    </div>
-    <div class="bb p10 flex h__k" data-model="{{= model.sisbot_id }}">
-        <div class="w40">Sisyphus ID</div>
-        <div class="w60 truncate pull-right">{{= model.id }}</div>
-    </div>
-    <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisyphus Hostname<span class="pull-right">{{= model.data.hostname }}</span>
-    </div>
-    <div class="bb p10 h__k" data-model="{{= model.sisbot_id }}">
-        Sisyphus IP Address<span class="pull-right">{{= model.data.local_ip }}</span>
-    </div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'advanced_info'}"
-    >Software Updates<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.disconnect">
-        Disconnect from Sisyphus<span class="pull-right fa fa-chevron-right"></span>
-    </div>
-    <!------------------------- Sisyphus SETTINGS ------------------------------->
-    <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Sisyphus Admin
-    </div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-if="{{= app.is_app }} == false"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'track_upload'}"
-    >Upload Track to Sisyphus<span class="pull-right fa fa-chevron-right"></span></div>
-		<div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-if="{{= app.is_app }} == false"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'upload_svg'}"
-    >Upload SVG to Sisyphus<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'change_hostname'}"
-    >Change Hostname<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'default_playlist'}"
-    >Change Default Playlist<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'advanced_movement'}"
-    >Advanced Movement<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'advanced_settings'}"
-    >Advanced Settings<span class="pull-right fa fa-chevron-right"></span></div>
-    <!------------------------- WIFI SETTINGS ----------------------------->
-    <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Wifi Settings
-    </div>
-    <div class="h__k" data-model="{{= model.sisbot_id }}">
-        <div class="bb p10 h__k">
-            Internet Connected <span class="pull-right capitalize">{{= model.data.is_internet_connected }}</span>
-        </div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k"
-            data-if="{{= model.data.is_internet_connected }} == false"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'wifi'}"
-        >Connect Sisyphus to Wifi Network</div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k"
-            data-if="{{= model.data.is_internet_connected }} == true"
-            data-on-click="model.disconnect_wifi"
-        >Disconnect Sisyphus from Wifi Network<span class="pull-right fa fa-chevron-right"></span></div>
-    </div>
-    <!------------------------- ACCOUNT SETTINGS -------------------------->
-    <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Account Settings
-    </div>
-    <div class="h__k" data-if="{{= model.user_id }} == false">
-        <div class="bb p10 bg-ll-grey-hover clickable h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'create_account'}"
-        >Create Account</div>
-    </div>
-    <div class="h__k" data-if="{{= model.user_id }} !== false">
-        <div class="h__k" data-model="{{= model.user_id }}">
-            <div class="bb p10">
-                Email<span class="pull-right h__k">{{= model.data.username }}</span>
+            <div class="w24-20 flex relative center">
+                <span class="w5"></span>
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
+                    data-on-input="model.brightness"
+                    value="{{= model.data.brightness }}"
+                />
+                <span class="w5"></span>
+            </div>
+            <div class="w24-2 pr24-1 center blue-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
+                <i class="fa fa-sun-o f-large center clickable grey" aria-hidden="true"></i>
             </div>
         </div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k"
+        <div class="pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
+            <label class="vertical">
+                <input class="hidden h__k" type="checkbox"
+                    data-on-click="toggle"
+                    data-field="model.data.is_autodim"
+                    data-checked="{{= model.data.is_autodim }}"
+                />
+                <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
+                <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
+                <p class="no-stuffing pl10 w100">Auto-brightness</p>
+            </label>
+        </div>
+        <div class="flex vertical-align bb h__k" data-model="{{= model.sisbot_id }}">
+            <div class="w24-2 pl24-1 center bg-grey-ll-hover clickable pt15 pb15 h__k" data-on-click="model.speed_min">
+                <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
+            </div>
+            <div class="w24-20 flex relative center">
+                <span class="w5"></span>
+                <input class="h__k w90" type="range" min="0" max="1" step=".05"
+                    data-rangetouch="true"
+                    data-on-input="model.speed"
+                    value="{{= model.data.speed }}"
+                />
+                <span class="w5"></span>
+            </div>
+            <div class="w24-2 pr24-1 center bg-grey-ll-hover clickable pt15 pb15 h__k" data-on-click="model.speed_max">
+                <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
+            </div>
+        </div>
+
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'secondary':'change_password'}"
-        >Change Password<span class="pull-right fa fa-chevron-right"></span></div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.sign_out">
-            Sign Out<span class="pull-right fa fa-chevron-right"></span>
+            data-msg="{'secondary':'advanced_info'}"
+        >
+            <span class="strong">Software Update</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced_settings'}"
+        >
+            <span class="strong">Advanced</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'about'}"
+        >
+            <span class="strong">About</span>
+            <span class="pull-right fa fa-chevron-right"></span>
         </div>
     </div>
-    <!------------------------- COMPANY INFO ---------------------------------->
-    <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-        Company Info
-    </div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'privacy'}"
-    >Privacy Policy<span class="pull-right fa fa-chevron-right"></span>
-    </div>
-    <div class="bb p10 bg-ll-grey-hover clickable h__k"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'tos'}"
-    >Terms of Use<span class="pull-right fa fa-chevron-right"></span></div>
-    <div class="mb50">&nbsp;</div>
-    <div class="mb50">&nbsp;</div>
-    <div class="mb50">&nbsp;</div>
 </div>
 <!------------------------- ADVANCED INFO ------------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == advanced_info"
     data-template="sisyphus-settings-advanced-info-tmp"
 ></div>
 <!------------------------- TOS ----------------------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == tos"
     data-template="sisyphus-tos-tmp"
 ></div>
 <!------------------------- PRIVACY ------------------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == privacy"
     data-template="sisyphus-privacy-tmp"
 ></div>
 <!------------------------- WIFI CREDENTIALS ---------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == wifi"
     data-template="sisyphus-wifi-tmp"
 ></div>
 <!------------------------- CREATE ACCOUNT ------------------------------------>
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == create_account"
     data-template="sisyphus-settings-create-account-tmp"
 ></div>
 <!------------------------- SIGN IN ------------------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == sign_in"
     data-template="sisyphus-settings-sign-in-tmp"
 ></div>
 <!------------------------- TRACK UPLOAD -------------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == track_upload"
     data-template="sisyphus-settings-track-upload-tmp"
 ></div>
 <!------------------------- UPLOAD SVG -------------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == upload_svg"
     data-template="sisyphus-settings-upload-svg-tmp"
 ></div>
 <!------------------------- DEFAULT PLAYLIST ---------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == default_playlist"
     data-template="sisyphus-settings-default-playlist-tmp"
 ></div>
 <!------------------------- ADVANCED MOVEMENT --------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == advanced_movement"
     data-template="sisyphus-settings-advanced-movement-tmp"
 ></div>
 <!------------------------- ADVANCED SETTINGS --------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == advanced_settings"
     data-template="sisyphus-settings-advanced-settings-tmp"
 ></div>
 <!------------------------- CHANGE PASSWORD ----------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == change_password"
     data-template="sisyphus-settings-change-password-tmp"
 ></div>
 <!------------------------- CHANGE HOSTNAME ----------------------------------->
-<div class="h__k"
+<div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == change_hostname"
     data-template="sisyphus-settings-change-hostname-tmp"
+></div>
+<!------------------------- CHANGE TABLE NAME --------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == change_table_name"
+    data-template="sisyphus-settings-change-table-name-tmp"
+></div>
+<!------------------------- ABOUT --------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == about"
+    data-template="sisyphus-settings-about-tmp"
 ></div>

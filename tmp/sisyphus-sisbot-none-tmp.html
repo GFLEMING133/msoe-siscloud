@@ -1,18 +1,20 @@
-<h1 class="center white no-stuffing p10 uppercase kern">Sisyphus</h1>
-<div class="bg-white black">
-    <p class="no-stuffing fa fa-exclamation-triangle f-xxxlarge center w100 mt50" aria-hidden="true"></>
-    <h3 class="p20 center justify">
+<div class="white hh50 w100 flex vertical-align bg-black no-stuffing">
+    <h1 class="w100 center white no-stuffing uppercase kern fs24 lh24">Sisyphus</h1>
+</div>
+<div class="bg-white black pl40 pr40">
+    <p class="no-stuffing fa fa-exclamation-triangle f-xxxlarge center w100 mt40" aria-hidden="true"></>
+    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
         No table found!
     </h3>
-    <p class="p20 center">
+    <p class="center fs18 lh24">
         Check that your table is plugged in and click the "Find Sisyphus" button below in 30 seconds.
     </p>
-    <div class="m20 pb20">
-        <p class="p10 mb20 float-center center btn bg-blue corner-5px uppercase h__k"
+    <div class="pb20">
+        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
             data-if="{{= app.is_app }} == true"
             data-on-click="model.open_network_settings"
         >Open Wifi Settings</p>
-        <p class="btn bg-blue w100 m0 p20 corner-5px uppercase h__k"
+        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
             data-if="{{= app.is_app }} == false"
             data-on-click="set"
             data-field="model.sisbot_registration"

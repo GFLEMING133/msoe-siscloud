@@ -9,7 +9,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 			is_fetching_neighbors: 'false',
 			is_editing		: 'false',
 			show_submit		: 'true',
-			is_expanded		: 'true',
+			is_expanded		: 'false',
 			context_menu	: 'false',
 			is_unfetchable	: 'false',
 			messages		: [],
