@@ -61,6 +61,12 @@ app.model.playlist = {
 		// we have a sisbot playlist we want saved to user account
 		app.trigger('sisbot:save', this.toJSON());
 	},
+	delete: function () {
+		var conf = confirm('Are you sure you want to delete this playlist? This cannot be undone.');
+
+		if (conf)
+			app.manager.get_model('sisbot_id').playlist_remove(this);
+	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;

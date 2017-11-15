@@ -5,21 +5,21 @@
                 data-if="{{= model.is_editing }} == true"
                 data-on-click="model.cancel_edit"
             >x</div>
-            <div class="h__k fa fa-chevron-left"
+            <div class="h__k"
                 data-if="{{= model.is_editing }} == false"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'secondary':'playlists'}"
-            ></div>
+            ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         </div>
         <div class="w70">
             <h1 class="h__k fs18 lh18 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
         </div>
-        <div class="w15 center f-large clickable blue-hover">
-            <div class="fa fa-pencil h__k"
+        <div class="w15 center clickable">
+            <div class="h__k"
                 data-if="{{= model.is_editing }} == false"
                 data-on-click="model.edit"
-            ></div>
+            ><img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
             <div class="h__k"
                 data-if="{{= model.is_editing }} == true"
                 data-on-click="model.save_edit"

@@ -79,6 +79,12 @@ app.model.neuron = Backbone.NestedModel.extend({
 	select_all: function (obj) {
 		this.set('responses[' + obj.index + '][' + obj.key + ']', obj.cluster.pluck('id'));
 	},
+	collapse: function () {
+		this.set('is_expanded', 'false');
+	},
+	expand: function () {
+		this.set('is_expanded', 'true');
+	},
 	/*************************** LISTENERS ************************************/
 	listeners: [],
 	setup_listeners: function() {

@@ -1,10 +1,10 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w15 center fa fa-chevron-left f-large clickable blue-hover h__k"
+        <div class="w15 center clickable blue-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
-        >&nbsp;</div>
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w70">
             <h1 class="h__k no-stuffing capitalize fs18 lh18 truncate">Software Update</h1>
         </div>
@@ -22,7 +22,7 @@
             <div class="bb hh50 p20 fs18 flex vertical-align h__k">
                 App<span class="h__k" data-if="{{= model.local_branches.app }} !== master"> ({{= model.local_branches.app }})</span><span class="h__k pull-right">{{= model.local_versions.app }}</span>
             </div>
-            <div class="bb p10 h__k" data-if="{{= app.is_app }} == true">
+            <div class="bb hh50 p20 fs18 flex vertical-align h__k" data-if="{{= app.is_app }} == true">
                 Mobile<span class="pull-right">{{= app.config.version }}</span>
             </div>
             <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k" data-on-click="model.install_updates">

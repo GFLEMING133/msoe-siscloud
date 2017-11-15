@@ -5,14 +5,14 @@
     ></i>
 </div>
 <div class="w33 center">
-    <i class="fa fa-play blue-hover b-white-2px f-large pt15 pb15 pl20 pr20 grey-l rounded clickable h__k" aria-hidden="true"
+    <div class="clickable h__k" aria-hidden="true"
         data-if="{{= model.data.state }} == paused"
         data-on-click="model.play"
-    ></i>
-    <i class="fa fa-pause blue-hover b-white-2px f-large pt15 pb15 pl20 pr20 grey-l rounded clickable h__k" aria-hidden="true"
+    ><img src="img/icon_2x_button_play.png" alt="Play Button" class="hh100 pb40" /></div>
+    <div class="clickable h__k" aria-hidden="true"
         data-if="{{= model.data.state }} == playing"
         data-on-click="model.pause"
-    ></i>
+    ><img src="img/icon_2x_button_pause.png" alt="Play Button" class="hh100 pb40" /></div>
 </div>
 <div class="w33 center">
     <i class="fa fa-random blue-hover f-large pt20 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"

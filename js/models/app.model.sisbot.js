@@ -11,6 +11,7 @@ app.model.sisbot = {
 				password		: ''
 			},
 			wifi_error		: 'false',
+			fetching_cloud	: 'false',
 
 			is_master_branch: 'true',
 			branch_label: 'false',
@@ -193,12 +194,9 @@ app.model.sisbot = {
 	},
 	_fetch_cloud_tries: 10,
 	_fetch_cloud: function () {
-		if (app.platform !== 'Android') {
-			// this is only for android
-			return this;
-		}
-
 		var self = this;
+		self.set('fetching_cloud', 'true');
+
 		app.post.fetch(exists = {
 			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'GET',
@@ -209,6 +207,7 @@ app.model.sisbot = {
 
 			if (obj.err) {
 				if (--self._fetch_cloud_tries == 0) {
+					self.set('fetching_cloud', 'false');
 					self._fetch_cloud_tries = 10;
 					return this;
 				}
@@ -219,6 +218,7 @@ app.model.sisbot = {
 				}, 5000);
 			} else {
 				// WE HAVE A REFERENCE FROM THE CLOUD..
+				self.set('fetching_cloud', 'false');
 				var ip = obj.resp.local_ip;
 				//alert('WE GOT RESP', obj.resp);
 				//alert('local ip: ' + ip);
@@ -761,8 +761,12 @@ app.model.sisbot = {
 		var playlist	= this.get('data');
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.err) {
+				alert('There was an error removing your Playlist. Please try again later.')
+			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
+				app.trigger('session:active', { playlist_id: 'false', secondary: 'playlists' });
+			}
 		});
 
 		this.remove('data.playlist_ids', playlist_model.id);
@@ -777,8 +781,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
-
+				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'tracks' });
 			}
 		});
@@ -791,9 +794,10 @@ app.model.sisbot = {
 
 		this._update_sisbot('remove_track', track, function (obj) {
 			if (obj.err) {
-				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
+				alert('There was an error removing the file to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+				app.manager.intake_data(obj.resp);
+				app.trigger('session:active', { track_id: 'false', secondary: 'tracks' });
 			}
 		});
 
@@ -811,7 +815,6 @@ app.model.sisbot = {
 				cb(obj.resp);
 			}
 		});
-
 	},
 	/******************** PLAYBACK ********************************************/
 	play: function () {

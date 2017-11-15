@@ -17,23 +17,23 @@
             <div class="">This table is waiting for further instructions</div>
         </div>
     </div>
-    <div class="pull-bottom hh50 mb50 pl20 pr20 bg-black h__k" data-if="{{= session.active.primary }} !== current">
+    <div class="pull-bottom hh50 mb50 pr20 bg-black h__k" data-if="{{= session.active.primary }} !== current">
         <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == playing">
             <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
             <div class="w30 right">
-                <i class="fa fa-pause blue-hover b-white-2px f-large pt5 pb5 pl10 pr10 white rounded clickable h__k" aria-hidden="true"
+                <div class="clickable h__k" aria-hidden="true"
                     data-if="{{= model.data.state }} == playing"
                     data-on-click="model.pause"
-                ></i>
+                ><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
             </div>
         </div>
         <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == paused">
             <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
             <div class="w30 right">
-                <i class="fa fa-play blue-hover b-white-2px f-large pt5 pb5 pl10 pr10 white rounded clickable h__k" aria-hidden="true"
+                <div class="clickable h__k" aria-hidden="true"
                     data-if="{{= model.data.state }} == paused"
                     data-on-click="model.play"
-                ></i>
+                ><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>
             </div>
         </div>
         <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == homing">

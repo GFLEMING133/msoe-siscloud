@@ -582,6 +582,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .h100									{	height					: 100%;						}
 .va-top									{	vertical-align			: top;						}
 
+.hh5									{	height					: 5px;						}
+.hh10									{	height					: 10px;						}
+.hh15									{	height					: 15px;						}
+.hh20									{	height					: 20px;						}
 .hh25									{	height					: 25px;						}
 .hh40									{	height					: 40px;						}
 .hh50									{	height					: 50px;						}
@@ -652,6 +656,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
   margin: 100px auto 0;
   width: 70px;
   text-align: center;
+}
+
+.black .spinner-bounce > div {
+	background-color: black;
 }
 
 .spinner-bounce > div {

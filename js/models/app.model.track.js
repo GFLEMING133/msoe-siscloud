@@ -118,9 +118,28 @@ app.model.track = {
 		return this;
 	},
 	/**************************** GENERAL ***********************************/
+	play_logic: function (track_index) {
+		var active			= app.session.get('active');
+		var current_track	= app.manager.get_model('sisbot_id').get('data.active_track.id');
+		if (active.primary == 'current' && this.id == current_track) {
+			// do nothing, we're currently playing
+		} else if (active.primary == 'current') {
+			// we have another track on the playlist
+			app.manager.get_model('sisbot_id').get_model('data.active_playlist_id').play_from_current(track_index);
+		} else if (active.primary == 'media' && active.secondary == 'tracks') {
+			// tracks overview page
+			this.play();
+		}
+	},
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
+		app.trigger('session:active', { secondary: 'false', primary: 'current' });
+	},
+	delete: function () {
+		var conf = confirm('Are you sure you want to delete this track? This cannot be undone.');
+
+		if (conf)
+			app.manager.get_model('sisbot_id').track_remove(this);
 	},
 	on_file_upload: function (file) {
 		this.upload_verts_to_cloud(file.data);

@@ -527,7 +527,6 @@ var Binding = Backbone.View.extend({
         var ref         = this.ctx.get(this.get_value(this.data.field));
         var value       = this.get_value(this.data.checked);
         var is_checked  = (_.isArray(ref)) ? _.contains(ref, value) : ('' + ref) == ('' + value);
-        console.log('checked:', ref, value, is_checked);
 
         this.$el.prop('checked', is_checked);
     },

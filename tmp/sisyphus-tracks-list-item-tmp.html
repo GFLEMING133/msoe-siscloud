@@ -1,11 +1,11 @@
-<div>
+<div class="h__k" data-run="model.collapse">
 	<div class="flex pt10 pb10 pl20 pr20 clickable h__k {{= (model.is_expanded == 'true') ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}">
-		<div class="w80p hh80 center vertical">
+		<div class="w80p hh80 center vertical h__k" data-on-click="model.play_logic" data-msg="{{= scope.value }}">
 			<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
 				data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
 			/>
 		</div>
-		<div class="w80 pt20 pl20">
+		<div class="w80 pt20 pl20 h__k" data-on-click="model.play_logic" data-msg="{{= scope.value }}">
 	        <div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
 	        <div class="fs12 lh18 grey block h__k">by {{= model.data.created_by_name }}</div>
 		</div>
@@ -14,9 +14,15 @@
 	    </div>
 	</div>
 	<div class="bg-grey-l flex pt15 pb15 h__k" data-if="{{= model.is_expanded }} == true">
-		<div class="w25 f-large fa fa-play white blue-hover clickable center"></div>
+		<div class="w25 center h__" data-on-click="model.play_logic" data-msg="{{= scope.value }}">
+			<img src="img/icon_2x_trackdropdown_play.png" alt="Back" class="hh20" />
+		</div>
 		<div class="w25 f-large fa fa-heart-o white blue-hover clickable center"></div>
 		<div class="w25 f-large fa fa-plus-square-o white blue-hover clickable center"></div>
-		<div class="w25 f-large fa fa-expand white blue-hover clickable center"></div>
+		<div class="w25 f-large fa fa-expand white blue-hover clickable center h__k"
+			data-on-click="publish"
+			data-publish="session:active"
+			data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
+		></div>
 	</div>
 </div>

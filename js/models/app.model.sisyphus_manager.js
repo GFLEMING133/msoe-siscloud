@@ -375,6 +375,11 @@ app.model.sisyphus_manager = {
 			console.log("Find CB");
 			--num_checks;
 			if (num_checks == 0) {
+
+				// DEBUGGING CODE: COMMENT BEFORE COMMIT
+				// self.set('sisbot_registration', 'none');
+				// return this;
+
 				var sisbots = _.uniq(self.get('sisbots_networked'));
 				self.set('sisbots_networked', sisbots);
 				self.set('sisbots_scanning', 'false');
