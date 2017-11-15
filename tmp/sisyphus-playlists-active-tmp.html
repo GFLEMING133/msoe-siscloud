@@ -1,35 +1,33 @@
-<div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing h__k flex {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center f-large clickable bg-grey-hover">
-                <div class="h__k"
-                    data-if="{{= model.is_editing }} == true"
-                    data-on-click="model.cancel_edit"
-                >Cancel</div>
-                <div class="h__k"
-                    data-if="{{= model.is_editing }} == false"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'secondary':'false'}"
-                ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
-            </div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">{{= model.data.name }}</h1>
-            </div>
-            <div class="w15 pt20 center f-large clickable bg-grey-hover">
-                <div class="h__k"
-                    data-if="{{= model.is_editing }} == false"
-                    data-on-click="model.edit"
-                >Edit</div>
-                <div class="h__k"
-                    data-if="{{= model.is_editing }} == true"
-                    data-on-click="model.save_edit"
-                >Save</div>
-            </div>
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
+        <div class="w15 center f-large clickable blue-hover">
+            <div class="h__k"
+                data-if="{{= model.is_editing }} == true"
+                data-on-click="model.cancel_edit"
+            >x</div>
+            <div class="h__k fa fa-chevron-left"
+                data-if="{{= model.is_editing }} == false"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'playlists'}"
+            ></div>
+        </div>
+        <div class="w70">
+            <h1 class="h__k fs18 lh18 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
+        </div>
+        <div class="w15 center f-large clickable blue-hover">
+            <div class="fa fa-pencil h__k"
+                data-if="{{= model.is_editing }} == false"
+                data-on-click="model.edit"
+            ></div>
+            <div class="h__k"
+                data-if="{{= model.is_editing }} == true"
+                data-on-click="model.save_edit"
+            >Save</div>
         </div>
     </div>
-    <!--------------------------- PLAYLIST DETAILS ---------------------------->
-    <div class="h100 scroll hide-scrollbar">
+    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
+        <!--------------------------- PLAYLIST DETAILS ---------------------------->
         <div class="flex p10 bb">
             <div class="w40 hvw40 relative">
                 <div class="absolute hvw40 center clickable vertical z20">
@@ -125,7 +123,7 @@
             data-foreach-change="foreach_reset"
             data-foreach-map="true"
         >
-            <div class="flex pl10 pr10 pb10 pt10 bg-ll-grey-hover clickable h__k"
+            <div class="flex pl10 pr10 pb10 pt10 bg-grey-ll-hover clickable h__k"
                 data-on-click="parent.play"
                 data-msg="{{= scope.index }}"
             >
@@ -160,7 +158,7 @@
                     data-foreach-remove="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex bg-ll-grey-hover clickable p10">
+                    <div class="flex bg-grey-ll-hover clickable p10">
                         <div class="w10 hvw10 center vertical">
                             <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
                                 data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
@@ -193,8 +191,8 @@
                     data-foreach-change="foreach_reset"
                     data-foreach-map="true"
                 >
-                    <div class="flex bg-ll-grey-hover p10">
-                        <div class="w10 hvw10 bg-ll-grey shadow center vertical">
+                    <div class="flex bg-grey-ll-hover p10">
+                        <div class="w10 hvw10 bg-grey-ll shadow center vertical">
                             <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
                                 data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
                             />
@@ -211,6 +209,6 @@
                 </div>
             </div>
         </div>
-        <div class="hh150">&nbsp;</div>
+        <div class="hh100">&nbsp;</div>
     </div>
 </div>

@@ -683,10 +683,16 @@ var Binding = Backbone.View.extend({
             model   : this.model.attributes,
             tmp     : app.templates.get,
             scope   : this.scope.attributes,
+            session : app.session.attributes,
+            manager : app.manager.attributes,
             _model_ : this.model,
             _super_ : this._super_,
             _self_  : this
         };
+
+        if (app.manager) {
+            json.manager        = app.manager.attributes;
+        }
 
         if (this.parent) {
             json.parent         = this.parent.attributes;
@@ -1020,7 +1026,6 @@ var Binding = Backbone.View.extend({
             opts.grandparent    = (_.has(item.obj, 'cid') && self.parent) ? self.parent : self.grandparent;
             opts.parent         = (_.has(item.obj, 'cid')) ? self.model : self.parent;
             opts.model          = (_.has(item.obj, 'cid')) ? item.obj : self.model;
-
             opts_array.push(opts);
         });
 
@@ -1084,6 +1089,8 @@ var Binding = Backbone.View.extend({
 
                 opts.model      = self.model;
                 opts._super_    = self;
+                opts.session    = app.session;
+                opts.manager    = app.manager;
 
                 opts_array.push(opts);
             }
@@ -1168,7 +1175,7 @@ var Binding = Backbone.View.extend({
 
         return _.chain(str_tmp.match(/\{\{(.*?)\}\}/gi))
             .map(function(r) {
-                var listeners = r.match(/(model|cluster|parent|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent|scope)[a-zA-Z.0-9:_\[\]\-']+/gi);
+                var listeners = r.match(/(session|manager|model|cluster|parent|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent|scope)[a-zA-Z.0-9:_\[\]\-']+/gi);
                 listeners = _.map(listeners, function(l) { return l.replace(/\['/gi, "[").replace(/'\]/gi, "]"); });
                 return listeners;
             })

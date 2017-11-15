@@ -1,59 +1,49 @@
-<div class="body-header">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            >&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Sisyphus Updates</h1>
-            </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w15 center fa fa-chevron-left f-large clickable blue-hover h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        >&nbsp;</div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing capitalize fs18 lh18 truncate">Software Update</h1>
         </div>
+        <div class="w15 center f-large">&nbsp;</div>
     </div>
-    <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.check_for_version_update">
-        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3 h__k" data-run="model.check_local_branches">
-            Sisyphus Version
-        </div>
-        <div class="bb p10 h__k">
-            Sisbot<span class="h__k" data-if="{{= model.local_branches.sisbot }} !== master"> ({{= model.local_branches.sisbot }})</span><span class="h__k pull-right">{{= model.local_versions.sisbot }}</span>
-        </div>
-        <div class="bb p10 h__k">
-            Proxy<span class="h__k" data-if="{{= model.local_branches.proxy }} !== master"> ({{= model.local_branches.proxy }})</span><span class="h__k pull-right">{{= model.local_versions.proxy }}</span>
-        </div>
-        <!--
-        <div class="bb p10 h__k">
-            API<span class="pull-right">{{= model.local_versions.api }}</span>
-        </div>
-        -->
-        <div class="bb p10 h__k">
-            App<span class="h__k" data-if="{{= model.local_branches.app }} !== master"> ({{= model.local_branches.app }})</span><span class="h__k pull-right">{{= model.local_versions.app }}</span>
-        </div>
-        <div class="bb p10 h__k" data-if="{{= app.is_app }} == true">
-            Mobile<span class="pull-right">{{= app.config.version }}</span>
-        </div>
-        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-            Software Updates
-        </div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.install_updates">
-            Install Updates
+    <div class="body-header h100 scroll hide-scrollbar">
+        <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.check_for_version_update">
+            <span class="h__k" data-run="model.check_local_branches"></span>
+            <div class="bb hh50 p20 fs18 flex vertical-align h__k">
+                Sisbot<span class="h__k" data-if="{{= model.local_branches.sisbot }} !== master"> ({{= model.local_branches.sisbot }})</span><span class="h__k pull-right">{{= model.local_versions.sisbot }}</span>
+            </div>
+            <div class="bb hh50 p20 fs18 flex vertical-align h__k">
+                Proxy<span class="h__k" data-if="{{= model.local_branches.proxy }} !== master"> ({{= model.local_branches.proxy }})</span><span class="h__k pull-right">{{= model.local_versions.proxy }}</span>
+            </div>
+            <div class="bb hh50 p20 fs18 flex vertical-align h__k">
+                App<span class="h__k" data-if="{{= model.local_branches.app }} !== master"> ({{= model.local_branches.app }})</span><span class="h__k pull-right">{{= model.local_versions.app }}</span>
+            </div>
+            <div class="bb p10 h__k" data-if="{{= app.is_app }} == true">
+                Mobile<span class="pull-right">{{= app.config.version }}</span>
+            </div>
+            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k" data-on-click="model.install_updates">
+                Install Updates
 
-            <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.data.installing_updates }} == false"></span>
-            <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.installing_updates }} == true"></span>
-            <span class="pull-right fa fa-exclamation-triangle h__k"
-                data-if="{{= model.data.installing_updates }} == error"
-                data-tooltip="{'placement':'left','title':'{{= model.data.installing_updates_error }}'}"
-            ></span>
-        </div>
-        <div class="bb p10 bg-ll-grey-hover clickable h__k" data-on-click="model.factory_reset">
-            Reset Sisyphus to Factory Settings
-            <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.data.factory_resetting }} == false"></span>
-            <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.factory_resetting }} == true"></span>
-            <span class="pull-right fa fa-exclamation-triangle h__k"
-                data-if="{{= model.data.factory_resetting }} == error"
-                data-tooltip="{'placement':'left','title':'{{= model.data.factory_resetting_error }}'}"
-            ></span>
+                <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.data.installing_updates }} == false"></span>
+                <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.installing_updates }} == true"></span>
+                <span class="pull-right fa fa-exclamation-triangle h__k"
+                    data-if="{{= model.data.installing_updates }} == error"
+                    data-tooltip="{'placement':'left','title':'{{= model.data.installing_updates_error }}'}"
+                ></span>
+            </div>
+            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k" data-on-click="model.factory_reset">
+                Reset Sisyphus to Factory Settings
+                <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.data.factory_resetting }} == false"></span>
+                <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.factory_resetting }} == true"></span>
+                <span class="pull-right fa fa-exclamation-triangle h__k"
+                    data-if="{{= model.data.factory_resetting }} == error"
+                    data-tooltip="{'placement':'left','title':'{{= model.data.factory_resetting_error }}'}"
+                ></span>
+            </div>
         </div>
     </div>
 </div>

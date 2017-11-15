@@ -38,6 +38,7 @@ app.model.sisbot = {
 			is_jogging						: false,
 			jog_type						: '',
 			updating_hostname				: 'false',
+			updating_tablename				: 'false',
 
 			timestamp						: 'false',
 
@@ -50,6 +51,7 @@ app.model.sisbot = {
 			default_settings				: {},
 			default_settings_error			: 'false',
 
+			edit		: {},
 			data		: {
 				id					: data.id,
 				type    			: 'sisbot',
@@ -564,6 +566,41 @@ app.model.sisbot = {
 				self.set('data', obj.resp);
 			}
 		});
+	},
+	setup_edit: function () {
+		this.set('edit', this.get('data'))
+			.set('errors', []);
+
+		return this;
+	},
+	update_tablename: function () {
+		var self		= this;
+		var name		= this.get('edit.name');
+		var errors 		= [];
+
+		this.set('errors', []);
+		this.set('updating_tablename', 'true');
+
+		if (name == '')
+			errors.push('Table Name cannot be empty');
+
+		if (errors.length > 0)
+			return this.set('updating_tablename', 'false').set('errors', errors);
+
+		var data = this.get('data');
+		data.name = name;
+
+		this._update_sisbot('save', data, function(obj) {
+			self.set('updating_tablename', 'false');
+
+			if (obj.err) {
+				self.set('errors', [ obj.err ]);
+			} else if (obj.resp) {
+				app.trigger('session:active', { secondary: 'advanced_settings' });
+				self.set('data', obj.resp);
+			}
+		});
+
 	},
 	restart: function () {		// CURRENTLY UNUSED
 		this._update_sisbot('restart', {}, function(obj) {

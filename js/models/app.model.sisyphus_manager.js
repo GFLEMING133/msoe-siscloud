@@ -67,7 +67,7 @@ app.model.sisyphus_manager = {
 		if (app.config.env == 'sisbot') {
 			return this.setup_as_sisbot();
 		} else if (app.config.env == 'alpha') {
-			this.setup_demo();
+			//this.setup_demo();
 		} else if (app.config.env == 'beta'){
 			//this.setup_demo();
 		} else {
@@ -380,7 +380,6 @@ app.model.sisyphus_manager = {
 				self.set('sisbots_scanning', 'false');
 				var curr_reg = self.get('sisbot_registration');
 
-				console.log()
 				if (sisbots.length == 1) {
 					// autoconnect
 					self.connect_to_sisbot(sisbots[0]);
@@ -979,11 +978,11 @@ app.model.sisyphus_manager = {
 			{
 				id          		: '57DB5833-72EF-4D16-BCD8-7B832B423554',
 				pi_id				: '',
-				name				: 'Sisyphus',
+				name				: 'Sisyphus Table',
 				type        		: 'sisbot',
-				active_playlist_id	: 'false',
+				active_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				active_track		: {
-					id: 'false'
+					id: '1'
 				},
 				state				: 'paused',
 				is_available		: 'true',
@@ -993,8 +992,12 @@ app.model.sisyphus_manager = {
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'true',
 				hostname_prompt		: 'true',
-				do_not_remind		: 'false',
+				do_not_remind		: 'true',
+				is_autodim			: 'true',
+				brightness			: .5,
+				speed				: .3,
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
+				local_ip			: '192.168.42.1',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492' ],
 				track_ids   : [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
 			}, {
@@ -1002,9 +1005,10 @@ app.model.sisyphus_manager = {
 				type        		: 'playlist',
 				name        		: 'Default Playlist',
 				description 		: 'Description of Default Playlist',
+				created_by_name		: 'Sisyphus Industries',
 				is_saved			: 'true',
 				is_published		: 'false',
-				is_shuffle			: 'false',
+				is_shuffle			: 'true',
 				is_loop				: 'false',
 				active_track_id		: 'false',
 				active_track_index	: 'false',
