@@ -689,6 +689,18 @@ app.model.sisbot = {
 				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
 		});
 	},
+	/******************** SLEEP ***********************************************/
+	set_sleep_time: function () {
+		var self = this;
+		var data = {
+			sleep_time: this.get('data.sleep_time'),
+			wake_time: this.get('data.wake_time')
+		};
+
+		this._update_sisbot('set_sleep_time', data, function (obj) {
+			if (obj.resp) self.set('data', obj.resp);
+		});
+	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
 		var self		= this;
