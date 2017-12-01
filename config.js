@@ -1,5 +1,5 @@
 var config = {
-    version : '1.0.8',
+    version : '1.0.9', // fix wifi on-change typo
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
