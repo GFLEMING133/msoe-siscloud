@@ -105,7 +105,7 @@ app.model.sisyphus_manager = {
 
 		evothings.ble.startScan(
 			function(device) {
-				if (device.name.indexOf('sisyphus') > -1) {
+				if (device && device.name && device.name.indexOf('sisyphus') > -1) {
 					self.ble_connect(device);
 				}
 			},
