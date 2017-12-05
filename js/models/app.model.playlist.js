@@ -107,24 +107,18 @@ app.model.playlist = {
 		return this;
 	},
 	/**************************** EDIT ****************************************/
-	edit: function () {
+	setup_edit: function () {
 		this.set('active_tracks', this.get('data.tracks').slice())
 			.set('edit.name', this.get('data.name'))
-			.set('edit.description', this.get('data.description'))
-			.set('is_editing', 'true');
+			.set('edit.description', this.get('data.description'));
 	},
 	cancel_edit: function () {
-		this.set('is_editing', 'false');
-
-		if (this.get('data.is_saved') == 'false')
-			app.trigger('session:active', { secondary: 'false' });
+		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	save_edit: function () {
-		this.set('is_editing', 'false')
-			.set('data.name', this.get('edit.name'))
+		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
-			//.update_duration()
 
 		var sorted_tracks = [];
 		_.each(this.get('data.tracks'), function(obj,index) {
@@ -133,6 +127,8 @@ app.model.playlist = {
 		this.set("data.sorted_tracks", sorted_tracks);
 
 		this.save();
+
+		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	/**************************** TRACKS **************************************/
 	add_track: function (track_id) {
@@ -149,10 +145,8 @@ app.model.playlist = {
 		this.trigger('change:active_tracks');
 	},
 	remove_track: function (track_index) {
-		console.log("Remove", track_index,this.get('active_tracks')[+track_index].id);
-		var track = app.collection.get(this.get('active_tracks')[+track_index].id);
+		console.log("Remove", track_index);
 		this.remove('active_tracks['+track_index+']');
-		this.add_nx('eligible_tracks', track.id);
 	},
 	move_array: function (field, old_index, new_index) {
 		var val		= this.get(field);
@@ -164,10 +158,25 @@ app.model.playlist = {
 
 		this.trigger('change:' + field);
 	},
-	generate_eligible_tracks: function () {
-		var elig_tracks = app.manager.get_model('sisbot_id').get('data.track_ids').slice();
+	add_track_and_save: function(track_id) {
+		var track = app.collection.get(track_id);
+		var track_obj = {
+			id		: track_id,
+			vel		: track.get('data.default_vel'),
+			accel	: track.get('data.default_accel'),
+			thvmax	: track.get('data.default_thvmax'),
+			firstR	: track.get('data.firstR'),
+			lastR	: track.get('data.lastR')
+		};
+		this.add('data.tracks', track_obj);
 
-		this.set('eligible_tracks', elig_tracks);
+		var sorted_tracks = [];
+		_.each(this.get('data.tracks'), function(obj,index) {
+		sorted_tracks.push(index);
+		});
+		this.set("data.sorted_tracks", sorted_tracks);
+
+		this.save();
 	},
 	/**************************** COMMUNITY ***********************************/
 	check_publish: function () {

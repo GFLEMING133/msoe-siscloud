@@ -17,8 +17,11 @@ app.model.sisyphus_manager = {
 
 			sisbot_id       		: 'false',
 			sisbot_registration		: 'find',		// find|none|hotspot|multiple
-			show_setup_page			: 'false',
+
 			show_wifi_page			: 'false',
+			show_setup_page			: 'false',
+			show_nightlight_page	: 'false',
+
 			show_hostname_page		: 'false',
 			current_ssid			: 'false',
 
@@ -311,16 +314,20 @@ app.model.sisyphus_manager = {
 			if (hotspot_status == 'true') {
 				this.set('show_wifi_page', 'true');
 			} else {
-				this.set('show_setup_page', 'true');
+				this.set('show_setup_page', 'true')
+					.set('show_nightlight_page', 'true');
 			}
 		}
 
 		return this;
 	},
 	should_skip_wifi: function () {
-		console.log('we are here');
 		this.set('show_wifi_page', 'false');
 		this.set('show_setup_page', 'true')
+	},
+	should_show_nightlight: function () {
+		this.set('show_setup_page', 'false');
+		this.set('show_nightlight_page', 'true')
 	},
 	save_hostname: function () {
 		var sisbot				= this.get_model('sisbot_id');
@@ -380,7 +387,7 @@ app.model.sisyphus_manager = {
 			if (num_checks == 0) {
 
 				// DEBUGGING CODE: COMMENT BEFORE COMMIT
-				// self.set('sisbot_registration', 'connecting');
+				// self.set('sisbot_registration', 'multiple');
 				// return this;
 
 				var sisbots = _.uniq(self.get('sisbots_networked'));
@@ -1004,7 +1011,8 @@ app.model.sisyphus_manager = {
 				speed				: .3,
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				local_ip			: '192.168.42.1',
-				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492' ],
+				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
+			 					'3fdab229-5c60-4a86-8713-adb7edd494fe' ],
 				track_ids   : [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
 			}, {
 				id          		: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
@@ -1029,6 +1037,23 @@ app.model.sisyphus_manager = {
 					reversible	: 'false'
 				}],
 				sorted_tracks: [ 0, 1, 2 ],
+			}, {
+				id          		: '3fdab229-5c60-4a86-8713-adb7edd494fe',
+				type        		: 'playlist',
+				name        		: 'Erase Playlist',
+				description 		: 'Description of Default Playlist',
+				created_by_name		: 'Sisyphus Industries',
+				is_saved			: 'true',
+				is_published		: 'false',
+				is_shuffle			: 'true',
+				is_loop				: 'false',
+				active_track_id		: 'false',
+				active_track_index	: 'false',
+				tracks   : [{
+					id			: '1',
+					reversible	: 'false'
+				}],
+				sorted_tracks: [ 0 ],
 			}, {
 				id          : '1',
 				type        : 'track',

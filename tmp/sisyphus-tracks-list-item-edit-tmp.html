@@ -1,0 +1,16 @@
+<div class="h__k" data-run="model.collapse">
+	<div class="flex pt10 pb10 pl20 pr20 clickable">
+		<div class="w80p hh80 center vertical">
+			<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+				data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
+			/>
+		</div>
+		<div class="w80 pt20 pl20">
+	        <div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
+	        <div class="fs12 lh18 grey block h__k">by {{= model.data.created_by_name }}</div>
+		</div>
+	    <div class="w20 h100 vertical h__k" data-on-click="parent.remove_track" data-msg="{{= scope.index }}">
+	        <i class="red fa fa-minus-circle pt30 f-large" aria-hidden="true"></i>
+	    </div>
+	</div>
+</div>

@@ -10,19 +10,27 @@
 	        <div class="fs12 lh18 grey block h__k">by {{= model.data.created_by_name }}</div>
 		</div>
 	    <div class="w20 h100 vertical h__k" data-on-click="toggle" data-field="model.is_expanded">
-	        <i class="fa fa-ellipsis-h f-xlarge grey pt30 pull-right pr20" aria-hidden="true"></i>
+	        <i class="grey pt30" aria-hidden="true">
+				<img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
+			</i>
 	    </div>
 	</div>
 	<div class="bg-grey-l flex pt15 pb15 h__k" data-if="{{= model.is_expanded }} == true">
-		<div class="w25 center h__" data-on-click="model.play_logic" data-msg="{{= scope.value }}">
-			<img src="img/icon_2x_trackdropdown_play.png" alt="Back" class="hh20" />
+		<div class="w25 center h__k" data-on-click="model.play_logic" data-msg="{{= scope.value }}">
+			<img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" />
 		</div>
-		<div class="w25 f-large fa fa-heart-o white blue-hover clickable center"></div>
-		<div class="w25 f-large fa fa-plus-square-o white blue-hover clickable center"></div>
-		<div class="w25 f-large fa fa-expand white blue-hover clickable center h__k"
+		<div class="w25 clickable center">
+			<img src="img/icon_2x_trackdropdown_openheart.png" alt="Favorite" class="hh20" />
+		</div>
+		<div class="w25 clickable center h__k"
+			data-on-click="publish"
+			data-publish="modal:open"
+			data-msg="{{= model.id }}"
+		><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
+		<div class="w25 clickable center h__k"
 			data-on-click="publish"
 			data-publish="session:active"
 			data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
-		></div>
+		><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" /></div>
 	</div>
 </div>

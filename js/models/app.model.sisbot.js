@@ -101,7 +101,9 @@ app.model.sisbot = {
 				is_loop				: 'false',
 				brightness			: .5,
 				speed				: .3,
-				is_autodim			: 'true'
+				is_autodim			: 'true',
+				is_nightlight		: 'false',
+				nightlight_brightness: 0.2,
 			}
 		};
 
@@ -343,7 +345,9 @@ app.model.sisbot = {
 		var defaults = {
 			name		: data.name,
 			brightness	: data.brightness,
-			is_autodim	: data.is_autodim
+			is_autodim	: data.is_autodim,
+			start_time	: '10:00 PM',
+			end_time	: '8:00 AM',
 		}
 
 		this.set('default_settings', defaults);
@@ -367,7 +371,7 @@ app.model.sisbot = {
 
 		data.do_not_remind = 'true';
 
-		app.manager.set('show_setup_page', 'false');
+		app.manager.set('show_nightlight_page', 'false');
 
 		this._update_sisbot('save', data, function(obj) {
 			console.log('WE SAVE THE UPDATE');
@@ -669,6 +673,9 @@ app.model.sisbot = {
 			if (obj.resp)
 				self.set('data', obj.resp);
 		});
+	},
+	nightlight_brightness: function (level) {
+		this.set('data.nightlight_brightness', +level);
 	},
 	brightness_up: function () {
 		var level = +this.get('data.brightness');

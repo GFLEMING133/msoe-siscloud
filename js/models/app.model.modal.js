@@ -4,8 +4,6 @@ app.model.modal = {
             id		    : data.id,
             type        : 'modal',
             is_hidden   : 'true',
-            header_text : 'Default Header',
-            body_tmp    : 'modal-body-default-tmp',
             data    : {
                 id		    : data.id,
                 type        : 'modal'
@@ -18,23 +16,18 @@ app.model.modal = {
         this.listenTo(app, 'modal:open', this.open);
         this.listenTo(app, 'modal:close', this.close);
     },
-    open: function (msg) {
-		var m = app.collection.get(msg.model_id);
-		m.form_init();
-		m.transfer_data_to_form();
-
-		this.set(msg);
-        this.set('is_hidden', 'false');
+    open: function (track_id) {
+		this.set('track_id', track_id)
+			.set('is_hidden', 'false')
+			.trigger('change:is_hidden');
     },
+	add_to_playlist: function (playlist_id) {
+		console.log('palylist', playlist_id);
+		app.collection.get(playlist_id).add_track_and_save(this.get('track_id'));
+		this.set('track_id', 'false')
+			.set('is_hidden', 'true');
+	},
     close: function () {
         this.set('is_hidden', 'true');
     },
-	export_data: function () {
-        // do nothing
-		return this;
-    },
-	save: function () {
-		// do nothing
-		return this;
-	}
 };

@@ -1,9 +1,11 @@
 <div class="hh50 w100 bg-black no-stuffing h__k"
     data-template="sisyphus-header-default-tmp"
 ></div>
-<div class="bg-white h100 black pl40 pr40">
-    <p class="no-stuffing fa fa-check-square-o f-xxxlarge center w100 mt40" aria-hidden="true"></>
-    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+<div class="bg-white black pl40 pr40">
+    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+        <img src="img/icon_2x_check.png" alt="WiFi" class="hh30" />
+    </p>
+    <h3 class="m0 pt20 pb30 center justify fs24 lh24">
         Connect to New Table
     </h3>
     <p class="center fs18 lh24">
@@ -17,7 +19,7 @@
         >Open Wifi Settings</p>
     </div>
     <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_connecting }} == true">
-        <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
+        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
         <div class="h__k">
             Connecting...
         </div>

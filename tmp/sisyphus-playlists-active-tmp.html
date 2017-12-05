@@ -1,213 +1,29 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <div class="w15 center f-large clickable blue-hover">
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == true"
-                data-on-click="model.cancel_edit"
-            >x</div>
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == false"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'playlists'}"
-            ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
-        </div>
+        <div class="w15 center f-large clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'playlists'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w70">
             <h1 class="h__k fs18 lh18 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
         </div>
-        <div class="w15 center clickable">
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == false"
-                data-on-click="model.edit"
-            ><img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
-            <div class="h__k"
-                data-if="{{= model.is_editing }} == true"
-                data-on-click="model.save_edit"
-            >Save</div>
-        </div>
+        <div class="w15 center f-large clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'playlist-edit'}"
+        ><img src="img/icon_2x_playlist_edit.png" alt="Back" class="hh50 pt15 pb15" /></div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
-        <!--------------------------- PLAYLIST DETAILS ---------------------------->
-        <div class="flex p10 bb">
-            <div class="w40 hvw40 relative">
-                <div class="absolute hvw40 center clickable vertical z20">
-                    <i class="fa fa-play-circle f-large f-xxxxxlarge h__k"
-                        data-if="{{= app.plugins.length(model.data.tracks) }} > 0"
-                        data-on-click="model.play"
-                        data-msg="{{= 'false' }}"
-                        aria-hidden="true"
-                    ></i></span>
-                </div>
-                <div class="h__k z10" data-template="sisyphus-playlist-rendering"></div>
-            </div>
-            <div class="w5 hvw40">&nbsp;</div>
-            <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == false">
-                <h3 class="h__k no-stuffing truncate">{{= model.data.name }}</h3>
-                <p class="no-stuffing h__k">{{= model.data.created_by_name }}</p>
-                <p class="no-stuffing h__k">{{= app.plugins.length(model.data.tracks) }} Tracks</p>
-                <p class="no-stuffing h__k">{{= model.data.duration_formatted }}</p>
-                <div class="mt20">
-                    <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded h__k"
-                        data-if="{{= model.data.is_published }} == true"
-                        title="Published"
-                    ></span>
-                    <span class="no-stuffing bg-green fa fa-random white p10 rounded h__k"
-                        data-if="{{= model.data.is_shuffle }} == true"
-                        title="Default Shuffle"
-                    ></span>
-                    <span class="no-stuffing bg-green fa fa-refresh white p10 rounded h__k"
-                        data-if="{{= model.data.is_loop }} == true"
-                        title="Default Loop"
-                    ></span>
-                </div>
-            </div>
-            <div class="w55 hvw40 relative h__k" data-if="{{= model.is_editing }} == true">
-                <input type="text" class="w100 f15 clickable h__k"
-                    data-field="model.edit.name"
-                    data-value="{{= model.edit.name }}"
-                    value="{{= model.edit.name }}"
-                />
-                <div class="h__k mt20" data-if="{{= app.manager.has_user() }} == true">
-                    <span class="no-stuffing bg-d-blue fa fa-cloud-upload white p10 rounded clickable h__k"
-                        data-if="{{= model.data.is_published }} == true"
-                        data-field="model.data.is_published"
-                        data-on-click="toggle"
-                    ></span>
-                    <span class="no-stuffing bg-grey fa fa-cloud-upload white p10 rounded clickable h__k"
-                        data-if="{{= model.data.is_published }} == false"
-                        data-field="model.data.is_published"
-                        data-on-click="toggle"
-                    ></span>
-                    <!--- SHUFFLE -->
-                    <span class="no-stuffing bg-d-blue fa fa-random white p10 rounded clickable h__k"
-                        data-if="{{= model.data.is_shuffle }} == true"
-                        data-field="model.data.is_shuffle"
-                        data-on-click="toggle"
-                    ></span>
-                    <span class="no-stuffing bg-grey fa fa fa-random white p10 rounded clickable h__k"
-                        data-if="{{= model.data.is_shuffle }} == false"
-                        data-field="model.data.is_shuffle"
-                        data-on-click="toggle"
-                    ></span>
-                    <!--- LOOP -->
-                    <span class="no-stuffing bg-d-blue fa fa-refresh white p10 rounded clickable h__k"
-                        data-if="{{= model.data.is_loop }} == true"
-                        data-field="model.data.is_loop"
-                        data-on-click="toggle"
-                    ></span>
-                    <span class="no-stuffing bg-grey fa fa-refresh white p10 rounded clickable h__k"
-                        data-if="{{= model.data.is_loop }} == false"
-                        data-field="model.data.is_loop"
-                        data-on-click="toggle"
-                    ></span>
-                </div>
-            </div>
-        </div>
-        <!--------------------------- PLAYLIST DESCRIPTION -------------------->
-        <div class="pl10 pr10">
-            <div class="h__k" data-if="{{= model.is_editing }} == false">
-                <div class="mt10 pt10 pb20 bb h__k"  data-if="{{= model.data.description }} !== ">{{= model.data.description }}</div>
-            </div>
-            <textarea class="mt10 pt10 pb20 bb w100 clickable h__k"
-                placeholder="Playlist Description here"
-                data-if="{{= model.is_editing }} == true"
-                data-field="model.edit.description"
-                data-value="{{= model.edit.description }}"
-                value="{{= model.edit.description }}"
-            ></textarea>
-        </div>
         <!--------------------------- PLAYLIST TRACKS ---------------------------->
-        <div class="mt10 h__k"
-            data-if="{{= model.is_editing }} == false"
+        <div class="h__k"
             data-foreach="model.data.tracks"
             data-foreach-change="foreach_reset"
-            data-foreach-map="true"
         >
-            <div class="flex pl10 pr10 pb10 pt10 bg-grey-ll-hover clickable h__k"
-                data-on-click="parent.play"
-                data-msg="{{= scope.index }}"
-            >
-                <div class="w10 hvw10 center vertical">
-                    <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-                        data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
-                    />
-                </div>
-                <div class="w5 hvw10">&nbsp;</div>
-                <div class="w85 hvw10 bb vertical">
-                    <div class="h__k">{{= model.data.name }}</div>
-                </div>
-            </div>
-        </div>
-        <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
-        <div class="mt10 pb10 h__k" data-if="{{= model.is_editing }} == true">
-            <div class="bg-d-grey white no-stuffing pl10 pr10 uppercase pt3 pb3">
-                Current Tracks
-                <span class="pull-right">3:15</span>
-            </div>
-            <div class="h__k">
-                <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
-                    There are no tracks in this playlist
-                </div>
-                <div class="h__k"
-                    data-sortable=".reorder"
-                    data-field="model.active_tracks"
-                    data-if="{{= app.plugins.length(model.active_tracks) }} !== 0"
-                    data-foreach="model.active_tracks"
-                    data-foreach-change="foreach_reset"
-                    data-foreach-add="foreach_reset"
-                    data-foreach-remove="foreach_reset"
-                    data-foreach-map="true"
-                >
-                    <div class="flex bg-grey-ll-hover clickable p10">
-                        <div class="w10 hvw10 center vertical">
-                            <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-                                data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
-                            />
-                        </div>
-                        <div class="w5 hvw10">&nbsp;</div>
-                        <div class="w65 hvw10 bb vertical">
-                            <div class="h__k">{{= model.data.name }}</div>
-                        </div>
-                        <div class="w10 hvw10 center bb vertical h__k reorder grabbable">
-                            <i class="fa fa-bars f-large" aria-hidden="true"></i>
-                        </div>
-                        <div class="w10 hvw10 center bb vertical h__k"
-                            data-on-click="parent.remove_track"
-                            data-msg="{{= scope.index }}"
-                        ><i class="fa fa-minus-circle f-large" aria-hidden="true"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-d-grey white no-stuffing pl10 pr10 uppercase pt3 pb3">
-                Eligible Tracks
-            </div>
-            <div class="h__k" data-run="model.generate_eligible_tracks">
-                <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.eligible_tracks) }} == 0">
-                    There are no eligible tracks
-                </div>
-                <div class="h__k"
-                    data-if="{{= app.plugins.length(model.eligible_tracks) }} !== 0"
-                    data-foreach="model.eligible_tracks"
-                    data-foreach-change="foreach_reset"
-                    data-foreach-map="true"
-                >
-                    <div class="flex bg-grey-ll-hover p10">
-                        <div class="w10 hvw10 bg-grey-ll shadow center vertical">
-                            <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-                                data-src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png"
-                            />
-                        </div>
-                        <div class="w5 hvw10">&nbsp;</div>
-                        <div class="w75 hvw10 bb vertical">
-                            <div class="h__k">{{= model.data.name }}</div>
-                        </div>
-                        <div class="w10 hvw10 center bb vertical h__k"
-                            data-on-click="parent.add_track"
-                            data-msg="{{= model.id }}"
-                        ><i class="fa fa-plus-circle f-large" aria-hidden="true"></i></div>
-                    </div>
-                </div>
-            </div>
+            <div class="h__k {{= (scope.index !== 0) ? 'bt' : '' }}"
+                data-model="{{= scope.value.id }}"
+                data-template="sisyphus-tracks-list-item-tmp"
+            ></div>
         </div>
         <div class="hh100">&nbsp;</div>
     </div>
