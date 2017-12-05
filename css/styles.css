@@ -587,6 +587,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .hh15									{	height					: 15px;						}
 .hh20									{	height					: 20px;						}
 .hh25									{	height					: 25px;						}
+.hh30									{	height					: 30px;						}
 .hh40									{	height					: 40px;						}
 .hh50									{	height					: 50px;						}
 .hh75									{	height					: 75px;						}
@@ -653,7 +654,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .corner-5px, .corner-5px:hover			{	border-radius			: 5px;						}
 
 .spinner-bounce {
-  margin: 100px auto 0;
+  margin: 0px auto 0;
   width: 70px;
   text-align: center;
 }
@@ -665,9 +666,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .spinner-bounce > div {
   width: 10px;
   height: 10px;
-
   background-color: #fff;
-
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;

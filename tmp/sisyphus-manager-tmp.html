@@ -31,7 +31,8 @@
             ></div>
         </div>
     </div>
-    <div class="h__k app-container bg-white" data-if="{{= model.sisbot_id }} == false">
+    <div class="h__k app-container bg-black" data-if="{{= model.sisbot_id }} == false">
+        <div class="h__k" data-if="{{= model.sisbot_registration }} == waiting" data-template="sisyphus-sisbot-waiting-tmp"></div>
         <div class="h__k" data-if="{{= model.sisbot_registration }} == find" data-template="sisyphus-sisbot-find-tmp"></div>
         <div class="h__k" data-if="{{= model.sisbot_registration }} == none" data-template="sisyphus-sisbot-none-tmp"></div>
         <div class="h__k" data-if="{{= model.sisbot_registration }} == hotspot" data-template="sisyphus-sisbot-hotspot-tmp"></div>

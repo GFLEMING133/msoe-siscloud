@@ -352,9 +352,12 @@ app.model.sisyphus_manager = {
 		var self = this;
 
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
+			self.set('sisbot_registration', 'waiting');
+
+			// Add 10 second timeout to ensure connection to sisbot network
 			setTimeout(function () {
 				self.set('sisbot_registration', 'find');
-			}, 2500);
+			}, 10000);
 		}, function error(err) {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
@@ -377,7 +380,7 @@ app.model.sisyphus_manager = {
 			if (num_checks == 0) {
 
 				// DEBUGGING CODE: COMMENT BEFORE COMMIT
-				// self.set('sisbot_registration', 'none');
+				// self.set('sisbot_registration', 'connecting');
 				// return this;
 
 				var sisbots = _.uniq(self.get('sisbots_networked'));
@@ -385,7 +388,9 @@ app.model.sisyphus_manager = {
 				self.set('sisbots_scanning', 'false');
 				var curr_reg = self.get('sisbot_registration');
 
-				if (sisbots.length == 1) {
+				if (app.config.env == 'alpha') {
+					self.connect_to_sisbot('192.168.42.1');
+				} else if (sisbots.length == 1) {
 					// autoconnect
 					self.connect_to_sisbot(sisbots[0]);
 				} else if (curr_reg == 'hotspot') {
@@ -526,18 +531,14 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
-	connect_to_sisbot: function () {
+	connect_to_sisbot: function (sisbot_hostname) {
 		if (this.get('sisbot_connecting') == 'true') return false;
 		else this.set('sisbot_connecting', 'true');
 
 		this.set('errors', []);
 
 		var self			= this;
-		var sisbot_hostname = this.get('sisbot_hostname');
-
-		if (sisbot_hostname == 'apple.auth') {
-			app.config.env = 'alpha';
-		}
+		var sisbot_hostname = sisbot_hostname || this.get('sisbot_hostname');
 
 		// ping sisbot for connection
 		var obj = {
@@ -997,7 +998,7 @@ app.model.sisyphus_manager = {
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'true',
 				hostname_prompt		: 'true',
-				do_not_remind		: 'true',
+				do_not_remind		: 'false',
 				is_autodim			: 'true',
 				brightness			: .5,
 				speed				: .3,
