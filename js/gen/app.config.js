@@ -1,5 +1,5 @@
 app.config = {
-	env					: 'alpha',
+	env					: 'prod',
 	version				: '1.1.0',
 	envs	: {
 		alpha: {	// loads local data only

@@ -109,7 +109,7 @@ app.model.sisyphus_manager = {
 
 		evothings.ble.startScan(
 			function(device) {
-				if (device && device.advertisementData.kCBAdvDataLocalName == 'sisyphus') {
+				if (device && device.advertisementData && device.advertisementData.kCBAdvDataLocalName && device.advertisementData.kCBAdvDataLocalName.indexOf('sisbot') > -1) {
 					self.ble_connect(device);
 				}
 			},
@@ -398,7 +398,7 @@ app.model.sisyphus_manager = {
 				if (app.config.env == 'alpha') {
 					self.connect_to_sisbot('192.168.42.1');
 				} else if (sisbots.length == 1) {
-					// autoconnect
+					self.set('sisbot_registration', 'connecting');
 					self.connect_to_sisbot(sisbots[0]);
 				} else if (curr_reg == 'hotspot') {
 					// do nothing, we're already notifying user
@@ -497,14 +497,22 @@ app.model.sisyphus_manager = {
 			ip_add.pop();
 
 			var ip_base = ip_add.join('.');
-			var count = 256;
+			var count = 0;
 
-			// scan network
-			for (var i = 0; i < 256; i++) {
-				self.ping_sisbot(ip_base + '.' + i, function() {
-					if (--count == 0) cb();
+			function ping_ping() {
+				self.ping_sisbot(ip_base + '.' + count, function() {
+
+					if (++count == 3) {
+						cb();
+					} else {
+						setTimeout(function() {
+							ping_ping();
+						}, 5);
+					}
 				});
 			}
+
+			ping_ping();
 		});
 
 		return this;
@@ -530,8 +538,8 @@ app.model.sisyphus_manager = {
 				return cb();
 
 			// Default select the one we are already on
-			self.set('sisbot_hostname', hostname);
-			self.add('sisbots_networked', obj.resp.hostname);
+			self.set('sisbot_hostname', obj.resp.local_ip);
+			self.add('sisbots_networked', obj.resp.local_ip);
 
 			cb();
 		}, 0);
@@ -551,7 +559,8 @@ app.model.sisyphus_manager = {
 		var obj = {
 			_url	: 'http://' + sisbot_hostname + '/',
 			_type	: 'POST',
-			_timeout: 500,
+			_timeout: 1500,
+			_console: true,
 			endpoint: 'sisbot/connect',
 			data	: {},
 		};
@@ -564,8 +573,11 @@ app.model.sisyphus_manager = {
 				var sisbot_data = self.get_default_sisbot();		// DEFAULT SISBOT
 				console.log('Connect to Sisbot:', sisbot_data);
 			} else {
-				if (obj.err)
+				if (obj.err) {
+					// IF WE HAVE CONNECTION ERROR
+					self.connect_to_sisbot(sisbot_hostname);
 					return self.set('errors', [ '- That sisbot does not appear to be on the network' ]);
+				}
 
 				var sisbot_data = obj.resp;
 			}

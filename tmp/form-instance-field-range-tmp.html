@@ -1,7 +1,0 @@
-<select class="h__k" style="width: 200px;"
-    data-shepherd="form_instance:{{= app.plugins.slugify(model.data.name) }}"
-    data-foreach-default="Select"
-    data-selected="{{= parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'] }}"
-    data-field="parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}']"
-    data-foreach="[{{= _.range(+(model.data.start), +(model.data.end) + 1) }}]"
-><option class="h__k" value="{{= scope.value }}">{{= scope.value }}</option></select>

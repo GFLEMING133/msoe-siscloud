@@ -195,6 +195,16 @@ app.model.sisbot = {
 		}
 	},
 	_fetch_cloud_tries: 10,
+	_fetch_bluetooth: function () {
+		// TODO: Start here
+		app.manager.start_ble_scan(function (ip_address) {
+			if (ip_address) {
+				self.ping_sisbot(ip_address, cb);
+			} else {
+				cb();
+			}
+		});
+	},
 	_fetch_cloud: function () {
 		var self = this;
 		self.set('fetching_cloud', 'true');
@@ -434,6 +444,7 @@ app.model.sisbot = {
 		this.set('is_connecting_to_wifi', 'true');
 
 		this._update_sisbot('connect_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
+			console.log('connect_to_wifi: ', obj);
 			if (obj.resp) self.set('data', obj.resp);
 
 			setTimeout(function () {
