@@ -106,19 +106,20 @@ app.model.sisyphus_manager = {
 		evothings.ble.startScan(
 			function(device) {
 				if (device && device.name && device.name.indexOf('sisyphus') > -1) {
-					self.ble_connect(device);
+					self.ble_connect(device, 0);
 				}
 			},
 			function(error) {
-				alert('Start Scan Error: ' + error);
+				//alert('Start Scan Error: ' + error);
 				self.ble_cb();
 			}
 		);
 
+		// give the user plenty of time to approve permissions and find sisbot
 		setTimeout(function() {
 			self.ble_cb();
 			self.ble_stop_scan();
-		}, 5000);
+		}, 15000);
 	},
 	_char	: false,
 	_ble_cb	: false,
@@ -132,7 +133,7 @@ app.model.sisyphus_manager = {
 	ble_stop_scan: function () {
 		evothings.ble.stopScan();
 	},
-	ble_connect: function (device) {
+	ble_connect: function (device, connect_retries) {
 		this.ble_stop_scan();
 
 		var self	= this;
@@ -140,11 +141,17 @@ app.model.sisyphus_manager = {
 		evothings.ble.connectToDevice(device, function on_connect(device) {
 			self.get_service_data(device);
 		}, function on_disconnect(device) {
-			alert('Disconnected from Device');
+			//alert('Disconnected from Device');
 			self.ble_cb();
 		}, function on_error(error) {
-			alert('Bluetooth Connect Error: ' + error);
-			self.ble_cb();
+			if (connect_retries > 5) {
+				alert('Bluetooth Connect Error: ' + error);
+				self.ble_cb();
+			} else {
+				setTimeout(function() {
+					self.ble_connect(device, ++connect_retries);
+				}, 500);
+			}
 		});
 	},
 	get_service_data: function(device) {
