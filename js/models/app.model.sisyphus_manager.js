@@ -123,8 +123,10 @@ app.model.sisyphus_manager = {
 	},
 	_char	: false,
 	_ble_cb	: false,
+	_ble_ip	: false,
 	ble_cb: function (value) {
 		if (this._ble_cb) {
+			this._ble_ip = value;
 			this._ble_cb(value);
 			this._ble_cb = false;
 		}
@@ -458,6 +460,13 @@ app.model.sisyphus_manager = {
 			endpoint: 'sisbot/exists',
 			data	: {}
 		}, function exists_cb(obj) {
+			if (obj.err) {
+				if (hostname == self._ble_ip) {
+					alert('Your sisbot is a hotspot. Please change to the Sisyphus Network and try again.');
+				}
+				return cb();
+			}
+
 			if (obj.err)
 				return cb();
 
