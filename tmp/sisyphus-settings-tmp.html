@@ -8,24 +8,24 @@
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
         <!------------------------- SISBOT SETTINGS ------------------------------->
-        <h3 class="no-stuffing p20 fs18 lh18">Speed & Brightness</h3>
-        <div class="flex vertical-align h__k" data-model="{{= model.sisbot_id }}">
-            <div class="w24-2 pl24-1 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
+        <h3 class="no-stuffing p20 fs18 lh18 strong gotham">Speed & Brightness</h3>
+        <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
+            <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
                 <i class="fa fa-sun-o center clickable grey" aria-hidden="true"></i>
             </div>
-            <div class="w24-20 flex relative center">
-                <span class="w5"></span>
+            <div class="w90 flex relative center">
+                <span class="w2-5"></span>
                 <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-on-input="model.brightness"
                     value="{{= model.data.brightness }}"
                 />
-                <span class="w5"></span>
+                <span class="w2-5"></span>
             </div>
-            <div class="w24-2 pr24-1 center blue-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
+            <div class="w5 center blue-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
                 <i class="fa fa-sun-o f-large center clickable grey" aria-hidden="true"></i>
             </div>
         </div>
-        <div class="pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
+        <div class="pl20 pt5 pb5 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <label class="vertical">
                 <input class="hidden h__k" type="checkbox"
                     data-on-click="toggle"
@@ -34,14 +34,14 @@
                 />
                 <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
                 <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
-                <p class="no-stuffing pl10 w100">Auto-brightness</p>
+                <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
             </label>
         </div>
-        <div class="flex vertical-align bb h__k" data-model="{{= model.sisbot_id }}">
-            <div class="w24-2 pl24-1 center bg-grey-ll-hover clickable pt15 pb15 h__k" data-on-click="model.speed_min">
+        <div class="flex vertical-align  pl20 pr20 bb h__k" data-model="{{= model.sisbot_id }}">
+            <div class="w5 center clickable pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
             </div>
-            <div class="w24-20 flex relative center">
+            <div class="w90 flex relative center">
                 <span class="w5"></span>
                 <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-rangetouch="true"
@@ -50,7 +50,7 @@
                 />
                 <span class="w5"></span>
             </div>
-            <div class="w24-2 pr24-1 center bg-grey-ll-hover clickable pt15 pb15 h__k" data-on-click="model.speed_max">
+            <div class="w5 center clickable pt15 pb15 h__k" data-on-click="model.speed_max">
                 <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
             </div>
         </div>
@@ -60,8 +60,17 @@
             data-publish="session:active"
             data-msg="{'secondary':'advanced_info'}"
         >
-            <span class="strong">Software Update</span>
-            <span class="pull-right fa fa-chevron-right"></span>
+            <span>
+                <span class="strong">Software Update</span>
+                <span class="fs14 blue h__k"
+                    data-model="{{= model.sisbot_id }}"
+                    data-run="model.check_for_version_update"
+                    data-if="{{= model.has_software_update }} == true"
+                >(update available)</span>
+            </span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
             data-on-click="publish"
@@ -69,7 +78,9 @@
             data-msg="{'secondary':'advanced_settings'}"
         >
             <span class="strong">Advanced</span>
-            <span class="pull-right fa fa-chevron-right"></span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
             data-on-click="publish"
@@ -77,7 +88,9 @@
             data-msg="{'secondary':'about'}"
         >
             <span class="strong">About</span>
-            <span class="pull-right fa fa-chevron-right"></span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
         </div>
     </div>
 </div>
@@ -89,17 +102,17 @@
 <!------------------------- TOS ----------------------------------------------->
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == tos"
-    data-template="sisyphus-tos-tmp"
+    data-template="sisyphus-settings-tos-tmp"
 ></div>
 <!------------------------- PRIVACY ------------------------------------------->
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == privacy"
-    data-template="sisyphus-privacy-tmp"
+    data-template="sisyphus-settings-privacy-tmp"
 ></div>
 <!------------------------- WIFI CREDENTIALS ---------------------------------->
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == wifi"
-    data-template="sisyphus-wifi-tmp"
+    data-template="sisyphus-settings-wifi-tmp"
 ></div>
 <!------------------------- CREATE ACCOUNT ------------------------------------>
 <div class="h100 h__k"
@@ -145,6 +158,11 @@
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == change_hostname"
     data-template="sisyphus-settings-change-hostname-tmp"
+></div>
+<!------------------------- NIGHT MODE ---------------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == night_mode"
+    data-template="sisyphus-settings-night-mode-tmp"
 ></div>
 <!------------------------- CHANGE TABLE NAME --------------------------------->
 <div class="h100 h__k"

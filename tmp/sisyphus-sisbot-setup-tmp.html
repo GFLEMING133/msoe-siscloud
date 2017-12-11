@@ -19,7 +19,7 @@
                 <div class="mt30 pb20 h__k" data-run="model.defaults_setup">
                     <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Name Your Sisyphus</h4>
                     <div class="pb10 h__k" data-if="{{= model.default_settings_error }} == true">
-                        <input class="h__k error-border w100" type="text" placeholder="Sisyphus Name"
+                        <input class="h__k error-border fs18 w100" type="text" placeholder="Sisyphus Name"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                             data-field="model.default_settings.name"
                             value="{{= model.default_settings.name }}"
@@ -27,7 +27,7 @@
                         <div class="pull-right error f-small h__k">Table Name Required</div>
                     </div>
                     <div class="pb10 h__k" data-if="{{= model.default_settings_error }} == false">
-                        <input class="h__k w100" type="text" placeholder="Sisyphus Name"
+                        <input class="h__k fs18 w100" type="text" placeholder="Sisyphus Name"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                             data-field="model.default_settings.name"
                             value="{{= model.default_settings.name }}"
@@ -59,7 +59,7 @@
                         />
                         <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
                         <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
-                        <p class="no-stuffing pl10 w100">Auto-brightness</p>
+                        <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
                     </label>
 
                     <p class="p15 mb20 float-center center btn bg-blue corner-5px uppercase clickable fs18 strong h__k"

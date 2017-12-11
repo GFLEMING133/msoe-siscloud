@@ -2,39 +2,45 @@
     <div class="h__k h100" data-if="{{= model.sisbot_id }} !== false">
         <div class="h__k h100" data-run="model.should_show_onboarding">
             <div class="h__k h100"
-                data-if="{{= model.show_wifi_page }} == true"
-                data-template="sisyphus-sisbot-wifi-tmp"
+                data-if="{{= model.is_sisbot_available }} == false"
+                data-template="sisyphus-unavailable-tmp"
             ></div>
-            <div class="h__k h100" data-if="{{= model.show_wifi_page }} == false">
+            <div class="h__k h100" data-if="{{= model.is_sisbot_available }} !== false">
                 <div class="h__k h100"
-                    data-if="{{= model.show_setup_page }} == true"
-                    data-template="sisyphus-sisbot-setup-tmp"
+                    data-if="{{= model.show_wifi_page }} == true"
+                    data-template="sisyphus-sisbot-wifi-tmp"
                 ></div>
-                <div class="h__k h100" data-if="{{= model.show_setup_page }} == false">
+                <div class="h__k h100" data-if="{{= model.show_wifi_page }} == false">
                     <div class="h__k h100"
-                        data-if="{{= model.show_nightlight_page }} == true"
-                        data-template="sisyphus-sisbot-nightlight-tmp"
+                        data-if="{{= model.show_setup_page }} == true"
+                        data-template="sisyphus-sisbot-setup-tmp"
                     ></div>
-                    <div class="h__k h100" data-if="{{= model.show_nightlight_page }} == false">
-                        <div class="app-container">
-                        	<div class="page-content no-stuffing bg-white h100 h__k w100"
-                        		data-if="{{= session.active.primary }} !== false"
-                        		data-template="sisyphus-{{= session.active.primary }}-tmp"
-                        	></div>
-                        	<div class="h__k"
-                        		data-model="{{= model.sisbot_id }}"
-                        		data-if="{{= session.active.primary }} !== unavailable"
-                        		data-template="sisyphus-playback-tmp"
-                        	></div>
-                        	<div class="h__k"
-                        		data-model="{{= model.sisbot_id }}"
-                        		data-if="{{= session.active.primary }} !== unavailable"
-                        		data-template="sisyphus-footer-tmp"
-                        	></div>
+                    <div class="h__k h100" data-if="{{= model.show_setup_page }} == false">
+                        <div class="h__k h100"
+                            data-if="{{= model.show_nightlight_page }} == true"
+                            data-template="sisyphus-sisbot-nightlight-tmp"
+                        ></div>
+                        <div class="h__k h100" data-if="{{= model.show_nightlight_page }} == false">
+                            <div class="app-container">
+                            	<div class="page-content no-stuffing bg-white h100 h__k w100"
+                            		data-if="{{= session.active.primary }} !== false"
+                            		data-template="sisyphus-{{= session.active.primary }}-tmp"
+                            	></div>
+                            	<div class="h__k"
+                            		data-model="{{= model.sisbot_id }}"
+                            		data-if="{{= session.active.primary }} !== unavailable"
+                            		data-template="sisyphus-playback-tmp"
+                            	></div>
+                            	<div class="h__k"
+                            		data-model="{{= model.sisbot_id }}"
+                            		data-if="{{= session.active.primary }} !== unavailable"
+                            		data-template="sisyphus-footer-tmp"
+                            	></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            ></div>
+            </div>
         </div>
     </div>
     <div class="h__k h100" data-if="{{= model.sisbot_id }} == false">

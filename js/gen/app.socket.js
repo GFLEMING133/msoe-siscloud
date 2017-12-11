@@ -44,15 +44,15 @@ app.socket = {
 		}
 	},
     on_connect: function() {
-        //console.log('socket: connect');
+        console.log('socket: connect');
 		app.trigger("socket:connect", null);
     },
     on_reconnect: function() {
-        //console.log('socket: reconnect');
+        console.log('socket: reconnect');
 		app.trigger("socket:reconnect", null);
     },
     on_disconnect: function() {
-        //console.log('socket: disconnect');
+        console.log('socket: disconnect');
 		app.trigger("socket:disconnect", null);
     },
     on_error: function(err) {

@@ -19,18 +19,20 @@
                 <div class="flex mt30">
                     <div class="w40 pr20">
                         <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Start</h4>
-                        <input class="h__k left fs18 p5 w100" type="text" placeholder="10:00PM"
+                        <input class="h__k right fs18 p5 w100" type="text" placeholder="10:00PM"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.default_settings.start_time"
-                            value="{{= model.default_settings.start_time }}"
+                            data-field="model.default_settings.autodim_start_time"
+                            value="{{= model.default_settings.autodim_start_time }}"
+                            data-time="{{= model.default_settings.autodim_start_time }}"
                         />
                     </div>
                     <div class="w40 pr20">
                         <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">End</h4>
                         <input class="h__k right fs18 p5 w100" type="text" placeholder="8:00AM"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.default_settings.end_time"
-                            value="{{= model.default_settings.end_time }}"
+                            data-field="model.default_settings.autodim_end_time"
+                            value="{{= model.default_settings.autodim_end_time }}"
+                            data-time="{{= model.default_settings.autodim_end_time }}"
                         />
                     </div>
                     <div class="w20">&nbsp;</div>
@@ -43,7 +45,7 @@
                     />
                     <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_nightlight }} == true"></span>
                     <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_nightlight }} == false"></span>
-                    <p class="no-stuffing pl10 w100">Enable Night Light</p>
+                    <p class="no-stuffing pl10 w100 fs18">Enable Night Light</p>
                 </label>
 
                 <div class="h__k mb10" data-if="{{= model.data.is_nightlight }} == true">

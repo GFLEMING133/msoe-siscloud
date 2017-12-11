@@ -26,10 +26,15 @@ a, a:hover {
 
 body, h1, h2, h3, h4, h5, h6, p {
 	font-family					: "Montserrat", Roboto, sans-serif;
+	font-weight					: 400;
 	text-rendering				: optimizeLegibility;
     -webkit-font-smoothing		: antialiased;
     -moz-osx-font-smoothing		: grayscale;
 	line-height					: 1em;
+}
+
+.gotham {
+	font-family					: "Gotham", Roboto, sans-serif;
 }
 
 .kern {
@@ -37,7 +42,7 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-weight					: 700;
+	font-weight					: 500;
 }
 
 h1 {
@@ -410,7 +415,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	width					: 100%;
 }
 
+.flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
+.flex .w7-5 					{	flex-basis: 7.5%;		width: 7.5%;			}
 .flex .w10 						{	flex-basis: 10%;		width: 10%;				}
 .flex .w14						{	flex-basis: 14.28%;		width: 14.28%;			}
 .flex .w15 						{	flex-basis: 15%;		width: 15%;				}
@@ -624,7 +631,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .w100                                   {   width                   : 100% !important;          }
 
 .shadow 								{	box-shadow				: 0px 1px 2px #999;			}
-.strong									{	font-weight				: bold;						}
+.strong									{	font-weight				: 700;						}
 .clickable 								{	cursor		: pointer;								}
 .no-stuffing							{	margin		: 0px;			padding: 0px;			}
 .stuffing								{	margin		: 0px;			padding: 10px;			}
@@ -921,6 +928,7 @@ select:focus {
 
 .lh12									{	line-height				: 12px;						}
 .lh18									{	line-height				: 18px;						}
+.lh20									{	line-height				: 20px;						}
 .lh24									{	line-height				: 24px;						}
 
 /**************************** BORDERS *****************************************/
@@ -1077,6 +1085,9 @@ select:focus {
 .pb5									{	padding-bottom			: 5px !important;						}
 .pl5									{	padding-left			: 5px !important;						}
 .pr5									{	padding-right			: 5px !important;						}
+
+.pt7									{	padding-top				: 7px !important;						}
+.pb7									{	padding-bottom			: 7px !important;						}
 
 .pt10									{	padding-top				: 10px !important;						}
 .pb10									{	padding-bottom			: 10px !important;						}

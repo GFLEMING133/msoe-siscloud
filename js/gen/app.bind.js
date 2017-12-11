@@ -177,10 +177,12 @@ var Binding = Backbone.View.extend({
 
         this.process_attrs();
 
-        if (this.data.if)           this.if();
-
-        this.after_render();
-        this.is_rendered = true;
+        if (this.data.if) {
+            this.if();
+        } else {
+            this.after_render();
+            this.is_rendered = true;
+        }
     },
     /***************************** BEFORE RENDER ******************************/
     before_render: function () {
@@ -210,6 +212,7 @@ var Binding = Backbone.View.extend({
 
         // Libraries
         if (this.data.date)             this.date();
+        if (this.data.time)             this.time();
         if (this.data.sortable)         this.sortable();
         if (this.data.dragula)          this.dragula();
         if (this.data.fullcalendar)     this.fullcalendar();
@@ -605,7 +608,7 @@ var Binding = Backbone.View.extend({
     log: function () {
         if (!this._log[this.data.log]) this._log[this.data.log] = 0;
         this._log[this.data.log]++;
-        console.log('data', this.data.log, this._log[this.data.log]);
+        console.log('log', this.data.log, this._log[this.data.log]);
     },
     console: function () {
         //
@@ -1202,7 +1205,11 @@ var Binding = Backbone.View.extend({
                     this.remove_subviews();
                     this.$el.html(val);
                 }
-                this.setup_subview();
+                if (this.data.if && this.if_evaluation !== true) {
+                    // Don't render the html of an if statement that isn't true
+                } else {
+                    this.setup_subview();
+                }
             } catch (err) {
                 if (this.data.console)
                     console.log('render_attr: _html', err);
@@ -1472,6 +1479,20 @@ var Binding = Backbone.View.extend({
                     self.$el.data().datepicker.hide();
                     self.update();
                     self.$el.val(self.$el.val()); // Fixes weird display bug
+                });
+        });
+    },
+    time: function () {
+        var self = this;
+
+        app.scripts.fetch('js/libs/lib.timepicker.min.js', function () {
+            if (!self.$el) return false;
+
+            self.$el
+                .timepicker({ 'timeFormat': 'g:i A', 'step': 15, 'forceRoundTime': true })
+                .timepicker('setTime', self.get_value(self.data.time))
+                .on('changeTime', function (e) {
+                    self.update();
                 });
         });
     },

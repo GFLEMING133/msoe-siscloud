@@ -11,7 +11,7 @@
         <div class="w15 center f-large">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
-        <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.check_for_version_update">
+        <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}">
             <span class="h__k" data-run="model.check_local_branches"></span>
             <div class="bb hh50 p20 fs18 flex vertical-align h__k">
                 Sisbot<span class="h__k" data-if="{{= model.local_branches.sisbot }} !== master"> ({{= model.local_branches.sisbot }})</span><span class="h__k pull-right">{{= model.local_versions.sisbot }}</span>

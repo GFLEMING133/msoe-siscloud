@@ -16,6 +16,7 @@ app.model.sisyphus_manager = {
 			},
 
 			sisbot_id       		: 'false',
+			is_sisbot_available		: 'false',
 			sisbot_registration		: 'find',		// find|none|hotspot|multiple
 
 			show_wifi_page			: 'false',
@@ -31,6 +32,7 @@ app.model.sisyphus_manager = {
 			sisbots_scanning		: 'false',
 			sisbot_hostname			: '',
 			sisbot_connecting		: 'false',
+			sisbot_reconnecting		: 'false',
 
 			merge_playlists			: [],
 
@@ -60,6 +62,10 @@ app.model.sisyphus_manager = {
 		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);
+		this.listenTo(app, 'sisbot:wifi_connected',		this.should_show_setup_page);
+
+		this.on('change:is_sisbot_available',			this.check_reconnect_status);
+
 		app.manager = this;
 
 		this.get_current_ssid();
@@ -102,14 +108,18 @@ app.model.sisyphus_manager = {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
 	/**************************** BLUETOOTH ***********************************/
-	start_ble_scan: function (cb) {
+	start_ble_scan: function (device_name, cb) {
 		var self = this;
 
 		this._ble_cb = cb;
 
 		evothings.ble.startScan(
 			function(device) {
-				if (device && device.advertisementData && device.advertisementData.kCBAdvDataLocalName && device.advertisementData.kCBAdvDataLocalName.indexOf('sisbot') > -1) {
+				if (device &&
+					device.advertisementData &&
+					device.advertisementData.kCBAdvDataLocalName &&
+					device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1
+				) {
 					self.ble_connect(device);
 				}
 			},
@@ -300,8 +310,9 @@ app.model.sisyphus_manager = {
 		return this;
 	},
 	sign_out: function () {
-		this.set('sisbot_id', 'false');
-		this.set('user_id', 'false');
+		this.set('sisbot_id', 'false')
+			.set('is_sisbot_available', 'false')
+			.set('user_id', 'false');
 		app.current_session().sign_out();
 	},
 	/*********************** SISBOT ONBOARDING ********************************/
@@ -313,21 +324,19 @@ app.model.sisyphus_manager = {
 		if (reminder_status == 'false') {
 			if (hotspot_status == 'true') {
 				this.set('show_wifi_page', 'true');
-			} else {
-				this.set('show_setup_page', 'true')
-					.set('show_nightlight_page', 'true');
 			}
+
+			this.set('show_setup_page', 'true')
+				.set('show_nightlight_page', 'true');
 		}
 
 		return this;
 	},
-	should_skip_wifi: function () {
+	should_show_setup_page: function () {
 		this.set('show_wifi_page', 'false');
-		this.set('show_setup_page', 'true')
 	},
 	should_show_nightlight: function () {
 		this.set('show_setup_page', 'false');
-		this.set('show_nightlight_page', 'true')
 	},
 	save_hostname: function () {
 		var sisbot				= this.get_model('sisbot_id');
@@ -370,6 +379,35 @@ app.model.sisyphus_manager = {
 		});
 
 		return this;
+	},
+	open_network_settings_from_error: function () {
+		var self = this;
+
+		this.set('sisbot_reconnecting', 'true');
+
+		window.cordova.plugins.settings.open('wifi', function success(resp) {
+			// we are attempting to reconnect to hotspot
+			self.get_model('sisbot_id')._poll_restart();
+		}, function error(err) {
+			self.set('sisbot_reconnecting', 'false');
+			alert('Error opening wifi settings. Please manually go to your wifi settings');
+		});
+	},
+	reconnect_from_error: function () {
+		this.set('sisbot_reconnecting', 'true');
+		this.get_model('sisbot_id')._poll_restart();
+	},
+	reconnect_to_hotspot: function () {
+		this.set('sisbot_reconnecting', 'true');
+		this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
+	},
+	check_reconnect_status: function () {
+		if (this.get('sisbot_reconnecting') == 'true' && this.get('is_sisbot_available') == 'true') {
+			// wifi failed and we needed to reconnect
+			this.set('sisbot_connecting', 'false');
+			this.set('sisbot_reconnecting', 'false');
+			this.get_model('sisbot_id').set('wifi_error', 'incorrect').set('is_connecting_to_wifi', 'false');
+		}
 	},
 	/**************************** FIND SISBOTS ********************************/
 	find_sisbots: function () {
@@ -475,7 +513,7 @@ app.model.sisyphus_manager = {
 		var ip_address	= false;
 
 
-		this.start_ble_scan(function (ip_address) {
+		this.start_ble_scan('sisbot', function (ip_address) {
 			if (ip_address)
 				self.ping_sisbot(ip_address, cb);
 			else
@@ -582,6 +620,7 @@ app.model.sisyphus_manager = {
 				var sisbot_data = obj.resp;
 			}
 
+
 			// add sisbot data to our local collection
 			_.each(sisbot_data, function(data) {
 				if (app.collection.exists(data.id)) {
@@ -591,7 +630,9 @@ app.model.sisyphus_manager = {
 				}
 
 				if (data.type == 'sisbot') {
-					self.set('sisbot_id', data.id);
+					self.set('is_sisbot_available', 'true')
+						.set('sisbot_id', data.id);
+
 					app.collection.get(data.id).sisbot_listeners();
 					app.socket.initialize();
 				}
@@ -616,12 +657,9 @@ app.model.sisyphus_manager = {
 	/**************************** NETWORK INFO **********************************/
 	get_network_ip_address: function (cb) {
 		networkinterface.getWiFiIPAddress(function on_success(ip_address) {
-			//alert('we got ip address');
 			cb(ip_address);
 		}, function on_error(err) {
 			cb();
-			//alert('error getting ip address');
-			//alert(err);
 		});
 	},
 	get_current_ssid: function () {
@@ -1010,7 +1048,6 @@ app.model.sisyphus_manager = {
 					id: '1'
 				},
 				state				: 'paused',
-				is_available		: 'true',
 				is_network_connected: 'false',
 				is_internet_connected: 'false',
 				is_serial_open		: 'true',
@@ -1019,6 +1056,10 @@ app.model.sisyphus_manager = {
 				hostname_prompt		: 'true',
 				do_not_remind		: 'false',
 				is_autodim			: 'true',
+				autodim_start_time	: '10:00 PM',
+				autodim_end_time	: '8:00 AM',
+				is_nightlight		: 'false',
+				nightlight_brightness: .2,
 				brightness			: .5,
 				speed				: .3,
 				default_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',

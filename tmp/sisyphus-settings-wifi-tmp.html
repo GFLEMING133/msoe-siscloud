@@ -16,10 +16,10 @@
             Please double check that you entered them correctly and try again.
         </div>
         <div class="p20">
-            <h4 class="no-stuffing fs18 lh18 strong">Network Name</h4>
+            <h4 class="no-stuffing fs18 lh18 pb5 strong">Network Name</h4>
             <div class="select-box block mb50 relative">
                 <div class="absolute z20">
-                    <select class="w100 h__k p10"
+                    <select class="w100 h__k fs18 p10"
                         data-field="model.wifi.name"
                         data-foreach="model.wifi_networks"
                         data-foreach-add="foreach_reset"
@@ -35,9 +35,9 @@
                     ></>
                 </div>
             </div>
-            <h4 class="no-stuffing pt20 fs18 lh18 strong">Network Password</h4>
+            <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Network Password</h4>
             <div class="pb20">
-                <input class="h__k w100" type="text" placeholder="password"
+                <input class="h__k fs18 w100" type="text" placeholder="password"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     data-field="model.wifi.password"
                     value="{{= model.wifi.wifi_password }}"
