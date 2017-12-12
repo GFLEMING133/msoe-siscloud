@@ -1,3 +1,8 @@
+/*
+- Tomorrow I will have a build that alerts if the two are on different networks (besides being a hotspot)
+- Tomorrow I will have a build that will better manage internal connection state (for example, if the phone has failed to connect to any network)
+*/
+
 app.model.sisyphus_manager = {
 	defaults: function (data) {
 		var obj = {
