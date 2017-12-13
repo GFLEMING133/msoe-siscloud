@@ -395,21 +395,7 @@ app.model.sisyphus_manager = {
 		// this will find the sisbots on the local network
 		var self			= this;
 
-		/*
-		var networkState			= navigator.connection.type;
-	    var states					= {};
-	    states[Connection.UNKNOWN]  = 'Unknown connection';
-	    states[Connection.ETHERNET] = 'Ethernet connection';
-	    states[Connection.WIFI]     = 'WiFi connection';
-	    states[Connection.CELL_2G]  = 'Cell 2G connection';
-	    states[Connection.CELL_3G]  = 'Cell 3G connection';
-	    states[Connection.CELL_4G]  = 'Cell 4G connection';
-	    states[Connection.CELL]     = 'Cell generic connection';
-	    states[Connection.NONE]     = 'No network connection';
-		*/
-
-		// alert('Device IP: ' + ip_address);
-		if (navigator.connection.type == Connection.NONE) {
+		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 			setTimeout(function() {
 				self.find_sisbots();
 			}, 100);
@@ -419,7 +405,7 @@ app.model.sisyphus_manager = {
 		this.set('sisbots_networked', []);
 		this.set('sisbots_scanning', 'true');
 
-		var num_checks = 4;
+		var num_checks = 5;
 
 		function on_cb() {
 			--num_checks;
@@ -437,6 +423,7 @@ app.model.sisyphus_manager = {
 		this.find_session_sisbots(on_cb);
 		this.find_user_sisbots(on_cb);
 		this.find_bluetooth_sisbots(on_cb);
+		this.find_network_sisbots(on_cb);
 	},
 	find_hotspot: function (cb) {
 		var hotspot_hostname	= '192.168.42.1';
@@ -491,6 +478,31 @@ app.model.sisyphus_manager = {
 				self.ping_sisbot(ip_address, cb);
 			else
 				cb();
+		});
+
+		return this;
+	},
+	find_network_sisbots: function (cb) {
+		if (!app.is_app)
+			return cb();
+
+		var self = this;
+
+		this.get_network_ip_address(function(ip_address) {
+			if (!ip_address)	return cb();
+
+			var ip_add	= ip_address.split('.');
+			ip_add.pop();
+
+			var ip_base = ip_add.join('.');
+			var count = 0;
+			var total = 0;
+
+			_.each(_.range(0, 256), function(num) {
+				self.ping_sisbot(ip_base + '.' + count, function() {
+					if (++total == 255) cb();
+				});
+			});
 		});
 
 		return this;
