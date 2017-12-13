@@ -144,6 +144,21 @@ app.model.sisbot = {
 	_update_sisbot_msg: function(obj) {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
+	_fetch_log: function (data) {
+		var data = this.get('data');
+		var obj = {
+			// _url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'POST',
+			_timeout: 60000,
+			endpoint: 'get_log',
+			data	: data
+		};
+
+		console.log("Fetch log", obj);
+		// app.post.fetch(obj, function(resp) {
+		// 	// handle cloud differently
+		// }, 0);
+	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
 		if (!_timeout) _timeout = 60000;
 
