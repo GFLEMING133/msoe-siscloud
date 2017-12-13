@@ -8,6 +8,7 @@ app.model.sisyphus_manager = {
 		var obj = {
 			id			    		: data.id,
 			type		    		: 'sisyphus_manager',
+			device_ip				: 'false',
 
             user_id         		: 'false',
 			user_registration		: 'false',		// false|sign_up|sign_in|hostname
@@ -57,6 +58,8 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
+		this.get_network_ip_address();
+
 		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);
@@ -100,6 +103,22 @@ app.model.sisyphus_manager = {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
 	/**************************** BLUETOOTH ***********************************/
+	get_network_ip_address: function (cb) {
+		if (app.is_app == false) {
+			if (cb) cb();
+			return this;
+		}
+
+		var self = this;
+
+		networkinterface.getWiFiIPAddress(function on_success(ip_address) {
+			self.set('device_ip', ip_address);
+			if (cb) cb(ip_address);
+		}, function on_error(err) {
+			self.set('device_ip', 'false');
+			if (cb) cb();
+		});
+	},
 	start_scan: function (cb) {
 		if (!app.is_app)
 			return cb();
@@ -110,7 +129,7 @@ app.model.sisyphus_manager = {
 
 		evothings.ble.startScan(
 			function(device) {
-				if (device && device.name && device.name.indexOf('sisyphus') > -1) {
+				if (device && device.name && (device.name.indexOf('sisyphus') > -1 || device.name.indexOf('sisbot') > -1)) {
 					self.ble_connect(device, 0);
 				}
 			},
@@ -344,7 +363,7 @@ app.model.sisyphus_manager = {
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
 			setTimeout(function () {
 				self.set('sisbot_registration', 'find');
-			}, 2500);
+			}, 10000);
 		}, function error(err) {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
@@ -375,6 +394,27 @@ app.model.sisyphus_manager = {
 	find_sisbots: function () {
 		// this will find the sisbots on the local network
 		var self			= this;
+
+		/*
+		var networkState			= navigator.connection.type;
+	    var states					= {};
+	    states[Connection.UNKNOWN]  = 'Unknown connection';
+	    states[Connection.ETHERNET] = 'Ethernet connection';
+	    states[Connection.WIFI]     = 'WiFi connection';
+	    states[Connection.CELL_2G]  = 'Cell 2G connection';
+	    states[Connection.CELL_3G]  = 'Cell 3G connection';
+	    states[Connection.CELL_4G]  = 'Cell 4G connection';
+	    states[Connection.CELL]     = 'Cell generic connection';
+	    states[Connection.NONE]     = 'No network connection';
+		*/
+
+		// alert('Device IP: ' + ip_address);
+		if (navigator.connection.type == Connection.NONE) {
+			setTimeout(function() {
+				self.find_sisbots();
+			}, 100);
+			return this;
+		}
 
 		this.set('sisbots_networked', []);
 		this.set('sisbots_scanning', 'true');
@@ -455,8 +495,10 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
-	ping_sisbot: function(hostname, cb) {
+	ping_sisbot: function(hostname, cb, retries) {
 		var self = this;
+
+		if (!retries) retries = 0;
 
 		app.post.fetch(exists = {
 			_url	: 'http://' + hostname + '/',
@@ -467,7 +509,17 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == self._ble_ip) {
-					alert('Your sisbot is a hotspot. Please change to the Sisyphus Network and try again.');
+					if (hostname == '192.168.42.1') {
+						alert('Your sisbot is a hotspot. Please change to the Sisyphus Network and try again.');
+					} else {
+						if (retries > 10) {
+							// do nothing
+						} else {
+							setTimeout(function() {
+								return self.ping_sisbot(hostname, cb, ++retries)
+							}, 100);
+						}
+					}
 				}
 				return cb();
 			}
