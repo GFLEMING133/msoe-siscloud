@@ -44,7 +44,7 @@
                         data-checked="{{= model.data.is_nightlight }}"
                     />
                     <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_nightlight }} == true"></span>
-                    <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_nightlight }} == false"></span>
+                    <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_nightlight }} !== true"></span>
                     <p class="no-stuffing pl10 w100 fs18">Enable Night Light</p>
                 </label>
 

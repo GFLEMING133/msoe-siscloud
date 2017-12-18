@@ -1,30 +1,59 @@
 <div class="bottom-nav hh50 bt-white pull-bottom white bg-black w100 center no-stuffing pt10 flex z50">
-    <div class="w25 white-hover clickable h__k {{= (grandparent.active.primary == 'current') ? 'white' : 'grey' }}"
+    <div class="w25 clickable h__k {{= (grandparent.active.primary == 'current') ? 'white' : 'grey' }}"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'primary':'current','secondary':'false'}"
-    ><i class="fa fa-home f-medium w100 center" />
+    >
+        <img src="img/icon_2x_bottomnav_home_active.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} == current"
+        />
+        <img src="img/icon_2x_bottomnav_home.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} !== current"
+        />
+        <br clear="both" />
         <span class="f-small">Home</span>
     </div>
-    <div class="w25 white-hover clickable h__k {{= (grandparent.active.primary == 'media') ? 'white' : 'grey' }}"
+    <div class="w25 clickable h__k {{= (grandparent.active.primary == 'media') ? 'white' : 'grey' }}"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'primary':'media','secondary':'false'}"
-    ><i class="fa fa-bullseye f-medium w100 center" />
-        <span class="f-small w100">Tracks</span>
+    >
+        <img src="img/icon_2x_bottomnav_tracks_active.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} == media"
+        />
+        <img src="img/icon_2x_bottomnav_tracks.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} !== media"
+        />
+        <br clear="both" />
+        <span class="f-small">Tracks</span>
     </div>
-    <div class="w25 white-hover clickable h__k {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
+    <div class="w25 clickable h__k {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'primary':'community','secondary':'false'}"
-    ><i class="fa fa-globe f-medium w100 center" />
+    >
+        <img src="img/icon_2x_bottomnav_community_active.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} == community"
+        />
+        <img src="img/icon_2x_bottomnav_community.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} !== community"
+        />
+        <br clear="both" />
         <span class="f-small">Community</span>
     </div>
-    <div class="w25 white-hover clickable h__k {{= (grandparent.active.primary == 'settings') ? 'white' : 'grey' }}"
+    <div class="w25 clickable h__k {{= (grandparent.active.primary == 'settings') ? 'white' : 'grey' }}"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'primary':'settings','secondary':'false'}"
-    ><i class="fa fa-cog f-medium w100 center" />
+    >
+        <img src="img/icon_2x_bottomnav_settings_active.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} == settings"
+        />
+        <img src="img/icon_2x_bottomnav_settings.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} !== settings"
+        />
+        <br clear="both" />
         <span class="f-small">Settings</span>
+
     </div>
 </div>

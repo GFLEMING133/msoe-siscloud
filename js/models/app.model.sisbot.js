@@ -247,6 +247,7 @@ app.model.sisbot = {
 		});
 	},
 	_check_serial: function () {
+		/* TODO: Fix
 		if (this.get('data.is_serial_open') == 'false') {
 			if (!this._active) {
 				this._active = app.current_session().get('active');
@@ -258,6 +259,7 @@ app.model.sisbot = {
 				this._active = false;
 			}
 		}
+		*/
 	},
 	_update_timestamp: function() {
 		this.set('timestamp', ''+Date.now());
@@ -612,7 +614,6 @@ app.model.sisbot = {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
 				app.trigger('session:active', { secondary: 'advanced_settings' });
-				self.set('data', obj.resp);
 			}
 		});
 
@@ -707,8 +708,11 @@ app.model.sisbot = {
 	speed: function (level) {
 		var self = this;
 
+		console.log('we are here');
+
 		this.set('data.speed', +level);
 		this._update_sisbot('set_speed', { value: +level }, function (obj) {
+			console.log('we are here');
 			if (obj.resp) self.set('data', obj.resp);
 		});
 	},
@@ -913,6 +917,8 @@ app.model.sisbot = {
 				var local		= self.get('local_versions');
 				var remote		= self.get('remote_versions');
 				var has_update	= false;
+
+				if (!remote) return this;
 
 				_.each(local, function(local_version, repo) {
 					var remote_version		= remote[repo];

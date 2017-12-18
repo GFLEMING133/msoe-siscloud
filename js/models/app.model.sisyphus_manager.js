@@ -28,6 +28,7 @@ app.model.sisyphus_manager = {
 
 			sisbots_user			: [],
 			sisbots_networked		: [],
+			sisbots_ip_name			: {},
 
 			sisbots_scanning		: 'false',
 			sisbot_hostname			: '',
@@ -124,7 +125,7 @@ app.model.sisyphus_manager = {
 				}
 			},
 			function(error) {
-				alert('Start Scan Error: ' + error);
+				//alert('Start Scan Error: ' + error);
 				self.ble_cb();
 			}
 		);
@@ -132,13 +133,14 @@ app.model.sisyphus_manager = {
 		setTimeout(function() {
 			self.ble_cb();
 			self.ble_stop_scan();
-		}, 5000);
+		}, 15000);
 	},
 	_ble_ip	: 'false',
 	_char	: false,
 	_ble_cb	: false,
 	ble_cb: function (value) {
 		if (this._ble_cb) {
+			this._ble_ip = value;
 			this._ble_cb(value);
 			this._ble_cb = false;
 		}
@@ -147,7 +149,7 @@ app.model.sisyphus_manager = {
 	ble_stop_scan: function () {
 		evothings.ble.stopScan();
 	},
-	ble_connect: function (device) {
+	ble_connect: function (device, connect_retries) {
 		this.ble_stop_scan();
 
 		var self	= this;
@@ -158,8 +160,14 @@ app.model.sisyphus_manager = {
 			//alert('Disconnected from Device');
 			self.ble_cb();
 		}, function on_error(error) {
-			//alert('Bluetooth Connect Error: ' + error);
-			self.ble_cb();
+			if (connect_retries > 5) {
+				alert('Bluetooth Connect Error: ' + error);
+				self.ble_cb();
+			} else {
+				setTimeout(function() {
+					self.ble_connect(device, ++connect_retries);
+				}, 500);
+			}
 		});
 	},
 	get_service_data: function(device) {
@@ -414,7 +422,15 @@ app.model.sisyphus_manager = {
 		// this will find the sisbots on the local network
 		var self			= this;
 
+		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
+			setTimeout(function() {
+				self.find_sisbots();
+			}, 100);
+			return this;
+		}
+
 		this.set('sisbots_networked', []);
+		this.set('sisbots_ip_name', {});
 		this.set('sisbots_scanning', 'true');
 
 		var num_checks = 5;
@@ -445,6 +461,7 @@ app.model.sisyphus_manager = {
 					self.set('sisbot_registration', 'none');
 				} else if (sisbots.length > 1) {
 					// show screen to select sisbot
+					self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
 					self.set('sisbot_registration', 'multiple');
 				}
 			}
@@ -537,26 +554,19 @@ app.model.sisyphus_manager = {
 			var ip_base = ip_add.join('.');
 			var count = 0;
 
-			function ping_ping() {
-				self.ping_sisbot(ip_base + '.' + count, function() {
-
-					if (++count == 3) {
-						cb();
-					} else {
-						setTimeout(function() {
-							ping_ping();
-						}, 5);
-					}
+			_.each(_.range(0, 256), function(num) {
+				self.ping_sisbot(ip_base + '.' + num, function() {
+					if (++count == 255) cb();
 				});
-			}
-
-			ping_ping();
+			});
 		});
 
 		return this;
 	},
-	ping_sisbot: function(hostname, cb) {
+	ping_sisbot: function(hostname, cb, retries) {
 		var self = this;
+
+		if (!retries) retries = 0;
 
 		app.post.fetch(exists = {
 			_url	: 'http://' + hostname + '/',
@@ -567,7 +577,17 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == self._ble_ip) {
-					self.set('sisbot_registration', 'hotspot')
+					if (hostname == '192.168.42.1') {
+						self.set('sisbot_registration', 'hotspot')
+					} else {
+						if (retries > 10) {
+							// do nothing
+						} else {
+							setTimeout(function() {
+								return self.ping_sisbot(hostname, cb, ++retries)
+							}, 100);
+						}
+					}
 				}
 				return cb();
 			}
@@ -578,7 +598,7 @@ app.model.sisyphus_manager = {
 			// Default select the one we are already on
 			self.set('sisbot_hostname', obj.resp.local_ip);
 			self.add('sisbots_networked', obj.resp.local_ip);
-
+			self.set("sisbots_ip_name['" + obj.resp.local_ip.replace(/\./gi, '-') + "']", obj.resp.name);
 			cb();
 		}, 0);
 
@@ -591,7 +611,7 @@ app.model.sisyphus_manager = {
 		this.set('errors', []);
 
 		var self			= this;
-		var sisbot_hostname = sisbot_hostname || this.get('sisbot_hostname');
+		var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : this.get('sisbot_hostname');
 
 		// ping sisbot for connection
 		var obj = {
