@@ -1045,7 +1045,7 @@ app.model.sisyphus_manager = {
 				type        		: 'sisbot',
 				active_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				active_track		: {
-					id: '1'
+					id: '1f274aa7-6214-4172-b251-a5ac33d36184'
 				},
 				state				: 'paused',
 				is_network_connected: 'false',
@@ -1066,7 +1066,9 @@ app.model.sisyphus_manager = {
 				local_ip			: '192.168.42.1',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 			 					'3fdab229-5c60-4a86-8713-adb7edd494fe' ],
-				track_ids   : [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+				track_ids   : [ '1f274aa7-6214-4172-b251-a5ac33d36184',
+								'2B34822B-0A27-4398-AE19-23A3C83F1220',
+								'3', '4', '5', '6', '7', '8', '9' ]
 			}, {
 				id          		: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				type        		: 'playlist',
@@ -1080,10 +1082,10 @@ app.model.sisyphus_manager = {
 				active_track_id		: 'false',
 				active_track_index	: 'false',
 				tracks   : [{
-					id			: '1',
+					id			: '1f274aa7-6214-4172-b251-a5ac33d36184',
 					reversible	: 'false'
 				}, {
-					id			: '2',
+					id			: '2B34822B-0A27-4398-AE19-23A3C83F1220',
 					reversible	: 'false'
 				}, {
 					id			: '3',
@@ -1103,18 +1105,18 @@ app.model.sisyphus_manager = {
 				active_track_id		: 'false',
 				active_track_index	: 'false',
 				tracks   : [{
-					id			: '1',
+					id			: '2B34822B-0A27-4398-AE19-23A3C83F1220',
 					reversible	: 'false'
 				}],
 				sorted_tracks: [ 0 ],
 			}, {
-				id          : '1',
+				id          : '1f274aa7-6214-4172-b251-a5ac33d36184',
 				type        : 'track',
 				name        : 'Erase',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '2',
+				id          : '2B34822B-0A27-4398-AE19-23A3C83F1220',
 				type        : 'track',
 				name        : 'Tensig 1',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
