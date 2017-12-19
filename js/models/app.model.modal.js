@@ -27,6 +27,11 @@ app.model.modal = {
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
 	},
+	new_playlist: function () {
+		app.manager.playlist_create({ track_id: this.get('track_id') });
+		this.set('track_id', 'false')
+			.set('is_hidden', 'true');
+	},
     close: function () {
         this.set('is_hidden', 'true');
     },

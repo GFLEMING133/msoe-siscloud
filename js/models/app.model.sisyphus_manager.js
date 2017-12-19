@@ -22,7 +22,9 @@ app.model.sisyphus_manager = {
 			show_wifi_page			: 'false',
 			show_setup_page			: 'false',
 			show_nightlight_page	: 'false',
-
+			show_software_update_page: 'false',
+			show_sleeping_page		: 'false',
+			
 			show_hostname_page		: 'false',
 			current_ssid			: 'false',
 
@@ -64,7 +66,6 @@ app.model.sisyphus_manager = {
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);
 		this.listenTo(app, 'sisbot:wifi_connected',		this.should_show_setup_page);
-
 		this.on('change:is_sisbot_available',			this.check_reconnect_status);
 
 		app.manager = this;
@@ -695,10 +696,15 @@ app.model.sisyphus_manager = {
 		});
 	},
 	/**************************** PLAYLISTS ***********************************/
-	playlist_create: function () {
+	playlist_create: function (msg) {
+		// msg.track_id
 		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
-		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist' });
-		playlist.edit();
+		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist-new', primary: 'media' });
+		playlist.setup_edit();
+
+		if (msg && msg.track_id) {
+			playlist.add_track(msg.track_id);
+		}
 	},
 	merge_playlists: function () {	// unused at this point
 		var merged_playlists = [];
@@ -1073,8 +1079,8 @@ app.model.sisyphus_manager = {
 				is_serial_open		: 'true',
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'true',
-				hostname_prompt		: 'true',
-				do_not_remind		: 'false',
+				hostname_prompt		: 'false',
+				do_not_remind		: 'true',
 				is_autodim			: 'true',
 				autodim_start_time	: '10:00 PM',
 				autodim_end_time	: '8:00 AM',

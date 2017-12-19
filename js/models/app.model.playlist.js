@@ -10,6 +10,7 @@ app.model.playlist = {
 				name		: '',
 				description	: '',
 			},
+			add_playlist_tracks: {},
 			data		: {
 				id					: data.id,
 				type    			: 'playlist',
@@ -66,6 +67,30 @@ app.model.playlist = {
 
 		if (conf)
 			app.manager.get_model('sisbot_id').playlist_remove(this);
+	},
+	add_tracks_setup: function () {
+		var add_playlist_tracks = {};
+		var active_tracks		= this.get('active_tracks');
+		var sisbot_tracks		= app.manager.get_model('sisbot_id').get('data.track_ids');
+
+		_.each(sisbot_tracks, function(track_id) {
+			add_playlist_tracks[track_id] = 'false';
+		});
+		_.each(active_tracks, function(track_obj) {
+			add_playlist_tracks[track_obj.id] = 'true';
+		});
+
+		this.set('add_playlist_tracks', add_playlist_tracks);
+	},
+	add_tracks_done: function () {
+		var self = this;
+		this.set('active_tracks', []);
+
+		_.each(this.get('add_playlist_tracks'), function(bool, track_id) {
+			if (bool == 'true')	self.add_track(track_id);
+		});
+
+		app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
@@ -134,18 +159,17 @@ app.model.playlist = {
 	add_track: function (track_id) {
 		var track = app.collection.get(track_id);
 		var track_obj = {
-			id: track_id,
-			vel: track.get('data.default_vel'),
-			accel: track.get('data.default_accel'),
-			thvmax: track.get('data.default_thvmax'),
-			firstR: track.get('data.firstR'),
-			lastR: track.get('data.lastR')
+			id		: track_id,
+			vel		: track.get('data.default_vel'),
+			accel	: track.get('data.default_accel'),
+			thvmax	: track.get('data.default_thvmax'),
+			firstR	: track.get('data.firstR'),
+			lastR	: track.get('data.lastR')
 		};
 		this.add('active_tracks', track_obj);
 		this.trigger('change:active_tracks');
 	},
 	remove_track: function (track_index) {
-		console.log("Remove", track_index);
 		this.remove('active_tracks['+track_index+']');
 	},
 	move_array: function (field, old_index, new_index) {

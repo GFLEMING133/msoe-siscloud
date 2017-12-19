@@ -571,7 +571,10 @@ var Binding = Backbone.View.extend({
         var val     = opp[this.ctx.get(field)];
 
         if (!val) val = 'false';
-        this.ctx.set(field, val).trigger('change:' + field).save();
+        this.ctx.set(field, val)
+            .trigger('change:' + field)
+            .trigger('change:' + field.replace(/\'/gi, ''))
+            .save();
 	},
     file_reader: function (e) {
         var self            = this;
