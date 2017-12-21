@@ -64,7 +64,6 @@ app.model.playlist = {
 	},
 	delete: function () {
 		app.manager.get_model('sisbot_id').playlist_remove(this);
-		app.trigger('session:active', { 'secondary': 'playlists' });
 	},
 	add_tracks_setup: function () {
 		var add_playlist_tracks = {};
@@ -101,7 +100,6 @@ app.model.playlist = {
 
 		app.trigger('sisbot:update_playlist', data);
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
-
 	},
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
@@ -111,7 +109,6 @@ app.model.playlist = {
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	update_duration: function () {
 		var duration = 0;

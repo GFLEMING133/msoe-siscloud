@@ -94,16 +94,13 @@ app.model.sisyphus_manager = {
 		console.log("Intake Data:", given_data);
 
 		_.each(given_data, function(data) {
-			if (app.collection.exists(data.id)) {
+			if (!data || !data.id) {
+				// do nothing for responses that aren't objects
+			} else if (app.collection.exists(data.id)) {
 				app.collection.get(data.id).set('data', data);
 			} else {
 				app.collection.add(data);
 			}
-
-			// if (self.get('sisbot_id') == 'false' && data.type == 'sisbot') {
-			// 	self.set('sisbot_id', data.id);
-			// 	app.collection.get(data.id).sisbot_listeners();
-			// }
 		});
 	},
 	has_user: function () {
@@ -384,13 +381,13 @@ app.model.sisyphus_manager = {
 	open_network_settings: function () {
 		var self = this;
 
-		window.cordova.plugins.settings.open('wifi', function success(resp) {
-			self.set('sisbot_registration', 'waiting');
+		self.set('sisbot_registration', 'waiting');
 
+		window.cordova.plugins.settings.open('wifi', function success(resp) {
 			// Add 10 second timeout to ensure connection to sisbot network
-			setTimeout(function () {
+			self.await_network_connection(function () {
 				self.set('sisbot_registration', 'find');
-			}, 10000);
+			});
 		}, function error(err) {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
@@ -409,6 +406,17 @@ app.model.sisyphus_manager = {
 			self.set('sisbot_reconnecting', 'false');
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
+	},
+	await_network_connection: function (cb) {
+		var self = this;
+
+		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
+			setTimeout(function() {
+				self.await_network_connection(cb);
+			}, 100);
+		} else {
+			cb();
+		}
 	},
 	reconnect_from_error: function () {
 		this.set('sisbot_reconnecting', 'true');

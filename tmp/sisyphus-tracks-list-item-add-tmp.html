@@ -1,19 +1,19 @@
-<div class="flex pt10 pb10 pl20 pr20 clickable bt h__k"
+<div class="flex pl20 pr20 clickable bt h__k"
     data-on-click="toggle"
     data-field="grandparent.add_playlist_tracks['{{= model.id }}']"
 >
-	<div class="w20 center vertical">
+	<div class="w20 pt10 pb10 center vertical">
         <div class="w80 hh80">
             <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
 				data-src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
 			/>
         </div>
 	</div>
-	<div class="w60 pt20 pl10">
+	<div class="w60 pt30 pl10">
         <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
         <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
 	</div>
-    <div class="w20 h100 right vertical">
+    <div class="w20 pt10 pb10 h100 right vertical">
         <i class="grey pt20 h__k" aria-hidden="true"
             data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == false"
         ><img src="img/icon_2x_playlist_add.png" alt="Add Track" class="w25p" /></i>

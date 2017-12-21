@@ -23,11 +23,11 @@
         <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
     </div>
 </div>
-<div class="bg-grey-l flex pt15 pb15 h__k" data-if="{{= model.is_expanded }} == true">
-    <div class="w25 clickable center h__k"
+<div class="bg-grey-l flex h__k" data-if="{{= model.is_expanded }} == true">
+    <div class="w25 pt15 pb15 clickable center h__k"
         data-on-click="model.play"
     ><img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" /></div>
-    <div class="w25 clickable center h__k"
+    <div class="w25 pt15 pb15 clickable center h__k"
         data-run="model.is_playlist_favorite"
         data-on-click="model.favorite_toggle"
     >
@@ -38,13 +38,13 @@
             data-if="{{= model.is_favorite }} == true"
          />
     </div>
-    <div class="w25 clickable center h__k"
+    <div class="w25 pt15 pb15 clickable center h__k"
         data-on-click="publish"
         data-publish="modal:open"
         data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
     ><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
-    <div class="w25 f-large fa fa-trash white blue-hover clickable center h__k"
+    <div class="w25 pt15 pb15 white blue-hover clickable center h__k"
 		data-on-click="model.delete"
-	></div>
+	><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh50" /></div>
 </div>
 <div class="hh200">&nbsp;</div>

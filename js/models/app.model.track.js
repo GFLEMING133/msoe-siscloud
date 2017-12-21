@@ -131,6 +131,8 @@ app.model.track = {
 		} else if (active.primary == 'media' && active.secondary == 'tracks') {
 			// tracks overview page
 			this.play();
+		} else if (active.primary == 'media' && active.secondary == 'playlist') {
+			app.collection.get(active.playlist_id).play(track_index);
 		}
 	},
 	play: function () {

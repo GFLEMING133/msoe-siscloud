@@ -38,7 +38,7 @@ app.model.modal = {
 			.set('is_hidden', 'true');
 	},
 	delete_playlist: function () {
-		app.collection.get(this.get('playlist_id')).delete();
+		this.get_model('playlist_id').delete();
 		this.set('playlist_id', 'false')
 			.set('is_hidden', 'true');
 	},

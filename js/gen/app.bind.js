@@ -573,8 +573,7 @@ var Binding = Backbone.View.extend({
         if (!val) val = 'false';
         this.ctx.set(field, val)
             .trigger('change:' + field)
-            .trigger('change:' + field.replace(/\'/gi, ''))
-            .save();
+            .trigger('change:' + field.replace(/\'/gi, ''));
 	},
     file_reader: function (e) {
         var self            = this;
@@ -1371,10 +1370,10 @@ var Binding = Backbone.View.extend({
                 tags    : tags,
                 placeholder: 'Tags',
                 onTagAdd: function(event, tag) {
-                    self.model.add(self.data.field, tag).save();
+                    self.model.add(self.data.field, tag);
                 },
                 onTagRemove: function(event, tag) {
-                    self.model.remove(self.data.field, tag).save();
+                    self.model.remove(self.data.field, tag);
                 }
             });
         });

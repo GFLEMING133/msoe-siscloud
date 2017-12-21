@@ -848,8 +848,6 @@ app.model.sisbot = {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
 
-		console.log('Before add: Sisbot add playlist', playlist_model);
-
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			console.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
@@ -870,7 +868,7 @@ app.model.sisbot = {
 				alert('There was an error removing your Playlist. Please try again later.')
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
-				app.trigger('session:active', { playlist_id: 'false', secondary: 'playlists' });
+				app.trigger('session:active', { 'secondary': 'playlists' });
 			}
 		});
 

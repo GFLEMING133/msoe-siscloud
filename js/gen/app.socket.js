@@ -15,30 +15,22 @@ app.socket = {
 		if (app.config.env == 'alpha')
 			return this;
 
-		alert('setup: ');
-
 	    var sisbot_id = app.manager.get('sisbot_id');
 	    if (sisbot_id == 'false') return this;
-
-		alert('sisbot_id: ' + sisbot_id);
 
 		// compare ip, if new, reset
 	    var ip = app.collection.get(sisbot_id).get('data.local_ip');
 
-		alert('ip address: ' + ip);
-
 		if (ip != this.server_ip) {
 			this.server_ip = ip;
 		    //console.log('Socket session', this.server_ip);
-
-			alert('connecting: ' + this.server_ip)
 
 			if (self.socket) {
 				self.socket.close();
 				delete self.socket;
 			}
 
-		    self.socket = io.connect(this.server_ip + ':3002');
+		    self.socket = io.connect('http://' + this.server_ip + ':3002');
 
 			self.socket.on('connect', function () {			self.on_connect();		});
 		    self.socket.on('reconnect', function() {        self.on_reconnect();    });
