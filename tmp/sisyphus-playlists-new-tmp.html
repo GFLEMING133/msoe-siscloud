@@ -1,7 +1,11 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <div class="w20 center">&nbsp;</div>
-        <div class="w60">
+        <div class="w30 left pl20 clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'playlists'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w40">
             <h1 class="fs18 lh18 no-stuffing capitalize">New Playlist</h1>
         </div>
         <div class="w30 right pr20 fs18 lh18 clickable h__k"

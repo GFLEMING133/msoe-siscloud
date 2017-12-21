@@ -860,11 +860,12 @@ var Binding = Backbone.View.extend({
     foreach_ref: false,
     foreach_listeners: false,
     foreach: function () {
-        if (this.$el != undefined)
-			this.$el.html('');
+        if (!this.$el) return false;
 
         if (this.data.console)
             console.log('Foreach', this);
+
+        this.$el.html('');
 
         var defaultValue    = this.get_value('' + this.data.foreachDefaultValue) || '';
         var defaultLabel    = this.get_value(this.data.foreachDefault) || '';

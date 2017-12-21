@@ -1,10 +1,14 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <div class="w20 center">&nbsp;</div>
-        <div class="w60">
+        <div class="w30 left pl20 clickable h__k"
+            data-on-click="publish"
+            data-publish="modal:open"
+            data-msg="{'playlist_id':'{{= model.id }}','template':'modal-playlist-delete-tmp'}"
+        ><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh50 pt15 pb15" /></div>
+        <div class="w40">
             <h1 class="fs18 lh18 no-stuffing capitalize">Edit Playlist</h1>
         </div>
-        <div class="w20 pull-right fs18 lh18 center clickable h__k" data-on-click="model.save_edit">
+        <div class="w30 pull-right fs18 lh18 right pr20 clickable h__k" data-on-click="model.save_edit">
             Done
         </div>
     </div>
@@ -46,6 +50,6 @@
                 ></div>
             </div>
         </div>
-        <div class="hh100">&nbsp;</div>
+        <div class="hh150">&nbsp;</div>
     </div>
 </div>

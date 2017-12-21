@@ -84,6 +84,7 @@ app.model.sisbot = {
 
 				playlist_ids		: [],
 				default_playlist_id	: 'false',
+				favorite_playlist_id: 'false',
 				track_ids			: [],
 
 				active_playlist_id	: 'false',
@@ -105,8 +106,8 @@ app.model.sisbot = {
 				is_nightlight		: 'false',
 				is_sleeping			: 'false',
 				nightlight_brightness: 0.2,
-				autodim_start_time	: '',					// 10:00 PM sleep_time
-				autodim_end_time	: ''					// 8:00 AM  wake_time
+				sleep_time			: '',					// 10:00 PM sleep_time
+				wake_time			: ''					// 8:00 AM  wake_time
 			}
 		};
 
@@ -132,6 +133,9 @@ app.model.sisbot = {
 		this.on('change:data.is_internet_connected', 		this.wifi_connected);
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
+
+		if (this.get('data.favorite_playlist_id') == 'false')
+			this.setup_favorite_playlist();
 
 		if (this.get('data.failed_to_connect_to_wifi') == 'true')
 			this.wifi_failed_to_connect();
@@ -325,7 +329,7 @@ app.model.sisbot = {
 
 				self.set('data', obj.resp);
 				if (self.get('is_polling') == "true") {
-					app.socket._setup();		// try to connect to socket
+					app.socket.initialize();		// try to connect to socket
 				}
 			} else if (obj.err) {
 				self._poll_failure();
@@ -344,11 +348,14 @@ app.model.sisbot = {
 		var data = this.get('data');
 
 		var defaults = {
+			do_not_remind			: 'true',
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
-			autodim_start_time		: data.autodim_start_time,
-			autodim_end_time		: data.autodim_end_time,
+			sleep_time				: data.sleep_time,
+			wake_time				: data.wake_time,
+			is_nightlight			: data.is_nightlight,
+			nightlight_brightness	: data.nightlight_brightness
 		}
 
 		this.set('default_settings', defaults);
@@ -356,27 +363,29 @@ app.model.sisbot = {
 	defaults_brightness: function (level) {
 		this.set('default_settings.brightness', level);
 	},
+	defaults_nightlight_brightness: function (level) {
+		this.set('default_settings.nightlight_brightness', +level);
+	},
 	defaults_save: function () {
-		this.set('default_settings_error', 'false');
-
 		var self		= this;
 		var data		= this.get('data');
 		var reg_data	= this.get('default_settings');
 
-		if (reg_data.name == '') {
-			this.set('default_settings_error', 'true');
-			return this;
-		}
-
 		_.extend(data, reg_data)
-
-		data.do_not_remind = 'true';
 
 		app.manager.set('show_nightlight_page', 'false');
 
-		this._update_sisbot('save', data, function(obj) {
-			console.log('WE SAVE THE UPDATE');
+		this._update_sisbot('onboard_complete', data, function(obj) {
+			if (obj.err && obj.err == 'Could not make request') {
+				defaults_fallback();
+			} else if (obj.resp) {
+				self.set('data', obj.resp);
+			}
 		});
+
+		function defaults_fallback() {
+			self._update_sisbot('save', data, function(obj) {});
+		}
 	},
 	get_networks: function () {
 		var self			= this;
@@ -518,11 +527,6 @@ app.model.sisbot = {
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
 
-		var confirmation = confirm('Are you sure you want to factory reset?');
-
-		if (!confirmation)
-			return this;
-
 		var self = this;
 
 		this.set('data.factory_resetting', 'true')
@@ -583,8 +587,11 @@ app.model.sisbot = {
 		return this;
 	},
 	update_nightmode: function () {
+		if (app.config.env == 'alpha')
+			return app.trigger('session:active', { secondary: 'false' });
+
 		var self		= this;
-		var edit		= _.pick(this.get('edit'), 'is_nightlight', 'autodim_start_time', 'autodim_end_time', 'nightlight_brightness');
+		var edit		= _.pick(this.get('edit'), 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
 		var errors 		= [];
 
 		this.set('errors', []);
@@ -595,13 +602,13 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
-				app.trigger('session:active', { secondary: 'advanced_settings' });
-				self.set('data', obj.resp);
+				app.trigger('session:active', { secondary: 'false' });
 			}
 		});
 	},
 	nightmode_sleep_change: function () {
 		var status = this.get('data.is_sleeping');
+
 		if (status == 'false') {
 			app.manager.set('show_sleeping_page', 'false');
 		} else {
@@ -611,8 +618,10 @@ app.model.sisbot = {
 	wake_up: function () {
 		var self	= this;
 
+		this.set('data.is_sleeping', 'false')
+
 		if (app.config.env == 'alpha')
-			return this.set('data.is_sleeping', 'false');
+			return this;
 
 		this._update_sisbot('wake_sisbot', {}, function(obj) {
 			if (obj.err) {
@@ -625,8 +634,10 @@ app.model.sisbot = {
 	sleep: function () {
 		var self	= this;
 
+		this.set('data.is_sleeping', 'true')
+
 		if (app.config.env == 'alpha')
-			return this.set('data.is_sleeping', 'true');
+			return this;
 
 		this._update_sisbot('sleep_sisbot', {}, function(obj) {
 			if (obj.err) {
@@ -637,6 +648,10 @@ app.model.sisbot = {
 		});
 	},
 	update_tablename: function () {
+		if (app.config.env == 'alpha')
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
+
+
 		var self		= this;
 		var name		= this.get('edit.name');
 		var errors 		= [];
@@ -669,10 +684,8 @@ app.model.sisbot = {
 			console.log('RESTART');
 		});
 	},
-	save_to_sisbot: function (data) {		// CURRENTLY UNUSED
-		this._update_sisbot('save', data, function(obj) {
-			console.log('WE SAVE');
-		});
+	save_to_sisbot: function (data) {
+		this._update_sisbot('save', data, function(obj) {});
 	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (playlist_data) {
@@ -724,16 +737,37 @@ app.model.sisbot = {
 
 		return this;
 	},
+	setup_favorite_playlist: function () {
+		var self = this;
+
+		var playlist = app.collection.add({
+			id				: app.plugins.uuid(),
+			type			: 'playlist',
+			name			: 'Favorites',
+		});
+
+		this.set('data.favorite_playlist_id', playlist.id);
+
+		this._update_sisbot('save', this.get('data'), function(obj) {
+			self.playlist_add(playlist);
+		});
+
+		if (app.config.env == 'alpha') // so it works in alpha
+			self.playlist_add(playlist);
+	},
+	nightlight_brightness: function (level) {
+		this.set('edit.nightlight_brightness', +level);
+	},
+	default_brightness: function (level) {
+		var self = this;
+		this.set('default_settings.brightness', +level);
+	},
 	brightness: function (level) {
 		var self = this;
 		this.set('data.brightness', +level);
 		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			// do nothing
 		});
-	},
-	nightlight_brightness: function (level) {
-		this.set('data.nightlight_brightness', +level);
 	},
 	brightness_up: function () {
 		var level = +this.get('data.brightness');
@@ -751,13 +785,17 @@ app.model.sisbot = {
 	brightness_min: function () {
 		this.brightness(0);
 	},
-	speed: function (level) {
-		var self = this;
+	autodim_toggle: function () {
+		var data = this.get('data');
+		data.is_autodim = app.plugins.bool_opp[data.is_autodim];
 
+		this.set('data', data);
+		this.trigger('change:data.is_autodim');
+		this._update_sisbot('save', data, function(obj) {});
+	},
+	speed: function (level) {
 		this.set('data.speed', +level);
-		this._update_sisbot('set_speed', { value: +level }, function (obj) {
-			if (obj.resp) self.set('data', obj.resp);
-		});
+		this._update_sisbot('set_speed', { value: +level }, function (obj) {});
 	},
 	speed_up: function () {
 		var level = +this.get('data.speed');
@@ -805,6 +843,8 @@ app.model.sisbot = {
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
+		console.log('we add playlist', playlist_model)
+
 		var self		= this;
 		var playlist	= playlist_model.get('data');
 

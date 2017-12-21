@@ -24,7 +24,7 @@ app.model.sisyphus_manager = {
 			show_nightlight_page	: 'false',
 			show_software_update_page: 'false',
 			show_sleeping_page		: 'false',
-			
+
 			show_hostname_page		: 'false',
 			current_ssid			: 'false',
 
@@ -345,7 +345,15 @@ app.model.sisyphus_manager = {
 		this.set('show_wifi_page', 'false');
 	},
 	should_show_nightlight: function () {
-		this.set('show_setup_page', 'false');
+		// error check name first
+		var sisbot = this.get_model('sisbot_id');
+
+		if (sisbot.get('default_settings.name') == '') {
+			sisbot.set('default_settings_error', 'true')
+		} else {
+			sisbot.set('default_settings_error', 'false')
+			this.set('show_setup_page', 'false');
+		}
 	},
 	save_hostname: function () {
 		var sisbot				= this.get_model('sisbot_id');
@@ -1082,8 +1090,8 @@ app.model.sisyphus_manager = {
 				hostname_prompt		: 'false',
 				do_not_remind		: 'true',
 				is_autodim			: 'true',
-				autodim_start_time	: '10:00 PM',
-				autodim_end_time	: '8:00 AM',
+				sleep_time			: '10:00 PM',
+				wake_time			: '8:00 AM',
 				is_nightlight		: 'false',
 				nightlight_brightness: .2,
 				brightness			: .5,

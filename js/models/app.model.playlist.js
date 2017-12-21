@@ -63,10 +63,8 @@ app.model.playlist = {
 		app.trigger('sisbot:save', this.toJSON());
 	},
 	delete: function () {
-		var conf = confirm('Are you sure you want to delete this playlist? This cannot be undone.');
-
-		if (conf)
-			app.manager.get_model('sisbot_id').playlist_remove(this);
+		app.manager.get_model('sisbot_id').playlist_remove(this);
+		app.trigger('session:active', { 'secondary': 'playlists' });
 	},
 	add_tracks_setup: function () {
 		var add_playlist_tracks = {};
@@ -156,6 +154,14 @@ app.model.playlist = {
 		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	/**************************** TRACKS **************************************/
+	has_track: function (track_id) {
+		var has_track = false;
+		_.each(this.get('data.tracks'), function(obj, index) {
+			if (obj.id == track_id) has_track = true;
+		});
+
+		return has_track;
+	},
 	add_track: function (track_id) {
 		var track = app.collection.get(track_id);
 		var track_obj = {
@@ -201,6 +207,23 @@ app.model.playlist = {
 		this.set("data.sorted_tracks", sorted_tracks);
 
 		this.save();
+	},
+	remove_track_and_save: function(track_id) {
+		var track = app.collection.get(track_id);
+		var tracks = this.get('data.tracks');
+		var new_tracks		= [];
+		var sorted_tracks	= [];
+		_.each(tracks, function(track_obj, index) {
+			if (track_obj.id !== track_id) new_tracks.push(track_obj);
+		});
+
+		_.each(new_tracks, function(obj, index) {
+			sorted_tracks.push(index);
+		});
+
+		this.set('data.tracks', new_tracks)
+			.set("data.sorted_tracks", sorted_tracks)
+			.save();
 	},
 	/**************************** COMMUNITY ***********************************/
 	check_publish: function () {
