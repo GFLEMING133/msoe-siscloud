@@ -278,10 +278,17 @@ app.model.track = {
 		this.set('playlist_ids', playlist_ids);
 	},
 	is_playlist_favorite: function () {
-		var has_track = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').has_track(this.id);
-		this.set('is_favorite', '' + has_track);
+		var playlist_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
+
+		if (playlist_model && playlist_model.has_track) {
+			var has_track = playlist_model.has_track(this.id);
+			this.set('is_favorite', '' + has_track);
+		}
 	},
 	favorite_toggle: function () {
+		if (app.manager.get_model('sisbot_id').is_legacy())
+			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
 		var status = this.get('is_favorite');
 		if (status == 'true') {
 			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').remove_track_and_save(this.id);

@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'alpha',
-	version				: '1.2.15',
+	version				: '1.2.16',
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/',
@@ -36,6 +36,14 @@ app.config = {
 			return '';
 		} else {
 			return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
+		}
+	},
+	get_thumb_size: function () {
+		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
+		if (firmware[1] > 1) {
+			return '100';
+		} else {
+			return '50';
 		}
 	}
 };

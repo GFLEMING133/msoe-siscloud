@@ -631,8 +631,16 @@ app.model.sisbot = {
 			}
 		});
 	},
+	is_legacy: function () {
+		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
+		if (firmware[1] < 1)	return true;
+		else 					return false;
+	},
 	sleep: function () {
 		var self	= this;
+
+		if (this.is_legacy())
+			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
@@ -744,12 +752,17 @@ app.model.sisbot = {
 			id				: app.plugins.uuid(),
 			type			: 'playlist',
 			name			: 'Favorites',
+			is_shuffle		: 'true'
 		});
 
 		this.set('data.favorite_playlist_id', playlist.id);
 
 		this._update_sisbot('save', this.get('data'), function(obj) {
-			self.playlist_add(playlist);
+			if (obj.err) {
+
+			} else {
+				self.playlist_add(playlist);
+			}
 		});
 
 		if (app.config.env == 'alpha') // so it works in alpha
@@ -817,16 +830,14 @@ app.model.sisbot = {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function (obj) {
-			if (obj.resp)
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	set_loop: function () {
 		var self = this;
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
-			if (obj.resp)
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	/******************** SLEEP ***********************************************/
@@ -838,7 +849,7 @@ app.model.sisbot = {
 		};
 
 		this._update_sisbot('set_sleep_time', data, function (obj) {
-			if (obj.resp) self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
@@ -853,7 +864,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				alert('There was an error adding the playlist to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 
@@ -924,24 +935,21 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'playing');
 		this._update_sisbot('play', {}, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	pause: function () {
 		var self = this;
 		this.set('data.state', 'paused');
 		this._update_sisbot('pause', {}, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	home: function () {
 		var self = this;
 		this.set('data.state', 'homing');
 		this._update_sisbot('home', { clear_tracks: true }, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 		return this;
 	},
@@ -976,8 +984,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('set_autodim', { value: new_value }, function(obj) {
 			console.log('autodim', obj);
-			if (obj.resp)
-				app.collection.get(obj.resp.id).set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 
 		return this;

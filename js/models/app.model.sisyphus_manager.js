@@ -91,8 +91,6 @@ app.model.sisyphus_manager = {
 		var self = this;
 		if (!_.isArray(given_data)) given_data = [given_data];
 
-		console.log("Intake Data:", given_data);
-
 		_.each(given_data, function(data) {
 			if (!data || !data.id) {
 				// do nothing for responses that aren't objects
@@ -1090,6 +1088,7 @@ app.model.sisyphus_manager = {
 					id: '1f274aa7-6214-4172-b251-a5ac33d36184'
 				},
 				state				: 'paused',
+				software_version	: '1.0.1',
 				is_network_connected: 'false',
 				is_internet_connected: 'false',
 				is_serial_open		: 'true',

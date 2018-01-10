@@ -15,7 +15,7 @@
             <div class="flex mt10 h__k" data-on-click="model.download">
                 <div class="w10 hvw10 bg-grey-ll shadow center vertical">
                     <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-                        data-src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png" 
+                        data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" 
                     />
                 </div>
                 <div class="w5 hvw10">&nbsp;</div>
