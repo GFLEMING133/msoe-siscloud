@@ -1,5 +1,5 @@
 <div class="w33 center">
-    <i class="fa fa-refresh blue-hover f-large pt20 rounded clickable h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
+    <i class="fa fa-refresh f-large p20 rounded clickable h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
         data-on-click="model.set_loop"
         aria-hidden="true"
     ></i>
@@ -15,7 +15,7 @@
     ><img src="img/icon_2x_button_pause.png" alt="Play Button" class="hh100 pb40" /></div>
 </div>
 <div class="w33 center">
-    <i class="fa fa-random blue-hover f-large pt20 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
+    <i class="fa fa-random f-large p20 rounded clickable h__k {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
         data-if="{{= model.data.active_playlist_id }} !== false"
         data-on-click="model.set_shuffle"
         aria-hidden="true"

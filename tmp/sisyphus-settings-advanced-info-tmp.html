@@ -10,39 +10,54 @@
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar">
-        <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}">
-            <span class="h__k" data-run="model.check_local_branches"></span>
-            <div class="bb hh50 p20 fs18 flex vertical-align h__k">
-                Sisbot<span class="h__k" data-if="{{= model.local_branches.sisbot }} !== master"> ({{= model.local_branches.sisbot }})</span><span class="h__k pull-right">{{= model.local_versions.sisbot }}</span>
-            </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align h__k">
-                Proxy<span class="h__k" data-if="{{= model.local_branches.proxy }} !== master"> ({{= model.local_branches.proxy }})</span><span class="h__k pull-right">{{= model.local_versions.proxy }}</span>
-            </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align h__k">
-                App<span class="h__k" data-if="{{= model.local_branches.app }} !== master"> ({{= model.local_branches.app }})</span><span class="h__k pull-right">{{= model.local_versions.app }}</span>
-            </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align h__k" data-if="{{= app.is_app }} == true">
-                Mobile<span class="pull-right">{{= app.config.version }}</span>
-            </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k" data-on-click="model.install_updates">
-                Install Updates
+    <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
+        <div class="h__k" data-if="{{= model.has_software_update }} == true">
+            <!--------------------------- UPDATE AVAILABLE ------------------------>
+            <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                    <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+                </p>
+                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                    Update Available
+                </h3>
+                <p class="p0 m0 fs18 center">
+                    Sisyphus is constantly improving, and there is a new update available.
+                    Click the button below to start the update process.
+                </p>
 
-                <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.data.installing_updates }} == false"></span>
-                <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.installing_updates }} == true"></span>
-                <span class="pull-right fa fa-exclamation-triangle h__k"
-                    data-if="{{= model.data.installing_updates }} == error"
-                    data-tooltip="{'placement':'left','title':'{{= model.data.installing_updates_error }}'}"
-                ></span>
+                <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+                    data-if="{{= model.data.installing_updates }} == false"
+                    data-on-click="model.install_updates"
+                >Start Update</h2>
             </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k" data-on-click="model.factory_reset">
-                Reset Sisyphus to Factory Settings
-                <span class="pull-right fa fa-chevron-right h__k" data-if="{{= model.data.factory_resetting }} == false"></span>
-                <span class="pull-right fa fa-spinner spin h__k" data-if="{{= model.data.factory_resetting }} == true"></span>
-                <span class="pull-right fa fa-exclamation-triangle h__k"
-                    data-if="{{= model.data.factory_resetting }} == error"
-                    data-tooltip="{'placement':'left','title':'{{= model.data.factory_resetting_error }}'}"
-                ></span>
+        </div>
+        <div class="h__k" data-if="{{= model.has_software_update }} == complete">
+            <!--------------------------- UPDATE COMPLETE --------------------->
+            <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+            </p>
+            <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                Update Complete
+            </h3>
+            <p class="p0 m0 fs18 center">
+                Your table now has the latest and greatest software installed.
+                We will let you know when there is another new update available.
+            </p>
+        </div>
+        <div class="h__k" data-if="{{= model.has_software_update }} == false">
+            <!--------------------------- NO UPDATE --------------------------->
+            <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                    <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+                </p>
+                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                    Your Table is Up To Date
+                </h3>
+                <p class="p0 m0 fs18 center">
+                    Your table has the latest and greatest software, and doesn't
+                    need to be updated at this time. We will let you know when an
+                    update is available.
+                </p>
             </div>
         </div>
     </div>

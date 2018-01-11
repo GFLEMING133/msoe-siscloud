@@ -22,12 +22,15 @@ app.model.sisyphus_manager = {
 			show_wifi_page			: 'false',
 			show_setup_page			: 'false',
 			show_nightlight_page	: 'false',
+			show_software_update_page: 'false',
+			show_sleeping_page		: 'false',
 
 			show_hostname_page		: 'false',
 			current_ssid			: 'false',
 
 			sisbots_user			: [],
 			sisbots_networked		: [],
+			sisbots_ip_name			: {},
 
 			sisbots_scanning		: 'false',
 			sisbot_hostname			: '',
@@ -63,7 +66,6 @@ app.model.sisyphus_manager = {
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);
 		this.listenTo(app, 'sisbot:wifi_connected',		this.should_show_setup_page);
-
 		this.on('change:is_sisbot_available',			this.check_reconnect_status);
 
 		app.manager = this;
@@ -92,16 +94,13 @@ app.model.sisyphus_manager = {
 		console.log("Intake Data:", given_data);
 
 		_.each(given_data, function(data) {
-			if (app.collection.exists(data.id)) {
+			if (!data || !data.id) {
+				// do nothing for responses that aren't objects
+			} else if (app.collection.exists(data.id)) {
 				app.collection.get(data.id).set('data', data);
 			} else {
 				app.collection.add(data);
 			}
-
-			// if (self.get('sisbot_id') == 'false' && data.type == 'sisbot') {
-			// 	self.set('sisbot_id', data.id);
-			// 	app.collection.get(data.id).sisbot_listeners();
-			// }
 		});
 	},
 	has_user: function () {
@@ -124,7 +123,7 @@ app.model.sisyphus_manager = {
 				}
 			},
 			function(error) {
-				alert('Start Scan Error: ' + error);
+				//alert('Start Scan Error: ' + error);
 				self.ble_cb();
 			}
 		);
@@ -132,13 +131,14 @@ app.model.sisyphus_manager = {
 		setTimeout(function() {
 			self.ble_cb();
 			self.ble_stop_scan();
-		}, 5000);
+		}, 15000);
 	},
 	_ble_ip	: 'false',
 	_char	: false,
 	_ble_cb	: false,
 	ble_cb: function (value) {
 		if (this._ble_cb) {
+			this._ble_ip = value;
 			this._ble_cb(value);
 			this._ble_cb = false;
 		}
@@ -147,7 +147,7 @@ app.model.sisyphus_manager = {
 	ble_stop_scan: function () {
 		evothings.ble.stopScan();
 	},
-	ble_connect: function (device) {
+	ble_connect: function (device, connect_retries) {
 		this.ble_stop_scan();
 
 		var self	= this;
@@ -158,8 +158,14 @@ app.model.sisyphus_manager = {
 			//alert('Disconnected from Device');
 			self.ble_cb();
 		}, function on_error(error) {
-			//alert('Bluetooth Connect Error: ' + error);
-			self.ble_cb();
+			if (connect_retries > 5) {
+				alert('Bluetooth Connect Error: ' + error);
+				self.ble_cb();
+			} else {
+				setTimeout(function() {
+					self.ble_connect(device, ++connect_retries);
+				}, 500);
+			}
 		});
 	},
 	get_service_data: function(device) {
@@ -336,7 +342,15 @@ app.model.sisyphus_manager = {
 		this.set('show_wifi_page', 'false');
 	},
 	should_show_nightlight: function () {
-		this.set('show_setup_page', 'false');
+		// error check name first
+		var sisbot = this.get_model('sisbot_id');
+
+		if (sisbot.get('default_settings.name') == '') {
+			sisbot.set('default_settings_error', 'true')
+		} else {
+			sisbot.set('default_settings_error', 'false')
+			this.set('show_setup_page', 'false');
+		}
 	},
 	save_hostname: function () {
 		var sisbot				= this.get_model('sisbot_id');
@@ -367,13 +381,13 @@ app.model.sisyphus_manager = {
 	open_network_settings: function () {
 		var self = this;
 
-		window.cordova.plugins.settings.open('wifi', function success(resp) {
-			self.set('sisbot_registration', 'waiting');
+		self.set('sisbot_registration', 'waiting');
 
+		window.cordova.plugins.settings.open('wifi', function success(resp) {
 			// Add 10 second timeout to ensure connection to sisbot network
-			setTimeout(function () {
+			self.await_network_connection(function () {
 				self.set('sisbot_registration', 'find');
-			}, 10000);
+			});
 		}, function error(err) {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
@@ -392,6 +406,17 @@ app.model.sisyphus_manager = {
 			self.set('sisbot_reconnecting', 'false');
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
+	},
+	await_network_connection: function (cb) {
+		var self = this;
+
+		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
+			setTimeout(function() {
+				self.await_network_connection(cb);
+			}, 100);
+		} else {
+			cb();
+		}
 	},
 	reconnect_from_error: function () {
 		this.set('sisbot_reconnecting', 'true');
@@ -414,7 +439,15 @@ app.model.sisyphus_manager = {
 		// this will find the sisbots on the local network
 		var self			= this;
 
+		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
+			setTimeout(function() {
+				self.find_sisbots();
+			}, 100);
+			return this;
+		}
+
 		this.set('sisbots_networked', []);
+		this.set('sisbots_ip_name', {});
 		this.set('sisbots_scanning', 'true');
 
 		var num_checks = 5;
@@ -445,6 +478,7 @@ app.model.sisyphus_manager = {
 					self.set('sisbot_registration', 'none');
 				} else if (sisbots.length > 1) {
 					// show screen to select sisbot
+					self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
 					self.set('sisbot_registration', 'multiple');
 				}
 			}
@@ -537,26 +571,19 @@ app.model.sisyphus_manager = {
 			var ip_base = ip_add.join('.');
 			var count = 0;
 
-			function ping_ping() {
-				self.ping_sisbot(ip_base + '.' + count, function() {
-
-					if (++count == 3) {
-						cb();
-					} else {
-						setTimeout(function() {
-							ping_ping();
-						}, 5);
-					}
+			_.each(_.range(0, 256), function(num) {
+				self.ping_sisbot(ip_base + '.' + num, function() {
+					if (++count == 255) cb();
 				});
-			}
-
-			ping_ping();
+			});
 		});
 
 		return this;
 	},
-	ping_sisbot: function(hostname, cb) {
+	ping_sisbot: function(hostname, cb, retries) {
 		var self = this;
+
+		if (!retries) retries = 0;
 
 		app.post.fetch(exists = {
 			_url	: 'http://' + hostname + '/',
@@ -567,7 +594,17 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == self._ble_ip) {
-					self.set('sisbot_registration', 'hotspot')
+					if (hostname == '192.168.42.1') {
+						self.set('sisbot_registration', 'hotspot')
+					} else {
+						if (retries > 10) {
+							// do nothing
+						} else {
+							setTimeout(function() {
+								return self.ping_sisbot(hostname, cb, ++retries)
+							}, 100);
+						}
+					}
 				}
 				return cb();
 			}
@@ -578,7 +615,7 @@ app.model.sisyphus_manager = {
 			// Default select the one we are already on
 			self.set('sisbot_hostname', obj.resp.local_ip);
 			self.add('sisbots_networked', obj.resp.local_ip);
-
+			self.set("sisbots_ip_name['" + obj.resp.local_ip.replace(/\./gi, '-') + "']", obj.resp.name);
 			cb();
 		}, 0);
 
@@ -591,7 +628,7 @@ app.model.sisyphus_manager = {
 		this.set('errors', []);
 
 		var self			= this;
-		var sisbot_hostname = sisbot_hostname || this.get('sisbot_hostname');
+		var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : this.get('sisbot_hostname');
 
 		// ping sisbot for connection
 		var obj = {
@@ -675,10 +712,15 @@ app.model.sisyphus_manager = {
 		});
 	},
 	/**************************** PLAYLISTS ***********************************/
-	playlist_create: function () {
+	playlist_create: function (msg) {
+		// msg.track_id
 		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
-		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist' });
-		playlist.edit();
+		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist-new', primary: 'media' });
+		playlist.setup_edit();
+
+		if (msg && msg.track_id) {
+			playlist.add_track(msg.track_id);
+		}
 	},
 	merge_playlists: function () {	// unused at this point
 		var merged_playlists = [];
@@ -1045,7 +1087,7 @@ app.model.sisyphus_manager = {
 				type        		: 'sisbot',
 				active_playlist_id	: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				active_track		: {
-					id: '1'
+					id: '1f274aa7-6214-4172-b251-a5ac33d36184'
 				},
 				state				: 'paused',
 				is_network_connected: 'false',
@@ -1053,11 +1095,11 @@ app.model.sisyphus_manager = {
 				is_serial_open		: 'true',
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'true',
-				hostname_prompt		: 'true',
-				do_not_remind		: 'false',
+				hostname_prompt		: 'false',
+				do_not_remind		: 'true',
 				is_autodim			: 'true',
-				autodim_start_time	: '10:00 PM',
-				autodim_end_time	: '8:00 AM',
+				sleep_time			: '10:00 PM',
+				wake_time			: '8:00 AM',
 				is_nightlight		: 'false',
 				nightlight_brightness: .2,
 				brightness			: .5,
@@ -1066,7 +1108,9 @@ app.model.sisyphus_manager = {
 				local_ip			: '192.168.42.1',
 				playlist_ids: [ 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 			 					'3fdab229-5c60-4a86-8713-adb7edd494fe' ],
-				track_ids   : [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+				track_ids   : [ '1f274aa7-6214-4172-b251-a5ac33d36184',
+								'2B34822B-0A27-4398-AE19-23A3C83F1220',
+								'3', '4', '5', '6', '7', '8', '9' ]
 			}, {
 				id          		: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
 				type        		: 'playlist',
@@ -1080,10 +1124,10 @@ app.model.sisyphus_manager = {
 				active_track_id		: 'false',
 				active_track_index	: 'false',
 				tracks   : [{
-					id			: '1',
+					id			: '1f274aa7-6214-4172-b251-a5ac33d36184',
 					reversible	: 'false'
 				}, {
-					id			: '2',
+					id			: '2B34822B-0A27-4398-AE19-23A3C83F1220',
 					reversible	: 'false'
 				}, {
 					id			: '3',
@@ -1103,18 +1147,18 @@ app.model.sisyphus_manager = {
 				active_track_id		: 'false',
 				active_track_index	: 'false',
 				tracks   : [{
-					id			: '1',
+					id			: '2B34822B-0A27-4398-AE19-23A3C83F1220',
 					reversible	: 'false'
 				}],
 				sorted_tracks: [ 0 ],
 			}, {
-				id          : '1',
+				id          : '1f274aa7-6214-4172-b251-a5ac33d36184',
 				type        : 'track',
 				name        : 'Erase',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
 				created_by_name: 'Sisyphus Industries',
 			}, {
-				id          : '2',
+				id          : '2B34822B-0A27-4398-AE19-23A3C83F1220',
 				type        : 'track',
 				name        : 'Tensig 1',
 				created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',

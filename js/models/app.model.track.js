@@ -12,6 +12,8 @@ app.model.track = {
 			sisbot_upload		: 'false',
 			generating_thumbnails: 'false',
 
+			is_favorite			: 'false',
+
 			d3: 'false',
 			d3_data : {
 				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -129,6 +131,8 @@ app.model.track = {
 		} else if (active.primary == 'media' && active.secondary == 'tracks') {
 			// tracks overview page
 			this.play();
+		} else if (active.primary == 'media' && active.secondary == 'playlist') {
+			app.collection.get(active.playlist_id).play(track_index);
 		}
 	},
 	play: function () {
@@ -272,6 +276,19 @@ app.model.track = {
 		});
 
 		this.set('playlist_ids', playlist_ids);
+	},
+	is_playlist_favorite: function () {
+		var has_track = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').has_track(this.id);
+		this.set('is_favorite', '' + has_track);
+	},
+	favorite_toggle: function () {
+		var status = this.get('is_favorite');
+		if (status == 'true') {
+			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').remove_track_and_save(this.id);
+		} else {
+			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').add_track_and_save(this.id);
+		}
+		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},
 	/**************************** COMMUNITY ***********************************/
 	fetch_then_download: function () {

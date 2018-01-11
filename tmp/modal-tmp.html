@@ -2,25 +2,7 @@
     <div class="modal-bg w100 h100 bg-black o50"></div>
     <div class="absolute">
         <div class="app-container">
-            <div class="pull-bottom ml20 mr20 mb20">
-                <div class="h__k"
-                    data-cluster="{'type':'playlist','is_saved':'true'}"
-                    data-foreach="cluster"
-                ><div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb h__k {{= (scope.index == 0) ? 'corner-10px corner-bl-none corner-br-none' : '' }}"
-                    data-on-click="parent.add_to_playlist"
-                    data-msg="{{= model.id }}"
-                >Add to "{{= model.data.name }}"</div></div>
-                <div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb h__k"
-                    data-on-click="model.close"
-                >Add to "Favorites"</div>
-                <div class="bg-white black o95 o100-hover p15 corner-10px corner-tl-none corner-tr-none fs18 lh18 center clickable h__k"
-                    data-on-click="model.close"
-                >Add to New Playlist...</div>
-
-                <div class="mt20 bg-white black o95 o100-hover p15 corner-10px fs18 lh18 center clickable h__k"
-                    data-on-click="model.close"
-                >Cancel</div>
-            </div>
+            <div class="pull-bottom ml20 mr20 mb20 h__k" data-template="{{= model.template }}"></div>
         </div>
     </div>
 </div>

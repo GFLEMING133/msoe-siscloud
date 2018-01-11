@@ -19,7 +19,7 @@
                 <div class="mt30 pb20 h__k" data-run="model.defaults_setup">
                     <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Name Your Sisyphus</h4>
                     <div class="pb10 h__k" data-if="{{= model.default_settings_error }} == true">
-                        <input class="h__k error-border fs18 w100" type="text" placeholder="Sisyphus Name"
+                        <input class="h__k error-border fs18 pl10 w100" type="text" placeholder="Sisyphus Name"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                             data-field="model.default_settings.name"
                             value="{{= model.default_settings.name }}"
@@ -27,7 +27,7 @@
                         <div class="pull-right error f-small h__k">Table Name Required</div>
                     </div>
                     <div class="pb10 h__k" data-if="{{= model.default_settings_error }} == false">
-                        <input class="h__k fs18 w100" type="text" placeholder="Sisyphus Name"
+                        <input class="h__k fs18 pl10 w100" type="text" placeholder="Sisyphus Name"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                             data-field="model.default_settings.name"
                             value="{{= model.default_settings.name }}"
@@ -41,9 +41,9 @@
                         </div>
                         <div class="w24-19">
                             <input class="h__k w100" type="range" min="0" max="1" step=".05"
-                                data-on-input="model.brightness"
+                                data-on-input="model.default_brightness"
                                 data-on-update="bg_test"
-                                value="{{= model.data.brightness }}"
+                                value="{{= model.default_settings.brightness }}"
                             />
                         </div>
                         <div class="w24-3 pl24-1">
@@ -51,14 +51,17 @@
                         </div>
                     </div>
 
-                    <label class="pt20 pb20 vertical">
+                    <label class="pt20 pb20 vertical h__k"
+                        data-on-click="toggle"
+                        data-field="model.default_settings.is_autodim"
+                        data-if="{{= model.default_settings.is_autodim }} !== undefined"
+                    >
                         <input class="hidden h__k" type="checkbox"
-                            data-on-click="toggle"
-                            data-field="model.data.is_autodim"
-                            data-checked="{{= model.data.is_autodim }}"
+                            data-field="model.default_settings.is_autodim"
+                            data-checked="{{= model.default_settings.is_autodim }}"
                         />
-                        <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
-                        <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
+                        <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
+                        <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.is_autodim }} == false"></span>
                         <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
                     </label>
 

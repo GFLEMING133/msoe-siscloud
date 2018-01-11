@@ -20,6 +20,7 @@ app.socket = {
 
 		// compare ip, if new, reset
 	    var ip = app.collection.get(sisbot_id).get('data.local_ip');
+
 		if (ip != this.server_ip) {
 			this.server_ip = ip;
 		    //console.log('Socket session', this.server_ip);
@@ -29,7 +30,7 @@ app.socket = {
 				delete self.socket;
 			}
 
-		    self.socket = io.connect(this.server_ip + ':3002');
+		    self.socket = io.connect('http://' + this.server_ip + ':3002');
 
 			self.socket.on('connect', function () {			self.on_connect();		});
 		    self.socket.on('reconnect', function() {        self.on_reconnect();    });

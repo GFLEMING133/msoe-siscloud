@@ -30,8 +30,8 @@ function when_online(data) {
 }
 
 function setup_cordova() {
-	document.addEventListener("offline", when_offline, false);
-	document.addEventListener("online", when_online, false);
+	//document.addEventListener("offline", when_offline, false);
+	//document.addEventListener("online", when_online, false);
 	setup_platforms(function() {
 		app.setup();
 	});

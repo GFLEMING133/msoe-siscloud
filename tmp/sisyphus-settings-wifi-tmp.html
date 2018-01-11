@@ -36,14 +36,46 @@
                 </div>
             </div>
             <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Network Password</h4>
-            <div class="pb20">
-                <input class="h__k fs18 w100" type="text" placeholder="password"
+            <div class="h__k" data-if="{{= model.wifi_error }} == false">
+                <input class="h__k corner-5px mt5 mb5 fs18 w100" type="text" placeholder="password"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     data-field="model.wifi.password"
                     value="{{= model.wifi.wifi_password }}"
                 />
             </div>
-            <h2 class="p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k" data-on-click="model.connect_to_wifi">Connect</h2>
+            <div class="h__k" data-if="{{= model.wifi_error }} == true">
+                <input class="h__k fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.wifi.password"
+                    value="{{= model.wifi.wifi_password }}"
+                />
+                <div class="pull-right error f-small">Wi-Fi password cannot be blank</div>
+            </div>
+            <div class="h__k" data-if="{{= model.wifi_error }} == incorrect">
+                <input class="h__k fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.wifi.password"
+                    value="{{= model.wifi.wifi_password }}"
+                />
+                <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
+            </div>
+            
+            <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable h__k"
+                data-if="{{= model.is_connecting_to_wifi }} == false"
+                data-on-click="model.connect_to_wifi"
+            >Connect</p>
+            <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
+                data-if="{{= model.is_connecting_to_wifi }} == true"
+            >Connect</p>
+
+            <span class="block hh20">&nbsp;</span>
+
+            <div class="p20 center i h__k" data-if="{{= model.is_connecting_to_wifi }} == true">
+                <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                <div class="h__k fs18 lh18">
+                    Connecting...
+                </div>
+            </div>
         </div>
     </div>
 </div>

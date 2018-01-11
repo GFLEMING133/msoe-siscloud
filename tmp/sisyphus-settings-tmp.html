@@ -8,7 +8,7 @@
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
         <!------------------------- SISBOT SETTINGS ------------------------------->
-        <h3 class="no-stuffing p20 fs18 lh18 strong gotham">Speed & Brightness</h3>
+        <h3 class="no-stuffing p20 fs18 lh18 strong">Speed & Brightness</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
                 <i class="fa fa-sun-o center clickable grey" aria-hidden="true"></i>
@@ -25,19 +25,20 @@
                 <i class="fa fa-sun-o f-large center clickable grey" aria-hidden="true"></i>
             </div>
         </div>
-        <div class="pl20 pt5 pb5 pr20 h__k" data-model="{{= model.sisbot_id }}">
-            <label class="vertical">
-                <input class="hidden h__k" type="checkbox"
-                    data-on-click="toggle"
-                    data-field="model.data.is_autodim"
-                    data-checked="{{= model.data.is_autodim }}"
-                />
-                <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
-                <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
-                <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
-            </label>
+        <div class="pl20 pt5 pb5 pr20 w100 vertical h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-on-click="model.autodim_toggle"
+            data-if="{{= model.data.is_autodim }} !== undefined"
+        >
+            <input class="hidden h__k" type="checkbox"
+                data-field="model.data.is_autodim"
+                data-checked="{{= model.data.is_autodim }}"
+            />
+            <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
+            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
+            <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
-        <div class="flex vertical-align  pl20 pr20 bb h__k" data-model="{{= model.sisbot_id }}">
+        <div class="flex vertical-align  pl20 pr20 pb20 bb h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 center clickable pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
             </div>
@@ -75,6 +76,16 @@
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
             data-on-click="publish"
             data-publish="session:active"
+            data-msg="{'secondary':'night_mode'}"
+        >
+            <span class="strong">Night Mode</span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
             data-msg="{'secondary':'advanced_settings'}"
         >
             <span class="strong">Advanced</span>
@@ -92,6 +103,17 @@
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
         </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'go-to-sleep'}"
+        >
+            <span class="strong">Go to Sleep</span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
+        </div>
+        <div class="hh150">&nbsp;</div>
     </div>
 </div>
 <!------------------------- ADVANCED INFO ------------------------------------->
@@ -169,8 +191,18 @@
     data-if="{{= parent.active.secondary }} == change_table_name"
     data-template="sisyphus-settings-change-table-name-tmp"
 ></div>
-<!------------------------- ABOUT --------------------------------->
+<!------------------------- ABOUT --------------------------------------------->
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == about"
     data-template="sisyphus-settings-about-tmp"
+></div>
+<!------------------------- GO TO SLEEP --------------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == go-to-sleep"
+    data-template="sisyphus-settings-go-to-sleep-tmp"
+></div>
+<!------------------------- FACTORY RESET ------------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == factory-reset"
+    data-template="sisyphus-settings-factory-reset-tmp"
 ></div>

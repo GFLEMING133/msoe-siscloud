@@ -571,7 +571,9 @@ var Binding = Backbone.View.extend({
         var val     = opp[this.ctx.get(field)];
 
         if (!val) val = 'false';
-        this.ctx.set(field, val).trigger('change:' + field).save();
+        this.ctx.set(field, val)
+            .trigger('change:' + field)
+            .trigger('change:' + field.replace(/\'/gi, ''));
 	},
     file_reader: function (e) {
         var self            = this;
@@ -857,11 +859,12 @@ var Binding = Backbone.View.extend({
     foreach_ref: false,
     foreach_listeners: false,
     foreach: function () {
-        if (this.$el != undefined)
-			this.$el.html('');
+        if (!this.$el) return false;
 
         if (this.data.console)
             console.log('Foreach', this);
+
+        this.$el.html('');
 
         var defaultValue    = this.get_value('' + this.data.foreachDefaultValue) || '';
         var defaultLabel    = this.get_value(this.data.foreachDefault) || '';
@@ -1367,10 +1370,10 @@ var Binding = Backbone.View.extend({
                 tags    : tags,
                 placeholder: 'Tags',
                 onTagAdd: function(event, tag) {
-                    self.model.add(self.data.field, tag).save();
+                    self.model.add(self.data.field, tag);
                 },
                 onTagRemove: function(event, tag) {
-                    self.model.remove(self.data.field, tag).save();
+                    self.model.remove(self.data.field, tag);
                 }
             });
         });

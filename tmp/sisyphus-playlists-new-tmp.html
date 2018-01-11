@@ -2,19 +2,19 @@
     <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
         <div class="w30 left pl20 clickable h__k"
             data-on-click="publish"
-            data-publish="modal:open"
-            data-msg="{'playlist_id':'{{= model.id }}','template':'modal-playlist-delete-tmp'}"
-        ><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh50 pt15 pb15" /></div>
+            data-publish="session:active"
+            data-msg="{'secondary':'playlists'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w40">
-            <h1 class="fs18 lh18 no-stuffing capitalize">Edit Playlist</h1>
+            <h1 class="fs18 lh18 no-stuffing capitalize">New Playlist</h1>
         </div>
-        <div class="w30 pull-right fs18 lh18 right pr20 clickable h__k" data-on-click="model.save_edit">
-            Done
-        </div>
+        <div class="w30 right p15 pr20 fs18 lh18 clickable h__k"
+            data-on-click="model.save_edit"
+        >Done</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
         <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
-        <div class="pt20 pb20 pl40 pr40 h__k" data-run="model.setup_edit">
+        <div class="pt20 pb20 pl40 pr40">
             <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
             <input class="h__k corner-5px mt5 w100" type="text" placeholder="Playlist Name"
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
@@ -50,6 +50,6 @@
                 ></div>
             </div>
         </div>
-        <div class="hh150">&nbsp;</div>
+        <div class="hh100">&nbsp;</div>
     </div>
 </div>
