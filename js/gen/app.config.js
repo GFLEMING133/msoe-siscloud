@@ -1,5 +1,5 @@
 app.config = {
-	env					: 'alpha',
+	env					: 'beta',
 	version				: '1.2.16',
 	envs	: {
 		alpha: {	// loads local data only
@@ -40,7 +40,7 @@ app.config = {
 	},
 	get_thumb_size: function () {
 		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
-		if (firmware[1] > 1) {
+		if (+(firmware[1]) >= 1) {
 			return '100';
 		} else {
 			return '50';

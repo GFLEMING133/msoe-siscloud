@@ -247,6 +247,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 
 		this.set('data.updated_at', this.timestamp());
 		this.set('data.is_saved', 'true');
+		app.collection.trigger('export', this);
 
 		app.collection.outgoing('set', this, function (cbb) {
 			//console.log("Outgoing set", cbb);

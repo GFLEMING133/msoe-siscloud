@@ -334,6 +334,14 @@ app.model.sisyphus_manager = {
 				.set('show_nightlight_page', 'true');
 		}
 
+		if (this.get_model('sisbot_id').is_legacy() == true) {
+			// do nothing if legacy
+			this.set('show_setup_page', 'false')
+				.set('show_nightlight_page', 'false')
+				.set('show_sleeping_page', 'false')
+				.set('show_software_update_page', 'false');
+		}
+
 		return this;
 	},
 	should_show_setup_page: function () {
@@ -395,10 +403,9 @@ app.model.sisyphus_manager = {
 	open_network_settings_from_error: function () {
 		var self = this;
 
-		this.set('sisbot_reconnecting', 'true');
-
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
 			// we are attempting to reconnect to hotspot
+			self.set('sisbot_reconnecting', 'true');
 			self.get_model('sisbot_id')._poll_restart();
 		}, function error(err) {
 			self.set('sisbot_reconnecting', 'false');
@@ -1120,8 +1127,8 @@ app.model.sisyphus_manager = {
 				is_published		: 'false',
 				is_shuffle			: 'true',
 				is_loop				: 'false',
-				active_track_id		: 'false',
-				active_track_index	: 'false',
+				active_track_id		: '2B34822B-0A27-4398-AE19-23A3C83F1220',
+				active_track_index	: '1',
 				tracks   : [{
 					id			: '1f274aa7-6214-4172-b251-a5ac33d36184',
 					reversible	: 'false'

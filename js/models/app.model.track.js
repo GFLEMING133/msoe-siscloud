@@ -140,10 +140,7 @@ app.model.track = {
 		app.trigger('session:active', { secondary: 'false', primary: 'current' });
 	},
 	delete: function () {
-		var conf = confirm('Are you sure you want to delete this track? This cannot be undone.');
-
-		if (conf)
-			app.manager.get_model('sisbot_id').track_remove(this);
+		app.manager.get_model('sisbot_id').track_remove(this);
 	},
 	on_file_upload: function (file) {
 		this.upload_verts_to_cloud(file.data);

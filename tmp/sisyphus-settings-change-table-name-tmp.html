@@ -1,6 +1,10 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 center">&nbsp;</div>
+        <div class="w30 left pl20 clickable h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced_settings'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w40">
             <h1 class="h__k no-stuffing fs18 lh18 capitalize">Table Name</h1>
         </div>
@@ -9,8 +13,8 @@
             data-on-click="model.update_tablename"
         >Done</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar">
-        <div class="h__k bg-white pl20 pr20 black h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
+    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+        <div class="h__k bg-white pl20 pr20 black h__k" data-run="model.setup_edit">
             <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
                 <div class="h__k" data-foreach="model.errors">
                     <div class="h__k pb5 red">{{= scope.value }}</div>
