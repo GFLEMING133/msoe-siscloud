@@ -62,6 +62,8 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
+		app.plugins.n.initialize();
+
 		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);

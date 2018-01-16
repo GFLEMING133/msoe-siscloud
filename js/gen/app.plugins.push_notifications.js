@@ -1,5 +1,3 @@
-//
-
 app.plugins.push_notifications = {
 	initialize: function () {
 		this.config = app.config.pushwoosh;

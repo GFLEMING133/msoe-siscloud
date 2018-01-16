@@ -255,7 +255,6 @@ app.model.sisbot = {
 				this.set('data.reason_unavailable', 'connect_to_wifi');
 			} else if (current_ip !== ip_address) {
 				// we successfully connected to wifi!
-				alert('Set New IP ADDRESS: ' + ip_address);
 				self.set('data.local_ip', ip_address);
 			}
 		});
@@ -286,10 +285,15 @@ app.model.sisbot = {
 		clearTimeout(this.polling_timeout);
 	},
 	_socket_disconnect: function() {
+		var self = this;
+
 		console.log("Sisbot: Socket Disconnect");
+
 		if (this.get('is_polling') == "false") {
-			this.set('is_polling', "true");
-			this._poll_state();
+			setTimeout(function() {
+				self.set('is_polling', "true");
+				self._poll_state();
+			}, 500);
 		}
 	},
 	_socket_error: function(data) {
@@ -462,20 +466,22 @@ app.model.sisbot = {
 	disconnect_wifi: function () {
 		var self = this;
 
-		var confirm_disconnect = confirm('Are you sure you want to disconnect your Sisyphus from WiFi?');
+		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
 
-		if (!confirm_disconnect)
-			return this;
+		function on_disconnect(status) {
+			if (status == 1)
+				return self;
 
-		this._update_sisbot('disconnect_wifi', {}, function(obj) {
-			// do nothing
-			self.set('is_polling', 'false')
-				.set('data.is_internet_connected', 'false')
-				.set('data.wifi_network', 'false')
-				.set('data.wifi_password', 'false')
-				.set('data.reason_unavailable', 'disconnect_from_wifi');
-			app.manager.set('is_sisbot_available', 'false');
-		});
+			self._update_sisbot('disconnect_wifi', {}, function(obj) {
+				// do nothing
+				self.set('is_polling', 'false')
+					.set('data.is_internet_connected', 'false')
+					.set('data.wifi_network', 'false')
+					.set('data.wifi_password', 'false')
+					.set('data.reason_unavailable', 'disconnect_from_wifi');
+				app.manager.set('is_sisbot_available', 'false');
+			});
+		}
 	},
 	is_internet_connected: function () {
 		var self = this;
@@ -634,7 +640,7 @@ app.model.sisbot = {
 		var self	= this;
 
 		if (this.is_legacy())
-			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
@@ -651,7 +657,7 @@ app.model.sisbot = {
 	},
 	update_tablename: function () {
 		if (this.is_legacy())
-			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var name		= this.get('edit.name');
@@ -797,12 +803,13 @@ app.model.sisbot = {
 		this.brightness(0);
 	},
 	autodim_toggle: function () {
-		var data = this.get('data');
+		var data		= this.get('data');
 		data.is_autodim = app.plugins.bool_opp[data.is_autodim];
-
 		this.set('data', data);
 		this.trigger('change:data.is_autodim');
-		this._update_sisbot('save', data, function(obj) {});
+		this._update_sisbot('set_autodim', { value: data.is_autodim }, function(obj) {
+			if (obj.resp) app.manager.intake_data(obj.resp);
+		});
 	},
 	speed: function (level) {
 		this.set('data.speed', +level);
@@ -870,7 +877,7 @@ app.model.sisbot = {
 	},
 	playlist_remove: function (playlist_model) {
 		if (this.is_legacy())
-			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var playlist	= playlist_model.get('data');
@@ -903,37 +910,38 @@ app.model.sisbot = {
 	},
 	track_remove: function (track_model) {
 		if (this.is_legacy())
-			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
-		var conf = confirm('Are you sure you want to delete this track? This cannot be undone.');
+		var self = this;
 
-		if (!conf)
-			return this;
+		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone.', function(resp_num) {
+			if (resp_num == 0)
+				return self;
 
-		if (app.config.env == 'alpha') {
-			var active = app.session.get('active');
-			if (active.primary == 'current') app.trigger('session:active', { track_id: 'false', secondary: 'false' });
-			else 							 app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
-		}
-
-		var self	= this;
-		var track	= track_model.get('data');
-
-		this._update_sisbot('remove_track', track, function (obj) {
-			if (obj.err) {
-				alert('There was an error removing the file to your Sisyphus. Please try again later.')
-			} else if (obj.resp) {
-				app.manager.intake_data(obj.resp);
+			if (app.config.env == 'alpha') {
 				var active = app.session.get('active');
-				if (active.primary == 'current') {
-					app.trigger('session:active', { track_id: 'false', secondary: 'false' });
-				} else {
-					app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
-				}
+				if (active.primary == 'current') app.trigger('session:active', { track_id: 'false', secondary: 'false' });
+				else 							 app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
 			}
-		});
 
-		this.remove('data.track_ids', track.id);
+			var track	= track_model.get('data');
+
+			self._update_sisbot('remove_track', track, function (obj) {
+				if (obj.err) {
+					alert('There was an error removing the file to your Sisyphus. Please try again later.')
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+					var active = app.session.get('active');
+					if (active.primary == 'current') {
+						app.trigger('session:active', { track_id: 'false', secondary: 'false' });
+					} else {
+						app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
+					}
+				}
+			});
+
+			self.remove('data.track_ids', track.id);
+		}, 'Remove Track?', ['Cancel', 'Delete']);
 	},
 	track_get_verts: function (track_model, cb) {
 		console.log('we got verts', track_model.id);
