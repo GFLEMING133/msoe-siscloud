@@ -5,12 +5,6 @@
     data-on-click="parent.add_to_playlist"
     data-msg="{{= model.id }}"
 >Add to "{{= model.data.name }}"</div></div>
-<div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb h__k"
-    data-model="{{= model.track_id }}"
-    data-run="model.is_playlist_favorite"
-    data-if="{{= model.is_favorite }} == false"
-    data-on-click="parent.add_to_favorites"
->Add to "Favorites"</div>
 <div class="bg-white black o95 o100-hover p15 corner-10px corner-tl-none corner-tr-none fs18 lh18 center clickable h__k"
     data-on-click="model.new_playlist"
 >Add to New Playlist...</div>

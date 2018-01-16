@@ -1,9 +1,9 @@
 <div class="h__k" data-run="model.collapse">
-	<div class="flex pl20 pr20 clickable h__k {{= (model.is_expanded == 'true') ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}">
-		<div class="w20 pt10 pb10 center vertical h__k" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
+	<div class="flex clickable h__k {{= (model.is_expanded == 'true') ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}">
+		<div class="w20 pt10 pb10 pl20 center vertical h__k" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
 			<div class="w80p hh80">
 				<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-					data-src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+					data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
 				/>
 			</div>
 		</div>
@@ -12,13 +12,13 @@
 	        <div class="fs12 lh18 grey block h__k">by {{= model.data.created_by_name }}</div>
 		</div>
 	    <div class="w20 pt10 pb10 h100 vertical right h__k" data-on-click="toggle" data-field="model.is_expanded">
-	        <i class="grey pt20" aria-hidden="true">
+	        <i class="grey pt20 pb20 pr20" aria-hidden="true">
 				<img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
 			</i>
 	    </div>
 	</div>
 	<div class="bg-grey-l flex h__k" data-if="{{= model.is_expanded }} == true">
-		<div class="w25 center pt15 pb15 h__k" data-on-click="model.play_logic" data-msg="{{= scope.value }}">
+		<div class="w25 center pt15 pb15 h__k" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
 			<img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" />
 		</div>
 		<div class="w25 clickable center pt15 pb15 h__k"

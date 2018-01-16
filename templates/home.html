@@ -12,18 +12,18 @@
                 <p class="center fs18 lh24">
                     The connection with your Sisyphus table has been lost and could not be restored
                 </p>
-                <p class="pt20 center fs18 lh24 h__k" data-if="{{= model.fetching_cloud }} == true">
+                <p class="pt20 center fs18 lh24 h__k" data-if="{{= model.is_polling }} == true">
                     Attempting to reconnect now.
                 </p>
                 <div class="pb20">
                     <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
-                        data-if="{{= model.fetching_cloud }} == false"
+                        data-if="{{= model.is_polling }} == false"
                     >Learn How To Fix</p>
                     <p class="w100 mt100 mb20 p15 center blue fs18 lh18 uppercase clickable h__k"
-                        data-if="{{= model.fetching_cloud }} == false"
-                        data-on-click="model._fetch_cloud"
+                        data-if="{{= model.is_polling }} == false"
+                        data-on-click="model._poll_restart"
                     >Retry Connecting</p>
-                    <div class="p20 center i black h__k" data-if="{{= model.fetching_cloud }} == true">
+                    <div class="p20 center i black h__k" data-if="{{= model.is_polling }} == true">
                         <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                         <div class="h__k fs18 lh18">
                             Reconnecting...
@@ -52,7 +52,7 @@
                         data-on-click="parent.reconnect_from_error"
                     >Attempt Reconnect</p>
                 </div>
-                <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_reconnecting }} == true">
+                <div class="p20 center i white pull-bottom h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
                     <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                     <div class="h__k">
                         Connecting...
@@ -80,7 +80,7 @@
                         data-on-click="parent.reconnect_to_hotspot"
                     >Reconnect to Sisyphus</p>
                 </div>
-                <div class="p20 center i black h__k" data-if="{{= model.sisbot_reconnecting }} == true">
+                <div class="p20 center i black h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
                     <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                     <div>Connecting...</div>
                 </div>
@@ -190,33 +190,6 @@
     </div>
 </div>
 -->
-
-<div class="home-tmp">
-    <div class="top-nav pull-top white bg-d-grey w100 center no-stuffing h__k">
-        <ul class="no-stuffing horizontal pb10  vertical-align h__k">
-            <div class="h__k vertical-align"
-                data-foreach="{{= JSON.stringify(app.static.page_icons) }}"
-                data-item="home-primary-nav-item-tmp"
-                data-subscribe-ctx="model"
-                data-subscribe="change:data.services"
-                data-on-subscribe="foreach_reset"
-            ></div>
-        </ul>
-    </div>
-    <div class="side-nav col-md-2 col-sm-3 col-xs-4 scroll hide-scrollbar no-stuffing bg-m-grey white h__k h100" data-template="nav-tmp"></div>
-</div>
-
-<div class="home-primary-nav-item-tmp">
-    <div class="clickable h__k"
-        data-if="{{= _model_.has_service(scope.value.key) }} == true"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'primary':'{{= scope.value.key.toLowerCase() }}','secondary':'false','tertiary':'false'}"
-    ><li class="pt10 pb15 pl20 pr20 bg-m-grey-hover h__k {{= (parent.active.primary == scope.value.key.toLowerCase()) ? 'bg-m-grey' : '' }}">
-        <span class="h__k fa fa-{{= scope.value.icon }}  f-xlarge"></span>
-        <span class="h__k capitalize hidden-xs hidden-sm" data-shepherd="primary_nav:{{= scope.value.key.toLowerCase() }}">{{= scope.value.key }}</span>
-    </li></div>
-</div>
 
 <div class="nav-tmp">
     <!--

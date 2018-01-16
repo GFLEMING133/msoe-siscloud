@@ -257,6 +257,9 @@ app.model.sisbot = {
 		var current_ip	= this.get('data.local_ip');
 		var sub_id		= this.id.substr(this.id.length - 7);
 
+		if (this.is_legacy())
+			sub_id = 'sisyphus';
+
 		app.manager.start_ble_scan(sub_id, function (ip_address) {
 			self._fetching_bluetooth = false;
 
@@ -267,6 +270,7 @@ app.model.sisbot = {
 				this.set('data.reason_unavailable', 'connect_to_wifi');
 			} else if (current_ip !== ip_address) {
 				// we successfully connected to wifi!
+				alert('Set New IP ADDRESS: ' + ip_address);
 				self.set('data.local_ip', ip_address);
 			}
 		});
@@ -385,22 +389,19 @@ app.model.sisbot = {
 		var self		= this;
 		var data		= this.get('data');
 		var reg_data	= this.get('default_settings');
+		var endpoint	= (this.is_legacy()) ? 'stop_wifi_reminder' : 'onboard_complete';
 
 		_.extend(data, reg_data)
 
 		app.manager.set('show_nightlight_page', 'false');
 
-		this._update_sisbot('onboard_complete', data, function(obj) {
+		this._update_sisbot(endpoint, data, function(obj) {
 			if (obj.err && obj.err == 'Could not make request') {
-				defaults_fallback();
+				// do nothing
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
-
-		function defaults_fallback() {
-			self._update_sisbot('save', data, function(obj) {});
-		}
 	},
 	get_networks: function () {
 		var self			= this;
@@ -440,14 +441,21 @@ app.model.sisbot = {
 		}
 	},
 	wifi_connected: function () {
-		if (this.get('data.is_internet_connected') == 'true')
+		if (this.get('data.is_internet_connected') == 'true') {
 			app.trigger('sisbot:wifi_connected');
+			this.set('is_connecting_to_wifi', 'false');
+			if (app.session.get('active.primary') == 'settings') {
+				// if we are connecting to wifi from settings
+				app.session.set('active.secondary', 'advanced_settings');
+			}
+		}
 	},
   	connect_to_wifi: function () {
 		this.set('wifi_error', 'false');
 
 		var self		= this;
 		var credentials = this.get('wifi');
+		var endpoint	= (this.is_legacy()) ? 'change_to_wifi' : 'connect_to_wifi';
 
 		if (credentials.password == '') {
 			this.set('wifi_error', 'true');
@@ -456,29 +464,15 @@ app.model.sisbot = {
 
 		this.set('is_connecting_to_wifi', 'true');
 
-		this._update_sisbot('connect_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			if (obj.err && obj.err == 'Could not make request') {
-				wifi_fallback();
-			} else if (obj.err) {
+		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
+			if (obj.err) {
 				console.log('wifi err', obj.err);
-
 				self.set('is_connecting_to_wifi', 'false')
 					.set('wifi_error', 'true');
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
-
-		function wifi_fallback() {
-			self._update_sisbot('change_to_wifi', { ssid: credentials.name, psk: credentials.password }, function(obj) {
-				if (obj.err) {
-					self.set('is_connecting_to_wifi', 'false')
-						.set('wifi_error', 'true');
-				} else if (obj.resp) {
-					self.set('data', obj.resp);
-				}
-			});
-		}
   	},
 	disconnect_wifi: function () {
 		var self = this;
@@ -523,7 +517,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 
@@ -550,7 +544,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 	},
@@ -591,7 +585,7 @@ app.model.sisbot = {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
 				app.trigger('session:active', { secondary: 'false' });
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 	},
@@ -642,12 +636,20 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 	},
+	is_legacy: function () {
+		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
+		if (firmware[1] < 1)	return true;
+		else 					return false;
+	},
 	sleep: function () {
 		var self	= this;
+
+		if (this.is_legacy())
+			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
@@ -658,14 +660,13 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 	},
 	update_tablename: function () {
-		if (app.config.env == 'alpha')
-			return app.trigger('session:active', { secondary: 'advanced_settings' });
-
+		if (this.is_legacy())
+			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var name		= this.get('edit.name');
@@ -674,14 +675,16 @@ app.model.sisbot = {
 		this.set('errors', []);
 		this.set('updating_tablename', 'true');
 
-		if (name == '')
-			errors.push('Table Name cannot be empty');
-
 		if (errors.length > 0)
-			return this.set('updating_tablename', 'false').set('errors', errors);
+			return this.set('updating_tablename', 'false').set('errors', [ 'Table Name cannot be empty' ]);
 
 		var data = this.get('data');
 		data.name = name;
+
+		if (app.config.env == 'alpha') {
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
+			this.set('data.name', name);
+		}
 
 		this._update_sisbot('save', data, function(obj) {
 			self.set('updating_tablename', 'false');
@@ -689,6 +692,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { secondary: 'advanced_settings' });
 			}
 		});
@@ -721,8 +725,7 @@ app.model.sisbot = {
 	},
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function (obj) {
-			if (obj.resp)
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 
 		this.set('data.active_playlist_id',	'false');
@@ -745,7 +748,7 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('errors', resp.err);
 			} else if (obj.resp) {
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { secondary: 'false' });
 			}
 		});
@@ -753,18 +756,26 @@ app.model.sisbot = {
 		return this;
 	},
 	setup_favorite_playlist: function () {
+		if (this.is_legacy())
+			return this;
+
 		var self = this;
 
 		var playlist = app.collection.add({
 			id				: app.plugins.uuid(),
 			type			: 'playlist',
 			name			: 'Favorites',
+			is_shuffle		: 'true'
 		});
 
 		this.set('data.favorite_playlist_id', playlist.id);
 
 		this._update_sisbot('save', this.get('data'), function(obj) {
-			self.playlist_add(playlist);
+			if (obj.err) {
+
+			} else {
+				self.playlist_add(playlist);
+			}
 		});
 
 		if (app.config.env == 'alpha') // so it works in alpha
@@ -832,16 +843,14 @@ app.model.sisbot = {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
 		this._update_sisbot('set_shuffle', { value: this.get('data.is_shuffle') }, function (obj) {
-			if (obj.resp)
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	set_loop: function () {
 		var self = this;
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
-			if (obj.resp)
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	/******************** SLEEP ***********************************************/
@@ -853,7 +862,7 @@ app.model.sisbot = {
 		};
 
 		this._update_sisbot('set_sleep_time', data, function (obj) {
-			if (obj.resp) self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
@@ -868,15 +877,18 @@ app.model.sisbot = {
 			if (obj.err) {
 				alert('There was an error adding the playlist to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
-				app.collection.get(app.current_session().get('sisyphus_manager_id')).intake_data(obj.resp);
+				app.manager.intake_data(obj.resp);
 			}
 		});
 
 		this.add_nx('data.playlist_ids', playlist.id);
 	},
 	playlist_remove: function (playlist_model) {
+		if (this.is_legacy())
+			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
 		var self		= this;
-		var playlist	= this.get('data');
+		var playlist	= playlist_model.get('data');
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
 			if (obj.err) {
@@ -893,8 +905,6 @@ app.model.sisbot = {
 		var self	= this;
 		var track	= track_model.get('data');
 
-		console.log("Add Track", track);
-
 		this._update_sisbot('add_track', track, function (obj) {
 			if (obj.err) {
 				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
@@ -907,15 +917,34 @@ app.model.sisbot = {
 		this.add_nx('data.track_ids', track.id);
 	},
 	track_remove: function (track_model) {
+		if (this.is_legacy())
+			return alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
+		var conf = confirm('Are you sure you want to delete this track? This cannot be undone.');
+
+		if (!conf)
+			return this;
+
+		if (app.config.env == 'alpha') {
+			var active = app.session.get('active');
+			if (active.primary == 'current') app.trigger('session:active', { track_id: 'false', secondary: 'false' });
+			else 							 app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
+		}
+
 		var self	= this;
-		var track	= this.get('data');
+		var track	= track_model.get('data');
 
 		this._update_sisbot('remove_track', track, function (obj) {
 			if (obj.err) {
 				alert('There was an error removing the file to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
-				app.trigger('session:active', { track_id: 'false', secondary: 'tracks' });
+				var active = app.session.get('active');
+				if (active.primary == 'current') {
+					app.trigger('session:active', { track_id: 'false', secondary: 'false' });
+				} else {
+					app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
+				}
 			}
 		});
 
@@ -939,24 +968,21 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'playing');
 		this._update_sisbot('play', {}, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	pause: function () {
 		var self = this;
 		this.set('data.state', 'paused');
 		this._update_sisbot('pause', {}, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
 	home: function () {
 		var self = this;
 		this.set('data.state', 'homing');
 		this._update_sisbot('home', { clear_tracks: true }, function (obj) {
-			if (obj.resp)
-				self.set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 		return this;
 	},
@@ -991,8 +1017,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('set_autodim', { value: new_value }, function(obj) {
 			console.log('autodim', obj);
-			if (obj.resp)
-				app.collection.get(obj.resp.id).set('data', obj.resp);
+			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 
 		return this;

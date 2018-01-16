@@ -91,8 +91,6 @@ app.model.sisyphus_manager = {
 		var self = this;
 		if (!_.isArray(given_data)) given_data = [given_data];
 
-		console.log("Intake Data:", given_data);
-
 		_.each(given_data, function(data) {
 			if (!data || !data.id) {
 				// do nothing for responses that aren't objects
@@ -336,6 +334,14 @@ app.model.sisyphus_manager = {
 				.set('show_nightlight_page', 'true');
 		}
 
+		if (this.get_model('sisbot_id').is_legacy() == true) {
+			// do nothing if legacy
+			this.set('show_setup_page', 'false')
+				.set('show_nightlight_page', 'false')
+				.set('show_sleeping_page', 'false')
+				.set('show_software_update_page', 'false');
+		}
+
 		return this;
 	},
 	should_show_setup_page: function () {
@@ -397,10 +403,9 @@ app.model.sisyphus_manager = {
 	open_network_settings_from_error: function () {
 		var self = this;
 
-		this.set('sisbot_reconnecting', 'true');
-
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
 			// we are attempting to reconnect to hotspot
+			self.set('sisbot_reconnecting', 'true');
 			self.get_model('sisbot_id')._poll_restart();
 		}, function error(err) {
 			self.set('sisbot_reconnecting', 'false');
@@ -1090,6 +1095,7 @@ app.model.sisyphus_manager = {
 					id: '1f274aa7-6214-4172-b251-a5ac33d36184'
 				},
 				state				: 'paused',
+				software_version	: '1.0.1',
 				is_network_connected: 'false',
 				is_internet_connected: 'false',
 				is_serial_open		: 'true',
@@ -1121,8 +1127,8 @@ app.model.sisyphus_manager = {
 				is_published		: 'false',
 				is_shuffle			: 'true',
 				is_loop				: 'false',
-				active_track_id		: 'false',
-				active_track_index	: 'false',
+				active_track_id		: '2B34822B-0A27-4398-AE19-23A3C83F1220',
+				active_track_index	: '1',
 				tracks   : [{
 					id			: '1f274aa7-6214-4172-b251-a5ac33d36184',
 					reversible	: 'false'

@@ -104,7 +104,7 @@ app.model.playlist = {
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
-		var data = this.get('data');
+		var data				= this.get('data');
 		data.active_track_index = track_index;
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
