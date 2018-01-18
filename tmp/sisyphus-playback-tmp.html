@@ -21,7 +21,7 @@
         <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == playing">
             <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
             <div class="w30 right">
-                <div class="clickable h__k" aria-hidden="true"
+                <div class="clickable active h__k" aria-hidden="true"
                     data-if="{{= model.data.state }} == playing"
                     data-on-click="model.pause"
                 ><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
@@ -30,7 +30,7 @@
         <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == paused">
             <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
             <div class="w30 right">
-                <div class="clickable h__k" aria-hidden="true"
+                <div class="clickable active h__k" aria-hidden="true"
                     data-if="{{= model.data.state }} == paused"
                     data-on-click="model.play"
                 ><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>

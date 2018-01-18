@@ -1,6 +1,6 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w15 center clickable blue-hover h__k"
+        <div class="w15 center clickable active blue-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'advanced_settings'}"
@@ -60,7 +60,7 @@
                 <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
             </div>
 
-            <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable h__k"
+            <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active h__k"
                 data-if="{{= model.is_connecting_to_wifi }} == false"
                 data-on-click="model.connect_to_wifi"
             >Connect</p>

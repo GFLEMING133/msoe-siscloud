@@ -1,6 +1,6 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 left pl20 clickable h__k"
+        <div class="w30 left pl20 clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -15,7 +15,7 @@
             data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
         >
             <span>There are no tracks on this Sisyphus.</span>
-            <span class="clickable">Visit the Community tab to download some</span>
+            <span class="clickable active">Visit the Community tab to download some</span>
         </div>
         <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
             <div class="h__k"

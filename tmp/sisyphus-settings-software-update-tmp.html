@@ -1,0 +1,81 @@
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w15 center clickable active blue-hover h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing capitalize fs18 lh18 truncate">Software Update</h1>
+        </div>
+        <div class="w15 center f-large">&nbsp;</div>
+    </div>
+    <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
+        <div class="h__k" data-if="{{= model.data.is_hotspot }} == true">
+            <!--------------------------- NOT NETWORK CONNECTED --------------------------->
+            <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                    <img src="img/icon_2x_wifi.png" alt="Wifi" class="hh30" />
+                </p>
+                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                    Your Table is Not Connected to WiFi
+                </h3>
+                <p class="p0 m0 fs18 center">
+                    Your table cannot detect if there is a software update available.
+                    Please connect your table to wifi to check for an update.
+                </p>
+            </div>
+        </div>
+        <div class="h__k" data-if="{{= model.data.is_hotspot }} == false">
+            <div class="h__k" data-if="{{= model.has_software_update }} == true">
+                <!--------------------------- UPDATE AVAILABLE ------------------------>
+                <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                        <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+                    </p>
+                    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                        Update Available
+                    </h3>
+                    <p class="p0 m0 fs18 center">
+                        Sisyphus is constantly improving, and there is a new update available.
+                        Click the button below to start the update process.
+                    </p>
+
+                    <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+                        data-if="{{= model.data.installing_updates }} == false"
+                        data-on-click="model.install_updates"
+                    >Start Update</h2>
+                </div>
+            </div>
+            <div class="h__k" data-if="{{= model.has_software_update }} == complete">
+                <!--------------------------- UPDATE COMPLETE --------------------->
+                <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                    <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+                </p>
+                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                    Update Complete
+                </h3>
+                <p class="p0 m0 fs18 center">
+                    Your table now has the latest and greatest software installed.
+                    We will let you know when there is another new update available.
+                </p>
+            </div>
+            <div class="h__k" data-if="{{= model.has_software_update }} == false">
+                <!--------------------------- NO UPDATE --------------------------->
+                <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                        <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+                    </p>
+                    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                        Your Table is Up To Date
+                    </h3>
+                    <p class="p0 m0 fs18 center">
+                        Your table has the latest and greatest software, and doesn't
+                        need to be updated at this time. We will let you know when an
+                        update is available.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

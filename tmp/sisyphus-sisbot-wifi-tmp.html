@@ -59,7 +59,7 @@
                         />
                         <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
                     </div>
-                    <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable h__k"
+                    <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active h__k"
                         data-if="{{= model.is_connecting_to_wifi }} == false"
                         data-on-click="model.connect_to_wifi"
                     >Connect</p>
@@ -69,7 +69,7 @@
 
                     <span class="block hh20">&nbsp;</span>
 
-                    <div class="p20 center clickable blue fs18 lh18 h__k"
+                    <div class="p20 center clickable active blue fs18 lh18 h__k"
                         data-if="{{= model.is_connecting_to_wifi }} == false"
                         data-on-click="parent.should_show_setup_page"
                     >Skip this step</div>

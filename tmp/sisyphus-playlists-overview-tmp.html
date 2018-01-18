@@ -1,6 +1,6 @@
 <div class="h100">
     <div class="pull-top white bg-black w100 center no-stuffing h__k hh50 flex vertical-align">
-        <div class="w30 left pl20 clickable h__k"
+        <div class="w30 left pl20 clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -8,21 +8,21 @@
         <div class="w40">
             <h1 class="h__k no-stuffing fs18 capitalize truncate">Playlists</h1>
         </div>
-        <div class="w30 right p15 pr20 fs18 lh18 clickable h__k"
+        <div class="w30 right p15 pr20 fs18 lh18 clickable active h__k"
             data-on-click="model.playlist_create"
         ><img src="img/icon_2x_new.png" alt="Back" class="hh50 pt15 pb15" /></div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
         <div class="h__k center p20 i"
             data-if="{{= app.plugins.length(model.data.playlist_ids) }} == 0"
-        >There are no playlists. <span class="clickable">Want to create one?</span>
+        >There are no playlists. <span class="clickable active">Want to create one?</span>
         </div>
         <div class="h__k" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
             <div class="h__k"
                 data-foreach="model.data.playlist_ids"
                 data-foreach-map="true"
             >
-                <div class="flex vertical-align hh120 clickable bg-grey-ll-hover bb h__k"
+                <div class="flex vertical-align hh120 clickable active bg-grey-ll-hover bb h__k"
                     data-on-click="publish"
                     data-publish="session:active"
                     data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist'}"

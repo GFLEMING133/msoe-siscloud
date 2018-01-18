@@ -1,7 +1,7 @@
 <div class="body-header">
     <div class="pull-top bg-white w100">
         <div class="white bg-black w100 center no-stuffing flex">
-            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+            <div class="w15 pt20 center fa fa-arrow-left f-large clickable active bg-grey-hover h__k"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'secondary':'false'}"
@@ -13,30 +13,30 @@
         </div>
     </div>
     <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}">
-        <div class="bb p10 bg-grey-ll-hover clickable h__k" data-on-click="model.home">Home</div>
+        <div class="bb p10 bg-grey-ll-hover clickable active h__k" data-on-click="model.home">Home</div>
 
-        <div class="bb p10 bg-grey-ll-hover clickable h__k {{= (model.jog_type == 'jogThetaLeft') ? 'bg-grey-ll' : '' }}"
+        <div class="bb p10 bg-grey-ll-hover clickable active h__k {{= (model.jog_type == 'jogThetaLeft') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaLeft"
         >Jog Theta Left</div>
-        <div class="bb p10 bg-grey-ll-hover clickable h__k {{= (model.jog_type == 'jogThetaRight') ? 'bg-grey-ll' : '' }}"
+        <div class="bb p10 bg-grey-ll-hover clickable active h__k {{= (model.jog_type == 'jogThetaRight') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaRight"
         >Jog Theta Right</div>
-        <div class="bb p10 bg-grey-ll-hover clickable h__k {{= (model.jog_type == 'jogRhoOutward') ? 'bg-grey-ll' : '' }}"
+        <div class="bb p10 bg-grey-ll-hover clickable active h__k {{= (model.jog_type == 'jogRhoOutward') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogRhoOutward"
         >Jog Rho Outward</div>
-        <div class="bb p10 bg-grey-ll-hover clickable h__k {{= (model.jog_type == 'jogRhoInward') ? 'bg-grey-ll' : '' }}"
+        <div class="bb p10 bg-grey-ll-hover clickable active h__k {{= (model.jog_type == 'jogRhoInward') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
