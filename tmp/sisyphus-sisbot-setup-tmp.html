@@ -52,12 +52,12 @@
                     </div>
 
                     <label class="pt20 pb20 vertical h__k"
-                        data-on-click="toggle"
+                        data-on-click="model.set_autodim_default"
                         data-field="model.default_settings.is_autodim"
                         data-if="{{= model.default_settings.is_autodim }} !== undefined"
                     >
                         <input class="hidden h__k" type="checkbox"
-                            data-field="model.default_settings.is_autodim"
+                            data-field="toggle|model.default_settings.is_autodim"
                             data-checked="{{= model.default_settings.is_autodim }}"
                         />
                         <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>

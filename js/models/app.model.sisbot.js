@@ -850,6 +850,11 @@ app.model.sisbot = {
 	brightness_min: function () {
 		this.brightness(0);
 	},
+	set_autodim_default: function () {
+		// flip it so autodim_toggle can reflip it
+		this.set('data.is_autodim', app.plugins.bool_opp[this.get('default_settings.is_autodim')]);
+		this.autodim_toggle();
+	},
 	autodim_toggle: function () {
 		var data		= this.get('data');
 		data.is_autodim = app.plugins.bool_opp[data.is_autodim];

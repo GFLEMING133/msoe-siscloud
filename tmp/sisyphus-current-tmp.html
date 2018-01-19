@@ -54,6 +54,22 @@
                                 ></div>
                             </div>
         				</div>
+                        <div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                            <div class="h__k" data-if="{{= model.data.is_loop }} !== false">
+            	                <div class="h__k"
+            	                    data-foreach="model.data.next_tracks"
+            	                    data-foreach-change="foreach_reset"
+            	                >
+                                    <div class="h__k" data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
+                                        <div class="h__k"
+                                            data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                                            data-if="{{= scope.index }} > {{= (parent.data.is_shuffle == 'true') ? 0 : -1 }}"
+                                            data-template="sisyphus-tracks-list-item-tmp"
+                                        ></div>
+                                    </div>
+                                </div>
+            				</div>
+                        </div>
                     </div>
                 </div>
             </div>
