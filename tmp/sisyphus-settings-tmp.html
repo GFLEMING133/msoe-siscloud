@@ -11,7 +11,7 @@
         <h3 class="no-stuffing p20 fs18 lh18 strong">Speed & Brightness</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
-                <i class="fa fa-sun-o center clickable grey" aria-hidden="true"></i>
+                <i class="fa fa-sun-o center clickable active grey" aria-hidden="true"></i>
             </div>
             <div class="w90 flex relative center">
                 <span class="w2-5"></span>
@@ -22,7 +22,7 @@
                 <span class="w2-5"></span>
             </div>
             <div class="w5 center blue-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
-                <i class="fa fa-sun-o f-large center clickable grey" aria-hidden="true"></i>
+                <i class="fa fa-sun-o f-large center clickable active grey" aria-hidden="true"></i>
             </div>
         </div>
         <div class="pl20 pt5 pb5 pr20 w100 vertical h__k"
@@ -39,7 +39,7 @@
             <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
         <div class="flex vertical-align  pl20 pr20 pb20 bb h__k" data-model="{{= model.sisbot_id }}">
-            <div class="w5 center clickable pt15 pb15 h__k" data-on-click="model.speed_min">
+            <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
             </div>
             <div class="w90 flex relative center">
@@ -51,15 +51,15 @@
                 />
                 <span class="w5"></span>
             </div>
-            <div class="w5 center clickable pt15 pb15 h__k" data-on-click="model.speed_max">
+            <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_max">
                 <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
             </div>
         </div>
 
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'secondary':'advanced_info'}"
+            data-msg="{'secondary':'software-update'}"
         >
             <span>
                 <span class="strong">Software Update</span>
@@ -73,7 +73,7 @@
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
         </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'night_mode'}"
@@ -83,7 +83,7 @@
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
         </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'advanced_settings'}"
@@ -93,7 +93,7 @@
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
         </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'about'}"
@@ -103,7 +103,7 @@
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
         </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'go-to-sleep'}"
@@ -116,10 +116,10 @@
         <div class="hh150">&nbsp;</div>
     </div>
 </div>
-<!------------------------- ADVANCED INFO ------------------------------------->
+<!------------------------- SOFTWARE UPDATE ----------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == advanced_info"
-    data-template="sisyphus-settings-advanced-info-tmp"
+    data-if="{{= parent.active.secondary }} == software-update"
+    data-template="sisyphus-settings-software-update-tmp"
 ></div>
 <!------------------------- TOS ----------------------------------------------->
 <div class="h100 h__k"
@@ -205,4 +205,9 @@
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == factory-reset"
     data-template="sisyphus-settings-factory-reset-tmp"
+></div>
+<!------------------------- LOG FILES ----------------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == log-files"
+    data-template="sisyphus-settings-log-files-tmp"
 ></div>

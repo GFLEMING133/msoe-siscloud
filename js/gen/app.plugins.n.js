@@ -14,7 +14,7 @@ app.plugins.n = {
 	    confirm: function (msg, cb, title, btnName) {
 	        if (!cb) cb = function() {};
 			var conf = window.confirm(msg);
-			var resp = (conf == false) ? 0 : 1;
+			var resp = (conf == false) ? 1 : 2;
 			cb(resp);
 	    }
 	}

@@ -1,6 +1,6 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w15 center clickable blue-hover h__k"
+        <div class="w15 center clickable active blue-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -11,7 +11,7 @@
         <div class="w15 center f-large">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'change_table_name'}"
@@ -19,7 +19,7 @@
             <span class="strong">Table Name</span>
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'change_hostname'}"
@@ -28,7 +28,7 @@
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
         <div class="h__k" data-model="{{= model.sisbot_id }}">
-            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
                 data-if="{{= model.data.is_internet_connected }} == false"
                 data-on-click="publish"
                 data-publish="session:active"
@@ -37,7 +37,7 @@
                 <span class="strong">Connect to wifi network</span>
                 <span class="pull-right fa fa-chevron-right"></span>
             </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
                 data-if="{{= model.data.is_internet_connected }} == true"
                 data-on-click="model.disconnect_wifi"
             >
@@ -45,12 +45,20 @@
                 <span class="pull-right fa fa-chevron-right"></span>
             </div>
         </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable h__k"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'factory-reset'}"
         >
             <span class="strong">Factory Reset</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'log-files'}"
+        >
+            <span class="strong">Log Files</span>
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
         <div class="bb p20 fs14 flex h__k" data-model="{{= model.sisbot_id }}">

@@ -1476,8 +1476,7 @@ var Binding = Backbone.View.extend({
         app.scripts.fetch('js/libs/lib.datepicker.min.js', function () {
             if (!self.$el) return false;
 
-            self.$el
-                .datepicker(self.get_value(self.data.date))
+            self.$el.datepicker('hide')
                 .on('changeDate', function (e) {
                     self.$el.data().datepicker.hide();
                     self.update();
@@ -1502,8 +1501,12 @@ var Binding = Backbone.View.extend({
     sortable: function () {
         var self = this;
 
+        console.log('we here');
+
         app.scripts.fetch('js/libs/lib.sortable.min.js', function () {
             if (!self.$el) return false;
+
+            console.log('we inside sortable', self.$el[0], self.data.sortable);
 
             // only works on arrays
             var sortable = Sortable.create(self.$el[0], {
@@ -1511,6 +1514,7 @@ var Binding = Backbone.View.extend({
                 forceFallback       : false,
                 scrollSensitivity   : 30,
                 scrollSpeed         : 20,
+                delay               : 200,
                 onSort: function (evt) {
                     self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
                 }

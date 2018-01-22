@@ -1,5 +1,5 @@
 <div class="h__k" data-run="model.collapse">
-	<div class="flex clickable h__k {{= (model.is_expanded == 'true') ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}">
+	<div class="flex clickable active h__k {{= (model.is_expanded == 'true') ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}">
 		<div class="w20 pt10 pb10 pl20 center vertical h__k" data-on-click="toggle" data-field="model.is_expanded">
 			<div class="w80p hh80">
 				<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
@@ -21,7 +21,7 @@
 		<div class="w25 center pt15 pb15 h__k" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
 			<img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" />
 		</div>
-		<div class="w25 clickable center pt15 pb15 h__k"
+		<div class="w25 clickable active center pt15 pb15 h__k"
 			data-run="model.is_playlist_favorite"
 			data-on-click="model.favorite_toggle"
 		>
@@ -32,12 +32,12 @@
  				data-if="{{= model.is_favorite }} == true"
  			 />
 		</div>
-		<div class="w25 clickable center pt15 pb15 h__k"
+		<div class="w25 clickable active center pt15 pb15 h__k"
 			data-on-click="publish"
 			data-publish="modal:open"
 			data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
 		><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
-		<div class="w25 clickable center pt15 pb15 h__k"
+		<div class="w25 clickable active center pt15 pb15 h__k"
 			data-on-click="publish"
 			data-publish="session:active"
 			data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"

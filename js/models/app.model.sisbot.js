@@ -53,6 +53,9 @@ app.model.sisbot = {
 			default_settings				: {},
 			default_settings_error			: 'false',
 
+			log_date						: moment().format('MM/DD/YYYY'),
+			log_type						: 'sisbot',		// sisbot|plotter|proxy
+
 			edit		: {},
 			data		: {
 				id					: data.id,
@@ -105,9 +108,12 @@ app.model.sisbot = {
 				is_autodim			: 'true',
 				is_nightlight		: 'false',
 				is_sleeping			: 'false',
+				timezone_offset		: moment().format('Z'),
 				nightlight_brightness: 0.2,
 				sleep_time			: '',					// 10:00 PM sleep_time
-				wake_time			: ''					// 8:00 AM  wake_time
+				wake_time			: '',					// 8:00 AM  wake_time
+
+				share_log_files		: 'false'
 			}
 		};
 
@@ -372,6 +378,7 @@ app.model.sisbot = {
 
 		var defaults = {
 			do_not_remind			: 'true',
+			timezone_offset			: moment().format('Z'),
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
@@ -613,10 +620,13 @@ app.model.sisbot = {
 		var data = this.get('data');
 		_.extend(data, edit);
 
-		this._update_sisbot('save', data, function(obj) {
+		data.timezone_offset = moment().format('Z');
+
+		this._update_sisbot('set_sleep_time', data, function(obj) {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { secondary: 'false' });
 			}
 		});
@@ -712,6 +722,43 @@ app.model.sisbot = {
 	save_to_sisbot: function (data) {
 		this._update_sisbot('save', data, function(obj) {});
 	},
+	save_log_sharing: function (data) {
+		if (this.is_legacy())
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
+		var self		= this;
+		var logfiles	= this.get('edit.share_log_files');
+		var errors 		= [];
+
+		this.set('errors', []);
+
+		var data = this.get('data');
+		data.share_log_files = logfiles;
+
+		if (app.config.env == 'alpha') {
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
+			this.set('data.share_log_files', logfiles);
+		}
+
+		this._update_sisbot('save', data, function(obj) {
+			if (obj.err) {
+				self.set('errors', [ obj.err ]);
+			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
+				app.trigger('session:active', { secondary: 'advanced_settings' });
+			}
+		});
+	},
+	get_log_file: function() {
+		// { filename: 'YYYYMMDD_sisbot|plotter|proxy', }
+
+		var date 		= this.get('log_date').split('/');
+		var type 		= this.get('log_type');
+		var file 		= date[2] + date[0] + date[1] + '_' + type;
+		var file_url 	= 'http://' + this.get('data.local_ip') + '/sisbot/download_log_file/' + file;
+
+		app.plugins.file_download(file_url);
+	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (playlist_data) {
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
@@ -793,6 +840,7 @@ app.model.sisbot = {
 	default_brightness: function (level) {
 		var self = this;
 		this.set('default_settings.brightness', +level);
+		this.brightness(level);
 	},
 	brightness: function (level) {
 		var self = this;
@@ -816,6 +864,11 @@ app.model.sisbot = {
 	},
 	brightness_min: function () {
 		this.brightness(0);
+	},
+	set_autodim_default: function () {
+		// flip it so autodim_toggle can reflip it
+		this.set('data.is_autodim', app.plugins.bool_opp[this.get('default_settings.is_autodim')]);
+		this.autodim_toggle();
 	},
 	autodim_toggle: function () {
 		var data		= this.get('data');
@@ -857,18 +910,6 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.is_loop', app.plugins.bool_opp[this.get('data.is_loop')]);
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
-			if (obj.resp) app.manager.intake_data(obj.resp);
-		});
-	},
-	/******************** SLEEP ***********************************************/
-	set_sleep_time: function () {
-		var self = this;
-		var data = {
-			sleep_time: this.get('data.sleep_time'),
-			wake_time: this.get('data.wake_time')
-		};
-
-		this._update_sisbot('set_sleep_time', data, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
@@ -1035,6 +1076,17 @@ app.model.sisbot = {
 		var self	= this;
 		var cbs		= 2;
 
+		if (this.get('data.is_hotspot') == 'true') {
+			// hotspot.. Can't get status
+			return this.set('has_software_update', 'false')
+		}
+
+		var version = self.get('data.software_version').split('.');
+		if (+version[1] % 2 == 1) {
+			// beta.. Always allow download
+			return self.set('has_software_update', 'true');
+		}
+
 		if (this.get('is_connected'))
 			this.check_local_versions(on_cb);
 
@@ -1069,7 +1121,6 @@ app.model.sisbot = {
 
 				self.set('has_software_update', '' + has_update);
 			}
-
 		}
 
 		return this;

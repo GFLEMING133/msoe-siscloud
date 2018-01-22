@@ -51,6 +51,8 @@ app.model.sisyphus_manager = {
 			community_playlist_ids	: [],
 			community_track_ids		: [],
 
+			is_ble_enabled			: 'false',
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisyphus_manager',
@@ -87,6 +89,8 @@ app.model.sisyphus_manager = {
 			app.current_session().check_session_sign_in();
 		}
 
+		this.check_ble_status();
+
 		return this;
 	},
 	intake_data: function(given_data) {
@@ -107,6 +111,30 @@ app.model.sisyphus_manager = {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
 	/**************************** BLUETOOTH ***********************************/
+	open_ble_settings: function () {
+		window.cordova.plugins.settings.open('bluetooth', function success(resp) {
+			// do nothing
+		}, function error(err) {
+			// do nothing
+		});
+	},
+	check_ble_status: function () {
+		if (!app.is_app) {
+			this.set('is_ble_enabled', 'true');
+			return this;
+		}
+
+		var self = this;
+
+		cordova.plugins.BluetoothStatus.initPlugin();
+
+		window.addEventListener('BluetoothStatus.enabled', function() {
+			self.set('is_ble_enabled', 'true');
+		});
+		window.addEventListener('BluetoothStatus.disabled', function() {
+			self.set('is_ble_enabled', 'false');
+		});
+	},
 	start_ble_scan: function (device_name, cb) {
 		var self = this;
 
@@ -407,8 +435,8 @@ app.model.sisyphus_manager = {
 
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
 			// we are attempting to reconnect to hotspot
-			self.set('sisbot_reconnecting', 'true');
 			self.get_model('sisbot_id')._poll_restart();
+			self.set('sisbot_reconnecting', 'true');
 		}, function error(err) {
 			self.set('sisbot_reconnecting', 'false');
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
@@ -434,7 +462,9 @@ app.model.sisyphus_manager = {
 		this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
 	},
 	check_reconnect_status: function () {
-		if (this.get('sisbot_reconnecting') == 'true' && this.get('is_sisbot_available') == 'true') {
+		var sisbot = this.get_model('sisbot_id');
+
+		if (this.get('sisbot_reconnecting') == 'true' && this.get('is_sisbot_available') == 'true' && sisbot.get('data.do_not_remind') == 'false') {
 			// wifi failed and we needed to reconnect
 			this.set('sisbot_connecting', 'false');
 			this.set('sisbot_reconnecting', 'false');
@@ -1097,12 +1127,12 @@ app.model.sisyphus_manager = {
 					id: '1f274aa7-6214-4172-b251-a5ac33d36184'
 				},
 				state				: 'paused',
-				software_version	: '1.0.1',
+				software_version	: '1.1.17',
 				is_network_connected: 'false',
 				is_internet_connected: 'false',
 				is_serial_open		: 'true',
 				hostname			: 'sisyphus-dummy.local',
-				is_hotspot			: 'true',
+				is_hotspot			: 'false',
 				hostname_prompt		: 'false',
 				do_not_remind		: 'true',
 				is_autodim			: 'true',

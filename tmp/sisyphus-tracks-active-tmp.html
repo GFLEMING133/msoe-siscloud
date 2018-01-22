@@ -1,6 +1,6 @@
 <div class="h100 h__k" data-model="{{= session.active.track_id }}">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 left pl20 clickable h__k"
+        <div class="w30 left pl20 clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -21,7 +21,7 @@
                 data-foreach-map="true"
                 data-foreach-change="foreach_reset"
             >
-                <div class="p10 bb-med clickable bg-grey-ll-hover h__k"
+                <div class="p10 bb-med clickable active bg-grey-ll-hover h__k"
                     data-on-click="parent.playlist_add_finish"
                     data-msg="{{= model.id }}"
                 >Add to "{{= model.data.name }}"</div>

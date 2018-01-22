@@ -30,6 +30,7 @@ app.model.playlist = {
 
 				tracks           	: [], 				// list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
 				sorted_tracks		: [],				// display to users
+				next_tracks			: [],				// 
 
 				created_by_id		: 'false',
 				created_by_name		: 'User Name',
