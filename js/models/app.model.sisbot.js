@@ -898,6 +898,14 @@ app.model.sisbot = {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
+	disconnect: function () {
+		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {
+			if (resp_num == 1)
+				return self;
+
+			window.location.reload();
+		}, 'Disconnect?', ['Cancel', 'OK']);
+	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
 		console.log('we add playlist', playlist_model)
@@ -956,7 +964,7 @@ app.model.sisbot = {
 		var self = this;
 
 		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone.', function(resp_num) {
-			if (resp_num == 0)
+			if (resp_num == 1)
 				return self;
 
 			if (app.config.env == 'alpha') {
