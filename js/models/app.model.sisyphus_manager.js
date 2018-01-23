@@ -725,9 +725,6 @@ app.model.sisyphus_manager = {
 			}
 		}, 0);
 	},
-    disconnect: function () {
-		this.set('sisbot_id','false');
-	},
 	/**************************** NETWORK INFO **********************************/
 	get_network_ip_address: function (cb) {
 		networkinterface.getWiFiIPAddress(function on_success(ip_address) {
