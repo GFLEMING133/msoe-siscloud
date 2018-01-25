@@ -80,7 +80,7 @@ app.model.sisyphus_manager = {
 		app.current_session().set('signed_in','true');
 
 		if (app.config.env == 'sisbot') {
-			return this.setup_as_sisbot();
+			this.setup_as_sisbot();
 		} else if (app.config.env == 'alpha') {
 			//this.setup_demo();
 		} else if (app.config.env == 'beta'){
