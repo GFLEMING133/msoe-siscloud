@@ -36,6 +36,7 @@ app.model.sisbot = {
 
 			has_software_update				: 'false',
 			is_connected					: false,
+			is_socket_connected				: 'false',
 			is_polling						: 'true',
 			is_jogging						: false,
 			jog_type						: '',
@@ -215,8 +216,6 @@ app.model.sisbot = {
 	_fetch_cloud: function () {
 		if (this._fetching_cloud) 	return this;
 
-		console.log('fetch cloud');
-
 		var self = this;
 		this._fetching_cloud = true;
 
@@ -286,13 +285,27 @@ app.model.sisbot = {
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
-		console.log("Sisbot: Socket Connect");
-		this.set('is_polling', "false");
-		clearTimeout(this.polling_timeout);
-	},
-	_socket_disconnect: function() {
 		var self = this;
 
+		console.log("Sisbot: Socket Connect");
+
+		this.set('is_socket_connected', 'true');
+		this.set('is_polling', "false");
+
+		clearTimeout(this.polling_timeout);
+
+		app.manager.set('is_sisbot_available', 'true');
+
+		setTimeout(function() {
+			self._update_sisbot('state', {}, function (obj) {
+				if (obj.resp) app.manager.intake_data(obj.resp);
+			});
+		}, 10000);
+	},
+	_socket_disconnect: function() {
+		this.set('is_socket_connected', 'false');
+
+		var self = this;
 		console.log("Sisbot: Socket Disconnect");
 
 		if (this.get('is_polling') == "false") {
@@ -315,15 +328,33 @@ app.model.sisbot = {
 		if (this._poll_timer == false)
 			this._poll_timer = moment();
 
-		if (moment().diff(this._poll_timer) > 15000) {
+		var disconnect_length = moment().diff(this._poll_timer);
+
+		this.set('disconnect_length', disconnect_length);
+
+		if (disconnect_length > 15000) {
 			this._fetch_bluetooth();
 			this._fetch_cloud();
 		}
 
-		if (moment().diff(this._poll_timer) > 75000) {
+
+		if ((this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true')
+			&& disconnect_length > 75000) {
 			this.set('is_polling', 'false');
+			console.log('set manager to false');
 			app.manager.set('is_sisbot_available', 'false');
+		} else if (this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true') {
+			// do nothing.. We haven't timed out
+		} else if (disconnect_length > 1500) {
+			if (this.get('is_socket_connected') == 'true') {
+				// we have polling from old requests that have timed out after socket reconnected. Ignore
+			} else {
+				this.set('is_polling', 'false');
+				app.manager.set('is_sisbot_available', 'false');
+			}
 		}
+
+		return this;
 	},
 	_poll_restart: function () {
 		this._poll_timer = false;
@@ -348,12 +379,12 @@ app.model.sisbot = {
 			} else if (obj.err) {
 				self._poll_failure();
 			}
-		});
+		}, 500);
 
 		if (this.get('is_polling') == "true") {
 			this.polling_timeout = setTimeout(function () {
 				self._poll_state();
-			}, 6000);
+			}, 1000);
 		}
 
 		return this;
@@ -483,9 +514,11 @@ app.model.sisbot = {
 				// do nothing
 				self.set('is_polling', 'false')
 					.set('data.is_internet_connected', 'false')
+					.set('data.is_hotspot',	'true')
 					.set('data.wifi_network', 'false')
 					.set('data.wifi_password', 'false')
 					.set('data.reason_unavailable', 'disconnect_from_wifi');
+
 				app.manager.set('is_sisbot_available', 'false');
 			});
 		}
@@ -590,6 +623,20 @@ app.model.sisbot = {
 	setup_edit: function () {
 		this.set('edit', this.get('data'))
 			.set('errors', []);
+
+		return this;
+	},
+	nightmode_disable_toggle: function () {
+		var status = this.get('edit.sleep_time');
+
+		if (status == 'false') {
+			this.set('edit.sleep_time', '10:00 PM')
+				.set('edit.wake_time', '8:00 AM')
+				.set('is_nightlight', 'false');
+		} else {
+			this.set('edit.sleep_time', 'false')
+				.set('edit.wake_time', 'false');
+		}
 
 		return this;
 	},
@@ -829,7 +876,8 @@ app.model.sisbot = {
 	},
 	brightness: function (level) {
 		var self = this;
-		this.set('data.brightness', +level);
+		this.set('data.brightness', +level)
+			.set('edit.brightness', +level);
 		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
 			// do nothing
 		});
@@ -851,8 +899,8 @@ app.model.sisbot = {
 		this.brightness(0);
 	},
 	set_autodim_default: function () {
-		// flip it so autodim_toggle can reflip it
-		this.set('data.is_autodim', app.plugins.bool_opp[this.get('default_settings.is_autodim')]);
+		var opp = app.plugins.bool_opp[this.get('default_settings.is_autodim')];
+		this.set('default_settings.is_autodim', opp);
 		this.autodim_toggle();
 	},
 	autodim_toggle: function () {
@@ -865,7 +913,8 @@ app.model.sisbot = {
 		});
 	},
 	speed: function (level) {
-		this.set('data.speed', +level);
+		this.set('data.speed', +level)
+			.set('edit.speed', +level);
 		this._update_sisbot('set_speed', { value: +level }, function (obj) {});
 	},
 	speed_up: function () {

@@ -19,37 +19,31 @@
                 <div class="flex mt30">
                     <div class="w50 pr20">
                         <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Start</h4>
-                        <input class="h__k right fs18 p5 w100" type="text" placeholder="10:00PM"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        <div class="h__k corner-5px right fs18 lh18 p10 b2 bg-white w100" type="text" placeholder="10:00 PM"
+                            data-on-click="time_open"
                             data-field="model.default_settings.sleep_time"
-                            value="{{= model.default_settings.sleep_time }}"
                             data-time="{{= model.default_settings.sleep_time }}"
-                        />
+                        >{{= model.default_settings.sleep_time }}</div>
                     </div>
                     <div class="w50 pr20">
                         <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">End</h4>
-                        <input class="h__k right fs18 p5 w100" type="text" placeholder="8:00AM"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        <div class="h__k corner-5px right fs18 lh18 p10 b2 bg-white w100" type="text" placeholder="8:00 AM"
+                            data-on-click="time_open"
                             data-field="model.default_settings.wake_time"
-                            value="{{= model.default_settings.wake_time }}"
                             data-time="{{= model.default_settings.wake_time }}"
-                        />
+                        >{{= model.default_settings.wake_time }}</div>
                     </div>
                     <div class="w20">&nbsp;</div>
                 </div>
-                <label class="pt20 pb20 vertical h__k"
+                <div class="pt20 pb20 vertical h__k"
                     data-on-click="toggle"
                     data-field="model.default_settings.is_nightlight"
                     data-if="{{= model.default_settings.is_nightlight }} !== undefined"
                 >
-                    <input class="hidden h__k" type="checkbox"
-                        data-field="model.default_settings.is_nightlight"
-                        data-checked="{{= model.default_settings.is_nightlight }}"
-                    />
                     <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_nightlight }} == true"></span>
                     <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.is_nightlight }} !== true"></span>
                     <p class="no-stuffing pl10 w100 fs18">Enable Night Light</p>
-                </label>
+                </div>
 
                 <div class="h__k mb10" data-if="{{= model.default_settings.is_nightlight }} == true">
                     <h4 class="pb10 fs18 lh18 strong no-stuffing">Adjust Night Light Brightness</h4>

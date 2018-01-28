@@ -1494,9 +1494,13 @@ var Binding = Backbone.View.extend({
                 .timepicker({ 'timeFormat': 'g:i A', 'step': 15, 'forceRoundTime': true })
                 .timepicker('setTime', self.get_value(self.data.time))
                 .on('changeTime', function (e) {
-                    self.update();
+                    var d = new Date(self.$el.timepicker('getTime'));
+                    self.ctx.set(self.data.field,  moment(d).format('h:mm A'));
                 });
         });
+    },
+    time_open: function() {
+        this.$el.timepicker().show()
     },
     sortable: function () {
         var self = this;

@@ -18,6 +18,9 @@ app.model.session = {
 				track_id			: 'false',
 				sisbot_id			: 'false'
 			},
+			toggle: {
+				expanded			: 'false',
+			},
 			debug_mode				: 'false',
 			sisbot_hostnames		: [],
 
@@ -45,6 +48,7 @@ app.model.session = {
 
   		this.listenTo(app,	'session:sign_out',			this.sign_out);
 		this.listenTo(app,	'session:active',			this.set_active);
+		this.listenTo(app,	'session:toggle',			this.set_toggle);
 		this.listenTo(app,	'session:user_sign_in',		this.after_sign_in);
 
 		this.on('change:active.new_type', this.create_new_active);
@@ -149,6 +153,12 @@ app.model.session = {
 		_.each(msg, function(val, key) {
 			self.set('active.' + key, val);
 		});
+	},
+	set_toggle: function (msg) {
+		var status = this.get('toggle.' + msg.key);
+
+		if (status == msg.val) 	this.set('toggle.' + msg.key, 'false');
+		else					this.set('toggle.' + msg.key, msg.val);
 	},
 	/************************** SETUP SIGN IN **********************************/
 	after_sign_in: function (obj) {

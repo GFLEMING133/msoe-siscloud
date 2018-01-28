@@ -64,6 +64,8 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
+		if (window.cordova)						StatusBar.show();
+
 		app.plugins.n.initialize();
 
 		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
@@ -420,10 +422,9 @@ app.model.sisyphus_manager = {
 		self.set('sisbot_registration', 'waiting');
 
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
-			// Add 10 second timeout to ensure connection to sisbot network
 			self.await_network_connection(function () {
 				self.set('sisbot_registration', 'find');
-			});
+			}, 0);
 		}, function error(err) {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
@@ -442,13 +443,32 @@ app.model.sisyphus_manager = {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
 	},
-	await_network_connection: function (cb) {
+	open_network_settings_for_hotspot: function () {
+		var self = this;
+
+		self.set('sisbot_reconnecting', 'true');
+
+		window.cordova.plugins.settings.open('wifi', function success(resp) {
+			// we are attempting to reconnect to hotspot
+			self.await_network_connection(function () {
+				self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
+			}, 0);
+		}, function error(err) {
+			self.set('sisbot_reconnecting', 'false');
+			alert('Error opening wifi settings. Please manually go to your wifi settings');
+		});
+	},
+	await_network_connection: function (cb, count) {
 		var self = this;
 
 		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 			setTimeout(function() {
-				self.await_network_connection(cb);
-			}, 100);
+				self.await_network_connection(cb, 0);
+			}, 1000);
+		} else if (count < 5) {
+			setTimeout(function() {
+				self.await_network_connection(cb, ++count);
+			}, 1000);
 		} else {
 			cb();
 		}
@@ -1131,7 +1151,7 @@ app.model.sisyphus_manager = {
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'false',
 				hostname_prompt		: 'false',
-				do_not_remind		: 'true',
+				do_not_remind		: 'false',
 				is_autodim			: 'true',
 				sleep_time			: '10:00 PM',
 				wake_time			: '8:00 AM',
