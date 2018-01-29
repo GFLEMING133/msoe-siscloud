@@ -34,7 +34,7 @@
             <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
-        <div class="flex vertical-align  pl20 pr20 pb20 bb h__k" data-model="{{= model.sisbot_id }}">
+        <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
             </div>
@@ -50,6 +50,15 @@
             <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_max">
                 <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
             </div>
+        </div>
+        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-on-click="model.pause_between_tracks"
+            data-if="{{= model.data.is_paused_between_tracks }} !== undefined"
+        >
+            <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
+            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.edit.is_paused_between_tracks }} == false"></span>
+            <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
         </div>
 
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"

@@ -1505,12 +1505,8 @@ var Binding = Backbone.View.extend({
     sortable: function () {
         var self = this;
 
-        console.log('we here');
-
         app.scripts.fetch('js/libs/lib.sortable.min.js', function () {
             if (!self.$el) return false;
-
-            console.log('we inside sortable', self.$el[0], self.data.sortable);
 
             // only works on arrays
             var sortable = Sortable.create(self.$el[0], {

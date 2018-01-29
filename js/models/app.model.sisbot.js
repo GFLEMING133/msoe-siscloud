@@ -114,6 +114,7 @@ app.model.sisbot = {
 				sleep_time			: '',					// 10:00 PM sleep_time
 				wake_time			: '',					// 8:00 AM  wake_time
 
+				is_paused_between_tracks: 'false',
 				share_log_files		: 'false'
 			}
 		};
@@ -791,6 +792,24 @@ app.model.sisbot = {
 
 		app.plugins.file_download(file_url);
 	},
+	pause_between_tracks: function() {
+		if (this.is_legacy())
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
+		var self		= this;
+		var state		= app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
+
+		this.set('edit.is_paused_between_tracks', state)
+			.set('errors', []);
+
+		this._update_sisbot('set_pause_between_tracks', { is_paused_between_tracks: state }, function(obj) {
+			if (obj.err) {
+				self.set('errors', [ obj.err ]);
+			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
+			}
+		});
+	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (playlist_data) {
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
@@ -957,8 +976,6 @@ app.model.sisbot = {
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
-		console.log('we add playlist', playlist_model)
-
 		var self		= this;
 		var playlist	= playlist_model.get('data');
 

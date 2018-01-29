@@ -1151,7 +1151,7 @@ app.model.sisyphus_manager = {
 				hostname			: 'sisyphus-dummy.local',
 				is_hotspot			: 'false',
 				hostname_prompt		: 'false',
-				do_not_remind		: 'false',
+				do_not_remind		: 'true',
 				is_autodim			: 'true',
 				sleep_time			: '10:00 PM',
 				wake_time			: '8:00 AM',
@@ -1187,8 +1187,11 @@ app.model.sisyphus_manager = {
 				}, {
 					id			: '3',
 					reversible	: 'false'
+				}, {
+					id			: '1f274aa7-6214-4172-b251-a5ac33d36184',
+					reversible	: 'false'
 				}],
-				sorted_tracks: [ 0, 1, 2 ],
+				sorted_tracks: [ 0, 1, 2, 3 ],
 			}, {
 				id          		: '3fdab229-5c60-4a86-8713-adb7edd494fe',
 				type        		: 'playlist',
