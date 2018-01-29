@@ -373,7 +373,7 @@ app.model.sisbot = {
 				self._poll_timer = false;
 				app.manager.set('is_sisbot_available', 'true');
 
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
 					app.socket.initialize();		// try to connect to socket
 				}
