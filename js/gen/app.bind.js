@@ -1490,17 +1490,25 @@ var Binding = Backbone.View.extend({
         app.scripts.fetch('js/libs/lib.timepicker.min.js', function () {
             if (!self.$el) return false;
 
-            self.$el
-                .timepicker({ 'timeFormat': 'g:i A', 'step': 15, 'forceRoundTime': true })
-                .timepicker('setTime', self.get_value(self.data.time))
-                .on('changeTime', function (e) {
-                    var d = new Date(self.$el.timepicker('getTime'));
-                    self.ctx.set(self.data.field,  moment(d).format('h:mm A'));
-                });
+            try {
+                self.$el
+                    .timepicker({ 'timeFormat': 'g:i A', 'step': 15, 'forceRoundTime': true, disableTouchKeyboard: true })
+                    .timepicker('setTime', self.get_value(self.data.time))
+                    .on('changeTime', function (e) {
+                        var d = new Date(self.$el.timepicker('getTime'));
+                        self.$el.timepicker('hide');
+
+                        setTimeout(function() {
+                            self.ctx.set(self.data.field,  moment(d).format('h:mm A'));
+                        }, 200);
+                    });
+            } catch(err) {
+                // do nothing
+            }
         });
     },
     time_open: function() {
-        this.$el.timepicker().show()
+        this.$el.timepicker().show();
     },
     sortable: function () {
         var self = this;
@@ -1511,10 +1519,12 @@ var Binding = Backbone.View.extend({
             // only works on arrays
             var sortable = Sortable.create(self.$el[0], {
                 handle              : self.data.sortable,
-                forceFallback       : false,
+                forceFallback       : true,
                 scrollSensitivity   : 30,
                 scrollSpeed         : 20,
                 delay               : 200,
+                moveThreshold       : 5,
+
                 onSort: function (evt) {
                     self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
                 }

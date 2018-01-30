@@ -115,6 +115,7 @@ app.model.sisbot = {
 				wake_time			: '',					// 8:00 AM  wake_time
 
 				is_paused_between_tracks: 'false',
+				is_waiting_between_tracks: 'false',
 				share_log_files		: 'false'
 			}
 		};
@@ -627,13 +628,27 @@ app.model.sisbot = {
 
 		return this;
 	},
+	nightmode_disable_toggle_setup: function () {
+		var status = this.get('default_settings.sleep_time');
+
+		if (status == 'false') {
+			this.set('default_settings.sleep_time', '10:00 PM')
+				.set('default_settings.wake_time', '8:00 AM')
+				.set('default_settings.is_nightlight', 'false');
+		} else {
+			this.set('default_settings.sleep_time', 'false')
+				.set('default_settings.wake_time', 'false');
+		}
+
+		return this;
+	},
 	nightmode_disable_toggle: function () {
 		var status = this.get('edit.sleep_time');
 
 		if (status == 'false') {
 			this.set('edit.sleep_time', '10:00 PM')
 				.set('edit.wake_time', '8:00 AM')
-				.set('is_nightlight', 'false');
+				.set('edit.is_nightlight', 'false');
 		} else {
 			this.set('edit.sleep_time', 'false')
 				.set('edit.wake_time', 'false');

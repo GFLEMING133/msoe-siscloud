@@ -32,7 +32,12 @@
                 <div class="fs18 lh18 pl20 pr20 no-stuffing">No Current Track Playing</div>
             </div>
             <div class="h__k" data-if="{{= model.data.active_track.id }} !== false">
-                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong">Now Playing</div>
+                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
+                    data-if="{{= model.data.is_waiting_between_tracks }} == true"
+                >Finished Playing</div>
+                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
+                    data-if="{{= model.data.is_waiting_between_tracks }} == false"
+                >Now Playing</div>
                 <div class="h__k"
                     data-model="{{= model.data.active_track.id }}"
                     data-template="sisyphus-tracks-list-item-tmp"

@@ -1,6 +1,10 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 h__k">&nbsp;</div>
+        <div class="w30 left pl20 clickable active blue-hover h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w40">
             <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Night Mode</h1>
         </div>
@@ -44,7 +48,6 @@
                             data-time="{{= model.edit.wake_time }}"
                         >{{= model.edit.wake_time }}</div>
                     </div>
-                    <div class="w20">&nbsp;</div>
                 </div>
                 <div class="pt20 pb20 w100 vertical h__k"
                     data-on-click="toggle"
