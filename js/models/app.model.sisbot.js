@@ -56,6 +56,7 @@ app.model.sisbot = {
 
 			log_date						: moment().format('MM/DD/YYYY'),
 			log_type						: 'sisbot',		// sisbot|plotter|proxy
+			uploading_track					: 'false',
 
 			edit		: {},
 			data		: {
@@ -164,7 +165,7 @@ app.model.sisbot = {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-		if (!_timeout) _timeout = 60000;
+		if (!_timeout) _timeout = 5000;
 
 		if (app.config.env == 'alpha')
 			return this;
@@ -178,7 +179,7 @@ app.model.sisbot = {
 		var obj = {
 			_url	: 'http://' + address + '/',
 			_type	: 'POST',
-			_timeout: 5000,
+			_timeout: _timeout,
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
@@ -446,7 +447,6 @@ app.model.sisbot = {
 				self.get_networks();
 			}
 			_.each(obj.resp, function(network_obj) {
-				if (network_obj && network_obj.ssid && network_obj.ssid.indexOf('sisyphus') < 0)
 					wifi_networks.push(network_obj.ssid);
 			})
 			var uniq_wifi = _.uniq(wifi_networks.sort());
@@ -1027,14 +1027,18 @@ app.model.sisbot = {
 		var self	= this;
 		var track	= track_model.get('data');
 
+		this.set('uploading_track', 'true');
+
 		this._update_sisbot('add_track', track, function (obj) {
+			self.set('uploading_track', 'false');
+
 			if (obj.err) {
 				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
-				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'tracks' });
+				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
 			}
-		});
+		}, 60000);
 
 		this.add_nx('data.track_ids', track.id);
 	},

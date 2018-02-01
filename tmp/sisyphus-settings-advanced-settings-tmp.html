@@ -62,6 +62,33 @@
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'upload-svg'}"
+        >
+            <span class="strong">Upload SVG</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'upload-track'}"
+        >
+            <span class="strong">Upload Track</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced-movement'}"
+        >
+            <span class="strong">Advanced Movement</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-model="{{= model.sisbot_id }}"
             data-on-click="model.disconnect"
         >

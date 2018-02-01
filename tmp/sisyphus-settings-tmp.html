@@ -99,9 +99,7 @@
             </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'about'}"
+            data-on-click="model.open_support_page"
         >
             <span class="strong">About</span>
             <span class="pull-right">
@@ -153,12 +151,12 @@
 ></div>
 <!------------------------- TRACK UPLOAD -------------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == track_upload"
+    data-if="{{= parent.active.secondary }} == upload-track"
     data-template="sisyphus-settings-track-upload-tmp"
 ></div>
 <!------------------------- UPLOAD SVG -------------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == upload_svg"
+    data-if="{{= parent.active.secondary }} == upload-svg"
     data-template="sisyphus-settings-upload-svg-tmp"
 ></div>
 <!------------------------- DEFAULT PLAYLIST ---------------------------------->
@@ -168,7 +166,7 @@
 ></div>
 <!------------------------- ADVANCED MOVEMENT --------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == advanced_movement"
+    data-if="{{= parent.active.secondary }} == advanced-movement"
     data-template="sisyphus-settings-advanced-movement-tmp"
 ></div>
 <!------------------------- ADVANCED SETTINGS --------------------------------->

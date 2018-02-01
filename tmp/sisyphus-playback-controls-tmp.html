@@ -1,5 +1,6 @@
 <div class="w33 center">
     <i class="fa fa-refresh f-large p20 rounded clickable active h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
+        data-if="{{= model.data.active_playlist_id }} !== false"
         data-on-click="model.set_loop"
         aria-hidden="true"
     ></i>

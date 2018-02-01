@@ -952,6 +952,9 @@ select:focus {
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
 
+.b-none									{	border					: none;								}
+
+
 .b2										{	border					: 2px solid #838383 !important;		}
 
 .b-white-2px							{	border					: 2px solid #fff !important;		}

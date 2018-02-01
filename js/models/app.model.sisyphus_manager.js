@@ -112,6 +112,13 @@ app.model.sisyphus_manager = {
 	has_user: function () {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
+	open_support_page: function () {
+		if (app.is_app) {
+			cordova.InAppBrowser.open('https://sisyphus-industries.desk.com', '_system', 'location=yes');
+		} else {
+			window.location = 'https://sisyphus-industries.desk.com';
+		}
+	},
 	/**************************** BLUETOOTH ***********************************/
 	open_ble_settings: function () {
 		window.cordova.plugins.settings.open('bluetooth', function success(resp) {
@@ -183,6 +190,7 @@ app.model.sisyphus_manager = {
 		var self	= this;
 
 		evothings.ble.connectToDevice(device, function on_connect(device) {
+
 			self.get_service_data(device);
 		}, function on_disconnect(device) {
 			//alert('Disconnected from Device');
@@ -204,8 +212,14 @@ app.model.sisyphus_manager = {
         evothings.ble.readAllServiceData(device,
             function on_read(services) {
                 var dataService	= evothings.ble.getService(device, "ec00");
-                self._char		= evothings.ble.getCharacteristic(dataService, "ec0e")
-                self.setup_read_chars(device);
+
+				if (dataService == null) {
+					self.ble_cb();
+					evothings.ble.close(device);
+				} else {
+					self._char		= evothings.ble.getCharacteristic(dataService, "ec0e")
+	                self.setup_read_chars(device);
+				}
             },
             function on_error(error) {
                 //alert('Bluetooth Service Data Error: ' + error);
@@ -814,6 +828,27 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+	process_upload_track: function () {
+		var self			= this;
+		var track_objs		= this.get('tracks_to_upload');
+		var publish_track 	= this.get('publish_track');
+		var num_tracks		= track_objs.length;
+
+		_.each(track_objs, function(track_obj) {
+			track_obj.is_published = publish_track;
+			var track_model = app.collection.add(track_obj);
+			track_model.upload_track_to_sisbot();
+
+			if (publish_track == 'true') track_model.upload_track_to_cloud();
+		});
+
+		this.set('tracks_to_upload', []);
+
+		if (num_tracks > 1)
+			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+
+		return this;
+	},
 	process_upload_svg: function() {
 		var self			= this;
 		var svg_objs		= this.get('tracks_to_upload');
@@ -1010,27 +1045,6 @@ app.model.sisyphus_manager = {
 		});
 
 		return [min_x, min_y, max_x, max_y];
-	},
-	process_upload_track: function () {
-		var self			= this;
-		var track_objs		= this.get('tracks_to_upload');
-		var publish_track 	= this.get('publish_track');
-		var num_tracks		= track_objs.length;
-
-		_.each(track_objs, function(track_obj) {
-			track_obj.is_published = publish_track;
-			var track_model = app.collection.add(track_obj);
-			track_model.upload_track_to_sisbot();
-
-			if (publish_track == 'true') track_model.upload_track_to_cloud();
-		});
-
-		this.set('tracks_to_upload', []);
-
-		if (num_tracks > 1)
-			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
-
-		return this;
 	},
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {
