@@ -16,59 +16,61 @@
                 <p class="p0 m0 fs18 center">
                     Automatically shut down your Sisyphus and optionally use it as a night light.
                 </p>
-                <div class="flex mt30">
-                    <div class="w50 pr20">
-                        <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Start</h4>
-                        <input class="h__k right fs18 p5 w100" type="text" placeholder="10:00PM"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.default_settings.sleep_time"
-                            value="{{= model.default_settings.sleep_time }}"
-                            data-time="{{= model.default_settings.sleep_time }}"
-                        />
-                    </div>
-                    <div class="w50 pr20">
-                        <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">End</h4>
-                        <input class="h__k right fs18 p5 w100" type="text" placeholder="8:00AM"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.default_settings.wake_time"
-                            value="{{= model.default_settings.wake_time }}"
-                            data-time="{{= model.default_settings.wake_time }}"
-                        />
-                    </div>
-                    <div class="w20">&nbsp;</div>
-                </div>
-                <label class="pt20 pb20 vertical h__k"
-                    data-on-click="toggle"
-                    data-field="model.default_settings.is_nightlight"
-                    data-if="{{= model.default_settings.is_nightlight }} !== undefined"
-                >
-                    <input class="hidden h__k" type="checkbox"
-                        data-field="model.default_settings.is_nightlight"
-                        data-checked="{{= model.default_settings.is_nightlight }}"
-                    />
-                    <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_nightlight }} == true"></span>
-                    <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.is_nightlight }} !== true"></span>
-                    <p class="no-stuffing pl10 w100 fs18">Enable Night Light</p>
-                </label>
 
-                <div class="h__k mb10" data-if="{{= model.default_settings.is_nightlight }} == true">
-                    <h4 class="pb10 fs18 lh18 strong no-stuffing">Adjust Night Light Brightness</h4>
-                    <div class="flex vertical-align">
-                        <div class="w24-2">
-                            <i class="fa fa-sun-o" aria-hidden="true"></i>
+                <div class="pt20 mt20 mb10 pt10 pb10 w100 vertical h__k" data-on-click="model.nightmode_disable_toggle_setup">
+                    <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.sleep_time }} !== false"></span>
+                    <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.sleep_time }} == false"></span>
+                    <p class="no-stuffing pl10 w100 fs18">Enable Night Mode</p>
+                </div>
+                <div class="h__k" data-if="{{= model.default_settings.sleep_time }} !== false">
+                    <div class="flex">
+                        <div class="w50 pr20">
+                            <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Start</h4>
+                            <div class="h__k corner-5px right fs18 lh18 p10 b2 bg-white w100" type="text" placeholder="10:00 PM"
+                                data-on-click="time_open"
+                                data-field="model.default_settings.sleep_time"
+                                data-time="{{= model.default_settings.sleep_time }}"
+                            >{{= model.default_settings.sleep_time }}</div>
                         </div>
-                        <div class="w24-19">
-                            <input class="h__k w100" type="range" min="0" max="1" step=".05"
-                                data-on-input="model.defaults_nightlight_brightness"
-                                data-on-update="bg_test"
-                                value="{{= model.default_settings.nightlight_brightness }}"
-                            />
+                        <div class="w50 pr20">
+                            <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">End</h4>
+                            <div class="h__k corner-5px right fs18 lh18 p10 b2 bg-white w100" type="text" placeholder="8:00 AM"
+                                data-on-click="time_open"
+                                data-field="model.default_settings.wake_time"
+                                data-time="{{= model.default_settings.wake_time }}"
+                            >{{= model.default_settings.wake_time }}</div>
                         </div>
-                        <div class="w24-3 pl24-1">
-                            <i class="fa fa-sun-o f-large" aria-hidden="true"></i>
+                    </div>
+                    <div class="pt20 pb20 vertical h__k"
+                        data-on-click="toggle"
+                        data-field="model.default_settings.is_nightlight"
+                        data-if="{{= model.default_settings.is_nightlight }} !== undefined"
+                    >
+                        <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_nightlight }} == true"></span>
+                        <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.is_nightlight }} !== true"></span>
+                        <p class="no-stuffing pl10 w100 fs18">Enable Night Light</p>
+                    </div>
+
+                    <div class="h__k mb10" data-if="{{= model.default_settings.is_nightlight }} == true">
+                        <h4 class="pb10 fs18 lh18 strong no-stuffing">Adjust Night Light Brightness</h4>
+                        <div class="flex vertical-align">
+                            <div class="w24-2">
+                                <i class="fa fa-sun-o" aria-hidden="true"></i>
+                            </div>
+                            <div class="w24-19">
+                                <input class="h__k w100" type="range" min="0" max="1" step=".05"
+                                    data-on-input="model.defaults_nightlight_brightness"
+                                    data-on-update="bg_test"
+                                    value="{{= model.default_settings.nightlight_brightness }}"
+                                />
+                            </div>
+                            <div class="w24-3 pl24-1">
+                                <i class="fa fa-sun-o f-large" aria-hidden="true"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <p class="p15 mt30 mb20 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
                     data-on-click="model.defaults_save"
                 >Next Step</p>

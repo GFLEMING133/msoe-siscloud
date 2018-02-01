@@ -11,7 +11,7 @@
         <div class="w15 center f-large">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
-        <div class="h__k" data-if="{{= model.data.is_hotspot }} == true">
+        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
             <!--------------------------- NOT NETWORK CONNECTED --------------------------->
             <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
                 <p class="no-stuffing center w100 mt40" aria-hidden="true">
@@ -26,7 +26,7 @@
                 </p>
             </div>
         </div>
-        <div class="h__k" data-if="{{= model.data.is_hotspot }} == false">
+        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
             <div class="h__k" data-if="{{= model.has_software_update }} == true">
                 <!--------------------------- UPDATE AVAILABLE ------------------------>
                 <div class="h__k" data-if="{{= model.data.installing_updates }} == false">

@@ -9,7 +9,7 @@
     <div class="body-header h100 scroll hide-scrollbar">
         <!------------------------- SISBOT SETTINGS ------------------------------->
         <h3 class="no-stuffing p20 fs18 lh18 strong">Speed & Brightness</h3>
-        <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
+        <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
             <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
                 <i class="fa fa-sun-o center clickable active grey" aria-hidden="true"></i>
             </div>
@@ -17,7 +17,7 @@
                 <span class="w2-5"></span>
                 <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-on-input="model.brightness"
-                    value="{{= model.data.brightness }}"
+                    value="{{= model.edit.brightness }}"
                 />
                 <span class="w2-5"></span>
             </div>
@@ -30,15 +30,11 @@
             data-on-click="model.autodim_toggle"
             data-if="{{= model.data.is_autodim }} !== undefined"
         >
-            <input class="hidden h__k" type="checkbox"
-                data-field="model.data.is_autodim"
-                data-checked="{{= model.data.is_autodim }}"
-            />
             <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
             <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
-        <div class="flex vertical-align  pl20 pr20 pb20 bb h__k" data-model="{{= model.sisbot_id }}">
+        <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
             </div>
@@ -47,13 +43,22 @@
                 <input class="h__k w90" type="range" min="0" max="1" step=".05"
                     data-rangetouch="true"
                     data-on-input="model.speed"
-                    value="{{= model.data.speed }}"
+                    value="{{= model.edit.speed }}"
                 />
                 <span class="w5"></span>
             </div>
             <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_max">
                 <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
             </div>
+        </div>
+        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-on-click="model.pause_between_tracks"
+            data-if="{{= model.data.is_paused_between_tracks }} !== undefined"
+        >
+            <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
+            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.edit.is_paused_between_tracks }} == false"></span>
+            <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
         </div>
 
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
@@ -94,9 +99,7 @@
             </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'about'}"
+            data-on-click="model.open_support_page"
         >
             <span class="strong">About</span>
             <span class="pull-right">
@@ -148,12 +151,12 @@
 ></div>
 <!------------------------- TRACK UPLOAD -------------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == track_upload"
+    data-if="{{= parent.active.secondary }} == upload-track"
     data-template="sisyphus-settings-track-upload-tmp"
 ></div>
 <!------------------------- UPLOAD SVG -------------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == upload_svg"
+    data-if="{{= parent.active.secondary }} == upload-svg"
     data-template="sisyphus-settings-upload-svg-tmp"
 ></div>
 <!------------------------- DEFAULT PLAYLIST ---------------------------------->
@@ -163,7 +166,7 @@
 ></div>
 <!------------------------- ADVANCED MOVEMENT --------------------------------->
 <div class="h100 h__k"
-    data-if="{{= parent.active.secondary }} == advanced_movement"
+    data-if="{{= parent.active.secondary }} == advanced-movement"
     data-template="sisyphus-settings-advanced-movement-tmp"
 ></div>
 <!------------------------- ADVANCED SETTINGS --------------------------------->

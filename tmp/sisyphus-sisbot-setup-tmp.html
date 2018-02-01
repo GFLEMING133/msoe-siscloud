@@ -51,19 +51,14 @@
                         </div>
                     </div>
 
-                    <label class="pt20 pb20 vertical h__k"
+                    <div class="pt20 pb20 vertical h__k"
                         data-on-click="model.set_autodim_default"
-                        data-field="model.default_settings.is_autodim"
                         data-if="{{= model.default_settings.is_autodim }} !== undefined"
                     >
-                        <input class="hidden h__k" type="checkbox"
-                            data-field="toggle|model.default_settings.is_autodim"
-                            data-checked="{{= model.default_settings.is_autodim }}"
-                        />
                         <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
                         <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.is_autodim }} == false"></span>
                         <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
-                    </label>
+                    </div>
 
                     <p class="p15 mb20 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
                         data-on-click="parent.should_show_nightlight"

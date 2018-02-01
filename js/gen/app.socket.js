@@ -44,7 +44,7 @@ app.socket = {
 		    self.socket.emit('register', { id: sisbot_id });
 		}
 	},
-    on_connect: function() {
+    on_connect: function(socket) {
         console.log('socket: connect');
 		app.trigger("socket:connect", null);
     },
@@ -61,10 +61,7 @@ app.socket = {
 		app.trigger("socket:error", err);
     },
     on_set: function(data) {
-
         if (!_.isArray(data)) data = [data];
-
-		//console.log('socket: on_set', _.pluck(data, 'id'));
 
         _.each(data, function(datum) {
             if (datum && datum.id) {
@@ -74,10 +71,10 @@ app.socket = {
         });
     },
     on_erase: function(data) {
-        //console.log('socket: erase');
+        console.log('socket: erase');
         //app.collection.remove(data.id);
     },
     on_test: function(data) {
-        //console.log('socket: test', data);
+        console.log('socket: test', data);
     },
 };

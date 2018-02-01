@@ -2,15 +2,15 @@
     <img src="img/sisyphus-cardlogo.png" class="center w100 pt50" />
 
     <div class="bg-black center i white pull-bottom">
-        <div class="h__k" data-if="{{= model.sisbots_scanning }} == true">
-            <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
-            <div class="fs18 lh18 pb50 h__k">
+        <div class="h__k bg-black white" data-if="{{= model.sisbots_scanning }} == true">
+            <div class="h__k mb20 bg-black white" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 pb50 bg-black white h__k">
                 Scanning for nearby tables...
             </div>
         </div>
-        <div class="h__k" data-if="{{= model.sisbot_connecting }} == true">
-            <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
-            <div class="fs18 lh18 pb50 h__k">
+        <div class="h__k bg-black" data-if="{{= model.sisbot_connecting }} == true">
+            <div class="h__k mb20 bg-black white" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 pb50 bg-black white h__k">
                 Connecting...
             </div>
         </div>

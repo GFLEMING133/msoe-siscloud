@@ -64,6 +64,8 @@ app.model.sisyphus_manager = {
 	},
 	current_version: 1,
     on_init: function () {
+		if (window.cordova)						StatusBar.show();
+
 		app.plugins.n.initialize();
 
 		this.listenTo(app, 'manager:download_playlist', this.download_playlist);
@@ -80,7 +82,7 @@ app.model.sisyphus_manager = {
 		app.current_session().set('signed_in','true');
 
 		if (app.config.env == 'sisbot') {
-			return this.setup_as_sisbot();
+			this.setup_as_sisbot();
 		} else if (app.config.env == 'alpha') {
 			//this.setup_demo();
 		} else if (app.config.env == 'beta'){
@@ -109,6 +111,13 @@ app.model.sisyphus_manager = {
 	},
 	has_user: function () {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
+	},
+	open_support_page: function () {
+		if (app.is_app) {
+			cordova.InAppBrowser.open('https://sisyphus-industries.desk.com', '_system', 'location=yes');
+		} else {
+			window.location = 'https://sisyphus-industries.desk.com';
+		}
 	},
 	/**************************** BLUETOOTH ***********************************/
 	open_ble_settings: function () {
@@ -181,6 +190,7 @@ app.model.sisyphus_manager = {
 		var self	= this;
 
 		evothings.ble.connectToDevice(device, function on_connect(device) {
+
 			self.get_service_data(device);
 		}, function on_disconnect(device) {
 			//alert('Disconnected from Device');
@@ -202,8 +212,14 @@ app.model.sisyphus_manager = {
         evothings.ble.readAllServiceData(device,
             function on_read(services) {
                 var dataService	= evothings.ble.getService(device, "ec00");
-                self._char		= evothings.ble.getCharacteristic(dataService, "ec0e")
-                self.setup_read_chars(device);
+
+				if (dataService == null) {
+					self.ble_cb();
+					evothings.ble.close(device);
+				} else {
+					self._char		= evothings.ble.getCharacteristic(dataService, "ec0e")
+	                self.setup_read_chars(device);
+				}
             },
             function on_error(error) {
                 //alert('Bluetooth Service Data Error: ' + error);
@@ -420,10 +436,9 @@ app.model.sisyphus_manager = {
 		self.set('sisbot_registration', 'waiting');
 
 		window.cordova.plugins.settings.open('wifi', function success(resp) {
-			// Add 10 second timeout to ensure connection to sisbot network
 			self.await_network_connection(function () {
 				self.set('sisbot_registration', 'find');
-			});
+			}, 0);
 		}, function error(err) {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
@@ -442,13 +457,32 @@ app.model.sisyphus_manager = {
 			alert('Error opening wifi settings. Please manually go to your wifi settings');
 		});
 	},
-	await_network_connection: function (cb) {
+	open_network_settings_for_hotspot: function () {
+		var self = this;
+
+		self.set('sisbot_reconnecting', 'true');
+
+		window.cordova.plugins.settings.open('wifi', function success(resp) {
+			// we are attempting to reconnect to hotspot
+			self.await_network_connection(function () {
+				self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
+			}, 0);
+		}, function error(err) {
+			self.set('sisbot_reconnecting', 'false');
+			alert('Error opening wifi settings. Please manually go to your wifi settings');
+		});
+	},
+	await_network_connection: function (cb, count) {
 		var self = this;
 
 		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 			setTimeout(function() {
-				self.await_network_connection(cb);
-			}, 100);
+				self.await_network_connection(cb, 0);
+			}, 1000);
+		} else if (count < 5) {
+			setTimeout(function() {
+				self.await_network_connection(cb, ++count);
+			}, 1000);
 		} else {
 			cb();
 		}
@@ -794,6 +828,27 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+	process_upload_track: function () {
+		var self			= this;
+		var track_objs		= this.get('tracks_to_upload');
+		var publish_track 	= this.get('publish_track');
+		var num_tracks		= track_objs.length;
+
+		_.each(track_objs, function(track_obj) {
+			track_obj.is_published = publish_track;
+			var track_model = app.collection.add(track_obj);
+			track_model.upload_track_to_sisbot();
+
+			if (publish_track == 'true') track_model.upload_track_to_cloud();
+		});
+
+		this.set('tracks_to_upload', []);
+
+		if (num_tracks > 1)
+			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+
+		return this;
+	},
 	process_upload_svg: function() {
 		var self			= this;
 		var svg_objs		= this.get('tracks_to_upload');
@@ -991,27 +1046,6 @@ app.model.sisyphus_manager = {
 
 		return [min_x, min_y, max_x, max_y];
 	},
-	process_upload_track: function () {
-		var self			= this;
-		var track_objs		= this.get('tracks_to_upload');
-		var publish_track 	= this.get('publish_track');
-		var num_tracks		= track_objs.length;
-
-		_.each(track_objs, function(track_obj) {
-			track_obj.is_published = publish_track;
-			var track_model = app.collection.add(track_obj);
-			track_model.upload_track_to_sisbot();
-
-			if (publish_track == 'true') track_model.upload_track_to_cloud();
-		});
-
-		this.set('tracks_to_upload', []);
-
-		if (num_tracks > 1)
-			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
-
-		return this;
-	},
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {
 		if (this.get('fetched_community_playlists') == 'true')
@@ -1167,8 +1201,11 @@ app.model.sisyphus_manager = {
 				}, {
 					id			: '3',
 					reversible	: 'false'
+				}, {
+					id			: '1f274aa7-6214-4172-b251-a5ac33d36184',
+					reversible	: 'false'
 				}],
-				sorted_tracks: [ 0, 1, 2 ],
+				sorted_tracks: [ 0, 1, 2, 3 ],
 			}, {
 				id          		: '3fdab229-5c60-4a86-8713-adb7edd494fe',
 				type        		: 'playlist',

@@ -32,7 +32,12 @@
                 <div class="fs18 lh18 pl20 pr20 no-stuffing">No Current Track Playing</div>
             </div>
             <div class="h__k" data-if="{{= model.data.active_track.id }} !== false">
-                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong">Now Playing</div>
+                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
+                    data-if="{{= model.data.is_waiting_between_tracks }} == true"
+                >Finished Playing</div>
+                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
+                    data-if="{{= model.data.is_waiting_between_tracks }} == false"
+                >Now Playing</div>
                 <div class="h__k"
                     data-model="{{= model.data.active_track.id }}"
                     data-template="sisyphus-tracks-list-item-tmp"
@@ -42,33 +47,35 @@
                 <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
                     <div class="h__k" data-model="{{= model.data.active_playlist_id }}">
                         <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
-        				<div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
-        	                <div class="h__k"
-        	                    data-foreach="model.data.sorted_tracks"
-        	                    data-foreach-change="foreach_reset"
-        	                >
-                                <div class="h__k"
-                                    data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
-                                    data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
-                                    data-template="sisyphus-tracks-list-item-tmp"
-                                ></div>
-                            </div>
-        				</div>
-                        <div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
-                            <div class="h__k" data-if="{{= model.data.is_loop }} !== false">
+                        <div class="h__k" data-if="{{= model.data.is_shuffle }} !== undefined">
+            				<div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
             	                <div class="h__k"
-            	                    data-foreach="model.data.next_tracks"
+            	                    data-foreach="model.data.sorted_tracks"
             	                    data-foreach-change="foreach_reset"
             	                >
-                                    <div class="h__k" data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
-                                        <div class="h__k"
-                                            data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
-                                            data-if="{{= scope.index }} > {{= (parent.data.is_shuffle == 'true') ? 0 : -1 }}"
-                                            data-template="sisyphus-tracks-list-item-tmp"
-                                        ></div>
-                                    </div>
+                                    <div class="h__k"
+                                        data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                                        data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
+                                        data-template="sisyphus-tracks-list-item-tmp"
+                                    ></div>
                                 </div>
             				</div>
+                            <div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                                <div class="h__k" data-if="{{= model.data.is_loop }} !== false">
+                	                <div class="h__k"
+                	                    data-foreach="model.data.next_tracks"
+                	                    data-foreach-change="foreach_reset"
+                	                >
+                                        <div class="h__k" data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
+                                            <div class="h__k"
+                                                data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                                                data-if="{{= scope.index }} > {{= (parent.data.is_shuffle == 'true') ? 0 : -1 }}"
+                                                data-template="sisyphus-tracks-list-item-tmp"
+                                            ></div>
+                                        </div>
+                                    </div>
+                				</div>
+                            </div>
                         </div>
                     </div>
                 </div>

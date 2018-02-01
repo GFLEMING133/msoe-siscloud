@@ -36,6 +36,7 @@ app.model.sisbot = {
 
 			has_software_update				: 'false',
 			is_connected					: false,
+			is_socket_connected				: 'false',
 			is_polling						: 'true',
 			is_jogging						: false,
 			jog_type						: '',
@@ -55,6 +56,7 @@ app.model.sisbot = {
 
 			log_date						: moment().format('MM/DD/YYYY'),
 			log_type						: 'sisbot',		// sisbot|plotter|proxy
+			uploading_track					: 'false',
 
 			edit		: {},
 			data		: {
@@ -113,6 +115,8 @@ app.model.sisbot = {
 				sleep_time			: '',					// 10:00 PM sleep_time
 				wake_time			: '',					// 8:00 AM  wake_time
 
+				is_paused_between_tracks: 'false',
+				is_waiting_between_tracks: 'false',
 				share_log_files		: 'false'
 			}
 		};
@@ -176,7 +180,7 @@ app.model.sisbot = {
 		// }, 0);
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-		if (!_timeout) _timeout = 60000;
+		if (!_timeout) _timeout = 5000;
 
 		if (app.config.env == 'alpha')
 			return this;
@@ -190,7 +194,7 @@ app.model.sisbot = {
 		var obj = {
 			_url	: 'http://' + address + '/',
 			_type	: 'POST',
-			_timeout: 5000,
+			_timeout: _timeout,
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
@@ -229,8 +233,6 @@ app.model.sisbot = {
 	_fetching_cloud: false,
 	_fetch_cloud: function () {
 		if (this._fetching_cloud) 	return this;
-
-		console.log('fetch cloud');
 
 		var self = this;
 		this._fetching_cloud = true;
@@ -301,13 +303,27 @@ app.model.sisbot = {
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
-		console.log("Sisbot: Socket Connect");
-		this.set('is_polling', "false");
-		clearTimeout(this.polling_timeout);
-	},
-	_socket_disconnect: function() {
 		var self = this;
 
+		console.log("Sisbot: Socket Connect");
+
+		this.set('is_socket_connected', 'true');
+		this.set('is_polling', "false");
+
+		clearTimeout(this.polling_timeout);
+
+		app.manager.set('is_sisbot_available', 'true');
+
+		setTimeout(function() {
+			self._update_sisbot('state', {}, function (obj) {
+				if (obj.resp) app.manager.intake_data(obj.resp);
+			});
+		}, 10000);
+	},
+	_socket_disconnect: function() {
+		this.set('is_socket_connected', 'false');
+
+		var self = this;
 		console.log("Sisbot: Socket Disconnect");
 
 		if (this.get('is_polling') == "false") {
@@ -330,15 +346,33 @@ app.model.sisbot = {
 		if (this._poll_timer == false)
 			this._poll_timer = moment();
 
-		if (moment().diff(this._poll_timer) > 15000) {
+		var disconnect_length = moment().diff(this._poll_timer);
+
+		this.set('disconnect_length', disconnect_length);
+
+		if (disconnect_length > 15000) {
 			this._fetch_bluetooth();
 			this._fetch_cloud();
 		}
 
-		if (moment().diff(this._poll_timer) > 75000) {
+
+		if ((this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true')
+			&& disconnect_length > 75000) {
 			this.set('is_polling', 'false');
+			console.log('set manager to false');
 			app.manager.set('is_sisbot_available', 'false');
+		} else if (this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true') {
+			// do nothing.. We haven't timed out
+		} else if (disconnect_length > 1500) {
+			if (this.get('is_socket_connected') == 'true') {
+				// we have polling from old requests that have timed out after socket reconnected. Ignore
+			} else {
+				this.set('is_polling', 'false');
+				app.manager.set('is_sisbot_available', 'false');
+			}
 		}
+
+		return this;
 	},
 	_poll_restart: function () {
 		this._poll_timer = false;
@@ -356,19 +390,19 @@ app.model.sisbot = {
 				self._poll_timer = false;
 				app.manager.set('is_sisbot_available', 'true');
 
-				self.set('data', obj.resp);
+				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
 					app.socket.initialize();		// try to connect to socket
 				}
 			} else if (obj.err) {
 				self._poll_failure();
 			}
-		});
+		}, 500);
 
 		if (this.get('is_polling') == "true") {
 			this.polling_timeout = setTimeout(function () {
 				self._poll_state();
-			}, 6000);
+			}, 1000);
 		}
 
 		return this;
@@ -428,7 +462,6 @@ app.model.sisbot = {
 				self.get_networks();
 			}
 			_.each(obj.resp, function(network_obj) {
-				if (network_obj && network_obj.ssid && network_obj.ssid.indexOf('sisyphus') < 0)
 					wifi_networks.push(network_obj.ssid);
 			})
 			var uniq_wifi = _.uniq(wifi_networks.sort());
@@ -498,9 +531,11 @@ app.model.sisbot = {
 				// do nothing
 				self.set('is_polling', 'false')
 					.set('data.is_internet_connected', 'false')
+					.set('data.is_hotspot',	'true')
 					.set('data.wifi_network', 'false')
 					.set('data.wifi_password', 'false')
 					.set('data.reason_unavailable', 'disconnect_from_wifi');
+
 				app.manager.set('is_sisbot_available', 'false');
 			});
 		}
@@ -605,6 +640,34 @@ app.model.sisbot = {
 	setup_edit: function () {
 		this.set('edit', this.get('data'))
 			.set('errors', []);
+
+		return this;
+	},
+	nightmode_disable_toggle_setup: function () {
+		var status = this.get('default_settings.sleep_time');
+
+		if (status == 'false') {
+			this.set('default_settings.sleep_time', '10:00 PM')
+				.set('default_settings.wake_time', '8:00 AM')
+				.set('default_settings.is_nightlight', 'false');
+		} else {
+			this.set('default_settings.sleep_time', 'false')
+				.set('default_settings.wake_time', 'false');
+		}
+
+		return this;
+	},
+	nightmode_disable_toggle: function () {
+		var status = this.get('edit.sleep_time');
+
+		if (status == 'false') {
+			this.set('edit.sleep_time', '10:00 PM')
+				.set('edit.wake_time', '8:00 AM')
+				.set('edit.is_nightlight', 'false');
+		} else {
+			this.set('edit.sleep_time', 'false')
+				.set('edit.wake_time', 'false');
+		}
 
 		return this;
 	},
@@ -759,6 +822,24 @@ app.model.sisbot = {
 
 		app.plugins.file_download(file_url);
 	},
+	pause_between_tracks: function() {
+		if (this.is_legacy())
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
+		var self		= this;
+		var state		= app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
+
+		this.set('edit.is_paused_between_tracks', state)
+			.set('errors', []);
+
+		this._update_sisbot('set_pause_between_tracks', { is_paused_between_tracks: state }, function(obj) {
+			if (obj.err) {
+				self.set('errors', [ obj.err ]);
+			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
+			}
+		});
+	},
 	/**************************** PLAYBACK ************************************/
 	update_playlist: function (playlist_data) {
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
@@ -844,7 +925,8 @@ app.model.sisbot = {
 	},
 	brightness: function (level) {
 		var self = this;
-		this.set('data.brightness', +level);
+		this.set('data.brightness', +level)
+			.set('edit.brightness', +level);
 		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
 			// do nothing
 		});
@@ -866,8 +948,8 @@ app.model.sisbot = {
 		this.brightness(0);
 	},
 	set_autodim_default: function () {
-		// flip it so autodim_toggle can reflip it
-		this.set('data.is_autodim', app.plugins.bool_opp[this.get('default_settings.is_autodim')]);
+		var opp = app.plugins.bool_opp[this.get('default_settings.is_autodim')];
+		this.set('default_settings.is_autodim', opp);
 		this.autodim_toggle();
 	},
 	autodim_toggle: function () {
@@ -880,7 +962,8 @@ app.model.sisbot = {
 		});
 	},
 	speed: function (level) {
-		this.set('data.speed', +level);
+		this.set('data.speed', +level)
+			.set('edit.speed', +level);
 		this._update_sisbot('set_speed', { value: +level }, function (obj) {});
 	},
 	speed_up: function () {
@@ -923,8 +1006,6 @@ app.model.sisbot = {
 	},
 	/******************** PLAYLIST / TRACK STATE ******************************/
 	playlist_add: function (playlist_model) {
-		console.log('we add playlist', playlist_model)
-
 		var self		= this;
 		var playlist	= playlist_model.get('data');
 
@@ -961,14 +1042,18 @@ app.model.sisbot = {
 		var self	= this;
 		var track	= track_model.get('data');
 
+		this.set('uploading_track', 'true');
+
 		this._update_sisbot('add_track', track, function (obj) {
+			self.set('uploading_track', 'false');
+
 			if (obj.err) {
 				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
-				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'tracks' });
+				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
 			}
-		});
+		}, 60000);
 
 		this.add_nx('data.track_ids', track.id);
 	},

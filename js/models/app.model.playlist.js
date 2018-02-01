@@ -30,7 +30,7 @@ app.model.playlist = {
 
 				tracks           	: [], 				// list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
 				sorted_tracks		: [],				// display to users
-				next_tracks			: [],				// 
+				next_tracks			: [],				//
 
 				created_by_id		: 'false',
 				created_by_name		: 'User Name',
@@ -72,21 +72,30 @@ app.model.playlist = {
 		var sisbot_tracks		= app.manager.get_model('sisbot_id').get('data.track_ids');
 
 		_.each(sisbot_tracks, function(track_id) {
-			add_playlist_tracks[track_id] = 'false';
+			add_playlist_tracks[track_id] = 0;
 		});
+
 		_.each(active_tracks, function(track_obj) {
-			add_playlist_tracks[track_obj.id] = 'true';
+			add_playlist_tracks[track_obj.id]++;
 		});
 
 		this.set('add_playlist_tracks', add_playlist_tracks);
 	},
+	add_tracks_add: function (track_id) {
+		var b = this.get('add_playlist_tracks[' + track_id + ']');
+		this.set('add_playlist_tracks[' + track_id + ']', ++b);
+		this.add_track(track_id);
+	},
 	add_tracks_done: function () {
 		var self = this;
+
+		/*
 		this.set('active_tracks', []);
 
 		_.each(this.get('add_playlist_tracks'), function(bool, track_id) {
 			if (bool == 'true')	self.add_track(track_id);
 		});
+		*/
 
 		app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},

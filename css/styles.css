@@ -558,6 +558,18 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background		: inherit;
 }
 
+.app .pull-top {
+	top				: 25px;
+}
+
+.app .body-header {
+	margin-top				: 75px;
+}
+
+.app .body-header > *:last-child {
+	margin-bottom			: 25px;
+}
+
 .pull-bottom	{
 	position		: absolute;
 	left			: 0px;
@@ -917,11 +929,11 @@ select:focus {
 
 .ff-xlarge								{	font-size				: 48px;						}
 
-.fs12									{	font-size				: 12px;						}
-.fs13									{	font-size				: 13px;						}
-.fs14									{	font-size				: 14px;						}
-.fs18									{	font-size				: 18px;						}
-.fs24									{	font-size				: 24px;						}
+.fs12									{	font-size				: 12px !important;			}
+.fs13									{	font-size				: 13px !important;			}
+.fs14									{	font-size				: 14px !important;			}
+.fs18									{	font-size				: 18px !important;			}
+.fs24									{	font-size				: 24px !important;			}
 
 .fl10									{	line-height				: 1.0em;					}
 .fl15									{	line-height				: 1.5em;					}
@@ -939,6 +951,11 @@ select:focus {
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
+
+.b-none									{	border					: none;								}
+
+
+.b2										{	border					: 2px solid #838383 !important;		}
 
 .b-white-2px							{	border					: 2px solid #fff !important;		}
 .b-white								{	border					: 1px solid #fff !important;		}

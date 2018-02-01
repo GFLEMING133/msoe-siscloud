@@ -24,6 +24,7 @@ var app = {
 	setup: function () {
 		if (window.cordova)						app.is_app = true;
 		if (app.plugins.is_mobile() !== false)	app.is_app = true;
+		if (window.cordova)						StatusBar.show();
 
 		// FOR TOUCH EVENTS
 		if (app.is_app)

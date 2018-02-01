@@ -18,6 +18,7 @@
                 <div class="pb20">
                     <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
                         data-if="{{= model.is_polling }} == false"
+                        data-on-click="parent.open_support_page"
                     >Learn How To Fix</p>
                     <p class="w100 mt100 mb20 p15 center blue fs18 lh18 uppercase clickable h__k"
                         data-if="{{= model.is_polling }} == false"
@@ -71,7 +72,33 @@
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
                         data-if="{{= app.is_app }} == true"
-                        data-on-click="parent.open_network_settings_from_error"
+                        data-on-click="parent.open_network_settings_for_hotspot"
+                    >Open Wifi Settings</p>
+                </div>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == false"
+                        data-on-click="parent.reconnect_to_hotspot"
+                    >Reconnect to Sisyphus</p>
+                </div>
+                <div class="p20 center i black h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
+                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class="black">Connecting...</div>
+                </div>
+            </div>
+            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
+                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                    Sisyphus Disconnected from WiFi
+                </h3>
+                <p class="center fs18 lh24">
+                    Your Sisyphus has become disconnected from WiFi. If you would
+                    like to reconnect to your Sisyphus please open Wifi Settings
+                    and reconnnect to the Sisyphus network.
+                </p>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == true"
+                        data-on-click="parent.open_network_settings_for_hotspot"
                     >Open Wifi Settings</p>
                 </div>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
