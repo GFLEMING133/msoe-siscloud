@@ -1,31 +1,116 @@
-<div class="body-header">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w15 center clickable active blue-hover h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w70">
+            <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Advanced</h1>
+        </div>
+        <div class="w15 center f-large">&nbsp;</div>
+    </div>
+    <div class="body-header h100 scroll hide-scrollbar">
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'change_table_name'}"
+        >
+            <span class="strong">Table Name</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'change_hostname'}"
+        >
+            <span class="strong">Change Hostname</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="h__k" data-model="{{= model.sisbot_id }}">
+            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+                data-if="{{= model.data.is_internet_connected }} == false"
                 data-on-click="publish"
                 data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            >&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Advanced Settings</h1>
+                data-msg="{'secondary':'wifi'}"
+            >
+                <span class="strong">Connect to wifi network</span>
+                <span class="pull-right fa fa-chevron-right"></span>
             </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
-        </div>
-    </div>
-    <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}">
-        <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-            Sisyphus Advanced Settings
-        </div>
-        <div class="bb pl10 pr10 pt15 pb15">
-            <span class="h__k">Auto Dim</span>
-            <div class="pull-right h__k" data-on-click="model.set_autodim">
-                <input class="cmn-toggle cmn-toggle-round h__k" type="checkbox"
-                    data-if="{{= model.data.is_autodim }} !== undefined"
-                    data-checked="{{= 'true' }}"
-                    data-field="model.data.is_autodim"
-                />
-                <label for="cmn-toggle-1"></label>
+            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+                data-if="{{= model.data.is_internet_connected }} == true"
+                data-on-click="model.disconnect_wifi"
+            >
+                <span class="strong">Disconnect from wifi network</span>
+                <span class="pull-right fa fa-chevron-right"></span>
             </div>
         </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'factory-reset'}"
+        >
+            <span class="strong">Factory Reset</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'log-files'}"
+        >
+            <span class="strong">Log Files</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'upload-svg'}"
+        >
+            <span class="strong">Upload SVG</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'upload-track'}"
+        >
+            <span class="strong">Upload Track</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced-movement'}"
+        >
+            <span class="strong">Advanced Movement</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-on-click="model.disconnect"
+        >
+            <span class="strong">Logout from Sisyphus</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb p20 fs14 flex h__k" data-model="{{= model.sisbot_id }}">
+            <div class="w40 strong">Sisyphus ID</div>
+            <div class="w60 truncate pull-right grey">{{= model.id }}</div>
+        </div>
+        <div class="bb p20 fs14 h__k" data-model="{{= model.sisbot_id }}">
+            <span class="strong">Sisyphus Hostname</span>
+            <span class="pull-right grey">{{= model.data.hostname }}</span>
+        </div>
+        <div class="bb p20 fs14 h__k" data-model="{{= model.sisbot_id }}">
+            <span class="strong">Sisyphus IP Address</span>
+            <span class="pull-right grey">{{= model.data.local_ip }}</span>
+        </div>
+        <div class="bb p20 fs14 h__k" data-model="{{= model.sisbot_id }}">
+            <span class="strong">Sisyphus Software Version</span>
+            <span class="pull-right grey">{{= model.data.software_version }}</span>
+        </div>
+        <div class="hh150">&nbsp;</div>
     </div>
 </div>

@@ -1,0 +1,48 @@
+<div class="playback-controls">
+    <div class="pull-bottom hh100 mb50 bg-black h__k" data-if="{{= session.active.primary }} == current">
+        <div class="flex p20 h__k"
+            data-if="{{= model.data.state }} == playing"
+            data-template="sisyphus-playback-controls-tmp"
+        ></div>
+        <div class="flex p20 h__k"
+            data-if="{{= model.data.state }} == paused"
+            data-template="sisyphus-playback-controls-tmp"
+        ></div>
+        <div class="p10 pt30 center white h__k" data-if="{{= model.data.state }} == homing">
+            <div class="uppercase fs18 lh18">Homing your table</div>
+            <div class="fs12 lh18">This should only take a moment...</div>
+        </div>
+        <div class="p10 pt30 center white h__k" data-if="{{= model.data.state }} == waiting">
+            <div class="uppercase fs18 lh18">Waiting</div>
+            <div class="fs12 lh18">This table is waiting for further instructions</div>
+        </div>
+    </div>
+    <div class="pull-bottom hh50 mb50 pr20 bg-black h__k" data-if="{{= session.active.primary }} !== current">
+        <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == playing">
+            <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
+            <div class="w30 right">
+                <div class="clickable active h__k" aria-hidden="true"
+                    data-if="{{= model.data.state }} == playing"
+                    data-on-click="model.pause"
+                ><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
+            </div>
+        </div>
+        <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == paused">
+            <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
+            <div class="w30 right">
+                <div class="clickable active h__k" aria-hidden="true"
+                    data-if="{{= model.data.state }} == paused"
+                    data-on-click="model.play"
+                ><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>
+            </div>
+        </div>
+        <div class="hh50 center pt10 white h__k" data-if="{{= model.data.state }} == homing">
+            <div class="uppercase fs18 lh18">Homing your table</div>
+            <div class="fs12 lh18">This should only take a moment...</div>
+        </div>
+        <div class="hh50 center pt10 white h__k" data-if="{{= model.data.state }} == waiting">
+            <div class="uppercase fs18 lh18">Waiting</div>
+            <div class="fs12 lh18">This table is waiting for further instructions</div>
+        </div>
+    </div>
+</div>

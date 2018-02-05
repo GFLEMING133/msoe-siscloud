@@ -1,0 +1,27 @@
+<div class="h100 h__k" data-model="{{= parent.active.playlist_id }}" data-run="model.add_tracks_setup">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w30 center">&nbsp;</div>
+        <div class="w40">
+            <h1 class="h__k no-stuffing fs18 capitalize truncate h__k">Add Tracks</h1>
+        </div>
+        <div class="w30 right p15 pr20 fs18 lh18 clickable active h__k"
+            data-on-click="model.add_tracks_done"
+        >Done</div>
+    </div>
+    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.sisbot_id }}">
+        <div class="h__k center p20 i"
+            data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
+        >
+            <span>There are no tracks on this Sisyphus.</span>
+            <span class="clickable">Visit the Community tab to download some</span>
+        </div>
+        <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
+            <div class="h__k"
+                data-foreach="model.data.track_ids"
+                data-foreach-map="true"
+                data-item="sisyphus-tracks-list-item-add-tmp"
+            ></div>
+        </div>
+        <div class="hh200">&nbsp;</div>
+    </div>
+</div>

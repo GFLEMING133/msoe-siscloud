@@ -177,10 +177,12 @@ var Binding = Backbone.View.extend({
 
         this.process_attrs();
 
-        if (this.data.if)           this.if();
-
-        this.after_render();
-        this.is_rendered = true;
+        if (this.data.if) {
+            this.if();
+        } else {
+            this.after_render();
+            this.is_rendered = true;
+        }
     },
     /***************************** BEFORE RENDER ******************************/
     before_render: function () {
@@ -210,6 +212,7 @@ var Binding = Backbone.View.extend({
 
         // Libraries
         if (this.data.date)             this.date();
+        if (this.data.time)             this.time();
         if (this.data.sortable)         this.sortable();
         if (this.data.dragula)          this.dragula();
         if (this.data.fullcalendar)     this.fullcalendar();
@@ -527,6 +530,7 @@ var Binding = Backbone.View.extend({
         var ref         = this.ctx.get(this.get_value(this.data.field));
         var value       = this.get_value(this.data.checked);
         var is_checked  = (_.isArray(ref)) ? _.contains(ref, value) : ('' + ref) == ('' + value);
+
         this.$el.prop('checked', is_checked);
     },
     is_checked: function () {
@@ -567,7 +571,9 @@ var Binding = Backbone.View.extend({
         var val     = opp[this.ctx.get(field)];
 
         if (!val) val = 'false';
-        this.ctx.set(field, val).trigger('change:' + field).save();
+        this.ctx.set(field, val)
+            .trigger('change:' + field)
+            .trigger('change:' + field.replace(/\'/gi, ''));
 	},
     file_reader: function (e) {
         var self            = this;
@@ -604,7 +610,7 @@ var Binding = Backbone.View.extend({
     log: function () {
         if (!this._log[this.data.log]) this._log[this.data.log] = 0;
         this._log[this.data.log]++;
-        console.log('data', this.data.log, this._log[this.data.log]);
+        console.log('log', this.data.log, this._log[this.data.log]);
     },
     console: function () {
         //
@@ -681,10 +687,16 @@ var Binding = Backbone.View.extend({
             model   : this.model.attributes,
             tmp     : app.templates.get,
             scope   : this.scope.attributes,
+            session : app.session.attributes,
+            manager : app.manager.attributes,
             _model_ : this.model,
             _super_ : this._super_,
             _self_  : this
         };
+
+        if (app.manager) {
+            json.manager        = app.manager.attributes;
+        }
 
         if (this.parent) {
             json.parent         = this.parent.attributes;
@@ -782,6 +794,7 @@ var Binding = Backbone.View.extend({
         if (['SELECT', 'INPUT', 'TEXTAREA'].indexOf(this.tagName) == -1) return false;
 
         if (this.type == 'file')            return this.file_reader(e);
+        if (this.type == 'checkbox')        return this;
 
         this.data.value = this.$el.val();
 
@@ -846,10 +859,12 @@ var Binding = Backbone.View.extend({
     foreach_ref: false,
     foreach_listeners: false,
     foreach: function () {
-        this.$el.html('');
+        if (!this.$el) return false;
 
         if (this.data.console)
             console.log('Foreach', this);
+
+        this.$el.html('');
 
         var defaultValue    = this.get_value('' + this.data.foreachDefaultValue) || '';
         var defaultLabel    = this.get_value(this.data.foreachDefault) || '';
@@ -1016,7 +1031,6 @@ var Binding = Backbone.View.extend({
             opts.grandparent    = (_.has(item.obj, 'cid') && self.parent) ? self.parent : self.grandparent;
             opts.parent         = (_.has(item.obj, 'cid')) ? self.model : self.parent;
             opts.model          = (_.has(item.obj, 'cid')) ? item.obj : self.model;
-
             opts_array.push(opts);
         });
 
@@ -1080,6 +1094,8 @@ var Binding = Backbone.View.extend({
 
                 opts.model      = self.model;
                 opts._super_    = self;
+                opts.session    = app.session;
+                opts.manager    = app.manager;
 
                 opts_array.push(opts);
             }
@@ -1164,7 +1180,7 @@ var Binding = Backbone.View.extend({
 
         return _.chain(str_tmp.match(/\{\{(.*?)\}\}/gi))
             .map(function(r) {
-                var listeners = r.match(/(model|cluster|parent|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent|scope)[a-zA-Z.0-9:_\[\]\-']+/gi);
+                var listeners = r.match(/(session|manager|model|cluster|parent|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent|scope)[a-zA-Z.0-9:_\[\]\-']+/gi);
                 listeners = _.map(listeners, function(l) { return l.replace(/\['/gi, "[").replace(/'\]/gi, "]"); });
                 return listeners;
             })
@@ -1192,7 +1208,11 @@ var Binding = Backbone.View.extend({
                     this.remove_subviews();
                     this.$el.html(val);
                 }
-                this.setup_subview();
+                if (this.data.if && this.if_evaluation !== true) {
+                    // Don't render the html of an if statement that isn't true
+                } else {
+                    this.setup_subview();
+                }
             } catch (err) {
                 if (this.data.console)
                     console.log('render_attr: _html', err);
@@ -1350,10 +1370,10 @@ var Binding = Backbone.View.extend({
                 tags    : tags,
                 placeholder: 'Tags',
                 onTagAdd: function(event, tag) {
-                    self.model.add(self.data.field, tag).save();
+                    self.model.add(self.data.field, tag);
                 },
                 onTagRemove: function(event, tag) {
-                    self.model.remove(self.data.field, tag).save();
+                    self.model.remove(self.data.field, tag);
                 }
             });
         });
@@ -1456,14 +1476,39 @@ var Binding = Backbone.View.extend({
         app.scripts.fetch('js/libs/lib.datepicker.min.js', function () {
             if (!self.$el) return false;
 
-            self.$el
-                .datepicker(self.get_value(self.data.date))
+            self.$el.datepicker('hide')
                 .on('changeDate', function (e) {
                     self.$el.data().datepicker.hide();
                     self.update();
                     self.$el.val(self.$el.val()); // Fixes weird display bug
                 });
         });
+    },
+    time: function () {
+        var self = this;
+
+        app.scripts.fetch('js/libs/lib.timepicker.min.js', function () {
+            if (!self.$el) return false;
+
+            try {
+                self.$el
+                    .timepicker({ 'timeFormat': 'g:i A', 'step': 15, 'forceRoundTime': true, disableTouchKeyboard: true })
+                    .timepicker('setTime', self.get_value(self.data.time))
+                    .on('changeTime', function (e) {
+                        var d = new Date(self.$el.timepicker('getTime'));
+                        self.$el.timepicker('hide');
+
+                        setTimeout(function() {
+                            self.ctx.set(self.data.field,  moment(d).format('h:mm A'));
+                        }, 200);
+                    });
+            } catch(err) {
+                // do nothing
+            }
+        });
+    },
+    time_open: function() {
+        this.$el.timepicker().show();
     },
     sortable: function () {
         var self = this;
@@ -1474,9 +1519,12 @@ var Binding = Backbone.View.extend({
             // only works on arrays
             var sortable = Sortable.create(self.$el[0], {
                 handle              : self.data.sortable,
-                forceFallback       : false,
+                forceFallback       : true,
                 scrollSensitivity   : 30,
                 scrollSpeed         : 20,
+                delay               : 200,
+                moveThreshold       : 5,
+
                 onSort: function (evt) {
                     self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
                 }

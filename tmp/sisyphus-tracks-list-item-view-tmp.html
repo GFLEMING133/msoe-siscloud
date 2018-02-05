@@ -1,0 +1,14 @@
+<div class="flex pt10 pb10 pl20 pr20">
+	<div class="w25 hh80 center vertical">
+        <div class="w80 hh80">
+            <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+				data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+			/>
+        </div>
+	</div>
+	<div class="w60 pt20 pl20">
+        <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
+        <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
+	</div>
+    <div class="w15 right h100 vertical">&nbsp;</div>
+</div>

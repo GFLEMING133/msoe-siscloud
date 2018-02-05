@@ -1,112 +1,86 @@
-<div class="h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">{{= model.data.name }}</h1>
+<div class="h100">
+    <div class="pull-top white hh50 w100 vertical vertical-align bg-black no-stuffing">
+        <div class="h__k" data-template="sisyphus-playing-active-tmp"></div>
+        <div class="h__k" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
+            <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
+                <div class="pull-right pl20 pr20 h__k"
+                    data-model="{{= model.data.active_playlist_id }}"
+                    data-on-click="publish"
+                    data-publish="session:active"
+                    data-msg="{'playlist_id':'{{= parent.data.active_playlist_id }}','secondary':'playlist-edit','primary':'media'}"
+                ><img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
+            </div>
         </div>
+        <div class="right pr20 h__k"
+            data-if="{{= session.active.secondary }} == track"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'track_id':'false','secondary':'false'}"
+        ><img src="img/icon_2x_playlist_viewlist.png" alt="Back" class="hh50 pt15 pb15" /></div>
     </div>
-    <div class="body-header pl10 pr10 flex">
-        <div class="w15 hv50">&nbsp;</div>
-        <div class="w70 h__k" data-if="{{= model.data.active_track.id }} == false">
-            <div class="w100 hvw50 bg-ll-grey shadow center vertical">
-                <p class="no-stuffing center">No Current Track</p>
-            </div>
+    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+        <!------------------------- TRACK INSET ------------------------------->
+        <div class="h__k" data-if="{{= session.active.secondary }} == track">
+            <div class="h__k"
+                data-model="{{= session.active.track_id }}"
+                data-template="sisyphus-tracks-hero-tmp"
+            ></div>
         </div>
-        <div class="w70 hv50 h__k" data-if="{{= model.data.active_track.id }} !== false">
-            <div class="h__k hvw70 relative" data-model="{{= model.data.active_track.id }}">
-                <div class="absolute z10 pt10">
-                    <img src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" class="h__k float-center o50" alt="{{= model.data.name }}" style="width: 220px; height: 220px;" />
-                </div>
-                <div class="w100 hvw70 center vertical" style="z-index: 20; position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 10;">
-                    <div class="fa fa-pause-circle black f-xxxxxlarge clickable h__k"
-                        data-if="{{= parent.data.state }} == playing"
-                        data-on-click="parent.pause"
-                    ></div>
-                    <div class="fa fa-play-circle black f-xxxxxlarge clickable h__k"
-                        data-if="{{= parent.data.state }} == paused"
-                        data-on-click="parent.play"
-                    ></div>
-                    <div class="fa fa-home bg-black white p30 rounded f-xxxxxlarge h__k"
-                        data-if="{{= parent.data.state }} == homing"
-                    ></div>
-                    <div class="fa fa-clock-o bg-black white pl30 pr30 pt25 pb25 rounded f-xxxxxlarge h__k"
-                        data-if="{{= parent.data.state }} == waiting"
-                    ></div>
-                </div>
+        <!------------------------- OVERVIEW ---------------------------------->
+        <div class="h__k" data-if="{{= session.active.secondary }} == false">
+            <div class="h__k" data-if="{{= model.data.active_track.id }} == false">
+                <div class="fs18 lh18 pl20 pr20 no-stuffing">No Current Track Playing</div>
             </div>
-            <div class="w100 center p10 h__k" data-model="{{= model.data.active_track.id }}">
-                {{= model.data.name }}
-            </div>
-        </div>
-        <div class="w15 hv50">&nbsp;</div>
-    </div>
-    <div class="mt10 pb250">
-        <div class="h__k pl10 pr10" data-if="{{= model.data.active_playlist_id }} == false">
-            <div class="bt pt10 pb10 center i">
-                There is no active playlist
-            </div>
-        </div>
-        <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
-            <div class="h__k" data-model="{{= model.data.active_playlist_id }}">
-                <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3 pl10 pr10">
-                    <span class="h__k pull-right" data-if="{{= model.data.is_shuffle }} == true">(shuffled)</span>
-                    <span class="h__k pull-right">{{= model.data.duration_formatted }}</span>
-                    <span class="h__k">{{= model.data.name }}</span>
-                </div>
+            <div class="h__k" data-if="{{= model.data.active_track.id }} !== false">
+                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
+                    data-if="{{= model.data.is_waiting_between_tracks }} == true"
+                >Finished Playing</div>
+                <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
+                    data-if="{{= model.data.is_waiting_between_tracks }} == false"
+                >Now Playing</div>
                 <div class="h__k"
-                    data-foreach="model.data.sorted_tracks"
-                    data-foreach-change="foreach_reset"
-                    data-item="sisyphus-upcoming-track-tmp"
+                    data-model="{{= model.data.active_track.id }}"
+                    data-template="sisyphus-tracks-list-item-tmp"
                 ></div>
             </div>
-        </div>
-    </div>
-    <div class="pull-bottom mb70 bg-l-grey">
-        <div class="flex vertical-align">
-            <div class="w10 center bg-ll-grey-hover clickable pt15 pb15 h__k" data-on-click="model.speed_min">
-                <img src="img/icon-slow.png" class="w50 center" alt="slow" />
+            <div class="mt10 pb150">
+                <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
+                    <div class="h__k" data-model="{{= model.data.active_playlist_id }}">
+                        <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
+                        <div class="h__k" data-if="{{= model.data.is_shuffle }} !== undefined">
+            				<div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+            	                <div class="h__k"
+            	                    data-foreach="model.data.sorted_tracks"
+            	                    data-foreach-change="foreach_reset"
+            	                >
+                                    <div class="h__k"
+                                        data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                                        data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
+                                        data-template="sisyphus-tracks-list-item-tmp"
+                                    ></div>
+                                </div>
+            				</div>
+                            <div class="h__k" data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                                <div class="h__k" data-if="{{= model.data.is_loop }} !== false">
+                	                <div class="h__k"
+                	                    data-foreach="model.data.next_tracks"
+                	                    data-foreach-change="foreach_reset"
+                	                >
+                                        <div class="h__k" data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
+                                            <div class="h__k"
+                                                data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                                                data-if="{{= scope.index }} > {{= (parent.data.is_shuffle == 'true') ? 0 : -1 }}"
+                                                data-template="sisyphus-tracks-list-item-tmp"
+                                            ></div>
+                                        </div>
+                                    </div>
+                				</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="w80 flex relative center">
-                <span class="w5"></span>
-                <input class="h__k w90" type="range" min="0" max="1" step=".05"
-                    data-rangetouch="true"
-                    data-on-input="model.speed"
-                    value="{{= model.data.speed }}"
-                />
-                <span class="w5"></span>
-            </div>
-            <div class="w10 center bg-ll-grey-hover clickable pt15 pb15 h__k" data-on-click="model.speed_max">
-                <img src="img/icon-fast.png" class="w50 center" alt="slow" />
-            </div>
-        </div>
-        <div class="flex vertical-align">
-            <div class="w10 center bg-ll-grey-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
-                <i class="fa fa-sun-o center clickable" aria-hidden="true"></i>
-            </div>
-            <div class="w80 flex relative center">
-                <span class="w5"></span>
-                <input class="h__k w90" type="range" min="0" max="1" step=".05"
-                    data-on-input="model.brightness"
-                    value="{{= model.data.brightness }}"
-                />
-                <span class="w5"></span>
-            </div>
-            <div class="w10 center bg-ll-grey-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
-                <i class="fa fa-sun-o f-large center clickable" aria-hidden="true"></i>
-            </div>
-        </div>
-        <div class="flex p10 pb20 h__k"
-            data-if="{{= model.data.state }} == playing"
-            data-template="sisyphus-playback-controls-tmp"
-        ></div>
-        <div class="flex p10 pb20 h__k"
-            data-if="{{= model.data.state }} == paused"
-            data-template="sisyphus-playback-controls-tmp"
-        ></div>
-        <div class="p10 pb20 center h__k" data-if="{{= model.data.state }} == homing">
-            (homing)
-        </div>
-        <div class="p10 pb20 center h__k" data-if="{{= model.data.state }} == waiting">
-            (waiting)
+            <div class="hh50">&nbsp;</div>
         </div>
     </div>
 </div>

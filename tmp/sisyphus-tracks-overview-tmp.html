@@ -1,43 +1,29 @@
-<div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing h__k flex {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt30 center">&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Tracks</h1>
-            </div>
-            <div class="w15 pt30 center">&nbsp;</div>
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w30 left pl20 clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w40">
+            <h1 class="h__k no-stuffing fs18 capitalize truncate">All Tracks</h1>
         </div>
+        <div class="w30 pt30 center">&nbsp;</div>
     </div>
-    <div class="h__k center p20 i"
-        data-if="{{= app.plugins.length(model.data.tracks) }} == 0"
-    >
-        <span>There are no tracks on this Sisyphus.</span>
-        <span class="clickable">Visit the Community tab to download some</span>
-    </div>
-    <div class="h__k" data-if="{{= app.plugins.length(model.data.tracks) }} !== 0">
-        <div class="h__k"
-            data-foreach="model.data.track_ids"
-            data-foreach-map="true"
+    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+        <div class="h__k center p20 i"
+            data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
         >
-            <div class="flex clickable bg-ll-grey-hover h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
-            >
-                <div class="flex p10">
-                    <div class="w10 hvw10 center vertical">
-                        <img src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png" class="w100 center h__k" alt="{{= model.data.name }}" />
-                    </div>
-                    <div class="w5 hvw10">&nbsp;</div>
-                    <div class="w80 hvw10 bb vertical">
-                        <div class="h__k">{{= model.data.name }}</div>
-                    </div>
-                    <div class="w5 hvw10 bb vertical">
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </div>
+            <span>There are no tracks on this Sisyphus.</span>
+            <span class="clickable active">Visit the Community tab to download some</span>
         </div>
+        <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
+            <div class="h__k"
+                data-foreach="model.data.track_ids"
+                data-foreach-map="true"
+                data-item="sisyphus-tracks-list-item-tmp"
+            ></div>
+        </div>
+        <div class="hh150">&nbsp;</div>
     </div>
-    <div class="hh150">&nbsp;</div>
 </div>

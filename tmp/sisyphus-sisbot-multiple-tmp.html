@@ -1,0 +1,45 @@
+<div class="hh50 w100 bg-black no-stuffing h__k"
+    data-template="sisyphus-header-default-tmp"
+></div>
+<div class="black pl40 pr40">
+    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+        <img src="img/icon_2x_check.png" alt="WiFi" class="hh30" />
+    </p>
+    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+        Multiple Tables Found
+    </h3>
+    <p class="center fs18 lh24">
+        Select which table you would like to connect to.
+    </p>
+
+    <h4 class="no-stuffing fs18 lh18 pb5 strong">Available Tables</h4>
+    <div class="select-box block mb50 relative">
+        <div class="absolute z20">
+            <select class="w100 corner-5px h__k fs18 lh18 p10"
+                data-field="model.sisbot_hostname"
+                data-foreach="model.sisbots_ip_name"
+                data-foreach-add="foreach_reset"
+                data-foreach-change="foreach_reset"
+                data-foreach-default="Select Table"
+                data-on-change="foreach_reset"
+            ><option class="h__k pt5 pb5" value="{{= scope.index.replace(/\-/gi, '.') }}">{{= scope.value }}</option></select>
+        </div>
+        <div class="absolute z10">
+            <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt15 relative z10"
+                style="padding-bottom: 12px !important;"
+                aria-hidden="true"
+            ></p>
+        </div>
+    </div>
+    <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+        data-if="{{= model.sisbot_connecting }} == false"
+        data-on-click="model.connect_to_sisbot"
+    >Connect</h2>
+
+    <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_connecting }} == true">
+        <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
+        <div class="h__k">
+            Connecting...
+        </div>
+    </div>
+</div>

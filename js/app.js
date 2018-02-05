@@ -24,6 +24,7 @@ var app = {
 	setup: function () {
 		if (window.cordova)						app.is_app = true;
 		if (app.plugins.is_mobile() !== false)	app.is_app = true;
+		if (window.cordova)						StatusBar.show();
 
 		// FOR TOUCH EVENTS
 		if (app.is_app)
@@ -33,7 +34,6 @@ var app = {
 
 		if (app.config.env !== 'server')		app.setup_error_listener();
 		if (app.config.env !== 'server')		app.templates.initialize();
-		if (app.config.env !== 'server')		app.socket.initialize();
 
 		app.collection							= new app.base.collection(null, { model: app.model.neuron });
 		app.collection.on_init();

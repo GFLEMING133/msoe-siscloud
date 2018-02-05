@@ -1,6 +1,6 @@
 <div class="pull-top bg-white w100">
-    <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-        <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
+    <div class="white bg-black w100 center no-stuffing flex">
+        <div class="w15 pt20 center fa fa-arrow-left f-large clickable active bg-grey-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
@@ -13,7 +13,7 @@
 </div>
 <div class="body-header h__k" data-model="{{= model.sisbot_id }}">
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
-        <div class="i center shadow bg-ll-grey p30 m10 clickable h__k"
+        <div class="i center shadow bg-grey-ll p30 m10 clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'primary':'settings','secondary':'wifi'}"
@@ -45,7 +45,7 @@
             <br clear="both">
             <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_up_via_settings">Create Your Account</h2>
         </div>
-        <div class="h__k p30 clickable center i"
+        <div class="h__k p30 clickable active center i"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'sign_in'}"

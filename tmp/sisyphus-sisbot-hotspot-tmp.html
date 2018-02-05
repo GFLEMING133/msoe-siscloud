@@ -1,24 +1,27 @@
-<h1 class="bg-d-grey center white no-stuffing p20">Network Error</h1>
-<div class="bg-white black">
-    <p class="p20 center justify">
-        No Sisyphus was found. If you are setting up a new Sisyphus go to your
-        wifi settings and connect to the Sisyphus network then click "Find Sisyphus" below.
+<div class="hh50 w100 bg-black no-stuffing h__k"
+    data-template="sisyphus-header-default-tmp"
+></div>
+<div class="bg-white black pl40 pr40">
+    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+        <img src="img/icon_2x_check.png" alt="WiFi" class="hh30" />
     </p>
-    <p class="p10 mb20 float-center center btn bg-blue h__k" style="max-width: 80%;"
-        data-if="{{= app.is_app }} == true"
-        data-on-click="model.open_network_settings"
-    >Open Wifi Settings</p>
-    <h2 class="btn bg-green w100 m0 p20 h__k"
-        data-on-click="set"
-        data-field="model.sisbot_registration"
-        data-value="find"
-    >Find Sisyphus</h2>
-</div>
-<div class="h__k" data-if="{{= app.is_app }} == true">
-    <div class="h__k p20 clickable center i white"
-        data-if="{{= model.sisbots_scanning }} == false"
-        data-on-click="set"
-        data-field="model.sisbot_registration"
-        data-value="hostname"
-    >Enter IP Address here?</div>
+    <h3 class="m0 pt20 pb30 center justify fs24 lh24">
+        Connect to New Table
+    </h3>
+    <p class="center fs18 lh24">
+        Click the button below to go to your phone's wifi settings. Connect to the
+        network that begins with Sisyphus and return back here after you have connected.
+    </p>
+    <div class="pb20 h__k" data-if="{{= model.sisbot_connecting }} == false">
+        <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+            data-if="{{= app.is_app }} == true"
+            data-on-click="model.open_network_settings"
+        >Open Wifi Settings</p>
+    </div>
+    <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_connecting }} == true">
+        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+        <div class="h__k">
+            Connecting...
+        </div>
+    </div>
 </div>

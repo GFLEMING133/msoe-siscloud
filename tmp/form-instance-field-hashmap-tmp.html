@@ -1,8 +1,0 @@
-<select class="no-stuffing h__k"
-    data-foreach="model.data.hashmap"
-    data-shepherd="form_instance:{{=  app.plugins.slugify(model.data.name) }}"
-    data-selected="{{= parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}'] }}"
-    data-field="parent.responses[{[= _super_._super_._super_.scope.attributes.index ]}]['{[= model.id ]}']"
-    data-foreach-default="{{= model.data.placeholder }}"
-    data-foreach-default-value="false"
-><option class="h__k" value="{{= scope.value.key }}">{{= scope.value.value }}</option></select>

@@ -9,7 +9,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 			is_fetching_neighbors: 'false',
 			is_editing		: 'false',
 			show_submit		: 'true',
-			is_expanded		: 'true',
+			is_expanded		: 'false',
 			context_menu	: 'false',
 			is_unfetchable	: 'false',
 			messages		: [],
@@ -79,6 +79,12 @@ app.model.neuron = Backbone.NestedModel.extend({
 	select_all: function (obj) {
 		this.set('responses[' + obj.index + '][' + obj.key + ']', obj.cluster.pluck('id'));
 	},
+	collapse: function () {
+		this.set('is_expanded', 'false');
+	},
+	expand: function () {
+		this.set('is_expanded', 'true');
+	},
 	/*************************** LISTENERS ************************************/
 	listeners: [],
 	setup_listeners: function() {
@@ -143,7 +149,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 			} else {
 				if (!_.isArray(obj.err)) obj.err = [ obj.err ];
 
-				self.set('is_unfetchable', 'true');
+				self.set('is_unfetchable', 'false');
 				self.set('is_fetched', 'true');
 			}
 		});
@@ -241,6 +247,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 
 		this.set('data.updated_at', this.timestamp());
 		this.set('data.is_saved', 'true');
+		app.collection.trigger('export', this);
 
 		app.collection.outgoing('set', this, function (cbb) {
 			//console.log("Outgoing set", cbb);

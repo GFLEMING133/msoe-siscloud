@@ -1,38 +1,39 @@
-<div class="body-header">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center fa fa-arrow-left f-large clickable bg-grey-hover h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'false'}"
-            >&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Change Hostname</h1>
-            </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
+<div class="h100">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w30 left pl20 clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced_settings'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w40">
+            <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Change Hostname</h1>
         </div>
+        <div class="w30">&nbsp;</div>
     </div>
-    <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_update_hostname">
-        <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div class="h__k" data-foreach="model.errors">
-                <div class="h__k pb5 red">{{= scope.value }}</div>
+    <div class="body-header h100 scroll hide-scrollbar">
+        <div class="h__k bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_update_hostname">
+            <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+                <div class="h__k" data-foreach="model.errors">
+                    <div class="h__k pb5 red">{{= scope.value }}</div>
+                </div>
+            </div>
+            <div class="pl20 pr20">
+                <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Hostname</h4>
+                <div class="pb20">
+                    <input class="h__k fs18 w100" type="text" placeholder="sisyphus"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.hostname"
+                        value="{{= model.hostname }}"
+                    />
+                </div>
+                <h2 class="btn bg-blue w100 m0 corner-5px uppercase fs18 strong p15 h__k"
+                    data-if="{{= model.updating_hostname }} == false"
+                    data-on-click="model.update_hostname"
+                >Update Hostname</h2>
+                <h2 class="btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong p15 h__k"
+                    data-if="{{= model.updating_hostname }} == true"
+                >Update Hostname</h2>
             </div>
         </div>
-        <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Hostname</h4>
-        <div class="pl20 pr20 pb10">
-            <input class="h__k w100" type="text" placeholder="sisyphus"
-                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                data-field="model.hostname"
-                value="{{= model.hostname }}"
-            />
-        </div>
-        <br clear="both">
-        <h2 class="btn bg-green w100 m0 p20 h__k"
-            data-if="{{= model.updating_hostname }} == false"
-            data-on-click="model.update_hostname"
-        >Update Hostname</h2>
-        <h2 class="btn bg-blue w100 m0 p20 h__k"
-            data-if="{{= model.updating_hostname }} == true"
-        >Updating Hostname <i class="fa fa-spinner spin" aria-hidden="true"></i></h2>
     </div>
 </div>

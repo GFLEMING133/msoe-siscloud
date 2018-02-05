@@ -1,116 +1,34 @@
-<div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.track_id }}">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
-            <div class="w15 pt20 center f-large bg-grey-hover clickable">
-                <div class="h__k"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'secondary':'false'}"
-                ><i class="fa fa-arrow-left" aria-hidden="true"></i></div>
-            </div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 truncate capitalize">{{= model.data.name }}</h1>
-            </div>
-            <div class="w15 pt20 center clickable bg-grey-hover f-large">
-                <span class="fa fa-plus h__k"
-                    data-if="{{= model.is_adding }} == false"
-                    data-on-click="model.playlist_add"
-                ></span>
-                <span class="fa fa-times h__k"
-                    data-if="{{= model.is_adding }} == true"
-                    data-on-click="model.playlist_cancel"
-                ></span>
-            </div>
+<div class="h100 h__k" data-model="{{= session.active.track_id }}">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+        <div class="w30 left pl20 clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w40">
+            <h1 class="h__k no-stuffing fs18 capitalize truncate h__k">{{= model.data.name }}</h1>
         </div>
+        <div class="w30 pt30 center">&nbsp;</div>
     </div>
-    <div class="h__k bg-ll-grey bb" data-if="{{= model.is_adding }} == true">
-        <div class="h__k p20 center i" data-if="{{= app.plugins.length(model.playlist_not_ids) }} == 0">
-            There are no playlists to add to
-        </div>
-        <div class="h__k"
-            data-if="{{= app.plugins.length(model.playlist_not_ids) }} > 0"
-            data-foreach="model.playlist_not_ids"
-            data-foreach-map="true"
-            data-foreach-change="foreach_reset"
-        >
-            <div class="p10 bb-med clickable bg-ll-grey-hover h__k"
-                data-on-click="parent.playlist_add_finish"
-                data-msg="{{= model.id }}"
-            >Add to "{{= model.data.name }}"</div>
-        </div>
-    </div>
-    <div class="h100 scroll hide-scrollbar">
-				<!-- <div class="flex mt10 mb10 pb20 bb h__k" data-if="{{= model.d3 }} == true">
-					<div class="w100 h__k" style="height: 550px" data-run="model.load_d3_data" data-if="{{= model.d3_data.loaded }} == true">
-						<div class="h__k" style="width:400px; height: 400px;" data-d3="true"></div>
-						<div class="h__k" style="width:50px; height: 50px;" data-d3="true" data-d3-w="50" data-d3-h="50"></div>
-					</div>
-				</div> -->
-        <div class="flex mt10 mb10 pb20 bb">
-            <div class="w15">&nbsp;</div>
-            <div class="w70 hvw50 center vertical clickable h__k"
-                data-on-click="model.play"
-            >
-                <div class="h__k" data-if="{{= model.generating_thumbnails }} == false">
-                    <img src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" class="w100 center h__k" alt="slow" />
-                </div>
-                <div class="h__k" data-if="{{= model.generating_thumbnails }} == true">
-                    <img src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" class="w100 center h__k" alt="slow" />
-                </div>
+    <div class="body-header h100 scroll hide-scrollbar">
+        <div class="h__k bg-grey-ll bb" data-if="{{= model.is_adding }} == true">
+            <div class="h__k p20 center i" data-if="{{= app.plugins.length(model.playlist_not_ids) }} == 0">
+                There are no playlists to add to
             </div>
-            <div class="w15">&nbsp;</div>
-        </div>
-        <div class="p10 bb flex">
-            <div class="w50">
-                <p class="no-stuffing h__k">Name: {{= model.data.name }}</p>
-                <p class="no-stuffing h__k">Created By: {{= model.data.created_by_name }}</p>
-                <p class="no-stuffing h__k">Public Track: {{= (model.data.is_published == 'true') ? 'Yes' : 'No' }}</p>
-                <!--
-                <p class="no-stuffing clickable h__k"
-                    data-if="{{= model.generating_thumbnails }} == false"
-                    data-on-click="model.generate_thumbnails"
-                >Generate Thumbnails?</p>
-                <p class="no-stuffing h__k" data-if="{{= model.generating_thumbnails }} == true">Generating Thumbnails <i class="fa fa-spinner spin" aria-hidden="true"></i></p>
-                -->
-            </div>
-            <div class="w50 h__k" data-if="{{= app.manager.get('user_id') }} == {{= model.data.created_by_id }}">
-                <span class="no-stuffing bg-green fa fa-cloud-upload white p10 rounded pull-right h__k"
-                    data-if="{{= model.data.is_published }} == true"
-                    data-on-click="model.unpublish"
-                ></span>
-                <span class="no-stuffing bg-grey fa fa-cloud-upload white p10 rounded pull-right h__k"
-                    data-if="{{= model.data.is_published }} == false"
-                    data-on-click="model.publish"
-                ></span>
-            </div>
-        </div>
-        <div class="h__k" data-run="model.get_playlists">
-            <div class="bg-d-grey white no-stuffing pl10 uppercase pt3 pb3">
-                Playlists
-            </div>
-            <div class="p20 center i h__k"
-                data-if="{{= app.plugins.length(model.playlist_ids) }} == 0"
-            >This track is not part of any playlists</div>
-            <div class="h__k flex"
-                data-if="{{= app.plugins.length(model.playlist_ids) }} > 0"
-                data-foreach="model.playlist_ids"
-                data-foreach-change="foreach_reset"
+            <div class="h__k"
+                data-if="{{= app.plugins.length(model.playlist_not_ids) }} > 0"
+                data-foreach="model.playlist_not_ids"
                 data-foreach-map="true"
+                data-foreach-change="foreach_reset"
             >
-                <div class="w25 center clickable bg-ll-grey-hover h__k"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','primary':'playlists'}"
-                >
-                    <div class="m10">
-                        <div class="w100 hvw20 center vertical relative">
-                            <div class="h__k z10" data-template="sisyphus-playlist-rendering"></div>
-                        </div>
-                    </div>
-                    <div class="pb10 h__k">{{= model.data.name }}</div>
-                </div>
+                <div class="p10 bb-med clickable active bg-grey-ll-hover h__k"
+                    data-on-click="parent.playlist_add_finish"
+                    data-msg="{{= model.id }}"
+                >Add to "{{= model.data.name }}"</div>
             </div>
         </div>
-        <div class="hh150">&nbsp;</div>
+        <div class="h100 scroll hide-scrollbar">
+            <div class="h__k" data-template="sisyphus-tracks-hero-tmp"></div>
+        </div>
     </div>
 </div>

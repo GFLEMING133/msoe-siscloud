@@ -25,16 +25,20 @@ a, a:hover {
 }
 
 body, h1, h2, h3, h4, h5, h6, p {
-	font-family					: "Helvetica Neue", "Calibri Light", Roboto, sans-serif;
+	font-family					: "Montserrat", Roboto, sans-serif;
+	font-weight					: 400;
 	text-rendering				: optimizeLegibility;
     -webkit-font-smoothing		: antialiased;
     -moz-osx-font-smoothing		: grayscale;
-    letter-spacing				: 0.02em;
 	line-height					: 1em;
 }
 
+.kern {
+	letter-spacing				: 0.2em;
+}
+
 h1, h2, h3 {
-	font-weight					: 300;
+	font-weight					: 500;
 }
 
 h1 {
@@ -49,9 +53,7 @@ p {
 }
 
 input, textarea {
-    border                      : none !important;
     box-shadow                  : none !important;
-    border-bottom               : 1px solid #efefef !important;
     padding                     : 7px 5px;
     font-size                   : inherit;
     line-height                 : 1.4em;
@@ -78,6 +80,8 @@ li {
 
 input {
     background-color			: inherit !important;
+	border						: 2px solid #838383;
+	border-radius				: 5px;
 }
 
 input:focus {
@@ -88,28 +92,43 @@ label {
 	font-weight: inherit;
 }
 
+.border-box {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 /****************************** TARGETED **************************************/
 
 .web .app-container {
-	max-width				: 480px;
+	max-width				: 375px;
 	position				: relative;
 	margin					: 0px auto;
 	height					: 90%;
 	margin-top				: 20px;
-	max-height				: 960px;
+	max-height				: 640px;
+	box-shadow				: 0px 1px 1px #000;
 }
 
 .app .app-container {
 	height					: 100%;
 }
 
+.mymodal {
+	position				: fixed;
+	left					: 0px;
+	right					: 0px;
+	top						: 0px;
+	bottom					: 0px;
+	z-index					: 10000;
+}
 
 .body-header {
-	margin-top				: 75px;
+	margin-top				: 50px;
 }
 
 .web {
-	background-color		: #f7f7f7 !important;
+	background-color		: #222 !important;
 }
 
 .app {
@@ -117,7 +136,7 @@ label {
 }
 
 .web .body-header {
-	padding-top				: 55px;
+	padding-top				: 50px;
 	margin-top				: 0px;
 }
 
@@ -181,6 +200,10 @@ label {
 	margin: 0px;
 }
 
+.active:active {
+	opacity			: .8;
+}
+
 .active-question {
     box-shadow        	: 0px 1px 6px #bfbfbf;
     border-left       	: 2px solid #ffcc66;
@@ -229,6 +252,7 @@ label {
 .scroll {
 	overflow-y					: scroll;
 	overflow-x					: hidden;
+	-webkit-overflow-scrolling	: touch;
 }
 
 .no-scroll {
@@ -374,6 +398,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .vertical-align {
 	align-items				: center;
 	vertical-align			: middle;
+	-ms-flex-align			: center;
+	-webkit-align-items		: center;
+	-webkit-box-align		: center;
+	align-items				: center;
 }
 
 /**************************** Flex ********************************************/
@@ -381,11 +409,15 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex {
 	display					: -webkit-box;
 	display					: -webkit-flex;
+	-webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
 	display					: flex;
 	width					: 100%;
 }
 
+.flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
+.flex .w7-5 					{	flex-basis: 7.5%;		width: 7.5%;			}
 .flex .w10 						{	flex-basis: 10%;		width: 10%;				}
 .flex .w14						{	flex-basis: 14.28%;		width: 14.28%;			}
 .flex .w15 						{	flex-basis: 15%;		width: 15%;				}
@@ -409,6 +441,79 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex .w95 						{	flex-basis: 95%;		width: 95%;				}
 .flex .w100 					{	flex-basis: 100%;		width: 100%;			}
 .flex .h100						{	height: auto;			align-items: stretch;	}
+
+.flex .w24-1 					{	flex-basis: 4.165%;		width: 4.165%;			}
+.flex .w24-2 					{	flex-basis: 8.33%;		width: 8.33%;			}
+.flex .w24-4 					{	flex-basis: 16.66%;		width: 16.66%;			}
+.flex .w24-6 					{	flex-basis: 25%;		width: 25%;				}
+.flex .w24-8 					{	flex-basis: 33.33%;		width: 33.33%;			}
+.flex .w24-10 					{	flex-basis: 41.66%;		width: 41.66%;			}
+.flex .w24-12 					{	flex-basis: 50%;		width: 50%;				}
+.flex .w24-14 					{	flex-basis: 58.33%;		width: 58.33%;			}
+.flex .w24-16 					{	flex-basis: 66.66%;		width: 66.66%;			}
+.flex .w24-18 					{	flex-basis: 75%;		width: 75%;				}
+.flex .w24-19 					{	flex-basis: 79.165%;	width: 79.165%;			}
+.flex .w24-20 					{	flex-basis: 83.33%;		width: 83.33%;			}
+.flex .w24-22 					{	flex-basis: 91.66%;		width: 91.66%;			}
+.flex .w24-24 					{	flex-basis: 100%;		width: 100%;			}
+
+.flex .pl24-1 					{	padding-left: 4.165%;							}
+.flex .pl24-2 					{	padding-left: 8.33%;							}
+.flex .pl24-4 					{	padding-left: 16.66%;							}
+.flex .pl24-6 					{	padding-left: 25%;								}
+.flex .pl24-8 					{	padding-left: 33.33%;							}
+.flex .pl24-10 					{	padding-left: 41.66%;							}
+.flex .pl24-12 					{	padding-left: 50%;								}
+.flex .pl24-14 					{	padding-left: 58.33%;							}
+.flex .pl24-16 					{	padding-left: 66.66%;							}
+.flex .pl24-18 					{	padding-left: 75%;								}
+.flex .pl24-20 					{	padding-left: 83.33%;							}
+.flex .pl24-22 					{	padding-left: 91.66%;							}
+.flex .pl24-24 					{	padding-left: 100%;								}
+
+.flex .pr24-1 					{	padding-right: 4.165%;							}
+.flex .pr24-2 					{	padding-right: 8.33%;							}
+.flex .pr24-4 					{	padding-right: 16.66%;							}
+.flex .pr24-6 					{	padding-right: 25%;								}
+.flex .pr24-8 					{	padding-right: 33.33%;							}
+.flex .pr24-10 					{	padding-right: 41.66%;							}
+.flex .pr24-12 					{	padding-right: 50%;								}
+.flex .pr24-14					{	padding-right: 58.33%;							}
+.flex .pr24-16 					{	padding-right: 66.66%;							}
+.flex .pr24-18 					{	padding-right: 75%;								}
+.flex .pr24-20 					{	padding-right: 83.33%;							}
+.flex .pr24-22 					{	padding-right: 91.66%;							}
+.flex .pr24-24 					{	padding-right: 100%;							}
+
+.flex .pt24-1 					{	padding-top: 4.165%;							}
+.flex .pt24-2 					{	padding-top: 8.33%;								}
+.flex .pt24-4 					{	padding-top: 16.66%;							}
+.flex .pt24-6 					{	padding-top: 25%;								}
+.flex .pt24-8 					{	padding-top: 33.33%;							}
+.flex .pt24-10 					{	padding-top: 41.66%;							}
+.flex .pt24-12 					{	padding-top: 50%;								}
+.flex .pt24-14					{	padding-top: 58.33%;							}
+.flex .pt24-16 					{	padding-top: 66.66%;							}
+.flex .pt24-18 					{	padding-top: 75%;								}
+.flex .pt24-20 					{	padding-top: 83.33%;							}
+.flex .pt24-22 					{	padding-top: 91.66%;							}
+.flex .pt24-24 					{	padding-top: 100%;								}
+
+.flex .pb24-1 					{	padding-bottom: 4.165%;							}
+.flex .pb24-2 					{	padding-bottom: 8.33%;							}
+.flex .pb24-4 					{	padding-bottom: 16.66%;							}
+.flex .pb24-6 					{	padding-bottom: 25%;							}
+.flex .pb24-8 					{	padding-bottom: 33.33%;							}
+.flex .pb24-10 					{	padding-bottom: 41.66%;							}
+.flex .pb24-12 					{	padding-bottom: 50%;							}
+.flex .pb24-14					{	padding-bottom: 58.33%;							}
+.flex .pb24-16 					{	padding-bottom: 66.66%;							}
+.flex .pb24-18 					{	padding-bottom: 75%;							}
+.flex .pb24-20 					{	padding-bottom: 83.33%;							}
+.flex .pb24-22 					{	padding-bottom: 91.66%;							}
+.flex .pb24-24 					{	padding-bottom: 100%;							}
+
+.w1p							{	width: 1px;										}
 
 .flex .h5 						{	height: 5vw;	height: 5%;						}
 .flex .h10 						{	height: 10vw;									}
@@ -438,6 +543,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .w15p							{	width		: 15px;								}
 .w20p							{	width		: 20px;								}
 .w25p							{	width		: 25px;								}
+.w80p							{	width		: 80px;								}
+
+.mh-480							{	min-height	: 480px;							}
 
 /**************************** Generic ******************************************/
 
@@ -448,6 +556,18 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	width			: 100%;
 	z-index			: 1000;
 	background		: inherit;
+}
+
+.app .pull-top {
+	top				: 25px;
+}
+
+.app .body-header {
+	margin-top				: 75px;
+}
+
+.app .body-header > *:last-child {
+	margin-bottom			: 25px;
 }
 
 .pull-bottom	{
@@ -489,11 +609,19 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .h100									{	height					: 100%;						}
 .va-top									{	vertical-align			: top;						}
 
+.hh5									{	height					: 5px;						}
+.hh10									{	height					: 10px;						}
+.hh15									{	height					: 15px;						}
+.hh18									{	height					: 18px;						}
+.hh20									{	height					: 20px;						}
 .hh25									{	height					: 25px;						}
+.hh30									{	height					: 30px;						}
+.hh40									{	height					: 40px;						}
 .hh50									{	height					: 50px;						}
 .hh75									{	height					: 75px;						}
 .hh80									{	height					: 80px;						}
 .hh100									{	height					: 100px;					}
+.hh120									{	height					: 120px;					}
 .hh125									{	height					: 125px;					}
 .hh150									{	height					: 150px;					}
 .hh200									{	height					: 200px;					}
@@ -516,11 +644,11 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .w100                                   {   width                   : 100% !important;          }
 
 .shadow 								{	box-shadow				: 0px 1px 2px #999;			}
-.strong									{	font-weight				: bold;						}
+.strong									{	font-weight				: 700;						}
 .clickable 								{	cursor		: pointer;								}
 .no-stuffing							{	margin		: 0px;			padding: 0px;			}
 .stuffing								{	margin		: 0px;			padding: 10px;			}
-.block									{ display: block; }
+.block									{	display		: block;								}
 .inline									{	float		: left;			display: inline;		}
 .inline-block							{	display		: inline-block;							}
 .left									{   text-align	: left;									}
@@ -546,12 +674,84 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	text-overflow	: ellipsis;
 }
 
-.img-rounded, .rounded					{ 	border-radius			: 100px;					}
+.img-rounded, .rounded					{ 	border-radius				: 100px;	}
 
-.corner-2px								{	border-radius			: 2px;						}
-.corner-3px								{	border-radius			: 3px;						}
-.corner-4px								{	border-radius			: 4px;						}
-.corner-5px								{	border-radius			: 5px;						}
+.corner-2px, .corner-2px:hover			{	border-radius				: 2px;		}
+.corner-3px, .corner-3px:hover			{	border-radius				: 3px;		}
+.corner-4px, .corner-4px:hover			{	border-radius				: 4px;		}
+.corner-5px, .corner-5px:hover			{	border-radius				: 5px;		}
+.corner-10px, .corner-10px:hover		{	border-radius				: 10px;		}
+.corner-tl-none, .corner-tl-none:hover	{	border-top-left-radius		: 0px;		}
+.corner-tr-none, .corner-tr-none:hover	{	border-top-right-radius		: 0px;		}
+.corner-bl-none, .corner-bl-none:hover	{	border-bottom-left-radius	: 0px;		}
+.corner-br-none, .corner-br-none:hover	{	border-bottom-right-radius	: 0px;		}
+
+
+.spinner-bounce {
+  margin: 0px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.black .spinner-bounce > div {
+	background-color: black;
+}
+
+.spinner-bounce > div {
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner-bounce .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner-bounce .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+select {
+    padding						: 7px 8px;
+	border						: 2px solid #838383;
+    box-shadow					: none;
+    background					: transparent;
+    background-image			: none;
+    -webkit-appearance			: none;
+}
+
+select:focus {
+    outline: none;
+}
+
+.select-box .fa-chevron-down {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+
+}
 
 /**************************** ZINDEX ******************************************/
 
@@ -564,16 +764,26 @@ body > .container > .row {	/* remove if you want a bottom bar */
 /**************************** OPACITY *****************************************/
 
 .o0										{	opacity					: 0;						}
+.o5										{	opacity					: .05;						}
 .o10									{	opacity					: .1;						}
+.o15									{	opacity					: .15;						}
 .o20									{	opacity					: .2;						}
+.o25									{	opacity					: .25;						}
 .o30									{	opacity					: .3;						}
+.o35									{	opacity					: .35;						}
 .o40									{	opacity					: .4;						}
+.o45									{	opacity					: .45;						}
 .o50									{	opacity					: .5;						}
+.o55									{	opacity					: .55;						}
 .o60									{	opacity					: .6;						}
+.o65									{	opacity					: .65;						}
 .o70									{	opacity					: .7;						}
+.o75									{	opacity					: .75;						}
 .o80									{	opacity					: .8;						}
+.o85									{	opacity					: .85;						}
 .o90									{	opacity					: .9;						}
-.o100									{	opacity					: 1;						}
+.o95									{	opacity					: .95;						}
+.o100, .o100-hover:hover				{	opacity					: 1;						}
 
 /**************************** ICONS *******************************************/
 
@@ -598,17 +808,16 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bl-orange								{	border-left				: 3px solid #F4AE3D;		}
 
 .black 									{	color		: #333 !important;						}
-.blue 									{	color		: #134550 !important;					}
 .blue-l 								{	color		: #22AEFF !important;					}
+.blue, .blue-hover:hover 				{	color		: #11b2fb !important;					}
 .orange									{	color		: #b44a27 !important;					}
 .green									{	color		: #32B150 !important;					}
-.red									{	color		: #B53316 !important;					}
+.red									{	color		: #d0021b !important;					}
 .xl-grey								{	color		: #EEE !important;						}
-.l-grey									{	color		: #999 !important;						}
-.l-grey-hover:hover						{	color		: #999 !important;						}
-.grey									{	color		: #444 !important;						}
-.white, .white:hover					{	color		: #fff !important;						}
-.white-hover:hover						{	color		: #fff !important;						}
+.grey-l									{	color		: #acacac !important;					}
+.grey-l-hover:hover						{	color		: #acacac !important;					}
+.grey									{	color		: #838383 !important;					}
+.white, .white-hover:hover				{	color		: #fff !important;						}
 .black-hover:hover 						{	color		: #333 !important;						}
 .bblack-hover:hover 					{	color		: #000 !important;						}
 
@@ -619,15 +828,15 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-red 								{	background-color		: #990033 !important;		}
 .bg-white 								{	background-color		: #ffffff !important;		}
 .bg-d-blue 								{	background-color		: #0F72AB !important;		}
-.bg-blue 								{	background-color		: #22AEFF !important;		}
+.bg-blue 								{	background-color		: #25b3f8 !important;		}
 .bg-orange								{	background-color		: #F4AE3D !important;		}
 .bg-green								{	background-color		: #32B150 !important;		}
 .bg-dd-grey								{	background-color		: #222222 !important;		}
 .bg-d-grey								{	background-color		: #292929 !important;		}
-.bg-m-grey								{	background-color		: #555 !important;		}
-.bg-grey								{	background-color		: #525252 !important;		}
-.bg-l-grey								{	background-color		: #8f8f8f !important;		}
-.bg-ll-grey								{	background-color		: #f7f7f7 !important;		}
+.bg-m-grey								{	background-color		: #555 !important;			}
+.bg-grey								{	background-color		: #838383 !important;		}
+.bg-grey-l								{	background-color		: #9b9b9b !important;		}
+.bg-grey-ll								{	background-color		: #e7e7e7 !important;		}
 .bg-ll-blue								{	background-color		: #d9edf7 !important;		}
 .bg-ll-green							{	background-color		: #dff0d8 !important;		}
 .bg-ll-red								{	background-color		: #f9f2f4 !important;		}
@@ -677,8 +886,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .touch-hover .bg-white-hover:hover 		{	background-color		: #ffffff !important;		}
 .touch-hover .bg-orange-hover:hover		{	background-color		: #BC5D00 !important;		}
 .touch-hover .bg-green-hover:hover		{	background-color		: #54BC00 !important;		}
-.touch-hover .bg-ll-grey-hover:hover	{	background-color		: #EFEFEF !important;		}
-.touch-hover .bg-l-grey-hover:hover		{	background-color		: #8f8f8f !important;		}
+.touch-hover .bg-grey-ll-hover:hover	{	background-color		: #EFEFEF !important;		}
+.touch-hover .bg-grey-l-hover:hover		{	background-color		: #8f8f8f !important;		}
 .touch-hover .bg-grey-hover:hover		{	background-color		: #525252 !important;		}
 .touch-hover .bg-m-grey-hover:hover		{	background-color		: #454545 !important;		}
 .touch-hover .bg-d-grey-hover:hover		{	background-color		: #333 !important;			}
@@ -686,27 +895,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bg-danger								{	color					: #c7254e;					}
 .error-msg 								{	width					: 100%;						}
 
-.calendar-schedule-start {
-	border-top-left-radius		: 25px;
-	border-bottom-left-radius	: 25px;
-}
-.calendar-schedule-end {
-	border-top-right-radius		: 25px;
-	border-bottom-right-radius	: 25px;
-}
+.error-border							{	border-color			: #de0000;					}
+.error									{	color					: #de0000;					}
 
-.calendar-schedule-published {
-	background-color			: #0F72AB;
-}
-.calendar-schedule-generated {
-	background-color			: #22AEFF;
-}
-.calendar-schedule-setup {
-	background-color			: #A8E4F7;
-}
-
-.calendar-active						{	background-color		: #d9edf7;					}
-.calendar-active-hover:hover			{	background-color		: #d9edf7;					}
 
 /**************************** FONT SIZE ***************************************/
 
@@ -738,10 +929,20 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 .ff-xlarge								{	font-size				: 48px;						}
 
+.fs12									{	font-size				: 12px !important;			}
+.fs13									{	font-size				: 13px !important;			}
+.fs14									{	font-size				: 14px !important;			}
+.fs18									{	font-size				: 18px !important;			}
+.fs24									{	font-size				: 24px !important;			}
 
-.fl10										{ line-height: 1.0em }
-.fl15										{ line-height: 1.5em }
-.fl20										{ line-height: 2.0em }
+.fl10									{	line-height				: 1.0em;					}
+.fl15									{	line-height				: 1.5em;					}
+.fl20									{	line-height				: 2.0em;					}
+
+.lh12									{	line-height				: 12px;						}
+.lh18									{	line-height				: 18px;						}
+.lh20									{	line-height				: 20px;						}
+.lh24									{	line-height				: 24px;						}
 
 /**************************** BORDERS *****************************************/
 
@@ -751,11 +952,25 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
 
+.b-none									{	border					: none;								}
+
+
+.b2										{	border					: 2px solid #838383 !important;		}
+
+.b-white-2px							{	border					: 2px solid #fff !important;		}
+.b-white								{	border					: 1px solid #fff !important;		}
+.bt-white								{	border-top				: 1px solid #fff !important;		}
+.bb-white								{	border-bottom			: 1px solid #fff !important;		}
+.bl-white								{	border-left				: 1px solid #fff !important;		}
+.br-white								{	border-right			: 1px solid #fff !important;		}
+
+
 .bt-med									{	border-top				: 1px solid #ccc !important;		}
 .bb-med									{	border-bottom			: 1px solid #ccc !important;		}
 .bl-med									{	border-left				: 1px solid #ccc !important;		}
 .br-med									{	border-right			: 1px solid #ccc !important;		}
 
+.b-dark									{	border					: 2px solid #444444 !important;		}
 .bt-dark								{	border-top				: 1px solid #444444 !important;		}
 .bb-dark								{	border-bottom			: 1px solid #444444 !important;		}
 .bl-dark								{	border-left				: 1px solid #444444 !important;		}
@@ -889,6 +1104,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .pl5									{	padding-left			: 5px !important;						}
 .pr5									{	padding-right			: 5px !important;						}
 
+.pt7									{	padding-top				: 7px !important;						}
+.pb7									{	padding-bottom			: 7px !important;						}
+
 .pt10									{	padding-top				: 10px !important;						}
 .pb10									{	padding-bottom			: 10px !important;						}
 .pl10									{	padding-left			: 10px !important;						}
@@ -929,33 +1147,17 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .pl100									{	padding-left			: 100px !important;						}
 .pr100									{	padding-right			: 100px !important;						}
 
+.pt150						            {   padding-top             : 150px !important;			            }
+.pb150						            {   padding-bottom	        : 150px !important;			            }
+.pl150									{	padding-left			: 150px !important;						}
+.pr150									{	padding-right			: 150px !important;						}
+
 .pt250						            {   padding-top             : 250px !important;			            }
 .pb250						            {   padding-bottom	        : 250px !important;			            }
 .pl250									{	padding-left			: 250px !important;						}
 .pr250									{	padding-right			: 250px !important;						}
 
 /**************************** CSS CHECKBOXES **********************************/
-
-.checkbox {
-	width						: 25px;
-	height						: 25px;
-	border						: 1px solid #C0C0C0;
-	border-radius				: 5px;
-	cursor						: pointer;
-	background-color			: #F8F8F8;
-	margin						: 5px;
-}
-
-.checked .checkbox:after {
-	content						: '✔';
-    position					: absolute;
-    top							: 3px;
-    left						: -2px;
-    font-size					: 40px;
-	font-weight					: 100;
-    color						: green;
-    transition					: all .2s;
-}
 
 input.cmn-toggle-round + label {
   padding: 3px;
@@ -1018,12 +1220,13 @@ input[type=range] {
     appearance: none;
     cursor: pointer;
     border: none !important;
-    background: 0 0
+    background: 0 0;
+	overflow: hidden;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
     height: 5px;
-    background: #333;
+    background: #efefef;
     border: 0;
     border-radius: 5px;
     -webkit-user-select: none;
@@ -1036,8 +1239,23 @@ input[type=range]::-webkit-slider-thumb {
     position: relative;
     height: 20px;
     width: 20px;
-    background: #fff;
-    border: 1px solid #555;
+    background: #00b1fa;
+    border: 1px solid #fff;
     border-radius: 100%;
-    box-sizing: border-box
+    box-sizing: border-box;
+}
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+  background-color: #00b1fa;
+}
+input[type="range"]::-moz-range-track {
+  background-color: #efefef;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+  background-color: #00b1fa;
+}
+input[type="range"]::-ms-fill-upper {
+  background-color: #efefef;
 }

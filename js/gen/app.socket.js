@@ -1,36 +1,80 @@
 app.socket = {
-    initialize: function () {
+	server_ip: null,
+    initialize: function() {
         var self = this;
-    },
-    is_registered   : false,
-    user_data       : false,
-    on_disconnect: function () {
-        console.log('socket: disconnected');
-    },
-    on_broadcast: function (data) {
-        if (!_.isArray(data)) data = [ data ];
 
-        _.each(data, function (item) {
-            app.collection.upsert(item);
+        app.scripts.fetch('js/libs/lib.socket.io.min.js', function() {
+            if (!window.io) return false;
+
+			self._setup();
         });
     },
-    on_register: function () {
-        this.is_registered = true;
-    },
-    on_sign_in: function (data) {
-        this.user_data = _.extend({}, data);
-        this.user_data.id = data.user_id;
-        this.register_session();
-    },
-    on_reconnect: function () {
-        console.log('socket: reconnected');
-        this.register_session();
-    },
-    register_session: function () {
-        if (this.user_data == false)
-            return false;
+	_setup: function() {
+		var self = this;
 
-        console.log('socket: register');
-        this.socket.emit('register', this.user_data);
+		if (app.config.env == 'alpha')
+			return this;
+
+	    var sisbot_id = app.manager.get('sisbot_id');
+	    if (sisbot_id == 'false') return this;
+
+		// compare ip, if new, reset
+	    var ip = app.collection.get(sisbot_id).get('data.local_ip');
+
+		if (ip != this.server_ip) {
+			this.server_ip = ip;
+		    //console.log('Socket session', this.server_ip);
+
+			if (self.socket) {
+				self.socket.close();
+				delete self.socket;
+			}
+
+		    self.socket = io.connect('http://' + this.server_ip + ':3002');
+
+			self.socket.on('connect', function () {			self.on_connect();		});
+		    self.socket.on('reconnect', function() {        self.on_reconnect();    });
+		    self.socket.on('disconnect', function() {       self.on_disconnect();   });
+			self.socket.on('error', function(err) { 		self.on_error(err); 	});
+
+		    self.socket.on('set', function(d) {             self.on_set(d);         });
+		    self.socket.on('erase', function(d) {           self.on_erase(d);       });
+		    self.socket.on('test', function(d) {            self.on_test(d);        });
+
+		    self.socket.emit('register', { id: sisbot_id });
+		}
+	},
+    on_connect: function(socket) {
+        console.log('socket: connect');
+		app.trigger("socket:connect", null);
+    },
+    on_reconnect: function() {
+        console.log('socket: reconnect');
+		app.trigger("socket:reconnect", null);
+    },
+    on_disconnect: function() {
+        console.log('socket: disconnect');
+		app.trigger("socket:disconnect", null);
+    },
+    on_error: function(err) {
+        //console.log('socket: error', err);
+		app.trigger("socket:error", err);
+    },
+    on_set: function(data) {
+        if (!_.isArray(data)) data = [data];
+
+        _.each(data, function(datum) {
+            if (datum && datum.id) {
+				if (app.collection.exists(datum.id)) app.collection.get(datum.id).set('data', datum);
+				else app.collection.add(datum);
+			}
+        });
+    },
+    on_erase: function(data) {
+        console.log('socket: erase');
+        //app.collection.remove(data.id);
+    },
+    on_test: function(data) {
+        console.log('socket: test', data);
     },
 };

@@ -1,7 +1,126 @@
 <div class="sisyphus-unavailable-tmp">
+    <div class="app-container bg-white">
+        <div class="hh50 w100 bg-black no-stuffing h__k"
+            data-template="sisyphus-header-default-tmp"
+        ></div>
+        <div class="bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
+            <p class="no-stuffing fa fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></>
+            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
+                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                    Connection Lost!
+                </h3>
+                <p class="center fs18 lh24">
+                    The connection with your Sisyphus table has been lost and could not be restored
+                </p>
+                <p class="pt20 center fs18 lh24 h__k" data-if="{{= model.is_polling }} == true">
+                    Attempting to reconnect now.
+                </p>
+                <div class="pb20">
+                    <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= model.is_polling }} == false"
+                        data-on-click="parent.open_support_page"
+                    >Learn How To Fix</p>
+                    <p class="w100 mt100 mb20 p15 center blue fs18 lh18 uppercase clickable h__k"
+                        data-if="{{= model.is_polling }} == false"
+                        data-on-click="model._poll_restart"
+                    >Retry Connecting</p>
+                    <div class="p20 center i black h__k" data-if="{{= model.is_polling }} == true">
+                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                        <div class="h__k fs18 lh18">
+                            Reconnecting...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
+                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                    WiFi Password Incorrect
+                </h3>
+                <p class="center fs18 lh24">
+                    The credentials you passed to your Sisyphus were incorrect
+                    and your phone has disconnected from the Sisyphus and reconnected
+                    with your local router.
+                </p>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == true"
+                        data-on-click="parent.open_network_settings_from_error"
+                    >Open Wifi Settings</p>
+                </div>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == false"
+                        data-on-click="parent.reconnect_from_error"
+                    >Attempt Reconnect</p>
+                </div>
+                <div class="p20 center i white pull-bottom h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
+                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class="h__k black">
+                        Connecting...
+                    </div>
+                </div>
+            </div>
+            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == disconnect_from_wifi">
+                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                    Sisyphus Disconnected from WiFi
+                </h3>
+                <p class="center fs18 lh24">
+                    Your Sisyphus has become disconnected from WiFi. If you would
+                    like to reconnect to your Sisyphus please open Wifi Settings
+                    and reconnnect to the Sisyphus network.
+                </p>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == true"
+                        data-on-click="parent.open_network_settings_for_hotspot"
+                    >Open Wifi Settings</p>
+                </div>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == false"
+                        data-on-click="parent.reconnect_to_hotspot"
+                    >Reconnect to Sisyphus</p>
+                </div>
+                <div class="p20 center i black h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
+                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class="black">Connecting...</div>
+                </div>
+            </div>
+            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
+                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                    Sisyphus Disconnected from WiFi
+                </h3>
+                <p class="center fs18 lh24">
+                    Your Sisyphus has become disconnected from WiFi. If you would
+                    like to reconnect to your Sisyphus please open Wifi Settings
+                    and reconnnect to the Sisyphus network.
+                </p>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == true"
+                        data-on-click="parent.open_network_settings_for_hotspot"
+                    >Open Wifi Settings</p>
+                </div>
+                <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
+                    <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                        data-if="{{= app.is_app }} == false"
+                        data-on-click="parent.reconnect_to_hotspot"
+                    >Reconnect to Sisyphus</p>
+                </div>
+                <div class="p20 center i black h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
+                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class="black">Connecting...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div>
     <div class="body-header">
         <div class="pull-top bg-white w100">
-            <div class="white bg-black w100 center no-stuffing flex h__k {{= (app.is_app == true) ? 'mt20' : '' }}">
+            <div class="white bg-black w100 center no-stuffing flex">
                 <div class="w15 pt20 center f-large">&nbsp;</div>
                 <div class="w70">
                     <h1 class="h__k no-stuffing pt10 pb10 capitalize">Sisyphus Unavailable</h1>
@@ -11,12 +130,17 @@
         </div>
         <div class="h__k bg-white black">
             <div>&nbsp;</div>
-            <div class="bg-ll-grey ml10 mr10 p20 center h__k" data-model="{{= model.sisbot_id }}">
+            <div class="bg-grey-ll ml10 mr10 p20 center h__k" data-model="{{= model.sisbot_id }}">
                 <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
                     <i class="fa fa-exclamation-triangle f-xxxxxlarge" aria-hidden="true"></i>
                     <div class="pt50 left justify">We are having difficulty connecting to your Sisyphus.
-                        If this issue does not go away in 30 seconds please unplug and replug in your Sisyphus table.
-                        If this issue does not disappear on restart, please contact us.
+                        Check your network list for "<span class="strong h__k">{{= model.data.hostname.replace('.local', '') }}</span>" to see if it reverted back to a hotspot.
+					</div>
+                    <div class="pt10 left justify">
+					    If it is not available as a hotspot, and the this issue does not go away after 30 seconds please unplug and replug in your Sisyphus table.
+					</div>
+                    <div class="pt10 left justify">
+					    If this issue does not disappear on restart, please contact us.
                     </div>
                     <div class="p10 pt50 i clickable center h__k"
                         data-on-click="model.disconnect"
@@ -92,33 +216,7 @@
         </div>
     </div>
 </div>
-
-<div class="home-tmp">
-    <div class="top-nav pull-top white bg-d-grey w100 center no-stuffing h__k">
-        <ul class="no-stuffing horizontal pb10  vertical-align h__k">
-            <div class="h__k vertical-align"
-                data-foreach="{{= JSON.stringify(app.static.page_icons) }}"
-                data-item="home-primary-nav-item-tmp"
-                data-subscribe-ctx="model"
-                data-subscribe="change:data.services"
-                data-on-subscribe="foreach_reset"
-            ></div>
-        </ul>
-    </div>
-    <div class="side-nav col-md-2 col-sm-3 col-xs-4 scroll hide-scrollbar no-stuffing bg-m-grey white h__k h100" data-template="nav-tmp"></div>
-</div>
-
-<div class="home-primary-nav-item-tmp">
-    <div class="clickable h__k"
-        data-if="{{= _model_.has_service(scope.value.key) }} == true"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'primary':'{{= scope.value.key.toLowerCase() }}','secondary':'false','tertiary':'false'}"
-    ><li class="pt10 pb15 pl20 pr20 bg-m-grey-hover h__k {{= (parent.active.primary == scope.value.key.toLowerCase()) ? 'bg-m-grey' : '' }}">
-        <span class="h__k fa fa-{{= scope.value.icon }}  f-xlarge"></span>
-        <span class="h__k capitalize hidden-xs hidden-sm" data-shepherd="primary_nav:{{= scope.value.key.toLowerCase() }}">{{= scope.value.key }}</span>
-    </li></div>
-</div>
+-->
 
 <div class="nav-tmp">
     <!--
@@ -140,7 +238,7 @@
 </div>
 
 <div class="debug-tmp">
-    <div class="bg-ll-grey no-stuffing p10 bt h__k" data-if="{{= app.current_session().get('debug_mode') }} == true" data-state="{'admin_expanded':'false'}">
+    <div class="bg-grey-ll no-stuffing p10 bt h__k" data-if="{{= app.current_session().get('debug_mode') }} == true" data-state="{'admin_expanded':'false'}">
         <div class="no-stuffing pull-right inline h__k" data-field="model.admin_expanded" data-on-click="toggle">
             <i class="fa fa-bars"></i>
         </div>

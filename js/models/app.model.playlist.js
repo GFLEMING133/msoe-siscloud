@@ -10,6 +10,7 @@ app.model.playlist = {
 				name		: '',
 				description	: '',
 			},
+			add_playlist_tracks: {},
 			data		: {
 				id					: data.id,
 				type    			: 'playlist',
@@ -29,6 +30,7 @@ app.model.playlist = {
 
 				tracks           	: [], 				// list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
 				sorted_tracks		: [],				// display to users
+				next_tracks			: [],				//
 
 				created_by_id		: 'false',
 				created_by_name		: 'User Name',
@@ -61,6 +63,42 @@ app.model.playlist = {
 		// we have a sisbot playlist we want saved to user account
 		app.trigger('sisbot:save', this.toJSON());
 	},
+	delete: function () {
+		app.manager.get_model('sisbot_id').playlist_remove(this);
+	},
+	add_tracks_setup: function () {
+		var add_playlist_tracks = {};
+		var active_tracks		= this.get('active_tracks');
+		var sisbot_tracks		= app.manager.get_model('sisbot_id').get('data.track_ids');
+
+		_.each(sisbot_tracks, function(track_id) {
+			add_playlist_tracks[track_id] = 0;
+		});
+
+		_.each(active_tracks, function(track_obj) {
+			add_playlist_tracks[track_obj.id]++;
+		});
+
+		this.set('add_playlist_tracks', add_playlist_tracks);
+	},
+	add_tracks_add: function (track_id) {
+		var b = this.get('add_playlist_tracks[' + track_id + ']');
+		this.set('add_playlist_tracks[' + track_id + ']', ++b);
+		this.add_track(track_id);
+	},
+	add_tracks_done: function () {
+		var self = this;
+
+		/*
+		this.set('active_tracks', []);
+
+		_.each(this.get('add_playlist_tracks'), function(bool, track_id) {
+			if (bool == 'true')	self.add_track(track_id);
+		});
+		*/
+
+		app.trigger('session:active', { 'secondary': 'playlist-new' });
+	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
@@ -72,17 +110,15 @@ app.model.playlist = {
 
 		app.trigger('sisbot:update_playlist', data);
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
-
 	},
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
-		var data = this.get('data');
+		var data				= this.get('data');
 		data.active_track_index = track_index;
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	update_duration: function () {
 		var duration = 0;
@@ -101,24 +137,18 @@ app.model.playlist = {
 		return this;
 	},
 	/**************************** EDIT ****************************************/
-	edit: function () {
+	setup_edit: function () {
 		this.set('active_tracks', this.get('data.tracks').slice())
 			.set('edit.name', this.get('data.name'))
-			.set('edit.description', this.get('data.description'))
-			.set('is_editing', 'true');
+			.set('edit.description', this.get('data.description'));
 	},
 	cancel_edit: function () {
-		this.set('is_editing', 'false');
-
-		if (this.get('data.is_saved') == 'false')
-			app.trigger('session:active', { secondary: 'false' });
+		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	save_edit: function () {
-		this.set('is_editing', 'false')
-			.set('data.name', this.get('edit.name'))
+		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
-			//.update_duration()
 
 		var sorted_tracks = [];
 		_.each(this.get('data.tracks'), function(obj,index) {
@@ -127,26 +157,33 @@ app.model.playlist = {
 		this.set("data.sorted_tracks", sorted_tracks);
 
 		this.save();
+
+		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	/**************************** TRACKS **************************************/
+	has_track: function (track_id) {
+		var has_track = false;
+		_.each(this.get('data.tracks'), function(obj, index) {
+			if (obj.id == track_id) has_track = true;
+		});
+
+		return has_track;
+	},
 	add_track: function (track_id) {
 		var track = app.collection.get(track_id);
 		var track_obj = {
-			id: track_id,
-			vel: track.get('data.default_vel'),
-			accel: track.get('data.default_accel'),
-			thvmax: track.get('data.default_thvmax'),
-			firstR: track.get('data.firstR'),
-			lastR: track.get('data.lastR')
+			id		: track_id,
+			vel		: track.get('data.default_vel'),
+			accel	: track.get('data.default_accel'),
+			thvmax	: track.get('data.default_thvmax'),
+			firstR	: track.get('data.firstR'),
+			lastR	: track.get('data.lastR')
 		};
 		this.add('active_tracks', track_obj);
 		this.trigger('change:active_tracks');
 	},
 	remove_track: function (track_index) {
-		console.log("Remove", track_index,this.get('active_tracks')[+track_index].id);
-		var track = app.collection.get(this.get('active_tracks')[+track_index].id);
 		this.remove('active_tracks['+track_index+']');
-		this.add_nx('eligible_tracks', track.id);
 	},
 	move_array: function (field, old_index, new_index) {
 		var val		= this.get(field);
@@ -158,10 +195,42 @@ app.model.playlist = {
 
 		this.trigger('change:' + field);
 	},
-	generate_eligible_tracks: function () {
-		var elig_tracks = app.manager.get_model('sisbot_id').get('data.track_ids').slice();
+	add_track_and_save: function(track_id) {
+		var track = app.collection.get(track_id);
+		var track_obj = {
+			id		: track_id,
+			vel		: track.get('data.default_vel'),
+			accel	: track.get('data.default_accel'),
+			thvmax	: track.get('data.default_thvmax'),
+			firstR	: track.get('data.firstR'),
+			lastR	: track.get('data.lastR')
+		};
+		this.add('data.tracks', track_obj);
 
-		this.set('eligible_tracks', elig_tracks);
+		var sorted_tracks = [];
+		_.each(this.get('data.tracks'), function(obj,index) {
+		sorted_tracks.push(index);
+		});
+		this.set("data.sorted_tracks", sorted_tracks);
+
+		this.save();
+	},
+	remove_track_and_save: function(track_id) {
+		var track = app.collection.get(track_id);
+		var tracks = this.get('data.tracks');
+		var new_tracks		= [];
+		var sorted_tracks	= [];
+		_.each(tracks, function(track_obj, index) {
+			if (track_obj.id !== track_id) new_tracks.push(track_obj);
+		});
+
+		_.each(new_tracks, function(obj, index) {
+			sorted_tracks.push(index);
+		});
+
+		this.set('data.tracks', new_tracks)
+			.set("data.sorted_tracks", sorted_tracks)
+			.save();
 	},
 	/**************************** COMMUNITY ***********************************/
 	check_publish: function () {

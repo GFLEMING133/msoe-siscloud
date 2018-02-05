@@ -1,10 +1,12 @@
-<div class="flex pt5 pb5 pl10 pr10 clickable bg-ll-grey-hover h__k {{= (grandparent.data.active_track._index == scope.value) ? 'bg-ll-grey' : 'bb' }}"
+<div class="flex pt5 pb5 pl10 pr10 clickable active bg-grey-ll-hover h__k {{= (grandparent.data.active_track._index == scope.value) ? 'bg-grey-ll' : 'bb' }}"
 		data-on-click="parent.play_from_current"
 		data-msg="{{= scope.value }}"
 		data-model="{{= model.data.tracks[scope.value].id }}"
 >
 	<div class="w10 hvw10 center vertical">
-		<img src="{{= app.config.get_thumb_url() }}thumbnail/50/{{= model.id }}.png" class="w100 center h__k" alt="{{= model.data.name }}" />
+		<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+			data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+		/>
 	</div>
 	<div class="w5 hvw10">&nbsp;</div>
 	<div class="w85 hvw10 vertical">

@@ -1,0 +1,18 @@
+<div class="reorder">
+	<div class="flex pl20 pr20 clickable active">
+		<div class="w20 pt10 pb10 center vertical">
+			<div class="w80p hh80">
+				<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+					data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+				/>
+			</div>
+		</div>
+		<div class="w60 pt25 pb10 pl10">
+	        <div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
+	        <div class="fs12 lh18 grey block h__k">by {{= model.data.created_by_name }}</div>
+		</div>
+	    <div class="w20 h100 pt25 pb10 right vertical h__k" data-on-click="parent.remove_track" data-msg="{{= scope.index }}">
+			<img src="img/icon_2x_playlist_remove.png" alt="Remove Track" class="w25p" /></i>
+	    </div>
+	</div>
+</div>

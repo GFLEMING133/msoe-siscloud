@@ -109,6 +109,7 @@ function regenerate_index_page() {
 	var files	   = [
 		"css/bootstrap.min.css",
 		"css/font-awesome.min.css",
+		"css/timepicker.min.css",
 		"css/chosen.css",
 		"css/styles.css",
 	];

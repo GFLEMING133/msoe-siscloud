@@ -12,6 +12,8 @@ app.model.track = {
 			sisbot_upload		: 'false',
 			generating_thumbnails: 'false',
 
+			is_favorite			: 'false',
+
 			d3: 'false',
 			d3_data : {
 				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -118,9 +120,27 @@ app.model.track = {
 		return this;
 	},
 	/**************************** GENERAL ***********************************/
+	play_logic: function (track_index) {
+		var active			= app.session.get('active');
+		var current_track	= app.manager.get_model('sisbot_id').get('data.active_track.id');
+		if (active.primary == 'current' && this.id == current_track) {
+			// do nothing, we're currently playing
+		} else if (active.primary == 'current') {
+			// we have another track on the playlist
+			app.manager.get_model('sisbot_id').get_model('data.active_playlist_id').play_from_current(track_index);
+		} else if (active.primary == 'media' && active.secondary == 'tracks') {
+			// tracks overview page
+			this.play();
+		} else if (active.primary == 'media' && active.secondary == 'playlist') {
+			app.collection.get(active.playlist_id).play(track_index);
+		}
+	},
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
+		app.trigger('session:active', { secondary: 'false', primary: 'current' });
+	},
+	delete: function () {
+		app.manager.get_model('sisbot_id').track_remove(this);
 	},
 	on_file_upload: function (file) {
 		this.upload_verts_to_cloud(file.data);
@@ -224,6 +244,9 @@ app.model.track = {
 		playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
 		this.remove('playlist_not_ids', playlist_id);
 		this.add('playlist_ids', playlist_id);
+
+		playlist.save();
+
 		this.playlist_cancel();
 	},
 	get_not_playlists: function() {
@@ -250,6 +273,26 @@ app.model.track = {
 		});
 
 		this.set('playlist_ids', playlist_ids);
+	},
+	is_playlist_favorite: function () {
+		var playlist_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
+
+		if (playlist_model && playlist_model.has_track) {
+			var has_track = playlist_model.has_track(this.id);
+			this.set('is_favorite', '' + has_track);
+		}
+	},
+	favorite_toggle: function () {
+		if (app.manager.get_model('sisbot_id').is_legacy())
+			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+
+		var status = this.get('is_favorite');
+		if (status == 'true') {
+			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').remove_track_and_save(this.id);
+		} else {
+			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').add_track_and_save(this.id);
+		}
+		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},
 	/**************************** COMMUNITY ***********************************/
 	fetch_then_download: function () {
