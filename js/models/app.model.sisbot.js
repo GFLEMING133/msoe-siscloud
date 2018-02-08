@@ -143,6 +143,7 @@ app.model.sisbot = {
 		this.on('change:data.is_internet_connected', 		this.wifi_connected);
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
+		this.on('change:data',								this.nightmode_sleep_change);
 
 		if (this.get('data.favorite_playlist_id') == 'false')
 			this.setup_favorite_playlist();
@@ -344,8 +345,8 @@ app.model.sisbot = {
 		if ((this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true')
 			&& disconnect_length > 75000) {
 			this.set('is_polling', 'false');
-			console.log('set manager to false');
-			app.manager.set('is_sisbot_available', 'false');
+			app.manager.set('is_sisbot_available', 'false')
+					   .set('sisbot_reconnecting', 'false');
 		} else if (this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true') {
 			// do nothing.. We haven't timed out
 		} else if (disconnect_length > 1500) {
@@ -353,7 +354,8 @@ app.model.sisbot = {
 				// we have polling from old requests that have timed out after socket reconnected. Ignore
 			} else {
 				this.set('is_polling', 'false');
-				app.manager.set('is_sisbot_available', 'false');
+				app.manager.set('is_sisbot_available', 'false')
+						   .set('sisbot_reconnecting', 'false');
 			}
 		}
 
@@ -729,8 +731,10 @@ app.model.sisbot = {
 		});
 	},
 	update_tablename: function () {
-		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+		if (this.is_legacy()) {
+			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
+		}
 
 		var self		= this;
 		var name		= this.get('edit.name');
@@ -771,8 +775,10 @@ app.model.sisbot = {
 		this._update_sisbot('save', data, function(obj) {});
 	},
 	save_log_sharing: function (data) {
-		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+		if (this.is_legacy()) {
+			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
+		}
 
 		var self		= this;
 		var logfiles	= this.get('edit.share_log_files');
@@ -1153,14 +1159,15 @@ app.model.sisbot = {
 	check_for_version_update: function () {
 		var self	= this;
 		var cbs		= 2;
+		var version = this.get('data.software_version').split('.');
 
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
-		}
-
-		var version = self.get('data.software_version').split('.');
-		if (+version[1] % 2 == 1) {
+		} else if (v[0] == '1' && v[1] == '0') {
+			// ALWAYS ALLOW UPGRADE FROM V1.0.X
+			return this.set('has_software_update', 'true');
+		} else if (+version[1] % 2 == 1) {
 			// beta.. Always allow download
 			return self.set('has_software_update', 'true');
 		}
