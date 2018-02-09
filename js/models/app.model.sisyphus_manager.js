@@ -529,7 +529,7 @@ app.model.sisyphus_manager = {
 			if (num_checks == 0) {
 
 				// DEBUGGING CODE: COMMENT BEFORE COMMIT
-				// self.set('sisbot_registration', 'multiple');
+				// self.set('sisbot_registration', 'none');
 				// return this;
 
 				var sisbots = _.uniq(self.get('sisbots_networked'));
