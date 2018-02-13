@@ -103,7 +103,21 @@ app.model.sisyphus_manager = {
 			if (!data || !data.id) {
 				// do nothing for responses that aren't objects
 			} else if (app.collection.exists(data.id)) {
-				app.collection.get(data.id).set('data', data);
+				var m = app.collection.get(data.id);
+				var d = m.get('data');
+				var r = {};
+				var i = false;
+				_.each(data, function(val, key) {
+					if (d[key] !== val) {
+						if (!_.isArray(val) && key !== 'active_track') {
+							r[key] = val;
+							i = true;
+						}
+						m.set('data.' + key, val);
+						m.trigger('change:data.' + key);
+					}
+				});
+				//if (i) console.log('change', r);
 			} else {
 				app.collection.add(data);
 			}
