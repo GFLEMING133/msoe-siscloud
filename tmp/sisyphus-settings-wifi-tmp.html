@@ -10,7 +10,11 @@
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}" data-run="model.get_networks">
+    <div class="body-header h100 scroll hide-scrollbar h__k"
+        data-model="{{= model.sisbot_id }}"
+        data-run="model.get_networks"
+        data-if="{{= model.data }} !== undefined"
+    >
         <div class="bg-red white center i p20 h__k" data-if="{{= model.data.failed_to_connect_to_wifi }} == true">
             We were unable to connect your Sisyphus to your local WiFi network with the credentials you provided.
             Please double check that you entered them correctly and try again.
@@ -61,16 +65,16 @@
             </div>
 
             <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active h__k"
-                data-if="{{= model.is_connecting_to_wifi }} == false"
+                data-if="{{= model.data.is_hotspot }} == true"
                 data-on-click="model.connect_to_wifi"
             >Connect</p>
             <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
-                data-if="{{= model.is_connecting_to_wifi }} == true"
+                data-if="{{= model.data.wifi_forget }} == true"
             >Connect</p>
 
             <span class="block hh20">&nbsp;</span>
 
-            <div class="p20 center i h__k" data-if="{{= model.is_connecting_to_wifi }} == true">
+            <div class="p20 center i h__k" data-if="{{= model.data.wifi_forget }} == true">
                 <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                 <div class="h__k fs18 lh18">
                     Connecting...
