@@ -137,7 +137,6 @@ app.model.track = {
 	},
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
-		app.trigger('session:active', { secondary: 'false', primary: 'current' });
 	},
 	delete: function () {
 		app.manager.get_model('sisbot_id').track_remove(this);

@@ -146,6 +146,7 @@ app.model.sisbot = {
 		this.on('change:data.installing_updates',			this.check_force_onboarding);
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
+		this.on('change:data',								this.nightmode_sleep_change);
 
 
 
@@ -744,6 +745,9 @@ app.model.sisbot = {
 		});
 	},
 	nightmode_sleep_change: function () {
+		if (this.is_legacy())
+			return this;
+
 		var status = this.get('data.is_sleeping');
 
 		if (status == 'true') {
@@ -912,6 +916,7 @@ app.model.sisbot = {
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
+			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 		});
 
 		this.set('data.active_playlist_id',	'false');
