@@ -13,7 +13,7 @@ app.model.sisbot = {
 			wifi_error		: 'false',
 			fetching_cloud	: 'false',
 
-			is_master_branch: 'true',
+			is_master_branch: 'false',
 			branch_label: 'false',
 			local_branches: {
 				proxy	: 'master',
@@ -45,9 +45,8 @@ app.model.sisbot = {
 
 			timestamp						: 'false',
 
-			is_connecting_to_wifi			: 'false',
 			is_firmware_update_available	: 'false',
-			is_software_update_available	: 'false',
+			force_onboarding				: 'false',
 
 			default_playlist_id				: 'false',
 
@@ -86,6 +85,8 @@ app.model.sisbot = {
                 wifi_network        : '',
                 wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
+				wifi_forget			: 'false',
+
 
 				playlist_ids		: [],
 				default_playlist_id	: 'false',
@@ -112,8 +113,8 @@ app.model.sisbot = {
 				is_sleeping			: 'false',
 				timezone_offset		: moment().format('Z'),
 				nightlight_brightness: 0.2,
-				sleep_time			: '',					// 10:00 PM sleep_time
-				wake_time			: '',					// 8:00 AM  wake_time
+				sleep_time			: '10:00 PM',					// 10:00 PM sleep_time
+				wake_time			: '8:00 AM',					// 8:00 AM  wake_time
 
 				is_paused_between_tracks: 'false',
 				is_waiting_between_tracks: 'false',
@@ -141,9 +142,12 @@ app.model.sisbot = {
 		this.on('change:data.is_serial_open', 				this._check_serial);
 		this.on('change:data.failed_to_connect_to_wifi', 	this.wifi_failed_to_connect);
 		this.on('change:data.is_internet_connected', 		this.wifi_connected);
+		this.on('change:data.wifi_forget', 					this.wifi_connected);
+		this.on('change:data.installing_updates',			this.check_force_onboarding);
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
-		this.on('change:data',								this.nightmode_sleep_change);
+
+
 
 		if (this.get('data.favorite_playlist_id') == 'false')
 			this.setup_favorite_playlist();
@@ -283,6 +287,48 @@ app.model.sisbot = {
 			}
 		});
 	},
+	_fetch_network: function () {
+		if (!app.is_app)
+			return this;
+
+		var self = this;
+
+		app.manager.get_network_ip_address(function(ip_address) {
+			if (!ip_address)	return self;
+
+			var ip_add	= ip_address.split('.');
+			ip_add.pop();
+
+			var ip_base = ip_add.join('.');
+			var count = 0;
+
+			_.each(_.range(0, 256), function(num) {
+				self._ping_sisbot(ip_base + '.' + num);
+			});
+		});
+
+		return this;
+	},
+	_ping_sisbot: function(hostname) {
+		var self = this;
+
+		app.post.fetch(exists = {
+			_url	: 'http://' + hostname + '/',
+			_type	: 'POST',
+			_timeout: 1250,
+			endpoint: 'sisbot/exists',
+			data	: {}
+		}, function exists_cb(obj) {
+			if (!obj.resp || !obj.resp.hostname)
+				return self;
+
+			if (obj.resp.id == self.id) {
+				app.manager.intake_data(obj.resp);
+			}
+		}, 0);
+
+		return this;
+	},
 	_check_serial: function () {
 		/* TODO: Fix
 		if (this.get('data.is_serial_open') == 'false') {
@@ -314,6 +360,8 @@ app.model.sisbot = {
 		clearTimeout(this.polling_timeout);
 
 		app.manager.set('is_sisbot_available', 'true');
+
+		this.wifi_connected();
 
 		setTimeout(function() {
 			self._update_sisbot('state', {}, function (obj) {
@@ -353,16 +401,17 @@ app.model.sisbot = {
 
 		if (disconnect_length > 15000) {
 			this._fetch_bluetooth();
+			this._fetch_network();
 			this._fetch_cloud();
 		}
 
 
-		if ((this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true')
+		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true')
 			&& disconnect_length > 75000) {
 			this.set('is_polling', 'false');
 			app.manager.set('is_sisbot_available', 'false')
 					   .set('sisbot_reconnecting', 'false');
-		} else if (this.get('data.installing_updates') == 'true' || this.get('is_connecting_to_wifi') == 'true' || this.get('data.factory_resetting') == 'true') {
+		} else if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
 			// do nothing.. We haven't timed out
 		} else if (disconnect_length > 1500) {
 			if (this.get('is_socket_connected') == 'true') {
@@ -418,7 +467,7 @@ app.model.sisbot = {
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
-			sleep_time				: data.sleep_time,
+			sleep_time				: '10:00PM',
 			wake_time				: data.wake_time,
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
@@ -441,12 +490,14 @@ app.model.sisbot = {
 		_.extend(data, reg_data)
 
 		app.manager.set('show_nightlight_page', 'false');
+		app.trigger('session:active', { secondary: 'false', primary: 'current' });
 
 		this._update_sisbot(endpoint, data, function(obj) {
 			if (obj.err && obj.err == 'Could not make request') {
 				// do nothing
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+				self.setup_favorite_playlist();
 			}
 		});
 	},
@@ -487,13 +538,15 @@ app.model.sisbot = {
 		}
 	},
 	wifi_connected: function () {
-		if (this.get('data.is_internet_connected') == 'true') {
+		var active = app.session.get('active');
+
+		if (this.get('data.is_internet_connected') == 'true' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.trigger('sisbot:wifi_connected');
-			this.set('is_connecting_to_wifi', 'false');
-			if (app.session.get('active.primary') == 'settings') {
-				// if we are connecting to wifi from settings
-				app.session.set('active.secondary', 'advanced_settings');
-			}
+			app.session.set('active.secondary', 'advanced_settings');
+		} else if (this.get('data.wifi_forget') == 'true' && active.primary == 'settings' && active.secondary == 'wifi') {
+			app.session.set('active.secondary', 'advanced_settings');
+		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
+			app.trigger('sisbot:wifi_connected');
 		}
 	},
   	connect_to_wifi: function () {
@@ -508,13 +561,14 @@ app.model.sisbot = {
 			return this;
 		}
 
-		this.set('is_connecting_to_wifi', 'true');
+		this.set('data.failed_to_connect_to_wifi', 'false')
+			.set('data.is_hotspot', 'false')
+			.set('data.wifi_forget', 'true');
 
 		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			if (obj.err) {
 				console.log('wifi err', obj.err);
-				self.set('is_connecting_to_wifi', 'false')
-					.set('wifi_error', 'true');
+				self.set('wifi_error', 'true');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
@@ -534,11 +588,13 @@ app.model.sisbot = {
 				self.set('is_polling', 'false')
 					.set('data.is_internet_connected', 'false')
 					.set('data.is_hotspot',	'true')
+					.set('data.wifi_forget', 'false')
 					.set('data.wifi_network', 'false')
 					.set('data.wifi_password', 'false')
 					.set('data.reason_unavailable', 'disconnect_from_wifi');
 
-				app.manager.set('is_sisbot_available', 'false');
+				app.manager.set('sisbot_reconnecting', 'false')
+							.set('is_sisbot_available', 'false');
 			});
 		}
 	},
@@ -561,7 +617,7 @@ app.model.sisbot = {
 
 		var self = this;
 
-		this.set('data.installing_updates', 'true');
+		this.set('force_onboarding', 'true');
 
 		this._update_sisbot('install_updates', {}, function(obj) {
 			if (obj.err) {
@@ -575,11 +631,17 @@ app.model.sisbot = {
 	},
 	install_updates_change: function () {
 		var status = this.get('data.installing_updates');
+
 		if (status == 'false') {
-			this.set('has_software_update', 'complete');
 			app.manager.set('show_software_update_page', 'false');
 		} else {
 			app.manager.set('show_software_update_page', 'true');
+		}
+	},
+	check_force_onboarding: function () {
+		if (this.get('data.installing_updates') == 'false' && this.get('force_onboarding') == 'true') {
+			app.manager.should_show_onboarding();
+			this.set('force_onboarding', 'false');
 		}
 	},
 	factory_reset: function () {
@@ -699,10 +761,10 @@ app.model.sisbot = {
 	nightmode_sleep_change: function () {
 		var status = this.get('data.is_sleeping');
 
-		if (status == 'false') {
-			app.manager.set('show_sleeping_page', 'false');
-		} else {
+		if (status == 'true') {
 			app.manager.set('show_sleeping_page', 'true');
+		} else {
+			app.manager.set('show_sleeping_page', 'false');
 		}
 	},
 	wake_up: function () {
@@ -742,6 +804,7 @@ app.model.sisbot = {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+				self.nightmode_sleep_change();
 			}
 		});
 	},
@@ -851,9 +914,7 @@ app.model.sisbot = {
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			//get back playlist obj
 			if (obj.resp.id !== 'false') {
-				app.collection.get(obj.resp.id)
-					.set('data', obj.resp)
-					.trigger('change:data.sorted_tracks');
+				app.manager.intake_data(obj.resp);
 			}
 		});
 
@@ -897,6 +958,9 @@ app.model.sisbot = {
 	},
 	setup_favorite_playlist: function () {
 		if (this.is_legacy())
+			return this;
+
+		if (this.get('data.favorite_playlist_id') !== 'false')
 			return this;
 
 		var self = this;
@@ -1179,9 +1243,11 @@ app.model.sisbot = {
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
-		} else if (v[0] == '1' && v[1] == '0') {
+		} else if (version[0] == '1' && version[1] == '0') {
 			// ALWAYS ALLOW UPGRADE FROM V1.0.X
-			return this.set('has_software_update', 'true');
+			self.set('has_software_update', 'true');
+			self.set('is_master_branch', 'true');
+			return this;
 		} else if (+version[1] % 2 == 1) {
 			// beta.. Always allow download
 			return self.set('has_software_update', 'true');
@@ -1247,7 +1313,7 @@ app.model.sisbot = {
 			self.set('local_branches', cbb.resp);
 			var branch_labels = [];
 
-			// set bool for knowing if on master
+			/* set bool for knowing if on master
 			var is_master_branch = 'true';
 			_.each(self.get('local_branches'), function(branch) {
 				if (branch != 'master') {
@@ -1260,6 +1326,7 @@ app.model.sisbot = {
 			// make clear string for displaying
 			if (branch_labels.length > 0) self.set('branch_label', branch_labels.join());
 			else self.set('branch_label', 'false');
+			*/
 		});
 	},
 	check_remote_versions: function (cb) {

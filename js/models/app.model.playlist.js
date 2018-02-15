@@ -103,7 +103,7 @@ app.model.playlist = {
 	play_from_current: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
-		var data = this.get('data');
+		var data				= JSON.parse(JSON.stringify(this.get('data')));
 		data.active_track_index = track_index;
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 		data.is_current			= true;
@@ -114,7 +114,7 @@ app.model.playlist = {
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
-		var data				= this.get('data');
+		var data				= JSON.parse(JSON.stringify(this.get('data')));
 		data.active_track_index = track_index;
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
