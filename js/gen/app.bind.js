@@ -1522,7 +1522,7 @@ var Binding = Backbone.View.extend({
                 forceFallback       : true,
                 scrollSensitivity   : 30,
                 scrollSpeed         : 20,
-                delay               : 200,
+                delay               : 300,
                 moveThreshold       : 5,
 
                 onSort: function (evt) {

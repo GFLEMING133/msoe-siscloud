@@ -287,10 +287,11 @@ app.model.track = {
 			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
 
 		var status = this.get('is_favorite');
-		if (status == 'true') {
-			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').remove_track_and_save(this.id);
-		} else {
-			app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id').add_track_and_save(this.id);
+		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
+		if (status == 'true' && fav_model) {
+			fav_model.remove_track_and_save(this.id);
+		} else if (fav_model) {
+			fav_model.add_track_and_save(this.id);
 		}
 		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},

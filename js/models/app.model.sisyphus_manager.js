@@ -109,7 +109,33 @@ app.model.sisyphus_manager = {
 			if (!data || !data.id) {
 				// do nothing for responses that aren't objects
 			} else if (app.collection.exists(data.id)) {
-				app.collection.get(data.id).set('data', data);
+				var m = app.collection.get(data.id);
+				var d = m.get('data');
+
+				_.each(data, function(val, key) {
+					if (d[key] !== val) {
+						if (_.isArray(val)) {
+							var is_diff = false;
+							if (val.length !== d[key].length) {
+								is_diff = true;
+							} else {
+								_.each(val, function(vall, i) {
+									if (vall !== d[key][i]) {
+										is_diff = true;
+									}
+								});
+							}
+
+							if (is_diff == true) {
+								m.set('data.' + key, val);
+								m.trigger('change:data.' + key);
+							}
+						} else {
+							m.set('data.' + key, val);
+							m.trigger('change:data.' + key);
+						}
+					}
+				});
 			} else {
 				app.collection.add(data);
 			}
@@ -510,7 +536,7 @@ app.model.sisyphus_manager = {
 			// wifi failed and we needed to reconnect
 			this.set('sisbot_connecting', 'false');
 			this.set('sisbot_reconnecting', 'false');
-			this.get_model('sisbot_id').set('wifi_error', 'incorrect').set('is_connecting_to_wifi', 'false');
+			this.get_model('sisbot_id').set('wifi_error', 'incorrect');
 		}
 	},
 	/**************************** FIND SISBOTS ********************************/
@@ -537,7 +563,7 @@ app.model.sisyphus_manager = {
 			if (num_checks == 0) {
 
 				// DEBUGGING CODE: COMMENT BEFORE COMMIT
-				// self.set('sisbot_registration', 'multiple');
+				// self.set('sisbot_registration', 'none');
 				// return this;
 
 				var sisbots = _.uniq(self.get('sisbots_networked'));

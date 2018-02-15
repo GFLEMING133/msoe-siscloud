@@ -60,23 +60,27 @@
                         <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
                     </div>
                     <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active h__k"
-                        data-if="{{= model.is_connecting_to_wifi }} == false"
+                        data-if="{{= model.data.is_hotspot }} == true"
                         data-on-click="model.connect_to_wifi"
                     >Connect</p>
-                    <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
-                        data-if="{{= model.is_connecting_to_wifi }} == true"
-                    >Connect</p>
+                    <div class="h__k" data-if="{{= model.data.is_hotspot }} == false">
+                        <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
+                            data-if="{{= model.data.is_internet_connected }} == false"
+                        >Connect</p>
+                    </div>
 
                     <span class="block hh20">&nbsp;</span>
 
                     <div class="p20 center clickable active blue fs18 lh18 h__k"
-                        data-if="{{= model.is_connecting_to_wifi }} == false"
+                        data-if="{{= model.data.is_hotspot }} == true"
                         data-on-click="parent.should_show_setup_page"
                     >Skip this step</div>
-                    <div class="p20 center i h__k" data-if="{{= model.is_connecting_to_wifi }} == true">
-                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18">
-                            Connecting...
+                    <div class="h__k" data-if="{{= model.data.is_hotspot }} == false">
+                        <div class="p20 center i h__k" data-if="{{= model.data.is_internet_connected }} == false">
+                            <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                            <div class="h__k fs18 lh18">
+                                Connecting...
+                            </div>
                         </div>
                     </div>
                 </div>

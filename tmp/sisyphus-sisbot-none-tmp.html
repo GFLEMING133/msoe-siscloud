@@ -7,7 +7,8 @@
         No table found!
     </h3>
     <p class="center fs18 lh24">
-        Check that your table is plugged in and click the "Find Sisyphus" button below in 30 seconds.
+        Check that your table is plugged in, that you are connected to the same network as the Sisyphus,
+         then click the "Find Sisyphus" button below in 30 seconds.
     </p>
     <div class="pb20">
         <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
@@ -15,7 +16,6 @@
             data-on-click="model.open_network_settings"
         >Open Wifi Settings</p>
         <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
-            data-if="{{= app.is_app }} == false"
             data-on-click="set"
             data-field="model.sisbot_registration"
             data-value="find"

@@ -8,7 +8,7 @@
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
         <!------------------------- SISBOT SETTINGS ------------------------------->
-        <h3 class="no-stuffing p20 fs18 lh18 strong">Speed & Brightness</h3>
+        <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
             <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
                 <i class="fa fa-sun-o center clickable active grey" aria-hidden="true"></i>
@@ -34,6 +34,7 @@
             <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
+        <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Speed</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
@@ -57,7 +58,7 @@
             data-if="{{= model.data.is_paused_between_tracks }} !== undefined"
         >
             <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
-            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.edit.is_paused_between_tracks }} == false"></span>
+            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
         </div>
 
@@ -79,6 +80,8 @@
             </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-if="{{= model.is_master_branch }} == false"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'night_mode'}"
