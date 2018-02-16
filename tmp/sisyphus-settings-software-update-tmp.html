@@ -6,12 +6,12 @@
             data-msg="{'secondary':'false'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w70">
-            <h1 class="h__k no-stuffing capitalize fs18 lh18 truncate">Software Update</h1>
+            <h1 class="h__k no-stuffing capitalize fs18 lh18 truncate">Firmware Update</h1>
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
-        <div class="h__k" data-if="{{= model.data }} !== false">
+        <div class="h__k" data-if="{{= model.data }} !== undefined">
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
                 <!--------------------------- NOT NETWORK CONNECTED --------------------------->
                 <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
@@ -22,7 +22,7 @@
                         Your Table is Not Connected to WiFi
                     </h3>
                     <p class="p0 m0 fs18 center">
-                        Your table cannot detect if there is a software update available.
+                        Your table cannot detect if there is a firmware update available.
                         Please connect your table to wifi to check for an update.
                     </p>
 
@@ -62,7 +62,7 @@
                             Installing Updates
                         </h3>
                         <p class="p0 m0 fs18 center">
-                            Software updates are being installed for your Sisyphus...
+                            Firmware updates are being installed for your Sisyphus...
                         </p>
 
                         <div class="h__k mt100 bg-white center black">
@@ -82,7 +82,7 @@
                         Update Complete
                     </h3>
                     <p class="p0 m0 fs18 center">
-                        Your table now has the latest and greatest software installed.
+                        Your table now has the latest and greatest firmware installed.
                         We will let you know when there is another new update available.
                     </p>
                 </div>
@@ -96,7 +96,7 @@
                             Your Table is Up To Date
                         </h3>
                         <p class="p0 m0 fs18 center">
-                            Your table has the latest and greatest software, and doesn't
+                            Your table has the latest and greatest firmware, and doesn't
                             need to be updated at this time. We will let you know when an
                             update is available.
                         </p>

@@ -531,6 +531,9 @@ app.model.sisyphus_manager = {
 			this.set('sisbot_connecting', 'false');
 			this.set('sisbot_reconnecting', 'false');
 			this.get_model('sisbot_id').set('wifi_error', 'incorrect');
+		} else if (this.get('is_sisbot_available') == 'false' && sisbot.get('data.installing_updates') == 'true') {
+			// we timed out in installing updates
+			sisbot.set('data.reason_unavailable', 'false');
 		}
 	},
 	/**************************** FIND SISBOTS ********************************/

@@ -146,8 +146,8 @@ app.model.sisbot = {
 		this.on('change:data.installing_updates',			this.check_force_onboarding);
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
+		this.on('change:data.software_version',				this.check_for_version_update);
 		this.on('change:data',								this.nightmode_sleep_change);
-
 
 
 		if (this.get('data.favorite_playlist_id') == 'false')
@@ -203,6 +203,7 @@ app.model.sisbot = {
 
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
+
 				self._update_cloud();
 			}
 		}, 0);
@@ -210,12 +211,17 @@ app.model.sisbot = {
 	_update_cloud: function (data) {
 		if (this.get('data.is_internet_connected') == 'true') {
 			var data = this.get('data');
+			var new_data = {
+				id			: data.id,
+				name		: data.name,
+				local_ip	: data.local_ip,
+			};
 			var obj = {
 				_url	: 'https://api.sisyphus.withease.io/',
 				_type	: 'POST',
 				_timeout: 60000,
 				endpoint: 'set',
-				data	: data
+				data	: new_data
 			};
 
 			app.post.fetch(obj, function(resp) {}, 0);
@@ -399,7 +405,11 @@ app.model.sisbot = {
 					   .set('sisbot_reconnecting', 'false');
 		} else if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
 			// do nothing.. We haven't timed out
-		} else if (disconnect_length > 1500) {
+		} else if (this.is_legacy() == true && disconnect_length > 10000) {
+			this.set('is_polling', 'false');
+			app.manager.set('is_sisbot_available', 'false')
+					   .set('sisbot_reconnecting', 'false');
+		} else if (this.is_legacy() == false && disconnect_length > 1500) {
 			if (this.get('is_socket_connected') == 'true') {
 				// we have polling from old requests that have timed out after socket reconnected. Ignore
 			} else {
@@ -519,6 +529,10 @@ app.model.sisbot = {
 	wifi_failed_to_connect: function () {
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
 			this.set('wifi_error', 'incorrect');
+
+			if (this.is_legacy()) {
+				this.set('data.reason_unavailable', 'connect_to_wifi');
+			}
 		} else {
 			this.set('wifi_error', 'false');
 		}
@@ -552,11 +566,27 @@ app.model.sisbot = {
 			.set('data.wifi_forget', 'true');
 
 		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			if (obj.err) {
+			if (obj.err && obj.err !== 'Could not make request') {
 				console.log('wifi err', obj.err);
 				self.set('wifi_error', 'true');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+			}
+
+			if (self.is_legacy()) {
+				setTimeout(function() {
+					self.set('data.failed_to_connect_to_wifi', 'false')
+						.set('data.reason_unavailable', 'connect_to_wifi')
+						.set('data.is_hotspot', 'false')
+						.set('data.wifi_forget', 'true');
+
+					setTimeout(function() {
+						self.set('data.failed_to_connect_to_wifi', 'false')
+							.set('data.reason_unavailable', 'connect_to_wifi')
+							.set('data.is_hotspot', 'false')
+							.set('data.wifi_forget', 'true');
+					}, 200);
+				}, 200);
 			}
 		});
   	},
@@ -753,7 +783,8 @@ app.model.sisbot = {
 		if (status == 'true') {
 			app.manager.set('show_sleeping_page', 'true');
 		} else {
-			app.manager.set('show_sleeping_page', 'false');
+			app.manager.set('show_sleeping_page', 'false')
+						.trigger('change:show_sleeping_page');
 		}
 	},
 	wake_up: function () {
