@@ -110,7 +110,9 @@ app.model.sisyphus_manager = {
 					if (d[key] !== val) {
 						if (_.isArray(val)) {
 							var is_diff = false;
-							if (val.length !== d[key].length) {
+							if (!_.isArray(d[key])) {
+								is_diff = true;
+							} else if (val.length !== d[key].length) {
 								is_diff = true;
 							} else {
 								_.each(val, function(vall, i) {
