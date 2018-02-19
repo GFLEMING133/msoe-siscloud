@@ -398,33 +398,39 @@ app.model.sisbot = {
 		}
 
 
-		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true')
-			&& disconnect_length > 75000) {
-			this.set('is_polling', 'false');
-			app.manager.set('is_sisbot_available', 'false')
-					   .set('sisbot_reconnecting', 'false');
+		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') && disconnect_length > 75000) {
+			this._poll_failure_stop();
 		} else if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
 			// do nothing.. We haven't timed out
 		} else if (this.is_legacy() == true && disconnect_length > 10000) {
-			this.set('is_polling', 'false');
-			app.manager.set('is_sisbot_available', 'false')
-					   .set('sisbot_reconnecting', 'false');
+			this._poll_failure_stop();
 		} else if (this.is_legacy() == false && disconnect_length > 1500) {
 			if (this.get('is_socket_connected') == 'true') {
 				// we have polling from old requests that have timed out after socket reconnected. Ignore
 			} else {
-				this.set('is_polling', 'false');
-				app.manager.set('is_sisbot_available', 'false')
-						   .set('sisbot_reconnecting', 'false');
+				this._poll_failure_stop();
 			}
 		}
 
 		return this;
 	},
+	_poll_failure_stop: function () {
+		if (this._poll_then_reset_bool == true) {
+			window.location.reload();
+		}
+		this.set('is_polling', 'false');
+		app.manager.set('is_sisbot_available', 'false')
+				   .set('sisbot_reconnecting', 'false');
+	},
 	_poll_restart: function () {
 		this._poll_timer = false;
 		this.set('is_polling', 'true');
 		this._poll_state();
+	},
+	_poll_then_reset_bool: false,
+	_poll_then_reset: function() {
+		this._poll_then_reset_bool = true;
+		this._poll_restart();
 	},
 	_poll_state: function () {
 		var self = this;
