@@ -12,6 +12,7 @@
     </div>
     <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
         <div class="h__k" data-if="{{= model.data }} !== undefined">
+            <div class="h__k" data-run="model.check_for_version_update"></div>
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
                 <!--------------------------- NOT NETWORK CONNECTED --------------------------->
                 <div class="h__k" data-if="{{= model.data.installing_updates }} == false">

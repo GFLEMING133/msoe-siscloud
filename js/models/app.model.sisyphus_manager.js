@@ -148,6 +148,9 @@ app.model.sisyphus_manager = {
 		}
 	},
 	/**************************** BLUETOOTH ***********************************/
+	force_reload: function () {
+		window.location.reload();
+	},
 	open_ble_settings: function () {
 		window.cordova.plugins.settings.open('bluetooth', function success(resp) {
 			// do nothing
@@ -171,6 +174,48 @@ app.model.sisyphus_manager = {
 		window.addEventListener('BluetoothStatus.disabled', function() {
 			self.set('is_ble_enabled', 'false');
 		});
+	},
+	check_ble_permissions: function(cb) {
+		var self = this;
+
+		bluetoothle.initialize(function(obj) {
+			if (obj.status == 'enabled') {
+				bluetoothle.hasPermission(function(status) {
+					if (status.hasPermission == true) {
+						cb();
+					} else {
+						// WE DO NOT HAVE PERMISSIONS
+						var text	= 'In order for us to locate your Sisyphus we need bluetooth’s location permissions. Without it, we won’t be able to find to your Sisyphus.';
+						var header	= 'Bluetooth Permissions';
+						app.plugins.n.notification.confirm(text, on_perms, header, ['Cancel', 'Grant']);
+
+						function on_perms(status) {
+							if (status == 1) { // user does not want to give permissions
+								self.set('is_ble_enabled', 'false');
+								cb();
+							} else {
+								// prompt for permissions
+								bluetoothle.requestPermission(function ble_perms_success(status) {
+									if (status.requestPermission == true) {
+										self.set('is_ble_enabled', 'true');
+										cb();
+									} else {
+										self.set('is_ble_enabled', 'false');
+										cb();
+									}
+								}, function ble_perms_failure() {
+									self.set('is_ble_enabled', 'false');
+									cb();
+								});
+							}
+						}
+					}
+				});
+			} else {
+				self.set('is_ble_enabled', 'false');
+				cb();
+			}
+		}, {});
 	},
 	start_ble_scan: function (device_name, cb) {
 		var self = this;
@@ -398,6 +443,7 @@ app.model.sisyphus_manager = {
 		var sisbot				= this.get_model('sisbot_id');
 		var hotspot_status		= sisbot.get('data.is_hotspot');
 		var reminder_status 	= sisbot.get('data.do_not_remind');
+		var is_internet_connected= sisbot.get('data.is_internet_connected');
 
 		if (reminder_status == 'false') {
 			if (hotspot_status == 'true') {
@@ -409,11 +455,14 @@ app.model.sisyphus_manager = {
 		}
 
 		if (this.get_model('sisbot_id').is_legacy() == true) {
-			// do nothing if legacy
+			// no onboarding if legacy
 			this.set('show_setup_page', 'false')
 				.set('show_nightlight_page', 'false')
 				.set('show_sleeping_page', 'false')
 				.set('show_software_update_page', 'false');
+
+			if (is_internet_connected == 'true')
+				app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
 		}
 
 		return this;
@@ -538,12 +587,33 @@ app.model.sisyphus_manager = {
 	},
 	/**************************** FIND SISBOTS ********************************/
 	find_sisbots: function () {
+		var self = this;
+
+		if (app.is_app) {
+			if (device.platform == 'Android') {
+				this.check_ble_permissions(function () {
+					var status = self.get('is_ble_enabled');
+
+					if (status == 'false') {
+						return this;
+					} else {
+						self._find_sisbots();
+					}
+				});
+			} else {
+				this._find_sisbots();
+			}
+		} else {
+			this._find_sisbots();
+		}
+	},
+	_find_sisbots: function () {
 		// this will find the sisbots on the local network
 		var self			= this;
 
 		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 			setTimeout(function() {
-				self.find_sisbots();
+				self._find_sisbots();
 			}, 100);
 			return this;
 		}

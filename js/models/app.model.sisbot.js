@@ -554,6 +554,10 @@ app.model.sisbot = {
 		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
 			app.trigger('sisbot:wifi_connected');
 		}
+
+		if (this.get('data.is_internet_connected') == 'true' && this.is_legacy()) {
+			app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
+		}
 	},
   	connect_to_wifi: function () {
 		this.set('wifi_error', 'false');
