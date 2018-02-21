@@ -185,15 +185,12 @@ app.model.sisyphus_manager = {
 						cb();
 					} else {
 						// WE DO NOT HAVE PERMISSIONS
-						var text	= 'In order for us to locate your Sisyphus we need bluetooth’s location permissions. Without it, we won’t be able to find to your Sisyphus.';
-						var header	= 'Bluetooth Permissions';
-						app.plugins.n.notification.confirm(text, on_perms, header, ['Cancel', 'Grant']);
+						var text	= 'In order for us to locate your Sisyphus with bluetooth Android requires "Location Permissions" to be allowed. Without those permissions you will not be able to connect to your Sisyphus.';
+						var header	= 'Bluetooth App Permissions';
+						app.plugins.n.notification.confirm(text, on_perms, header, ['Continue']);
 
 						function on_perms(status) {
 							if (status == 1) { // user does not want to give permissions
-								self.set('is_ble_enabled', 'false');
-								cb();
-							} else {
 								// prompt for permissions
 								bluetoothle.requestPermission(function ble_perms_success(status) {
 									if (status.requestPermission == true) {
