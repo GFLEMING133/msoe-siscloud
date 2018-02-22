@@ -150,6 +150,7 @@ app.model.session = {
 	},
 	set_active: function (msg) {
 		var self = this;
+
 		_.each(msg, function(val, key) {
 			self.set('active.' + key, val);
 		});

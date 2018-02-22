@@ -224,7 +224,7 @@ app.model.sisyphus_manager = {
 				if (device &&
 					device.advertisementData &&
 					device.advertisementData.kCBAdvDataLocalName &&
-					device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1
+					(device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1 || device.advertisementData.kCBAdvDataLocalName.indexOf('isyphus') > -1) // legacy
 				) {
 					self.ble_connect(device);
 				}
@@ -763,6 +763,7 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == self._ble_ip) {
+
 					if (hostname == '192.168.42.1') {
 						self.set('sisbot_registration', 'hotspot')
 					} else {

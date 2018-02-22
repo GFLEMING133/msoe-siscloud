@@ -790,12 +790,16 @@ app.model.sisbot = {
 
 		var status = this.get('data.is_sleeping');
 
-		if (status == 'true') {
-			app.manager.set('show_sleeping_page', 'true');
-		} else {
-			app.manager.set('show_sleeping_page', 'false')
-						.trigger('change:show_sleeping_page');
+		if (this.get('_is_sleeping') !== status) {
+			if (status == 'true') {
+				app.manager.set('show_sleeping_page', 'true');
+			} else {
+				app.manager.set('show_sleeping_page', 'false')
+							.trigger('change:show_sleeping_page');
+			}
 		}
+
+		this.set('_is_sleeping', status);
 	},
 	wake_up: function () {
 		var self	= this;
