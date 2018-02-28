@@ -469,7 +469,7 @@ app.model.sisbot = {
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
-			sleep_time				: '10:00PM',
+			sleep_time				: '10:00 PM',
 			wake_time				: data.wake_time,
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
@@ -1153,7 +1153,7 @@ app.model.sisbot = {
 			self.set('uploading_track', 'false');
 
 			if (obj.err) {
-				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
+				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });

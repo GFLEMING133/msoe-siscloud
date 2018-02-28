@@ -583,6 +583,13 @@ app.model.sisyphus_manager = {
 		}
 	},
 	/**************************** FIND SISBOTS ********************************/
+	_apple_counts: 0,
+	_apple_counter: function () {
+		this._apple_counts++;
+		if (this._apple_counts > 5) {
+			app.config.env = 'alpha';
+		}
+	},
 	find_sisbots: function () {
 		var self = this;
 
