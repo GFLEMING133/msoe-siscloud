@@ -826,7 +826,7 @@ app.model.sisbot = {
 		var self	= this;
 
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
@@ -844,7 +844,7 @@ app.model.sisbot = {
 	},
 	update_tablename: function () {
 		if (this.is_legacy()) {
-			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
@@ -888,7 +888,7 @@ app.model.sisbot = {
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
-			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
@@ -927,7 +927,7 @@ app.model.sisbot = {
 	},
 	pause_between_tracks: function() {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var state		= app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
@@ -1127,7 +1127,7 @@ app.model.sisbot = {
 	},
 	playlist_remove: function (playlist_model) {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var playlist	= playlist_model.get('data');
@@ -1164,7 +1164,7 @@ app.model.sisbot = {
 	},
 	track_remove: function (track_model) {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self = this;
 

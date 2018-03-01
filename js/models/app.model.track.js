@@ -283,7 +283,7 @@ app.model.track = {
 	},
 	favorite_toggle: function () {
 		if (app.manager.get_model('sisbot_id').is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var status = this.get('is_favorite');
 		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
