@@ -484,7 +484,7 @@ app.model.sisbot = {
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
-			sleep_time				: '10:00PM',
+			sleep_time				: '10:00 PM',
 			wake_time				: data.wake_time,
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
@@ -805,12 +805,16 @@ app.model.sisbot = {
 
 		var status = this.get('data.is_sleeping');
 
-		if (status == 'true') {
-			app.manager.set('show_sleeping_page', 'true');
-		} else {
-			app.manager.set('show_sleeping_page', 'false')
-						.trigger('change:show_sleeping_page');
+		if (this.get('_is_sleeping') !== status) {
+			if (status == 'true') {
+				app.manager.set('show_sleeping_page', 'true');
+			} else {
+				app.manager.set('show_sleeping_page', 'false')
+							.trigger('change:show_sleeping_page');
+			}
 		}
+
+		this.set('_is_sleeping', status);
 	},
 	wake_up: function () {
 		var self	= this;
@@ -837,7 +841,7 @@ app.model.sisbot = {
 		var self	= this;
 
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
@@ -855,7 +859,7 @@ app.model.sisbot = {
 	},
 	update_tablename: function () {
 		if (this.is_legacy()) {
-			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
@@ -899,7 +903,7 @@ app.model.sisbot = {
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
-			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
@@ -938,7 +942,7 @@ app.model.sisbot = {
 	},
 	pause_between_tracks: function() {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var state		= app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
@@ -1138,7 +1142,7 @@ app.model.sisbot = {
 	},
 	playlist_remove: function (playlist_model) {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var playlist	= playlist_model.get('data');
@@ -1164,7 +1168,7 @@ app.model.sisbot = {
 			self.set('uploading_track', 'false');
 
 			if (obj.err) {
-				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
+				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
@@ -1175,7 +1179,7 @@ app.model.sisbot = {
 	},
 	track_remove: function (track_model) {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self = this;
 

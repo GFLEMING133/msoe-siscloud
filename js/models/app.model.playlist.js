@@ -118,6 +118,11 @@ app.model.playlist = {
 		data.active_track_index = track_index;
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
+		// FORCE PLAYLIST TO BE NON-SHUFFLED WHILE ON NON-SHUFFLED PLAYLIST PAGE
+		data.is_shuffle			= 'false';
+		data.sorted_tracks		= _.range(0, data.tracks.length);
+		data.next_tracks		= _.range(0, data.tracks.length);
+
 		app.trigger('sisbot:update_playlist', data);
 	},
 	update_duration: function () {
