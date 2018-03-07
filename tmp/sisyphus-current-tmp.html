@@ -30,7 +30,7 @@
         <div class="h__k" data-if="{{= session.active.secondary }} == false">
             <div class="h__k" data-if="{{= model.data }} !== undefined">
                 <div class="h__k" data-if="{{= model.data.active_track.id }} == false">
-                    <div class="fs18 lh18 pl20 pr20 no-stuffing">No Current Track Playing</div>
+                    <div class="fs18 lh18 p20 no-stuffing strong">No Current Track Playing</div>
                 </div>
                 <div class="h__k" data-if="{{= model.data.active_track.id }} !== false">
                     <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong h__k"
@@ -45,7 +45,7 @@
                     ></div>
                 </div>
             </div>
-            <div class="mt10 pb150">
+            <div class="mt10 pb200">
                 <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
                     <div class="h__k" data-model="{{= model.data.active_playlist_id }}">
                         <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
