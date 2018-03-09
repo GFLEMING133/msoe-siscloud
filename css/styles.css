@@ -1152,6 +1152,11 @@ select:focus {
 .pl150									{	padding-left			: 150px !important;						}
 .pr150									{	padding-right			: 150px !important;						}
 
+.pt200						            {   padding-top             : 200px !important;			            }
+.pb200						            {   padding-bottom	        : 200px !important;			            }
+.pl200									{	padding-left			: 200px !important;						}
+.pr200									{	padding-right			: 200px !important;						}
+
 .pt250						            {   padding-top             : 250px !important;			            }
 .pb250						            {   padding-bottom	        : 250px !important;			            }
 .pl250									{	padding-left			: 250px !important;						}

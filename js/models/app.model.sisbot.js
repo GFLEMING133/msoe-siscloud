@@ -14,6 +14,8 @@ app.model.sisbot = {
 			fetching_cloud	: 'false',
 
 			is_master_branch: 'false',
+			is_legacy_branch: 'false',
+
 			branch_label: 'false',
 			local_branches: {
 				proxy	: 'master',
@@ -146,7 +148,8 @@ app.model.sisbot = {
 		this.on('change:data.installing_updates',			this.check_force_onboarding);
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
-
+		this.on('change:data.software_version',				this.check_for_version_update);
+		this.on('change:data',								this.nightmode_sleep_change);
 
 
 		if (this.get('data.favorite_playlist_id') == 'false')
@@ -217,6 +220,7 @@ app.model.sisbot = {
 
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
+
 				self._update_cloud();
 			}
 		}, 0);
@@ -224,12 +228,17 @@ app.model.sisbot = {
 	_update_cloud: function (data) {
 		if (this.get('data.is_internet_connected') == 'true') {
 			var data = this.get('data');
+			var new_data = {
+				id			: data.id,
+				name		: data.name,
+				local_ip	: data.local_ip,
+			};
 			var obj = {
 				_url	: 'https://api.sisyphus.withease.io/',
 				_type	: 'POST',
 				_timeout: 60000,
 				endpoint: 'set',
-				data	: data
+				data	: new_data
 			};
 
 			app.post.fetch(obj, function(resp) {}, 0);
@@ -406,29 +415,39 @@ app.model.sisbot = {
 		}
 
 
-		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true')
-			&& disconnect_length > 75000) {
-			this.set('is_polling', 'false');
-			app.manager.set('is_sisbot_available', 'false')
-					   .set('sisbot_reconnecting', 'false');
+		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') && disconnect_length > 75000) {
+			this._poll_failure_stop();
 		} else if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
 			// do nothing.. We haven't timed out
-		} else if (disconnect_length > 1500) {
+		} else if (this.is_legacy() == true && disconnect_length > 10000) {
+			this._poll_failure_stop();
+		} else if (this.is_legacy() == false && disconnect_length > 1500) {
 			if (this.get('is_socket_connected') == 'true') {
 				// we have polling from old requests that have timed out after socket reconnected. Ignore
 			} else {
-				this.set('is_polling', 'false');
-				app.manager.set('is_sisbot_available', 'false')
-						   .set('sisbot_reconnecting', 'false');
+				this._poll_failure_stop();
 			}
 		}
 
 		return this;
 	},
+	_poll_failure_stop: function () {
+		if (this._poll_then_reset_bool == true) {
+			window.location.reload();
+		}
+		this.set('is_polling', 'false');
+		app.manager.set('is_sisbot_available', 'false')
+				   .set('sisbot_reconnecting', 'false');
+	},
 	_poll_restart: function () {
 		this._poll_timer = false;
 		this.set('is_polling', 'true');
 		this._poll_state();
+	},
+	_poll_then_reset_bool: false,
+	_poll_then_reset: function() {
+		this._poll_then_reset_bool = true;
+		this._poll_restart();
 	},
 	_poll_state: function () {
 		var self = this;
@@ -467,7 +486,7 @@ app.model.sisbot = {
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
-			sleep_time				: '10:00PM',
+			sleep_time				: '10:00 PM',
 			wake_time				: data.wake_time,
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
@@ -490,7 +509,10 @@ app.model.sisbot = {
 		_.extend(data, reg_data)
 
 		app.manager.set('show_nightlight_page', 'false');
-		app.trigger('session:active', { secondary: 'false', primary: 'current' });
+
+		setTimeout(function() { // add delay in case we are planning to restart.. Makes it appear snappier
+			app.trigger('session:active', { secondary: 'false', primary: 'current' });
+		}, 2500);
 
 		this._update_sisbot(endpoint, data, function(obj) {
 			if (obj.err && obj.err == 'Could not make request') {
@@ -533,6 +555,10 @@ app.model.sisbot = {
 	wifi_failed_to_connect: function () {
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
 			this.set('wifi_error', 'incorrect');
+
+			if (this.is_legacy()) {
+				this.set('data.reason_unavailable', 'connect_to_wifi');
+			}
 		} else {
 			this.set('wifi_error', 'false');
 		}
@@ -547,6 +573,10 @@ app.model.sisbot = {
 			app.session.set('active.secondary', 'advanced_settings');
 		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
 			app.trigger('sisbot:wifi_connected');
+		}
+
+		if (this.get('data.is_internet_connected') == 'true' && this.is_legacy()) {
+			app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
 		}
 	},
   	connect_to_wifi: function () {
@@ -566,11 +596,27 @@ app.model.sisbot = {
 			.set('data.wifi_forget', 'true');
 
 		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			if (obj.err) {
+			if (obj.err && obj.err !== 'Could not make request') {
 				console.log('wifi err', obj.err);
 				self.set('wifi_error', 'true');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+			}
+
+			if (self.is_legacy()) {
+				setTimeout(function() {
+					self.set('data.failed_to_connect_to_wifi', 'false')
+						.set('data.reason_unavailable', 'connect_to_wifi')
+						.set('data.is_hotspot', 'false')
+						.set('data.wifi_forget', 'true');
+
+					setTimeout(function() {
+						self.set('data.failed_to_connect_to_wifi', 'false')
+							.set('data.reason_unavailable', 'connect_to_wifi')
+							.set('data.is_hotspot', 'false')
+							.set('data.wifi_forget', 'true');
+					}, 200);
+				}, 200);
 			}
 		});
   	},
@@ -650,15 +696,20 @@ app.model.sisbot = {
 
 		var self = this;
 
-		this.set('data.factory_resetting', 'true')
+		app.plugins.n.notification.confirm('Are you sure you want to reset your Sisyphus to factory settings?', function(resp_num) {
+			if (resp_num == 1)
+				return self;
 
-		this._update_sisbot('factory_reset', {}, function(obj) {
-			if (obj.err) {
-				self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
-			} else if (obj.resp) {
-				app.manager.intake_data(obj.resp);
-			}
-		});
+			self.set('data.factory_resetting', 'true')
+
+			self._update_sisbot('factory_reset', {}, function(obj) {
+				if (obj.err) {
+					self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
+			});
+		}, 'Factory Reset?', ['Cancel', 'OK']);
 	},
 	setup_update_hostname: function () {
 		this.set('hostname', this.get('data.hostname').replace('.local', ''))
@@ -759,13 +810,21 @@ app.model.sisbot = {
 		});
 	},
 	nightmode_sleep_change: function () {
+		if (this.is_legacy())
+			return this;
+
 		var status = this.get('data.is_sleeping');
 
-		if (status == 'true') {
-			app.manager.set('show_sleeping_page', 'true');
-		} else {
-			app.manager.set('show_sleeping_page', 'false');
+		if (this.get('_is_sleeping') !== status) {
+			if (status == 'true') {
+				app.manager.set('show_sleeping_page', 'true');
+			} else {
+				app.manager.set('show_sleeping_page', 'false')
+							.trigger('change:show_sleeping_page');
+			}
 		}
+
+		this.set('_is_sleeping', status);
 	},
 	wake_up: function () {
 		var self	= this;
@@ -785,14 +844,20 @@ app.model.sisbot = {
 	},
 	is_legacy: function () {
 		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
-		if (firmware[1] < 1)	return true;
-		else 					return false;
+
+		if (firmware[1] < 1)	{
+			this.set('is_legacy_branch', 'true');
+			return true;
+		} else {
+			this.set('is_legacy_branch', 'false');
+			return true;
+		}
 	},
 	sleep: function () {
 		var self	= this;
 
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
@@ -810,7 +875,7 @@ app.model.sisbot = {
 	},
 	update_tablename: function () {
 		if (this.is_legacy()) {
-			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
@@ -854,7 +919,7 @@ app.model.sisbot = {
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
-			app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
@@ -893,7 +958,7 @@ app.model.sisbot = {
 	},
 	pause_between_tracks: function() {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var state		= app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
@@ -927,6 +992,7 @@ app.model.sisbot = {
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
+			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 		});
 
 		this.set('data.active_playlist_id',	'false');
@@ -1092,7 +1158,7 @@ app.model.sisbot = {
 	},
 	playlist_remove: function (playlist_model) {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self		= this;
 		var playlist	= playlist_model.get('data');
@@ -1118,7 +1184,7 @@ app.model.sisbot = {
 			self.set('uploading_track', 'false');
 
 			if (obj.err) {
-				alert('There was an error uploading the file to your Sisyphus. Please try again later.')
+				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
@@ -1129,7 +1195,7 @@ app.model.sisbot = {
 	},
 	track_remove: function (track_model) {
 		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your sisbot is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		var self = this;
 
@@ -1240,13 +1306,14 @@ app.model.sisbot = {
 		var cbs		= 2;
 		var version = this.get('data.software_version').split('.');
 
+		this.is_legacy();
+
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
 		} else if (version[0] == '1' && version[1] == '0') {
 			// ALWAYS ALLOW UPGRADE FROM V1.0.X
 			self.set('has_software_update', 'true');
-			self.set('is_master_branch', 'true');
 			return this;
 		} else if (+version[1] % 2 == 1) {
 			// beta.. Always allow download
