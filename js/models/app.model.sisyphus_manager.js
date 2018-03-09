@@ -72,6 +72,7 @@ app.model.sisyphus_manager = {
 		this.listenTo(app, 'manager:download_track', 	this.download_track);
 		this.listenTo(app, 'session:sign_in',			this.sign_in_via_session);
 		this.listenTo(app, 'sisbot:wifi_connected',		this.should_show_setup_page);
+		this.listenTo(app, 'navigate:back',				this.navigate_home);
 		this.on('change:is_sisbot_available',			this.check_reconnect_status);
 
 		app.manager = this;
@@ -146,6 +147,16 @@ app.model.sisyphus_manager = {
 		} else {
 			window.location = 'https://sisyphus-industries.desk.com';
 		}
+	},
+	open_home_page: function () {
+		if (app.is_app) {
+			cordova.InAppBrowser.open(' https://www.sisyphus-industries.com/', '_system', 'location=yes');
+		} else {
+			window.location = ' https://www.sisyphus-industries.com/';
+		}
+	},
+	navigate_home: function () {
+		app.trigger('session:active', { secondary: 'false', primary: 'current' });
 	},
 	/**************************** BLUETOOTH ***********************************/
 	force_reload: function () {
@@ -549,17 +560,15 @@ app.model.sisyphus_manager = {
 	await_network_connection: function (cb, count) {
 		var self = this;
 
-		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
-			setTimeout(function() {
+		setTimeout(function () {
+			if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 				self.await_network_connection(cb, 0);
-			}, 1000);
-		} else if (count < 5) {
-			setTimeout(function() {
+			} else if (count < 5) {
 				self.await_network_connection(cb, ++count);
-			}, 1000);
-		} else {
-			cb();
-		}
+			} else {
+				cb();
+			}
+		}, 500);
 	},
 	reconnect_from_error: function () {
 		this.set('sisbot_reconnecting', 'true');
@@ -764,25 +773,25 @@ app.model.sisyphus_manager = {
 		app.post.fetch(exists = {
 			_url	: 'http://' + hostname + '/',
 			_type	: 'POST',
-			_timeout: 1250,
+			_timeout: 2500,
 			endpoint: 'sisbot/exists',
 			data	: {}
 		}, function exists_cb(obj) {
 			if (obj.err) {
-				if (hostname == self._ble_ip) {
-
-					if (hostname == '192.168.42.1') {
-						self.set('sisbot_registration', 'hotspot')
-					} else {
-						if (retries > 10) {
-							// do nothing
-						} else {
-							setTimeout(function() {
-								return self.ping_sisbot(hostname, cb, ++retries)
-							}, 100);
+				if (hostname == '192.168.42.1') {
+					if (retries > 10) {
+						if (hostname == self._ble_ip) {
+							self.set('sisbot_registration', 'hotspot')
 						}
+						// do nothing
+					} else {
+						setTimeout(function() {
+							self.ping_sisbot(hostname, cb, ++retries)
+						}, 100);
+						return this;
 					}
 				}
+
 				return cb();
 			}
 

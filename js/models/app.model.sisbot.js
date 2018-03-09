@@ -14,6 +14,8 @@ app.model.sisbot = {
 			fetching_cloud	: 'false',
 
 			is_master_branch: 'false',
+			is_legacy_branch: 'false',
+
 			branch_label: 'false',
 			local_branches: {
 				proxy	: 'master',
@@ -492,7 +494,10 @@ app.model.sisbot = {
 		_.extend(data, reg_data)
 
 		app.manager.set('show_nightlight_page', 'false');
-		app.trigger('session:active', { secondary: 'false', primary: 'current' });
+
+		setTimeout(function() { // add delay in case we are planning to restart.. Makes it appear snappier
+			app.trigger('session:active', { secondary: 'false', primary: 'current' });
+		}, 2500);
 
 		this._update_sisbot(endpoint, data, function(obj) {
 			if (obj.err && obj.err == 'Could not make request') {
@@ -676,15 +681,20 @@ app.model.sisbot = {
 
 		var self = this;
 
-		this.set('data.factory_resetting', 'true')
+		app.plugins.n.notification.confirm('Are you sure you want to reset your Sisyphus to factory settings?', function(resp_num) {
+			if (resp_num == 1)
+				return self;
 
-		this._update_sisbot('factory_reset', {}, function(obj) {
-			if (obj.err) {
-				self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
-			} else if (obj.resp) {
-				app.manager.intake_data(obj.resp);
-			}
-		});
+			self.set('data.factory_resetting', 'true')
+
+			self._update_sisbot('factory_reset', {}, function(obj) {
+				if (obj.err) {
+					self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
+			});
+		}, 'Factory Reset?', ['Cancel', 'OK']);
 	},
 	setup_update_hostname: function () {
 		this.set('hostname', this.get('data.hostname').replace('.local', ''))
@@ -819,8 +829,14 @@ app.model.sisbot = {
 	},
 	is_legacy: function () {
 		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
-		if (firmware[1] < 1)	return true;
-		else 					return false;
+
+		if (firmware[1] < 1)	{
+			this.set('is_legacy_branch', 'true');
+			return true;
+		} else {
+			this.set('is_legacy_branch', 'false');
+			return true;
+		}
 	},
 	sleep: function () {
 		var self	= this;
@@ -1275,13 +1291,14 @@ app.model.sisbot = {
 		var cbs		= 2;
 		var version = this.get('data.software_version').split('.');
 
+		this.is_legacy();
+
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
 		} else if (version[0] == '1' && version[1] == '0') {
 			// ALWAYS ALLOW UPGRADE FROM V1.0.X
 			self.set('has_software_update', 'true');
-			self.set('is_master_branch', 'true');
 			return this;
 		} else if (+version[1] % 2 == 1) {
 			// beta.. Always allow download
