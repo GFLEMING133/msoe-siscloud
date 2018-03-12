@@ -786,23 +786,10 @@ app.model.sisyphus_manager = {
 			data	: {}
 		}, function exists_cb(obj) {
 			if (obj.err) {
-<<<<<<< HEAD
-				if (hostname == self._ble_ip) {
-					if (hostname == '192.168.42.1') {
-						self.set('sisbot_registration', 'hotspot');
-					} else {
-						if (retries > 10) {
-							// do nothing
-						} else {
-							setTimeout(function() {
-								return self.ping_sisbot(hostname, cb, ++retries)
-							}, 100);
-=======
 				if (hostname == '192.168.42.1') {
 					if (retries > 10) {
 						if (hostname == self._ble_ip) {
 							self.set('sisbot_registration', 'hotspot')
->>>>>>> beta
 						}
 						// do nothing
 					} else {
@@ -918,7 +905,7 @@ app.model.sisyphus_manager = {
 	/**************************** PLAYLISTS ***********************************/
 	playlist_create: function (msg) {
 		// msg.track_id
-		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
+		var playlist = app.collection.add({ type: 'playlist', 'name': '' });
 		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist-new', primary: 'media' });
 		playlist.setup_edit();
 

@@ -1308,6 +1308,9 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
+		if (this.get('is_connected'))
+			this.check_local_versions(on_cb);
+
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
@@ -1319,9 +1322,6 @@ app.model.sisbot = {
 			// beta.. Always allow download
 			return self.set('has_software_update', 'true');
 		}
-
-		if (this.get('is_connected'))
-			this.check_local_versions(on_cb);
 
 		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false')
 			this.check_remote_versions(on_cb);

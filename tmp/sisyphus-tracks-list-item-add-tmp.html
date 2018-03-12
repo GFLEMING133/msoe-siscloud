@@ -11,7 +11,7 @@
 	</div>
 	<div class="w60 pt30 pl10">
         <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
-        <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
+        <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
 	</div>
     <div class="w20 mt5 pt30 pb10 h100 f18 right vertical h__k"
         data-if="{{= grandparent.add_playlist_tracks }} !== undefined"
