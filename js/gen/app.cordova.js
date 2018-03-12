@@ -18,6 +18,11 @@ function setup_platforms(cb) {
 		});
 	}
 
+	document.addEventListener("backbutton", function() {
+		app.trigger('navigate:back');
+	}, false);
+
+
 	check_cbs();
 };
 

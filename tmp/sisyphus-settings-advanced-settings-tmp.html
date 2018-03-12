@@ -13,7 +13,8 @@
     <div class="body-header h100 scroll hide-scrollbar">
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-model="{{= model.sisbot_id }}"
-            data-if="{{= model.is_master_branch }} == false"
+            data-run="model.is_legacy"
+            data-if="{{= model.is_legacy_branch }} == false"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'change_table_name'}"
@@ -49,7 +50,7 @@
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-model="{{= model.sisbot_id }}"
-            data-if="{{= model.is_master_branch }} == false"
+            data-if="{{= model.is_legacy_branch }} == false"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'log-files'}"
