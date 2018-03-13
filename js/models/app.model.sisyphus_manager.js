@@ -786,23 +786,10 @@ app.model.sisyphus_manager = {
 			data	: {}
 		}, function exists_cb(obj) {
 			if (obj.err) {
-<<<<<<< HEAD
-				if (hostname == self._ble_ip) {
-					if (hostname == '192.168.42.1') {
-						self.set('sisbot_registration', 'hotspot');
-					} else {
-						if (retries > 10) {
-							// do nothing
-						} else {
-							setTimeout(function() {
-								return self.ping_sisbot(hostname, cb, ++retries)
-							}, 100);
-=======
 				if (hostname == '192.168.42.1') {
 					if (retries > 10) {
 						if (hostname == self._ble_ip) {
-							self.set('sisbot_registration', 'hotspot')
->>>>>>> beta
+							self.set('sisbot_registration', 'hotspot');
 						}
 						// do nothing
 					} else {
