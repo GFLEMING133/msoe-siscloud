@@ -1,9 +1,9 @@
 var http            = require("http");
 var express         = require("express");
-var bodyParser			= require('body-parser');
+var bodyParser		= require('body-parser');
 var _               = require('underscore');
 var fs              = require('fs');
-var cleanCSS				= require('clean-css');
+var cleanCSS		= require('clean-css');
 var local_config    = require('./config.js');
 var cleanCSS		= require('clean-css');
 var cors			= require("cors");
@@ -19,9 +19,9 @@ _.templateSettings = {
 };
 
 var app = function(given_config,ansible) {
-	_.extend(given_config, local_config);
+	_.extend(given_config.services.app, local_config);
 
-	config = given_config;
+	config = given_config.services.app;
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
 	if (config.env.indexOf('sisbot') == -1) {
