@@ -149,6 +149,7 @@ app.model.sisbot = {
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
 		this.on('change:data.software_version',				this.check_for_version_update);
+		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
 
 
@@ -398,7 +399,7 @@ app.model.sisbot = {
 			this._poll_state();
 		}
 	},
-	/**************************** SISBOT ADMIN ********************************/
+	/**************************** POLLING *************************************/
 	_poll_timer: false,
 	_poll_failure: function () {
 		if (this._poll_timer == false)
@@ -476,6 +477,16 @@ app.model.sisbot = {
 		}
 
 		return this;
+	},
+	/**************************** AMDIN ***************************************/
+	check_for_unavailable: function () {
+		if (this.get('data.reason_unavailable') !== 'servo_rho_fault' || this.get('data.reason_unavailable') == 'servo_th_fault') {
+			// make sure we say the sisbot is unavailable
+			app.manager.set('is_sisbot_available', 'false')
+					   .set('sisbot_reconnecting', 'false');
+		} else {
+			// do nothing.. If we lose connection, we're thrown to unavailable and we don't know why
+		}
 	},
 	defaults_setup: function () {
 		var data = this.get('data');
