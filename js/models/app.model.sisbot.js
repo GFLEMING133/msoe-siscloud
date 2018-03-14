@@ -861,7 +861,7 @@ app.model.sisbot = {
 			return true;
 		} else {
 			this.set('is_legacy_branch', 'false');
-			return true;
+			return false;
 		}
 	},
 	sleep: function () {
