@@ -856,7 +856,7 @@ app.model.sisbot = {
 	is_legacy: function () {
 		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
 
-		if (firmware[1] < 1)	{
+		if (+firmware[1] < 1)	{
 			this.set('is_legacy_branch', 'true');
 			return true;
 		} else {
