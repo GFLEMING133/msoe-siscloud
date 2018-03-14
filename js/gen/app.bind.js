@@ -546,9 +546,9 @@ var Binding = Backbone.View.extend({
         // gives ability for foreach to render each attribute then make sure it's checked
         setTimeout(function () {
             if (self.$el) {
-							self.$el.val(val);
-							if (self.data.chosen) self.chosen();
-						}
+				self.$el.val(val);
+				if (self.data.chosen) self.chosen();
+			}
         }, 10);
     },
     /***************************** GENERAL ************************************/

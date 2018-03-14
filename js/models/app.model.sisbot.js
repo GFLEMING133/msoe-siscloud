@@ -11,6 +11,7 @@ app.model.sisbot = {
 				password		: ''
 			},
 			wifi_error		: 'false',
+			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
 
 			is_master_branch: 'false',
@@ -565,7 +566,8 @@ app.model.sisbot = {
     },
 	wifi_failed_to_connect: function () {
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
-			this.set('wifi_error', 'incorrect');
+			this.set('wifi_error', 'incorrect')
+				.set('wifi_connecting', 'false');
 
 			if (this.is_legacy()) {
 				this.set('data.reason_unavailable', 'connect_to_wifi');
@@ -591,7 +593,8 @@ app.model.sisbot = {
 		}
 	},
   	connect_to_wifi: function () {
-		this.set('wifi_error', 'false');
+		this.set('wifi_error', 'false')
+			.set('wifi_connecting', 'false');
 
 		var self		= this;
 		var credentials = this.get('wifi');
@@ -604,12 +607,14 @@ app.model.sisbot = {
 
 		this.set('data.failed_to_connect_to_wifi', 'false')
 			.set('data.is_hotspot', 'false')
-			.set('data.wifi_forget', 'true');
+			.set('data.wifi_forget', 'true')
+			.set('wifi_connecting', 'true');
 
 		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			if (obj.err && obj.err !== 'Could not make request') {
 				console.log('wifi err', obj.err);
-				self.set('wifi_error', 'true');
+				self.set('wifi_error', 'true')
+					.set('wifi_connecting', 'false');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
