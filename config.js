@@ -1,5 +1,5 @@
 var config = {
-    version : '1.3.0', // 1.3.0, Fix for proxy able to revert on bad update
+    version : '1.3.6',
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

@@ -11,6 +11,7 @@ app.model.sisbot = {
 				password		: ''
 			},
 			wifi_error		: 'false',
+			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
 
 			is_master_branch: 'false',
@@ -149,6 +150,7 @@ app.model.sisbot = {
 		this.on('change:data.installing_updates',			this.install_updates_change);
 		this.on('change:data.is_sleeping',					this.nightmode_sleep_change);
 		this.on('change:data.software_version',				this.check_for_version_update);
+		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
 
 
@@ -398,7 +400,7 @@ app.model.sisbot = {
 			this._poll_state();
 		}
 	},
-	/**************************** SISBOT ADMIN ********************************/
+	/**************************** POLLING *************************************/
 	_poll_timer: false,
 	_poll_failure: function () {
 		if (this._poll_timer == false)
@@ -477,6 +479,16 @@ app.model.sisbot = {
 
 		return this;
 	},
+	/**************************** AMDIN ***************************************/
+	check_for_unavailable: function () {
+		if (this.get('data.reason_unavailable') !== 'servo_rho_fault' || this.get('data.reason_unavailable') == 'servo_th_fault') {
+			// make sure we say the sisbot is unavailable
+			app.manager.set('is_sisbot_available', 'false')
+					   .set('sisbot_reconnecting', 'false');
+		} else {
+			// do nothing.. If we lose connection, we're thrown to unavailable and we don't know why
+		}
+	},
 	defaults_setup: function () {
 		var data = this.get('data');
 
@@ -554,7 +566,8 @@ app.model.sisbot = {
     },
 	wifi_failed_to_connect: function () {
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
-			this.set('wifi_error', 'incorrect');
+			this.set('wifi_error', 'incorrect')
+				.set('wifi_connecting', 'false');
 
 			if (this.is_legacy()) {
 				this.set('data.reason_unavailable', 'connect_to_wifi');
@@ -580,7 +593,8 @@ app.model.sisbot = {
 		}
 	},
   	connect_to_wifi: function () {
-		this.set('wifi_error', 'false');
+		this.set('wifi_error', 'false')
+			.set('wifi_connecting', 'false');
 
 		var self		= this;
 		var credentials = this.get('wifi');
@@ -593,12 +607,14 @@ app.model.sisbot = {
 
 		this.set('data.failed_to_connect_to_wifi', 'false')
 			.set('data.is_hotspot', 'false')
-			.set('data.wifi_forget', 'true');
+			.set('data.wifi_forget', 'true')
+			.set('wifi_connecting', 'true');
 
 		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
 			if (obj.err && obj.err !== 'Could not make request') {
 				console.log('wifi err', obj.err);
-				self.set('wifi_error', 'true');
+				self.set('wifi_error', 'true')
+					.set('wifi_connecting', 'false');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
@@ -845,12 +861,12 @@ app.model.sisbot = {
 	is_legacy: function () {
 		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
 
-		if (firmware[1] < 1)	{
+		if (+firmware[1] < 1)	{
 			this.set('is_legacy_branch', 'true');
 			return true;
 		} else {
 			this.set('is_legacy_branch', 'false');
-			return true;
+			return false;
 		}
 	},
 	sleep: function () {
@@ -1308,6 +1324,9 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
+		if (this.get('is_connected'))
+			this.check_local_versions(on_cb);
+
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
@@ -1319,9 +1338,6 @@ app.model.sisbot = {
 			// beta.. Always allow download
 			return self.set('has_software_update', 'true');
 		}
-
-		if (this.get('is_connected'))
-			this.check_local_versions(on_cb);
 
 		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false')
 			this.check_remote_versions(on_cb);

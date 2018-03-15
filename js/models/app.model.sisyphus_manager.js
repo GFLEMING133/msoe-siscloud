@@ -905,7 +905,7 @@ app.model.sisyphus_manager = {
 	/**************************** PLAYLISTS ***********************************/
 	playlist_create: function (msg) {
 		// msg.track_id
-		var playlist = app.collection.add({ type: 'playlist', 'name': 'New Playlist' });
+		var playlist = app.collection.add({ type: 'playlist', 'name': '' });
 		app.trigger('session:active', { playlist_id: playlist.id, secondary: 'playlist-new', primary: 'media' });
 		playlist.setup_edit();
 
