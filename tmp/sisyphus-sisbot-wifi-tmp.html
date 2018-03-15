@@ -13,6 +13,7 @@
                 <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                     Connect Sisyphus to your home network
                 </h3>
+
                 <div class="mt20 pb20 h__k" data-run="model.get_networks">
                     <p class="no-stuffing fs18 lh18 strong mb5">Network Name</p>
                     <div class="select-box block hh40 relative">
@@ -71,11 +72,11 @@
 
                     <span class="block hh20">&nbsp;</span>
 
-                    <div class="p20 center clickable active blue fs18 lh18 h__k"
+                    <div class="p20 mb100 center clickable active blue fs18 lh18 h__k"
                         data-if="{{= model.data.is_hotspot }} == true"
                         data-on-click="parent.should_show_setup_page"
                     >Skip this step</div>
-                    <div class="h__k" data-if="{{= model.data.is_hotspot }} == false">
+                    <div class="h__k mb100" data-if="{{= model.data.is_hotspot }} == false">
                         <div class="p20 center i h__k" data-if="{{= model.data.is_internet_connected }} == false">
                             <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                             <div class="h__k fs18 lh18">
@@ -83,6 +84,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

@@ -481,10 +481,9 @@ app.model.sisbot = {
 	},
 	/**************************** AMDIN ***************************************/
 	check_for_unavailable: function () {
-		if (this.get('data.reason_unavailable') !== 'servo_rho_fault' || this.get('data.reason_unavailable') == 'servo_th_fault') {
+		if (this.get('data.reason_unavailable') !== 'false') {
 			// make sure we say the sisbot is unavailable
-			app.manager.set('is_sisbot_available', 'false')
-					   .set('sisbot_reconnecting', 'false');
+			app.manager.set('is_sisbot_available', 'false');
 		} else {
 			// do nothing.. If we lose connection, we're thrown to unavailable and we don't know why
 		}
