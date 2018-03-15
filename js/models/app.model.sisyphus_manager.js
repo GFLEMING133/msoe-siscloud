@@ -941,10 +941,14 @@ app.model.sisyphus_manager = {
 	/******************** TRACK UPLOAD ****************************************/
 	on_file_upload: function (track_file) {
 		console.log("On File Upload", track_file.name);
+		var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
+		var regex = /.(svg|thr)$/;
+		var file_type = track_file.name.match(regex)[1];
 		var track_obj = {
-			type		: 'track',
-			name		: track_file.name.replace('.thr', ''),
-			verts		: track_file.data
+			type				: 'track',
+			name				: file_name,
+			original_file_type	: file_type,
+			file_data			: track_file.data
 		};
 
 		this.add('tracks_to_upload', track_obj);
@@ -960,15 +964,17 @@ app.model.sisyphus_manager = {
 		_.each(track_objs, function(track_obj) {
 			track_obj.is_published = publish_track;
 			var track_model = app.collection.add(track_obj);
-			track_model.upload_track_to_sisbot();
+			track_model.set('upload_status', 'false'); // not uploaded yet
+			// track_model.upload_track_to_sisbot();
 
-			if (publish_track == 'true') track_model.upload_track_to_cloud();
+			// if (publish_track == 'true') track_model.upload_track_to_cloud();
 		});
 
-		this.set('tracks_to_upload', []);
+		// this.set('tracks_to_upload', []);
 
-		if (num_tracks > 1)
-			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+		// if (num_tracks > 1)
+			// app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+		app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
 
 		return this;
 	},
@@ -983,14 +989,14 @@ app.model.sisyphus_manager = {
 			var track_model = app.collection.add(svg_obj);
 
 			// verts stores the file data
-			var svg_xml = track_model.get('data.verts');
+			var svg_xml = track_model.get('data.file_data');
 
 			var oParser = new DOMParser();
 			var oDOM = oParser.parseFromString(svg_xml, "text/xml");
 			var pathElements = oDOM.getElementsByTagName("path");
 
 			var verts = [];
-			var steps = 20;
+			var steps = 20; // make part of model
 
 			_.each(pathElements, function(pathEl) {
 				var path = pathEl.attributes.getNamedItem("d").value;

@@ -44,12 +44,13 @@ app.model.track = {
 				created_by_id		: 'false',
 				created_by_name		: 'Sisyphus Industries',
 
+				original_file_type	: 'false', 	// thr|svg
 				has_verts_file		: 'false',
 				verts				: '',		// temporary
 
-				default_vel:				1,
-				default_accel:			0.5,
-				default_thvmax:			1,
+				default_vel			: 1,
+				default_accel		: 0.5,
+				default_thvmax		: 1,
 				reversed			: false,
 				firstR				: -1,
 				lastR				: -1,
@@ -214,6 +215,10 @@ app.model.track = {
 		app.trigger('sisbot:track_add', this);
 
 		return this;
+	},
+	/**************************** SVG *****************************************/
+	process_svg: function() {
+		
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_obj: function() { // returns object to save in playlist (to retain speeds/reversed/etc per instance)
