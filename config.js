@@ -1,5 +1,5 @@
 var config = {
-    version : '1.3.8',
+    version : '1.2.1', // Auto-recovery
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
