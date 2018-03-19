@@ -19,9 +19,9 @@ _.templateSettings = {
 };
 
 var app = function(given_config,ansible) {
-	_.extend(given_config.services.app, local_config);
-
 	config = given_config.services.app;
+
+	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
 	if (config.env.indexOf('sisbot') == -1) {
