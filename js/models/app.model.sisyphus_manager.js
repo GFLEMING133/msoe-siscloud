@@ -964,10 +964,15 @@ app.model.sisyphus_manager = {
 
 			// wait for table to be paused
 			function wait_to_upload() {
-				if (sisbot.get('data.state') != 'playing')	self.process_upload_track();
-				else setTimeout(function() { wait_to_upload() }, 1000);
+				if (sisbot.get('data.state') != 'playing') {
+					self.process_upload_track();
+				} else {
+					console.log("Wait longer for pause to finish");
+					setTimeout(function() { wait_to_upload() }, 1000);
+				}
 			}
 
+			console.log("Wait 1 sec for pause to finish");
 			setTimeout(function() {
 				wait_to_upload();
 			}, 1000);
