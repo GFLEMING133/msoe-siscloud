@@ -955,6 +955,26 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+	upload_track: function() {
+		var self = this;
+		// Pause sisbot if not already
+		var sisbot	= this.get_model('sisbot_id');
+		if (sisbot.get('data.state') == 'playing') {
+			sisbot.pause();
+
+			// wait for table to be paused
+			function wait_to_upload() {
+				if (sisbot.get('data.state') != 'playing')	self.process_upload_track();
+				else setTimeout(function() { wait_to_upload() }, 1000);
+			}
+
+			setTimeout(function() {
+				wait_to_upload();
+			}, 1000);
+		} else {
+			this.process_upload_track();
+		}
+	},
 	process_upload_track: function () {
 		var self			= this;
 		var track_objs		= this.get('tracks_to_upload');
@@ -965,16 +985,16 @@ app.model.sisyphus_manager = {
 			track_obj.is_published = publish_track;
 			var track_model = app.collection.add(track_obj);
 			track_model.set('upload_status', 'false'); // not uploaded yet
-			// track_model.upload_track_to_sisbot();
+			track_model.upload_track_to_sisbot(); // remove
 
-			// if (publish_track == 'true') track_model.upload_track_to_cloud();
+			if (publish_track == 'true') track_model.upload_track_to_cloud();
 		});
 
-		// this.set('tracks_to_upload', []);
+		this.set('tracks_to_upload', []);
 
-		// if (num_tracks > 1)
-			// app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
-		app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
+		if (num_tracks > 1)
+			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+		// app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
 
 		return this;
 	},
