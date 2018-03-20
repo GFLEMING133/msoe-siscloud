@@ -218,7 +218,7 @@ app.model.track = {
 	},
 	/**************************** SVG *****************************************/
 	process_svg: function() {
-		
+
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_obj: function() { // returns object to save in playlist (to retain speeds/reversed/etc per instance)

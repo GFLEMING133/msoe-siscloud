@@ -978,6 +978,7 @@ app.model.sisyphus_manager = {
 		}
 	},
 	process_upload_track: function () {
+		console.log("Process upload track");
 		var self			= this;
 		var track_objs		= this.get('tracks_to_upload');
 		var publish_track 	= this.get('publish_track');
@@ -986,7 +987,7 @@ app.model.sisyphus_manager = {
 		_.each(track_objs, function(track_obj) {
 			track_obj.is_published = publish_track;
 			var track_model = app.collection.add(track_obj);
-			track_model.set('upload_status', 'false'); // not uploaded yet
+			// track_model.set('upload_status', 'false'); // not uploaded yet
 			track_model.upload_track_to_sisbot(); // remove
 
 			if (publish_track == 'true') track_model.upload_track_to_cloud();
@@ -1001,6 +1002,7 @@ app.model.sisyphus_manager = {
 		return this;
 	},
 	process_upload_svg: function() {
+		console.log("Process upload svg");
 		var self			= this;
 		var svg_objs		= this.get('tracks_to_upload');
 		var publish_track 	= this.get('publish_track');
@@ -1163,7 +1165,7 @@ app.model.sisyphus_manager = {
 
 		this.set('tracks_to_upload', []);
 
-		if (num_svgs > 1) app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+		if (num_svgs > 1) app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
 
 		return this;
 	},
