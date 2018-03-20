@@ -73,7 +73,7 @@
                     data-model="{{= model.sisbot_id }}"
                     data-run="model.check_for_version_update"
                     data-if="{{= model.has_software_update }} == true"
-                >(update available)</span>
+                >({{= model.remote_versions.sisbot }} available)</span>
             </span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
