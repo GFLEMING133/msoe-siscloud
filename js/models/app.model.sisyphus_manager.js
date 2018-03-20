@@ -968,14 +968,11 @@ app.model.sisyphus_manager = {
 					self.process_upload_track();
 				} else {
 					console.log("Wait longer for pause to finish");
-					setTimeout(function() { wait_to_upload() }, 1000);
+					setTimeout(function() { wait_to_upload(); }, 1000);
 				}
 			}
 
-			console.log("Wait 1 sec for pause to finish");
-			setTimeout(function() {
-				wait_to_upload();
-			}, 1000);
+			wait_to_upload();
 		} else {
 			this.process_upload_track();
 		}
@@ -998,7 +995,7 @@ app.model.sisyphus_manager = {
 		this.set('tracks_to_upload', []);
 
 		if (num_tracks > 1)
-			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+			app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
 		// app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
 
 		return this;
