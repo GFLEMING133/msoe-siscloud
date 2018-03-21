@@ -1329,13 +1329,6 @@ app.model.sisbot = {
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
-		} else if (version[0] == '1' && version[1] == '0') {
-			// ALWAYS ALLOW UPGRADE FROM V1.0.X
-			self.set('has_software_update', 'true');
-			//return this; // NO LONGER NEEDED BECAUSE MASTER IS PAST 1.0.9
-		} else if (+version[1] % 2 == 1) {
-			// beta.. Always allow download
-			return self.set('has_software_update', 'true');
 		}
 
 		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false')
@@ -1368,6 +1361,15 @@ app.model.sisbot = {
 				});
 
 				self.set('has_software_update', '' + has_update);
+
+				if (version[0] == '1' && version[1] == '0') {
+					// ALWAYS ALLOW UPGRADE FROM V1.0.X
+					self.set('has_software_update', 'true');
+					//return this; // NO LONGER NEEDED BECAUSE MASTER IS PAST 1.0.9
+				} else if (+version[1] % 2 == 1) {
+					// beta.. Always allow download
+					self.set('has_software_update', 'true');
+				}
 			}
 		}
 
