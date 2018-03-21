@@ -578,14 +578,19 @@ app.model.sisbot = {
 	wifi_connected: function () {
 		var active = app.session.get('active');
 
-		if (this.get('data.is_internet_connected') == 'true' && active.primary == 'settings' && active.secondary == 'wifi') {
+		if (this.get('data.is_internet_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.trigger('sisbot:wifi_connected');
-			app.session.set('active.secondary', 'advanced_settings');
-		} else if (this.get('data.wifi_forget') == 'true' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.session.set('active.secondary', 'advanced_settings');
 		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
 			app.trigger('sisbot:wifi_connected');
 		}
+
+		// correct values
+		this.set({
+			wifi_error		: 'false',
+			wifi_connecting	: 'false',
+		});
+		this.set('data.wifi_password', 'false');
 
 		if (this.get('data.is_internet_connected') == 'true' && this.is_legacy()) {
 			app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });

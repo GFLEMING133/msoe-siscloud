@@ -10,7 +10,7 @@
                     Connection Lost!
                 </h3>
                 <p class="center fs18 lh24">
-                    The connection with your Sisyphus table has been lost and could not be restored
+                    The connection with your Sisyphus table has been lost and could not be restored.
                 </p>
                 <p class="pt20 center fs18 lh24 h__k" data-if="{{= model.is_polling }} == true">
                     Attempting to reconnect now.
@@ -118,12 +118,12 @@
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
-                    WiFi Password Incorrect
+                    Changing Wifi Network
                 </h3>
-                <p class="center fs18 lh24">
-                    The credentials you passed to your Sisyphus were incorrect
-                    and your phone has disconnected from the Sisyphus and reconnected
-                    with your local router.
+                <p class="center fs18 lh24 h__k">
+                    Your Sisyphus is attempting to connect to your local router.
+					If it does not automatically reconnect, please open Wifi Settings
+                    and reconnnect to the {{= model.data.wifi_network }} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
