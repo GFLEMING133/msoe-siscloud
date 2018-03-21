@@ -941,6 +941,7 @@ app.model.sisyphus_manager = {
 	/******************** TRACK UPLOAD ****************************************/
 	on_file_upload: function (track_file) {
 		console.log("On File Upload", track_file.name);
+
 		var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
 		var regex = /.(svg|thr)$/;
 		var file_type = track_file.name.match(regex)[1];
@@ -957,22 +958,25 @@ app.model.sisyphus_manager = {
 	},
 	upload_track: function() {
 		var self = this;
+
 		// Pause sisbot if not already
 		var sisbot	= this.get_model('sisbot_id');
+		sisbot.set('uploading_track', 'true'); // for UI spinner
 		if (sisbot.get('data.state') == 'playing') {
-			sisbot.pause();
-
 			// wait for table to be paused
 			function wait_to_upload() {
 				if (sisbot.get('data.state') != 'playing') {
 					self.process_upload_track();
 				} else {
 					console.log("Wait longer for pause to finish");
-					setTimeout(function() { wait_to_upload(); }, 1000);
+					setTimeout(function() { wait_to_upload(); }, 4000); // delay to be sure the table paused
 				}
 			}
 
+			// call first, so it delays
 			wait_to_upload();
+
+			sisbot.pause();
 		} else {
 			this.process_upload_track();
 		}
@@ -986,9 +990,15 @@ app.model.sisyphus_manager = {
 
 		_.each(track_objs, function(track_obj) {
 			track_obj.is_published = publish_track;
+			if (track_obj.original_file_type == 'thr') track_obj.verts = track_obj.file_data; // remove/change later
+			else if (track_obj.original_file_type == 'svg') track_obj.verts = self.process_svg(track_obj.file_data);
+
 			var track_model = app.collection.add(track_obj);
 			// track_model.set('upload_status', 'false'); // not uploaded yet
 			track_model.upload_track_to_sisbot(); // remove
+
+			// error checking
+			if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
 
 			if (publish_track == 'true') track_model.upload_track_to_cloud();
 		});
@@ -1000,6 +1010,154 @@ app.model.sisyphus_manager = {
 		// app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
 
 		return this;
+	},
+	process_svg: function(file_data) {
+		console.log("Process svg");
+		var self			= this;
+
+		// verts stores the file data
+		var svg_xml = file_data;
+
+		var oParser = new DOMParser();
+		var oDOM = oParser.parseFromString(svg_xml, "text/xml");
+		var pathElements = oDOM.getElementsByTagName("path");
+
+		var verts = [];
+		var steps = 20; // make part of model
+
+		_.each(pathElements, function(pathEl) {
+			var path = pathEl.attributes.getNamedItem("d").value;
+			var commands = path.split(/(?=[LMClmc])/);
+			console.log("Commands:", commands);
+
+			_.each(commands, function(entry) {
+				var command = entry.substring(0,1);
+				var points_string = entry.substring(1);
+				var data = points_string.split(/(?=[,-])/);
+
+				// trim extras, convert to numbers
+				for (var i=0; i<data.length; i++) {
+					data[i] = +data[i].replace(/^[\s,]+|\s+$/gm,'');
+				}
+
+				switch (command) {
+					case 'M':
+						// console.log("Start pos", data);
+						if (data.length == 2) verts.push(data);
+						else console.log("Error, too many start points");
+						break;
+					case 'm':
+						// console.log("start pos", data);
+						if (data.length == 2) {
+							if (verts.length > 0) {
+								var p0 = verts[verts.length-1];
+								verts.push([p0[0]+data[0],p0[1]+data[1]]);
+							} else verts.push(data);
+						}
+						else console.log("Error, too many start points");
+						break;
+					case 'L':
+						// console.log("Line", data);
+						verts.push([data[0],data[1]]);
+						break;
+					case 'l':
+						// console.log("line", data);
+						var p0 = verts[verts.length-1];
+						verts.push([p0[0]+data[0],p0[1]+data[1]]);
+						break;
+					case 'C':
+						// console.log("Curve", data);
+						if (data.length == 6) {
+							var p0 = verts[verts.length-1];
+							var p1 = [data[0],p0[1]+data[1]];
+							var p2 = [data[2],p0[1]+data[3]];
+							var p3 = [data[4],p0[1]+data[5]];
+							// console.log("curve", p0, p1, p2, p3);
+							for (var i=1; i<=steps; i++) {
+								var point = self._calculate_bezier_point(i/steps, p0, p1, p2, p3);
+								verts.push(point);
+							}
+						}	else console.log("Error, too many Curve points");
+						break;
+					case 'c':
+						// console.log("curve", data);
+						if (data.length == 6) {
+							var p0 = verts[verts.length-1];
+							var p1 = [p0[0]+data[0],p0[1]+data[1]];
+							var p2 = [p0[0]+data[2],p0[1]+data[3]];
+							var p3 = [p0[0]+data[4],p0[1]+data[5]];
+							console.log("curve", p0, p1, p2, p3);
+							for (var i=1; i<=steps; i++) {
+								var point = self._calculate_bezier_point(i/steps, p0, p1, p2, p3);
+								verts.push(point);
+							}
+						}	else console.log("Error, too many curve points");
+						break;
+				}
+			});
+		});
+
+		// center resulting verts
+		var min_max = self._min_max(verts);
+		var half_x = (min_max[2]-min_max[0]) / 2;
+		var half_y = (min_max[3]-min_max[1]) / 2;
+		_.each(verts, function(point) {
+			point[0] = point[0] - min_max[0] - half_x;
+			point[1] = point[1] - min_max[1] - half_y;
+		});
+		console.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
+
+		// convert to polar
+		var th_offset = 0;
+		var last_th = 0;
+		var pi = Math.PI;
+		var loop_th = pi*2;
+		_.each(verts, function(point) {
+			var rho = Math.sqrt(point[0]*point[0]+point[1]*point[1]);
+			var new_th =  Math.atan2(point[1],point[0])+pi/2;
+			if (Math.abs(new_th) == pi) new_th = 0;
+			// if (new_th > 0 && last_th < 0) {
+			if (new_th - last_th > pi) {
+				th_offset -= loop_th;
+				console.log("- Point Th", point[0], "=", new_th, "+", th_offset);
+			// } else if (new_th < 0 && last_th > 0) {
+			} else if (new_th - last_th < -pi) {
+				th_offset += loop_th;
+				console.log("+ Point Th", point[0], "=", new_th, "+", th_offset);
+			}
+			point[0] = new_th + th_offset; // th
+			point[1] = rho; // rho
+
+			last_th = new_th;
+		});
+
+		// normalize
+		var polar_min_max = self._min_max(verts);
+		_.each(verts, function(point) {
+			point[1] = point[1]/polar_min_max[3];
+		});
+		console.log("Normalized Polar Verts", verts.join(' '));
+
+		// make sure start/end are 0 or 1
+		var start_rho = verts[0][1];
+		if (start_rho != 1 && start_rho != 0) {
+			if (start_rho <= 0.5) verts.unshift([verts[0][0], 0]);
+			else verts.unshift([verts[0][0], 1]);
+		}
+		var end_rho = verts[verts.length-1][1];
+		if (end_rho != 1 && end_rho != 0) {
+			if (end_rho <= 0.5) verts.push([verts[verts.length-1][0], 0]);
+			else verts.push([verts[verts.length-1][0], 1]);
+		}
+
+		// convert to space separates, line separated string
+		var verts_string = "";
+		_.each(verts, function(point) {
+			verts_string += point[0]+" "+point[1]+"\n";
+		});
+
+		// send to page for confirming the appearance/upload
+		return verts_string;
 	},
 	process_upload_svg: function() {
 		console.log("Process upload svg");

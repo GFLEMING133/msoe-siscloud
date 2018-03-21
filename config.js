@@ -1,5 +1,5 @@
 var config = {
-    version : '1.3.9', // pause before upload test
+    version : '1.3.10', // pause before upload fixed, add svg and thr from same form
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
