@@ -1332,7 +1332,7 @@ app.model.sisbot = {
 		} else if (version[0] == '1' && version[1] == '0') {
 			// ALWAYS ALLOW UPGRADE FROM V1.0.X
 			self.set('has_software_update', 'true');
-			return this;
+			//return this; // NO LONGER NEEDED BECAUSE MASTER IS PAST 1.0.9
 		} else if (+version[1] % 2 == 1) {
 			// beta.. Always allow download
 			return self.set('has_software_update', 'true');
