@@ -1,8 +1,3 @@
-/*
-- Tomorrow I will have a build that alerts if the two are on different networks (besides being a hotspot)
-- Tomorrow I will have a build that will better manage internal connection state (for example, if the phone has failed to connect to any network)
-*/
-
 app.model.sisyphus_manager = {
 	defaults: function (data) {
 		var obj = {
@@ -59,6 +54,15 @@ app.model.sisyphus_manager = {
 
 			is_ble_enabled			: 'false',
 
+			remote_versions: {
+				proxy	: '10.0.0',
+				app		: '10.0.0',
+				api		: '10.0.0',
+				sisbot	: '10.0.0',
+			},
+
+			is_admin				: 'false',
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisyphus_manager',
@@ -99,6 +103,7 @@ app.model.sisyphus_manager = {
 		}
 
 		this.check_ble_status();
+		this.check_remote_versions();
 
 		return this;
 	},
@@ -163,6 +168,28 @@ app.model.sisyphus_manager = {
 	},
 	navigate_home: function () {
 		app.trigger('session:active', { secondary: 'false', primary: 'current' });
+	},
+	check_remote_versions: function (cb) {
+		var self = this;
+
+		var obj = {
+			_url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'POST',
+			endpoint: 'latest_software_version',
+			data	: {}
+		};
+
+		app.post.fetch(obj, function(cbb) {
+			self.set('remote_versions', cbb.resp);
+		}, 0);
+
+		return this;
+	},
+	_admin_taps: 0,
+	check_admin: function () {
+		if (++this._admin_taps > 5) {
+			this.set('is_admin', 'true');
+		}
 	},
 	/**************************** BLUETOOTH ***********************************/
 	force_reload: function () {
@@ -455,6 +482,25 @@ app.model.sisyphus_manager = {
 		app.current_session().sign_out();
 	},
 	/*********************** SISBOT ONBOARDING ********************************/
+	_has_update: function(sisbot, remote) {
+		var remote_revisions	= remote.split('.');
+		var local_revisions		= sisbot.split('.');
+		var local_is_newer		= false;
+		var has_update			= false;
+
+		for (var i = 0; i < local_revisions.length; i++) {
+			if (+local_revisions[i] > +remote_revisions[i]) {
+				local_is_newer = true;
+			} else if (+local_revisions[i] < +remote_revisions[i]) {
+				has_update = true;
+			}
+			if (has_update == true || local_is_newer == true) {
+				break;
+			}
+		}
+
+		return has_update;
+	},
 	should_show_onboarding: function () {
 		var sisbot				= this.get_model('sisbot_id');
 		var hotspot_status		= sisbot.get('data.is_hotspot');
@@ -468,6 +514,15 @@ app.model.sisyphus_manager = {
 
 			this.set('show_setup_page', 'true')
 				.set('show_nightlight_page', 'true');
+		}
+
+		if (is_internet_connected) {
+			// check for software update
+			var sisbot_version = sisbot.get('data.software_version');
+			var remote_sisbot  = this.get('remote_versions.sisbot');
+			if (this._has_update(sisbot_version, remote_sisbot) == true) {
+				app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
+			}
 		}
 
 		if (this.get_model('sisbot_id').is_legacy() == true) {
