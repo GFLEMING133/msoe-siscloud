@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var raw_data = $('.d3').data();
+	var max_points = 50000; // maximum points to render
 
     console.log('raw points', raw_data);
 
@@ -67,18 +68,30 @@ $(document).ready(function() {
 		var return_value = [];
 		// Step the file, line by line
 		var lines = data.toString().trim().split('\n');
-		var regex = /^\s*$/; // eliminate empty lines
+		// var regex = /^\s*$/; // eliminate empty lines
+		var pos_regex = /^[0-9.e-]+\s+[0-9.e-]+/;
 
 		_.map(lines, function(line) {
 			// line.replace('\r','');
 			line.trim();
 
-			if (line.length > 0 && line.substring(0,1) != '#' && !line.match(regex)) {
+			if (line.length > 0 && pos_regex.test(line)) {
 				var values = line.split(/\s+/);
 				var entry = {y:parseFloat(values[0]), x:parseFloat(values[1])}; // [theta, rho]
 				return_value.push(entry);
 			}
 		});
+
+		// reduce point count, if needed
+		console.log("Given Points: ", return_value.length);
+		if (return_value.length > max_points) {
+			var total_count = return_value.length;
+			var remove_every = Math.ceil(1/(max_points/return_value.length));
+			for (var i=total_count-2; i > 1; i -= remove_every) {
+				return_value.splice(i+1, remove_every-1);
+			}
+		}
+		console.log("Total Points: ", return_value.length);
 
 		return return_value;
 	};
