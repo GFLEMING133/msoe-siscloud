@@ -87,7 +87,7 @@ $(document).ready(function() {
 		if (return_value.length > max_points) {
 			var total_count = return_value.length;
 			var remove_every = Math.ceil(1/(max_points/return_value.length));
-			for (var i=total_count-2; i > 1; i -= remove_every) {
+			for (var i=total_count-2-remove_every; i > 1; i -= remove_every) {
 				return_value.splice(i+1, remove_every-1);
 			}
 		}
