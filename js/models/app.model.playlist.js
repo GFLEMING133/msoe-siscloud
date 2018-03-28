@@ -132,6 +132,8 @@ app.model.playlist = {
 		data.active_track_id	= 'false';
 		data.is_shuffle			= 'true';
 
+		delete data.is_current;
+
 		app.trigger('sisbot:update_playlist', data);
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},

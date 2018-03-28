@@ -842,7 +842,12 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == '192.168.42.1') {
-					if (retries > 10) {
+					if (app.is_app == false || app.platform == 'iOS') {
+						if (hostname == self._ble_ip) {
+							self.set('sisbot_registration', 'hotspot');
+						}
+						// do nothing
+					} else if (retries > 10) {
 						if (hostname == self._ble_ip) {
 							self.set('sisbot_registration', 'hotspot');
 						}
