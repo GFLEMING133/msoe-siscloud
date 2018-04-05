@@ -483,6 +483,9 @@ app.model.sisyphus_manager = {
 	},
 	/*********************** SISBOT ONBOARDING ********************************/
 	_has_update: function(sisbot, remote) {
+		if (!remote)
+			return false;
+
 		var remote_revisions	= remote.split('.');
 		var local_revisions		= sisbot.split('.');
 		var local_is_newer		= false;
