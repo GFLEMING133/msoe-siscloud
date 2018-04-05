@@ -1,4 +1,5 @@
 <div class="h100">
+	<div class="h__k" data-run="model.reset_upload_tracks"></div>
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
         <div class="w30 left pl20 clickable active h__k"
             data-on-click="publish"
@@ -18,10 +19,13 @@
         </div>
         <div class="h__k p40 bg-white black">
             <p class="p0 m0 fs18 center">
-                Choose .thr or .svg file(s) to upload. Currently supports Adobe Illustrator exported SVGs.
+                Choose .thr or .svg file(s) to upload. If SVG lines are not showing correctly, you may need to convert shapes to paths.
             </p>
 
-            <input class="h__k w100 mt20 b-none" type="file" multiple />
+            <input class="h__k w100 mt20 b-none h__k"
+					type="file"
+					data-on-mouse-down="model.reset_upload_tracks"
+					multiple />
 
             <!--
             <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Publish to Community</h4>
@@ -39,7 +43,7 @@
                 >Processing Track(s)</h2>
                 <h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
                     data-if="{{= model.uploading_track }} == false"
-                    data-on-click="parent.upload_track"
+                    data-on-click="parent.upload_tracks"
                 >Upload Track(s)</h2>
             </div>
         </div>

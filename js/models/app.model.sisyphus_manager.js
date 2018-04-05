@@ -999,6 +999,12 @@ app.model.sisyphus_manager = {
 		this.set('merged_playlists', merged_playlists);
 	},
 	/******************** TRACK UPLOAD ****************************************/
+	reset_upload_tracks: function() {
+		this.set('tracks_to_upload', []);
+
+		var sisbot	= this.get_model('sisbot_id');
+		sisbot.set('uploading_track', 'false'); // for UI spinner
+	},
 	on_file_upload: function (track_file) {
 		console.log("On File Upload", track_file.name);
 
@@ -1016,32 +1022,7 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
-	upload_track: function() {
-		var self = this;
-
-		// Pause sisbot if not already
-		var sisbot	= this.get_model('sisbot_id');
-		sisbot.set('uploading_track', 'true'); // for UI spinner
-		if (sisbot.get('data.state') == 'playing') {
-			// wait for table to be paused
-			function wait_to_upload() {
-				if (sisbot.get('data.state') != 'playing') {
-					self.process_upload_track();
-				} else {
-					console.log("Wait longer for pause to finish");
-					setTimeout(function() { wait_to_upload(); }, 4000); // delay to be sure the table paused
-				}
-			}
-
-			// call first, so it delays
-			wait_to_upload();
-
-			sisbot.pause();
-		} else {
-			this.process_upload_track();
-		}
-	},
-	process_upload_track: function () {
+	upload_tracks: function() {
 		var self			= this;
 		var track_objs		= this.get('tracks_to_upload');
 		var publish_track 	= this.get('publish_track');
@@ -1056,21 +1037,86 @@ app.model.sisyphus_manager = {
 			else if (track_model.get('data.original_file_type') == 'svg') track_model.set('data.verts', track_model.process_svg(track_model.get('data.file_data')));
 
 			track_model.set('upload_status', 'false'); // not uploaded yet
-			// track_model.upload_track_to_sisbot(); // remove
 
 			// error checking
 			if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
-
-			// if (publish_track == 'true') track_model.upload_track_to_cloud();
 		});
 
 		// this.set('tracks_to_upload', []);
+		console.log("Show preview", app.collection.get(track_objs[0].id).get('data'));
 
 		// if (num_tracks > 1)
 			// app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
 		app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
 
 		return this;
+	},
+	process_upload_track: function () {
+		var self = this;
+
+		// Pause sisbot if not already
+		var sisbot	= this.get_model('sisbot_id');
+		sisbot.set('uploading_track', 'true'); // for UI spinner
+
+		var tracks_to_upload = self.get('tracks_to_upload');
+		var track_model = app.collection.get(tracks_to_upload[0].id);
+		track_model.set('upload_status', 'uploading'); // for spinner
+
+		if (sisbot.get('data.state') == 'playing') {
+			// wait for table to be paused
+			function wait_to_upload() {
+				if (sisbot.get('data.state') != 'playing') {
+					// remove from tracks_to_upload, take to next preview page or this model's page
+					tracks_to_upload.shift();
+
+					if (tracks_to_upload.length > 0) {
+						app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
+					} else {
+						app.trigger('session:active', { primary: 'media', secondary: 'track', track_id: track_model.id });
+					}
+
+					// save after, so preview image is made first
+					track_model.upload_track_to_sisbot();
+						// if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();
+				} else {
+					console.log("Wait longer for pause to finish");
+					setTimeout(function() { wait_to_upload(); }, 4000); // delay to be sure the table paused
+				}
+			}
+
+			// call first, so it delays
+			wait_to_upload();
+
+			sisbot.pause();
+		} else {
+			// remove from tracks_to_upload, take to next preview page or this model's page
+			tracks_to_upload.shift();
+
+			if (tracks_to_upload.length > 0) {
+				app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
+			} else {
+				app.trigger('session:active', { primary: 'media', secondary: 'track', track_id: track_model.id });
+			}
+
+			// save after, so preview image is made first
+			track_model.upload_track_to_sisbot();
+			// if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();
+		}
+	},
+	reject_upload_track: function() {
+		var tracks_to_upload = this.get('tracks_to_upload');
+
+		// remove from tracks_to_upload, take to next preview page or this model's page
+		var track_obj = tracks_to_upload.shift();
+
+		// remove from collection
+		app.collection.remove(track_obj.id);
+
+		if (tracks_to_upload.length > 0) {
+			app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
+		} else {
+			app.trigger('session:active', { primary: 'media', secondary: 'tracks', track_id: 'false' });
+		}
 	},
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {

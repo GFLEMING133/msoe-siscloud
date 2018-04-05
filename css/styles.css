@@ -627,6 +627,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .hh200									{	height					: 200px;					}
 .hh250									{	height					: 250px;					}
 .hh350									{	height					: 350px;					}
+.hh400									{	height					: 400px;					}
 
 .hvw10									{	height					: 10vw;						}
 .hvw20									{	height					: 20vw;						}

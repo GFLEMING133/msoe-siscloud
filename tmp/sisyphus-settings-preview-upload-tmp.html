@@ -1,73 +1,87 @@
-<div class="h100 h__k" data-model="{{= session.active.track_id }}">
-    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 left pl20 clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'track-upload'}"
-        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
-        <div class="w40">
-            <h1 class="h__k no-stuffing fs18 capitalize truncate h__k">{{= model.data.name }}</h1>
-        </div>
-        <div class="w30 pt30 center">&nbsp;</div>
-    </div>
-    <div class="body-header h100 scroll hide-scrollbar">
-        <div class="h100 scroll hide-scrollbar">
+<div class="h100 h__k" data-if="{{= session.active.track_id }} !== false">
+	<div class="h100 h__k" data-model="{{= session.active.track_id }}" data-run="model.setup_edit">
+	    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+	        <div class="w30 left pl20 clickable active h__k"
+	            data-on-click="publish"
+	            data-publish="session:active"
+	            data-msg="{'secondary':'upload-track', 'track_id':'false'}"
+	        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+	        <div class="w40">
+	            <h1 class="h__k no-stuffing fs18 capitalize truncate">Track Preview</h1>
+	        </div>
+	        <div class="w30 pt30 center">&nbsp;</div>
+	    </div>
+	    <div class="body-header h100 scroll hide-scrollbar">
 			<div class="flex mt10 pb20 bb">
 			    <div class="w20">&nbsp;</div>
 			    <div class="w60 hvw40 center vertical active">
 					<div class="h__k" data-run="model.get_thumbnail"></div>
 			        <div class="h__k" data-if="{{= model.generating_thumbnails }} == false">
 			            <img src="" class="w100 center h__k" alt="preview"
-			                data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
+			                data-src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png"
 			            />
 			        </div>
 			        <div class="h__k" data-if="{{= model.generating_thumbnails }} == true">
-			            <img src="" class="w100 center h__k" alt="preview"
-			                data-src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png"
-			            />
+						<i class="fa fa-spinner spin f-xxxxxlarge" aria-hidden="true"></i>
 			        </div>
 			    </div>
 			    <div class="w20">&nbsp;</div>
 			</div>
-			<div class="flex pt20 pr20 pl20 pb20 clickable active h__k"
-			    data-on-click="publish"
-			    data-publish="session:toggle"
-			    data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
-			>
-			    <div class="w80">
-			        <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
-			        <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
-			    </div>
-			    <div class="w20 pull-right h100 vertical">
-			    </div>
-			</div>
 			<div class="h__k" data-if="{{= model.data.original_file_type }} == svg">
-				<h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Steps</h3>
+				<h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Steps</h3>
+				<p class="grey pl20 pb0">(Adjusts smoothness between points)</p>
 		        <div class="flex vertical-align pl20 pr20 h__k" data-run="model.setup_steps">
-		            <div class="w5 blue-hover pt15 pb15 h__k">
+		            <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.steps_min">
 		                <i class="fa fa-minus center clickable active grey" aria-hidden="true"></i>
 		            </div>
 		            <div class="w90 flex relative center">
 		                <span class="w2-5"></span>
-		                <input class="h__k w90" type="range" min="1" max="30" step="1"
+		                <input class="h__k w90" type="range" min="1" max="{{= model.max_steps }}" step="1"
 		                    data-on-input="model.set_steps"
+		                    data-on-mouse-up="model.get_thumbnail"
 		                    value="{{= model.edit_steps }}"
 		                />
 		                <span class="w2-5"></span>
 		            </div>
-		            <div class="w5 center blue-hover pt15 pb15 h__k">
+		            <div class="w5 center blue-hover pt15 pb15 h__k" data-on-click="model.steps_max">
 		                <i class="fa fa-plus f-large center clickable active grey" aria-hidden="true"></i>
 		            </div>
 		        </div>
 			</div>
-			<h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong h__k"
-				data-if="{{= model.upload_status }} == uploading"
-			>Saving...</h2>
-			<h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
-				data-if="{{= model.upload_status }} == false"
-				data-on-click="model.upload_track_to_sisbot"
-			>Save</h2>
-			<div class="hh250">&nbsp;</div>
+			<div class="flex pt0 pr20 pl20 pb20 active">
+			    <div class="w100">
+	                <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Track Name</h4>
+	                <div class="pb20">
+	                    <input class="h__k fs18 w100" type="text" placeholder="{{= model.data.name }}"
+	                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+	                        data-field="model.edit.name"
+	                        value="{{= model.edit.name }}"
+	                    />
+					</div>
+	                <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">By</h4>
+	                <div class="pb20">
+	                    <input class="h__k fs18 w100" type="text" placeholder="Your name"
+	                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+	                        data-field="model.edit.created_by_name"
+	                        value="{{= model.edit.created_by_name }}"
+	                    />
+					</div>
+			    </div>
+			</div>
+	        <div class="pl40 pr40">
+				<h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong h__k"
+					data-if="{{= model.upload_status }} == uploading"
+				>Saving...</h2>
+				<h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+					data-if="{{= model.upload_status }} == false"
+					data-on-click="parent.process_upload_track"
+				>Save</h2>
+				<h2 class="mt30 p15 btn bg-red w100 m0 corner-5px uppercase fs18 strong h__k"
+					data-if="{{= model.upload_status }} == false"
+					data-on-click="parent.reject_upload_track"
+				>Reject</h2>
+			</div>
+			<div class="hh150">&nbsp;</div>
         </div>
-    </div>
+	</div>
 </div>

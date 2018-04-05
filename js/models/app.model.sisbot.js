@@ -1207,7 +1207,8 @@ app.model.sisbot = {
 				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
-				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
+				// manager will now change pages
+				// app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
 			}
 		}, 60000);
 
