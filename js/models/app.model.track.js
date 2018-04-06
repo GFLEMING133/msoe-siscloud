@@ -45,7 +45,7 @@ app.model.track = {
 				duration			: '90',		// minutes
 
 				created_by_id		: 'false',
-				created_by_name		: 'Sisyphus Industries',
+				created_by_name		: 'Your Name',
 
 				original_file_type	: 'false', 	// thr|svg
 				has_verts_file		: 'false',
@@ -309,8 +309,6 @@ app.model.track = {
 			_.each(commands, function(entry) {
 				var command = entry.substring(0,1);
 				var points_string = entry.substring(1).trim();
-				// var data = points_string.split(/(?=!e[-])|(?=[\s,-])/); // /(?=[\s,-]+)/
-				// data = _.without(data, ',', ' ');
 				var data = points_string.match(/([-]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g);
 
 				// console.log("data", data);
@@ -464,7 +462,7 @@ app.model.track = {
 						} else console.log("Error, wrong amount of curve points", data.length, data);
 						break;
 					case 'Z':
-						console.log("Close", data, first_point);
+						// console.log("Close", data, first_point);
 						var p0 = verts[verts.length-1];
 						var p1 = first_point;
 						for (var j=1; j<=steps; j++) {
@@ -473,7 +471,7 @@ app.model.track = {
 						}
 						break;
 					case 'z':
-						console.log("close", data, first_point);
+						// console.log("close", data, first_point);
 						var p0 = verts[verts.length-1];
 						var p1 = first_point;
 						for (var j=1; j<=steps; j++) {
