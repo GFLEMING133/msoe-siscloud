@@ -302,6 +302,10 @@ app.model.track = {
 			var commands = path.split(/(?=[MmLlCcHhVvZz])/); // any letter
 			// console.log("Commands:", commands);
 
+			// save so we can loop this object (z|Z)
+			var is_first_point = true;
+			var first_point;
+
 			_.each(commands, function(entry) {
 				var command = entry.substring(0,1);
 				var points_string = entry.substring(1).trim();
@@ -309,7 +313,7 @@ app.model.track = {
 				// data = _.without(data, ',', ' ');
 				var data = points_string.match(/([-]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g);
 
-				console.log("data", data);
+				// console.log("data", data);
 
 				// trim extras, convert to numbers (if any)
 				if (data) {
@@ -324,14 +328,18 @@ app.model.track = {
 						// if (data.length == 2) verts.push(data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
-								if (verts.length > 0) {
+								if (is_first_point) {
+									is_first_point = false;
+									first_point = [data[0],data[1]];
+									verts.push(first_point);
+								} else {
 									var p0 = verts[verts.length-1];
 									var p1 = [data[i],data[i+1]];
 									for (var j=1; j<=steps; j++) {
 										var point = self._calculate_linear_point(j/steps, p0, p1);
 										verts.push(point);
 									}
-								} else verts.push([data[0],data[1]]);
+								}
 							}
 						} else console.log("Error, wrong number of Start points");
 						break;
@@ -339,14 +347,18 @@ app.model.track = {
 						// console.log("move", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
-								if (verts.length > 0) {
+								if (is_first_point) {
+									is_first_point = false;
+									first_point = [data[0],data[1]];
+									verts.push(first_point);
+								} else {
 									var p0 = verts[verts.length-1];
 									var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
 									for (var j=1; j<=steps; j++) {
 										var point = self._calculate_linear_point(j/steps, p0, p1);
 										verts.push(point);
 									}
-								} else verts.push([data[0],data[1]]);
+								}
 							}
 						}
 						else console.log("Error, wrong number of start points");
@@ -452,18 +464,18 @@ app.model.track = {
 						} else console.log("Error, wrong amount of curve points", data.length, data);
 						break;
 					case 'Z':
-						// console.log("Close", data);
+						console.log("Close", data, first_point);
 						var p0 = verts[verts.length-1];
-						var p1 = verts[0];
+						var p1 = first_point;
 						for (var j=1; j<=steps; j++) {
 							var point = self._calculate_linear_point(j/steps, p0, p1);
 							verts.push(point);
 						}
 						break;
 					case 'z':
-						// console.log("close", data);
+						console.log("close", data, first_point);
 						var p0 = verts[verts.length-1];
-						var p1 = verts[0];
+						var p1 = first_point;
 						for (var j=1; j<=steps; j++) {
 							var point = self._calculate_linear_point(j/steps, p0, p1);
 							verts.push(point);
