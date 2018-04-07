@@ -299,7 +299,7 @@ app.model.track = {
 
 		_.each(pathElements, function(pathEl) {
 			var path = pathEl.attributes.getNamedItem("d").value;
-			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvZz])/); // any letter
+			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvAaZz])/); // any letter
 			// console.log("Commands:", commands);
 
 			// save so we can loop this object (z|Z)
