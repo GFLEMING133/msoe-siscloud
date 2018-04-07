@@ -299,12 +299,15 @@ app.model.track = {
 
 		_.each(pathElements, function(pathEl) {
 			var path = pathEl.attributes.getNamedItem("d").value;
-			var commands = path.split(/(?=[MmLlCcHhVvZz])/); // any letter
+			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvZz])/); // any letter
 			// console.log("Commands:", commands);
 
 			// save so we can loop this object (z|Z)
 			var is_first_point = true;
 			var first_point;
+
+			// remember last control point
+			var control_point;
 
 			_.each(commands, function(entry) {
 				var command = entry.substring(0,1);
@@ -329,7 +332,15 @@ app.model.track = {
 								if (is_first_point) {
 									is_first_point = false;
 									first_point = [data[0],data[1]];
-									verts.push(first_point);
+									if (verts.length == 0) verts.push(first_point);
+									else {
+										var p0 = verts[verts.length-1];
+										var p1 = first_point;
+										for (var j=1; j<=steps; j++) {
+											var point = self._calculate_linear_point(j/steps, p0, p1);
+											verts.push(point);
+										}
+									}
 								} else {
 									var p0 = verts[verts.length-1];
 									var p1 = [data[i],data[i+1]];
@@ -348,7 +359,15 @@ app.model.track = {
 								if (is_first_point) {
 									is_first_point = false;
 									first_point = [data[0],data[1]];
-									verts.push(first_point);
+									if (verts.length == 0) verts.push(first_point);
+									else {
+										var p0 = verts[verts.length-1];
+										var p1 = first_point;
+										for (var j=1; j<=steps; j++) {
+											var point = self._calculate_linear_point(j/steps, p0, p1);
+											verts.push(point);
+										}
+									}
 								} else {
 									var p0 = verts[verts.length-1];
 									var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
@@ -437,7 +456,8 @@ app.model.track = {
 								var p1 = [data[i],data[i+1]];
 								var p2 = [data[i+2],data[i+3]];
 								var p3 = [data[i+4],data[i+5]];
-								// console.log("curve", p0, p1, p2, p3);
+
+								control_point = p2; // remember
 								for (var j=1; j<=steps; j++) {
 									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
 									verts.push(point);
@@ -446,20 +466,124 @@ app.model.track = {
 						} else console.log("Error, wrong amount of Curve points", data.length, data);
 						break;
 					case 'c':
-						console.log("curve", data);
+						// console.log("curve", data);
 						if (data.length % 6 == 0) {
 							for (var i = 0; i < data.length; i+=6) {
 								var p0 = verts[verts.length-1];
 								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
 								var p2 = [p0[0]+data[i+2],p0[1]+data[i+3]];
 								var p3 = [p0[0]+data[i+4],p0[1]+data[i+5]];
-								// console.log("curve", p0, p1, p2, p3);
+
+								control_point = p2; // remember
 								for (var j=1; j<=steps; j++) {
 									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
 						} else console.log("Error, wrong amount of curve points", data.length, data);
+						break;
+					case 'S':
+						// console.log("Shortcut", data);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i+=4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]]; // control point from before
+								var p2 = [data[i],data[i+1]];
+								var p3 = [data[i+2],data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of Shortcut Curve points", data.length, data);
+						break;
+					case 's':
+						// console.log("shortcut", data);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i+=4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]];
+								var p2 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p3 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of shortcut curve points", data.length, data);
+						break;
+					case 'Q':
+						// console.log("Quadratic", data, first_point);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i += 4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [data[i],data[i+1]];
+								var p2 = [data[i],data[i+1]];
+								var p3 = [data[i+2],data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of Quadratic points", data.length, data);
+						break;
+						break;
+					case 'q':
+						// console.log("quadratic", data, first_point);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i+=4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p2 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p3 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of quadratic points", data.length, data);
+						break;
+					case 'T':
+						// console.log("T", data, first_point);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i+=2) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]]; // control point from before
+								var p2 = [p1[0],p1[1]];
+								var p3 = [data[i],data[i+1]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of T Curve points", data.length, data);
+						break;
+					case 't':
+						// console.log("t", data, first_point);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i+=2) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]];
+								var p2 = [p1[0],p1[1]];
+								var p3 = [p0[0]+data[i],p0[1]+data[i+1]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of t curve points", data.length, data);
 						break;
 					case 'Z':
 						// console.log("Close", data, first_point);
@@ -469,6 +593,7 @@ app.model.track = {
 							var point = self._calculate_linear_point(j/steps, p0, p1);
 							verts.push(point);
 						}
+						is_first_point = true; // reset to true for closing
 						break;
 					case 'z':
 						// console.log("close", data, first_point);
@@ -478,6 +603,7 @@ app.model.track = {
 							var point = self._calculate_linear_point(j/steps, p0, p1);
 							verts.push(point);
 						}
+						is_first_point = true; // reset to true for closing
 						break;
 					default:
 						console.log("Unknown command", command);
