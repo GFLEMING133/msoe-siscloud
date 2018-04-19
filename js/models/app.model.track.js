@@ -408,7 +408,7 @@ app.model.track = {
 						break;
 					case 'H':
 						// console.log("Horizontal", data);
-						for (var i = 0; i < data.length; i += 2) {
+						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
 							var p1 = [data[i],p0[1]];
 							for (var j=1; j<=steps; j++) {
@@ -416,9 +416,10 @@ app.model.track = {
 								verts.push(point);
 							}
 						}
+						break;
 					case 'h':
 						// console.log("horizontal", data);
-						for (var i = 0; i < data.length; i += 2) {
+						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
 							var p1 = [p0[0]+data[i],p0[1]];
 							for (var j=1; j<=steps; j++) {
@@ -429,19 +430,20 @@ app.model.track = {
 						break;
 					case 'V':
 						// console.log("Vertical", data);
-						for (var i = 0; i < data.length; i += 2) {
+						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
-							var p1 = [p0[0],data[i+1]];
+							var p1 = [p0[0],data[i]];
 							for (var j=1; j<=steps; j++) {
 								var point = self._calculate_linear_point(j/steps, p0, p1);
 								verts.push(point);
 							}
 						}
+						break;
 					case 'v':
 						// console.log("vertical", data);
-						for (var i = 0; i < data.length; i += 2) {
+						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
-							var p1 = [p0[0],p0[1]+data[i+1]];
+							var p1 = [p0[0],p0[1]+data[i]];
 							for (var j=1; j<=steps; j++) {
 								var point = self._calculate_linear_point(j/steps, p0, p1);
 								verts.push(point);
@@ -630,13 +632,13 @@ app.model.track = {
 		_.each(verts, function(point) {
 			var rho = Math.sqrt(point[0]*point[0]+point[1]*point[1]);
 			var new_th =  Math.atan2(point[1],point[0])+pi/2;
-			if (Math.abs(new_th) == pi) new_th = 0;
+			// if (Math.abs(new_th) == pi) new_th = 0;
 			if (new_th - last_th > pi) {
 				th_offset -= loop_th;
-				// console.log("- Point Th", point[0], "=", new_th, "+", th_offset);
+				// console.log("- Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
 			} else if (new_th - last_th < -pi) {
 				th_offset += loop_th;
-				// console.log("+ Point Th", point[0], "=", new_th, "+", th_offset);
+				// console.log("+ Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
 			}
 			point[0] = new_th + th_offset; // th
 			point[1] = rho; // rho
