@@ -1,5 +1,5 @@
 var config = {
-    version : '1.3.16', // SVG update
+    version : '1.3.17', // SVG update
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
