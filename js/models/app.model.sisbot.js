@@ -370,7 +370,8 @@ app.model.sisbot = {
 
 		clearTimeout(this.polling_timeout);
 
-		app.manager.set('is_sisbot_available', 'true');
+		if (this.get('data.reason_unavailable') == 'false')
+			app.manager.set('is_sisbot_available', 'true');
 
 		this.wifi_connected();
 
@@ -485,7 +486,7 @@ app.model.sisbot = {
 			// make sure we say the sisbot is unavailable
 			app.manager.set('is_sisbot_available', 'false');
 		} else {
-			// do nothing.. If we lose connection, we're thrown to unavailable and we don't know why
+			app.manager.set('is_sisbot_available', 'true');
 		}
 	},
 	defaults_setup: function () {
