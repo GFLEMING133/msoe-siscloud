@@ -654,7 +654,7 @@ app.model.sisyphus_manager = {
 			this.get_model('sisbot_id').set('wifi_error', 'incorrect');
 		} else if (this.get('is_sisbot_available') == 'false' && sisbot.get('data.installing_updates') == 'true') {
 			// we timed out in installing updates
-			sisbot.set('data.reason_unavailable', 'false');
+			if (sisbot.get('data.reason_unavailable').indexOf('_fault') < 0) sisbot.set('data.reason_unavailable', 'false');
 		}
 	},
 	/**************************** FIND SISBOTS ********************************/
@@ -924,8 +924,8 @@ app.model.sisyphus_manager = {
 				}
 
 				if (data.type == 'sisbot') {
-					self.set('is_sisbot_available', 'true')
-						.set('sisbot_id', data.id);
+					if (data.reason_unavailable == 'false')	self.set('is_sisbot_available', 'true');
+					self.set('sisbot_id', data.id);
 
 					app.collection.get(data.id).sisbot_listeners();
 					app.socket.initialize();

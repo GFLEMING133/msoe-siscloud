@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'beta',
-	version				: '1.3.17',
+	version				: '1.3.18',
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/',

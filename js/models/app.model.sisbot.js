@@ -215,7 +215,7 @@ app.model.sisbot = {
 				if (cb) cb(resp);
 			} else {
 				if (resp.err == null)
-					app.manager.set('is_sisbot_available', 'true');
+					self.check_for_unavailable();
 
 				if (resp.err)
 					console.log(address, endpoint, resp);
@@ -370,8 +370,7 @@ app.model.sisbot = {
 
 		clearTimeout(this.polling_timeout);
 
-		if (this.get('data.reason_unavailable') == 'false')
-			app.manager.set('is_sisbot_available', 'true');
+		self.check_for_unavailable();
 
 		this.wifi_connected();
 
@@ -461,7 +460,7 @@ app.model.sisbot = {
 		this._update_sisbot('state', {}, function(obj) {
 			if (obj.resp) {
 				self._poll_timer = false;
-				app.manager.set('is_sisbot_available', 'true');
+				self.check_for_unavailable();
 
 				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
@@ -660,8 +659,8 @@ app.model.sisbot = {
 					.set('data.wifi_password', 'false')
 					.set('data.reason_unavailable', 'disconnect_from_wifi');
 
-				app.manager.set('sisbot_reconnecting', 'false')
-							.set('is_sisbot_available', 'false');
+				app.manager.set('sisbot_reconnecting', 'false');
+				self.check_for_unavailable();
 			});
 		}
 	},
