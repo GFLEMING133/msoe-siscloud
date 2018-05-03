@@ -1,5 +1,5 @@
 var config = {
-    version : '1.3.18', // Fault unavailable changes
+    version : '1.3.19',
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
