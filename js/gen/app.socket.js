@@ -63,14 +63,15 @@ app.socket = {
 		app.trigger("socket:error", err);
     },
     on_set: function(data) {
-        if (!_.isArray(data)) data = [data];
-
-        _.each(data, function(datum) {
-            if (datum && datum.id) {
-				if (app.collection.exists(datum.id)) app.collection.get(datum.id).set('data', datum);
-				else app.collection.add(datum);
-			}
-        });
+			app.manager.intake_data(data);
+      // if (!_.isArray(data)) data = [data];
+			//
+      // _.each(data, function(datum) {
+      //   if (datum && datum.id) {
+			// 		if (app.collection.exists(datum.id)) app.collection.get(datum.id).set('data', datum);
+			// 		else app.collection.add(datum);
+			// 	}
+      // });
     },
     on_erase: function(data) {
         console.log('socket: erase');
