@@ -454,6 +454,11 @@ app.model.sisbot = {
 	_poll_state: function () {
 		var self = this;
 
+		if (app.config.env == 'alpha') {
+			// FOR APPLE TESTING...
+			app.manager.set('is_sisbot_available', 'true')
+		}
+
 		if (this.get('is_master_branch') == 'false')
 			console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
 
