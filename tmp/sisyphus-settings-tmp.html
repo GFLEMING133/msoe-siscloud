@@ -2,7 +2,7 @@
     <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
         <div class="w15 center f-large">&nbsp;</div>
         <div class="w70">
-            <h1 class="h__k no-stuffing capitalize truncate fs18 lh18">Settings</h1>
+            <h1 class="no-stuffing capitalize truncate fs18 lh18 h__k" data-on-click="model.check_admin">Settings</h1>
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
@@ -27,6 +27,7 @@
         </div>
         <div class="pl20 pt5 pb5 pr20 w100 vertical h__k"
             data-model="{{= model.sisbot_id }}"
+            data-run="model.check_for_version_update"
             data-on-click="model.autodim_toggle"
             data-if="{{= model.data.is_autodim }} !== undefined"
         >
@@ -73,7 +74,7 @@
                     data-model="{{= model.sisbot_id }}"
                     data-run="model.check_for_version_update"
                     data-if="{{= model.has_software_update }} == true"
-                >(update available)</span>
+                >({{= model.remote_versions.sisbot }} available)</span>
             </span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -162,6 +163,11 @@
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == upload-svg"
     data-template="sisyphus-settings-upload-svg-tmp"
+></div>
+<!------------------------- PREVIEW UPLOAD -------------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == preview-upload"
+    data-template="sisyphus-settings-preview-upload-tmp"
 ></div>
 <!------------------------- DEFAULT PLAYLIST ---------------------------------->
 <div class="h100 h__k"

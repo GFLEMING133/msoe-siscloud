@@ -627,6 +627,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .hh200									{	height					: 200px;					}
 .hh250									{	height					: 250px;					}
 .hh350									{	height					: 350px;					}
+.hh400									{	height					: 400px;					}
 
 .hvw10									{	height					: 10vw;						}
 .hvw20									{	height					: 20vw;						}
@@ -958,7 +959,7 @@ select:focus {
 .b2										{	border					: 2px solid #838383 !important;		}
 
 .b-white-2px							{	border					: 2px solid #fff !important;		}
-.b-white								{	border					: 1px solid #fff !important;		}
+.b-white								{	border					: 2px solid #fff !important;		}
 .bt-white								{	border-top				: 1px solid #fff !important;		}
 .bb-white								{	border-bottom			: 1px solid #fff !important;		}
 .bl-white								{	border-left				: 1px solid #fff !important;		}

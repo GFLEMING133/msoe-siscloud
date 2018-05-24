@@ -1,8 +1,3 @@
-/*
-- Tomorrow I will have a build that alerts if the two are on different networks (besides being a hotspot)
-- Tomorrow I will have a build that will better manage internal connection state (for example, if the phone has failed to connect to any network)
-*/
-
 app.model.sisyphus_manager = {
 	defaults: function (data) {
 		var obj = {
@@ -59,6 +54,15 @@ app.model.sisyphus_manager = {
 
 			is_ble_enabled			: 'false',
 
+			remote_versions: {
+				proxy	: '10.0.0',
+				app		: '10.0.0',
+				api		: '10.0.0',
+				sisbot	: '10.0.0',
+			},
+
+			is_admin				: 'false',
+
 			data		: {
 				id					: data.id,
 				type    			: 'sisyphus_manager',
@@ -99,6 +103,7 @@ app.model.sisyphus_manager = {
 		}
 
 		this.check_ble_status();
+		this.check_remote_versions();
 
 		return this;
 	},
@@ -163,6 +168,28 @@ app.model.sisyphus_manager = {
 	},
 	navigate_home: function () {
 		app.trigger('session:active', { secondary: 'false', primary: 'current' });
+	},
+	check_remote_versions: function (cb) {
+		var self = this;
+
+		var obj = {
+			_url	: 'https://api.sisyphus.withease.io/',
+			_type	: 'POST',
+			endpoint: 'latest_software_version',
+			data	: {}
+		};
+
+		app.post.fetch(obj, function(cbb) {
+			self.set('remote_versions', cbb.resp);
+		}, 0);
+
+		return this;
+	},
+	_admin_taps: 0,
+	check_admin: function () {
+		if (++this._admin_taps > 5) {
+			this.set('is_admin', 'true');
+		}
 	},
 	/**************************** BLUETOOTH ***********************************/
 	force_reload: function () {
@@ -455,6 +482,28 @@ app.model.sisyphus_manager = {
 		app.current_session().sign_out();
 	},
 	/*********************** SISBOT ONBOARDING ********************************/
+	_has_update: function(sisbot, remote) {
+		if (!remote)
+			return false;
+
+		var remote_revisions	= remote.split('.');
+		var local_revisions		= sisbot.split('.');
+		var local_is_newer		= false;
+		var has_update			= false;
+
+		for (var i = 0; i < local_revisions.length; i++) {
+			if (+local_revisions[i] > +remote_revisions[i]) {
+				local_is_newer = true;
+			} else if (+local_revisions[i] < +remote_revisions[i]) {
+				has_update = true;
+			}
+			if (has_update == true || local_is_newer == true) {
+				break;
+			}
+		}
+
+		return has_update;
+	},
 	should_show_onboarding: function () {
 		var sisbot				= this.get_model('sisbot_id');
 		var hotspot_status		= sisbot.get('data.is_hotspot');
@@ -468,6 +517,15 @@ app.model.sisyphus_manager = {
 
 			this.set('show_setup_page', 'true')
 				.set('show_nightlight_page', 'true');
+		}
+
+		if (is_internet_connected) {
+			// check for software update
+			var sisbot_version = sisbot.get('data.software_version');
+			var remote_sisbot  = this.get('remote_versions.sisbot');
+			if (this._has_update(sisbot_version, remote_sisbot) == true) {
+				app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
+			}
 		}
 
 		if (this.get_model('sisbot_id').is_legacy() == true) {
@@ -596,7 +654,7 @@ app.model.sisyphus_manager = {
 			this.get_model('sisbot_id').set('wifi_error', 'incorrect');
 		} else if (this.get('is_sisbot_available') == 'false' && sisbot.get('data.installing_updates') == 'true') {
 			// we timed out in installing updates
-			sisbot.set('data.reason_unavailable', 'false');
+			if (sisbot.get('data.reason_unavailable').indexOf('_fault') < 0) sisbot.set('data.reason_unavailable', 'false');
 		}
 	},
 	/**************************** FIND SISBOTS ********************************/
@@ -787,7 +845,12 @@ app.model.sisyphus_manager = {
 		}, function exists_cb(obj) {
 			if (obj.err) {
 				if (hostname == '192.168.42.1') {
-					if (retries > 10) {
+					if (app.is_app == false || app.platform == 'iOS') {
+						if (hostname == self._ble_ip) {
+							self.set('sisbot_registration', 'hotspot');
+						}
+						// do nothing
+					} else if (retries > 10) {
 						if (hostname == self._ble_ip) {
 							self.set('sisbot_registration', 'hotspot');
 						}
@@ -861,8 +924,8 @@ app.model.sisyphus_manager = {
 				}
 
 				if (data.type == 'sisbot') {
-					self.set('is_sisbot_available', 'true')
-						.set('sisbot_id', data.id);
+					if (data.reason_unavailable == 'false')	self.set('is_sisbot_available', 'true');
+					self.set('sisbot_id', data.id);
 
 					app.collection.get(data.id).sisbot_listeners();
 					app.socket.initialize();
@@ -939,19 +1002,30 @@ app.model.sisyphus_manager = {
 		this.set('merged_playlists', merged_playlists);
 	},
 	/******************** TRACK UPLOAD ****************************************/
+	reset_upload_tracks: function() {
+		this.set('tracks_to_upload', []);
+
+		var sisbot	= this.get_model('sisbot_id');
+		sisbot.set('uploading_track', 'false'); // for UI spinner
+	},
 	on_file_upload: function (track_file) {
 		console.log("On File Upload", track_file.name);
+
+		var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
+		var regex = /.(svg|thr)$/;
+		var file_type = track_file.name.match(regex)[1];
 		var track_obj = {
-			type		: 'track',
-			name		: track_file.name.replace('.thr', ''),
-			verts		: track_file.data
+			type				: 'track',
+			name				: file_name,
+			original_file_type	: file_type,
+			file_data			: track_file.data
 		};
 
 		this.add('tracks_to_upload', track_obj);
 
 		return this;
 	},
-	process_upload_track: function () {
+	upload_tracks: function() {
 		var self			= this;
 		var track_objs		= this.get('tracks_to_upload');
 		var publish_track 	= this.get('publish_track');
@@ -959,215 +1033,93 @@ app.model.sisyphus_manager = {
 
 		_.each(track_objs, function(track_obj) {
 			track_obj.is_published = publish_track;
+
 			var track_model = app.collection.add(track_obj);
-			track_model.upload_track_to_sisbot();
 
-			if (publish_track == 'true') track_model.upload_track_to_cloud();
+			if (track_model.get('data.original_file_type') == 'thr') track_model.set('data.verts', track_model.get('data.file_data')); // remove/change later
+			else if (track_model.get('data.original_file_type') == 'svg') track_model.set('data.verts', track_model.process_svg(track_model.get('data.file_data')));
+
+			track_model.set('upload_status', 'false'); // not uploaded yet
+
+			// error checking
+			if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
 		});
 
-		this.set('tracks_to_upload', []);
+		// this.set('tracks_to_upload', []);
+		console.log("Show preview", app.collection.get(track_objs[0].id).get('data'));
 
-		if (num_tracks > 1)
-			app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
+		// if (num_tracks > 1)
+			// app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
+		app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
 
 		return this;
 	},
-	process_upload_svg: function() {
-		var self			= this;
-		var svg_objs		= this.get('tracks_to_upload');
-		var publish_track 	= this.get('publish_track');
-		var num_svgs		= svg_objs.length;
+	process_upload_track: function () {
+		var self = this;
 
-		_.each(svg_objs, function(svg_obj) {
-			svg_obj.is_published = publish_track;
-			var track_model = app.collection.add(svg_obj);
+		// Pause sisbot if not already
+		var sisbot	= this.get_model('sisbot_id');
+		sisbot.set('uploading_track', 'true'); // for UI spinner
 
-			// verts stores the file data
-			var svg_xml = track_model.get('data.verts');
+		var tracks_to_upload = self.get('tracks_to_upload');
+		var track_model = app.collection.get(tracks_to_upload[0].id);
+		track_model.set('upload_status', 'uploading'); // for spinner
 
-			var oParser = new DOMParser();
-			var oDOM = oParser.parseFromString(svg_xml, "text/xml");
-			var pathElements = oDOM.getElementsByTagName("path");
+		if (sisbot.get('data.state') == 'playing') {
+			// wait for table to be paused
+			function wait_to_upload() {
+				if (sisbot.get('data.state') != 'playing') {
+					// remove from tracks_to_upload, take to next preview page or this model's page
+					tracks_to_upload.shift();
 
-			var verts = [];
-			var steps = 20;
-
-			_.each(pathElements, function(pathEl) {
-				var path = pathEl.attributes.getNamedItem("d").value;
-				var commands = path.split(/(?=[LMClmc])/);
-				console.log("Commands:", commands);
-
-				_.each(commands, function(entry) {
-					var command = entry.substring(0,1);
-					var points_string = entry.substring(1);
-					var data = points_string.split(/(?=[,-])/);
-
-					// trim extras, convert to numbers
-					for (var i=0; i<data.length; i++) {
-						data[i] = +data[i].replace(/^[\s,]+|\s+$/gm,'');
+					if (tracks_to_upload.length > 0) {
+						app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
+					} else {
+						app.trigger('session:active', { primary: 'media', secondary: 'track', track_id: track_model.id });
 					}
 
-					switch (command) {
-						case 'M':
-							// console.log("Start pos", data);
-							if (data.length == 2) verts.push(data);
-							else console.log("Error, too many start points");
-							break;
-						case 'm':
-							// console.log("start pos", data);
-							if (data.length == 2) {
-								if (verts.length > 0) {
-									var p0 = verts[verts.length-1];
-									verts.push([p0[0]+data[0],p0[1]+data[1]]);
-								} else verts.push(data);
-							}
-							else console.log("Error, too many start points");
-							break;
-						case 'L':
-							// console.log("Line", data);
-							verts.push([data[0],data[1]]);
-							break;
-						case 'l':
-							// console.log("line", data);
-							var p0 = verts[verts.length-1];
-							verts.push([p0[0]+data[0],p0[1]+data[1]]);
-							break;
-						case 'C':
-							// console.log("Curve", data);
-							if (data.length == 6) {
-								var p0 = verts[verts.length-1];
-								var p1 = [data[0],p0[1]+data[1]];
-								var p2 = [data[2],p0[1]+data[3]];
-								var p3 = [data[4],p0[1]+data[5]];
-								// console.log("curve", p0, p1, p2, p3);
-								for (var i=1; i<=steps; i++) {
-									var point = self._calculate_bezier_point(i/steps, p0, p1, p2, p3);
-									verts.push(point);
-								}
-							}	else console.log("Error, too many Curve points");
-							break;
-						case 'c':
-							// console.log("curve", data);
-							if (data.length == 6) {
-								var p0 = verts[verts.length-1];
-								var p1 = [p0[0]+data[0],p0[1]+data[1]];
-								var p2 = [p0[0]+data[2],p0[1]+data[3]];
-								var p3 = [p0[0]+data[4],p0[1]+data[5]];
-								console.log("curve", p0, p1, p2, p3);
-								for (var i=1; i<=steps; i++) {
-									var point = self._calculate_bezier_point(i/steps, p0, p1, p2, p3);
-									verts.push(point);
-								}
-							}	else console.log("Error, too many curve points");
-							break;
-					}
-				});
-			});
-
-			// center resulting verts
-			var min_max = self._min_max(verts);
-			var half_x = (min_max[2]-min_max[0]) / 2;
-			var half_y = (min_max[3]-min_max[1]) / 2;
-			_.each(verts, function(point) {
-				point[0] = point[0] - min_max[0] - half_x;
-				point[1] = point[1] - min_max[1] - half_y;
-			});
-			console.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
-
-			// convert to polar
-			var th_offset = 0;
-			var last_th = 0;
-			var pi = Math.PI;
-			var loop_th = pi*2;
-			_.each(verts, function(point) {
-				var rho = Math.sqrt(point[0]*point[0]+point[1]*point[1]);
-				var new_th =  Math.atan2(point[1],point[0])+pi/2;
-				if (Math.abs(new_th) == pi) new_th = 0;
-				// if (new_th > 0 && last_th < 0) {
-				if (new_th - last_th > pi) {
-					th_offset -= loop_th;
-					console.log("- Point Th", point[0], "=", new_th, "+", th_offset);
-				// } else if (new_th < 0 && last_th > 0) {
-				} else if (new_th - last_th < -pi) {
-					th_offset += loop_th;
-					console.log("+ Point Th", point[0], "=", new_th, "+", th_offset);
+					// save after, so preview image is made first
+					track_model.upload_track_to_sisbot();
+						// if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();
+				} else {
+					console.log("Wait longer for pause to finish");
+					setTimeout(function() { wait_to_upload(); }, 4000); // delay to be sure the table paused
 				}
-				point[0] = new_th + th_offset; // th
-				point[1] = rho; // rho
-
-				last_th = new_th;
-			});
-
-			// normalize
-			var polar_min_max = self._min_max(verts);
-			_.each(verts, function(point) {
-				point[1] = point[1]/polar_min_max[3];
-			});
-			console.log("Normalized Polar Verts", verts.join(' '));
-
-			// make sure start/end are 0 or 1
-			var start_rho = verts[0][1];
-			if (start_rho != 1 && start_rho != 0) {
-				if (start_rho <= 0.5) verts.unshift([verts[0][0], 0]);
-				else verts.unshift([verts[0][0], 1]);
-			}
-			var end_rho = verts[verts.length-1][1];
-			if (end_rho != 1 && end_rho != 0) {
-				if (end_rho <= 0.5) verts.push([verts[verts.length-1][0], 0]);
-				else verts.push([verts[verts.length-1][0], 1]);
 			}
 
-			// convert to space separates, line separated string
-			var verts_string = "";
-			_.each(verts, function(point) {
-				verts_string += point[0]+" "+point[1]+"\n";
-			});
+			// call first, so it delays
+			wait_to_upload();
 
-			// send to page for confirming the appearance/upload
-			track_model.set("data.verts", verts_string);
+			sisbot.pause();
+		} else {
+			// remove from tracks_to_upload, take to next preview page or this model's page
+			tracks_to_upload.shift();
+
+			if (tracks_to_upload.length > 0) {
+				app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
+			} else {
+				app.trigger('session:active', { primary: 'media', secondary: 'track', track_id: track_model.id });
+			}
+
+			// save after, so preview image is made first
 			track_model.upload_track_to_sisbot();
-
-			if (publish_track == 'true') track_model.upload_track_to_cloud();
-
-			// track_model.set("d3", true); // for debugging
-			// app.trigger('session:active', { track_id: track_model.id, secondary: 'track', primary: 'tracks' });
-		});
-
-		this.set('tracks_to_upload', []);
-
-		if (num_svgs > 1) app.trigger('session:active', { track_id: 'false', secondary: 'false', primary: 'tracks' });
-
-		return this;
+			// if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();
+		}
 	},
-	_calculate_bezier_point: function(t, p0, p1, p2, p3) { // time 0-1, start point, control 1, control 2, end point
-	  var u = 1.0 - t;
-	  var tt = t*t;
-	  var uu = u*u;
-	  var uuu = uu * u;
-	  var ttt = tt * t;
-		//
-		var p = [];
-	  p[0] = uuu * p0[0]; //first term
-	  p[1] = uuu * p0[1]; //first term
-	  p[0] += 3 * uu * t * p1[0]; //second term
-	  p[1] += 3 * uu * t * p1[1]; //second term
-	  p[0] += 3 * u * tt * p2[0]; //third term
-	  p[1] += 3 * u * tt * p2[1]; //third term
-	  p[0] += ttt * p3[0]; //fourth term
-	  p[1] += ttt * p3[1]; //fourth term
+	reject_upload_track: function() {
+		var tracks_to_upload = this.get('tracks_to_upload');
 
-	  return p;
-	},
-	_min_max: function(given_array) {
-		var min_x, max_x, min_y, max_y;
-		_.each(given_array, function(point) {
-			if (min_x == undefined || point[0] < min_x) min_x = point[0];
-			if (max_x == undefined || point[0] > max_x) max_x = point[0];
-			if (min_y == undefined || point[1] < min_y) min_y = point[1];
-			if (max_y == undefined || point[1] > max_y) max_y = point[1];
-		});
+		// remove from tracks_to_upload, take to next preview page or this model's page
+		var track_obj = tracks_to_upload.shift();
 
-		return [min_x, min_y, max_x, max_y];
+		// remove from collection
+		app.collection.remove(track_obj.id);
+
+		if (tracks_to_upload.length > 0) {
+			app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
+		} else {
+			app.trigger('session:active', { primary: 'media', secondary: 'tracks', track_id: 'false' });
+		}
 	},
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {
