@@ -377,7 +377,6 @@ app.model.track = {
 										var point = self._calculate_linear_point(j/steps, p0, p1);
 										verts.push(point);
 									}
-									console.log("move", p0, p1);
 								}
 							}
 						}
@@ -593,7 +592,7 @@ app.model.track = {
 						} else console.log("Error, wrong amount of t curve points", data.length, data);
 						break;
 					case 'A':
-						console.log("Arc", data);
+						// console.log("Arc", data);
 						if (data.length % 7 == 0) {
 							for (var i = 0; i < data.length; i+=7) {
 								var rx = data[i];
@@ -609,10 +608,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						}
+						} else console.log("Error, wrong number of Arc points");
 						break;
 					case 'a':
-						console.log("arc", data);
+						// console.log("arc", data);
 						if (data.length % 7 == 0) {
 							for (var i = 0; i < data.length; i+=7) {
 								var rx = data[i];
@@ -623,14 +622,12 @@ app.model.track = {
 								var p0 = verts[verts.length-1];
 								var p1 = [p0[0]+data[i+5],p0[1]+data[i+6]];
 
-								console.log("arc", i, p0, p1);
-
 								for (var j=1; j<=steps; j++) {
 									var point = self._calculate_elliptical_arc(j/steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
 									verts.push(point);
 								}
 							}
-						}
+						} else console.log("Error, wrong number of arc points");
 						break;
 					case 'Z':
 						// console.log("Close", data, first_point);
