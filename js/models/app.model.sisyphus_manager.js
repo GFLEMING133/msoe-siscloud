@@ -1118,7 +1118,7 @@ app.model.sisyphus_manager = {
 		if (tracks_to_upload.length > 0) {
 			app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: tracks_to_upload[0].id });
 		} else {
-			app.trigger('session:active', { primary: 'media', secondary: 'tracks', track_id: 'false' });
+			app.trigger('session:active', { primary: 'settings', secondary: 'upload-track', track_id: 'false' });
 		}
 	},
     /**************************** COMMUNITY ***********************************/
