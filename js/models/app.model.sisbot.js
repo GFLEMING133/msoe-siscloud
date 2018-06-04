@@ -503,7 +503,7 @@ app.model.sisbot = {
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
 			sleep_time				: '10:00 PM',
-			wake_time				: data.wake_time,
+			wake_time					: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
 		}

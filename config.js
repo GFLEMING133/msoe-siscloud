@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.1', // SVG s/arc fixes, reject takes back to upload, created by starts empty
+    version : '1.5.2', // Wake time fix
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
