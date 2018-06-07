@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.2', // Wake time fix
+    version : '1.5.3', // Brightness/Speed slider delay
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

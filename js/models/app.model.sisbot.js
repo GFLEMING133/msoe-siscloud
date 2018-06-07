@@ -58,7 +58,9 @@ app.model.sisbot = {
 
 			log_date						: moment().format('MM/DD/YYYY'),
 			log_type						: 'sisbot',		// sisbot|plotter|proxy
-			uploading_track					: 'false',
+			uploading_track			: 'false',
+
+			wait_for_send				: 'false', // don't send request before hearing response
 
 			edit		: {},
 			data		: {
@@ -1086,11 +1088,29 @@ app.model.sisbot = {
 	},
 	brightness: function (level) {
 		var self = this;
-		this.set('data.brightness', +level)
-			.set('edit.brightness', +level);
-		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
-			// do nothing
-		});
+
+		// console.log("Brightness:", level, this.get('data.brightness'));
+		this.set('data.brightness', +level).set('edit.brightness', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			// var start = +new Date();
+			this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_brightness', { value: remember_level }, function (obj) {
+				// do nothing
+				// var end = +new Date();
+				// console.log("Brightness Response (millis):", end-start);
+				self.set('wait_for_send','false');
+
+				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+
+				if (self.get('edit.brightness') !== remember_level) {
+					self.brightness(self.get('edit.brightness'));
+				}
+			});
+		} else {
+			// console.log("New Brightness", level);
+		}
 	},
 	brightness_up: function () {
 		var level = +this.get('data.brightness');
@@ -1123,9 +1143,22 @@ app.model.sisbot = {
 		});
 	},
 	speed: function (level) {
-		this.set('data.speed', +level)
-			.set('edit.speed', +level);
-		this._update_sisbot('set_speed', { value: +level }, function (obj) {});
+		var self = this;
+
+		this.set('data.speed', +level).set('edit.speed', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_speed', { value: remember_level }, function (obj) {
+				self.set('wait_for_send','false');
+
+				if (self.get('edit.speed') !== remember_level) {
+					// console.log("Tail Speed", remember_level, self.get('edit.speed'));
+					self.speed(self.get('edit.speed'));
+				}
+			});
+		}
 	},
 	speed_up: function () {
 		var level = +this.get('data.speed');
