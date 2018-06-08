@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.3', // Brightness/Speed slider delay
+    version : '1.5.4', // Remove verts from frontend after response from add_track
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

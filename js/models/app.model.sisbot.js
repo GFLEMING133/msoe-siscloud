@@ -1244,6 +1244,9 @@ app.model.sisbot = {
 			if (obj.err) {
 				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
+				// make sure verts are not retained
+				if (track_model.get('data.verts')) track_model.unset('data.verts');
+
 				app.manager.intake_data(obj.resp);
 				// manager will now change pages
 				// app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
