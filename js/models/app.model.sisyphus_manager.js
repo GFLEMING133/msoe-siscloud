@@ -48,7 +48,7 @@ app.model.sisyphus_manager = {
 			fetched_community_playlists	: 'false',
 			fetched_community_tracks	: 'false',
 
-			community_page			: 'playlists',
+			community_page			: 'tracks',
 			community_playlist_ids	: [],
 			community_track_ids		: [],
 
