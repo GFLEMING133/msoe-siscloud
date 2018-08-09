@@ -156,9 +156,9 @@ app.model.sisyphus_manager = {
 	},
 	open_support_page: function () {
 		if (app.is_app) {
-			cordova.InAppBrowser.open('https://sisyphus-industries.desk.com', '_system', 'location=yes');
+			cordova.InAppBrowser.open('https://sisyphus-industries.com/support', '_system', 'location=yes');
 		} else {
-			window.location = 'https://sisyphus-industries.desk.com';
+			window.location = 'https://sisyphus-industries.com/support';
 		}
 	},
 	open_home_page: function () {
