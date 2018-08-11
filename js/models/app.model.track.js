@@ -1012,7 +1012,10 @@ app.model.track = {
 	download: function () {
 		var self = this;
 
+		console.log("track : download");
+		debugger;
 		if (this.get('data.verts') !== '') {
+			console.log("track : download  verts already present, call sisbot:track_add");
 			app.trigger('manager:download_track', this.id);
 			app.trigger('sisbot:track_add', this);
 			return this;
@@ -1025,10 +1028,18 @@ app.model.track = {
 			id		: this.id
 		};
 
+		// var req_obj = {
+		// 	_url	: 'http://10.0.0.9/:3000',
+		// 	_type	: 'GET',
+		// 	endpoint: 'download_track',
+		// 	id		: this.id
+		// };
+
 		function cb(obj) {
 			if (obj.err) {
 				alert('There was an error downloading this track. Please try again later')
 			} else {
+				console.log('track : download response = ', obj.resp);
 				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);

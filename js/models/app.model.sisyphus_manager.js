@@ -1202,12 +1202,21 @@ app.model.sisyphus_manager = {
 		this.set('fetching_community_tracks', 'true');
 
 		// should return playlists and tracks
-		var tracks = {
+	  var tracks = {
 			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'community_tracks',
 			data	: {}
 		};
+
+		// tracks = {
+		// 	_url	: 'http://10.0.0.9/:3000',
+		// 	_type	: 'GET',
+		// 	endpoint: 'community_tracks',
+		// 	data	: {}
+		// };
+
+
 
 		function cb(obj) {
 			setTimeout(function () {
@@ -1234,6 +1243,8 @@ app.model.sisyphus_manager = {
 		this.remove('community_playlist_ids', playlist_id);
 	},
 	download_track: function (track_id) {
+		console.log("download_track " + track_id);
+
 		this.remove('community_track_ids', track_id);
 	},
     /**************************** DEMO ****************************************/
