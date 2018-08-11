@@ -1212,7 +1212,7 @@ app.model.sisyphus_manager = {
 		tracks = {
 			_url	: 'http://10.0.0.9/:3000/',
 			_type	: 'GET',
-			endpoint: 'community_tracks',
+			endpoint: 'tracks/list_tracks.json',
 			data	: {}
 		};
 
