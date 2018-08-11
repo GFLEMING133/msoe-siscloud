@@ -1029,7 +1029,7 @@ app.model.track = {
 		};
 
 		var req_obj = {
-			_url	: 'http://10.0.0.9/:3000/',
+			_url	: 'http://10.0.0.9:3000/',
 			_type	: 'GET',
 			endpoint: 'tracks/download_track.json',
 			id		: this.id
