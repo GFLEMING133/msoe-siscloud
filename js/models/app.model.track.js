@@ -1028,12 +1028,12 @@ app.model.track = {
 			id		: this.id
 		};
 
-		// var req_obj = {
-		// 	_url	: 'http://10.0.0.9/:3000',
-		// 	_type	: 'GET',
-		// 	endpoint: 'download_track',
-		// 	id		: this.id
-		// };
+		var req_obj = {
+			_url	: 'http://10.0.0.9/:3000',
+			_type	: 'GET',
+			endpoint: 'download_track',
+			id		: this.id
+		};
 
 		function cb(obj) {
 			if (obj.err) {

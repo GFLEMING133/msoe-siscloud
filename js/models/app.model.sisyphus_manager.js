@@ -1209,12 +1209,12 @@ app.model.sisyphus_manager = {
 			data	: {}
 		};
 
-		// tracks = {
-		// 	_url	: 'http://10.0.0.9/:3000',
-		// 	_type	: 'GET',
-		// 	endpoint: 'community_tracks',
-		// 	data	: {}
-		// };
+		tracks = {
+			_url	: 'http://10.0.0.9/:3000',
+			_type	: 'GET',
+			endpoint: 'community_tracks',
+			data	: {}
+		};
 
 
 
