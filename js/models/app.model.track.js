@@ -45,7 +45,7 @@ app.model.track = {
 				duration			: '90',		// minutes
 
 				created_by_id		: 'false',
-				created_by_name		: 'Your Name',
+				created_by_name		: 'false',
 
 				original_file_type	: 'false', 	// thr|svg
 				has_verts_file		: 'false',
@@ -308,6 +308,7 @@ app.model.track = {
 
 			// remember last control point
 			var control_point;
+			var prev_command;
 
 			_.each(commands, function(entry) {
 				var command = entry.substring(0,1);
@@ -326,7 +327,6 @@ app.model.track = {
 				switch (command) {
 					case 'M':
 						// console.log("Move", data);
-						// if (data.length == 2) verts.push(data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
@@ -358,11 +358,13 @@ app.model.track = {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
 									is_first_point = false;
-									first_point = [data[0],data[1]];
-									if (verts.length == 0) verts.push(first_point);
-									else {
+									if (verts.length == 0) {
+										first_point = [data[0],data[1]];
+										verts.push(first_point);
+									} else {
 										var p0 = verts[verts.length-1];
-										var p1 = first_point;
+										var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+										first_point = p1;
 										for (var j=1; j<=steps; j++) {
 											var point = self._calculate_linear_point(j/steps, p0, p1);
 											verts.push(point);
@@ -485,7 +487,8 @@ app.model.track = {
 						} else console.log("Error, wrong amount of curve points", data.length, data);
 						break;
 					case 'S':
-						// console.log("Shortcut", data);
+						// console.log("Shortcut", data, prev_command);
+						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length-1];
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i+=4) {
 								var p0 = verts[verts.length-1];
@@ -502,7 +505,8 @@ app.model.track = {
 						} else console.log("Error, wrong amount of Shortcut Curve points", data.length, data);
 						break;
 					case 's':
-						// console.log("shortcut", data);
+						// console.log("shortcut", data, prev_command);
+						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length-1];
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i+=4) {
 								var p0 = verts[verts.length-1];
@@ -587,6 +591,44 @@ app.model.track = {
 							}
 						} else console.log("Error, wrong amount of t curve points", data.length, data);
 						break;
+					case 'A':
+						// console.log("Arc", data);
+						if (data.length % 7 == 0) {
+							for (var i = 0; i < data.length; i+=7) {
+								var rx = data[i];
+								var ry = data[i+1];
+								var xAxisRotation = data[i+2];
+								var largeArcFlag = data[i+3];
+								var sweepFlag = data[i+4];
+								var p0 = verts[verts.length-1];
+								var p1 = [data[i+5],data[i+6]];
+
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_elliptical_arc(j/steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong number of Arc points");
+						break;
+					case 'a':
+						// console.log("arc", data);
+						if (data.length % 7 == 0) {
+							for (var i = 0; i < data.length; i+=7) {
+								var rx = data[i];
+								var ry = data[i+1];
+								var xAxisRotation = data[i+2];
+								var largeArcFlag = data[i+3];
+								var sweepFlag = data[i+4];
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0]+data[i+5],p0[1]+data[i+6]];
+
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_elliptical_arc(j/steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong number of arc points");
+						break;
 					case 'Z':
 						// console.log("Close", data, first_point);
 						var p0 = verts[verts.length-1];
@@ -611,6 +653,8 @@ app.model.track = {
 						console.log("Unknown command", command);
 						break;
 				}
+
+				prev_command = command; // remember last command
 			});
 		});
 
@@ -734,6 +778,120 @@ app.model.track = {
 		p[1] += ttt * p3[1]; //fourth term
 
 		return p;
+	},
+	_calculate_elliptical_arc: function(t, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag) {
+    // In accordance to: http://www.w3.org/TR/SVG/implnote.html#ArcOutOfRangeParameters
+    rx = Math.abs(rx);
+    ry = Math.abs(ry);
+    xAxisRotation = this._mod(xAxisRotation, 360);
+    var xAxisRotationRadians = this._toRadians(xAxisRotation);
+    // If the endpoints are identical, then this is equivalent to omitting the elliptical arc segment entirely.
+    if(p0[0] === p1[0] && p0[1] === p1[1]) {
+      return p0;
+    }
+
+    // If rx = 0 or ry = 0 then this arc is treated as a straight line segment joining the endpoints.
+    if(rx === 0 || ry === 0) {
+      return this._calculate_linear_point(t, p0, p1);
+    }
+
+    // Following "Conversion from endpoint to center parameterization"
+    // http://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter
+    // Step #1: Compute transformedPoint
+    var dx = (p0[0]-p1[0])/2;
+    var dy = (p0[1]-p1[1])/2;
+    var transformedPoint = {
+      x: Math.cos(xAxisRotationRadians)*dx + Math.sin(xAxisRotationRadians)*dy,
+      y: -Math.sin(xAxisRotationRadians)*dx + Math.cos(xAxisRotationRadians)*dy
+    };
+    // Ensure radii are large enough
+    var radiiCheck = Math.pow(transformedPoint.x, 2)/Math.pow(rx, 2) + Math.pow(transformedPoint.y, 2)/Math.pow(ry, 2);
+    if(radiiCheck > 1) {
+      rx = Math.sqrt(radiiCheck)*rx;
+      ry = Math.sqrt(radiiCheck)*ry;
+    }
+
+    // Step #2: Compute transformedCenter
+    var cSquareNumerator = Math.pow(rx, 2)*Math.pow(ry, 2) - Math.pow(rx, 2)*Math.pow(transformedPoint.y, 2) - Math.pow(ry, 2)*Math.pow(transformedPoint.x, 2);
+    var cSquareRootDenom = Math.pow(rx, 2)*Math.pow(transformedPoint.y, 2) + Math.pow(ry, 2)*Math.pow(transformedPoint.x, 2);
+    var cRadicand = cSquareNumerator/cSquareRootDenom;
+    // Make sure this never drops below zero because of precision
+    cRadicand = cRadicand < 0 ? 0 : cRadicand;
+    var cCoef = (largeArcFlag !== sweepFlag ? 1 : -1) * Math.sqrt(cRadicand);
+    var transformedCenter = {
+      x: cCoef*((rx*transformedPoint.y)/ry),
+      y: cCoef*(-(ry*transformedPoint.x)/rx)
+    };
+
+    // Step #3: Compute center
+    var center = {
+      x: Math.cos(xAxisRotationRadians)*transformedCenter.x - Math.sin(xAxisRotationRadians)*transformedCenter.y + ((p0[0]+p1[0])/2),
+      y: Math.sin(xAxisRotationRadians)*transformedCenter.x + Math.cos(xAxisRotationRadians)*transformedCenter.y + ((p0[1]+p1[1])/2)
+    };
+
+    // Step #4: Compute start/sweep angles
+    // Start angle of the elliptical arc prior to the stretch and rotate operations.
+    // Difference between the start and end angles
+    var startVector = {
+      x: (transformedPoint.x-transformedCenter.x)/rx,
+      y: (transformedPoint.y-transformedCenter.y)/ry
+    };
+    var startAngle = this._angleBetween({
+      x: 1,
+      y: 0
+    }, startVector);
+
+    var endVector = {
+      x: (-transformedPoint.x-transformedCenter.x)/rx,
+      y: (-transformedPoint.y-transformedCenter.y)/ry
+    };
+    var sweepAngle = this._angleBetween(startVector, endVector);
+
+    if(!sweepFlag && sweepAngle > 0) {
+      sweepAngle -= 2*Math.PI;
+    }
+    else if(sweepFlag && sweepAngle < 0) {
+      sweepAngle += 2*Math.PI;
+    }
+    // We use % instead of `_mod()..)` because we want it to be -360deg to 360deg(but actually in radians)
+    sweepAngle %= 2*Math.PI;
+
+    // From http://www.w3.org/TR/SVG/implnote.html#ArcParameterizationAlternatives
+    var angle = startAngle+(sweepAngle*t);
+    var ellipseComponentX = rx*Math.cos(angle);
+    var ellipseComponentY = ry*Math.sin(angle);
+
+    var point = [
+      Math.cos(xAxisRotationRadians)*ellipseComponentX - Math.sin(xAxisRotationRadians)*ellipseComponentY + center.x,
+      Math.sin(xAxisRotationRadians)*ellipseComponentX + Math.cos(xAxisRotationRadians)*ellipseComponentY + center.y
+    ];
+
+    // Attach some extra info to use
+    // point.ellipticalArcStartAngle = startAngle;
+    // point.ellipticalArcEndAngle = startAngle+sweepAngle;
+    // point.ellipticalArcAngle = angle;
+		//
+    // point.ellipticalArcCenter = center;
+    // point.resultantRx = rx;
+    // point.resultantRy = ry;
+
+    return point;
+	},
+	_mod: function(x, m) {
+		return (x%m + m)%m;
+	},
+	_toRadians: function(angle) {
+		return angle * (Math.PI / 180);
+	},
+	_angleBetween: function(v0, v1) {
+		var p = v0.x*v1.x + v0.y*v1.y;
+		var n = Math.sqrt((Math.pow(v0.x, 2)+Math.pow(v0.y, 2)) * (Math.pow(v1.x, 2)+Math.pow(v1.y, 2)));
+		var sign = v0.x*v1.y - v0.y*v1.x < 0 ? -1 : 1;
+		var angle = sign*Math.acos(p/n);
+
+		//var angle = Math.atan2(v0.y, v0.x) - Math.atan2(v1.y,  v1.x);
+
+		return angle;
 	},
 	_min_max: function(given_array) {
 		var min_x, max_x, min_y, max_y;

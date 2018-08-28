@@ -1,5 +1,5 @@
 var config = {
-    version : '1.4.0', // manager handles intake of socket data
+    version : '1.5.6', // update help url
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
