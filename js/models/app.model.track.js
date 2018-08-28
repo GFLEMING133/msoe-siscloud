@@ -1009,6 +1009,84 @@ app.model.track = {
 
 		app.post.fetch(req_obj, cb, 0);
 	},
+	fetch_wc: function () {
+		var self = this;
+		debugger;
+
+		var req_obj = {
+			_url	: 'http://10.0.0.9:3000/',
+			_type	: 'GET',
+			endpoint: 'tracks/get_track_header.json',
+			id		: this.id
+		};
+
+		function cb(obj) {
+			if (obj.err || obj.resp.length == 0) {
+				alert('There was an error downloading this track header. Please try again later')
+			} else {
+				self.set('data', obj.resp[0]);
+				self.download_wc();
+			}
+		}
+		app.post.fetch(req_obj, cb, 0);
+	},
+  download_wc: function() {
+		var self = this;
+
+		console.log("track : download");
+		debugger;
+
+		var req_obj;
+		if (self.get('data.original_file_type') == 'thr')
+		{
+			var req_obj = {
+				_url	: 'http://10.0.0.9:3000/',
+				_type	: 'GET',
+				endpoint: 'tracks/download_track_thr.json',
+				id		: this.id
+			};
+
+		}
+		else if (self.get('data.original_file_type') == 'svg') 
+		{
+			var req_obj = {
+				_url	: 'http://10.0.0.9:3000/',
+				_type	: 'GET',
+				endpoint: 'tracks/download_track_svg.json',
+				id		: this.id
+			};
+		}
+		else {
+			alert('track is missing file_type header ' + self.id);
+			return;
+		}
+
+
+
+		function cb(obj) {
+			if (obj.err) {
+				alert('There was an error downloading this track. Please try again later')
+			} else {
+				debugger;
+				console.log('track : download response = ', obj.resp);
+
+				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
+				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+				else {
+					alert('Failed to get verts for this download ' + self.id);
+					return;
+				}
+
+				// self.set('data.verts', obj.resp);
+				app.trigger('manager:download_track', self.id);
+				app.trigger('sisbot:track_add', self);
+			}
+		}
+
+		app.post.fetch(req_obj, cb, 0);
+	},
+
+
 	download: function () {
 		var self = this;
 
