@@ -63,7 +63,7 @@
 	                    <input class="h__k fs18 w100" type="text" placeholder="Your name"
 	                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
 	                        data-field="model.edit.created_by_name"
-	                        value="{{= model.edit.created_by_name }}"
+	                        value="{{= (model.edit.created_by_name == 'false') ? '' : model.edit.created_by_name }}"
 	                    />
 					</div>
 			    </div>

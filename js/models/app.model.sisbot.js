@@ -58,7 +58,9 @@ app.model.sisbot = {
 
 			log_date						: moment().format('MM/DD/YYYY'),
 			log_type						: 'sisbot',		// sisbot|plotter|proxy
-			uploading_track					: 'false',
+			uploading_track			: 'false',
+
+			wait_for_send				: 'false', // don't send request before hearing response
 
 			edit		: {},
 			data		: {
@@ -175,6 +177,7 @@ app.model.sisbot = {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
 	_fetch_log: function (data) {
+		console.log("_fetch_log()");
 		var data = this.get('data');
 		var obj = {
 			// _url	: 'https://api.sisyphus.withease.io/',
@@ -190,6 +193,7 @@ app.model.sisbot = {
 		// }, 0);
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
+		console.log("_update_sisbot()");
 		if (!_timeout) _timeout = 5000;
 
 		if (app.config.env == 'alpha')
@@ -228,6 +232,7 @@ app.model.sisbot = {
 		}, 0);
 	},
 	_update_cloud: function (data) {
+		console.log("_update_cloud()");
 		if (this.get('data.is_internet_connected') == 'true') {
 			var data = this.get('data');
 			var new_data = {
@@ -248,6 +253,7 @@ app.model.sisbot = {
 	},
 	_fetching_cloud: false,
 	_fetch_cloud: function () {
+		console.log("_fetch_cloud()");
 		if (this._fetching_cloud) 	return this;
 
 		var self = this;
@@ -272,6 +278,7 @@ app.model.sisbot = {
 	},
 	_fetching_bluetooth: false,
 	_fetch_bluetooth: function () {
+		console.log("_fetch_bluetooth()");
 		if (!app.is_app)				return this;
 		if (this._fetching_bluetooth) 	return this;
 
@@ -299,6 +306,7 @@ app.model.sisbot = {
 		});
 	},
 	_fetch_network: function () {
+		console.log("_fetch_network()");
 		if (!app.is_app)
 			return this;
 
@@ -321,6 +329,7 @@ app.model.sisbot = {
 		return this;
 	},
 	_ping_sisbot: function(hostname) {
+		console.log("_ping_sisbot()");
 		var self = this;
 
 		app.post.fetch(exists = {
@@ -341,6 +350,8 @@ app.model.sisbot = {
 		return this;
 	},
 	_check_serial: function () {
+		console.log("_check_serial()");
+
 		/* TODO: Fix
 		if (this.get('data.is_serial_open') == 'false') {
 			if (!this._active) {
@@ -356,11 +367,13 @@ app.model.sisbot = {
 		*/
 	},
 	_update_timestamp: function() {
+		console.log("_update_timestamp()");
 		this.set('timestamp', ''+Date.now());
 		console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
+		console.log("_socket_connect()");
 		var self = this;
 
 		console.log("Sisbot: Socket Connect");
@@ -381,6 +394,7 @@ app.model.sisbot = {
 		}, 10000);
 	},
 	_socket_disconnect: function() {
+		console.log("_socket_disconnect()");
 		this.set('is_socket_connected', 'false');
 
 		var self = this;
@@ -403,6 +417,7 @@ app.model.sisbot = {
 	/**************************** POLLING *************************************/
 	_poll_timer: false,
 	_poll_failure: function () {
+		console.log("_poll_failure()");
 		if (this._poll_timer == false)
 			this._poll_timer = moment();
 
@@ -434,6 +449,7 @@ app.model.sisbot = {
 		return this;
 	},
 	_poll_failure_stop: function () {
+		console.log("_poll_failure_stop()");
 		if (this._poll_then_reset_bool == true) {
 			window.location.reload();
 		}
@@ -442,16 +458,19 @@ app.model.sisbot = {
 				   .set('sisbot_reconnecting', 'false');
 	},
 	_poll_restart: function () {
+		console.log("_poll_restart()");
 		this._poll_timer = false;
 		this.set('is_polling', 'true');
 		this._poll_state();
 	},
 	_poll_then_reset_bool: false,
 	_poll_then_reset: function() {
+		console.log("_poll_then_reset()");
 		this._poll_then_reset_bool = true;
 		this._poll_restart();
 	},
 	_poll_state: function () {
+		console.log("_poll_state()");
 		var self = this;
 
 		if (app.config.env == 'alpha') {
@@ -503,7 +522,7 @@ app.model.sisbot = {
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
 			sleep_time				: '10:00 PM',
-			wake_time				: data.wake_time,
+			wake_time					: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
 		}
@@ -540,6 +559,7 @@ app.model.sisbot = {
 		});
 	},
 	get_networks: function () {
+		console.log("get_networks()");
 		var self			= this;
 		var wifi_networks	= [];
 
@@ -569,6 +589,7 @@ app.model.sisbot = {
 		});
     },
 	wifi_failed_to_connect: function () {
+		console.log("wifi_failed_to_connect()");
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
 			this.set('wifi_error', 'incorrect')
 				.set('wifi_connecting', 'false');
@@ -581,6 +602,7 @@ app.model.sisbot = {
 		}
 	},
 	wifi_connected: function () {
+		console.log("wifi_connected()");
 		var active = app.session.get('active');
 
 		if (this.get('data.is_internet_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
@@ -602,6 +624,7 @@ app.model.sisbot = {
 		}
 	},
   	connect_to_wifi: function () {
+		console.log("connect_to_wifi()");
 		this.set('wifi_error', 'false')
 			.set('wifi_connecting', 'false');
 
@@ -646,6 +669,7 @@ app.model.sisbot = {
 		});
   	},
 	disconnect_wifi: function () {
+		console.log("disconnect_wifi()");
 		var self = this;
 
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
@@ -670,6 +694,7 @@ app.model.sisbot = {
 		}
 	},
 	is_internet_connected: function () {
+		console.log("is_internet_connected()");
 		var self = this;
 
 		this._update_sisbot('is_internet_connected', {}, function(obj) {
@@ -683,6 +708,7 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
+		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
 			return this;
 
@@ -701,6 +727,7 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
+		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
 		if (status == 'false') {
@@ -710,12 +737,14 @@ app.model.sisbot = {
 		}
 	},
 	check_force_onboarding: function () {
+		console.log("check_force_onboarding()");
 		if (this.get('data.installing_updates') == 'false' && this.get('force_onboarding') == 'true') {
 			app.manager.should_show_onboarding();
 			this.set('force_onboarding', 'false');
 		}
 	},
 	factory_reset: function () {
+		console.log("factory_reset()");
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
 
@@ -737,12 +766,14 @@ app.model.sisbot = {
 		}, 'Factory Reset?', ['Cancel', 'OK']);
 	},
 	setup_update_hostname: function () {
+		console.log("setup_update_hostname()");
 		this.set('hostname', this.get('data.hostname').replace('.local', ''))
 			.set('errors', []);
 
 		return this;
 	},
 	update_hostname: function () {
+		console.log("update_hostname()");
 		var self		= this;
 		var hostname	= this.get('hostname');
 		var errors 		= [];
@@ -1086,11 +1117,29 @@ app.model.sisbot = {
 	},
 	brightness: function (level) {
 		var self = this;
-		this.set('data.brightness', +level)
-			.set('edit.brightness', +level);
-		this._update_sisbot('set_brightness', { value: +level }, function (obj) {
-			// do nothing
-		});
+
+		// console.log("Brightness:", level, this.get('data.brightness'));
+		this.set('data.brightness', +level).set('edit.brightness', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			// var start = +new Date();
+			this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_brightness', { value: remember_level }, function (obj) {
+				// do nothing
+				// var end = +new Date();
+				// console.log("Brightness Response (millis):", end-start);
+				self.set('wait_for_send','false');
+
+				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+
+				if (self.get('edit.brightness') !== remember_level) {
+					self.brightness(self.get('edit.brightness'));
+				}
+			});
+		} else {
+			// console.log("New Brightness", level);
+		}
 	},
 	brightness_up: function () {
 		var level = +this.get('data.brightness');
@@ -1123,9 +1172,22 @@ app.model.sisbot = {
 		});
 	},
 	speed: function (level) {
-		this.set('data.speed', +level)
-			.set('edit.speed', +level);
-		this._update_sisbot('set_speed', { value: +level }, function (obj) {});
+		var self = this;
+
+		this.set('data.speed', +level).set('edit.speed', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_speed', { value: remember_level }, function (obj) {
+				self.set('wait_for_send','false');
+
+				if (self.get('edit.speed') !== remember_level) {
+					// console.log("Tail Speed", remember_level, self.get('edit.speed'));
+					self.speed(self.get('edit.speed'));
+				}
+			});
+		}
 	},
 	speed_up: function () {
 		var level = +this.get('data.speed');
@@ -1211,6 +1273,9 @@ app.model.sisbot = {
 			if (obj.err) {
 				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
+				// make sure verts are not retained
+				if (track_model.get('data.verts')) track_model.unset('data.verts');
+
 				app.manager.intake_data(obj.resp);
 				// manager will now change pages
 				// app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
