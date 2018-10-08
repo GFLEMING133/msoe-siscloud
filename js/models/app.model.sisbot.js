@@ -215,7 +215,7 @@ app.model.sisbot = {
 				if (cb) cb(resp);
 			} else {
 				if (resp.err == null)
-					app.manager.set('is_sisbot_available', 'true');
+					self.check_for_unavailable();
 
 				if (resp.err)
 					console.log(address, endpoint, resp);
@@ -370,7 +370,7 @@ app.model.sisbot = {
 
 		clearTimeout(this.polling_timeout);
 
-		app.manager.set('is_sisbot_available', 'true');
+		self.check_for_unavailable();
 
 		this.wifi_connected();
 
@@ -454,13 +454,18 @@ app.model.sisbot = {
 	_poll_state: function () {
 		var self = this;
 
+		if (app.config.env == 'alpha') {
+			// FOR APPLE TESTING...
+			app.manager.set('is_sisbot_available', 'true')
+		}
+
 		if (this.get('is_master_branch') == 'false')
 			console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
 
 		this._update_sisbot('state', {}, function(obj) {
 			if (obj.resp) {
 				self._poll_timer = false;
-				app.manager.set('is_sisbot_available', 'true');
+				self.check_for_unavailable();
 
 				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
@@ -481,12 +486,11 @@ app.model.sisbot = {
 	},
 	/**************************** AMDIN ***************************************/
 	check_for_unavailable: function () {
-		if (this.get('data.reason_unavailable') !== 'servo_rho_fault' || this.get('data.reason_unavailable') == 'servo_th_fault') {
+		if (this.get('data.reason_unavailable') !== 'false') {
 			// make sure we say the sisbot is unavailable
-			app.manager.set('is_sisbot_available', 'false')
-					   .set('sisbot_reconnecting', 'false');
+			app.manager.set('is_sisbot_available', 'false');
 		} else {
-			// do nothing.. If we lose connection, we're thrown to unavailable and we don't know why
+			app.manager.set('is_sisbot_available', 'true');
 		}
 	},
 	defaults_setup: function () {
@@ -579,14 +583,19 @@ app.model.sisbot = {
 	wifi_connected: function () {
 		var active = app.session.get('active');
 
-		if (this.get('data.is_internet_connected') == 'true' && active.primary == 'settings' && active.secondary == 'wifi') {
+		if (this.get('data.is_internet_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.trigger('sisbot:wifi_connected');
-			app.session.set('active.secondary', 'advanced_settings');
-		} else if (this.get('data.wifi_forget') == 'true' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.session.set('active.secondary', 'advanced_settings');
 		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
 			app.trigger('sisbot:wifi_connected');
 		}
+
+		// correct values
+		this.set({
+			wifi_error		: 'false',
+			wifi_connecting	: 'false',
+		});
+		this.set('data.wifi_password', 'false');
 
 		if (this.get('data.is_internet_connected') == 'true' && this.is_legacy()) {
 			app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
@@ -655,8 +664,8 @@ app.model.sisbot = {
 					.set('data.wifi_password', 'false')
 					.set('data.reason_unavailable', 'disconnect_from_wifi');
 
-				app.manager.set('sisbot_reconnecting', 'false')
-							.set('is_sisbot_available', 'false');
+				app.manager.set('sisbot_reconnecting', 'false');
+				self.check_for_unavailable();
 			});
 		}
 	},
@@ -1203,7 +1212,8 @@ app.model.sisbot = {
 				app.plugins.n.notification.alert(obj.err);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
-				app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
+				// manager will now change pages
+				// app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
 			}
 		}, 60000);
 
@@ -1330,13 +1340,6 @@ app.model.sisbot = {
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
-		} else if (version[0] == '1' && version[1] == '0') {
-			// ALWAYS ALLOW UPGRADE FROM V1.0.X
-			self.set('has_software_update', 'true');
-			return this;
-		} else if (+version[1] % 2 == 1) {
-			// beta.. Always allow download
-			return self.set('has_software_update', 'true');
 		}
 
 		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false')
@@ -1369,6 +1372,15 @@ app.model.sisbot = {
 				});
 
 				self.set('has_software_update', '' + has_update);
+
+				if (version[0] == '1' && version[1] == '0') {
+					// ALWAYS ALLOW UPGRADE FROM V1.0.X
+					self.set('has_software_update', 'true');
+					//return this; // NO LONGER NEEDED BECAUSE MASTER IS PAST 1.0.9
+				} else if (+version[1] % 2 == 1) {
+					// beta.. Always allow download
+					self.set('has_software_update', 'true');
+				}
 			}
 		}
 

@@ -14,20 +14,13 @@
     </div>
     <div class="w20">&nbsp;</div>
 </div>
-<div class="flex pt20 pr20 pl20 pb20 clickable active h__k"
-    data-on-click="publish"
-    data-publish="session:toggle"
-    data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
->
-    <div class="w80">
+<div class="flex pt20 pr20 pl20 pb20 h__k">
+    <div class="w100">
         <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
         <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
     </div>
-    <div class="w20 pull-right h100 vertical">
-        <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
-    </div>
 </div>
-<div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
+<div class="bg-grey-l flex">
     <div class="w25 pt15 pb15 clickable active center h__k"
         data-on-click="model.play"
     ><img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" /></div>

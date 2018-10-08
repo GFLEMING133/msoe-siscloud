@@ -16,6 +16,22 @@
     </div>
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
         <!--------------------------- PLAYLIST TRACKS ---------------------------->
+        <div class="bg-black hh50 w100 no-stuffing">
+            <div class="center pt5">
+                <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded mr10 clickable h__k"
+                    data-on-click="model.play" data-msg="{{= 0 }}"
+                >
+                    <i class="fa fa-play pr5 pl5"></i>
+                    Play
+                </div>
+                <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded ml10 clickable h__k"
+                    data-on-click="model.play_shuffled"
+                >
+                    <i class="fa fa-random pr5 pl5"></i>
+                    Shuffle
+                </div>
+            </div>
+        </div>
         <div class="h__k"
             data-foreach="model.data.tracks"
             data-foreach-change="foreach_reset"

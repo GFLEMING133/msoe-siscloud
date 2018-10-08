@@ -31,6 +31,9 @@ app.model.track = {
 				circle_stroke_width: 2,
 				square: "false"
 			},
+			edit_steps	: 15, // for slider
+			steps		: 15, // steps between svg points to make
+			max_steps	: 30, // max steps
 
 			data		: {
 				id					: data.id,
@@ -42,14 +45,15 @@ app.model.track = {
 				duration			: '90',		// minutes
 
 				created_by_id		: 'false',
-				created_by_name		: 'Sisyphus Industries',
+				created_by_name		: 'Your Name',
 
+				original_file_type	: 'false', 	// thr|svg
 				has_verts_file		: 'false',
 				verts				: '',		// temporary
 
-				default_vel:				1,
-				default_accel:			0.5,
-				default_thvmax:			1,
+				default_vel			: 1,
+				default_accel		: 0.5,
+				default_thvmax		: 1,
 				reversed			: false,
 				firstR				: -1,
 				lastR				: -1,
@@ -63,6 +67,15 @@ app.model.track = {
 	current_version: 1,
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });
+	},
+	setup_edit: function () {
+		this.set('edit', this.get('data')).set('errors', []);
+
+		// remove unwanted values
+		this.unset('edit.verts');
+		this.unset('edit.file_data');
+
+		return this;
 	},
 	/**************************** D3 RENDERING ***********************************/
 	load_d3_data: function() {
@@ -95,25 +108,47 @@ app.model.track = {
 
 		return return_value;
 	},
-	generate_thumbnails: function () {
-		if (this.get('generating_thumbnails') == 'true')
-			return this;
+	get_thumbnail: function() {
+		// exit if already generating
+		if (this.get('generating_thumbnails') == 'true') return this;
 
-		this.set('generating_thumbnails', 'true');
 		var self = this;
 
-		app.post.fetch({
+		// TODO: make sure table is paused, sending verts can cause ball jitter
+		var sisbot = app.manager.get_model('sisbot_id');
+		if (sisbot.get('data.state') == 'playing') {
+			sisbot.pause();
+
+			console.log("Wait longer for pause to finish");
+			setTimeout(function() { self.get_thumbnail(); }, 4000);
+		}
+
+		// send generate message to sisbot to create thumbnail
+		console.log("Get Thumbnail", this.get('data.name'));
+
+		self.set('generating_thumbnails', 'true');
+
+		var data = { id: 'preview', dimensions: 400 };
+		if (this.get('data.original_file_type') == 'svg') data.raw_coors = this.process_svg(this.get('data.file_data'));
+		else data.raw_coors = this.get('data.verts');
+
+		var address	= app.manager.get_model('sisbot_id').get('data.local_ip')
+		var post_data = {
+			_url	: 'http://' + address + '/',
 			_type	: 'POST',
-			endpoint: 'thumbnail_generate',
-			host_url: app.config.get_base_url(),
-			id		: this.id,
-		}, function exists_cb(obj) {
+			_timeout: 60000,
+			endpoint: 'sisbot/thumbnail_preview_generate',
+			data	: data
+		};
+
+		// send to sisbot
+		app.post.fetch(post_data, function exists_cb(obj) {
 			self.set('generating_thumbnails', 'false');
 			console.log(obj);
 			if (obj.err) {
 				alert(obj.err)
 			} else {
-				alert('Thumbnails generated');
+				console.log('Thumbnail generated');
 			}
 		}, 0);
 
@@ -190,8 +225,8 @@ app.model.track = {
 		return this;
 	},
 	upload_track_to_sisbot: function () {
-		var name	= this.get('data.name');
-		var verts	= this.get('data.verts');
+		var name	= this.get('edit.name');
+		var verts	= this.get('edit.verts');
 		var errors	= [];
 
 		if (name == '') errors.push('- Track Name cannot be empty');
@@ -199,10 +234,19 @@ app.model.track = {
 
 		this.set('errors', errors);
 
-		if (errors.length > 0)
-			return this;
+		if (errors.length > 0) return this;
+
+		this.set('upload_status', 'uploading');
+
+		// set verts to current settings if svg
+		if (this.get('data.original_file_type') == 'svg') this.set('data.verts', this.process_svg(this.get('data.file_data')));
+
+ 		// remove data.file_data, it is now verts
+		this.unset('data.file_data');
 
 		// track is good. Change some settings and upload to sisbot!
+		this.set('data.name', this.get('edit.name'));
+		this.set('data.created_by_name', this.get('edit.created_by_name'));
 		this.set('data.has_verts_file', 'true');
 
 		if (app.manager.get('user_id') !== 'false') {
@@ -214,6 +258,497 @@ app.model.track = {
 		app.trigger('sisbot:track_add', this);
 
 		return this;
+	},
+	/**************************** SVG *****************************************/
+	setup_steps: function () {
+		this.set('edit_steps', this.get('steps'));
+
+		return this;
+	},
+	set_steps: function (value) {
+		if (value != this.get('steps')) {
+			console.log("Set steps", this.get('edit_steps'), value);
+			this.set('steps', +value).set('edit_steps', +value);
+		}
+	},
+	steps_min: function () {
+		if (this.get('steps') != 1) {
+			this.set('steps', 1).set('edit_steps', 1);
+			this.get_thumbnail();
+		}
+	},
+	steps_max: function () {
+		if (this.get('steps') != this.get('max_steps')) {
+			this.set('steps', this.get('max_steps')).set('edit_steps', this.get('max_steps'));
+			this.get_thumbnail();
+		}
+	},
+	process_svg: function(file_data) {
+		console.log("Process svg");
+		var self			= this;
+
+		// verts stores the file data
+		var svg_xml = file_data;
+
+		var oParser = new DOMParser();
+		var oDOM = oParser.parseFromString(svg_xml, "text/xml");
+		var pathElements = oDOM.getElementsByTagName("path");
+
+		var verts = [];
+		var steps = this.get('steps'); // make part of model
+
+		_.each(pathElements, function(pathEl) {
+			var path = pathEl.attributes.getNamedItem("d").value;
+			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvAaZz])/); // any letter
+			// console.log("Commands:", commands);
+
+			// save so we can loop this object (z|Z)
+			var is_first_point = true;
+			var first_point;
+
+			// remember last control point
+			var control_point;
+
+			_.each(commands, function(entry) {
+				var command = entry.substring(0,1);
+				var points_string = entry.substring(1).trim();
+				var data = points_string.match(/([-]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g);
+
+				// console.log("data", data);
+
+				// trim extras, convert to numbers (if any)
+				if (data) {
+					for (var i=0; i<data.length; i++) {
+						data[i] = +data[i];
+					}
+				}
+
+				switch (command) {
+					case 'M':
+						// console.log("Move", data);
+						// if (data.length == 2) verts.push(data);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i += 2) {
+								if (is_first_point) {
+									is_first_point = false;
+									first_point = [data[0],data[1]];
+									if (verts.length == 0) verts.push(first_point);
+									else {
+										var p0 = verts[verts.length-1];
+										var p1 = first_point;
+										for (var j=1; j<=steps; j++) {
+											var point = self._calculate_linear_point(j/steps, p0, p1);
+											verts.push(point);
+										}
+									}
+								} else {
+									var p0 = verts[verts.length-1];
+									var p1 = [data[i],data[i+1]];
+									for (var j=1; j<=steps; j++) {
+										var point = self._calculate_linear_point(j/steps, p0, p1);
+										verts.push(point);
+									}
+								}
+							}
+						} else console.log("Error, wrong number of Start points");
+						break;
+					case 'm':
+						// console.log("move", data);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i += 2) {
+								if (is_first_point) {
+									is_first_point = false;
+									first_point = [data[0],data[1]];
+									if (verts.length == 0) verts.push(first_point);
+									else {
+										var p0 = verts[verts.length-1];
+										var p1 = first_point;
+										for (var j=1; j<=steps; j++) {
+											var point = self._calculate_linear_point(j/steps, p0, p1);
+											verts.push(point);
+										}
+									}
+								} else {
+									var p0 = verts[verts.length-1];
+									var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+									for (var j=1; j<=steps; j++) {
+										var point = self._calculate_linear_point(j/steps, p0, p1);
+										verts.push(point);
+									}
+								}
+							}
+						}
+						else console.log("Error, wrong number of start points");
+						break;
+					case 'L':
+						// console.log("Line", data);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i += 2) {
+								var p0 = verts[verts.length-1];
+								var p1 = [data[i],data[i+1]];
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_linear_point(j/steps, p0, p1);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong number of Line points");
+						break;
+					case 'l':
+						// console.log("line", data);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i += 2) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_linear_point(j/steps, p0, p1);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong number of line points");
+						break;
+					case 'H':
+						// console.log("Horizontal", data);
+						for (var i = 0; i < data.length; i++) {
+							var p0 = verts[verts.length-1];
+							var p1 = [data[i],p0[1]];
+							for (var j=1; j<=steps; j++) {
+								var point = self._calculate_linear_point(j/steps, p0, p1);
+								verts.push(point);
+							}
+						}
+						break;
+					case 'h':
+						// console.log("horizontal", data);
+						for (var i = 0; i < data.length; i++) {
+							var p0 = verts[verts.length-1];
+							var p1 = [p0[0]+data[i],p0[1]];
+							for (var j=1; j<=steps; j++) {
+								var point = self._calculate_linear_point(j/steps, p0, p1);
+								verts.push(point);
+							}
+						}
+						break;
+					case 'V':
+						// console.log("Vertical", data);
+						for (var i = 0; i < data.length; i++) {
+							var p0 = verts[verts.length-1];
+							var p1 = [p0[0],data[i]];
+							for (var j=1; j<=steps; j++) {
+								var point = self._calculate_linear_point(j/steps, p0, p1);
+								verts.push(point);
+							}
+						}
+						break;
+					case 'v':
+						// console.log("vertical", data);
+						for (var i = 0; i < data.length; i++) {
+							var p0 = verts[verts.length-1];
+							var p1 = [p0[0],p0[1]+data[i]];
+							for (var j=1; j<=steps; j++) {
+								var point = self._calculate_linear_point(j/steps, p0, p1);
+								verts.push(point);
+							}
+						}
+						break;
+					case 'C':
+						// console.log("Curve", data);
+						if (data.length % 6 == 0) {
+							for (var i = 0; i < data.length; i += 6) {
+								var p0 = verts[verts.length-1];
+								var p1 = [data[i],data[i+1]];
+								var p2 = [data[i+2],data[i+3]];
+								var p3 = [data[i+4],data[i+5]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of Curve points", data.length, data);
+						break;
+					case 'c':
+						// console.log("curve", data);
+						if (data.length % 6 == 0) {
+							for (var i = 0; i < data.length; i+=6) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p2 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+								var p3 = [p0[0]+data[i+4],p0[1]+data[i+5]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of curve points", data.length, data);
+						break;
+					case 'S':
+						// console.log("Shortcut", data);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i+=4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]]; // control point from before
+								var p2 = [data[i],data[i+1]];
+								var p3 = [data[i+2],data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of Shortcut Curve points", data.length, data);
+						break;
+					case 's':
+						// console.log("shortcut", data);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i+=4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]];
+								var p2 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p3 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of shortcut curve points", data.length, data);
+						break;
+					case 'Q':
+						// console.log("Quadratic", data, first_point);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i += 4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [data[i],data[i+1]];
+								var p2 = [data[i],data[i+1]];
+								var p3 = [data[i+2],data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of Quadratic points", data.length, data);
+						break;
+						break;
+					case 'q':
+						// console.log("quadratic", data, first_point);
+						if (data.length % 4 == 0) {
+							for (var i = 0; i < data.length; i+=4) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p2 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p3 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of quadratic points", data.length, data);
+						break;
+					case 'T':
+						// console.log("T", data, first_point);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i+=2) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]]; // control point from before
+								var p2 = [p1[0],p1[1]];
+								var p3 = [data[i],data[i+1]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of T Curve points", data.length, data);
+						break;
+					case 't':
+						// console.log("t", data, first_point);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i+=2) {
+								var p0 = verts[verts.length-1];
+								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]];
+								var p2 = [p1[0],p1[1]];
+								var p3 = [p0[0]+data[i],p0[1]+data[i+1]];
+
+								control_point = p2; // remember
+								for (var j=1; j<=steps; j++) {
+									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+									verts.push(point);
+								}
+							}
+						} else console.log("Error, wrong amount of t curve points", data.length, data);
+						break;
+					case 'Z':
+						// console.log("Close", data, first_point);
+						var p0 = verts[verts.length-1];
+						var p1 = first_point;
+						for (var j=1; j<=steps; j++) {
+							var point = self._calculate_linear_point(j/steps, p0, p1);
+							verts.push(point);
+						}
+						is_first_point = true; // reset to true for closing
+						break;
+					case 'z':
+						// console.log("close", data, first_point);
+						var p0 = verts[verts.length-1];
+						var p1 = first_point;
+						for (var j=1; j<=steps; j++) {
+							var point = self._calculate_linear_point(j/steps, p0, p1);
+							verts.push(point);
+						}
+						is_first_point = true; // reset to true for closing
+						break;
+					default:
+						console.log("Unknown command", command);
+						break;
+				}
+			});
+		});
+
+		// center resulting verts
+		var min_max = self._min_max(verts);
+		var half_x = (min_max[2]-min_max[0]) / 2;
+		var half_y = (min_max[3]-min_max[1]) / 2;
+		_.each(verts, function(point) {
+			point[0] = point[0] - min_max[0] - half_x;
+			point[1] = point[1] - min_max[1] - half_y;
+		});
+		// console.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
+
+		// convert to polar
+		var th_offset = 0;
+		var last_th = 0;
+		var pi = Math.PI;
+		var loop_th = pi*2;
+		_.each(verts, function(point) {
+			var rho = Math.sqrt(point[0]*point[0]+point[1]*point[1]);
+			var new_th =  Math.atan2(point[1],point[0])+pi/2;
+			// if (Math.abs(new_th) == pi) new_th = 0;
+			if (new_th - last_th > pi) {
+				th_offset -= loop_th;
+				// console.log("- Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
+			} else if (new_th - last_th < -pi) {
+				th_offset += loop_th;
+				// console.log("+ Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
+			}
+			point[0] = new_th + th_offset; // th
+			point[1] = rho; // rho
+
+			last_th = new_th;
+		});
+
+		// normalize
+		var polar_min_max = self._min_max(verts);
+		_.each(verts, function(point, index) {
+			point[1] /= polar_min_max[3];
+		});
+
+		// fix start point if looping track
+		var start_index = -1;
+		if (Math.abs(verts[0][0] % loop_th - verts[verts.length-1][0] % loop_th) < 0.000000001 && Math.abs(verts[0][1] - verts[verts.length-1][1]) < 0.000000001) {
+			// find the first instance of zero or one
+			_.each(verts, function(point, index) {
+				if (start_index < 0 && self._is_valid_first_rho(point)) {
+					start_index = index;
+				}
+			});
+		}
+
+		// shift array if needed (not already start/end)
+		if (start_index > 0 && start_index < verts.length-1) {
+			var first_group = verts.splice(0, start_index);
+
+			// fix looping
+			first_group.push(JSON.parse(JSON.stringify(verts[0]))); // end at same point
+			verts.pop(); // remove duplicate/start/end
+
+			// adjust looping th difference
+			var loop_diff = Math.round((verts[verts.length-1][0] - first_group[0][0])/loop_th);
+			if (loop_diff != 0) {
+				_.each(first_group, function(point, index) {
+					point[0] += loop_diff * loop_th;
+				});
+			}
+
+			verts = verts.concat(first_group);
+		}
+
+		// make sure start/end are 0 or 1
+		var start_rho = verts[0][1];
+		if (start_rho != 1 && start_rho != 0) {
+			if (start_rho <= 0.5) verts.unshift([verts[0][0], 0]);
+			else verts.unshift([verts[0][0], 1]);
+		}
+		var end_rho = verts[verts.length-1][1];
+		if (end_rho != 1 && end_rho != 0) {
+			if (end_rho <= 0.5) verts.push([verts[verts.length-1][0], 0]);
+			else verts.push([verts[verts.length-1][0], 1]);
+		}
+
+		// convert to space separates, line separated string
+		var verts_string = "";
+		_.each(verts, function(point) {
+			verts_string += point[0]+" "+point[1]+"\n";
+		});
+
+		// send to page for confirming the appearance/upload
+		return verts_string;
+	},
+	_calculate_linear_point: function(t, p0, p1) {
+		if (t == 0) return [p0[0], p0[1]]; // no calculation needed
+		if (t == 1) return [p1[0], p1[1]]; // no calculation needed
+
+		var p = [];
+		p[0] = p0[0] + t * (p1[0] - p0[0]);
+		p[1] = p0[1] + t * (p1[1] - p0[1]);
+
+		return p;
+	},
+	_calculate_bezier_point: function(t, p0, p1, p2, p3) { // time 0-1, start point, control 1, control 2, end point
+		if (t == 0) return [p0[0], p0[1]]; // no calculation needed
+		if (t == 1) return [p3[0], p3[1]]; // no calculation needed
+
+		var u = 1.0 - t;
+		var tt = t*t;
+		var uu = u*u;
+		var uuu = uu * u;
+		var ttt = tt * t;
+
+		var p = [];
+		p[0] = uuu * p0[0]; //first term
+		p[1] = uuu * p0[1]; //first term
+		p[0] += 3 * uu * t * p1[0]; //second term
+		p[1] += 3 * uu * t * p1[1]; //second term
+		p[0] += 3 * u * tt * p2[0]; //third term
+		p[1] += 3 * u * tt * p2[1]; //third term
+		p[0] += ttt * p3[0]; //fourth term
+		p[1] += ttt * p3[1]; //fourth term
+
+		return p;
+	},
+	_min_max: function(given_array) {
+		var min_x, max_x, min_y, max_y;
+		_.each(given_array, function(point) {
+			if (min_x == undefined || point[0] < min_x) min_x = point[0];
+			if (max_x == undefined || point[0] > max_x) max_x = point[0];
+			if (min_y == undefined || point[1] < min_y) min_y = point[1];
+			if (max_y == undefined || point[1] > max_y) max_y = point[1];
+		});
+
+		return [min_x, min_y, max_x, max_y];
+	},
+	_is_valid_first_rho: function(given_point) {
+		// return true if valid first rho (0 or 1)
+		return (given_point[1] == 0 || given_point[1] == 1);
 	},
 	/**************************** PLAYLISTS ***********************************/
 	playlist_obj: function() { // returns object to save in playlist (to retain speeds/reversed/etc per instance)
