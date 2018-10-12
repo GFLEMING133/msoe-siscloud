@@ -710,6 +710,12 @@ app.model.sisyphus_manager = {
 			this._find_sisbots();
 		}
 	},
+	rescan: function (){
+			console.log("rescan()");
+			this.set('sisbots_scanning', 'true');
+			this.set('sisbot_registration', 'find');
+			// window.location.reload();
+	},
 	_find_sisbots: function () {
 		console.log("_find_sisbots()");
 		// this will find the sisbots on the local network
@@ -909,6 +915,8 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+
+
 	connect_to_sisbot: function (sisbot_hostname) {
 		console.log("connect_to_sisbot()");
 		if (this.get('sisbot_connecting') == 'true') return false;
