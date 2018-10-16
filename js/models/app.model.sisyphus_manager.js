@@ -909,6 +909,13 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+	rescan:function() {
+		console.log("rescan()");
+		this.set('sisbots_scanning', 'true');
+		this.set('sisbot_registration', 'find');
+
+	},
+
 	connect_to_sisbot: function (sisbot_hostname) {
 		console.log("connect_to_sisbot()");
 		if (this.get('sisbot_connecting') == 'true') return false;

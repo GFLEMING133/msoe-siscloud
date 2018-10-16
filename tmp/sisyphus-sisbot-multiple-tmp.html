@@ -35,6 +35,10 @@
         data-if="{{= model.sisbot_connecting }} == false"
         data-on-click="model.connect_to_sisbot"
     >Connect</h2>
+    <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+    data-if="{{= model.sisbot_id }} == false"
+    data-on-click="model.rescan"
+    >Re-Scan</h2>
 
     <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_connecting }} == true">
         <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
