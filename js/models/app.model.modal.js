@@ -42,7 +42,7 @@ app.model.modal = {
 			.set('is_hidden', 'true');
 	},
 	add_to_favorites: function () {
-		app.plugins.n.notification.confirm('Are you sure you want to add',this.get('track_id')
+		app.plugins.n.notification.confirm('Are you sure you want to add',this.get('track_id'));
 		this.get_model('track_id').favorite_toggle();
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
