@@ -23,11 +23,26 @@ app.model.modal = {
 			.trigger('change:is_hidden');
     },
 	add_to_playlist: function (playlist_id) {
-		app.collection.get(playlist_id).add_track_and_save(this.get('track_id'));
+		var trackList = app.collection.get(playlist_id);
+		var trackID = this.get('track_id');
+		debugger;
+		var arrayOfTrackModels = trackList.collection.models.filter(track => (track.attributes.id === trackID));
+		//if statement is to varify that there are other tracks with the same id in the array.
+		if(arrayOfTrackModels.length > 0 ){
+			app.plugins.n.notification.confirm('Track already in playlist, Are you sure you want to add?', 
+			function(resp_num) {
+				if (resp_num == 1){
+				app.collection.get(playlist_id).add_track_and_save(trackID);
+				}
+			});
+		}else{
+		app.collection.get(playlist_id).add_track_and_save(trackID);
+		}
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
 	},
 	add_to_favorites: function () {
+		app.plugins.n.notification.confirm('Are you sure you want to add',this.get('track_id'));
 		this.get_model('track_id').favorite_toggle();
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
@@ -38,6 +53,7 @@ app.model.modal = {
 			.set('is_hidden', 'true');
 	},
 	delete_playlist: function () {
+		app.plugins.n.notification.confirm('Are you sure you want to Delete',this.get('playlist_id'));
 		this.get_model('playlist_id').delete();
 		this.set('playlist_id', 'false')
 			.set('is_hidden', 'true');
