@@ -1,8 +1,8 @@
-<div class="h100">
-    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+<div class="h100 bg-blue curtis">
+    <div class="pull-top bg-black hh100 w200 center no-stuffing flex vertical-align">
         <div class="w15 center f-large">&nbsp;</div>
         <div class="w70">
-            <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Community</h1>
+            <h1 class="h__k no-stuffing fs14 lh18 capitalize truncate">Curtis's Playground  </h1>
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
@@ -10,12 +10,12 @@
         <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
             <div class="h__k" data-if="{{= parent.user_id }} !== false">
                 <div class="w100 center no-stuffing h__k hh35 flex">
-                    <div class="w50 p10 white h__k clickable bg-grey-hover {{= (parent.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey' }}"
+                    <div class="w50 p10 bg-black h__k clickable bg-grey-hover {{= (parent.community_page == 'playlists') ? 'bg-grey' : 'bg-d-grey' }}"
                         data-on-click="set"
                         data-field="parent.community_page"
                         data-value="playlists"
                     >Playlists</div>
-                    <div class="w50 p10 white h__k clickable bg-grey-hover {{= (parent.community_page == 'tracks') ? 'bg-grey' : 'bg-d-grey' }}"
+                    <div class="w50 p10 bg-black h__k clickable bg-grey-hover {{= (parent.community_page == 'tracks') ? 'bg-grey' : 'bg-d-grey' }}"
                         data-on-click="set"
                         data-field="parent.community_page"
                         data-value="tracks"
@@ -34,32 +34,113 @@
                     data-msg="{'primary':'settings','secondary':'wifi'}"
                 >Your Sisyphus must be connected to the internet via wifi. Click here to connect</div>
                 -->
-                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                    Coming Soon!
-                </h3>
+                     <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                        Coming Soon - If .is_internet_connected is false?!
+                     </h3>
             </div>
-            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
-                <div class="h__k" data-if="{{= parent.user_id }} == false">
-                    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                        Coming Soon!
-                    </h3>
+                <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
+                    <div class="h__k" data-if="{{= parent.user_id }} == false">
+                        <h3 class="m0 pt20 pb20 center justify fs24 bg-yellow lh24">
+                            Am I sending info? true!
+                        </h3>
+                    </div>
                 </div>
-                <!--
-                <div class="h__k" data-if="{{= parent.user_id }} == false">
-                    <div class="i center shadow bg-grey-ll p30 clickable h__k"
+            <div class="h__k" data-if="{{= parent.user_id }} == false">
+                <div class="i center shadow bg-grey-ll p30 clickable h__k"
                         data-on-click="publish"
                         data-publish="session:active"
                         data-msg="{'primary':'settings','secondary':'create_account'}"
-                    >You must be signed into an active User Account. Click here to create one.</div>
+                    >You must be signed into an active User Account. Click here to create one.
+                </div>    
+            </div>
+            <div class="h__k" data-if="{{= parent.user_id }} !== false">
+                <div class="h__k" data-model="{{= parent.id }}">
+                    <div class="h__k" data-if="{{= model.community_page }} == playlists" data-template="sisyphus-community-playlists-tmp"></div>
+                    <div class="h__k" data-if="{{= model.community_page }} == tracks" data-template="sisyphus-community-tracks-tmp"></div>
                 </div>
-                <div class="h__k" data-if="{{= parent.user_id }} !== false">
-                    <div class="h__k" data-model="{{= parent.id }}">
-                        <div class="h__k" data-if="{{= model.community_page }} == playlists" data-template="sisyphus-community-playlists-tmp"></div>
-                        <div class="h__k" data-if="{{= model.community_page }} == tracks" data-template="sisyphus-community-tracks-tmp"></div>
-                    </div>
+            </div>
+       
+            <div class="bb pl30 pr30 bg-orange-hover clickable active hh30 vertical h__k"
+                data-on-click="publish"  
+                data-publish="session:active"
+                data-msg="{'secondary':'tracks'}">
+            <i class="fa fa-circle-o-notch f-medium" />
+                <span class="pl20 pr20 fs lh18 strong w100">Tracks</span>
+                <span class="right fa fa-chevron-right"></span>
+            </div>
+        </div>
+        <div class="bb pl40 pr40 bg-red-hover clickable active hh40 vertical h__k"
+                    data-on-click="publish"
+                    data-publish="session:active"
+                    data-msg="{'secondary':'playlists'}"
+                >
+                <i class="fa fa-list f-medium" />
+                <span class="pl20 pr20 fs18 lh18 strong w100">Playlists</span>
+                <span class="right fa fa-chevron-right"></span>
+        </div>
+------------------------Trying the Loop-------------------------------------
+<div class="h__k mb100" data-run="model.fetch_community_playlists">
+    <div class="h__k" data-if="{{= model.fetching_community_playlists }} == true">
+        <div class="p20 center i h__k">Fetching playlists...</div>
+    </div>
+    <div class="h__k" data-if="{{= model.fetching_community_playlists }} == false">
+        <div class="p20 center i h__k"
+            data-if="{{= app.plugins.length(model.community_playlist_ids) }} == 0"
+        >There are no new playlists to download</div>
+        <div class="h__k pt10 pb100 mb75"
+            data-if="{{= app.plugins.length(model.community_playlist_ids) }} > 0"
+            data-foreach="model.community_playlist_ids"
+            data-foreach-change="foreach_reset"
+            data-foreach-map="true"
+        >
+            <div class="flex mb10 h__k" data-on-click="model.download">
+                <div class="w25 hvw25 center vertical relative">
+                    <div class="h__k z10" data-template="sisyphus-playlist-rendering"></div>
                 </div>
-                -->
+                <div class="w5 hvw25">&nbsp;</div>
+                <div class="w50 hvw25 bb vertical">
+                    <span class="h__k">{{= model.data.name }}</span>
+                </div>
+                <div class="w20 hvw25 bb vertical center">
+                    <i class="fa fa-cloud-download f-xlarge" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div class="h__k" data-run="model.fetch_community_tracks">
+    <div class="h__k" data-if="{{= model.fetching_community_tracks }} == true">
+        <div class="p20 center i h__k">Fetching tracks...</div>
+    </div>
+    <div class="h__k" data-if="{{= model.fetching_community_tracks }} == false">
+        <div class="p20 center i h__k"
+            data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
+        >There are no new tracks to download</div>
+        <div class="h__k pt10 pb100 mb75"
+            data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
+            data-foreach="model.community_track_ids"
+            data-foreach-change="foreach_reset"
+            data-foreach-map="true"
+        >
+            <div class="flex mt10 h__k" data-on-click="model.download">
+                <div class="w10 hvw10 bg-grey-ll shadow center vertical">
+                    <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+                        data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" 
+                    />
+                </div>
+                <div class="w5 hvw10">&nbsp;</div>
+                <div class="w65 hvw10 bb vertical">
+                    <div class="h__k">{{= model.data.name }}</div>
+                </div>
+                <div class="w20 hvw10 bb vertical center">
+                    <i class="fa fa-cloud-download f-large" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="hh150">&nbsp;</div>     
+    </div>
+</div>
+
