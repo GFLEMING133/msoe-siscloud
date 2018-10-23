@@ -1,5 +1,5 @@
 var config = {
-    version : '1.6.0', // release all tested 1.5.x functionality
+    version : '1.5.5', // Curtis UI fixes
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
