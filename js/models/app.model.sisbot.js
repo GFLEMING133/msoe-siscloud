@@ -220,7 +220,7 @@ app.model.sisbot = {
 			} else {
 				if (resp.err == null)
 					self.check_for_unavailable();
-
+					
 				if (resp.err)
 					console.log(address, endpoint, resp);
 
