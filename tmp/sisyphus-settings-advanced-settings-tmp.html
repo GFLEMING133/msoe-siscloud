@@ -71,7 +71,7 @@
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-model="{{= model.sisbot_id }}"
             data-run="model.is_legacy"
-            data-if="{{= model.is_legacy_branch }} == false"
+            data-if="{{= app.is_app }} == true"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'change_table'}"
