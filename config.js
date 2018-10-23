@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.5', // Curtis UI fixes
+    version : '1.5.6', // Curtis removal of g and name
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
