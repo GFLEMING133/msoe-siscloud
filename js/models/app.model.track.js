@@ -941,6 +941,19 @@ app.model.track = {
 
 		this.playlist_cancel();
 	},
+	goBackFromHero: function() {
+		var active = app.session.get('active');
+		console.log("I made it to Hero");
+		console.log('goBack =', active.goBack);
+		if(active.goBack == 'playlist'){
+			app.trigger('session:active', {  secondary: 'playlist' });
+		}else{
+			app.trigger('session:active', {  secondary: 'tracks' });
+		}
+
+
+
+	},
 	get_not_playlists: function() {
 		var sisbot			= app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');
 		var playlist_ids	= [];

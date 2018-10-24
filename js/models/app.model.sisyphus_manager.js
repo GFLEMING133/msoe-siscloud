@@ -644,7 +644,6 @@ app.model.sisyphus_manager = {
 	await_network_connection: function (cb, count) {
 		console.log("await_network_connection()");
 		var self = this;
-
 		setTimeout(function () {
 			if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 				self.await_network_connection(cb, 0);
@@ -1168,6 +1167,8 @@ app.model.sisyphus_manager = {
 			app.trigger('session:active', { primary: 'settings', secondary: 'upload-track', track_id: 'false' });
 		}
 	},
+
+
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {
 		if (this.get('fetched_community_playlists') == 'true')
