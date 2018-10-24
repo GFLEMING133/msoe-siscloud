@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.6', // Curtis removal of g and name
+    version : '1.5.7', // Playlist and Tracks back arrow properly routing
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
