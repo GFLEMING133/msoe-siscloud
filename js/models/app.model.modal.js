@@ -42,7 +42,9 @@ app.model.modal = {
 			.set('is_hidden', 'true');
 	},
 	add_to_favorites: function () {
+		debugger;
 		app.plugins.n.notification.confirm('Are you sure you want to add',this.get('track_id'));
+		debugger;
 		this.get_model('track_id').favorite_toggle();
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
@@ -52,11 +54,22 @@ app.model.modal = {
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
 	},
-	delete_playlist: function () {
-		app.plugins.n.notification.confirm('Are you sure you want to Delete',this.get('playlist_id'));
-		this.get_model('playlist_id').delete();
+	delete_playlist: function (playlist_id) {
+		var playList = app.collection.get(playlist_id);
+		app.plugins.n.notification.confirm('Are you sure you want to Delete?',
+		function(resp_num) {
+			if (resp_num == 2){
+				debugger;
+				// app.collection.remove(playlist_id);
+				var sis = app.manager.get_model('sisbot_id');	
+				var p = sis.collection.get(playlist_id).attributes.playlist_id;
+				var pl = sis.collection.get(p);
+				pl.delete();
+			}
+			
+		});
 		this.set('playlist_id', 'false')
-			.set('is_hidden', 'true');
+					.set('is_hidden', 'true');
 	},
     close: function () {
         this.set('is_hidden', 'true');
