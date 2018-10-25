@@ -60,11 +60,10 @@ app.model.modal = {
 		function(resp_num) {
 			if (resp_num == 2){
 				debugger;
-				var pid = this.get('playlist_id')
-				
+				// app.collection.remove(playlist_id);
 				var sis = app.manager.get_model('sisbot_id');	
-				// var p = sis.collection.get(playlist_id).attributes.playlist_id;
-				var pl = sis.collection.get(pid);
+				var p = sis.collection.get(playlist_id).attributes.playlist_id;
+				var pl = sis.collection.get(p);
 				pl.delete();
 			}
 			
