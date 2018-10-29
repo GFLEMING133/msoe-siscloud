@@ -54,23 +54,21 @@ app.model.modal = {
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
 	},
-	delete_playlist: function (playlist_id) {
-		var playList = app.collection.get(playlist_id);
-		app.plugins.n.notification.confirm('Are you sure you want to Delete?',
-		function(resp_num) {
-			if (resp_num == 2){
-				debugger;
-				// app.collection.remove(playlist_id);
-				var sis = app.manager.get_model('sisbot_id');	
-				var p = sis.collection.get(playlist_id).attributes.playlist_id;
-				var pl = sis.collection.get(p);
-				pl.delete();
+	delete_playlist: function () {
+		var self = this;
+		app.plugins.n.notification.confirm('Are you sure you want to Delete', 
+		function(resp_num){
+			debugger;
+			if (resp_num == 1){
+				self.get('playlist_id');
+				self.get_model('playlist_id').delete();
+				self.set('playlist_id', 'false')
+				.set('is_hidden', 'true');
+
 			}
-			
 		});
-		this.set('playlist_id', 'false')
-					.set('is_hidden', 'true');
-	},
+		
+},
     close: function () {
         this.set('is_hidden', 'true');
     },
