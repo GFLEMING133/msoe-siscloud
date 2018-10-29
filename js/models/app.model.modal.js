@@ -53,11 +53,20 @@ app.model.modal = {
 			.set('is_hidden', 'true');
 	},
 	delete_playlist: function () {
-		app.plugins.n.notification.confirm('Are you sure you want to Delete',this.get('playlist_id'));
-		this.get_model('playlist_id').delete();
-		this.set('playlist_id', 'false')
-			.set('is_hidden', 'true');
-	},
+		var self = this;
+		app.plugins.n.notification.confirm('Are you sure you want to Delete', 
+		function(resp_num){
+			debugger;
+			if (resp_num == 1){
+				self.get('playlist_id');
+				self.get_model('playlist_id').delete();
+				self.set('playlist_id', 'false')
+				.set('is_hidden', 'true');
+
+			}
+		});
+		
+},
     close: function () {
         this.set('is_hidden', 'true');
     },
