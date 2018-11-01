@@ -23,6 +23,7 @@ app.model.modal = {
 			.trigger('change:is_hidden');
     },
 	add_to_playlist: function (playlist_id) {
+		debugger;
 		var trackList = app.collection.get(playlist_id);
 		var trackID = this.get('track_id');
 		var arrayOfTrackModels = trackList.attributes.data.tracks.filter(track => (track.id == trackID));
@@ -33,14 +34,16 @@ app.model.modal = {
 			app.plugins.n.notification.confirm(text , 
 			function(resp_num) {
 				if (resp_num == 1){
-				return self;
-				}else{
-					app.collection.get(playlist_id).add_track_and_save(trackID);	
+					return;
 				}
-			},'Add Track?', ['Cancel','OK']);
-			}
-				this.set('track_id', 'false')
-				.set('is_hidden', 'true');
+				app.collection.get(playlist_id).add_track_and_save(trackID);	
+				
+			},'Add Track?', ['Cancel','OK']);	
+		}else { 
+			app.collection.get(playlist_id).add_track_and_save(trackID);
+		}
+		this.set('track_id', 'false')
+		.set('is_hidden', 'true');
 	},
 	add_to_favorites: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to add',this.get('track_id'));
@@ -59,13 +62,12 @@ app.model.modal = {
 		app.plugins.n.notification.confirm(text, 
 		function(resp_num){
 			if (resp_num == 1){
-			return self;
-			}else{
-				self.get('playlist_id');
-				self.get_model('playlist_id').delete();
-				self.set('playlist_id', 'false')
-				.set('is_hidden', 'true');
+				return;
 			}
+			self.get('playlist_id');
+			self.get_model('playlist_id').delete();
+			self.set('playlist_id', 'false')
+			.set('is_hidden', 'true');
 		},'Delete Playlist?', ['Cancel','Ok']);
 },
     close: function () {

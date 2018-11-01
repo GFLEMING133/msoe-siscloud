@@ -713,7 +713,7 @@ app.model.sisyphus_manager = {
 			console.log("rescan()");
 			this.set('sisbots_scanning', 'true');
 			this.set('sisbot_registration', 'find');
-			// window.location.reload();
+			window.location.reload();
 	},
 	_find_sisbots: function () {
 		console.log("_find_sisbots()");
@@ -913,12 +913,6 @@ app.model.sisyphus_manager = {
 		}, 0);
 
 		return this;
-	},
-	rescan:function() {
-		console.log("rescan()");
-		this.set('sisbots_scanning', 'true');
-		this.set('sisbot_registration', 'find');
-
 	},
 
 	connect_to_sisbot: function (sisbot_hostname) {
