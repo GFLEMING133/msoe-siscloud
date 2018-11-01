@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.7', // Playlist and Tracks back arrow properly routing
+    version : '1.5.8', // Delete Playlist fully functional, Connect to other table is working. Figured out rep_num functionality
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
