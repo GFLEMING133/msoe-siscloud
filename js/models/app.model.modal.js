@@ -25,26 +25,25 @@ app.model.modal = {
 	add_to_playlist: function (playlist_id) {
 		var trackList = app.collection.get(playlist_id);
 		var trackID = this.get('track_id');
-		debugger;
-		var arrayOfTrackModels = trackList.collection.models.filter(track => (track.attributes.id === trackID));
-		//if statement is to varify that there are other tracks with the same id in the array.
-		if(arrayOfTrackModels.length > 0 ){
-			app.plugins.n.notification.confirm('Track already in playlist, Are you sure you want to add?', 
+		var arrayOfTrackModels = trackList.attributes.data.tracks.filter(track => (track.id == trackID));
+		var nameLink = trackList.attributes.data.name;
+		var text = 'TheTrack is already in ' + nameLink +' Are you sure you want to add?';
+		//if statement is to verify that there are other tracks with the same id in the array. if{resp_num = 1} Always return self and else{function shit} 
+		if(arrayOfTrackModels.length > 0){
+			app.plugins.n.notification.confirm(text , 
 			function(resp_num) {
 				if (resp_num == 1){
-				app.collection.get(playlist_id).add_track_and_save(trackID);
+				return self;
+				}else{
+					app.collection.get(playlist_id).add_track_and_save(trackID);	
 				}
-			});
-		}else{
-		app.collection.get(playlist_id).add_track_and_save(trackID);
-		}
-		this.set('track_id', 'false')
-			.set('is_hidden', 'true');
+			},'Add Track?', ['Cancel','OK']);
+			}
+				this.set('track_id', 'false')
+				.set('is_hidden', 'true');
 	},
 	add_to_favorites: function () {
-		debugger;
 		app.plugins.n.notification.confirm('Are you sure you want to add',this.get('track_id'));
-		debugger;
 		this.get_model('track_id').favorite_toggle();
 		this.set('track_id', 'false')
 			.set('is_hidden', 'true');
@@ -56,18 +55,18 @@ app.model.modal = {
 	},
 	delete_playlist: function () {
 		var self = this;
-		app.plugins.n.notification.confirm('Are you sure you want to Delete', 
+		var text = 'Are you sure you want to Delete';
+		app.plugins.n.notification.confirm(text, 
 		function(resp_num){
-			debugger;
 			if (resp_num == 1){
+			return self;
+			}else{
 				self.get('playlist_id');
 				self.get_model('playlist_id').delete();
 				self.set('playlist_id', 'false')
 				.set('is_hidden', 'true');
-
 			}
-		});
-		
+		},'Delete Playlist?', ['Cancel','Ok']);
 },
     close: function () {
         this.set('is_hidden', 'true');
