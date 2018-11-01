@@ -23,7 +23,6 @@ app.model.modal = {
 			.trigger('change:is_hidden');
     },
 	add_to_playlist: function (playlist_id) {
-		debugger;
 		var trackList = app.collection.get(playlist_id);
 		var trackID = this.get('track_id');
 		var arrayOfTrackModels = trackList.attributes.data.tracks.filter(track => (track.id == trackID));

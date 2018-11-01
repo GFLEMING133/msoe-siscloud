@@ -53,7 +53,8 @@ app.model.sisyphus_manager = {
 			community_track_ids		: [],
 
 			is_ble_enabled			: 'false',
-
+			local_version			:'na',	
+					
 			remote_versions: {
 				proxy	: '10.0.0',
 				app		: '10.0.0',
@@ -103,6 +104,7 @@ app.model.sisyphus_manager = {
 			app.current_session().check_session_sign_in();
 		}
 
+		this.set('local_version',  app.config.version) ;
 		this.check_ble_status();
 		this.check_remote_versions();
 
@@ -171,6 +173,7 @@ app.model.sisyphus_manager = {
 	navigate_home: function () {
 		app.trigger('session:active', { secondary: 'false', primary: 'current' });
 	},
+
 	check_remote_versions: function (cb) {
 		var self = this;
 
