@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.7', // Playlist and Tracks back arrow properly routing
+    version : '1.6.2', // Find More TRacks Tab in Advanced, About Page Up, 
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
