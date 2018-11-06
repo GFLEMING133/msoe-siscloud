@@ -1,5 +1,5 @@
 var config = {
-    version : '1.5.8', // Delete Playlist fully functional, Connect to other table is working. Figured out rep_num functionality
+    version : '1.6.2', // Find More TRacks Tab in Advanced, About Page Up, 
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
