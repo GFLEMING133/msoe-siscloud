@@ -156,6 +156,14 @@ app.model.sisyphus_manager = {
 	has_user: function () {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
+	open_home_page: function () {
+		debugger;
+		if (app.is_app) {
+			cordova.InAppBrowser.open(' https://www.sisyphus-industries.com/', '_system', 'location=yes');
+		} else {
+			window.location = ' https://www.sisyphus-industries.com/';
+		}
+	},
 	open_support_page: function () {
 		if (app.is_app) {
 			cordova.InAppBrowser.open('https://sisyphus-industries.com/support', '_system', 'location=yes');
@@ -163,12 +171,11 @@ app.model.sisyphus_manager = {
 			window.location = 'https://sisyphus-industries.com/support';
 		}
 	},
-	open_home_page: function () {
-		if (app.is_app) {
-			cordova.InAppBrowser.open(' https://www.sisyphus-industries.com/', '_system', 'location=yes');
-		} else {
-			window.location = ' https://www.sisyphus-industries.com/';
-		}
+	find_tracks: function () {
+		debugger;
+		
+			window.open(' https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
+		
 	},
 	navigate_home: function () {
 		app.trigger('session:active', { secondary: 'false', primary: 'current' });
