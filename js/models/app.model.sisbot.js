@@ -227,7 +227,7 @@ app.model.sisbot = {
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
 
-				self._update_cloud();
+				// self._update_cloud(); debugging maybe
 			}
 		}, 0);
 	},
