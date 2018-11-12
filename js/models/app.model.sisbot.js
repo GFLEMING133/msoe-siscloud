@@ -224,10 +224,9 @@ app.model.sisbot = {
 				if (resp.err) {
 					alert(resp.err);
 					console.log(address, endpoint, resp);
-					if (cb) cb(resp);
+					return;
 
 				}
-					
 
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
