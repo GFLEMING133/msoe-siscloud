@@ -172,9 +172,9 @@ app.model.sisyphus_manager = {
 		}
 	},
 	find_tracks: function () {
-		debugger;
+	
 		
-			window.open(' https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
+		window.open(' https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
 		
 	},
 	navigate_home: function () {
