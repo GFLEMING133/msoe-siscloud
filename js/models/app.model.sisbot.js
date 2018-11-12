@@ -221,8 +221,13 @@ app.model.sisbot = {
 				if (resp.err == null)
 					self.check_for_unavailable();
 					
-				if (resp.err)
+				if (resp.err) {
+					alert(resp.err);
 					console.log(address, endpoint, resp);
+					if (cb) cb(resp);
+
+				}
+					
 
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
@@ -1047,6 +1052,7 @@ app.model.sisbot = {
 	},
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function (obj) {
+
 			if (obj.resp) app.manager.intake_data(obj.resp);
 			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 		});
@@ -1336,7 +1342,9 @@ app.model.sisbot = {
 	play: function () {
 		var self = this;
 		this.set('data.state', 'playing');
+		
 		this._update_sisbot('play', {}, function (obj) {
+			
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
