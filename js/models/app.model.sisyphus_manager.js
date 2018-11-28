@@ -407,12 +407,23 @@ app.model.sisyphus_manager = {
 
 		};	
 
-		data = {
-		_type		: 'POST',
-		endpoint	: '',
-		_url		: 'http://ec2-18-224-55-49.us-east-2.compute.amazonaws.com/register_user.json',
-		_timeout	: '5000',
+
+		my_reg: {
+			email					: 'curtis@me.com',
+			password				: 'booboo',
+			password_confirmation	: 'booboo',
+		},
+
+
+		var obj = {
+			_url	: 'http://ec2-18-224-55-49.us-east-2.compute.amazonaws.com/',
+			_type	: 'POST',
+			endpoint: 'register_user.json',
+			data	: my_reg
 		};
+
+
+
 		
 		app.post.fetch(data, cb);
 	},
