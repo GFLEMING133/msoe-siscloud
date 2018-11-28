@@ -26,15 +26,15 @@
                     <div class="h__k red">{{= scope.value }}</div>
                 </div>
             </div>
-            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Username</h4>
+            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Email Address</h4>
             <div class="pl20 pr20 pb10">
                 <input class="h__k w100" type="text" placeholder="your_email@address.com"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.registration.username"
-                    value="{{= model.registration.username }}"
+                    data-field="model.registration.email"
+                    value="{{= model.registration.email }}"
                 />
             </div>
-            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Password</h4>
+            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">WordPass</h4>
             <div class="pl20 pr20 pb10">
                 <input class="h__k w100" type="password" placeholder="password"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
@@ -42,8 +42,16 @@
                     value="{{= model.registration.password }}"
                 />
             </div>
+            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Verify WordPass</h4>
+            <div class="pl20 pr20 pb10">
+                <input class="h__k w100" type="password" placeholder="verify-password"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    data-field="model.registration.password_confirmation"
+                    value="{{= model.registration.password_confirmation }}"
+                />
+            </div>
             <br clear="both">
-            <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_up_via_settings">Create Your Account</h2>
+            <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_up">Create Account1</h2>
         </div>
         <div class="h__k p30 clickable active center i"
             data-on-click="publish"

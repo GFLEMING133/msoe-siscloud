@@ -27,38 +27,43 @@
     <div class="body-header h100 scroll hide-scrollbar pl10 pr10 ">
         <div class="h__k mt30" data-model="{{= model.sisbot_id }}">
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
-                <!--
+                
                 <div class="i center shadow bg-grey-ll p30 clickable h__k"
                     data-on-click="publish"
                     data-publish="session:active"
                     data-msg="{'primary':'settings','secondary':'wifi'}"
                 >Your Sisyphus must be connected to the internet via wifi. Click here to connect</div>
-                -->
+               
                 <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                     Coming Soon!
                 </h3>
             </div>
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
-                <div class="h__k" data-if="{{= parent.user_id }} == false">
+                <!-- <div class="h__k" data-if="{{= parent.user_id }} == false">
                     <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                         Coming Soon!
                     </h3>
-                </div>
-                <!--
+                </div> -->
+                
                 <div class="h__k" data-if="{{= parent.user_id }} == false">
-                    <div class="i center shadow bg-grey-ll p30 clickable h__k"
+                    <div class="i center shadow bg-ll-green p30 clickable h__k"
                         data-on-click="publish"
                         data-publish="session:active"
                         data-msg="{'primary':'settings','secondary':'create_account'}"
-                    >You must be signed into an active User Account. Click here to create one.</div>
+                    >You must be signed into an active User Account. CLICK HERE to create one.</div>
                 </div>
+                <div class="h__k p30 clickable active center i"
+                        data-on-click="publish"
+                        data-publish="session:active"
+                        data-msg="{'secondary':'sign_in'}"
+                    >Already have an account?</div>
                 <div class="h__k" data-if="{{= parent.user_id }} !== false">
                     <div class="h__k" data-model="{{= parent.id }}">
                         <div class="h__k" data-if="{{= model.community_page }} == playlists" data-template="sisyphus-community-playlists-tmp"></div>
                         <div class="h__k" data-if="{{= model.community_page }} == tracks" data-template="sisyphus-community-tracks-tmp"></div>
                     </div>
                 </div>
-                -->
+
             </div>
         </div>
     </div>
