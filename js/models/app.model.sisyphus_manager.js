@@ -387,13 +387,12 @@ app.model.sisyphus_manager = {
 	},
 	sign_up: function () {
 		debugger;
-		// if (this.get('signing_up') == 'true') return true;
-		// else this.set('signing_up', 'true');
+		if (this.get('signing_up') == 'true') return true;
+		else this.set('signing_up', 'true');
 
 		var self		= this;
-		var data   = this.get('registration');
-		var errors		= this.get_errors(data);
-		console.log('data=' + data );
+		var user_data   = user_data || this.get('registration');
+		var errors		= this.get_errors(user_data);
 		if (errors.length > 0)
 			return this.set('signing_up', 'false').set('errors', errors);
 
@@ -403,29 +402,67 @@ app.model.sisyphus_manager = {
 				return self.set('signing_up', 'false').set('errors', [ '- ' + obj.err ]);
 
 			self.set('errors', []);
-			self._process_registration(data, obj.resp);
+			self._process_registration(user_data, obj.resp);
+			var resp_playlist_ids	= _.pluck(obj.resp, 'id');
+			var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
+			var new_playlist_ids	= _.difference(resp_playlist_ids, sisbot_playlist_ids);
+
+			self.set('community_playlist_ids', new_playlist_ids);
+			self.set('fetched_community_playlists', 'true');
 
 		};	
 
-
-		my_reg: {
-			email					: 'curtis@me.com',
-			password				: 'booboo',
-			password_confirmation	: 'booboo',
-		},
-
-
-		var obj = {
-			_url	: 'http://ec2-18-224-55-49.us-east-2.compute.amazonaws.com/',
+		var my_reg = {
+			email					: user_data.email,
+			password				: user_data.password,
+			password_confirmation	: user_data.password_confirmation,
+		}
+		debugger;
+		var post_obj = {
+			_url	: 'http://ec2-18-224-55-49.us-east-2.compute.amazonaws.com/register_user.json',
 			_type	: 'POST',
-			endpoint: 'register_user.json',
-			data	: my_reg
+			_timeout: 60000,
+			endpoint: 'tracks',
+			id		: this.id,
+			data	:  my_reg,
+		};
+		
+		app.post.fetch( post_obj, cb, 0);
+		return this;
+	},
+	sign_in: function (user_data) {
+		debugger;
+
+		if (this.get('signing_in') == 'true') return false;
+		else this.set('signing_in', 'true');
+
+		var self		= this;
+		var errors		= [];
+		var user_data   = user_data || this.get('data');
+
+		if (user_data.username == '')	errors.push('- Username cannot be blank');
+		if (user_data.password == '')	errors.push('- Password cannot be blank');
+
+		if (window.location.href == 'https://siscloud.withease.io/') {
+			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+				errors.push('- Username is not authorized to administer domain');
+			}
+		}
+
+		if (errors.length > 0) {
+			this.set('signing_in', 'false')
+			return this.set('errors', errors);
+		}
+
+		function cb(obj) {
+			if (obj.err)
+				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
+
+			self._process_sign_in(user_data, obj.resp);
 		};
 
-
-
-		
-		app.post.fetch(data, cb);
+		user_data.endpoint = 'sign_in';
+		app.plugins.fetch(user_data, cb);
 	},
 	sign_in: function () {
 		if (this.get('signing_in') == 'true') return false;
@@ -463,8 +500,7 @@ app.model.sisyphus_manager = {
 	},
 	_process_registration: function (user, data_arr) {
 		var session_data = {
-			id						: user.id,
-			email					: user.email	,
+			email					: user.email,
 			password				: user.password,
 			password_confirmation   : user.password_confirmation,
 		};

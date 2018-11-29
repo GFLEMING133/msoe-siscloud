@@ -50,8 +50,16 @@
                     value="{{= model.registration.password_confirmation }}"
                 />
             </div>
+           
+            <h2 class="btn bg-green w100 m0 p20 h__k" 
+                    data-on-click="model.sign_up" 
+                
+            >Create Account1</h2>
+            <h2 class="btn bg-green w100 m0 p20 h__k"
+                    data-if="{{= model.signing_up }} == true"
+            >Processing <i class="fa fa-spinner spin" aria-hidden="true"></i></h2>
+
             <br clear="both">
-            <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_up">Create Account1</h2>
         </div>
         <div class="h__k p30 clickable active center i"
             data-on-click="publish"
@@ -59,4 +67,5 @@
             data-msg="{'secondary':'sign_in'}"
         >Already have an account?</div>
     </div>
+    
 </div>

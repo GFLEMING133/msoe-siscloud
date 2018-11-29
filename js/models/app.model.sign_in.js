@@ -39,6 +39,8 @@ app.model.sign_in = {
     },
 	/************************** SIGN IN ***************************************/
 	sign_in: function (user_data) {
+		debugger;
+
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
 
