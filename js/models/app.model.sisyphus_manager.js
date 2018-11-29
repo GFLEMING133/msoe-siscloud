@@ -419,51 +419,51 @@ app.model.sisyphus_manager = {
 		}
 		debugger;
 		var post_obj = {
-			_url	: 'http://ec2-18-224-55-49.us-east-2.compute.amazonaws.com/register_user.json',
+			_url	: `http://3.16.18.164/register_user.json?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
 			_type	: 'POST',
 			_timeout: 60000,
-			endpoint: 'tracks',
+			endpoint: 'community_playlists',
 			id		: this.id,
 			data	:  my_reg,
 		};
 		
 		app.post.fetch( post_obj, cb, 0);
-		return this;
+		this.fetch_community_playlists();
 	},
-	sign_in: function (user_data) {
-		debugger;
+	// sign_in: function (user_data) {   <<<<<<<<<<<<<<,THIS IS THE SIGN_IN FROM APP.MODEL.SIGN_IN.JS
+	// 	debugger;
 
-		if (this.get('signing_in') == 'true') return false;
-		else this.set('signing_in', 'true');
+	// 	if (this.get('signing_in') == 'true') return false;
+	// 	else this.set('signing_in', 'true');
 
-		var self		= this;
-		var errors		= [];
-		var user_data   = user_data || this.get('data');
+	// 	var self		= this;
+	// 	var errors		= [];
+	// 	var user_data   = user_data || this.get('data');
 
-		if (user_data.username == '')	errors.push('- Username cannot be blank');
-		if (user_data.password == '')	errors.push('- Password cannot be blank');
+	// 	if (user_data.username == '')	errors.push('- Username cannot be blank');
+	// 	if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-		if (window.location.href == 'https://siscloud.withease.io/') {
-			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
-				errors.push('- Username is not authorized to administer domain');
-			}
-		}
+	// 	if (window.location.href == 'https://siscloud.withease.io/') {
+	// 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+	// 			errors.push('- Username is not authorized to administer domain');
+	// 		}
+	// 	}
 
-		if (errors.length > 0) {
-			this.set('signing_in', 'false')
-			return this.set('errors', errors);
-		}
+	// 	if (errors.length > 0) {
+	// 		this.set('signing_in', 'false')
+	// 		return this.set('errors', errors);
+	// 	}
 
-		function cb(obj) {
-			if (obj.err)
-				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
+	// 	function cb(obj) {
+	// 		if (obj.err)
+	// 			return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
 
-			self._process_sign_in(user_data, obj.resp);
-		};
+	// 		self._process_sign_in(user_data, obj.resp);
+	// 	};
 
-		user_data.endpoint = 'sign_in';
-		app.plugins.fetch(user_data, cb);
-	},
+	// 	user_data.endpoint = 'sign_in';
+	// 	app.plugins.fetch(user_data, cb);
+	// },
 	sign_in: function () {
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
@@ -486,7 +486,7 @@ app.model.sisyphus_manager = {
 		};
 		debugger;
 		user_data.endpoint	= 'sign_in';
-		user_data._url		= 'http://ec2-18-224-55-49.us-east-2.compute.amazonaws.com/auth_user';
+		user_data._url		= 'http://3.16.18.164/auth_user';
 		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb, 0);
