@@ -1014,7 +1014,7 @@ app.model.track = {
 		debugger;
 
 		var req_obj = {
-			_url	: 'http://10.0.0.9:3000/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'GET',
 			endpoint: 'tracks/get_track_header.json',
 			id		: this.id
@@ -1040,7 +1040,7 @@ app.model.track = {
 		if (self.get('data.original_file_type') == 'thr')
 		{
 			var req_obj = {
-				_url	: 'http://10.0.0.9:3000/',
+				_url	: 'http://3.16.18.164/',
 				_type	: 'GET',
 				endpoint: 'tracks/download_track_thr.json',
 				id		: this.id
@@ -1050,7 +1050,7 @@ app.model.track = {
 		else if (self.get('data.original_file_type') == 'svg') 
 		{
 			var req_obj = {
-				_url	: 'http://10.0.0.9:3000/',
+				_url	: 'http://3.16.18.164/',
 				_type	: 'GET',
 				endpoint: 'tracks/download_track_svg.json',
 				id		: this.id
@@ -1107,7 +1107,7 @@ app.model.track = {
 		};
 
 		var req_obj = {
-			_url	: 'http://10.0.0.9:3000/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'GET',
 			endpoint: 'tracks/download_track.json',
 			id		: this.id
