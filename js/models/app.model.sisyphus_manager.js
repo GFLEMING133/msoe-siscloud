@@ -387,12 +387,14 @@ app.model.sisyphus_manager = {
 	},
 	sign_up: function () {
 		debugger;
+		
 		if (this.get('signing_up') == 'true') return true;
 		else this.set('signing_up', 'true');
 
 		var self		= this;
 		var user_data   = user_data || this.get('registration');
 		var errors		= this.get_errors(user_data);
+		if (user_data.password !== user_data.password_confirmation)  errors.push('- Password Verification Does Not Match');
 		if (errors.length > 0)
 			return this.set('signing_up', 'false').set('errors', errors);
 
@@ -412,19 +414,19 @@ app.model.sisyphus_manager = {
 
 		};	
 
-		var my_reg = {
-			email					: user_data.email,
-			password				: user_data.password,
-			password_confirmation	: user_data.password_confirmation,
-		}
+		// var my_reg = {
+		// 	email					: user_data.email,
+		// 	password				: user_data.password,
+		// 	password_confirmation	: user_data.password_confirmation,
+		// }
 		debugger;
 		var post_obj = {
-			_url	: `http://3.16.18.164/register_user.json?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
+			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
 			_timeout: 60000,
-			endpoint: 'community_playlists',
+			endpoint: `register_user.json?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
 			id		: this.id,
-			data	:  my_reg,
+			
 		};
 		
 		app.post.fetch( post_obj, cb, 0);
@@ -485,17 +487,21 @@ app.model.sisyphus_manager = {
 			self._process_registration(user_data, obj.resp);
 		};
 		debugger;
-		user_data.endpoint	= 'sign_in';
-		user_data._url		= 'http://3.16.18.164/auth_user';
-		user_data._timeout	= '5000';
-
+		var post_obj = {
+		endpoint	: `auth_user?email:${user_data.email}&password:${user_data.password}`,
+		_url		: 'http://3.16.18.164/',
+		_type		: 'POST',
+		_timeout	: 5000,
+		id  		: this.id,
+		data 		: user_data,
+		};
 		app.plugins.fetch(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
 		var errors = [];
-		if (!user_data.email	 || user_data.email	 == '')	errors.push('- Username cannot be blank');
-		if (!user_data.password || user_data.password == '')	errors.push('- Password cannot be blank');
-		if (user_data.password !== user_data.password_confirmation)  errors.push('- Password Verification Does Not Match');
+		if (!user_data.email	|| user_data.email    == '')	errors.push('- Username cannot be blank');
+		if (!user_data.password || user_data.password == '')    errors.push('- Password cannot be blank');
+		
 		return errors;
 	},
 	_process_registration: function (user, data_arr) {
@@ -1235,9 +1241,9 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var playlists = {
-			_url	: 'https://api.sisyphus.withease.io/',
-			_type	: 'POST',
-			endpoint: 'community_playlists',
+			_url	: 'http://3.16.18.164/tracks/',
+			_type	: 'GET',
+			endpoint: 'list_tracks',
 			data	: {}
 		};
 
@@ -1272,9 +1278,9 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var tracks = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://3.16.18.164/tracks/',
 			_type	: 'POST',
-			endpoint: 'community_tracks',
+			endpoint: 'list_tracks',
 			data	: {}
 		};
 
