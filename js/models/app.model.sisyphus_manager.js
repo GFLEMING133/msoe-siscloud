@@ -444,6 +444,7 @@ app.model.sisyphus_manager = {
 			password		: user.password
 		};
 
+		debugger;
 		var self		= this;
 		var server_user = false;
 
@@ -455,6 +456,7 @@ app.model.sisyphus_manager = {
 			}
 		});
 
+		debugger;
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
 
