@@ -477,7 +477,7 @@ app.model.sisyphus_manager = {
 	},
 	after_settings: function () {
 		this.off('change:user_id');
-		app.trigger('session:active', { secondary: 'false' });
+		app.trigger('session:active', { primary: 'community' });
 	},
 	sign_in_via_session: function (data) {
 		this.set('registration', data);
