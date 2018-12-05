@@ -19,6 +19,7 @@
             data-msg="{'primary':'settings','secondary':'wifi'}"
         >Your Sisyphus must be connected to the internet via wifi before you can successfully create an account. Click here to connect</div>
     </div>
+  <form>
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
         <div class="bg-white black h__k" data-model="{{= parent.id }}">
             <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
@@ -51,4 +52,5 @@
             data-msg="{'secondary':'sign_in'}"
         >Already have an account?</div>
     </div>
+  </form>
 </div>
