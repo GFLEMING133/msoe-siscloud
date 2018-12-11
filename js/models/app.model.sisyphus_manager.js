@@ -399,7 +399,7 @@ app.model.sisyphus_manager = {
 
 		user_data.type		= 'user';
 		user_data.endpoint	= 'register_user.json';
-		user_data._url		= 'http://3.16.18.164/';
+		user_data._url		= 'http://localhost:3000/';
 		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb);
@@ -426,7 +426,7 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint	= 'auth_user';
-		user_data._url		= 'http://3.16.18.164/';
+		user_data._url		= 'http://localhost:3000/';
 		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb, 0);
@@ -444,7 +444,6 @@ app.model.sisyphus_manager = {
 			password		: user.password
 		};
 
-		debugger;
 		var self		= this;
 		var server_user = false;
 
@@ -456,7 +455,6 @@ app.model.sisyphus_manager = {
 			}
 		});
 
-		debugger;
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
 
@@ -1190,7 +1188,7 @@ app.model.sisyphus_manager = {
 			self.set('community_playlist_ids', new_playlist_ids);
 			self.set('fetched_community_playlists', 'true');
 		}
-
+		
 		app.post.fetch(playlists, cb, 0);
 
 		return this;
@@ -1213,8 +1211,8 @@ app.model.sisyphus_manager = {
 			data	: {}
 		};
 
-		tracks = {
-			_url	: 'http://3.16.18.164/',
+		 tracks = {
+			_url	: 'http://localhost:3000/',
 			_type	: 'GET',
 			endpoint: 'tracks/list_tracks.json',
 			data	: {}
@@ -1238,8 +1236,8 @@ app.model.sisyphus_manager = {
 			self.set('community_track_ids', new_track_ids);
 			self.set('fetched_community_tracks', 'true');
 		}
-
-		app.post.fetch(tracks, cb, 0);
+	
+		app.post.fetch2(tracks, cb, 0);
 
 		return this;
     },
