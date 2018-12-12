@@ -82,16 +82,8 @@ app.post = {
 				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
-					type			: data._type,
-					data			: req_data,
-					dataType		: 'application/json',
-					xhrFields: {
-						
-						withCredentials: true
-					},
-					headers: {
-						'Authorization': auth_token,
-					},
+					type			: 'GET',
+				
 					success		: function (data) {
 						try {
 							data = JSON.parse(data);
@@ -111,6 +103,11 @@ app.post = {
 						setTimeout(function () {
 							app.post.fetch(_data, cb, --retry_count);
 						}, 5000);
+					},
+					
+					beforeSend: function (xhr) {
+						debugger;
+						xhr.setRequestHeader ("Authorization", auth_token);
 					},
 					timeout: timeout
 				}
