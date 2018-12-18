@@ -68,9 +68,7 @@ app.post = {
 		if (data.endpoint)		url		+= data.endpoint;
 		if (data._timeout)		timeout = data._timeout;
 
-	
-	debugger;
-		var req_data = {
+			var req_data = {
 			data	: JSON.stringify(data)
 		};
 
@@ -83,7 +81,7 @@ app.post = {
 				 var obj = {
 					url				: url,
 					type			: 'GET',
-				
+					
 					success		: function (data) {
 						try {
 							data = JSON.parse(data);
@@ -106,7 +104,6 @@ app.post = {
 					},
 					
 					beforeSend: function (xhr) {
-						debugger;
 						xhr.setRequestHeader ("Authorization", auth_token);
 					},
 					timeout: timeout

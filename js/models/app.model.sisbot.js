@@ -708,6 +708,7 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
+		debugger;
 		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
 			return this;
@@ -727,6 +728,7 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
+		debugger;
 		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
