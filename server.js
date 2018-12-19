@@ -90,7 +90,7 @@ var app = function(given_config,ansible) {
 			res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
 			res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
 			res.header('Access-Control-Allow-Credentials:', true);
-			res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, Token');
+			res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Token');
 		next();
 	});
 

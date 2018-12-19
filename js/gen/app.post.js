@@ -75,13 +75,15 @@ app.post = {
 		if (app.current_user())
 			req_data.user = app.current_user().get('data');
 			console.log('IN APP POST req_data',req_data)
-		
+
 		var auth_token = ((req_data || {}).user || {}).auth_token; 		
 				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
 					type			: 'GET',
-					
+					headers:   {
+						'Authorization': auth_token
+					},
 					success		: function (data) {
 						try {
 							data = JSON.parse(data);
@@ -102,9 +104,8 @@ app.post = {
 							app.post.fetch(_data, cb, --retry_count);
 						}, 5000);
 					},
-					
 					beforeSend: function (xhr) {
-						xhr.setRequestHeader ("Authorization", auth_token);
+						xhr.setRequestHeader("Authorization", auth_token);
 					},
 					timeout: timeout
 				}
