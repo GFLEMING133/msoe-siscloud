@@ -399,7 +399,7 @@ app.model.sisyphus_manager = {
 
 		user_data.type		= 'user';
 		user_data.endpoint	= 'register_user.json';
-		user_data._url		= 'http://localhost:3000/';
+		user_data._url		= 'http://3.16.18.164/';
 		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb);
@@ -426,7 +426,7 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint	= 'auth_user';
-		user_data._url		= 'http://localhost:3000/';
+		user_data._url		= 'http://3.16.18.164/';
 		user_data._timeout	= '5000';
 
 		app.plugins.fetch(user_data, cb, 0);
@@ -1166,7 +1166,7 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var playlists = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
 			endpoint: 'community_playlists',
 			data	: {}
@@ -1205,14 +1205,14 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 	  var tracks = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
 			endpoint: 'community_tracks',
 			data	: {}
 		};
 
 		 tracks = {
-			_url	: 'http://localhost:3000/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'GET',
 			endpoint: 'tracks/list_tracks.json',
 			data	: {}

@@ -87,7 +87,7 @@ var app = function(given_config,ansible) {
 	.use(cors())
 	.use(express.static(config.dir))
 	.use('/', function(res, req, next) {
-			res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+			res.header('Access-Control-Allow-Origin', '*');
 			res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
 			res.header('Access-Control-Allow-Credentials:', true);
 			res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Token');

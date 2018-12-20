@@ -241,10 +241,10 @@ app.model.sisbot = {
 				local_ip	: data.local_ip,
 			};
 			var obj = {
-				_url	: 'https://api.sisyphus.withease.io/',
+				_url	: 'http://3.16.18.164/',
 				_type	: 'POST',
 				_timeout: 60000,
-				endpoint: 'set',
+				endpoint: 'downloads',
 				data	: new_data
 			};
 

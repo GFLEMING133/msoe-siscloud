@@ -185,7 +185,7 @@ app.model.track = {
 
 		var post_data		= this.get('data');
 
-		post_data._url		= 'https://api.sisyphus.withease.io/';
+		post_data._url		= 'http://3.16.18.164/';
 		post_data._type		= 'POST';
 		post_data.endpoint	= 'set';
 
@@ -992,7 +992,7 @@ app.model.track = {
 		var self = this;
 
 		var req_obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
 			endpoint: 'get',
 			id		: this.id
@@ -1014,7 +1014,7 @@ app.model.track = {
 		debugger;
 
 		var req_obj = {
-			_url	: 'http://localhost:3000/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'GET',
 			endpoint: 'tracks/get_track_header.json',
 			id		: this.id
@@ -1040,7 +1040,7 @@ app.model.track = {
 		if (self.get('data.original_file_type') == 'thr')
 		{
 			var req_obj = {
-				_url	: 'http://localhost:3000/',
+				_url	: 'http://3.16.18.164/',
 				_type	: 'GET',
 				endpoint: 'tracks/download_track_thr.json',
 				id		: this.id
@@ -1050,7 +1050,7 @@ app.model.track = {
 		else if (self.get('data.original_file_type') == 'svg') 
 		{
 			var req_obj = {
-				_url	: 'http://localhost:3000/',
+				_url	: 'http://3.16.18.164/',
 				_type	: 'GET',
 				endpoint: 'tracks/download_track_svg.json',
 				id		: this.id
@@ -1100,14 +1100,14 @@ app.model.track = {
 		}
 
 		var req_obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
 			endpoint: 'download_track',
 			id		: this.id
 		};
 
 		var req_obj = {
-			_url	: 'http://localhost:3000/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'GET',
 			endpoint: 'tracks/download_track.json',
 			id		: this.id
@@ -1145,7 +1145,7 @@ app.model.track = {
 	_save: function (track_data) {
 		if (!track_data)	track_data = this.get('data');
 
-		track_data._url			= 'https://api.sisyphus.withease.io/';
+		track_data._url			= 'http://3.16.18.164/';
 		track_data._type		= 'POST';
 		track_data.endpoint		= 'set';
 
