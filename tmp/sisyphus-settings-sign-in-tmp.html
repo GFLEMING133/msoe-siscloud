@@ -6,12 +6,12 @@
             data-msg="{'secondary':'false'}"
         >&nbsp;</div>
         <div class="w70">
-            <h1 class="h__k no-stuffing pt10 pb10 capitalize truncate">Sign In</h1>
+            <h3 class="h__k no-stuffing pt10 pb10 capitalize truncate">Sign In</h3>
         </div>
         <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
 </div>
-<div class="body-header h__k" data-model="{{= model.sisbot_id }}">
+<div class="body-header h__k pl40 pr40" data-model="{{= model.sisbot_id }}">
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
         <div class="i center shadow bg-grey-ll p30 m10 clickable active h__k"
             data-on-click="publish"
@@ -20,22 +20,25 @@
         >Your Sisyphus must be connected to the internet via wifi before you can successfully create an account. Click here to connect</div>
     </div>
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
-        <div class="bg-white black h__k" data-model="{{= app.manager.id }}">
+        <div class="bg-white pt20 black h__k" data-model="{{= app.manager.id }}">
             <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
                 <div class="h__k" data-foreach="model.errors">
                     <div class="h__k red">{{= scope.value }}</div>
                 </div>
             </div>
-            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Username</h4>
-            <div class="pl20 pr20 pb10">
+            <h4 class=" pt20 pb10 no-stuffing strong">Email</h4>
+            <div class=" pb10">
                 <input class="h__k w100" type="text" placeholder="your_email@address.com"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     data-field="model.registration.email"
                     value="{{= model.registration.email }}"
                 />
             </div>
-            <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Password</h4>
-            <div class="pl20 pr20 pb10">
+            <h4 class=" pt10 pb10 inline no-stuffing strong">Password</h4><a 
+            class="pt10 pb10 inline-right right blue-l clickable h__k"
+            data-on-click="model.reset_password">Forget your password?</a>
+            
+            <div class=" pb10">
                 <input class="h__k w100" type="password" placeholder="password"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     data-field="model.registration.password"
@@ -43,12 +46,20 @@
                 />
             </div>
             <br clear="both">
-            <h2 class="btn bg-green w100 m0 p20 h__k" data-on-click="model.sign_in_via_settings">Sign In</h2>
+            <div class="mt20 mb10 p15 btn bg-blue w100 m0 corner-5px uppercase fs17 strong h__k"
+                        data-on-click="publish"
+                        data-publish="session:active"
+                        data-msg="{'primary':'settings','secondary':'sign_in'}"
+            >SIGN IN</div>
+
+            <div class="h__k p30 mt100 clickable active center"
+                        data-on-click="publish"
+                        data-publish="session:active"
+                        data-msg="{'secondary':'create_account'}"
+            >Dont have an account? <a class="blue-l">Sign Up</a></div>
         </div>
-        <div class="h__k p30 clickable active center i"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'create_account'}"
-        >Sign Up?</div>
+     
     </div>
+         
 </div>
+      

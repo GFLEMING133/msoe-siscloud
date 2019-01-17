@@ -432,7 +432,7 @@ app.model.sisyphus_manager = {
 		app.post.fetch( post_obj, cb, 0);
 		this.fetch_community_playlists();
 	},
-	sign_in: function (user_data) {   <<<<<<<<<<<<<<,THIS IS THE SIGN_IN FROM APP.MODEL.SIGN_IN.JS
+	sign_in: function (user_data) { 
 		debugger;
 
 		if (this.get('signing_in') == 'true') return false;
@@ -445,7 +445,7 @@ app.model.sisyphus_manager = {
 		if (user_data.username == '')	errors.push('- Username cannot be blank');
 		if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-		if (window.location.href == 'https://siscloud.withease.io/') {
+		if (window.location.href == 'http://3.16.18.164/') {
 			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
 				errors.push('- Username is not authorized to administer domain');
 			}
@@ -466,7 +466,8 @@ app.model.sisyphus_manager = {
 		user_data.endpoint = 'sign_in';
 		app.plugins.fetch(user_data, cb);
 	},
-	sign_in: function () {
+	sign_in: function (user_data) {
+		debugger;
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
 

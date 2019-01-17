@@ -577,6 +577,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	bottom			: 0px;
 }
 
+
 .pull-bottom-fixed	{
 	position		: fixed;
 	left			: 0px;
@@ -651,6 +652,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .stuffing								{	margin		: 0px;			padding: 10px;			}
 .block									{	display		: block;								}
 .inline									{	float		: left;			display: inline;		}
+.inline-right							{	float		: right;		display: inline;		}
 .inline-block							{	display		: inline-block;							}
 .left									{   text-align	: left;									}
 .center 								{	text-align	: center; 								}
