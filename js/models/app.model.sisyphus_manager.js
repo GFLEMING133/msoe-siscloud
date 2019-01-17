@@ -494,7 +494,7 @@ app.model.sisyphus_manager = {
 		user_data._url		= 'http://3.16.18.164/';
 		user_data._timeout	= '5000';
 
-		app.plugins.fetch(user_data, cb, 0);
+		app.plugins.fetch2(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
 		var errors = [];
@@ -510,7 +510,6 @@ app.model.sisyphus_manager = {
 			password_confirmation   : user.password_confirmation,
 		};
 
-		debugger;
 		var self		= this;
 		var server_user = false;
 
@@ -522,7 +521,6 @@ app.model.sisyphus_manager = {
 			}
 		});
 
-		debugger;
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
 
@@ -543,7 +541,7 @@ app.model.sisyphus_manager = {
 	},
 	after_settings: function () {
 		this.off('change:user_id');
-		app.trigger('session:active', { secondary: 'false' });
+		app.trigger('session:active', { primary: 'community' });
 	},
 	sign_in_via_session: function (data) {
 		this.set('registration', data);
@@ -1264,7 +1262,7 @@ app.model.sisyphus_manager = {
 			self.set('community_playlist_ids', new_playlist_ids);
 			self.set('fetched_community_playlists', 'true');
 		}
-
+		
 		app.post.fetch(playlists, cb, 0);
 
 		return this;
@@ -1281,16 +1279,9 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var tracks = {
-			_url	: 'http://3.16.18.164/tracks/',
-			_type	: 'POST',
-			endpoint: 'list_tracks',
-			data	: {}
-		};
-
-		tracks = {
 			_url	: 'http://3.16.18.164/',
 			_type	: 'GET',
-			endpoint: 'tracks/list_tracks.json',
+			endpoint: 'tracks.json',
 			data	: {}
 		};
 
@@ -1312,8 +1303,8 @@ app.model.sisyphus_manager = {
 			self.set('community_track_ids', new_track_ids);
 			self.set('fetched_community_tracks', 'true');
 		}
-
-		app.post.fetch(tracks, cb, 0);
+	
+		app.post.fetch2(tracks, cb, 0);
 
 		return this;
     },
@@ -1321,7 +1312,7 @@ app.model.sisyphus_manager = {
 		this.remove('community_playlist_ids', playlist_id);
 	},
 	download_track: function (track_id) {
-		console.log("download_track " + track_id);
+		console.log("download_track" + track_id);
 
 		this.remove('community_track_ids', track_id);
 	},

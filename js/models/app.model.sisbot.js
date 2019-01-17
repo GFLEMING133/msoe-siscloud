@@ -245,10 +245,10 @@ app.model.sisbot = {
 				local_ip	: data.local_ip,
 			};
 			var obj = {
-				_url	: 'https://api.sisyphus.withease.io/',
+				_url	: 'http://3.16.18.164/',
 				_type	: 'POST',
 				_timeout: 60000,
-				endpoint: 'set',
+				endpoint: 'tracks.json',
 				data	: new_data
 			};
 
@@ -712,6 +712,7 @@ app.model.sisbot = {
 		});
 	},
 	install_updates: function () {
+		debugger;
 		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
 			return this;
@@ -731,6 +732,7 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
+		debugger;
 		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
