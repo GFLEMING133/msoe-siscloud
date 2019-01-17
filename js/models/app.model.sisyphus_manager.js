@@ -49,7 +49,7 @@ app.model.sisyphus_manager = {
 			fetched_community_playlists	: 'false',
 			fetched_community_tracks	: 'false',
 
-			community_page			: 'playlists',
+			community_page			: 'tracks',
 			community_playlist_ids	: [],
 			community_track_ids		: [],
 
@@ -432,41 +432,43 @@ app.model.sisyphus_manager = {
 		app.post.fetch( post_obj, cb, 0);
 		this.fetch_community_playlists();
 	},
-	sign_in: function (user_data) { 
-		debugger;
+	// sign_in: function (user_data) { 
+	// 	debugger;
 
-		if (this.get('signing_in') == 'true') return false;
-		else this.set('signing_in', 'true');
+	// 	user_data.type		= 'user';
+	// 	user_data.endpoint	= 'register_user.json';
+	// 	user_data._url		= 'http://3.16.18.164/';
+	// 	user_data._timeout	= '5000';
 
-		var self		= this;
-		var errors		= [];
-		var user_data   = user_data || this.get('data');
+	// 	var self		= this;
+	// 	var errors		= [];
+	// 	var user_data   = user_data || this.get('data');
 
-		if (user_data.username == '')	errors.push('- Username cannot be blank');
-		if (user_data.password == '')	errors.push('- Password cannot be blank');
+	// 	if (user_data.username == '')	errors.push('- Username cannot be blank');
+	// 	if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-		if (window.location.href == 'http://3.16.18.164/') {
-			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
-				errors.push('- Username is not authorized to administer domain');
-			}
-		}
+	// 	if (window.location.href == 'http://3.16.18.164/') {
+	// 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+	// 			errors.push('- Username is not authorized to administer domain');
+	// 		}
+	// 	}
 
-		if (errors.length > 0) {
-			this.set('signing_in', 'false')
-			return this.set('errors', errors);
-		}
+	// 	if (errors.length > 0) {
+	// 		this.set('signing_in', 'false')
+	// 		return this.set('errors', errors);
+	// 	}
 
-		function cb(obj) {
-			if (obj.err)
-				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
+	// 	function cb(obj) {
+	// 		if (obj.err)
+	// 			return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
 
-			self._process_sign_in(user_data, obj.resp);
-		};
+	// 		self._process_sign_in(user_data, obj.resp);
+	// 	};
 
-		user_data.endpoint = 'sign_in';
-		app.plugins.fetch(user_data, cb);
-	},
-	sign_in: function (user_data) {
+	// 	user_data.endpoint = 'sign_in';
+	// 	app.plugins.fetch(user_data, cb);
+	// },
+	sign_in: function () {
 		debugger;
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
@@ -487,15 +489,11 @@ app.model.sisyphus_manager = {
 			self.set('errors', []);
 			self._process_registration(user_data, obj.resp);
 		};
-		debugger;
-		var post_obj = {
-		endpoint	: `auth_user?email:${user_data.email}&password:${user_data.password}`,
-		_url		: 'http://3.16.18.164/',
-		_type		: 'POST',
-		_timeout	: 5000,
-		id  		: this.id,
-		data 		: user_data,
-		};
+
+		user_data.endpoint	= 'auth_user';
+		user_data._url		= 'http://3.16.18.164/';
+		user_data._timeout	= '5000';
+
 		app.plugins.fetch(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
@@ -512,6 +510,7 @@ app.model.sisyphus_manager = {
 			password_confirmation   : user.password_confirmation,
 		};
 
+		debugger;
 		var self		= this;
 		var server_user = false;
 
@@ -523,6 +522,7 @@ app.model.sisyphus_manager = {
 			}
 		});
 
+		debugger;
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
 
@@ -1269,6 +1269,8 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+
+
 	fetch_community_tracks: function () {
 		if (this.get('fetched_community_tracks') == 'true')
 			return this;
@@ -1284,6 +1286,15 @@ app.model.sisyphus_manager = {
 			endpoint: 'list_tracks',
 			data	: {}
 		};
+
+		tracks = {
+			_url	: 'http://3.16.18.164/',
+			_type	: 'GET',
+			endpoint: 'tracks/list_tracks.json',
+			data	: {}
+		};
+
+
 
 		function cb(obj) {
 			setTimeout(function () {
@@ -1310,6 +1321,8 @@ app.model.sisyphus_manager = {
 		this.remove('community_playlist_ids', playlist_id);
 	},
 	download_track: function (track_id) {
+		console.log("download_track " + track_id);
+
 		this.remove('community_track_ids', track_id);
 	},
     /**************************** DEMO ****************************************/
