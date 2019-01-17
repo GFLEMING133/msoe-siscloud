@@ -1100,16 +1100,16 @@ app.model.track = {
 		}
 
 		var req_obj = {
-			_url	: 'http://3.16.18.164/',
+			_url	: 'http://localhost:3000/',
 			_type	: 'POST',
-			endpoint: 'download_track',
+			endpoint: 'tracks/1/download.json',
 			id		: this.id
 		};
 
 		var req_obj = {
-			_url	: 'http://3.16.18.164/',
+			_url	: 'http://localhost:3000/',
 			_type	: 'GET',
-			endpoint: 'tracks/download_track.json',
+			endpoint: 'tracks/1/download.json',
 			id		: this.id
 		};
 

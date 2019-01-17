@@ -27,19 +27,19 @@
     <div class="body-header h100 scroll hide-scrollbar pl10 pr10 ">
         <div class="h__k mt30" data-model="{{= model.sisbot_id }}">
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
-                <div class="i center shadow bg-grey-ll p30 clickable h__k"
+                <div class="i center shadow bg-ll-blue p40 clickable h__k"
                     data-on-click="publish"
                     data-publish="session:active"
                     data-msg="{'primary':'settings','secondary':'wifi'}"
-                >Your Sisyphus must be connected to the internet via wifi. Click here to connect</div>
+                >Welcome to Sisyphus Community! <br/> Your Sisyphus must be connected to the internet via wifi. Click here to connect</div>
               </div>
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
                <div class="h__k" data-if="{{= parent.user_id }} == false">
-                    <div class="i center shadow bg-grey-ll p30 clickable h__k"
+                    <div class="i center shadow bg-ll-blue p40 clickable h__k"
                         data-on-click="publish"
                         data-publish="session:active"
                         data-msg="{'primary':'settings','secondary':'create_account'}"
-                    >You must be signed into an active User Account. Click here to create one.</div>
+                    >Welcome to Sisyphus Community! <br/> You must be signed into an active User Account. Click here to create one.</div>
                 </div>
                 <div class="h__k" data-if="{{= parent.user_id }} !== false">
                     <div class="h__k" data-model="{{= parent.id }}">

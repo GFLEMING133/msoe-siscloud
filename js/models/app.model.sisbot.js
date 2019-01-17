@@ -244,7 +244,7 @@ app.model.sisbot = {
 				_url	: 'http://3.16.18.164/',
 				_type	: 'POST',
 				_timeout: 60000,
-				endpoint: 'downloads',
+				endpoint: 'tracks.json',
 				data	: new_data
 			};
 
