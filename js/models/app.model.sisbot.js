@@ -493,12 +493,12 @@ app.model.sisbot = {
 			} else if (obj.err) {
 				self._poll_failure();
 			}
-		}, 500);
+		}, 2000);
 
 		if (this.get('is_polling') == "true") {
 			this.polling_timeout = setTimeout(function () {
 				self._poll_state();
-			}, 1000);
+			}, 4000);
 		}
 
 		return this;
