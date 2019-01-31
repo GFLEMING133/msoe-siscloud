@@ -368,6 +368,12 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	max-height			: 500px;
 	overflow-y			: scroll;
 }
+.bg_attachment {
+	background-attachment		: fixed;
+	min-height					: 350px;
+	max-height					: 360px;  
+	overflow-y					: scroll;
+	}
 
 .hover, .hover > * 								{	color				: #efefef;			}
 .hover:hover, .hover:hover > * 					{	color				: #333;				}
