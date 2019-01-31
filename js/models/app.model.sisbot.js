@@ -212,7 +212,6 @@ app.model.sisbot = {
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
-
 		app.post.fetch(obj, function(resp) {
 			if (resp.err == 'Could not make request' && app.config.env !== 'alpha') {
 				self._poll_failure();

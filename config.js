@@ -1,5 +1,5 @@
 var config = {
-    version : '1.6.2', // Find More TRacks Tab in Advanced, About Page Up, 
+    version : '1.6.8', // Changed wording when changing table name, Deleted comments at the top of /tmp files for possible bug fixes and commented out About in the settings.
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
