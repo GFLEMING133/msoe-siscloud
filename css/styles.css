@@ -368,12 +368,23 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	max-height			: 500px;
 	overflow-y			: scroll;
 }
-.bg_attachment {
-	background-attachment		: fixed;
-	min-height					: 350px;
-	max-height					: 360px;  
-	overflow-y					: scroll;
+
+.flex-container {
+	display: flex;
+	flex-direction: column;
+  }
+.scrollDown {
+	max-height: 100%;
+	min-height: 0;
+	overflow-y: scroll;
+
 	}
+.trackBox {
+	min-height: 0;
+	height : 60%;
+}
+
+
 
 .hover, .hover > * 								{	color				: #efefef;			}
 .hover:hover, .hover:hover > * 					{	color				: #333;				}
@@ -415,8 +426,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex {
 	display					: -webkit-box;
 	display					: -webkit-flex;
-	-webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
+	-webkit-box-pack		: justify;
+    -webkit-justify-content : space-between;
 	display					: flex;
 	width					: 100%;
 }

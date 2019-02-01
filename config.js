@@ -1,5 +1,5 @@
 var config = {
-    version : '1.6.8', // Changed wording when changing table name, Deleted comments at the top of /tmp files for possible bug fixes and commented out About in the settings.
+    version : '1.7', // Fixed scrolling issues in Edit Playlists
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
