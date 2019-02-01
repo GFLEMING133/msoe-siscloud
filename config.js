@@ -1,5 +1,5 @@
 var config = {
-    version : '1.6.0', // release all tested 1.5.x functionality
+    version : '1.6.8', // Changed wording when changing table name, Deleted comments at the top of /tmp files for possible bug fixes and commented out About in the settings.
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

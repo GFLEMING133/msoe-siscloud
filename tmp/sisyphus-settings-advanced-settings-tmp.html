@@ -68,6 +68,17 @@
             <span class="strong">Table Name</span>
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-model="{{= model.sisbot_id }}"
+            data-run="model.is_legacy"
+            data-if="{{= app.is_app }} == true"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'change_table'}"
+        >
+            <span class="strong">Connect to New Table</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
         <div class="h__k" data-model="{{= model.sisbot_id }}">
             <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
                 data-if="{{= model.data.is_internet_connected }} == false"
@@ -98,6 +109,17 @@
             <span class="strong">Upload Track</span>
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
+        
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-if="{{= app.is_app }} == false"
+            data-on-click="model.find_tracks"
+        >
+            <span class="strong">Find More Tracks</span>
+            <span class="pull-right">
+                <span class="pull-right fa fa-chevron-right"></span>
+            </span>
+        </div>
+
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-if="{{= app.is_app }} == false"
             data-on-click="publish"
@@ -112,15 +134,15 @@
             data-on-click="model.disconnect"
         >
             <span class="strong">Logout from Sisyphus</span>
-            <span class="pull-right fa fa-chevron-right"></span>
+            <span class="pull-right"></span>
         </div>
         <div class="h__k" data-model="{{= model.sisbot_id }}">
             <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
                 data-if="{{= model.data.is_internet_connected }} == true"
                 data-on-click="model.disconnect_wifi"
             >
-                <span class="strong">Disconnect from wifi network</span>
-                <span class="pull-right fa fa-chevron-right"></span>
+                <span class="strong">Disconnect from wi-fi network</span>
+                <span class="pull-right"></span>
             </div>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"

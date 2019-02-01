@@ -369,6 +369,21 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	overflow-y			: scroll;
 }
 
+.flex-container {
+	display: flex;
+	flex-direction: column;
+  }
+.scrollDown {
+    max-height: 100%;
+	overflow-y: scroll;
+
+	}
+.trackBox {
+	height : 60%;
+}
+
+
+
 .hover, .hover > * 								{	color				: #efefef;			}
 .hover:hover, .hover:hover > * 					{	color				: #333;				}
 
