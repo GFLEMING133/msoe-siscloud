@@ -224,7 +224,6 @@ app.model.sisbot = {
 					alert(resp.err);
 					console.log(address, endpoint, resp);
 					return;
-
 				}
 
 				self.trigger('change:data.active_track._index');	// fix bug
