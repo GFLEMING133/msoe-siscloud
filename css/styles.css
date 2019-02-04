@@ -371,6 +371,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 
 .trackBox {
+	min-height: 0;
 	height: 60%;
     flex-direction: column;
     display: flex;
@@ -378,7 +379,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
     max-height: 60%;
 }
 .scrollDown {
-    
+    min-height: 0;
     overflow-y: scroll;
     }
 
