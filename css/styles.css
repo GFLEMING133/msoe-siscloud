@@ -381,8 +381,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
     min-height: 0%;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	-webkit-overflow-scrolling	: touch;
-    }
+	-webkit-overflow-scrolling: touch;
+}
 .scrollBottomDiv {
 	display: flex;
     width: 100%;
