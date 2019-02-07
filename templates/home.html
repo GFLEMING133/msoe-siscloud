@@ -4,8 +4,8 @@
             data-template="sisyphus-header-default-tmp"
         ></div>
         <div class="bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
-            <p class="no-stuffing fa fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
+            <p class="no-stuffing fa fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></>
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
                     Connection Lost!
                 </h3>
@@ -123,7 +123,7 @@
                 <p class="center fs18 lh24 h__k">
                     Your Sisyphus is attempting to connect to your local router.
 					If it does not automatically reconnect, please open Wifi Settings
-                    and reconnnect to the {{= model.data.wifi_network }} network.
+                    and reconnect to the {{= model.data.wifi_network }} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
@@ -151,7 +151,7 @@
                 <p class="center fs18 lh24">
                     Your Sisyphus has become disconnected from WiFi. If you would
                     like to reconnect to your Sisyphus please open Wifi Settings
-                    and reconnnect to the Sisyphus network.
+                    and reconnect to the {{= model.sisbot_hostname }} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
@@ -177,7 +177,7 @@
                 <p class="center fs18 lh24">
                     Your Sisyphus has become disconnected from WiFi. If you would
                     like to reconnect to your Sisyphus please open Wifi Settings
-                    and reconnnect to the Sisyphus network.
+                    and reconnect to the {{= model.sisbot_hostname }} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
