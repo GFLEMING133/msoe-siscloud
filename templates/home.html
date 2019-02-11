@@ -62,13 +62,14 @@
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == rebooting">
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
-                    Connection Lost!
+                   
                 </h3>
                 <p class="center fs18 lh24">
                     A restart is required for these settings to take effect. Your Sisyphus table is restarting.
-                    Please wait 30 seconds and retry connecting.
+                    Please wait this will take some time.
                 </p>
                 <p class="pt20 center fs18 lh24 h__k" data-if="{{= model.is_polling }} == true">
+                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                     Attempting to reconnect now.
                 </p>
                 <div class="pb20">
@@ -90,13 +91,14 @@
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == restarting">
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
-                    Connection Lost!
+                   
                 </h3>
                 <p class="center fs18 lh24">
                     A restart is required for these settings to take effect. Your Sisyphus table is restarting.
-                    Please wait 30 seconds and retry connecting.
+                    Please wait, this will take some time.
                 </p>
                 <p class="pt20 center fs18 lh24 h__k" data-if="{{= model.is_polling }} == true">
+                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                     Attempting to reconnect now.
                 </p>
                 <div class="pb20">
@@ -117,7 +119,7 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
-                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Changing Wifi Network
                 </h3>
                 <p class="center fs18 lh24 h__k">
@@ -145,13 +147,13 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == disconnect_from_wifi">
-                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Sisyphus Disconnected from WiFi
                 </h3>
-                <p class="center fs18 lh24">
+                <p class="center fs18 lh24 h__k">
                     Your Sisyphus has become disconnected from WiFi. If you would
                     like to reconnect to your Sisyphus please open Wifi Settings
-                    and reconnect to the {{= model.sisbot_hostname }} network.
+                    and reconnect to the {{= model.data.wifi_network}} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
@@ -171,13 +173,13 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
-                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Sisyphus Disconnected from WiFi
                 </h3>
-                <p class="center fs18 lh24">
+                <p class="center fs18 lh24 h__k">
                     Your Sisyphus has become disconnected from WiFi. If you would
                     like to reconnect to your Sisyphus please open Wifi Settings
-                    and reconnect to the {{= model.sisbot_hostname }} network.
+                    and reconnect to the {{= model.data.wifi_network }} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
@@ -197,7 +199,7 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == servo_th_fault">
-                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Servo Th Failed!
                 </h3>
                 <p class="center fs18 lh24">
@@ -211,7 +213,7 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == servo_rho_fault">
-                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Servo Rho Failed!
                 </h3>
                 <p class="center fs18 lh24">
@@ -225,7 +227,7 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == servo_th_rho_fault">
-                <h3 class="m0 pt30 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Servo Th and Rho Failed!
                 </h3>
                 <p class="center fs18 lh24">
