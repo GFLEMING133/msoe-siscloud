@@ -1,5 +1,6 @@
-# 2018-12-07, 1.10.9
-  - if Servo table, go Home before doing install_updates, factory_reset, reboot, or restart
+# 2019-02-26 
+  - After file is uploaded sometimes the ui will show the default Sisyphus Logo image instead of the preview. This is by design. Preview   generation goes into a queue and if generation is not completed in time the Sisyphus Logo will display instead of the thumbnail.
+   
   
 # 2019-02-13, 1.8.2  
   - Fixed Routing issues between playlist and tracks and added a more clear directional path by adding arrows 
