@@ -212,7 +212,6 @@ app.model.sisbot = {
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
-
 		app.post.fetch(obj, function(resp) {
 			if (resp.err == 'Could not make request' && app.config.env !== 'alpha') {
 				self._poll_failure();
@@ -225,7 +224,6 @@ app.model.sisbot = {
 					alert(resp.err);
 					console.log(address, endpoint, resp);
 					return;
-
 				}
 
 				self.trigger('change:data.active_track._index');	// fix bug

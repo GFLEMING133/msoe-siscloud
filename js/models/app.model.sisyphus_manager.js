@@ -1040,7 +1040,7 @@ app.model.sisyphus_manager = {
 
 			app.current_session().add_nx('sisbot_hostnames', sisbot_hostname);
 			app.current_session().save_session();
-
+			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 			// hotspot access allows not requiring user
 			if (self.get_model('user_id')) {
 				self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
@@ -1048,6 +1048,7 @@ app.model.sisyphus_manager = {
 				self.get_model('user_id').save(true);
 			}
 		}, 0);
+			
 	},
 	/**************************** NETWORK INFO **********************************/
 	get_network_ip_address: function (cb) {
