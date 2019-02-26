@@ -1,5 +1,5 @@
 var config = {
-    version : '1.6.2', // Find More TRacks Tab in Advanced, About Page Up, 
+    version : '1.7.1', // Ready to push to TestFlight and Google Play , Fixed scrolling issues in Edit Playlists
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

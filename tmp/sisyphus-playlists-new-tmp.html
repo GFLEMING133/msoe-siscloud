@@ -29,11 +29,11 @@
             </span>
         </div>
         <!--------------------------- TRACKS ---------------------------------->
-        <div class="h__k pb100">
+        <div class="h__k trackBox">
             <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
                 There are no tracks in this playlist
             </div>
-            <div class="h__k"
+            <div class="h__k scrollDown hide-scrollbar"
                 data-sortable=".reorder"
                 data-field="model.active_tracks"
                 data-foreach="model.active_tracks"
@@ -46,6 +46,5 @@
                 ></div>
             </div>
         </div>
-        <div class="hh100">&nbsp;</div>
     </div>
 </div>

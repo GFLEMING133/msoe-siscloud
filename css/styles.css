@@ -369,6 +369,28 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	overflow-y			: scroll;
 }
 
+
+.trackBox {
+	min-height: 0%;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    max-height: 60%;
+}
+.scrollDown {
+    min-height: 0%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+.scrollBottomDiv {
+	display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+
+
 .hover, .hover > * 								{	color				: #efefef;			}
 .hover:hover, .hover:hover > * 					{	color				: #333;				}
 
@@ -409,8 +431,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .flex {
 	display					: -webkit-box;
 	display					: -webkit-flex;
-	-webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
+	-webkit-box-pack		: justify;
+    -webkit-justify-content : space-between;
 	display					: flex;
 	width					: 100%;
 }

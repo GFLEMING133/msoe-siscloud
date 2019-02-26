@@ -9,14 +9,15 @@
         Connect to New Table
     </h3>
     <p class="center fs18 lh24">
-        Click the button below to go to your phone's wifi settings. Connect to the
-        network that begins with Sisyphus and return back here after you have connected.
+        Open your phone's wifi settings and connect to the
+        Sisyphus network. Then return back here after you have connected.
     </p>
     <div class="pb20 h__k" data-if="{{= model.sisbot_connecting }} == false">
-        <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
-            data-if="{{= app.is_app }} == true"
-            data-on-click="model.open_network_settings"
-        >Open Wifi Settings</p>
+        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
+                data-on-click="set"
+                data-field="model.sisbot_registration"
+                data-value="find"
+        >Find Sisyphus</p>
     </div>
     <div class="p20 center i white pull-bottom h__k" data-if="{{= model.sisbot_connecting }} == true">
         <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
