@@ -1,16 +1,16 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <div class="w30 left pl20 clickable active h__k"
+        <!-- <div class="w30 left pl20 clickable active h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'playlists'}"
-        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div> -->
         <div class="w40">
             <h1 class="fs18 lh18 no-stuffing capitalize h__k">{{= (model.data.is_saved == 'true') ? model.data.name : 'New Playlist' }}</h1>
         </div>
         <div class="w30 right p15 pr20 fs18 lh18 clickable active h__k"
             data-on-click="model.save_edit"
-        >Done</div>
+        >Save</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
         <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
@@ -34,11 +34,11 @@
             </span>
         </div>
         <!--------------------------- TRACKS ---------------------------------->
-        <div class="h__k pb100">
+        <div class="h__k trackBox">
             <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
                 There are no tracks in this playlist
             </div>
-            <div class="h__k"
+            <div class="h__k scrollDown hide-scrollbar"
                 data-sortable=".reorder"
                 data-field="model.active_tracks"
                 data-foreach="model.active_tracks"
@@ -51,6 +51,5 @@
                 ></div>
             </div>
         </div>
-        <div class="hh100">&nbsp;</div>
     </div>
 </div>

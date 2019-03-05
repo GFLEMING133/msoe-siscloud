@@ -212,7 +212,6 @@ app.model.sisbot = {
 			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
-
 		app.post.fetch(obj, function(resp) {
 			if (resp.err == 'Could not make request' && app.config.env !== 'alpha') {
 				self._poll_failure();
@@ -220,14 +219,17 @@ app.model.sisbot = {
 			} else {
 				if (resp.err == null)
 					self.check_for_unavailable();
-
-				if (resp.err)
+					
+				if (resp.err) {
+					alert(resp.err);
 					console.log(address, endpoint, resp);
+					return;
+				}
 
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);
 
-				self._update_cloud();
+				// self._update_cloud(); debugging maybe
 			}
 		}, 0);
 	},
@@ -1047,6 +1049,7 @@ app.model.sisbot = {
 	},
 	set_track: function (data) {
 		this._update_sisbot('set_track', data, function (obj) {
+
 			if (obj.resp) app.manager.intake_data(obj.resp);
 			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 		});
@@ -1336,7 +1339,9 @@ app.model.sisbot = {
 	play: function () {
 		var self = this;
 		this.set('data.state', 'playing');
+		
 		this._update_sisbot('play', {}, function (obj) {
+			
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},

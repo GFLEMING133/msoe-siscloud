@@ -6,12 +6,13 @@
         </div>
         <div class="w15 pt30 center">&nbsp;</div>
     </div>
+
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
         <div class="h__k">
             <div class="bb pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical h__k"
-                data-on-click="publish"
+                data-on-click="publish"  
                 data-publish="session:active"
-                data-msg="{'secondary':'tracks'}"
+                data-msg="{'secondary':'tracks','goBack':'tracks'}"
             >   <i class="fa fa-circle-o-notch f-medium" />
                 <span class="pl20 pr20 fs18 lh18 strong w100">Tracks</span>
                 <span class="right fa fa-chevron-right"></span>
@@ -19,7 +20,7 @@
             <div class="bb pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical h__k"
                 data-on-click="publish"
                 data-publish="session:active"
-                data-msg="{'secondary':'playlists'}"
+                data-msg="{'secondary':'playlists','goBack':'playlist'}"
             >
                 <i class="fa fa-list f-medium" />
                 <span class="pl20 pr20 fs18 lh18 strong w100">Playlists</span>
