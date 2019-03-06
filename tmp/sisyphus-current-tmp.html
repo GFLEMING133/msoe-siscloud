@@ -1,5 +1,11 @@
 <div class="h100">
     <div class="pull-top white hh50 w100 vertical vertical-align bg-black no-stuffing">
+            <div class="w30 left pl20 h__k"
+            data-if="{{= session.active.secondary }} == track"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'track_id':'false','secondary':'false'}"
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="h__k" data-template="sisyphus-playing-active-tmp"></div>
         <div class="h__k" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
             <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
@@ -11,12 +17,7 @@
                 ><img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
             </div>
         </div>
-        <div class="right pr20 h__k"
-            data-if="{{= session.active.secondary }} == track"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'track_id':'false','secondary':'false'}"
-        ><img src="img/icon_2x_playlist_viewlist.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        
     </div>
     <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
         <!------------------------- TRACK INSET ------------------------------->
@@ -88,3 +89,5 @@
         </div>
     </div>
 </div>
+
+

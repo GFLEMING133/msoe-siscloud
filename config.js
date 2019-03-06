@@ -1,5 +1,5 @@
 var config = {
-    version : '1.6.0', // release all tested 1.5.x functionality
+    version : '1.7.3', // Final push before Release
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

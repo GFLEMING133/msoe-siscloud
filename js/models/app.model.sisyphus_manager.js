@@ -53,7 +53,8 @@ app.model.sisyphus_manager = {
 			community_track_ids		: [],
 
 			is_ble_enabled			: 'false',
-
+			local_version			:'na',	
+					
 			remote_versions: {
 				proxy	: '10.0.0',
 				app		: '10.0.0',
@@ -103,6 +104,7 @@ app.model.sisyphus_manager = {
 			app.current_session().check_session_sign_in();
 		}
 
+		this.set('local_version',  app.config.version) ;
 		this.check_ble_status();
 		this.check_remote_versions();
 
@@ -154,13 +156,6 @@ app.model.sisyphus_manager = {
 	has_user: function () {
 		return (this.get('user_id') !== 'false') ? 'true' :'false';
 	},
-	open_support_page: function () {
-		if (app.is_app) {
-			cordova.InAppBrowser.open('https://sisyphus-industries.com/support', '_system', 'location=yes');
-		} else {
-			window.location = 'https://sisyphus-industries.com/support';
-		}
-	},
 	open_home_page: function () {
 		if (app.is_app) {
 			cordova.InAppBrowser.open(' https://www.sisyphus-industries.com/', '_system', 'location=yes');
@@ -168,9 +163,20 @@ app.model.sisyphus_manager = {
 			window.location = ' https://www.sisyphus-industries.com/';
 		}
 	},
+	open_support_page: function () {
+		if (app.is_app) {
+			cordova.InAppBrowser.open('https://sisyphus-industries.com/support', '_system', 'location=yes');
+		} else {
+			window.location = 'https://sisyphus-industries.com/support';
+		}
+	},
+	find_tracks: function () {
+		window.open(' https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
+	},
 	navigate_home: function () {
 		app.trigger('session:active', { secondary: 'false', primary: 'current' });
 	},
+
 	check_remote_versions: function (cb) {
 		var self = this;
 
@@ -644,7 +650,6 @@ app.model.sisyphus_manager = {
 	await_network_connection: function (cb, count) {
 		console.log("await_network_connection()");
 		var self = this;
-
 		setTimeout(function () {
 			if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
 				self.await_network_connection(cb, 0);
@@ -709,6 +714,12 @@ app.model.sisyphus_manager = {
 		} else {
 			this._find_sisbots();
 		}
+	},
+	rescan: function (){
+			console.log("rescan()");
+			this.set('sisbots_scanning', 'true');
+			this.set('sisbot_registration', 'find');
+			window.location.reload();
 	},
 	_find_sisbots: function () {
 		console.log("_find_sisbots()");
@@ -909,6 +920,7 @@ app.model.sisyphus_manager = {
 
 		return this;
 	},
+
 	connect_to_sisbot: function (sisbot_hostname) {
 		console.log("connect_to_sisbot()");
 		if (this.get('sisbot_connecting') == 'true') return false;
@@ -968,7 +980,7 @@ app.model.sisyphus_manager = {
 
 			app.current_session().add_nx('sisbot_hostnames', sisbot_hostname);
 			app.current_session().save_session();
-
+			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 			// hotspot access allows not requiring user
 			if (self.get_model('user_id')) {
 				self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
@@ -976,6 +988,7 @@ app.model.sisyphus_manager = {
 				self.get_model('user_id').save(true);
 			}
 		}, 0);
+			
 	},
 	/**************************** NETWORK INFO **********************************/
 	get_network_ip_address: function (cb) {
@@ -1077,6 +1090,7 @@ app.model.sisyphus_manager = {
 
 			// error checking
 			if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
+			alert("There was an error uploading your file please make sure the file is not corrupt.");
 		});
 
 		// this.set('tracks_to_upload', []);
@@ -1155,6 +1169,8 @@ app.model.sisyphus_manager = {
 			app.trigger('session:active', { primary: 'settings', secondary: 'upload-track', track_id: 'false' });
 		}
 	},
+
+
     /**************************** COMMUNITY ***********************************/
 	fetch_community_playlists: function () {
 		if (this.get('fetched_community_playlists') == 'true')
