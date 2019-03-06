@@ -1090,8 +1090,12 @@ app.model.sisyphus_manager = {
 
 			// error checking
 			if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
-			alert("There was an error uploading your file please make sure the file is not corrupt.");
 		});
+
+		 //error if trying to upload bad file.
+		if (track_objs.length < 1){
+			alert("There was an error uploading your file please make sure the file is .svg or .thr format and that the file is not corrupt.");
+		}
 
 		// this.set('tracks_to_upload', []);
 		console.log("Show preview", app.collection.get(track_objs[0].id).get('data'));
