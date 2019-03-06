@@ -1,5 +1,5 @@
 var config = {
-    version : '1.7.3', // Final push before Release
+    version : '1.8.3', // Releasing large amount of UI changes
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
