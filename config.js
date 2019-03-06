@@ -1,5 +1,5 @@
 var config = {
-    version : '1.7.3', // Final push before Release
+    version : '1.7.4', // added alert when uploading wrong file type in Upload Track and added Save button to Night Mode and removed back arrow
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
