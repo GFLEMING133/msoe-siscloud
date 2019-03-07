@@ -254,7 +254,12 @@ label {
 	overflow-x					: hidden;
 	-webkit-overflow-scrolling	: touch;
 }
-
+.auto-scroll {
+	overflow-y					: auto;
+	overflow-x					: hidden;
+	-webkit-overflow-scrolling	: touch;
+	height: 40vw;
+}
 .no-scroll {
 	overflow-y					: hidden;
 	overflow-x					: hidden;
