@@ -386,7 +386,7 @@ app.model.sisyphus_manager = {
 		this.set('user_registration', 'sign_in');
 	},
 	sign_up: function () {
-		debugger;
+		
 		
 		if (this.get('signing_up') == 'true') return true;
 		else this.set('signing_up', 'true');
@@ -419,7 +419,7 @@ app.model.sisyphus_manager = {
 		// 	password				: user_data.password,
 		// 	password_confirmation	: user_data.password_confirmation,
 		// }
-		debugger;
+		
 		var post_obj = {
 			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
@@ -433,7 +433,7 @@ app.model.sisyphus_manager = {
 		this.fetch_community_playlists();
 	},
 	// sign_in: function (user_data) { 
-	// 	debugger;
+	// 	
 
 	// 	user_data.type		= 'user';
 	// 	user_data.endpoint	= 'register_user.json';
@@ -469,7 +469,7 @@ app.model.sisyphus_manager = {
 	// 	app.plugins.fetch(user_data, cb);
 	// },
 	sign_in: function () {
-		debugger;
+		
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
 
@@ -792,6 +792,7 @@ app.model.sisyphus_manager = {
 			}, 100);
 			return this;
 		}
+		
 
 		this.set('sisbots_networked', []);
 		this.set('sisbots_ip_name', {});
