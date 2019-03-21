@@ -1,3 +1,5 @@
+# 2019-3-21, 1.8.4
+  - Deleted alert() from upload tracks as it was throwing when no error
 # 2019-02-26, 1.8.3
   - After file is uploaded sometimes the ui will show the default Sisyphus Logo image instead of the preview. This is by design. Preview   generation goes into a queue and if generation is not completed in time the Sisyphus Logo will display instead of the thumbnail.
   - remove several red exclamation points when screen shows something that is expected to happen
