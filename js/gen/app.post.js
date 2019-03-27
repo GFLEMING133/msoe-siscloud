@@ -58,13 +58,14 @@ app.post = {
 
 		$.ajax(obj);
 	},
+	
 	fetch2: function (data, cb, retry_count) {
 		
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_api_url();
 		var timeout = 30000;
-
+		var type = data._type || 'POST';
 		if (data.endpoint)		url		+= data.endpoint;
 		if (data._timeout)		timeout = data._timeout;
 
@@ -75,16 +76,18 @@ app.post = {
 		if (app.current_user())
 			req_data.user = app.current_user().get('data');
 			console.log('IN APP POST req_data',req_data)
-
-		var auth_token = ((req_data || {}).user || {}).auth_token; 		
+debugger;
+		var auth_token = ((req_data || {}).user || {}).auth_token;
 				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
-					type			: 'GET',
+					type			: type,
+					data			: req_data,
 					headers:   {
 						'Authorization': auth_token
 					},
-					success		: function (data) {
+					success: function (data) {
+						debugger;
 						try {
 							data = JSON.parse(data);
 						} catch(err) {}
@@ -94,7 +97,8 @@ app.post = {
 						else if (_.isString(cb))
 							app.trigger(cb, data);
 					},
-					error		: function (resp) {
+					error: function (resp) {
+						debugger;
 						if (retry_count <= 0) {
 							if (cb) cb({ err: 'Could not make request', resp: null });
 							return this;
