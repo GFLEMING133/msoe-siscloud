@@ -490,8 +490,8 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint	= 'auth_user';
-		user_data._url		= 'http://192.168.1.38:3000/';
-		// user_data._url		= 'http://3.16.18.164/';
+		//user_data._url		= 'http://192.168.1.38:3000/';
+		user_data._url		= 'http://3.16.18.164/';
 		user_data._timeout	= '5000';
 
 		app.post.fetch2(user_data, cb, 0);
