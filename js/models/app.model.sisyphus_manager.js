@@ -432,43 +432,43 @@ app.model.sisyphus_manager = {
 		app.post.fetch( post_obj, cb, 0);
 		this.fetch_community_playlists();
 	},
-	// sign_in: function (user_data) { 
-	// 	
+	sign_in: function (user_data) { 
+		debugger;
 
-	// 	user_data.type		= 'user';
-	// 	user_data.endpoint	= 'register_user.json';
-	// 	user_data._url		= 'http://3.16.18.164/';
-	// 	user_data._timeout	= '5000';
+		user_data.type		= 'user';
+		user_data.endpoint	= 'register_user.json';
+		user_data._url		= 'http://3.16.18.164/';
+		user_data._timeout	= '5000';
 
-	// 	var self		= this;
-	// 	var errors		= [];
-	// 	var user_data   = user_data || this.get('data');
+		var self		= this;
+		var errors		= [];
+		var user_data   = user_data || this.get('data');
 
-	// 	if (user_data.username == '')	errors.push('- Username cannot be blank');
-	// 	if (user_data.password == '')	errors.push('- Password cannot be blank');
+		if (user_data.username == '')	errors.push('- Username cannot be blank');
+		if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-	// 	if (window.location.href == 'http://3.16.18.164/') {
-	// 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
-	// 			errors.push('- Username is not authorized to administer domain');
-	// 		}
-	// 	}
+		if (window.location.href == 'http://3.16.18.164/') {
+			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+				errors.push('- Username is not authorized to administer domain');
+			}
+		}
 
-	// 	if (errors.length > 0) {
-	// 		this.set('signing_in', 'false')
-	// 		return this.set('errors', errors);
-	// 	}
+		if (errors.length > 0) {
+			this.set('signing_in', 'false')
+			return this.set('errors', errors);
+		}
 
-	// 	function cb(obj) {
-	// 		if (obj.err)
-	// 			return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
+		function cb(obj) {
+			if (obj.err)
+				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
 
-	// 		self._process_sign_in(user_data, obj.resp);
-	// 	};
+			self._process_sign_in(user_data, obj.resp);
+		};
 
-	// 	user_data.endpoint = 'sign_in';
-	// 	app.plugins.fetch(user_data, cb);
-	// },
-	sign_in: function () {
+		user_data.endpoint = 'sign_in';
+		app.plugins.fetch(user_data, cb);
+	},
+	sign_in: function (user_data) {
 		
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
@@ -491,10 +491,11 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint	= 'auth_user';
-		user_data._url		= 'http://3.16.18.164/';
+		user_data._url		= 'http://192.168.1.38:3000/';
+		// user_data._url		= 'http://3.16.18.164/';
 		user_data._timeout	= '5000';
 
-		app.plugins.fetch2(user_data, cb, 0);
+		app.post.fetch2(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
 		var errors = [];
