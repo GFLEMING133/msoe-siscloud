@@ -599,6 +599,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	bottom			: 0px;
 }
 
+
 .pull-bottom-fixed	{
 	position		: fixed;
 	left			: 0px;
@@ -673,6 +674,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .stuffing								{	margin		: 0px;			padding: 10px;			}
 .block									{	display		: block;								}
 .inline									{	float		: left;			display: inline;		}
+.inline-right							{	float		: right;		display: inline;		}
 .inline-block							{	display		: inline-block;							}
 .left									{   text-align	: left;									}
 .center 								{	text-align	: center; 								}
@@ -955,6 +957,8 @@ select:focus {
 .fs12									{	font-size				: 12px !important;			}
 .fs13									{	font-size				: 13px !important;			}
 .fs14									{	font-size				: 14px !important;			}
+.fs16									{	font-size				: 16px !important;			}
+.fs16									{	font-size				: 17px !important;			}
 .fs18									{	font-size				: 18px !important;			}
 .fs24									{	font-size				: 24px !important;			}
 

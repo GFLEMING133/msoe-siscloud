@@ -185,7 +185,7 @@ app.model.track = {
 
 		var post_data		= this.get('data');
 
-		post_data._url		= 'https://api.sisyphus.withease.io/';
+		post_data._url		= 'http://3.16.18.164/';
 		post_data._type		= 'POST';
 		post_data.endpoint	= 'set';
 
@@ -1005,7 +1005,7 @@ app.model.track = {
 		var self = this;
 
 		var req_obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
 			endpoint: 'get',
 			id		: this.id
@@ -1022,19 +1022,107 @@ app.model.track = {
 
 		app.post.fetch(req_obj, cb, 0);
 	},
+	fetch_wc: function () {
+		var self = this;
+		debugger;
+
+		var req_obj = {
+			_url	: 'http://3.16.18.164/',
+			_type	: 'GET',
+			endpoint: 'tracks/get_track_header.json',
+			id		: this.id
+		};
+
+		function cb(obj) {
+			if (obj.err || obj.resp.length == 0) {
+				alert('There was an error downloading this track header. Please try again later')
+			} else {
+				self.set('data', obj.resp[0]);
+				self.download_wc();
+			}
+		}
+		app.post.fetch(req_obj, cb, 0);
+	},
+  download_wc: function() {
+		var self = this;
+
+		console.log("track : download");
+		debugger;
+
+		var req_obj;
+		if (self.get('data.original_file_type') == 'thr')
+		{
+			var req_obj = {
+				_url	: 'http://3.16.18.164/',
+				_type	: 'GET',
+				endpoint: 'tracks/download_track_thr.json',
+				id		: this.id
+			};
+
+		}
+		else if (self.get('data.original_file_type') == 'svg') 
+		{
+			var req_obj = {
+				_url	: 'http://3.16.18.164/',
+				_type	: 'GET',
+				endpoint: 'tracks/download_track_svg.json',
+				id		: this.id
+			};
+		}
+		else {
+			alert('track is missing file_type header ' + self.id);
+			return;
+		}
+
+
+
+		function cb(obj) {
+			if (obj.err) {
+				alert('There was an error downloading this track. Please try again later')
+			} else {
+				debugger;
+				console.log('track : download response = ', obj.resp);
+
+				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
+				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+				else {
+					alert('Failed to get verts for this download ' + self.id);
+					return;
+				}
+
+				// self.set('data.verts', obj.resp);
+				app.trigger('manager:download_track', self.id);
+				app.trigger('sisbot:track_add', self);
+			}
+		}
+
+		app.post.fetch(req_obj, cb, 0);
+	},
+
+
 	download: function () {
 		var self = this;
 
+		console.log("track : download");
+		debugger;
 		if (this.get('data.verts') !== '') {
+			console.log("track : download  verts already present, call sisbot:track_add");
 			app.trigger('manager:download_track', this.id);
 			app.trigger('sisbot:track_add', this);
 			return this;
 		}
 
 		var req_obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: 'http://localhost:3000/',
 			_type	: 'POST',
-			endpoint: 'download_track',
+			endpoint: 'tracks/1/download.json',
+			id		: this.id
+		};
+
+		var req_obj = {
+			_url	: 'http://localhost:3000/',
+			_type	: 'GET',
+			endpoint: 'tracks/1/download.json',
 			id		: this.id
 		};
 
@@ -1042,6 +1130,7 @@ app.model.track = {
 			if (obj.err) {
 				alert('There was an error downloading this track. Please try again later')
 			} else {
+				console.log('track : download response = ', obj.resp);
 				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
@@ -1069,7 +1158,7 @@ app.model.track = {
 	_save: function (track_data) {
 		if (!track_data)	track_data = this.get('data');
 
-		track_data._url			= 'https://api.sisyphus.withease.io/';
+		track_data._url			= 'http://3.16.18.164/';
 		track_data._type		= 'POST';
 		track_data.endpoint		= 'set';
 

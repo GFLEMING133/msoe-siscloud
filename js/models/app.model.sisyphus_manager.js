@@ -49,7 +49,7 @@ app.model.sisyphus_manager = {
 			fetched_community_playlists	: 'false',
 			fetched_community_tracks	: 'false',
 
-			community_page			: 'playlists',
+			community_page			: 'tracks',
 			community_playlist_ids	: [],
 			community_track_ids		: [],
 
@@ -386,7 +386,7 @@ app.model.sisyphus_manager = {
 		this.set('user_registration', 'sign_in');
 	},
 	sign_up: function () {
-		debugger;
+		
 		
 		if (this.get('signing_up') == 'true') return true;
 		else this.set('signing_up', 'true');
@@ -419,7 +419,7 @@ app.model.sisyphus_manager = {
 		// 	password				: user_data.password,
 		// 	password_confirmation	: user_data.password_confirmation,
 		// }
-		debugger;
+		
 		var post_obj = {
 			_url	: 'http://3.16.18.164/',
 			_type	: 'POST',
@@ -432,11 +432,13 @@ app.model.sisyphus_manager = {
 		app.post.fetch( post_obj, cb, 0);
 		this.fetch_community_playlists();
 	},
-	// sign_in: function (user_data) {   <<<<<<<<<<<<<<,THIS IS THE SIGN_IN FROM APP.MODEL.SIGN_IN.JS
-	// 	debugger;
+	// sign_in: function (user_data) { 
+	// 	
 
-	// 	if (this.get('signing_in') == 'true') return false;
-	// 	else this.set('signing_in', 'true');
+	// 	user_data.type		= 'user';
+	// 	user_data.endpoint	= 'register_user.json';
+	// 	user_data._url		= 'http://3.16.18.164/';
+	// 	user_data._timeout	= '5000';
 
 	// 	var self		= this;
 	// 	var errors		= [];
@@ -445,7 +447,7 @@ app.model.sisyphus_manager = {
 	// 	if (user_data.username == '')	errors.push('- Username cannot be blank');
 	// 	if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-	// 	if (window.location.href == 'https://siscloud.withease.io/') {
+	// 	if (window.location.href == 'http://3.16.18.164/') {
 	// 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
 	// 			errors.push('- Username is not authorized to administer domain');
 	// 		}
@@ -467,6 +469,7 @@ app.model.sisyphus_manager = {
 	// 	app.plugins.fetch(user_data, cb);
 	// },
 	sign_in: function () {
+		
 		if (this.get('signing_in') == 'true') return false;
 		else this.set('signing_in', 'true');
 
@@ -486,16 +489,12 @@ app.model.sisyphus_manager = {
 			self.set('errors', []);
 			self._process_registration(user_data, obj.resp);
 		};
-		debugger;
-		var post_obj = {
-		endpoint	: `auth_user?email:${user_data.email}&password:${user_data.password}`,
-		_url		: 'http://3.16.18.164/',
-		_type		: 'POST',
-		_timeout	: 5000,
-		id  		: this.id,
-		data 		: user_data,
-		};
-		app.plugins.fetch(user_data, cb, 0);
+
+		user_data.endpoint	= 'auth_user';
+		user_data._url		= 'http://3.16.18.164/';
+		user_data._timeout	= '5000';
+
+		app.plugins.fetch2(user_data, cb, 0);
 	},
 	get_errors: function (user_data) {
 		var errors = [];
@@ -542,7 +541,7 @@ app.model.sisyphus_manager = {
 	},
 	after_settings: function () {
 		this.off('change:user_id');
-		app.trigger('session:active', { secondary: 'false' });
+		app.trigger('session:active', { primary: 'community' });
 	},
 	sign_in_via_session: function (data) {
 		this.set('registration', data);
@@ -793,6 +792,7 @@ app.model.sisyphus_manager = {
 			}, 100);
 			return this;
 		}
+		
 
 		this.set('sisbots_networked', []);
 		this.set('sisbots_ip_name', {});
@@ -1264,11 +1264,13 @@ app.model.sisyphus_manager = {
 			self.set('community_playlist_ids', new_playlist_ids);
 			self.set('fetched_community_playlists', 'true');
 		}
-
+		
 		app.post.fetch(playlists, cb, 0);
 
 		return this;
 	},
+
+
 	fetch_community_tracks: function () {
 		if (this.get('fetched_community_tracks') == 'true')
 			return this;
@@ -1279,11 +1281,13 @@ app.model.sisyphus_manager = {
 
 		// should return playlists and tracks
 		var tracks = {
-			_url	: 'http://3.16.18.164/tracks/',
-			_type	: 'POST',
-			endpoint: 'list_tracks',
+			_url	: 'http://3.16.18.164/',
+			_type	: 'GET',
+			endpoint: 'tracks.json',
 			data	: {}
 		};
+
+
 
 		function cb(obj) {
 			setTimeout(function () {
@@ -1301,8 +1305,8 @@ app.model.sisyphus_manager = {
 			self.set('community_track_ids', new_track_ids);
 			self.set('fetched_community_tracks', 'true');
 		}
-
-		app.post.fetch(tracks, cb, 0);
+	
+		app.post.fetch2(tracks, cb, 0);
 
 		return this;
     },
@@ -1310,6 +1314,8 @@ app.model.sisyphus_manager = {
 		this.remove('community_playlist_ids', playlist_id);
 	},
 	download_track: function (track_id) {
+		console.log("download_track" + track_id);
+
 		this.remove('community_track_ids', track_id);
 	},
     /**************************** DEMO ****************************************/
