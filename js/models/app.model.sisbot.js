@@ -243,7 +243,7 @@ app.model.sisbot = {
 				local_ip	: data.local_ip,
 			};
 			var obj = {
-				_url	: 'http://3.16.18.164/',
+				_url	: app.config.get_api_url(),
 				_type	: 'POST',
 				_timeout: 60000,
 				endpoint: 'tracks.json',
