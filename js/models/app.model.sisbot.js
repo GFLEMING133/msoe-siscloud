@@ -270,7 +270,8 @@ app.model.sisbot = {
 			endpoint: 'sisbot_state/' + this.id,
 		}, function exists_cb(obj) {
 			self._fetching_cloud = false;
-
+			// debugger;
+			// console.log("_fetch_cloud() returned " + JSON.stringify(obj));
 			if (obj.resp && obj.resp.local_ip) {
 				// we are internet connected!
 				var ip_address = obj.resp.local_ip;
