@@ -8,12 +8,10 @@ app.config = {
 			port		: 3001,
 		},
 		beta: {		// tests local network
-					// user_data._url		= 'http://192.168.1.38:3000/'; //work
-					// user_data._url		= 'http://3.16.18.164/'; //AWS
-					// user_data._url		= 'http://192.168.29.135:3000/'; //home
-					// user_data._url		= 'http://10.0.1.146:3000/'; //NE-Makers
-			api_url		: 'http://10.0.1.146:3000/', //change this for the global url variable
-			webcenter_url : 'http://10.0.1.146:3000/',
+			api_url		: 'http://webcenter.sisyphus-industries.com/',
+			// api_url		: 'http://10.0.1.146:3000/', //NE-Makers
+			// webcenter_url : 'http://10.0.1.146:3000/', //NE-Makers
+			webcenter_url : 'http://webcenter.sisyphus-industries.com/',
 			port		: 3001,
 		},
 		sisbot: (function() {
