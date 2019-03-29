@@ -76,7 +76,6 @@ app.post = {
 		if (app.current_user())
 			req_data.user = app.current_user().get('data');
 			console.log('IN APP POST req_data',req_data)
-debugger;
 		var auth_token = ((req_data || {}).user || {}).auth_token;
 				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
@@ -87,7 +86,7 @@ debugger;
 						'Authorization': auth_token
 					},
 					success: function (data) {
-						debugger;
+
 						try {
 							data = JSON.parse(data);
 						} catch(err) {}
@@ -98,7 +97,7 @@ debugger;
 							app.trigger(cb, data);
 					},
 					error: function (resp) {
-						debugger;
+
 						if (retry_count <= 0) {
 							if (cb) cb({ err: 'Could not make request', resp: null });
 							return this;

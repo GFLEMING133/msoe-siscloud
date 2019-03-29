@@ -596,7 +596,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	position		: absolute;
 	left			: 0px;
 	right			: 0px;
-	bottom			: 0px;
+	bottom			: -35px;
 }
 
 

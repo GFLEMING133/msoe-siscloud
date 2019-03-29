@@ -421,7 +421,7 @@ app.model.sisyphus_manager = {
 		// }
 		
 		var post_obj = {
-			_url	: 'http://3.16.18.164/',
+			_url	: app.config.get_api_url(),
 			_type	: 'POST',
 			_timeout: 60000,
 			endpoint: `register_user.json?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
@@ -432,42 +432,41 @@ app.model.sisyphus_manager = {
 		app.post.fetch( post_obj, cb, 0);
 		this.fetch_community_playlists();
 	},
-	sign_in: function (user_data) { 
-		debugger;
+	// sign_in: function (user_data) { 
 
-		user_data.type		= 'user';
-		user_data.endpoint	= 'register_user.json';
-		user_data._url		= 'http://3.16.18.164/';
-		user_data._timeout	= '5000';
+	// 	user_data.type		= 'user';
+	// 	user_data.endpoint	= 'register_user.json';
+	// 	user_data._url		= 'http://3.16.18.164/';
+	// 	user_data._timeout	= '5000';
 
-		var self		= this;
-		var errors		= [];
-		var user_data   = user_data || this.get('data');
+	// 	var self		= this;
+	// 	var errors		= [];
+	// 	var user_data   = user_data || this.get('data');
 
-		if (user_data.username == '')	errors.push('- Username cannot be blank');
-		if (user_data.password == '')	errors.push('- Password cannot be blank');
+	// 	if (user_data.username == '')	errors.push('- Username cannot be blank');
+	// 	if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-		if (window.location.href == 'http://3.16.18.164/') {
-			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
-				errors.push('- Username is not authorized to administer domain');
-			}
-		}
+	// 	if (window.location.href == 'http://3.16.18.164/') {
+	// 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+	// 			errors.push('- Username is not authorized to administer domain');
+	// 		}
+	// 	}
 
-		if (errors.length > 0) {
-			this.set('signing_in', 'false')
-			return this.set('errors', errors);
-		}
+	// 	if (errors.length > 0) {
+	// 		this.set('signing_in', 'false')
+	// 		return this.set('errors', errors);
+	// 	}
 
-		function cb(obj) {
-			if (obj.err)
-				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
+	// 	function cb(obj) {
+	// 		if (obj.err)
+	// 			return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
 
-			self._process_sign_in(user_data, obj.resp);
-		};
+	// 		self._process_sign_in(user_data, obj.resp);
+	// 	};
 
-		user_data.endpoint = 'sign_in';
-		app.plugins.fetch(user_data, cb);
-	},
+	// 	user_data.endpoint = 'sign_in';
+	// 	app.plugins.fetch(user_data, cb);
+	// },
 	sign_in: function (user_data) {
 		
 		if (this.get('signing_in') == 'true') return false;
@@ -490,13 +489,16 @@ app.model.sisyphus_manager = {
 			self._process_registration(user_data, obj.resp);
 		};
 
-		user_data.endpoint	= 'auth_user';
-		//user_data._url		= 'http://192.168.1.38:3000/';
-		//user_data._url		= 'http://192.168.0.11:3000/';
-		user_data._url		= 'http://3.16.18.164/';
-		user_data._timeout	= '5000';
+		user_data.endpoint		= 'auth_user';
+		user_data._url			=  app.config.get_api_url();
+		// user_data._url		= 'http://192.168.1.38:3000/'; //work
+		// user_data._url		= 'http://3.16.18.164/'; //AWS
+		// user_data._url		= 'http://192.168.29.135:3000/'; //home
+		// user_data._url		= 'http://10.0.1.146:3000/'; //NE-Makers
 
+		user_data._timeout	= '5000';
 		app.post.fetch2(user_data, cb, 0);
+		app.trigger('session:active', { secondary: 'tracks', primary: 'community' });
 	},
 	get_errors: function (user_data) {
 		var errors = [];
@@ -1243,8 +1245,13 @@ app.model.sisyphus_manager = {
 		this.set('fetching_community_playlists', 'true');
 
 		// should return playlists and tracks
+		// _url		= 'http://192.168.1.38:3000/'; 		//work
+		// _url		= 'http://3.16.18.164/';		 	//AWS
+		// _url		= 'http://192.168.29.135:3000/'; 	//home
+		// _url     = 'http://10.0.1.146:3000/'; 		//NE-Makers
+		
 		var playlists = {
-			_url	: 'http://3.16.18.164/tracks/',
+			_url	:  app.config.get_api_url(),
 			_type	: 'GET',
 			endpoint: 'list_tracks',
 			data	: {}
@@ -1282,8 +1289,13 @@ app.model.sisyphus_manager = {
 		this.set('fetching_community_tracks', 'true');
 
 		// should return playlists and tracks
+		// _url		= 'http://192.168.1.38:3000/'; 		//work
+		// _url		= 'http://3.16.18.164/';		 	//AWS
+		// _url		= 'http://192.168.29.135:3000/'; 	//home
+		// _url     = 'http://10.0.1.146:3000/'; 		//NE-Makers
+
 		var tracks = {
-			_url	: 'http://3.16.18.164/',
+			_url	: app.config.get_api_url(),
 			_type	: 'GET',
 			endpoint: 'tracks.json',
 			data	: {}
