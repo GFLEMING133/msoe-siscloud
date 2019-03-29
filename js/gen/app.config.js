@@ -1,6 +1,7 @@
 app.config = {
 	env					: 'beta',
 	version				: '1.7.1',
+	disconnect_timeout_to_stop_polling : 20000,
 	envs	: {
 		alpha: {	// loads local data only
 			api_url		: 'http://api.dev.withease.io:3000/',
@@ -23,6 +24,7 @@ app.config = {
 		})(),
 		prod: {
 			api_url		: 'https://api.sisyphus.withease.io/',
+			// api_url		: 'http://webcenter.sisyphus-industries.com/',
 			webcenter_url : 'http://webcenter.sisyphus-industries.com/',
 			base_port	: 443,
 		}

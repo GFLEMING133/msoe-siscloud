@@ -442,7 +442,7 @@ app.model.sisbot = {
 			// do nothing.. We haven't timed out
 		} else if (this.is_legacy() == true && disconnect_length > 10000) {
 			this._poll_failure_stop();
-		} else if (this.is_legacy() == false && disconnect_length > 1500) {
+		} else if (this.is_legacy() == false && disconnect_length > app.config.disconnect_timeout_to_stop_polling) {
 			if (this.get('is_socket_connected') == 'true') {
 				// we have polling from old requests that have timed out after socket reconnected. Ignore
 			} else {
