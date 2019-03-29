@@ -185,7 +185,7 @@ app.model.track = {
 
 		var post_data		= this.get('data');
 
-		post_data._url		= app.config.get_api_url();
+		post_data._url		= app.config.get_webcenter_url();
 		post_data._type		= 'POST';
 		post_data.endpoint	= 'set';
 
@@ -203,12 +203,11 @@ app.model.track = {
 		this.set('upload_status', 'uploading');
 
 		app.post.fetch({
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	:  app.config.get_webcenter_url(),
 			_type	: 'POST',
 			endpoint: 'upload_track',
 			id		: this.id,
 			verts	: verts_data,
-			host_url: 'https://app.sisyphus.withease.io/',
 		}, function cb(obj) {
 			if (obj.err) {
 				self.set('upload_status', 'failure');
@@ -1005,7 +1004,7 @@ app.model.track = {
 		var self = this;
 
 		var req_obj = {
-			_url	: app.config.get_api_url(),
+			_url	: app.config.get_webcenter_url(),
 			_type	: 'POST',
 			endpoint: 'get',
 			id		: this.id
@@ -1027,7 +1026,7 @@ app.model.track = {
 		debugger;
 
 		var req_obj = {
-			_url	: app.config.get_api_url(),
+			_url	: app.config.get_webcenter_url(),
 			_type	: 'GET',
 			endpoint: 'tracks/get_track_header.json',
 			id		: this.id
@@ -1053,7 +1052,7 @@ app.model.track = {
 		if (self.get('data.original_file_type') == 'thr')
 		{
 			var req_obj = {
-				_url	: app.config.get_api_url(),
+				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
 				endpoint: 'tracks/download_track_thr.json',
 				id		: this.id
@@ -1063,7 +1062,7 @@ app.model.track = {
 		else if (self.get('data.original_file_type') == 'svg') 
 		{
 			var req_obj = {
-				_url	: app.config.get_api_url(),
+				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
 				endpoint: 'tracks/download_track_svg.json',
 				id		: this.id

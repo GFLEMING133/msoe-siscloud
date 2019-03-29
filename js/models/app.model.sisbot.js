@@ -180,7 +180,7 @@ app.model.sisbot = {
 		console.log("_fetch_log()");
 		var data = this.get('data');
 		var obj = {
-			// _url	: 'https://api.sisyphus.withease.io/',
+			_url	:  app.config.get_api_url(),
 			_type	: 'POST',
 			_timeout: 60000,
 			endpoint: 'get_log',
@@ -234,6 +234,7 @@ app.model.sisbot = {
 		}, 0);
 	},
 	_update_cloud: function (data) {
+		// function not used.
 		console.log("_update_cloud()");
 		if (this.get('data.is_internet_connected') == 'true') {
 			var data = this.get('data');
@@ -264,7 +265,7 @@ app.model.sisbot = {
 		var current_ip	= this.get('data.local_ip');
 
 		app.post.fetch(exists = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	:  app.config.get_api_url(),
 			_type	: 'GET',
 			_timeout: 1250,
 			endpoint: 'sisbot_state/' + this.id,
@@ -1501,7 +1502,7 @@ app.model.sisbot = {
 		var self = this;
 
 		var obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: app.config.get_api_url(),
 			_type	: 'POST',
 			endpoint: 'latest_software_version',
 			data	: {}

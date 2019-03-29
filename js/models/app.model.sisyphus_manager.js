@@ -182,7 +182,7 @@ app.model.sisyphus_manager = {
 		var self = this;
 
 		var obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: app.config.get_api_url(),
 			_type	: 'POST',
 			endpoint: 'latest_software_version',
 			data	: {}
@@ -490,14 +490,14 @@ app.model.sisyphus_manager = {
 		};
 
 		user_data.endpoint		= 'auth_user';
-		user_data._url			=  app.config.get_api_url();
+		user_data._url			=  app.config.get_webcenter_url();
 		// user_data._url		= 'http://192.168.1.38:3000/'; //work
 		// user_data._url		= 'http://3.16.18.164/'; //AWS
 		// user_data._url		= 'http://192.168.29.135:3000/'; //home
 		// user_data._url		= 'http://10.0.1.146:3000/'; //NE-Makers
 
 		user_data._timeout	= '5000';
-		app.post.fetch2(user_data, cb, 0);
+		app.post.fetch(user_data, cb, 0);
 		app.trigger('session:active', { secondary: 'tracks', primary: 'community' });
 	},
 	get_errors: function (user_data) {
@@ -1251,7 +1251,7 @@ app.model.sisyphus_manager = {
 		// _url     = 'http://10.0.1.146:3000/'; 		//NE-Makers
 		
 		var playlists = {
-			_url	:  app.config.get_api_url(),
+			_url	:  app.config.get_webcenter_url(),
 			_type	: 'GET',
 			endpoint: 'list_tracks',
 			data	: {}
@@ -1295,7 +1295,7 @@ app.model.sisyphus_manager = {
 		// _url     = 'http://10.0.1.146:3000/'; 		//NE-Makers
 
 		var tracks = {
-			_url	: app.config.get_api_url(),
+			_url	: app.config.get_webcenter_url(),
 			_type	: 'GET',
 			endpoint: 'tracks.json',
 			data	: {}
@@ -1320,7 +1320,7 @@ app.model.sisyphus_manager = {
 			self.set('fetched_community_tracks', 'true');
 		}
 	
-		app.post.fetch2(tracks, cb, 0);
+		app.post.fetch(tracks, cb, 0);
 
 		return this;
     },
@@ -1569,7 +1569,7 @@ app.model.sisyphus_manager = {
 
 			var track = data.shift();
 
-			track._url		= 'https://api.sisyphus.withease.io/';
+			track._url		= app.config.get_webcenter_url();
 			track._type		= 'POST';
 			track.endpoint	= 'set';
 

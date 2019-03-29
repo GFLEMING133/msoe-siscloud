@@ -5,6 +5,7 @@ app.config = {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/',
 			api_url		: 'http://api.dev.withease.io:3000/',
+			webcenter_url : 'http://api.dev.withease.io:3000/',
 			port		: 3001,
 		},
 		beta: {		// tests local network
@@ -14,6 +15,7 @@ app.config = {
 					// user_data._url		= 'http://10.0.1.146:3000/'; //NE-Makers
 			base_url	: 'http://app.dev.withease.io:3001/',
 			api_url		: 'http://10.0.1.146:3000/', //change this for the global url variable
+			webcenter_url : 'http://10.0.1.146:3000/',
 			port		: 3001,
 		},
 		sisbot: (function() {
@@ -26,8 +28,13 @@ app.config = {
 		prod: {
 			base_url	: 'https://app.sisyphus.withease.io/',
 			api_url		: 'https://api.sisyphus.withease.io/',
+			webcenter_url : 'http://webcenter.sisyphus-industries.com/',
 			base_port	: 443,
 		}
+	},
+	get_webcenter_url: function () {
+		//removed[this.env] & replaced with beta as it was calling the envs.sisbot and changing the url
+		return this.envs[this.env].webcenter_url;
 	},
 	get_base_url: function () {
 		return this.envs[this.env].base_url;
