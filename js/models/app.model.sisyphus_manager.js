@@ -1317,6 +1317,9 @@ app.model.sisyphus_manager = {
 
 			self.set('community_track_ids', new_track_ids);
 			self.set('fetched_community_tracks', 'true');
+			console.log('new_playlist_ids', new_track_ids);
+			console.log('obj.resp', obj.resp);
+
 		}
 	
 		app.post.fetch2(tracks, cb, 0);

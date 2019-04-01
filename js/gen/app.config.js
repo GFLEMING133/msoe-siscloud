@@ -13,7 +13,7 @@ app.config = {
 					// user_data._url		= 'http://192.168.29.135:3000/'; //home
 					// user_data._url		= 'http://10.0.1.146:3000/'; //NE-Makers
 			base_url	: 'http://app.dev.withease.io:3001/',
-			api_url		: 'http://10.0.1.146:3000/', //change this for the global url variable
+			api_url		: 'http://192.168.1.38:3000/', //change this for the global url variable
 			port		: 3001,
 		},
 		sisbot: (function() {
