@@ -1103,7 +1103,9 @@ app.model.track = {
 	download: function () {
 
 		var self = this;
-		debugger;
+		debugger; //this throws error because of SSL Certificate for the websocket.. change the self.socket to 3000 in the app.socket.js (line 36)
+							//Chrome doesn't allow unsecure websocket (ws) connections to localhost (only wss, so you should setup a TLS certificate for your 
+							//local web/websocket server). However the same should work fine with Firefox.
 		if (this.get('data.verts') !== '') {
 			console.log("track : download  verts already present, call sisbot:track_add");
 			app.trigger('manager:download_track', this.id);
@@ -1126,6 +1128,7 @@ app.model.track = {
 		};
 		
 		function cb(obj) {
+			debugger;
 			if (obj.err) {
 				alert('There was an error downloading this track. Please try again later')
 			} else {

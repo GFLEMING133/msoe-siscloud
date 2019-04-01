@@ -371,14 +371,14 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 
 .trackBox {
-	min-height: 0%;
+		min-height: 0%;
     flex-direction: column;
     display: flex;
     width: 100%;
-    max-height: 60%;
+    max-height: calc( 100% - 210px);
 }
 .scrollDown {
-    min-height: 0%;
+		min-height: 0%;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
