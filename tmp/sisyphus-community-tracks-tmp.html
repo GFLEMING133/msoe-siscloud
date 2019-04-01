@@ -1,4 +1,5 @@
 <div class="h__k" data-run="model.fetch_community_tracks">
+    <h3>Sisyphus Community Tracks</h3>
     <div class="h__k" data-if="{{= model.fetching_community_tracks }} == true">
         <div class="p20 center i h__k">Fetching tracks...</div>
     </div>
@@ -13,7 +14,7 @@
             data-foreach-map="true"
         >
             <div class="flex mt10 h__k" data-on-click="model.download">
-                <div class="w10 hvw10 bg-grey-ll shadow center vertical">
+                <div class="w10 pt10 center vertical">
                     <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
                         data-src="http://localhost:3000{{= model.data.svg_name.url}}"
                     />

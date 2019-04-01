@@ -1101,9 +1101,8 @@ app.model.track = {
 
 
 	download: function () {
-		var self = this;
 
-		console.log("track : download");
+		var self = this;
 		debugger;
 		if (this.get('data.verts') !== '') {
 			console.log("track : download  verts already present, call sisbot:track_add");
@@ -1113,19 +1112,19 @@ app.model.track = {
 		}
 
 		var req_obj = {
-			_url	: 'http://192.168.1.38:3000/',
+			_url	: app.config.get_api_url(),
 			_type	: 'POST',
 			endpoint: 'tracks/1/download.json',
 			id		: this.id
 		};
 
 		var req_obj = {
-			_url	: 'http://192.168.1.38:3000/',
+			_url	: app.config.get_api_url(),
 			_type	: 'GET',
 			endpoint: 'tracks/1/download.json',
 			id		: this.id
 		};
-
+		
 		function cb(obj) {
 			if (obj.err) {
 				alert('There was an error downloading this track. Please try again later')
@@ -1137,7 +1136,7 @@ app.model.track = {
 			}
 		}
 
-		app.post.fetch(req_obj, cb, 0);
+		app.post.fetch2(req_obj, cb, 0);
 	},
 	publish_upload: function() {
 		var self = this;
