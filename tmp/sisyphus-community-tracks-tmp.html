@@ -1,32 +1,46 @@
 <div class="h__k" data-run="model.fetch_community_tracks">
-    <h3>Sisyphus Community Tracks</h3>
-    <div class="h__k" data-if="{{= model.fetching_community_tracks }} == true">
-        <div class="p20 center i h__k">Fetching tracks...</div>
-    </div>
-    <div class="h__k" data-if="{{= model.fetching_community_tracks }} == false">
-        <div class="p20 center i h__k"
-            data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
-        >There are no new tracks to download</div>
-        <div class="h__k pt10 pb100 mb75"
-            data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
-            data-foreach="model.community_track_ids"
-            data-foreach-change="foreach_reset"
-            data-foreach-map="true"
-        >
-            <div class="flex mt10 h__k" data-on-click="model.download">
-                <div class="w10 pt10 center vertical">
-                    <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-                        data-src="http://localhost:3000{{= model.data.thumb}}"
-                    />
+        <h3>Sisyphus Community Tracks</h3>
+        <div class="h__k" data-if="{{= model.fetching_community_tracks }} == true">
+            <div class="p20 center i h__k">Fetching tracks...</div>
+        </div>
+        <div class="h__k" data-if="{{= model.fetching_community_tracks }} == false">
+            <div class="p20 center i h__k"
+                data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
+            >There are no new tracks to download</div>
+            <div class="h__k pt10 pb100 mb75"
+                data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
+                data-foreach="model.community_track_ids"
+                data-foreach-change="foreach_reset"
+                data-foreach-map="true"
+            >
+                <div class="flex mt10 h__k">
+                    <div class="w10 pt10 center vertical">
+                        <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
+                            data-src="http://localhost:3000{{= model.data.thumb}}"
+                        />
+                    </div>
+                    <div class="w5 hvw10">&nbsp;</div>
+                    <div class="w70 bb hvw10 vertical center">
+                        <div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
+                        <div class="fs12 lh18 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
+                    </div>
+                    <div class="w20 pt10 pb10 h100 vertical right">
+                            <i class="grey pt20 pb20 pr20" aria-hidden="true">
+                                <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
+                            </i>
+                        </div>
                 </div>
-                <div class="w5 hvw10">&nbsp;</div>
-                <div class="w70 bb hvw10 vertical center">
-                    <div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
-                </div>
-                <div class="w20 hvw10 bb vertical center">
-                    <i class="fa fa-cloud-download f-large" aria-hidden="true"></i>
-                </div>
+                <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
+                        <div class="w20 hvw10 bb vertical center" data-on-click="model.download">
+                                <i class="fa fa-cloud-download f-large" aria-hidden="true"></i>
+                        </div>
+              
+                        <div class="w25 clickable active center pt15 pb15 h__k"
+                            data-on-click="publish"
+                            data-publish="session:active"
+                            data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
+                        ><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" /></div>
+                    </div>
             </div>
         </div>
     </div>
-</div>
