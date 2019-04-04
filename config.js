@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.3', // Releasing large amount of UI changes
+    version : '1.8.5', // CHANGELOG.md #2019-04-03
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
