@@ -361,7 +361,7 @@ label {
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    height: 80vw;
+    height: 100vh;
 }
 
 .no-scroll {
