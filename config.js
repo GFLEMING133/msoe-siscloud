@@ -1,5 +1,5 @@
 var config = {
-    version : '1.7.4', // added alert when uploading wrong file type in Upload Track and added Save button to Night Mode and removed back arrow
+    version : '1.7.5', // Upload multiple track image generation fix
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {

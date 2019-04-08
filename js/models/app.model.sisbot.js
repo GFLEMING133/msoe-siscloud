@@ -219,7 +219,7 @@ app.model.sisbot = {
 			} else {
 				if (resp.err == null)
 					self.check_for_unavailable();
-					
+
 				if (resp.err) {
 					alert(resp.err);
 					console.log(address, endpoint, resp);
@@ -1279,6 +1279,9 @@ app.model.sisbot = {
 				// make sure verts are not retained
 				if (track_model.get('data.verts')) track_model.unset('data.verts');
 
+				// show track image
+				track_model.set('generating_thumbnails', 'false');
+
 				app.manager.intake_data(obj.resp);
 				// manager will now change pages
 				// app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
@@ -1339,9 +1342,9 @@ app.model.sisbot = {
 	play: function () {
 		var self = this;
 		this.set('data.state', 'playing');
-		
+
 		this._update_sisbot('play', {}, function (obj) {
-			
+
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},

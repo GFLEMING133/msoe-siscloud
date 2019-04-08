@@ -36,29 +36,29 @@ app.model.track = {
 			max_steps	: 30, // max steps
 
 			data		: {
-				id					: data.id,
-				type    			: 'track',
-				version				: this.current_version,
+				id								: data.id,
+				type    					: 'track',
+				version						: this.current_version,
 
-                name                : '',
-                is_published		: 'false',
-				duration			: '90',		// minutes
+        name          		: '',
+        is_published			: 'false',
+				duration					: '90',		// minutes
 
-				created_by_id		: 'false',
+				created_by_id			: 'false',
 				created_by_name		: 'false',
 
-				original_file_type	: 'false', 	// thr|svg
+				original_file_type: 'false', 	// thr|svg
 				has_verts_file		: 'false',
-				verts				: '',		// temporary
+				verts							: '',		// temporary
 
-				default_vel			: 1,
-				default_accel		: 0.5,
+				default_vel				: 1,
+				default_accel			: 0.5,
 				default_thvmax		: 1,
-				reversed			: false,
-				firstR				: -1,
-				lastR				: -1,
-				type				: 'r',
-				reversible			: false
+				reversed					: false,
+				firstR						: -1,
+				lastR							: -1,
+				type							: 'r',
+				reversible				: false
 			}
 		};
 
@@ -113,44 +113,46 @@ app.model.track = {
 		if (this.get('generating_thumbnails') == 'true') return this;
 
 		var self = this;
+		self.set('generating_thumbnails', 'true');
 
-		// TODO: make sure table is paused, sending verts can cause ball jitter
+		// make sure table is paused, sending verts can cause ball jitter
 		var sisbot = app.manager.get_model('sisbot_id');
 		if (sisbot.get('data.state') == 'playing') {
 			sisbot.pause();
 
 			console.log("Wait longer for pause to finish");
-			setTimeout(function() { self.get_thumbnail(); }, 4000);
+			setTimeout(function() {
+				self.set('generating_thumbnails', 'false');
+				self.get_thumbnail();
+			}, 4000);
+		} else {
+			// send generate message to sisbot to create thumbnail
+			console.log("Get Thumbnail", this.get('data.name'));
+
+			var data = { id: 'preview', dimensions: 400 };
+			if (this.get('data.original_file_type') == 'svg') data.raw_coors = this.process_svg(this.get('data.file_data'));
+			else data.raw_coors = this.get('data.verts');
+
+			var address	= app.manager.get_model('sisbot_id').get('data.local_ip')
+			var post_data = {
+				_url	: 'http://' + address + '/',
+				_type	: 'POST',
+				_timeout: 60000,
+				endpoint: 'sisbot/thumbnail_preview_generate',
+				data	: data
+			};
+
+			// send to sisbot
+			app.post.fetch(post_data, function exists_cb(obj) {
+				self.set('generating_thumbnails', 'false');
+				console.log(obj);
+				if (obj.err) {
+					alert(obj.err)
+				} else {
+					console.log('Thumbnail generated');
+				}
+			}, 0);
 		}
-
-		// send generate message to sisbot to create thumbnail
-		console.log("Get Thumbnail", this.get('data.name'));
-
-		self.set('generating_thumbnails', 'true');
-
-		var data = { id: 'preview', dimensions: 400 };
-		if (this.get('data.original_file_type') == 'svg') data.raw_coors = this.process_svg(this.get('data.file_data'));
-		else data.raw_coors = this.get('data.verts');
-
-		var address	= app.manager.get_model('sisbot_id').get('data.local_ip')
-		var post_data = {
-			_url	: 'http://' + address + '/',
-			_type	: 'POST',
-			_timeout: 60000,
-			endpoint: 'sisbot/thumbnail_preview_generate',
-			data	: data
-		};
-
-		// send to sisbot
-		app.post.fetch(post_data, function exists_cb(obj) {
-			self.set('generating_thumbnails', 'false');
-			console.log(obj);
-			if (obj.err) {
-				alert(obj.err)
-			} else {
-				console.log('Thumbnail generated');
-			}
-		}, 0);
 
 		return this;
 	},
@@ -236,7 +238,7 @@ app.model.track = {
 
 		if (errors.length > 0) return this;
 
-		this.set('upload_status', 'uploading');
+		this.set('upload_status', 'uploading').set('generating_thumbnails', 'true');
 
 		// set verts to current settings if svg
 		if (this.get('data.original_file_type') == 'svg') this.set('data.verts', this.process_svg(this.get('data.file_data')));
