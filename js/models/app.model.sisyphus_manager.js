@@ -1147,7 +1147,6 @@ app.model.sisyphus_manager = {
 			} else {
 				app.trigger('session:active', { primary: 'media', secondary: 'track', track_id: track_model.id });
 			}
-
 			// save after, so preview image is made first
 			track_model.upload_track_to_sisbot();
 			// if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();
