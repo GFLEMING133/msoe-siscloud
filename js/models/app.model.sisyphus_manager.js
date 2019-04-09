@@ -53,8 +53,8 @@ app.model.sisyphus_manager = {
 			community_track_ids		: [],
 
 			is_ble_enabled			: 'false',
-			local_version			:'na',	
-					
+			local_version			:'na',
+
 			remote_versions: {
 				proxy	: '10.0.0',
 				app		: '10.0.0',
@@ -123,7 +123,7 @@ app.model.sisyphus_manager = {
 				var d = m.get('data');
 
 				_.each(data, function(val, key) {
-					if (d[key] !== val) {
+					if (d && d[key] !== val) {
 						if (_.isArray(val)) {
 							var is_diff = false;
 							if (!_.isArray(d[key])) {
@@ -988,7 +988,7 @@ app.model.sisyphus_manager = {
 				self.get_model('user_id').save(true);
 			}
 		}, 0);
-			
+
 	},
 	/**************************** NETWORK INFO **********************************/
 	get_network_ip_address: function (cb) {
@@ -1090,7 +1090,7 @@ app.model.sisyphus_manager = {
 
 			// error checking
 			if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
-			
+
 		});
 
 		// this.set('tracks_to_upload', []);
@@ -1098,7 +1098,7 @@ app.model.sisyphus_manager = {
 
 		// if (num_tracks > 1)
 			// app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
-		app.trigger('session:active', { primary: 'settings', secondary: 'preview-upload', track_id: track_objs[0].id });
+		app.trigger('session:active', { track_id: track_objs[0].id, primary: 'settings', secondary: 'preview-upload' });
 
 		return this;
 	},
@@ -1148,7 +1148,6 @@ app.model.sisyphus_manager = {
 			} else {
 				app.trigger('session:active', { primary: 'media', secondary: 'track', track_id: track_model.id });
 			}
-
 			// save after, so preview image is made first
 			track_model.upload_track_to_sisbot();
 			// if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();

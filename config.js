@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.4', //  Deleted alert() from upload tracks as it was throwing when no error
+    version : '1.8.6', // Upload multiple track image generation fix
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
