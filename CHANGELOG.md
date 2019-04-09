@@ -1,3 +1,5 @@
+#2019-04-03, 1.8.6 
+ - fix problems with track upload
 
 #2019-04-03, 1.8.5 
  - Advanced Movement available in Advanced Settings with warning.

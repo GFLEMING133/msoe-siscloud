@@ -1,5 +1,5 @@
 var config = {
-    version : '1.7.5', // Upload multiple track image generation fix
+    version : '1.7.6', // Upload multiple track image generation fix
 
     debug   : true,
     env     : process.env.NODE_ENV,
