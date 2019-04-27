@@ -9,7 +9,7 @@ app.config = {
 		},
 		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3001/',
-			api_url		: 'http://api.dev.withease.io:3000/',
+			api_url		: 'http://api.dev.withease.io:3000/',  //  '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
 		sisbot: (function() {
@@ -49,7 +49,9 @@ app.config = {
 };
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
-if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';
+
+//if (window.location.href.indexOf('localhost') > -1)			app.config.env = 'beta';    // uncomment for local Dev Env. 
+if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';  //<<< must be commented out for local Dev Env to work
 if (window.location.href.indexOf('.local') > -1)			app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1)			app.config.env = 'sisbot';
 

@@ -709,6 +709,19 @@ app.model.sisbot = {
 			}
 		});
 	},
+	install_update_alert: function () {
+		console.log('In the install_update_alert()') 
+		let self = this;
+		let alertMessage;
+		if (confirm("Your table will home and restart this may take sometime. Are you sure you want to continue?")) {
+			self.install_updates();
+			self.alertMessage = "I am Sisyphusing so hard right now";
+			
+		} else {
+			self.alertMessage = "Names don't change, tables do"
+		}
+	},
+
 	install_updates: function () {
 		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
@@ -752,7 +765,8 @@ app.model.sisbot = {
 
 		var self = this;
 
-		app.plugins.n.notification.confirm('Are you sure you want to reset your Sisyphus to factory settings?', function(resp_num) {
+		app.plugins.n.notification.confirm('Your table will home and and restart are you sure you want to reset your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
+			function(resp_num) {
 			if (resp_num == 1)
 				return self;
 
@@ -765,7 +779,7 @@ app.model.sisbot = {
 					app.manager.intake_data(obj.resp);
 				}
 			});
-		}, 'Factory Reset?', ['Cancel', 'OK']);
+		}, 'Factory Reset?', ['Cancel', 'OK ERASE ME']);
 	},
 	setup_update_hostname: function () {
 		console.log("setup_update_hostname()");
@@ -930,6 +944,17 @@ app.model.sisbot = {
 				self.nightmode_sleep_change();
 			}
 		});
+	},
+	update_tableName_alert: function () {
+		let self = this;
+		let alertMessage;
+		if (confirm("Your table will home and restart this may take a few moments. Are you sure you want to continue?")) {
+			self.update_tablename();
+			alertMessage = "I am Sisyphusing so hard right now";
+			
+		} else {
+			alertMessage = "Names don't change, tables do"
+		}
 	},
 	update_tablename: function () {
 		if (this.is_legacy()) {
