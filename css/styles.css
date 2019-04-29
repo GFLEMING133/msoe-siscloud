@@ -350,6 +350,7 @@ label {
     left: -5px;
     right: -5px;
 }
+/********************************* SCROLLING ************************************/
 
 .scroll {
     overflow-y: scroll;
