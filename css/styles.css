@@ -361,7 +361,7 @@ label {
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    height: 100vh;
+    height: 36vh;
 }
 
 .no-scroll {
@@ -371,6 +371,28 @@ label {
 
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
+}
+.trackBox {
+    min-height: 20vh;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    height: 20vh;
+    max-height: 36vh;
+}
+
+.scrollDown {
+    
+    min-height: 20vh;
+    max-height: 36vh;
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
+}
+
+@media (max-height: 20vh) {
+    .scrollDown {
+        height: 20vh;
+    }
 }
 
 .justify {
