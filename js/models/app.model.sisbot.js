@@ -713,7 +713,7 @@ app.model.sisbot = {
 		let self = this;
 		let is_servo = self.get('data.is_servo');
 		if(is_servo == 'true') {
-			if(confirm("Your table will home restart this may take sometime. Are you sure you want to continue?"))
+			if(confirm("Your ball will home to the middle and the table will restart. This may take sometime. Are you sure you want to continue?"))
 			self.install_updates();
 
 			} else if(is_servo == 'false'){
@@ -764,9 +764,9 @@ app.model.sisbot = {
 			return this;
 
 		var self = this;
-
-		app.plugins.n.notification.confirm('Your table will home and and restart are you sure you want to reset your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
-			function(resp_num) {
+		var is_servo = self.get('data.is_servo');
+		app.plugins.n.notification.confirm(' This will erase any tracks you have downloaded. Your ball will home to the middle of the table and the table willrestart. Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
+		function(resp_num) {
 			if (resp_num == 1)
 				return self;
 
@@ -948,13 +948,19 @@ app.model.sisbot = {
 	update_tableName_alert: function () {
 		let self = this;
 		let alertMessage;
-		if (confirm("Your table will home and restart this may take a few moments. Are you sure you want to continue?")) {
-			self.update_tablename();
-			alertMessage = "I am Sisyphusing so hard right now";
-			
-		} else {
-			alertMessage = "Names don't change, tables do"
-		}
+		let is_servo = self.get('data.is_servo');
+		if(is_servo == 'true'){
+			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?")) 
+				self.update_tablename();
+				alertMessage = "I am Sisyphusing so hard right now";
+				
+			} else if (is_servo == 'false') {
+				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?")) 
+					self.update_tablename();
+				alertMessage = "Names don't change, tables do"
+			}else{
+
+			}
 	},
 	update_tablename: function () {
 		if (this.is_legacy()) {
