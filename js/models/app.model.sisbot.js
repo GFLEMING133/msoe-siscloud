@@ -762,14 +762,11 @@ app.model.sisbot = {
 		console.log("factory_reset()");
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
-
 		var self = this;
-		var is_servo = self.get('data.is_servo');
-		app.plugins.n.notification.confirm(' This will erase any tracks you have downloaded. Your ball will home to the middle of the table and the table willrestart. Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
+		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
 		function(resp_num) {
 			if (resp_num == 1)
 				return self;
-
 			self.set('data.factory_resetting', 'true')
 
 			self._update_sisbot('factory_reset', {}, function(obj) {
