@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.6', // Upload multiple track image generation fix
+    version : '1.8.7', // CHANGELOG.md 2019-5-02
     debug   : true,
     env     : process.env.NODE_ENV,
     travis_dev: {
