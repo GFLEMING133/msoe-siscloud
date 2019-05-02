@@ -24,6 +24,7 @@ var app = function(given_config,ansible) {
 	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
+	 //if (config.env.indexOf('dev') > -1) { // uncommnet for local Dev Env
 	if (config.env.indexOf('sisbot') == -1) {
 		fs.watch(config.dir + '/templates', regenerate_index_page);
 		fs.watch(config.dir + '/tmp', regenerate_index_page);

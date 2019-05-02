@@ -725,14 +725,15 @@ app.model.sisyphus_manager = {
 		console.log("_find_sisbots()");
 		// this will find the sisbots on the local network
 		var self			= this;
-
-		if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
-			setTimeout(function() {
-				self._find_sisbots();
-			}, 100);
-			return this;
+		 // conditional for if in beta localhost mode or not to ignore error.
+		if(app.config.env != 'beta') {
+			if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
+				setTimeout(function() {
+					self._find_sisbots();
+				}, 100);
+				return this;
+			}
 		}
-
 		this.set('sisbots_networked', []);
 		this.set('sisbots_ip_name', {});
 		this.set('sisbots_scanning', 'true');
@@ -755,6 +756,8 @@ app.model.sisyphus_manager = {
 
 				if (app.config.env == 'alpha') {
 					self.connect_to_sisbot('192.168.42.1');
+				} else if (app.config.env == 'beta') {
+					self.connect_to_sisbot(app.config.get_api_url());
 				} else if (sisbots.length == 1) {
 					self.set('sisbot_registration', 'connecting');
 					self.connect_to_sisbot(sisbots[0]);

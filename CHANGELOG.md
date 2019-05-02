@@ -1,3 +1,13 @@
+#2019-5-02, 1.8.7
+ - Changed <meta> to reflect production and for adding media queries to the css. 
+ - added text-size-adjust to the styles.css to help display transition. 
+ - added //comments to the server.js, config.js and app.model.sisyphus_manager with code for setting the local dev environment. 
+ - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the right     url.
+ - adjusted height attribute in the home.html for the Disconnect From WIFI page. 
+ - changed back-arrow routing in the sisyphus-settings-change-name so it doesnt call the change_name() and routes back to the advance settings page. 
+ - added conditional confirm()'s to check wether the table is_servo or not so it displays different messages for change table name and firmware update. 
+ - made the Firmware Update page scrollable for phones with smaller screens per customer request. 
+ 
 #2019-04-03, 1.8.6 
  - fix problems with track upload
 
