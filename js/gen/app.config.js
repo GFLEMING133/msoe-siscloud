@@ -1,57 +1,59 @@
 app.config = {
-    env: 'prod',
-    version: '1.8.7',
-    envs: {
-        alpha: { // loads local data only
-            base_url: 'http://app.dev.withease.io:3001/',
-            api_url: 'http://api.dev.withease.io:3000/',
-            port: 3001,
-        },
-        beta: { // tests local network
-            base_url: 'http://app.dev.withease.io:3001/',
-            api_url: '10.0.0.18:3002', //  '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
-            port: 3001,
-        },
-        sisbot: (function() {
-            return {
-                base_url: window.location.href,
-                api_url: window.location.href,
-                port: 3001,
-            }
-        })(),
-        prod: {
-            base_url: 'https://app.sisyphus.withease.io/',
-            api_url: 'https://api.sisyphus.withease.io/',
-            base_port: 443,
-        }
-    },
-    get_base_url: function() {
-        return this.envs[this.env].base_url;
-    },
-    get_api_url: function() {
-        return this.envs[this.env].api_url;
-    },
-    get_thumb_url: function() {
-        if (this.env == 'alpha') {
-            return '';
-        } else {
-            return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
-        }
-    },
-    get_thumb_size: function() {
-        var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
-        if (+(firmware[1]) >= 1) {
-            return '100';
-        } else {
-            return '50';
-        }
-    }
+	env					: 'prod',
+	version				: '1.8.7', 
+	envs	: {
+		alpha: {	// loads local data only
+			base_url	: 'http://app.dev.withease.io:3001/',
+			api_url		: 'http://api.dev.withease.io:3000/',
+			port		: 3001,
+		},
+		beta: {		// tests local network
+			base_url	: 'http://app.dev.withease.io:3001/',
+			api_url		: 'beta_bot.local',  //  add entry in your computers /etc/hosts mapped to your bot's IP address
+			                               //  10.0.0.3	beta_bot.local
+			                               //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			port		: 3001,
+		},
+		sisbot: (function() {
+			return {
+				base_url	: window.location.href,
+				api_url		: window.location.href,
+				port		: 3001,
+			}
+		})(),
+		prod: {
+			base_url	: 'https://app.sisyphus.withease.io/',
+			api_url		: 'https://api.sisyphus.withease.io/',
+			base_port	: 443,
+		}
+	},
+	get_base_url: function () {
+		return this.envs[this.env].base_url;
+	},
+	get_api_url: function () {
+		return this.envs[this.env].api_url;
+	},
+	get_thumb_url: function () {
+		if (this.env == 'alpha') {
+			return '';
+		} else {
+			return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
+		}
+	},
+	get_thumb_size: function () {
+		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
+		if (+(firmware[1]) >= 1) {
+			return '100';
+		} else {
+			return '50';
+		}
+	}
 };
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
+if (window.location.href.indexOf('localhost') > -1)			app.config.env = 'beta';    // uncomment for local Dev Env. 
+else if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot';  //<<< must be commented out for local Dev Env to work
 
-if (window.location.href.indexOf('localhost') > -1) app.config.env = 'beta'; // uncomment for local Dev Env. 
-// if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';  //<<< must be commented out for local Dev Env to work
 if (window.location.href.indexOf('.local') > -1) app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';
 
