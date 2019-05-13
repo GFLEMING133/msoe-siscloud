@@ -9,7 +9,7 @@ var cleanCSS		= require('clean-css');
 var cors			= require("cors");
 
 var exp             = express();
-var appService     = new express();
+var app_service     = new express();
 
 var config = {};
 
@@ -24,7 +24,7 @@ var app = function(given_config,ansible) {
 	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
-	if (config.env.indexOf('sisbot') == -1) {
+	if (config.env.indexOf('dev') > -1 ||   config.env.indexOf('sisbot') == -1) { 
 		fs.watch(config.dir + '/templates', regenerate_index_page);
 		fs.watch(config.dir + '/tmp', regenerate_index_page);
 		fs.watch(config.dir + '/js/gen', regenerate_index_page);
@@ -34,7 +34,7 @@ var app = function(given_config,ansible) {
 		fs.watch(config.dir + '/dev.index.html', regenerate_index_page);
 	}
 
-	appService
+	app_service
 	.get('/thumbnail_exists/:id', function (req, res) {
 		var id 				= req.params.id;
 		var file_loc		= config.dir + '/img/tracks/' + id + '_50.png';
@@ -86,21 +86,18 @@ var app = function(given_config,ansible) {
 	})
 	.use(cors())
 	.use(express.static(config.dir))
-	.use('/', function(res, req, next) {
-			res.header('Access-Control-Allow-Origin', '*');
-			res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-			res.header('Access-Control-Allow-Credentials:', true);
-			res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Token');
-		next();
+	.use(function(res, req, next) {
+	    res.header("Access-Control-Allow-Origin", "*");
+	    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	    next();
 	});
 
-	http.createServer(appService).listen(config.port);
+	http.createServer(app_service).listen(config.port);
 
 	regenerate_index_page();
 
 	console.log('Setup the App Server');
 };
-
 
 function regenerate_index_page() {
 	var index_page   = fs.readFileSync(config.dir + '/dev.index.html', 'utf-8');

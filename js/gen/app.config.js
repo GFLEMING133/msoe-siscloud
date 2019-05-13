@@ -51,8 +51,8 @@ app.config = {
 };
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
-if (window.location.href.indexOf('localhost') > -1)			app.config.env = 'beta';    // uncomment for local Dev Env. 
-else if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot';  //<<< must be commented out for local Dev Env to work
+if (window.location.href.indexOf('localhost') > -1)			app.config.env = 'beta';   
+else if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot';  
 
 if (window.location.href.indexOf('.local') > -1) app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';
