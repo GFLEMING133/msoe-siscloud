@@ -437,7 +437,6 @@ app.model.sisyphus_manager = {
     },
 
     sign_in: function(user_data) {
-        debugger;
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -526,38 +525,27 @@ app.model.sisyphus_manager = {
             .set('user_id', 'false');
         app.current_session().sign_out();
     },
-    forgot_password: function(user_email) {
-        debugger;
-        if (this.get('signing_in') == 'true') return false;
-        else this.set('signing_in', 'true');
-        
+    forgot_password: function() { 
+        var errors = [];
+        if (!user_data.email || user_data.email == '') errors.push('- Email cannot be blank');
         var self = this;
-        user_email = this.get('forgot_email');
-        var errors = this.get_errors(user_email);
+        user_email = this.get('forgot_email'); //this is the object
 
         function cb(obj) {
             if (errors.length > 0 || obj.err)
                 return self.set('forgot_email.email', 'false').set('errors', [errors, 'That email is not in our system']);
             self.set('errors', []);
             self._process_email(user_email, obj.resp);
-            app.trigger('session:active', { secondary: 'signin', primary: 'community' });
         };
-        var fetch_arg = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'POST',
-            _timeout: 4500,
-            endpoint: `/users/password.json/`, 
-            email : user_email
-        }
-
-        app.post.fetch(fetch_arg, cb, 0 );
-       
+        user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
+        user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
+      
+        console.log('user_email ==', user_email);
+        app.post.fetch(user_email, cb, 0 );
 
     },
     _process_email: function(user, data_arr) {
-        debugger;
-        console.log(`data_arr in process_email == ${data_arr}`);
-        console.log(`USER in process_email== ${user}`);
+     
         var session_data = {
             email: user.email
         };
@@ -574,14 +562,8 @@ app.model.sisyphus_manager = {
         });
 
         app.collection.add(data_arr);
-        app.trigger('session:user_sign_in', session_data);
-
-
-        // setup user info here
-        this.set('user_id', session_data.user_id);
-
-        if (this.get('sisbot_id') == 'false')
-            this.setup_sisbots_page();
+        app.trigger('session:active', {'primary':'settings','secondary':'sign_in'});
+    
     },
     /*********************** SISBOT ONBOARDING ********************************/
     _has_update: function(sisbot, remote) {
@@ -1271,11 +1253,6 @@ app.model.sisyphus_manager = {
 
         this.set('fetching_community_playlists', 'true');
 
-        // should return playlists and tracks
-        // _url		= 'http://192.168.1.38:3000/'; 		//work
-        // _url		= 'http://3.16.18.164/';		 	//AWS
-        // _url		= 'http://192.168.29.135:3000/'; 	//home
-        // _url     = 'http://10.0.1.146:3000/'; 		//NE-Makers
 
         var playlists = {
             _url: app.config.get_webcenter_url(),
@@ -1314,12 +1291,6 @@ app.model.sisyphus_manager = {
         var self = this;
 
         this.set('fetching_community_tracks', 'true');
-
-        // should return playlists and tracks
-        // _url		= 'http://192.168.1.38:3000/'; 		//work
-        // _url		= 'http://3.16.18.164/';		 	//AWS
-        // _url		= 'http://192.168.29.135:3000/'; 	//home
-        // _url     = 'http://10.0.1.146:3000/'; 		//NE-Makers
 
         var tracks = {
             _url: app.config.get_webcenter_url(),
