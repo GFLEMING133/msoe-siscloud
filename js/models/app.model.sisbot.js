@@ -302,7 +302,7 @@ app.model.sisbot = {
 				// no ip address. must be doing network stuff
 			} else if (current_ip == ip_address && ip_address == '192.168.42.1') {
 				// sisyphus is in hotspot mode and we failed to connect to it
-				this.set('data.reason_unavailable', 'connect_to_wifi');
+				self.set('data.reason_unavailable', 'connect_to_wifi');
 			} else if (current_ip !== ip_address) {
 				// we successfully connected to wifi!
 				self.set('data.local_ip', ip_address);

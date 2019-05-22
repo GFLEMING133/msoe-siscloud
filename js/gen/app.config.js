@@ -5,12 +5,13 @@ app.config = {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/',
 			api_url		: 'http://api.dev.withease.io:3000/',
+			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
 			port		: 3001,
 		},
 		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3001/',
-			api_url		: 'beta_bot.local',  //  add entry in your computers /etc/hosts mapped to your bot's IP address
-			                               //  10.0.0.3	beta_bot.local
+			api_url		: '192.168.1.168:3002',  //  add entry in your computers /etc/hosts mapped to your bot's IP address
+			web_url		: 'http://localhost:3000/',	                               //  10.0.0.3	beta_bot.local
 			                               //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
@@ -18,12 +19,14 @@ app.config = {
 			return {
 				base_url	: window.location.href,
 				api_url		: window.location.href,
+				web_url		: 'http://localhost:3000/',
 				port		: 3001,
 			}
 		})(),
 		prod: {
 			base_url	: 'https://app.sisyphus.withease.io/',
 			api_url		: 'https://api.sisyphus.withease.io/',
+			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
 			base_port	: 443,
 		}
 	},
@@ -32,6 +35,9 @@ app.config = {
 	},
 	get_api_url: function () {
 		return this.envs[this.env].api_url;
+	},
+	get_webcenter_url: function () {
+		return this.envs[this.env].web_url;
 	},
 	get_thumb_url: function () {
 		if (this.env == 'alpha') {
@@ -51,8 +57,9 @@ app.config = {
 };
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
-if (window.location.href.indexOf('localhost') > -1)			app.config.env = 'beta';   
-else if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot';  
+if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot'; 
+if (window.location.href.indexOf('localhost') > -1)		app.config.env = 'beta';   
+
 
 if (window.location.href.indexOf('.local') > -1) app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';

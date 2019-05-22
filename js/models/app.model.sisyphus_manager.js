@@ -10,11 +10,14 @@ app.model.sisyphus_manager = {
 
             signing_up: 'false',
             signing_in: 'false',
-
+    
             registration: {
                 email: '',
                 password: '',
                 password_confirmation: '',
+            },
+            forgot_email: {
+                email: '',
             },
 
             sisbot_id: 'false',
@@ -429,46 +432,12 @@ app.model.sisyphus_manager = {
 
         };
 
-        app.post.fetch2(post_obj, cb, 0);
+        app.plugins.fetch(post_obj, cb, 0);
         this.fetch_community_playlists();
     },
-    // sign_in: function (user_data) { 
 
-    // 	user_data.type		= 'user';
-    // 	user_data.endpoint	= 'register_user.json';
-    // 	user_data._url		= 'http://3.16.18.164/';
-    // 	user_data._timeout	= '5000';
-
-    // 	var self		= this;
-    // 	var errors		= [];
-    // 	var user_data   = user_data || this.get('data');
-
-    // 	if (user_data.username == '')	errors.push('- Username cannot be blank');
-    // 	if (user_data.password == '')	errors.push('- Password cannot be blank');
-
-    // 	if (window.location.href == 'http://3.16.18.164/') {
-    // 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
-    // 			errors.push('- Username is not authorized to administer domain');
-    // 		}
-    // 	}
-
-    // 	if (errors.length > 0) {
-    // 		this.set('signing_in', 'false')
-    // 		return this.set('errors', errors);
-    // 	}
-
-    // 	function cb(obj) {
-    // 		if (obj.err)
-    // 			return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
-
-    // 		self._process_sign_in(user_data, obj.resp);
-    // 	};
-
-    // 	user_data.endpoint = 'sign_in';
-    // 	app.plugins.fetch(user_data, cb);
-    // },
     sign_in: function(user_data) {
-
+        debugger;
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -487,19 +456,15 @@ app.model.sisyphus_manager = {
 
             self.set('errors', []);
             self._process_registration(user_data, obj.resp);
+            
             app.trigger('session:active', { secondary: 'tracks', primary: 'community' });
         };
 
-        user_data.endpoint = 'auth_user';
-        user_data._url = app.config.get_webcenter_url();
-        // user_data._url		= 'http://192.168.1.38:3000/'; //work
-        // user_data._url		= 'http://3.16.18.164/'; //AWS
-        // user_data._url		= 'http://192.168.29.135:3000/'; //home
-        // user_data._url		= 'http://10.0.1.146:3000/'; //NE-Makers
+        user_data.endpoint  = 'auth_user';
+        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
+                                    
 
-        user_data._timeout = '5000';
-        app.post.fetch2(user_data, cb, 0);
-
+        app.plugins.fetch(user_data, cb, 0);
 
     },
     get_errors: function(user_data) {
@@ -515,7 +480,7 @@ app.model.sisyphus_manager = {
             password: user.password,
             password_confirmation: user.password_confirmation,
         };
-
+        
         var self = this;
         var server_user = false;
 
@@ -537,6 +502,7 @@ app.model.sisyphus_manager = {
         if (this.get('sisbot_id') == 'false')
             this.setup_sisbots_page();
     },
+    
     sign_up_via_settings: function() {
         this.on(this.after_settings);
         this.sign_up();
@@ -560,32 +526,62 @@ app.model.sisyphus_manager = {
             .set('user_id', 'false');
         app.current_session().sign_out();
     },
-    forgot_password: function() {
-        console.log('in forgot_password() YEAAAA');
+    forgot_password: function(user_email) {
         debugger;
-
+        if (this.get('signing_in') == 'true') return false;
+        else this.set('signing_in', 'true');
+        
         var self = this;
-        var email = this.get('registration.email');
-        var errors = [];
-
+        user_email = this.get('forgot_email');
+        var errors = this.get_errors(user_email);
 
         function cb(obj) {
             if (errors.length > 0 || obj.err)
-                return this.set('registration.email', 'false').set('errors', [errors, 'That email is not in our system']);
-            this.set('errors', []);
+                return self.set('forgot_email.email', 'false').set('errors', [errors, 'That email is not in our system']);
+            self.set('errors', []);
+            self._process_email(user_email, obj.resp);
+            app.trigger('session:active', { secondary: 'signin', primary: 'community' });
         };
-        debugger;
-
-
-        app.post.fetch2(exists = {
+        var fetch_arg = {
             _url: app.config.get_webcenter_url(),
             _type: 'POST',
             _timeout: 4500,
-            endpoint: `users/password.json/?=${ email }`, //Joel , I tried this way. 
-            data: { "user": { "email": "curtismorice@gmail.com" } }, // I also added this but I stll need to get the auth token, 
-            //Look in js/gen/app.post line 79. I originally had a way to do it. 
+            endpoint: `/users/password.json/`, 
+            email : user_email
+        }
+
+        app.post.fetch(fetch_arg, cb, 0 );
+       
+
+    },
+    _process_email: function(user, data_arr) {
+        debugger;
+        console.log(`data_arr in process_email == ${data_arr}`);
+        console.log(`USER in process_email== ${user}`);
+        var session_data = {
+            email: user.email
+        };
+        
+        var self = this;
+        var server_user = false;
+
+        _.each(data_arr, function(m) {
+            if (m.type == 'user' && m.email == user.email) {
+                server_user = m;
+                session_data.user_id = m.id;
+                self.set('sisbots_user', m.sisbot_ids);
+            }
         });
 
+        app.collection.add(data_arr);
+        app.trigger('session:user_sign_in', session_data);
+
+
+        // setup user info here
+        this.set('user_id', session_data.user_id);
+
+        if (this.get('sisbot_id') == 'false')
+            this.setup_sisbots_page();
     },
     /*********************** SISBOT ONBOARDING ********************************/
     _has_update: function(sisbot, remote) {
