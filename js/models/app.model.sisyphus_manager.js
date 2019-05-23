@@ -456,7 +456,7 @@ app.model.sisyphus_manager = {
             self.set('errors', []);
             self._process_registration(user_data, obj.resp);
             
-            app.trigger('session:active', { secondary: 'tracks', primary: 'community' });
+            app.trigger('session:active', { secondary: 'community-tracks-tmp', primary: 'community' });
         };
 
         user_data.endpoint  = 'auth_user';

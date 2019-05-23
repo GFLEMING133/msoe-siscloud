@@ -126,6 +126,9 @@ label {
 .body-header {
 	margin-top				: 50px;
 }
+.c-tracks-body-header {
+	 padding-top: 5px;
+}
 
 .web {
 	background-color		: #222 !important;
@@ -387,6 +390,36 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: flex;
 	width: 100%;
 	max-height: calc( 100% - 42%);
+}
+.track-search-header {
+	background-color: #000;
+	display: block;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	height: 50px;
+	border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+
+}
+.tracks-search-back-button {
+	width:15px;
+	padding-top: 10px;
+	padding-left: 20px;
+}
+.community-sortBy-header {
+	background-color: #000;
+	display: block;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	height: 50px;
+	margin-top: 40.5px;
+	padding-top: 20px;
+  padding-left: 20px;
+}
+.ctb-border {
+	border: 1px solid #efefef;
 }
 
 .communityTrack {
