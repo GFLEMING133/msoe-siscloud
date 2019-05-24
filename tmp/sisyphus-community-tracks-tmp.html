@@ -1,4 +1,4 @@
-<div class="h100 scroll hide-scrollbar">
+<div class="h100 scroll hide-scrollbar" >
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
             <div class="w15n mb20 pt10 center fa fa-arrow-left f-large clickable active bg-grey-hover h__k"
             data-on-click="publish"
@@ -11,7 +11,30 @@
         <div class="w15 center f-large">&nbsp;</div>
     </div>
     <div class="h__k content" data-run="model.fetch_community_tracks">
-        <h3 class="community-sortBy-header">SORT BY</h3>
+        <div class="sortBy-wrapper"></div>
+            <div class="sortBy-dropdown-container" data-on-click="model.openSort">
+                <div class="community-sortBy-header"><span class="sortBy-text">SORT BY</span></div>
+                <div class="sortBy-drop-actions" >
+                    <div class="sortBy-SORT-style">
+                        <p>SORT</p>
+                    </div>
+                    <div class="upDown-arrows"> 
+                        <p><i class="SortUp fa fa-sort-up fa-2x"></i></p>
+                        <p><i class="SortDown fa fa-sort-down fa-2x"></i><p>
+                    </div>
+                </div>
+            <div class="sortBy-container-contents">  
+                    <ul class="sortBy-list">
+                        <li><a class="sortBy-item" 
+                            data-on-click="model.sortByNewestDesign">NEWEST DESIGN</a></li> 
+                        <li><a class="sortBy-item" 
+                            data-on-click="model.sortByName">NAME</a></li>
+                        <li><a class="sortBy-item" 
+                            data-on-click="model.sortByArtist">ARTIST</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="h__k" data-if="{{= model.fetching_community_tracks }} == true">
             <div class="p20 center i h__k">Fetching tracks...</div>
         </div>

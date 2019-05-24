@@ -407,25 +407,106 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	padding-top: 10px;
 	padding-left: 20px;
 }
+
 .community-sortBy-header {
 	background-color: #000;
-	display: block;
+	display: inline-block;
 	color: #fff;
 	font-size: 12px;
 	font-weight: 600;
 	height: 50px;
 	margin-top: 40.5px;
-	padding-top: 20px;
-  padding-left: 20px;
+	
 }
 .ctb-border {
-	border: 1px solid #efefef;
+	border: 1px solid #dcdcdc;
 }
 
 .communityTrack {
 	font-weight: 600;
 	display: block;
 	line-height: 20px;
+}
+
+/* -----------SORT BY DROP DOWN----------------------------  */
+.sortBy-wrapper {
+	display: flex;
+	border: 1px solid #fff;
+
+}
+.sortBy-text {
+	font-size: 15px;
+	font-weight: 600;
+}
+.sortBy-dropdown-container {
+	padding-left: 15px;
+	padding-top: 10px;
+	background-color: #000;
+}
+.sortBy-drop-actions {
+	position: relative;
+	margin-left: 10px;
+	display: inline-block;
+	width: 245px;
+	height: 35px;
+	border: 2px solid #fff;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.sortBy-SORT-style {
+
+	font-weight: 500;
+	color: #000;
+
+}
+a:hover {
+	color: #00b1fa;
+}
+.upDown-arrows {
+	padding-left: 40px;
+	display: relative;
+}
+
+.SortUp {
+	position: absolute;
+	top: 3px;
+	right: 10px;
+	pointer-events: auto;
+	color: #888888;
+}
+.SortDown{
+	position: absolute;
+	top: 3px;
+	right: 10px;
+	pointer-events: auto;
+	color: #888888;
+
+}
+.sortBy-container-contents {
+		transition: visibility 0s ease, opacity 1s ease;
+		/* visibility: hidden; */
+		opacity: 0;
+		top: 9.8em;
+		line-height: 2em;
+		border: 1.2px solid #999999;
+		border-radius: 3px;
+		display: none;
+		position: absolute;
+		background-color: #000;
+		min-width: 160px;
+		box-shadow: 25px 8px 16px 5px #8888;
+		z-index: 1;
+		cursor: pointer;
+}
+
+.sortBy-list {
+	color: #FFF;
+	padding: 12px 16px;
+	font-size: 14px;
+	display: grid;
+}
+.sortBy-item {
+ color: #fff;
 }
 
 .hover, .hover > * 								{	color				: #efefef;			}
@@ -898,6 +979,7 @@ select:focus {
 .bg-m-grey								{	background-color		: #555 !important;			}
 .bg-grey								{	background-color		: #838383 !important;		}
 .bg-grey-l								{	background-color		: #9b9b9b !important;		}
+.bg-grey-lt								{	background-color		: #dcdcdc !important;		}
 .bg-grey-ll								{	background-color		: #e7e7e7 !important;		}
 .bg-ll-blue								{	background-color		: #d9edf7 !important;		}
 .bg-ll-green							{	background-color		: #dff0d8 !important;		}
