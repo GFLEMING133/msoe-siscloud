@@ -187,7 +187,7 @@ app.model.track = {
 
 		var post_data		= this.get('data');
 
-		post_data._url		= 'https://api.sisyphus.withease.io/';
+		post_data._url		= app.config.get_webcenter_url();
 		post_data._type		= 'POST';
 		post_data.endpoint	= 'set';
 
@@ -205,12 +205,11 @@ app.model.track = {
 		this.set('upload_status', 'uploading');
 
 		app.post.fetch({
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	:  app.config.get_webcenter_url(),
 			_type	: 'POST',
 			endpoint: 'upload_track',
 			id		: this.id,
 			verts	: verts_data,
-			host_url: 'https://app.sisyphus.withease.io/',
 		}, function cb(obj) {
 			if (obj.err) {
 				self.set('upload_status', 'failure');
@@ -1007,7 +1006,7 @@ app.model.track = {
 		var self = this;
 
 		var req_obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: app.config.get_webcenter_url(),
 			_type	: 'POST',
 			endpoint: 'get',
 			id		: this.id
@@ -1024,33 +1023,124 @@ app.model.track = {
 
 		app.post.fetch(req_obj, cb, 0);
 	},
-	download: function () {
+	fetch_wc: function () {
 		var self = this;
-
-		if (this.get('data.verts') !== '') {
-			app.trigger('manager:download_track', this.id);
-			app.trigger('sisbot:track_add', this);
-			return this;
-		}
+		debugger;
 
 		var req_obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
-			_type	: 'POST',
-			endpoint: 'download_track',
+			_url	: app.config.get_webcenter_url(),
+			_type	: 'GET',
+			endpoint: 'tracks/get_track_header.json',
 			id		: this.id
 		};
+
+		function cb(obj) {
+			if (obj.err || obj.resp.length == 0) {
+				alert('There was an error downloading this track header. Please try again later')
+			} else {
+				self.set('data', obj.resp[0]);
+				self.download_wc();
+			}
+		}
+		app.post.fetch(req_obj, cb, 0);
+	},
+  download_wc: function() {
+		var self = this;
+
+		console.log("track : download");
+		debugger;
+
+		var req_obj;
+		if (self.get('data.original_file_type') == 'thr')
+		{
+			var req_obj = {
+				_url	: app.config.get_webcenter_url(),
+				_type	: 'GET',
+				endpoint: 'tracks/download_track_thr.json',
+				id		: this.id
+			};
+
+		}
+		else if (self.get('data.original_file_type') == 'svg') 
+		{
+			var req_obj = {
+				_url	: app.config.get_webcenter_url(),
+				_type	: 'GET',
+				endpoint: 'tracks/download_track_svg.json',
+				id		: this.id
+			};
+		}
+		else {
+			alert('track is missing file_type header ' + self.id);
+			return;
+		}
+
+
 
 		function cb(obj) {
 			if (obj.err) {
 				alert('There was an error downloading this track. Please try again later')
 			} else {
-				self.set('data.verts', obj.resp);
+				debugger;
+				console.log('track : download response = ', obj.resp);
+
+				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
+				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+				else {
+					alert('Failed to get verts for this download ' + self.id);
+					return;
+				}
+
+				// self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
 			}
 		}
 
 		app.post.fetch(req_obj, cb, 0);
+	},
+
+
+	download: function () {
+
+		var self = this;
+		debugger; //this throws error because of SSL Certificate for the websocket.. change the self.socket to 3000 in the app.socket.js (line 36)
+							//Chrome doesn't allow unsecure websocket (ws) connections to localhost (only wss, so you should setup a TLS certificate for your 
+							//local web/websocket server). However the same should work fine with Firefox.
+		if (this.get('data.verts') !== '') {
+			console.log("track : download  verts already present, call sisbot:track_add");
+			app.trigger('manager:download_track', this.id);
+			app.trigger('sisbot:track_add', this);
+			return this;
+		}
+
+		var req_obj = {
+			_url	: app.config.get_api_url(),
+			_type	: 'POST',
+			endpoint: 'tracks/1/download.json',
+			id		: this.id
+		};
+
+		var req_obj = {
+			_url	: app.config.get_api_url(),
+			_type	: 'GET',
+			endpoint: 'tracks/1/download.json',
+			id		: this.id
+		};
+		
+		function cb(obj) {
+			debugger;
+			if (obj.err) {
+				alert('There was an error downloading this track. Please try again later')
+			} else {
+				console.log('track : download response = ', obj.resp);
+				self.set('data.verts', obj.resp);
+				app.trigger('manager:download_track', self.id);
+				app.trigger('sisbot:track_add', self);
+			}
+		}
+
+		app.post.fetch2(req_obj, cb, 0);
 	},
 	publish_upload: function() {
 		var self = this;
@@ -1071,7 +1161,7 @@ app.model.track = {
 	_save: function (track_data) {
 		if (!track_data)	track_data = this.get('data');
 
-		track_data._url			= 'https://api.sisyphus.withease.io/';
+		track_data._url			= app.config.get_api_url();
 		track_data._type		= 'POST';
 		track_data.endpoint		= 'set';
 

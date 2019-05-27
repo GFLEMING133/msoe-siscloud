@@ -38,38 +38,39 @@ app.model.sign_in = {
 		return this;
     },
 	/************************** SIGN IN ***************************************/
-	sign_in: function (user_data) {
-		if (this.get('signing_in') == 'true') return false;
-		else this.set('signing_in', 'true');
+	// sign_in: function (user_data) {
 
-		var self		= this;
-		var errors		= [];
-		var user_data   = user_data || this.get('data');
+	// 	if (this.get('signing_in') == 'true') return false;
+	// 	else this.set('signing_in', 'true');
 
-		if (user_data.username == '')	errors.push('- Username cannot be blank');
-		if (user_data.password == '')	errors.push('- Password cannot be blank');
+	// 	var self		= this;
+	// 	var errors		= [];
+	// 	var user_data   = user_data || this.get('data');
 
-		if (window.location.href == 'https://siscloud.withease.io/') {
-			if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
-				errors.push('- Username is not authorized to administer domain');
-			}
-		}
+	// 	if (user_data.username == '')	errors.push('- Username cannot be blank');
+	// 	if (user_data.password == '')	errors.push('- Password cannot be blank');
 
-		if (errors.length > 0) {
-			this.set('signing_in', 'false')
-			return this.set('errors', errors);
-		}
+	// 	if (window.location.href == 'https://siscloud.withease.io/') {
+	// 		if (user_data.username.indexOf('@sisyphus-industries.com') < 0 && user_data.username !== 'sisyphus@withease.io') {
+	// 			errors.push('- Username is not authorized to administer domain');
+	// 		}
+	// 	}
 
-		function cb(obj) {
-			if (obj.err)
-				return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
+	// 	if (errors.length > 0) {
+	// 		this.set('signing_in', 'false')
+	// 		return this.set('errors', errors);
+	// 	}
 
-			self._process_sign_in(user_data, obj.resp);
-		};
+	// 	function cb(obj) {
+	// 		if (obj.err)
+	// 			return self.set('signing_in', 'false').set('errors', [ '- ' + obj.err ]);
 
-		user_data.endpoint = 'sign_in';
-		app.plugins.fetch(user_data, cb);
-	},
+	// 		self._process_sign_in(user_data, obj.resp);
+	// 	};
+
+	// 	user_data.endpoint = 'sign_in';
+	// 	app.plugins.fetch(user_data, cb);
+	// },
 	kiosk_sign_in: function (kiosk_id) {
 		var self		= this;
 		var kiosk_data	= {
@@ -104,6 +105,7 @@ app.model.sign_in = {
 	},
 	/************************** FORGOT PASSWORD *******************************/
 	forgot_password: function () {
+		debugger;
 		var self		= this;
 		var data		= this.get_form_data();
 

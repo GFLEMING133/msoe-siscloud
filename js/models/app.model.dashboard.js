@@ -48,8 +48,8 @@ app.model.dashboard = {
 		};
 
 		var data = {
-      username	: device_ids[app.device_id],
-			password	: 'sodo',
+      	username	: device_ids[app.device_id],
+		password	: 'sodo',
     	endpoint    : 'sign_in'
     };
 
