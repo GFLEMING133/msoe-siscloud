@@ -1069,6 +1069,7 @@ app.model.sisyphus_manager = {
         console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
             cb(ip_address);
+            console.log('IP ADDRESS',ip_address);
         }, function on_error(err) {
             cb();
         });
@@ -1311,19 +1312,29 @@ app.model.sisyphus_manager = {
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
+           
             var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
             var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
-
-
+         
         }
-
+       
         app.post.fetch2(tracks, cb, 0);
 
         return this;
+    },
+    sortByNewestDesign: function() {
+
+    
+    },
+    sortByName:  function () {
+        
+    },
+    sortByArtist: function () {
+        
     },
     download_playlist: function(playlist_id) {
         this.remove('community_playlist_ids', playlist_id);
@@ -1333,6 +1344,22 @@ app.model.sisyphus_manager = {
 
         this.remove('community_track_ids', track_id);
     },
+    //Actions drop down menu  
+    openSort: function() {
+    var drop = document.getElementsByClassName("sortBy-container-contents");
+    var dAction = document.getElementsByClassName("sortBy-drop-actions");
+    if (!drop[0].style.visibility || drop[0].style.visibility ===  'hidden') {
+      drop[0].style.visibility = 'visible';
+      drop[0].style.opacity = '1';
+      
+    }else {
+      drop[0].style.visibility = 'hidden';
+      drop[0].style.opacity = '0';
+     
+    }
+  },
+ 
+
     /**************************** DEMO ****************************************/
     setup_as_sisbot: function() {
         if (app.config.env == 'beta') {
@@ -1582,3 +1609,7 @@ app.model.sisyphus_manager = {
         save_track();
     }
 };
+
+function newFunction() {
+    return 'sisyphus_manager.data';
+}
