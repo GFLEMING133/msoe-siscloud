@@ -414,7 +414,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	
 }
 .ctb-border {
-	border: 1px solid #dcdcdc;
+	border: 1px solid #11B2FB;   /*  #dcdcdc */
 }
 
 .communityTrack {
@@ -443,7 +443,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	margin-left: 10px;
 	display: inline-block;
 	width: 245px;
-	height: 35px;
+	height: 37px;
 	border: 2px solid #fff;
 	border-radius: 3px;
 	cursor: pointer;
@@ -451,7 +451,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .sortBy-SORT-style {
 	padding-left: 10px;
 	font-weight: 600;
-	margin-top: 4px;
+	margin-top: 6px;
 	color: #fff;
 }
 a:hover {
@@ -463,15 +463,17 @@ a:hover {
 }
 
 .SortUp {
+	font-size: 1.6em;
 	position: absolute;
-	top: 2px;
+	top: 5px;
 	right: 10px;
 	pointer-events: auto;
 	color: #fff;
 }
 .SortDown{
+	font-size: 1.6em;
 	position: absolute;
-	top: 2px;
+	top: 5px;
 	right: 10px;
 	pointer-events: auto;
 	color: #fff;

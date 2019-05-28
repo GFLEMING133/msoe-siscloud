@@ -1,4 +1,4 @@
-<!-- <div class="h100 scroll hide-scrollbar bg-grey-l">
+<div class="h100 scroll hide-scrollbar">
         <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
             <div class="w15 center f-large">&nbsp;</div>
             <div class="w70">
@@ -27,41 +27,30 @@
                     <h3 class="m0 pt20 pb20 pl40 pr40 center justify fs24 lh24">
                         Sisyphus Community
                     </h3>
-            </div>
-            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
-                <div class="h__k" data-if="{{= parent.user_id }} == false">
-                    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                        Coming Soon!
-                    </h3>
+                    <p class="pl40 pr40 pb20 center justify lh18 fs17">
+                            Sign in to your Sisyphus
+                            Community account to download
+                            new tracks designed by artists 
+                            around the world. If you don't
+                            already have an account, click the 
+                                sign up button below  
+                    </p>
+                </div>
+    
+                <div class="h__k pl40 pr40" data-if="{{= parent.user_id }} == false">
+                <div class="mt20 mb10 p15 btn bg-blue w100 m0 corner-5px uppercase fs17 strong h__k"
+                        data-on-click="publish"
+                        data-publish="session:active"
+                        data-msg="{'primary':'community','secondary':'sign_in'}"
+                    >SIGN IN</div>
+                
+                
+                    <div class="mt10 mb15 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs17 strong h__k"
+                        data-on-click="publish"
+                        data-publish="session:active"
+                        data-msg="{'primary':'community','secondary':'create_account'}"
+                    >SIGN UP</div>
                 </div>
             </div>
         </div>
     </div>
-</div> -->
-<!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == false"
-    data-template="sisyphus-community-starter-page-tmp"
-></div>
-
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == sign_in"
-    data-template="sisyphus-community-sign-in-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == create_account"
-    data-template="sisyphus-community-create-account-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == community-tracks"
-    data-template="sisyphus-community-tracks-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == tracks-hero"
-    data-template="sisyphus-community-tracks-hero-tmp"
-></div>

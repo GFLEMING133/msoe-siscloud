@@ -5,7 +5,7 @@
 		data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
     >
  
-        <div class="flex mt10 h__k">
+        <div id="track_container" class="flex mt10 h__k">
             <div class="w25 pt10 pb10 pl15 center vertical">
                 <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
                     data-src="http://localhost:3000{{= model.data.thumb}}"
@@ -13,9 +13,9 @@
             </div>
             <div class="w5 hvw10">&nbsp;</div>
             <div class="w70 hvw10 vertical-align">
-                <div class="fs18 black communityTrack h__k">{{= model.data.name }}</div>
-                <div class="fs12  grey mt5 communityTrack h__k">by {{= model.data.created_by_name }}</div>
-                <div class="fs12  grey mt5 communityTrack h__k">uploaded {{= model.data.date_created }}</div>
+                <div class="fs18 black communityTrack sort_name h__k">{{= model.data.name }}</div>
+                <div class="fs12  grey mt5 communityTrack sort_created_by h__k">by {{= model.data.created_by_name }}</div>
+                <div class="fs12  grey mt5 communityTrack sort_date h__k">{{= model.data.date_created }}</div>
             </div>
             <div class="w20 pt10 pb10 pr15 h100 vertical right">
                     <i class="grey pt20" aria-hidden="true">
@@ -30,9 +30,9 @@
         </div>
 
         <div class="w25 clickable active center pt15 pb15 h__k"
-            data-on-click="publish"
+            data-on-click="publish"  
             data-publish="session:active"
-            data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
+             data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
         ><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" /></div>
-    </div> 
+    </div>
 </div>    

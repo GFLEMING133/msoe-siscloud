@@ -55,6 +55,7 @@ app.model.sisyphus_manager = {
             community_page: 'tracks',
             community_playlist_ids: [],
             community_track_ids: [],
+            
 
             is_ble_enabled: 'false',
             local_version: 'na',
@@ -456,7 +457,7 @@ app.model.sisyphus_manager = {
             self.set('errors', []);
             self._process_registration(user_data, obj.resp);
             
-            app.trigger('session:active', { secondary: 'community-tracks-tmp', primary: 'community' });
+            app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
         };
 
         user_data.endpoint  = 'auth_user';
@@ -1327,14 +1328,34 @@ app.model.sisyphus_manager = {
         return this;
     },
     sortByNewestDesign: function() {
-
-    
+      
+        let sort_date = document.getElementsByClassName('sort_date');
+         for(let i = 0; i < sort_date.length; i++) {
+             
+             
+             let dates = sort_date[i].innerHTML ;
+            console.log('dates', dates);
+         }
+  
+        return dates;
+         
     },
     sortByName:  function () {
-        
+        let sort_name = document.getElementsByClassName('sort_name');
+        for(let i = 0; i < sort_name.length; i++) {
+            
+            
+            let names = sort_name[i].innerHTML ;
+           console.log('Names', names);
+        }
     },
     sortByArtist: function () {
-        
+        let sort_created_by = document.getElementsByClassName('sort_created_by');
+        for(let i = 0; i < sort_created_by.length; i++) {
+            
+            let artists = sort_created_by[i].innerHTML ;
+            console.log('Artisits', artists)
+        }
     },
     download_playlist: function(playlist_id) {
         this.remove('community_playlist_ids', playlist_id);
