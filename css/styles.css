@@ -435,7 +435,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .sortBy-dropdown-container {
 	padding-left: 15px;
-	padding-top: 10px;
+	padding-top: 20px;
 	background-color: #000;
 }
 .sortBy-drop-actions {

@@ -1,13 +1,10 @@
 <div class="flex mt10 pb20 bb">
     <div class="w20">&nbsp;</div>
     <div class="w60 hvw40 center vertical active">
-        <div class="h__k" data-if="{{= model.generating_thumbnails }} == false">
+        <div class="h__k">
                 <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
-                data-src="http://localhost:3000{{= model.data.thumb}}"
-        </div>
-        <div class="h__k bg-blue" data-if="{{= model.generating_thumbnails }} == true">
-                <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
-                data-src="http://localhost:3000{{= model.data.thumb}}"
+                    data-src="http://localhost:3000{{= model.data.thumb}}"
+                />
         </div>
     </div>
     <div class="w20">&nbsp;</div>
@@ -18,28 +15,3 @@
         <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
     </div>
 </div>
-<div class="bg-grey-l bg-blue flex">
-    <div class="w25 pt15 pb15 clickable active center h__k"
-        data-on-click="model.play"
-    ><img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" /></div>
-    <div class="w25 pt15 pb15 clickable active center h__k"
-        data-run="model.is_playlist_favorite"
-        data-on-click="model.favorite_toggle"
-    >
-        <img src="img/icon_2x_trackdropdown_openheart.png" alt="Favorite" class="hh20 h__k"
-            data-if="{{= model.is_favorite }} == false"
-         />
-         <img src="img/icon_2x_trackdropdown_closedheart.png" alt="Unfavorite" class="hh20 h__k"
-            data-if="{{= model.is_favorite }} == true"
-         />
-    </div>
-    <div class="w25 pt15 pb15 clickable active center h__k"
-        data-on-click="publish"
-        data-publish="modal:open"
-        data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
-    ><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
-    <div class="w25 pt15 pb15 white blue-hover clickable active center h__k"
-		data-on-click="model.delete"
-	><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh20" /></div>
-</div>
-<div class="hh250">&nbsp;</div>
