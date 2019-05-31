@@ -1,19 +1,48 @@
-<div class="h__k" data-model="{{= session.active.track_id}}">
-    <div class="flex mt10 pb20 bb">
-        <div class="w20">&nbsp;</div>
-        <div class="w60 hvw40 center vertical active">
-            <div class="h__k">
-                    <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
-                        data-src="http://localhost:3000{{= model.data.large_photo}}"
-                    />
+<div class="h__k pt70" data-model="{{= session.active.track_id}}">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
+        <div class="w70">
+            <h1 class="h__k no-stuffing fs18 pl110 communityTrack capitalize truncate">View Track</h1>
+        </div>
+        <div class="w15 center f-large">&nbsp;</div>
+    </div>
+<div class="h__k" data-run="model.collapse" >  
+        <div class="flex mt10 pb20 bb">
+            <div class="w20">&nbsp;</div>
+            <div class="w60 hvw40 center vertical active">
+                <div class="h__k">
+                        <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
+                            data-src="http://localhost:3000{{= model.data.large_photo}}"
+                        />
+                </div>
+            </div>
+            <div class="w20">&nbsp;</div>
+        </div>
+    <div class="flex clickable active ctb-border h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
+        data-on-click="publish"
+        data-publish="session:toggle"
+        data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
+    >  
+        <div class="flex pt20 pr20 pl20 pb20 h__k">
+            <div class="w100">
+                <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
+                <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
+            </div>
+            <div class="w20 pt10 pb10 pr15 h100 vertical right">
+                    <i class="grey pt20" aria-hidden="true">
+                        <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
+                    </i>
             </div>
         </div>
-        <div class="w20">&nbsp;</div>
     </div>
-    <div class="flex pt20 pr20 pl20 pb20 h__k">
-        <div class="w100">
-            <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
-            <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
+    <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
+        <div class="w20 w10 vertical center h__k" data-on-click="model.download_track" data-msg="{{= scope.index }}">
+                <i class="fa pt15 fa-cloud-download f-xlarge" aria-hidden="true"></i>
+        </div>
+        <div class="w25 clickable active center pt15 pb15 h__k"
+                data-on-click="publish"  
+                data-publish="session:active"
+                data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
+            ><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" />
         </div>
     </div>
 </div>
