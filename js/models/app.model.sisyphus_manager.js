@@ -1285,13 +1285,11 @@ app.model.sisyphus_manager = {
         return this;
     },
 
-
     fetch_community_tracks: function() {
         if (this.get('fetched_community_tracks') == 'true')
             return this;
 
         var self = this;
-
         this.set('fetching_community_tracks', 'true');
 
         var tracks = {
@@ -1327,36 +1325,40 @@ app.model.sisyphus_manager = {
 
         return this;
     },
-    sortByNewestDesign: function() {
-      
-        let sort_date = document.getElementsByClassName('sort_date');
-         for(let i = 0; i < sort_date.length; i++) {
-             
-             
-             let dates = sort_date[i].innerHTML ;
-            console.log('dates', dates);
-         }
-  
-        return dates;
+    sort_function: function(sort_params) {
+        var self = this;
+        var tracks = {
+            _url: app.config.get_webcenter_url(),
+            _type: 'GET',
+            endpoint: 'tracks.json?sort=' + sort_params,
+            data: {}
+        };
+         console.log('sortorder',sort_params); console.log('tracks',tracks)
+
+
+        function cb(obj) {
+            setTimeout(function() {
+                self.set('fetching_community_tracks', 'false');
+            }, 1000);
+
+            if (obj.err) return self;
+
+            app.collection.add(obj.resp);
+
+            var resp_track_ids = _.pluck(obj.resp, 'id');
+        
+
+            self.set('community_track_ids', resp_track_ids);
+            self.set('fetched_community_tracks', 'true');
+            console.log('new_track_ids', obj.resp);
          
-    },
-    sortByName:  function () {
-        let sort_name = document.getElementsByClassName('sort_name');
-        for(let i = 0; i < sort_name.length; i++) {
-            
-            
-            let names = sort_name[i].innerHTML ;
-           console.log('Names', names);
         }
+       
+        app.post.fetch2(tracks, cb, 0);
+
+        return this;
     },
-    sortByArtist: function () {
-        let sort_created_by = document.getElementsByClassName('sort_created_by');
-        for(let i = 0; i < sort_created_by.length; i++) {
-            
-            let artists = sort_created_by[i].innerHTML ;
-            console.log('Artisits', artists)
-        }
-    },
+
     download_playlist: function(playlist_id) {
         this.remove('community_playlist_ids', playlist_id);
     },

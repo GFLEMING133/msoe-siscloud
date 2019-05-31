@@ -4,17 +4,17 @@
 		data-publish="session:toggle"
 		data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
     >
-        <div id="track_container" class="flex mt10 h__k">
+        <div id="track_container" class="flex ht10 mt10 h__k ">
             <div class="w25 pt10 pb10 pl15 center vertical">
                 <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
                     data-src="http://localhost:3000{{= model.data.thumb}}"
                 />
             </div>
             <div class="w5 hvw10">&nbsp;</div>
-            <div class="w70 hvw10 vertical-align">
-                <div class="fs18 black communityTrack sort_name h__k">{{= model.data.name }}</div>
-                <div class="fs12  grey mt5 communityTrack sort_created_by h__k">by {{= model.data.created_by_name }}</div>
-                <div class="fs12  grey mt5 communityTrack sort_date h__k">{{= model.data.date_created }}</div>
+            <div class="w70 hvw10 pt20 vertical-align">
+                <div class="fs19 black communityTrack sort_name h__k">{{= model.data.name }}</div>
+                <div class="fs13  grey mt5 communityTrack sort_created_by h__k">by {{= model.data.created_by_name }}</div>
+                <!-- <div class="fs12  grey mt5 communityTrack sort_date h__k">{{= model.data.date_created }}</div> -->
             </div>
             <div class="w20 pt10 pb10 pr15 h100 vertical right">
                     <i class="grey pt20" aria-hidden="true">

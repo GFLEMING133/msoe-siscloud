@@ -1,5 +1,5 @@
 <div class="h100 scroll hide-scrollbar">
-    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
             <div class="w15n mb20 pt10 center fa fa-arrow-left f-large clickable active bg-grey-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
@@ -15,9 +15,9 @@
             <div class="sortBy-dropdown-container h__k" data-on-click="model.openSort">
                 <div class="community-sortBy-header"><span class="sortBy-text">SORT BY</span></div>
                 <div class="sortBy-drop-actions" >
-                    <p class="sortBy-SORT-style">
-                        SORT OPTIONS
-                    </p>
+                    <div class="sortBy-SORT-style">
+                        OPTIONS
+                    </div>
                     <div class="upDown-arrows"> 
                         <p><i class="SortUp fa fa-sort-up fa-2x"></i></p>
                         <p><i class="SortDown fa fa-sort-down fa-2x"></i><p>
@@ -26,11 +26,19 @@
             <div class="sortBy-container-contents">  
                     <ul class="sortBy-list">
                         <li><a class="sortBy-item h__k" 
-                            data-on-click="model.sortByNewestDesign">NEWEST DESIGN</a></li> 
+                            data-on-click="model.sort_function"
+                            data-on-click="publish"  
+                            data-publish="session:active"
+                            data-msg="newest_design">NEWEST DESIGN</a></li> 
                         <li><a class="sortBy-item h__k" 
-                            data-on-click="model.sortByName">NAME</a></li>
+                            data-on-click="model.sort_function"
+                            data-on-click="publish"  
+                            data-msg="name"">NAME</a></li>
                         <li><a class="sortBy-item h__k" 
-                            data-on-click="model.sortByArtist">ARTIST</a></li>
+                            data-on-click="model.sort_function"
+                            data-on-click="publish"  
+                            data-publish="session:active"
+                            data-msg="artist">ARTIST</a></li>
                     </ul>
                 </div>
             </div>

@@ -404,56 +404,57 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
 .community-sortBy-header {
-	background-color: #000;
+
 	display: inline-block;
 	color: #fff;
-	font-size: 12px;
 	font-weight: 600;
-	height: 50px;
 	margin-top: 40.5px;
 	
 }
 .ctb-border {
-	border: 1px solid #11B2FB;   /*  #dcdcdc */
+	border: 1px solid #dcdcdc;   /*  #dcdcdc */
 }
 
 .communityTrack {
 	font-weight: 600;
 	display: block;
 	line-height: 20px;
+	font-variant: petite-caps;
 }
 
 /* -----------SORT BY DROP DOWN----------------------------  */
-.sortBy-wrapper {
-	display: flex;
-	border: 1px solid #fff;
 
-}
 .sortBy-text {
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 600;
 }
 .sortBy-dropdown-container {
 	padding-left: 15px;
 	padding-top: 20px;
+	margin-top: 15px;
 	background-color: #000;
+	position: fixed;
+	width: 81%;
+	height: 100px;
 }
 .sortBy-drop-actions {
 	position: relative;
 	margin-left: 10px;
 	display: inline-block;
-	width: 245px;
+	width: 277px;
 	height: 37px;
 	border: 2px solid #fff;
 	border-radius: 3px;
 	cursor: pointer;
 }
 .sortBy-SORT-style {
+	font-size: 14px;
 	padding-left: 10px;
 	font-weight: 600;
-	margin-top: 6px;
+	margin-top: 10px;
 	color: #fff;
 }
+
 a:hover {
 	color: #00b1fa;
 }
@@ -1078,6 +1079,7 @@ select:focus {
 .fs16									{	font-size				: 16px !important;			}
 .fs16									{	font-size				: 17px !important;			}
 .fs18									{	font-size				: 18px !important;			}
+.fs19									{	font-size				: 18px !important;			}
 .fs24									{	font-size				: 24px !important;			}
 
 .fl10									{	line-height				: 1.0em;					}
@@ -1096,6 +1098,7 @@ select:focus {
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
+.bbw
 
 .b-none									{	border					: none;								}
 
