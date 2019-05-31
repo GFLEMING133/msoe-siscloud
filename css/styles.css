@@ -510,12 +510,17 @@ a:hover {
  color: #fff;
  font-weight: 600;
 }
+/* .cloud {
+	padding-left: 163px;
+	height: 160px;
+	padding-top: 30px;
+} */
 
-.hover, .hover > * 								{	color				: #efefef;			}
-.hover:hover, .hover:hover > * 					{	color				: #333;				}
+.hover, .hover > * 											{	color				: #efefef;	}
+.hover:hover, .hover:hover > * 					{	color				: #333;			}
 
-.hover-dark, .hover-dark > * 					{	color				: #888;				}
-.hover-dark:hover, .hover-dark:hover > * 		{	color				: #fff;				}
+.hover-dark, .hover-dark > * 						{	color				: #888;			}
+.hover-dark:hover, .hover-dark:hover > *{	color				: #fff;			}
 
 
 @keyframes spin {
@@ -1095,8 +1100,9 @@ select:focus {
 
 /**************************** BORDERS *****************************************/
 
-.b										{	border					: 1px solid #efefef !important;		}
+.b										{	border						: 1px solid #efefef !important;		}
 .bt										{	border-top				: 1px solid #efefef !important;		}
+.bt-dcdc 							{ border-top				: 1px solid #dcdcdc;}
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}

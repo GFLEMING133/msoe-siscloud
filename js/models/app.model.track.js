@@ -1044,10 +1044,10 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-  download_wc: function() {
+  download_wc: function(track_id) {
 		var self = this;
-
-		console.log("track : download");
+		
+		console.log("track : download", track_id);
 		debugger;
 
 		var req_obj;
@@ -1056,18 +1056,18 @@ app.model.track = {
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
-				endpoint: 'tracks/download_track_thr.json',
-				id		: this.id
+				endpoint: `tracks/${track_id}/download?class=downloadTrackLink`,
+			
 			};
 
 		}
 		else if (self.get('data.original_file_type') == 'svg') 
 		{
 			var req_obj = {
-				_url	: app.config.get_webcenter_url(),
+				_url	: 'http://localhost:3000/',
 				_type	: 'GET',
-				endpoint: 'tracks/download_track_svg.json',
-				id		: this.id
+				endpoint: `tracks/${track_id}/download?class=downloadTrackLink`,
+			
 			};
 		}
 		else {
@@ -1091,13 +1091,13 @@ app.model.track = {
 					return;
 				}
 
-				// self.set('data.verts', obj.resp);
+				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
 			}
 		}
 
-		app.post.fetch(req_obj, cb, 0);
+		app.plugins.fetch(req_obj, cb, 0);
 	},
 
 
