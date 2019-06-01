@@ -3,7 +3,7 @@
 
 html, body {
 	height						: 100%;
-	font-variant				: petite-caps;
+
 }
 
 img {
@@ -23,7 +23,6 @@ a, a:hover {
 body, h1, h2, h3, h4, h5, h6, p {
 	font-family					: "Montserrat", Roboto, sans-serif;
 	font-weight					: 400;
-	font-variant				: petite-caps;
 	text-rendering				: optimizeLegibility;
     -webkit-font-smoothing		: antialiased;
     -moz-osx-font-smoothing		: grayscale;
