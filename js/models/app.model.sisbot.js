@@ -590,8 +590,8 @@ app.model.sisbot = {
 			}
 
 			self.set('wifi_networks', uniq_wifi);
-		});
-    },
+		}, 10000); // wait ten seconds before retrying
+  },
 	wifi_failed_to_connect: function () {
 		console.log("wifi_failed_to_connect()");
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
@@ -721,7 +721,7 @@ app.model.sisbot = {
 			} else if(is_servo == 'false'){
 				if(confirm("Your table will restart this may take sometime. Are you sure you want to continue?"))
 				self.install_updates();
-				} 
+				}
 	},
 
 	install_updates: function () {
@@ -767,7 +767,7 @@ app.model.sisbot = {
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
 		var self = this;
-		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
+		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
 		function(resp_num) {
 			if (resp_num == 1)
 				return self;
@@ -951,12 +951,12 @@ app.model.sisbot = {
 		let alertMessage;
 		let is_servo = self.get('data.is_servo');
 		if(is_servo == 'true'){
-			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?")) 
+			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?"))
 				self.update_tablename();
 				alertMessage = "I am Sisyphusing so hard right now";
-				
+
 			} else if (is_servo == 'false') {
-				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?")) 
+				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?"))
 					self.update_tablename();
 				alertMessage = "Names don't change, tables do"
 			}else{
