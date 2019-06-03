@@ -409,32 +409,26 @@ app.model.sisyphus_manager = {
                 return self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
 
             self.set('errors', []);
+            debugger;
             self._process_registration(user_data, obj.resp);
-            var resp_playlist_ids = _.pluck(obj.resp, 'id');
-            var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-            var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
-
-            self.set('community_playlist_ids', new_playlist_ids);
-            self.set('fetched_community_playlists', 'true');
-
+        
+            self.set('signing_up', 'false');
+            app.trigger('session:active', { secondary: 'sign_in', primary: 'community' });
         };
 
-        // var my_reg = {
-        // 	email					: user_data.email,
-        // 	password				: user_data.password,
-        // 	password_confirmation	: user_data.password_confirmation,
-        // }
 
         var post_obj = {
             _url: app.config.get_webcenter_url(),
             _type: 'POST',
             _timeout: 60000,
-            endpoint: `users/?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
-
+            endpoint: 'register_user.json',
+            username                : user_data.username,
+        	email					: user_data.email,
+        	password				: user_data.password,
+        	password_confirmation	: user_data.password_confirmation                          
         };
 
-        app.post.fetch2(post_obj, cb, 0);
-        // this.fetch_community_playlists();
+        app.plugins.fetch(post_obj, cb, 0);
     },
 
     sign_in: function(user_data) {
