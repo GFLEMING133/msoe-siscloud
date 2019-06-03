@@ -520,17 +520,21 @@ app.model.sisyphus_manager = {
             .set('user_id', 'false');
         app.current_session().sign_out();
     },
-    forgot_password: function() { 
+    forgot_password: function(user_data) { 
         var errors = [];
-        if (!user_data.email || user_data.email == '') errors.push('- Email cannot be blank');
+        if (!user_data || user_data == '') errors.push('- Email cannot be blank');
         var self = this;
+        
         user_email = this.get('forgot_email'); //this is the object
 
         function cb(obj) {
             if (errors.length > 0 || obj.err)
-                return self.set('forgot_email.email', 'false').set('errors', [errors, 'That email is not in our system']);
+                return self.set('forgot_email', 'false').set('errors', [errors, 'That email is not in our system']);
             self.set('errors', []);
+
             self._process_email(user_email, obj.resp);
+            
+            
         };
         user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
         user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
@@ -540,14 +544,13 @@ app.model.sisyphus_manager = {
 
     },
     _process_email: function(user, data_arr) {
-     
         var session_data = {
             email: user.email
         };
         
         var self = this;
         var server_user = false;
-
+        alert('An email has been sent with instructions on how to reset your password.')
         _.each(data_arr, function(m) {
             if (m.type == 'user' && m.email == user.email) {
                 server_user = m;
@@ -557,7 +560,7 @@ app.model.sisyphus_manager = {
         });
 
         app.collection.add(data_arr);
-        app.trigger('session:active', {'primary':'settings','secondary':'sign_in'});
+        app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
     
     },
     /*********************** SISBOT ONBOARDING ********************************/

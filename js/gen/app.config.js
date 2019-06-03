@@ -10,7 +10,7 @@ app.config = {
 		},
 		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3001/',
-			api_url		: '192.168.1.168:3002',  //  add entry in your computers /etc/hosts mapped to your bot's IP address
+			api_url		: '192.168.29.222:3002',  //  add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url		: 'http://localhost:3000/',	                               //  10.0.0.3	beta_bot.local
 			                               //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
