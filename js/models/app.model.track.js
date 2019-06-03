@@ -1056,7 +1056,7 @@ app.model.track = {
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download?class=downloadTrackLink`,
+				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
 			
 			};
 
@@ -1066,7 +1066,7 @@ app.model.track = {
 			var req_obj = {
 				_url	: 'http://localhost:3000/',
 				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download?class=downloadTrackLink`,
+				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
 			
 			};
 		}
@@ -1094,10 +1094,11 @@ app.model.track = {
 				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
+				alert("Track is now in your Library!");
 			}
 		}
 
-		app.plugins.fetch(req_obj, cb, 0);
+		app.post.fetch2(req_obj, cb, 0);
 	},
 
 

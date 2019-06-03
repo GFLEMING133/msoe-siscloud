@@ -12,6 +12,7 @@ app.model.sisyphus_manager = {
             signing_in: 'false',
     
             registration: {
+                username: '',
                 email: '',
                 password: '',
                 password_confirmation: '',
@@ -390,7 +391,7 @@ app.model.sisyphus_manager = {
         this.set('user_registration', 'sign_in');
     },
     sign_up: function() {
-
+    debugger;
 
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
@@ -425,16 +426,15 @@ app.model.sisyphus_manager = {
         // }
 
         var post_obj = {
-            _url: app.config.get_api_url(),
+            _url: app.config.get_webcenter_url(),
             _type: 'POST',
             _timeout: 60000,
-            endpoint: `register_user.json?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
-            id: this.id,
+            endpoint: `users/?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
 
         };
 
-        app.plugins.fetch(post_obj, cb, 0);
-        this.fetch_community_playlists();
+        app.post.fetch2(post_obj, cb, 0);
+        // this.fetch_community_playlists();
     },
 
     sign_in: function(user_data) {
@@ -1259,7 +1259,7 @@ app.model.sisyphus_manager = {
         var playlists = {
             _url: app.config.get_webcenter_url(),
             _type: 'GET',
-            endpoint: 'list_tracks',
+            endpoint: 'tracks',
             data: {}
         };
 
