@@ -378,7 +378,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .trackBox {
 	min-height: 0;
 	border: 6px solid blue;
-
+  height: 42vh; 
  
 }
 
@@ -388,24 +388,13 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: flex;
 	flex-direction: column;
 	min-height: 0;
-	height: -webkit-fill-available;
+	height: 35vh;
+	max-height: 39vh;
 	overflow: scroll;
 }
-.insideScroll {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-	height: -webkit-fill-available;
-	overflow: scroll;
+.inherit {
+	position: inherit;
 }
-.reorder {
- 
-	cursor: move;
-	cursor: -webkit-grabbing;
-}
-
-
 
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 

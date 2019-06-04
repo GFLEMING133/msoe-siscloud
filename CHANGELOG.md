@@ -1,3 +1,9 @@
+#2019-6-4, 1.8.9
+ - Drag and drop again, now with color... Continued testing on multiple devices.
+ - Now Playing Footer is now clickable and redirects you to the Home page. 
+ - Community is going to be available for Beta Testers. 
+ - Wifi Connect has spinner to wait for available networks to populate array before showing page. 
+
 #2019-5-31, 1.8.8
  - increase the retry timeout on get_wifi network list
 
