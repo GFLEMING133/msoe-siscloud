@@ -12,6 +12,7 @@ app.model.sisyphus_manager = {
             signing_in: 'false',
     
             registration: {
+                username: '',
                 email: '',
                 password: '',
                 password_confirmation: '',
@@ -390,7 +391,7 @@ app.model.sisyphus_manager = {
         this.set('user_registration', 'sign_in');
     },
     sign_up: function() {
-
+    debugger;
 
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
@@ -408,33 +409,26 @@ app.model.sisyphus_manager = {
                 return self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
 
             self.set('errors', []);
+            debugger;
             self._process_registration(user_data, obj.resp);
-            var resp_playlist_ids = _.pluck(obj.resp, 'id');
-            var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-            var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
-
-            self.set('community_playlist_ids', new_playlist_ids);
-            self.set('fetched_community_playlists', 'true');
-
+        
+            self.set('signing_up', 'false');
+            app.trigger('session:active', { secondary: 'sign_in', primary: 'community' });
         };
 
-        // var my_reg = {
-        // 	email					: user_data.email,
-        // 	password				: user_data.password,
-        // 	password_confirmation	: user_data.password_confirmation,
-        // }
 
         var post_obj = {
-            _url: app.config.get_api_url(),
+            _url: app.config.get_webcenter_url(),
             _type: 'POST',
             _timeout: 60000,
-            endpoint: `register_user.json?email=${user_data.email}&password=${user_data.password}&password_confirmation=${user_data.password_confirmation}`,
-            id: this.id,
-
+            endpoint: 'register_user.json',
+            username                : user_data.username,
+        	email					: user_data.email,
+        	password				: user_data.password,
+        	password_confirmation	: user_data.password_confirmation                          
         };
 
         app.plugins.fetch(post_obj, cb, 0);
-        this.fetch_community_playlists();
     },
 
     sign_in: function(user_data) {
@@ -526,17 +520,21 @@ app.model.sisyphus_manager = {
             .set('user_id', 'false');
         app.current_session().sign_out();
     },
-    forgot_password: function() { 
+    forgot_password: function(user_data) { 
         var errors = [];
-        if (!user_data.email || user_data.email == '') errors.push('- Email cannot be blank');
+        if (!user_data || user_data == '') errors.push('- Email cannot be blank');
         var self = this;
+        
         user_email = this.get('forgot_email'); //this is the object
 
         function cb(obj) {
             if (errors.length > 0 || obj.err)
-                return self.set('forgot_email.email', 'false').set('errors', [errors, 'That email is not in our system']);
+                return self.set('forgot_email', 'false').set('errors', [errors, 'That email is not in our system']);
             self.set('errors', []);
+
             self._process_email(user_email, obj.resp);
+            
+            
         };
         user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
         user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
@@ -546,14 +544,13 @@ app.model.sisyphus_manager = {
 
     },
     _process_email: function(user, data_arr) {
-     
         var session_data = {
             email: user.email
         };
         
         var self = this;
         var server_user = false;
-
+        alert('An email has been sent with instructions on how to reset your password.')
         _.each(data_arr, function(m) {
             if (m.type == 'user' && m.email == user.email) {
                 server_user = m;
@@ -563,7 +560,7 @@ app.model.sisyphus_manager = {
         });
 
         app.collection.add(data_arr);
-        app.trigger('session:active', {'primary':'settings','secondary':'sign_in'});
+        app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
     
     },
     /*********************** SISBOT ONBOARDING ********************************/
@@ -1259,7 +1256,7 @@ app.model.sisyphus_manager = {
         var playlists = {
             _url: app.config.get_webcenter_url(),
             _type: 'GET',
-            endpoint: 'list_tracks',
+            endpoint: 'tracks',
             data: {}
         };
 

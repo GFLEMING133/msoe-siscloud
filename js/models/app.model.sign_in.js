@@ -108,7 +108,7 @@ app.model.sign_in = {
 		debugger;
 		var self		= this;
 		var data		= this.get_form_data();
-
+		console.log(data)
 		if (data.username == '')
 			return this.add('errors', ['- Username cannot be blank when trying to reset password']);
 

@@ -1,10 +1,10 @@
 <div class="pull-top bg-white w100">
     <div class="white bg-black w100 center no-stuffing flex">
-        <div class="w15 pt20 center fa fa-arrow-left f-large clickable active bg-grey-hover h__k"
+        <div class="w15 center clickable active blue-hover h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'primary':'community','secondary':'false'}"
-        >&nbsp;</div>
+        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />&nbsp;</div>
         <div class="w70">
             <h1 class="h__k no-stuffing pt10 pb10 fs18 capitalize truncate">Create Account</h1>
         </div>
@@ -26,6 +26,14 @@
                 <div class="h__k" data-foreach="model.errors">
                     <div class="h__k red">{{= scope.value }}</div>
                 </div>
+            </div>
+            <h4 class="pt10 pb10 no-stuffing strong">User Name</h4>
+            <div class="pb10">
+                    <input class="h__k w100" type="text" placeholder="user name"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.registration.username"
+                        value="{{= model.registration.username }}"
+                    />
             </div>
             <h4 class="pt10 pb10 no-stuffing strong">Email</h4>
             <div class="pb10">
