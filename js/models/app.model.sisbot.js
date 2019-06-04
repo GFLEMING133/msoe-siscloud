@@ -13,6 +13,7 @@ app.model.sisbot = {
 			wifi_error		: 'false',
 			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
+			show_wifi_list  : 'false',
 
 			is_master_branch: 'false',
 			is_legacy_branch: 'false',
@@ -590,6 +591,7 @@ app.model.sisbot = {
 			}
 
 			self.set('wifi_networks', uniq_wifi);
+			self.set('show_wifi_list', 'true');
 		}, 10000); // wait ten seconds before retrying
   },
 	wifi_failed_to_connect: function () {
