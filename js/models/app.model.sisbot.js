@@ -245,7 +245,7 @@ app.model.sisbot = {
 				local_ip	: data.local_ip,
 			};
 			var obj = {
-				_url	: app.config.get_api_url(),
+				_url	: 'https://api.sisyphus.withease.io/',
 				_type	: 'POST',
 				_timeout: 60000,
 				endpoint: 'tracks.json',
@@ -266,7 +266,7 @@ app.model.sisbot = {
 		var current_ip	= this.get('data.local_ip');
 
 		app.post.fetch(exists = {
-			_url	:  app.config.get_api_url(),
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'GET',
 			_timeout: 1250,
 			endpoint: 'sisbot_state/' + this.id,
