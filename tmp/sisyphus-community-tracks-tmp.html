@@ -15,8 +15,8 @@
             <div class="sortBy-dropdown-container h__k" data-on-click="model.openSort">
                 <div class="community-sortBy-header"><span class="sortBy-text">Sort By</span></div>
                 <div class="sortBy-drop-actions" >
-                    <div class="sortBy-SORT-style">
-                        Options
+                    <div class="sortBy-SORT-style uppercase h__k">
+                        {{= model.track_sort}} 
                     </div>
                     <div class="upDown-arrows"> 
                         <p><i class="SortUp fa fa-sort-up fa-2x"></i></p>
@@ -29,7 +29,7 @@
                             data-on-click="model.sort_function"
                             data-on-click="publish"  
                             data-publish="session:active"
-                            data-msg="newest_design">NEWEST DESIGN</a></li> 
+                            data-msg="newest design">NEWEST DESIGN</a></li> 
                         <li><a class="sortBy-item h__k" 
                             data-on-click="model.sort_function"
                             data-on-click="publish"  

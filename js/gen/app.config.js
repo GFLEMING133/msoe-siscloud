@@ -3,23 +3,25 @@ app.config = {
 	version				: '1.8.9', //pushing to test flight
 	envs	: {
 		alpha: {	// loads local data only
-			base_url	: 'http://app.dev.withease.io:3001/',
-			api_url		: 'http://api.dev.withease.io:3000/',
+			base_url	: 'http://app.dev.withease.io:3001/', // local
+			api_url		: 'https://api.sisyphus.withease.io/',
 			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'http://api.dev.withease.io:3000/', //talking to sisbot
 			port		: 3001,
 		},
 		beta: {		// tests local network
-			base_url	: 'http://app.dev.withease.io:3001/',
-			api_url		: '192.168.1.168:3002',  //  add entry in your computers /etc/hosts mapped to your bot's IP address
-			web_url		: 'http://localhost:3000/',	                               //  10.0.0.3	beta_bot.local
-			                               //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			base_url	: 'http://app.dev.withease.io:3001/', //local url 
+			api_url		: 'https://api.sisyphus.withease.io/', // add entry in your computers /etc/hosts mapped to your bot's IP address
+			web_url		: 'http://localhost:3000/', //web_center url	                               //  10.0.0.3	beta_bot.local
+			sisbot_url  : '192.168.29.222:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
-		},
+		}, 
 		sisbot: (function() {
 			return {
-				base_url	: window.location.href,
-				api_url		: window.location.href,
-				web_url		: 'http://localhost:3000/',
+				base_url	: window.location.href, 
+				api_url		: 'https://api.sisyphus.withease.io/',
+				web_url		: 'https://webcenter.sisyphus-industries.com/',
+				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
 			}
 		})(),
@@ -27,6 +29,7 @@ app.config = {
 			base_url	: 'https://app.sisyphus.withease.io/',
 			api_url		: 'https://api.sisyphus.withease.io/',
 			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'https://api.sisyphus.withease.io/',
 			base_port	: 443,
 		}
 	},
@@ -35,6 +38,9 @@ app.config = {
 	},
 	get_api_url: function () {
 		return this.envs[this.env].api_url;
+	},
+	get_sisbot_url: function () {
+		return this.envs[this.env].sisbot_url;
 	},
 	get_webcenter_url: function () {
 		return this.envs[this.env].web_url;

@@ -5,7 +5,7 @@ app.post = {
 	fetch: function (data, cb, retry_count) {
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
-		var url		= data._url || app.config.get_api_url();
+		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
 
 		if (data.endpoint)		url		+= data.endpoint;
@@ -63,7 +63,7 @@ app.post = {
 		
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
-		var url		= data._url || app.config.get_api_url();
+		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
 		var type = data._type || 'POST';
 		if (data.endpoint)		url		+= data.endpoint;

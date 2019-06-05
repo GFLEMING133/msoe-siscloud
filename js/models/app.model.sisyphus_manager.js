@@ -10,7 +10,7 @@ app.model.sisyphus_manager = {
 
             signing_up: 'false',
             signing_in: 'false',
-    
+            track_sort: 'newest design',
             registration: {
                 username: '',
                 email: '',
@@ -391,7 +391,6 @@ app.model.sisyphus_manager = {
         this.set('user_registration', 'sign_in');
     },
     sign_up: function() {
-    debugger;
 
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
@@ -409,7 +408,6 @@ app.model.sisyphus_manager = {
                 return self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
 
             self.set('errors', []);
-            debugger;
             self._process_registration(user_data, obj.resp);
         
             self.set('signing_up', 'false');
@@ -826,7 +824,7 @@ app.model.sisyphus_manager = {
 				if (app.config.env == 'alpha') {
 					self.connect_to_sisbot('192.168.42.1');
 				} else if (app.config.env == 'beta') {
-					self.connect_to_sisbot(app.config.get_api_url());
+					self.connect_to_sisbot(app.config.get_sisbot_url());
 				} else if (sisbots.length == 1) {
 					self.set('sisbot_registration', 'connecting');
 					self.connect_to_sisbot(sisbots[0]);
@@ -1324,6 +1322,8 @@ app.model.sisyphus_manager = {
     },
     sort_function: function(sort_params) {
         var self = this;
+
+        this.set('track_sort', sort_params)
         var tracks = {
             _url: app.config.get_webcenter_url(),
             _type: 'GET',
@@ -1546,88 +1546,88 @@ app.model.sisyphus_manager = {
 
         return this;
     },
-    save_new_tracks: function() {
-        var data = [{
-            id: '_Test_1_01',
-            type: 'track',
-            name: 'Test 1 01',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_2_00',
-            type: 'track',
-            name: 'Test 2 00',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_3_11',
-            type: 'track',
-            name: 'Test 3 11',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_4_10',
-            type: 'track',
-            name: 'Test 4 10',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_5_11',
-            type: 'track',
-            name: 'Test 5 11',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_6_10',
-            type: 'track',
-            name: 'Test 6 10',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_7_10',
-            type: 'track',
-            name: 'Test 7 10',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_8_00',
-            type: 'track',
-            name: 'Test 8 00',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_9_00',
-            type: 'track',
-            name: 'Test 9 00',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }, {
-            id: '_Test_10_01',
-            type: 'track',
-            name: 'Test 10 01',
-            is_published: 'true',
-            created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-        }];
+    // save_new_tracks: function() {
+    //     var data = [{
+    //         id: '_Test_1_01',
+    //         type: 'track',
+    //         name: 'Test 1 01',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_2_00',
+    //         type: 'track',
+    //         name: 'Test 2 00',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_3_11',
+    //         type: 'track',
+    //         name: 'Test 3 11',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_4_10',
+    //         type: 'track',
+    //         name: 'Test 4 10',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_5_11',
+    //         type: 'track',
+    //         name: 'Test 5 11',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_6_10',
+    //         type: 'track',
+    //         name: 'Test 6 10',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_7_10',
+    //         type: 'track',
+    //         name: 'Test 7 10',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_8_00',
+    //         type: 'track',
+    //         name: 'Test 8 00',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_9_00',
+    //         type: 'track',
+    //         name: 'Test 9 00',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }, {
+    //         id: '_Test_10_01',
+    //         type: 'track',
+    //         name: 'Test 10 01',
+    //         is_published: 'true',
+    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
+    //     }];
 
-        function save_track() {
-            if (data.length == 0)
-                return this;
+    //     function save_track() {
+    //         if (data.length == 0)
+    //             return this;
 
-            var track = data.shift();
+    //         var track = data.shift();
 
-            track._url = app.config.get_webcenter_url();
-            track._type = 'POST';
-            track.endpoint = 'set';
+    //         track._url = app.config.get_webcenter_url();
+    //         track._type = 'POST';
+    //         track.endpoint = 'set';
 
-            function cb(obj) {
-                save_track();
-            }
+    //         function cb(obj) {
+    //             save_track();
+    //         }
 
-            app.post.fetch(track, cb, 0);
-        }
+    //         app.post.fetch(track, cb, 0);
+    //     }
 
-        save_track();
-    }
+    //     save_track();
+    // }
 };
 
 function newFunction() {
