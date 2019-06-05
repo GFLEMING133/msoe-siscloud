@@ -1543,7 +1543,7 @@ app.model.sisbot = {
 
 		app.post.fetch(obj, function(cbb) {
 			self.set('remote_versions', cbb.resp);
-			if (cb) cb();
+			if (cb) cb(); //this invokes the callback if there is a respone passed into this function.
 		}, 0);
 
 		return this;
