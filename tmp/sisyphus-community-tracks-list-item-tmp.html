@@ -18,7 +18,7 @@
                 <!-- <div class="h__k">{{= JSON.stringify(model.data) }}</div> -->
                 <!-- <div class="fs12  grey mt5 communityTrack sort_date h__k">{{= model.data.date_created }}</div> -->
             </div>
-            <div class="w20 pt10 pb10 pr15 h100 vertical right">
+            <div class="w20 pt10 pb10 pr15 h100 vertical right clickable">
                     <i class="grey pt20" aria-hidden="true">
                         <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
                     </i>
@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
-        <div class="w20 w10 vertical center h__k" data-on-click="model.download_wc" data-msg="{{= model.data.track_id}}">
+        <div class="w20 w10 clickable vertical center h__k" data-on-click="model.download_wc" data-msg="{{= model.data.track_id}}">
                 <i class="fa white pt15 fa-cloud-download f-xlarge" aria-hidden="true"></i>
         </div>
 
