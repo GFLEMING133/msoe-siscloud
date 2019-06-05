@@ -1531,11 +1531,11 @@ app.model.sisbot = {
 			*/
 		});
 	},
-	check_remote_versions: function (cb) {
+	check_remote_versions: function (cb) {  
 		var self = this;
 
 		var obj = {
-			_url	: app.config.get_api_url(),
+			_url	: 'https://api.sisyphus.withease.io/',
 			_type	: 'POST',
 			endpoint: 'latest_software_version',
 			data	: {}
