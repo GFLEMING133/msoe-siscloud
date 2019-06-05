@@ -728,7 +728,6 @@ app.model.sisbot = {
 	},
 
 	install_updates: function () {
-		debugger;
 		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
 			return this;

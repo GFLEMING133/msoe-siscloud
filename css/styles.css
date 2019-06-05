@@ -539,6 +539,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 a:hover {
 	color: #00b1fa;
 }
+li:hover {
+	color: #00b1fa;
+}
 .upDown-arrows {
 	padding-left: 40px;
 	display: relative;

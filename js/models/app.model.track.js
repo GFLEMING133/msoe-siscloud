@@ -1025,7 +1025,6 @@ app.model.track = {
 	},
 	fetch_wc: function () {
 		var self = this;
-		debugger;
 
 		var req_obj = {
 			_url	: app.config.get_webcenter_url(),
@@ -1048,7 +1047,6 @@ app.model.track = {
 		var self = this;
 		
 		console.log("track : download", track_id);
-		debugger;
 
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
@@ -1081,7 +1079,6 @@ app.model.track = {
 			if (obj.err) {
 				alert('There was an error downloading this track. Please try again later')
 			} else {
-				debugger;
 				console.log('track : download response = ', obj.resp);
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later

@@ -105,7 +105,6 @@ app.model.sign_in = {
 	},
 	/************************** FORGOT PASSWORD *******************************/
 	forgot_password: function () {
-		debugger;
 		var self		= this;
 		var data		= this.get_form_data();
 		console.log(data)
