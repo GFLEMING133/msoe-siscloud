@@ -1361,7 +1361,6 @@ app.model.sisyphus_manager = {
     },
     download_track: function(track_id) {
         console.log("download_track" + track_id);
-
         this.remove('community_track_ids', track_id);
     },
     //Actions drop down menu  
