@@ -568,19 +568,19 @@ li:hover {
 		transition: visibility 0s ease, opacity 1s ease;
 		visibility: hidden;
 		opacity: 1;
-		top: 9.8em;
 		line-height: 2em;
 		border: 1.2px solid #999999;
 		border-radius: 3px;
-		position: absolute;
+		position: relative;
 		background-color: #000;
-		min-width: 237px;
+		width: 238px;
 		box-shadow: 25px 8px 16px 5px #8888;
 		z-index: 1;
 		cursor: pointer;
-		right: 43px;
-		top: 100px;
-
+		padding-left: 10px;
+		left: 104px;
+		display: flex;
+		top: 10px;
 }
 
 .sortBy-list {
