@@ -50,17 +50,11 @@ app.config = {
 };
 
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
-<<<<<<< HEAD
 if (window.location.href.indexOf('localhost') > -1)			app.config.env = 'beta';    // uncomment for local Dev Env. 
 else if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot';  //<<< must be commented out for local Dev Env to work
 
 if (window.location.href.indexOf('.local') > -1) app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';
-=======
-if (window.location.href.indexOf('withease') < 0)			app.config.env = 'sisbot';
-if (window.location.href.indexOf('.local') > -1)			app.config.env = 'sisbot';
-if (window.location.href.indexOf('192.168') > -1)			app.config.env = 'sisbot';
->>>>>>> parent of ba9cb50... added alert/confirmation boxes for Table Update, Factory Reset, and Table Name change. Also Fixed routing arrow in Table Name Change tmp file to route back to Advance settings. Made sisyphus-playing-active-tmp clickable to route back to Home . Added notes and commented out code for when setting local dev environment in server.js, app.config.js, and app.model.sisyphus_manager
 
 // for any url not including dev, assumes prod env
 if (window.location.href.indexOf('sisyphus.withease') > -1) app.config.env = 'prod';
