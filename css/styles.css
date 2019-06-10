@@ -508,6 +508,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .sortBy-text {
 	font-size: 14px;
 	font-weight: 600;
+	text-transform: uppercase;
 }
 .sortBy-dropdown-container {
 	padding-left: 15px;
