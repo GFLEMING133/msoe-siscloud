@@ -88,6 +88,7 @@ app.model.sisbot = {
 				is_network_connected: 'false',
 
 				is_internet_connected: 'false',
+				is_network_connected: 'false',
                 wifi_network        : '',
                 wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
