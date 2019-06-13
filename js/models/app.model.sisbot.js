@@ -776,7 +776,7 @@ app.model.sisbot = {
 					app.manager.intake_data(obj.resp);
 				}
 			});
-		}, 'Factory Reset?', ['Cancel', 'OK ERASE ME']);
+		}, 'Factory Reset?', ['Cancel', 'OK']);
 	},
 	setup_update_hostname: function () {
 		console.log("setup_update_hostname()");
