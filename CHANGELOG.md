@@ -1,3 +1,6 @@
+#2019-6-14, 1.8.8
+  - back out a bad update
+
 #2019-5-02, 1.8.7
  - Changed <meta> to reflect production and for adding media queries to the css.
  - added text-size-adjust to the styles.css to help display transition.
