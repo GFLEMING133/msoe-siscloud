@@ -949,12 +949,9 @@ app.model.sisbot = {
 		if(is_servo == 'true'){
 			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?")) 
 				self.update_tablename();
-				alertMessage = "I am Sisyphusing so hard right now";
-				
 			} else if (is_servo == 'false') {
 				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?")) 
 					self.update_tablename();
-				alertMessage = "Names don't change, tables do"
 			}else{
 
 			}
