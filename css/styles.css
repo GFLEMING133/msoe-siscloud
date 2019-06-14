@@ -10,7 +10,6 @@
 html,
 body {
     height: 100%;
-    text-size-adjust: auto;
 }
 
 img {
@@ -351,7 +350,6 @@ label {
     left: -5px;
     right: -5px;
 }
-/********************************* SCROLLING ************************************/
 
 .scroll {
     overflow-y: scroll;
@@ -360,9 +358,9 @@ label {
 }
 
 .auto-scroll {
-    overflow: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
     height: 100vh;
 }
 
@@ -374,118 +372,6 @@ label {
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
 }
-
-.trackContainer {
-    flex-direction: column;
-    position: absolute;
-    display: flex;
-    width: 100%;
-    max-height: calc(100vh - 42vh);
-    border: 3px solid red;
-}
-.trackBox {
-    min-height: 0;
-    border: 6px solid blue;
-
-   
-}
-
-.scrollDown {
-    border: 6px solid green;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: -webkit-fill-available;
-    overflow: scroll;
-}
-.insideScroll {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: -webkit-fill-available;
-    overflow: scroll;
-}
-.reorder {
-   
-    cursor: move;
-    cursor: -webkit-grabbing;
-}
-
-
-
-/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
-
-/* Portrait */
-/* @media only screen 
-    and (max-device-width: 360px)
-    and (orientation : portrait)
-    { 
-            .trackBox {
-                height: 100vh;
-                max-height: 47vh;
-                
-            }
-            .scrollDown {
-                background-color: #777;
-                min-height: 35vh;
-                max-height: 47vh;
-                height: 45vh;
-            }
-} */
-
-/* ----------- iPhone X ----------- */
-
-/* Portrait */
-/* @media only screen  
-    and (min-device-width: 375px)
-    and (max-device-width: 410px)
-    and (orientation : portrait)
-    {
-        .trackBox {
-            height: 100vh;
-            max-height: 52vh;
-               
-            }
-        .scrollDown {
-            background-color: #32B150;
-            min-height: 40vh;
-            max-height: 48vh;
-            height: 45vh;
-        
-        }
-} */
-/* @media only screen  
-    and (min-device-width: 411px)
-    and (max-device-width: 500px)
-    and (orientation : portrait)
-    {
-        .trackBox {
-            height: 48vh;
-            max-height: 58vh;   
-            }
-        .scrollDown {
-            background-color: pink;
-            height: 58vh;
-        
-        }
-} */
-/* @media only screen  
-    and (min-device-width: 501px)
-    and (max-device-width: 800px)
-    and (orientation : portrait)
-    {
-        .trackBox {
-            height: 38vh;
-            max-height: 58vh;   
-            }
-        .scrollDown {
-            background-color: peru;
-            height: 58vh;
-        
-        }
-} */
 
 .justify {
     text-align: 'justify';
@@ -522,7 +408,10 @@ input.standard {
     width: 100%;
 }
 
-
+.reorder {
+    cursor: move;
+    cursor: -webkit-grabbing;
+}
 
 .show-on-hover-container .show-on-hover-item {
     visibility: hidden;
@@ -3027,5 +2916,24 @@ input[type="range"]::-ms-fill-upper {
     background-color: #efefef;
 }
 
+.trackBox {
+    min-height: 0%;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    max-height: calc( 100% - 42%);
+}
 
+.scrollDown {
+    height: 50%;
+    min-height: 340px;
+    max-height: 450px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 
+@media (max-height: 568px) {
+    .scrollDown {
+        height: 250px;
+    }
+}
