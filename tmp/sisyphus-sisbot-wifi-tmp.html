@@ -66,7 +66,7 @@
                     >Connect</p>
                     <div class="h__k" data-if="{{= model.data.is_hotspot }} == false">
                         <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
-                            data-if="{{= model.data.is_internet_connected }} == false"
+                            data-if="{{= model.data.is_network_connected }} == false"
                         >Connect</p>
                     </div>
 
@@ -77,7 +77,7 @@
                         data-on-click="parent.should_show_setup_page"
                     >Skip this step</div>
                     <div class="h__k mb100" data-if="{{= model.data.is_hotspot }} == false">
-                        <div class="p20 center i h__k" data-if="{{= model.data.is_internet_connected }} == false">
+                        <div class="p20 center i h__k" data-if="{{= model.data.is_network_connected }} == false">
                             <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                             <div class="h__k fs18 lh18">
                                 Connecting...

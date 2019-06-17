@@ -148,7 +148,7 @@ app.model.sisbot = {
 
 		this.on('change:data.is_serial_open', 				this._check_serial);
 		this.on('change:data.failed_to_connect_to_wifi', 	this.wifi_failed_to_connect);
-		this.on('change:data.is_internet_connected', 		this.wifi_connected);
+		this.on('change:data.is_network_connected', 		this.wifi_connected);
 		this.on('change:data.wifi_forget', 					this.wifi_connected);
 		this.on('change:data.installing_updates',			this.check_force_onboarding);
 		this.on('change:data.installing_updates',			this.install_updates_change);
@@ -235,28 +235,7 @@ app.model.sisbot = {
 			}
 		}, 0);
 	},
-	// _update_cloud: function (data) {
 	
-	// 	// function not used.
-	// 	console.log("_update_cloud()");
-	// 	if (this.get('data.is_internet_connected') == 'true') {
-	// 		var data = this.get('data');
-	// 		var new_data = {
-	// 			id			: data.id,
-	// 			name		: data.name,
-	// 			local_ip	: data.local_ip,
-	// 		};
-	// 		var obj = {
-	// 			_url	: app.config.get_api_url(), //
-	// 			_type	: 'POST',
-	// 			_timeout: 60000,
-	// 			endpoint: 'tracks.json',
-	// 			data	: new_data
-	// 		};
-
-	// 		app.post.fetch(obj, function(resp) {}, 0);
-	// 	}
-	// },
 	_fetching_cloud: false,
 	_fetch_cloud: function () {
 		console.log("_fetch_cloud()");
@@ -613,10 +592,10 @@ app.model.sisbot = {
 		console.log("wifi_connected()");
 		var active = app.session.get('active');
 
-		if (this.get('data.is_internet_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
+		if (this.get('data.is_network_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.trigger('sisbot:wifi_connected');
 			app.session.set('active.secondary', 'advanced_settings');
-		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
+		} else if (this.get('data.is_network_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
 			app.trigger('sisbot:wifi_connected');
 		}
 
@@ -690,6 +669,7 @@ app.model.sisbot = {
 				// do nothing
 				self.set('is_polling', 'false')
 					.set('data.is_internet_connected', 'false')
+					.set('data.is_network_connected', 'false')
 					.set('data.is_hotspot',	'true')
 					.set('data.wifi_forget', 'false')
 					.set('data.wifi_network', 'false')
@@ -702,6 +682,7 @@ app.model.sisbot = {
 		}
 	},
 	is_internet_connected: function () {
+		debugger;
 		console.log("is_internet_connected()");
 		var self = this;
 
