@@ -1,3 +1,7 @@
+#2019-06-17, 1.8.8
+ - Fonts are locally hosted
+ - Separate is_network_connected from is_internet_connected
+
 #2019-5-02, 1.8.7
  - Changed <meta> to reflect production and for adding media queries to the css.
  - added text-size-adjust to the styles.css to help display transition.
