@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.8', // CHANGELOG.md 2019-6-17
+    version : '1.8.10', // pushing to testflight for some real testing Check CHANGELOG for details.  
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

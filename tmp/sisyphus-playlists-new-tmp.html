@@ -1,10 +1,5 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <!-- <div class="w30 left pl20 clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'playlists'}"
-        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div> -->
         <div class="w40">
             <h1 class="fs18 lh18 no-stuffing capitalize h__k">{{= (model.data.is_saved == 'true') ? model.data.name : 'New Playlist' }}</h1>
         </div>
@@ -23,7 +18,7 @@
             />
         </div>
         <!--------------------------- ADD TRACKS ------------------------------>
-        <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+        <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit h__k"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'playlist-edit-tracks'}"

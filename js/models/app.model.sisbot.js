@@ -13,6 +13,7 @@ app.model.sisbot = {
 			wifi_error		: 'false',
 			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
+			show_wifi_list  : 'false',
 
 			is_master_branch: 'false',
 			is_legacy_branch: 'false',
@@ -87,6 +88,7 @@ app.model.sisbot = {
 				is_network_connected: 'false',
 
 				is_internet_connected: 'false',
+				is_network_connected: 'false',
                 wifi_network        : '',
                 wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
@@ -146,7 +148,7 @@ app.model.sisbot = {
 
 		this.on('change:data.is_serial_open', 				this._check_serial);
 		this.on('change:data.failed_to_connect_to_wifi', 	this.wifi_failed_to_connect);
-		this.on('change:data.is_internet_connected', 		this.wifi_connected);
+		this.on('change:data.is_network_connected', 		this.wifi_connected);
 		this.on('change:data.wifi_forget', 					this.wifi_connected);
 		this.on('change:data.installing_updates',			this.check_force_onboarding);
 		this.on('change:data.installing_updates',			this.install_updates_change);
@@ -180,7 +182,7 @@ app.model.sisbot = {
 		console.log("_fetch_log()");
 		var data = this.get('data');
 		var obj = {
-			// _url	: 'https://api.sisyphus.withease.io/',
+			_url	:  app.config.get_sisbot_url(),
 			_type	: 'POST',
 			_timeout: 60000,
 			endpoint: 'get_log',
@@ -233,26 +235,7 @@ app.model.sisbot = {
 			}
 		}, 0);
 	},
-	_update_cloud: function (data) {
-		console.log("_update_cloud()");
-		if (this.get('data.is_internet_connected') == 'true') {
-			var data = this.get('data');
-			var new_data = {
-				id			: data.id,
-				name		: data.name,
-				local_ip	: data.local_ip,
-			};
-			var obj = {
-				_url	: 'https://api.sisyphus.withease.io/',
-				_type	: 'POST',
-				_timeout: 60000,
-				endpoint: 'set',
-				data	: new_data
-			};
-
-			app.post.fetch(obj, function(resp) {}, 0);
-		}
-	},
+	
 	_fetching_cloud: false,
 	_fetch_cloud: function () {
 		console.log("_fetch_cloud()");
@@ -264,13 +247,14 @@ app.model.sisbot = {
 		var current_ip	= this.get('data.local_ip');
 
 		app.post.fetch(exists = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: app.config.get_api_url(),
 			_type	: 'GET',
 			_timeout: 1250,
 			endpoint: 'sisbot_state/' + this.id,
 		}, function exists_cb(obj) {
 			self._fetching_cloud = false;
-
+			// debugger;
+			// console.log("_fetch_cloud() returned " + JSON.stringify(obj));
 			if (obj.resp && obj.resp.local_ip) {
 				// we are internet connected!
 				var ip_address = obj.resp.local_ip;
@@ -300,7 +284,7 @@ app.model.sisbot = {
 				// no ip address. must be doing network stuff
 			} else if (current_ip == ip_address && ip_address == '192.168.42.1') {
 				// sisyphus is in hotspot mode and we failed to connect to it
-				this.set('data.reason_unavailable', 'connect_to_wifi');
+				self.set('data.reason_unavailable', 'connect_to_wifi');
 			} else if (current_ip !== ip_address) {
 				// we successfully connected to wifi!
 				self.set('data.local_ip', ip_address);
@@ -330,7 +314,7 @@ app.model.sisbot = {
 
 		return this;
 	},
-	_ping_sisbot: function(hostname) {
+	_ping_sisbot: function(hostname) {   // trying to find what sisbots are available.
 		console.log("_ping_sisbot()");
 		var self = this;
 
@@ -440,7 +424,7 @@ app.model.sisbot = {
 			// do nothing.. We haven't timed out
 		} else if (this.is_legacy() == true && disconnect_length > 10000) {
 			this._poll_failure_stop();
-		} else if (this.is_legacy() == false && disconnect_length > 1500) {
+		} else if (this.is_legacy() == false && disconnect_length > app.config.disconnect_timeout_to_stop_polling) {
 			if (this.get('is_socket_connected') == 'true') {
 				// we have polling from old requests that have timed out after socket reconnected. Ignore
 			} else {
@@ -588,8 +572,9 @@ app.model.sisbot = {
 			}
 
 			self.set('wifi_networks', uniq_wifi);
-		});
-    },
+			self.set('show_wifi_list', 'true');
+		}, 10000); // wait ten seconds before retrying
+  },
 	wifi_failed_to_connect: function () {
 		console.log("wifi_failed_to_connect()");
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
@@ -607,10 +592,10 @@ app.model.sisbot = {
 		console.log("wifi_connected()");
 		var active = app.session.get('active');
 
-		if (this.get('data.is_internet_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
+		if (this.get('data.is_network_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
 			app.trigger('sisbot:wifi_connected');
 			app.session.set('active.secondary', 'advanced_settings');
-		} else if (this.get('data.is_internet_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
+		} else if (this.get('data.is_network_connected') == 'true' && app.manager.get('show_wifi_page') == 'true') {
 			app.trigger('sisbot:wifi_connected');
 		}
 
@@ -684,6 +669,7 @@ app.model.sisbot = {
 				// do nothing
 				self.set('is_polling', 'false')
 					.set('data.is_internet_connected', 'false')
+					.set('data.is_network_connected', 'false')
 					.set('data.is_hotspot',	'true')
 					.set('data.wifi_forget', 'false')
 					.set('data.wifi_network', 'false')
@@ -696,6 +682,7 @@ app.model.sisbot = {
 		}
 	},
 	is_internet_connected: function () {
+		debugger;
 		console.log("is_internet_connected()");
 		var self = this;
 
@@ -719,7 +706,7 @@ app.model.sisbot = {
 			} else if(is_servo == 'false'){
 				if(confirm("Your table will restart this may take sometime. Are you sure you want to continue?"))
 				self.install_updates();
-				} 
+				}
 	},
 
 	install_updates: function () {
@@ -742,6 +729,7 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
+		debugger;
 		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
@@ -763,7 +751,7 @@ app.model.sisbot = {
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
 		var self = this;
-		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.', 
+		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
 		function(resp_num) {
 			if (resp_num == 1)
 				return self;
@@ -947,14 +935,13 @@ app.model.sisbot = {
 		let alertMessage;
 		let is_servo = self.get('data.is_servo');
 		if(is_servo == 'true'){
-			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?")) 
+			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?"))
 				self.update_tablename();
-				alertMessage = "I am Sisyphusing so hard right now";
 				
+
 			} else if (is_servo == 'false') {
-				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?")) 
+				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?"))
 					self.update_tablename();
-				alertMessage = "Names don't change, tables do"
 			}else{
 
 			}
@@ -1525,11 +1512,11 @@ app.model.sisbot = {
 			*/
 		});
 	},
-	check_remote_versions: function (cb) {
+	check_remote_versions: function (cb) {  
 		var self = this;
 
 		var obj = {
-			_url	: 'https://api.sisyphus.withease.io/',
+			_url	: app.config.get_api_url(),
 			_type	: 'POST',
 			endpoint: 'latest_software_version',
 			data	: {}
@@ -1537,7 +1524,7 @@ app.model.sisbot = {
 
 		app.post.fetch(obj, function(cbb) {
 			self.set('remote_versions', cbb.resp);
-			if (cb) cb();
+			if (cb) cb(); //this invokes the callback if there is a respone passed into this function.
 		}, 0);
 
 		return this;
