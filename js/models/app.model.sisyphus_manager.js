@@ -680,7 +680,7 @@ app.model.sisyphus_manager = {
                 self.set('sisbot_registration', 'find');
             }, 0);
         }, function error(err) {
-            alert('Error opening wifi settings. Please manually go to your wifi settings');
+            alert('Error opening WiFi settings. Please manually go to your WiFi settings');
         });
 
         return this;
@@ -695,7 +695,7 @@ app.model.sisyphus_manager = {
             self.set('sisbot_reconnecting', 'true');
         }, function error(err) {
             self.set('sisbot_reconnecting', 'false');
-            alert('Error opening wifi settings. Please manually go to your wifi settings');
+            alert('Error opening WiFi settings. Please manually go to your WiFi settings');
         });
     },
     open_network_settings_for_hotspot: function() {
