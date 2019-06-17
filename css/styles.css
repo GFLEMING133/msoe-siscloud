@@ -3,11 +3,11 @@
 	src: url('../fonts/Montserrat-Black.ttf');
 	
 } */
-@font-face {
+/* @font-face {
 	font-family: 'Montserrat';
 	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
 	font-weight: 600;
-}
+} */
 /* @font-face {
 	font-family: 'Montserrat';
 	src: url('../fonts/Montserrat-ExtraBold.ttf');
@@ -16,7 +16,7 @@
 /* @font-face {
 	font-family: 'Montserrat';
 	src: url('../fonts/Montserrat-Medium.ttf');
-	font-weight: 500;
+	font-weight: 600;
 } */
 /* @font-face {
 	font-family: 'Montserrat';
@@ -26,37 +26,43 @@
 /* @font-face {
 	font-family: 'Montserrat';
 	src: url('../fonts/Montserrat-Black.ttf');
+	font-weight: 400;
+} */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf');
+	font-weight: 600;
 } */
 
-@font-face {
+ /* @font-face {
 	font-family: 'Roboto';
 	src: url('../fonts/Roboto-Black.ttf');
-	
-}
-@font-face {
+	font-weight: 400;
+} */
+/* @font-face {
 	font-family: 'Roboto';
 	src: url('../fonts/Roboto-Bold.ttf');
-	font-weight: 600;
-}
-@font-face {
+	font-weight: 400;
+} */
+/* @font-face {
 	font-family: 'Roboto';
 	src: url('../fonts/Roboto-ExtraBold.ttf');
 	font-weight: 900;
-}
-@font-face {
+} */
+/* @font-face {
 	font-family: 'Roboto';
 	src: url('../fonts/Roboto-Medium.ttf');
 	font-weight: 500;
-}
-@font-face {
+} */
+/* @font-face {
 	font-family: 'Roboto';
 	src: url('../fonts/Roboto-Regular.ttf');
 	font-weight: 400;
-}
-@font-face {
+} */
+/* @font-face {
 	font-family: 'Roboto';
 	src: url('../fonts/Roboto-Black.ttf');
-}
+}  */
 /********************************* BASE ***************************************/
 
 html, body {
@@ -437,6 +443,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	min-height: 0;
 	/* border: 6px solid blue; */
   height: 42vh; 
+  max-height: 48vh;
  
 }
 
@@ -446,8 +453,8 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: flex;
 	flex-direction: column;
 	min-height: 0;
-	height: 35vh;
-	max-height: 39vh;
+	height: 38vh;
+	max-height: 58vh;
 	overflow: scroll;
 }
 .inherit {
@@ -501,12 +508,12 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	and (orientation : portrait)
 	{
 			.trackBox {
-					height: 48vh;
-					max-height: 58vh;   
+					height: 68vh;
+					max-height: 68vh;   
 					}
 			.scrollDown {
 					/* background-color: pink; */
-					height: 58vh;
+					height: 100vh;
 			
 			}
 } 
