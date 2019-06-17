@@ -1,9 +1,18 @@
+#2019-6-17, 1.8.10
+ - is_network_connected added for table to connect when no internet.
+ - Fixed white screen of death by removing fonts.google.api. Sourced font locally. 
+ - removed backgroung colors for drag and drop (still in testing)
+ - Spinner added for when connecting a table to WiFi as to allow time to populate list. 
+ - Conditionals added for when is_internet_connected or is_network_connected. 
+ - cleaned up code and commented out functions() not in use. 
+ - sisbot_url in app.config.js for global variable. 
+
 #2019-6-4, 1.8.9
  - Drag and drop again, now with color... Continued testing on multiple devices.
  - Now Playing Footer is now clickable and redirects you to the Home page. 
  - Community is going to be available for Beta Testers. 
  - Wifi Connect has spinner to wait for available networks to populate array before showing page. 
- - Redirect back to app after sigining into WIFI. 
+ - Redirect back to app after sigining into WiFi. 
 #2019-5-31, 1.8.8
  - increase the retry timeout on get_wifi network list
 
