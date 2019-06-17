@@ -1,7 +1,7 @@
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
  - Fixed white screen of death by removing fonts.google.api. Sourced font locally. 
- - removed backgroung colors for drag and drop (still in testing)
+ - removed background colors for drag and drop (still in testing)
  - Spinner added for when connecting a table to WiFi as to allow time to populate list. 
  - Conditionals added for when is_internet_connected or is_network_connected. 
  - cleaned up code and commented out functions() not in use. 
