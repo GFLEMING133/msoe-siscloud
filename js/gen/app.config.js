@@ -26,10 +26,10 @@ app.config = {
 			}
 		})(),
 		prod: {
-			base_url	: 'https://app.sisyphus.withease.io/',
-			api_url		: 'https://api.sisyphus.withease.io/',
-			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'https://api.sisyphus.withease.io/',
+			base_url	: 'https://webcenter.sisyphus-industries.com/',
+			api_url		: 'https://webcenter.sisyphus-industries.com/',
+			web_url		: 'https://webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'https://webcenter.sisyphus-industries.com/',
 			base_port	: 443,
 		}
 	},
