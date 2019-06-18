@@ -81,12 +81,12 @@
         </div> -->
         <div class="h__k" data-model="{{= model.sisbot_id }}">
             <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
-                data-if="{{= model.data.is_internet_connected }} == false"
+                data-if="{{= model.data.is_network_connected }} == false"
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'secondary':'wifi'}"
             >
-                <span class="strong">Connect to wifi network</span>
+                <span class="strong">Connect to WiFi network</span>
                 <span class="pull-right fa fa-chevron-right"></span>
             </div>
         </div>
@@ -120,6 +120,14 @@
             </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced-movement'}"
+        >
+            <span class="strong">Advanced Movement</span>
+            <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-model="{{= model.sisbot_id }}"
             data-on-click="model.disconnect"
         >
@@ -128,10 +136,10 @@
         </div>
         <div class="h__k" data-model="{{= model.sisbot_id }}">
             <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
-                data-if="{{= model.data.is_internet_connected }} == true"
+                data-if="{{= model.data.is_network_connected }} == true"
                 data-on-click="model.disconnect_wifi"
             >
-                <span class="strong">Disconnect from wi-fi network</span>
+                <span class="strong">Disconnect from WiFi network</span>
                 <span class="pull-right"></span>
             </div>
         </div>
@@ -141,14 +149,6 @@
             data-msg="{'secondary':'factory-reset'}"
         >
             <span class="strong">Factory Reset</span>
-            <span class="pull-right fa fa-chevron-right"></span>
-        </div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'advanced-movement'}"
-        >
-            <span class="strong">Advanced Movement</span>
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
         <div class="hh150">&nbsp;</div>
