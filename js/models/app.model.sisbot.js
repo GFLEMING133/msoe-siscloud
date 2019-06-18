@@ -700,7 +700,6 @@ app.model.sisbot = {
 		}
 	},
 	is_internet_connected: function () {
-		debugger;
 		console.log("is_internet_connected()");
 		var self = this;
 
@@ -747,7 +746,6 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
-		debugger;
 		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
