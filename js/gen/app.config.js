@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.11', //pushing to test flight
+	version				: '1.8.10', //pushing to test flight
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/', // local
@@ -19,7 +19,7 @@ app.config = {
 		sisbot: (function() {
 			return {
 				base_url	: window.location.href, 
-				api_url		: 'https://webcenter.sisyphus-industries.com/',
+				api_url		: 'https://api.sisyphus.withease.io/',
 				web_url		: 'https://webcenter.sisyphus-industries.com/',
 				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
