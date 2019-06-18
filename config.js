@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.10', //
+    version : '1.8.11', // change to webcenter
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
