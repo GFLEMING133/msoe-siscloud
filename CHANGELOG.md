@@ -1,6 +1,10 @@
-#2019-6-17, 1.8.11
+#2019-6-18, 1.8.12 
+ - Updated Android Studio, Cordova, Gradel, and SDK Version/API Level and did test launch. 
+#2019-6-18, 1.8.11
+ - is_network_separate added to fix updating issue and Connect to WiFi 
+ - merged staging with beta
  - move UI over to webcenter
-
+ 
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
  - Fixed white screen of death by removing fonts.google.api. Sourced font locally. 
