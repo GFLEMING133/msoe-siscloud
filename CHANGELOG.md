@@ -1,3 +1,6 @@
+#2019-6-17, 1.8.11
+ - move UI over to webcenter
+
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
  - Fixed white screen of death by removing fonts.google.api. Sourced font locally. 
