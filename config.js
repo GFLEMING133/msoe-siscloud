@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.9', // pushing to testflight for some real testing Check CHANGELOG for details.  
+    version : '1.8.12', //Test launching after updating Cordova and API Level , Gradel updated to 4.10 in the update as well. 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
