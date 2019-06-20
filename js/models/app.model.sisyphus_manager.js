@@ -1242,43 +1242,43 @@ app.model.sisyphus_manager = {
 
 
     /**************************** COMMUNITY ***********************************/
-    fetch_community_playlists: function() {
-        if (this.get('fetched_community_playlists') == 'true')
-            return this;
+    // fetch_community_playlists: function() {
+    //     if (this.get('fetched_community_playlists') == 'true')
+    //         return this;
 
-        var self = this;
+    //     var self = this;
 
-        this.set('fetching_community_playlists', 'true');
+    //     this.set('fetching_community_playlists', 'true');
 
 
-        var playlists = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'GET',
-            endpoint: 'tracks',
-            data: {}
-        };
+    //     var playlists = {
+    //         _url: app.config.get_webcenter_url(),
+    //         _type: 'GET',
+    //         endpoint: 'tracks',
+    //         data: {}
+    //     };
 
-        function cb(obj) {
-            setTimeout(function() {
-                self.set('fetching_community_playlists', 'false');
-            }, 1000)
+    //     function cb(obj) {
+    //         setTimeout(function() {
+    //             self.set('fetching_community_playlists', 'false');
+    //         }, 1000)
 
-            if (obj.err) return self;
+    //         if (obj.err) return self;
 
-            app.collection.add(obj.resp);
+    //         app.collection.add(obj.resp);
 
-            var resp_playlist_ids = _.pluck(obj.resp, 'id');
-            var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-            var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
+    //         var resp_playlist_ids = _.pluck(obj.resp, 'id');
+    //         var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
+    //         var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
 
-            self.set('community_playlist_ids', new_playlist_ids);
-            self.set('fetched_community_playlists', 'true');
-        }
+    //         self.set('community_playlist_ids', new_playlist_ids);
+    //         self.set('fetched_community_playlists', 'true');
+    //     }
 
-        app.post.fetch2(playlists, cb, 0);
+    //     app.post.fetch2(playlists, cb, 0);
 
-        return this;
-    },
+    //     return this;
+    // },
 
     fetch_community_tracks: function() {
         if (this.get('fetched_community_tracks') == 'true')
@@ -1294,26 +1294,20 @@ app.model.sisyphus_manager = {
             data: {}
         };
 
-
-
         function cb(obj) {
             setTimeout(function() {
                 self.set('fetching_community_tracks', 'false');
             }, 1000);
-
             if (obj.err) return self;
-
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
-           
             var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
             var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
-            this.sort_function();
         }
        
         app.post.fetch2(tracks, cb, 0);
@@ -1350,9 +1344,9 @@ app.model.sisyphus_manager = {
             console.log('new_track_ids', obj.resp);
          
         }
-       
+        this.fetch_community_tracks();
         app.post.fetch2(tracks, cb, 0);
-
+        
         return this;
     },
 
