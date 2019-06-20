@@ -1354,6 +1354,7 @@ app.model.sisyphus_manager = {
         this.remove('community_playlist_ids', playlist_id);
     },
     download_track: function(track_id) {
+
         console.log("download_track" + track_id);
         this.remove('community_track_ids', track_id);
     },

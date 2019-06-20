@@ -52,19 +52,21 @@
             <div class="p20 center i h__k">Fetching tracks...</div>
         </div>
         <div class="h__k" data-if="{{= model.fetching_community_tracks }} == false">
-            <div class="p20 center i h__k"
-                data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
-            >There are no new tracks to download</div>
-            <div class="h__k pt10 pb100 mb75"
+                
+            <div class="h__k pt10 pb100 mt75 mb75"
                 data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
                 data-foreach="model.community_track_ids"
                 data-foreach-change="foreach_reset"
                 data-foreach-map="true"
             >
-            <div class="h__k w100"
-                data-template="sisyphus-community-tracks-list-item-tmp"
-            ></div>
+                <div class="h__k w100"
+                    data-template="sisyphus-community-tracks-list-item-tmp"
+                ></div>
             </div>
+            <div class="h__k">{{= app.plugins.length(model.community_track_ids) }}</div>
+            <div class="p20 center blue w100 i h__k"
+                 data-if="{{= app.plugins.length(model.community_track_ids) }} === 0"
+            >There are no new tracks to download{{</div>
         </div>
     </div>
 </div>

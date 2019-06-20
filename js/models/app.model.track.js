@@ -1045,7 +1045,6 @@ app.model.track = {
 	},
   download_wc: function(track_id) {
 		var self = this;
-		
 		console.log("track : download", track_id);
 
 		var req_obj;
@@ -1055,7 +1054,6 @@ app.model.track = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
-			
 			};
 
 		}
@@ -1065,7 +1063,6 @@ app.model.track = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
-			
 			};
 		}
 		else {
@@ -1098,48 +1095,6 @@ app.model.track = {
 		app.post.fetch2(req_obj, cb, 0);
 	},
 
-
-	// download: function () {
-
-	// 	var self = this;
-	// 	debugger; //this throws error because of SSL Certificate for the websocket.. change the self.socket to 3000 in the app.socket.js (line 36)
-	// 						//Chrome doesn't allow unsecure websocket (ws) connections to localhost (only wss, so you should setup a TLS certificate for your 
-	// 						//local web/websocket server). However the same should work fine with Firefox.
-	// 	if (this.get('data.verts') !== '') {
-	// 		console.log("track : download  verts already present, call sisbot:track_add");
-	// 		app.trigger('manager:download_track', this.id);
-	// 		app.trigger('sisbot:track_add', this);
-	// 		return this;
-	// 	}
-
-	// 	var req_obj = {
-	// 		_url	: app.config.get_sisbot_url(),
-	// 		_type	: 'POST',
-	// 		endpoint: 'tracks/1/download.json',
-	// 		id		: this.id
-	// 	};
-
-	// 	var req_obj = {
-	// 		_url	: app.config.get_sisbot_url(),
-	// 		_type	: 'GET',
-	// 		endpoint: 'tracks/1/download.json',
-	// 		id		: this.id
-	// 	};
-		
-	// 	function cb(obj) {
-	// 		debugger;
-	// 		if (obj.err) {
-	// 			alert('There was an error downloading this track. Please try again later')
-	// 		} else {
-	// 			console.log('track : download response = ', obj.resp);
-	// 			self.set('data.verts', obj.resp);
-	// 			app.trigger('manager:download_track', self.id);
-	// 			app.trigger('sisbot:track_add', self);
-	// 		}
-	// 	}
-
-	// 	app.post.fetch2(req_obj, cb, 0);
-	// },
 	publish_upload: function() {
 		var self = this;
 
@@ -1156,15 +1111,5 @@ app.model.track = {
 	unpublish: function () {
 		this.set('data.is_published', 'false').save();
 	},
-	// _save: function (track_data) {
-	// 	if (!track_data)	track_data = this.get('data');
-
-	// 	track_data._url			= app.config.get_sisbot_url();
-	// 	track_data._type		= 'POST';
-	// 	track_data.endpoint		= 'set';
-
-	// 	app.post.fetch(track_data, function cb(obj) {
-	// 		if (obj.err)	alert('Error saving track to cloud');
-	// 	}, 0);
-	// },
+	
 };
