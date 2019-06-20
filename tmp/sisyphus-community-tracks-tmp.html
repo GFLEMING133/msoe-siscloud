@@ -61,9 +61,11 @@
                 data-foreach-change="foreach_reset"
                 data-foreach-map="true"
             >
-                <div class="h__k w100"
-                    data-template="sisyphus-community-tracks-list-item-tmp"
-                ></div>
+                <div class=h__k data-if="{{= model.data.is_public}} == true"
+                    <div class="h__k w100"
+                        data-template="sisyphus-community-tracks-list-item-tmp"
+                    ></div>
+                </div>
             </div>
         </div>
     </div>
