@@ -925,9 +925,10 @@ app.model.sisyphus_manager = {
         var self = this;
 
         this.get_network_ip_address(function(ip_address) {
+            console.log('get_network_ip_address ==' + ip_address);
             if (!ip_address) return cb();
-
             var ip_add = ip_address.split('.');
+            console.log('ip address --',ip_add);
             ip_add.pop();
 
             var ip_base = ip_add.join('.');

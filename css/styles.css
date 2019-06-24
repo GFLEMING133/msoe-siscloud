@@ -569,7 +569,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
 /* -----------SORT BY DROP DOWN----------------------------  */
-
+.sortBy-wrapper {
+	padding-top: 50px;
+}
 .sortBy-text {
 	font-size: 14px;
 	font-weight: 600;
@@ -577,11 +579,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .sortBy-dropdown-container {
 	padding-left: 15px;
-	padding-top: 20px;
-	margin-top: 15px;
 	background-color: #000;
-	position: fixed;
-	width: 81%;
+	position: absolute;
+	width: 100%;
 	height: 100px;
 }
 .sortBy-drop-actions {
