@@ -576,7 +576,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	padding-top: 30px;
 }
 .sortBy-text {
-	font-size: 14px;
+	font-size: 13px;
 	font-weight: 600;
 	text-transform: uppercase;
 }
@@ -585,23 +585,23 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position: absolute;
 	width: 100%;
-	height: 80px;
+	height: 77px;
 }
 .sortBy-drop-actions {
 	position: relative;
 	margin-left: 5px;
 	display: inline-block;
-	width: 277px;
+	width: 270px;
 	height: 35px;
 	border: 2px solid #fff;
 	border-radius: 6px;
 	cursor: pointer;
 }
 .sortBy-SORT-style {
-	font-size: 13px;
+	font-size: 13.5px;
 	padding-left: 8px;
 	font-weight: 600;
-	margin-top: 10px;
+	margin-top: 9px;
 	color: #fff;
 }
 
@@ -619,7 +619,7 @@ li:hover {
 .SortUp {
 	font-size: 1.3em;
 	position: absolute;
-	top: 7px;
+	top: 6px;
 	right: 10px;
 	pointer-events: auto;
 	color: #fff;
@@ -627,7 +627,7 @@ li:hover {
 .SortDown{
 	font-size: 1.3em;
 	position: absolute;
-	top: 8.5px;
+	top: 6px;
 	right: 10px;
 	pointer-events: auto;
 	color: #fff;

@@ -31,7 +31,7 @@
                             data-on-click="publish"  
                             data-publish="session:active"
                             data-msg="newest design">
-                            <a class="sortBy-item">NEWEST DESIGN</a></li> 
+                            <a class="sortBy-item">NEWEST DESIGNS</a></li> 
                         <li class="clickable h__k" 
                             data-on-click="model.sort_function"
                             data-on-click="model.sort_function"
@@ -52,7 +52,6 @@
             <div class="p20 center i h__k">Fetching tracks...</div>
         </div>
         <div class="h__k" data-if="{{= model.fetching_community_tracks }} == false">
-                
             <div class="h__k pb100 mb75 pt75"
                 data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
                 data-foreach="model.community_track_ids"
@@ -63,10 +62,8 @@
                     data-template="sisyphus-community-tracks-list-item-tmp"
                 ></div>
             </div>
-            <div class="h__k">{{= app.plugins.length(model.community_track_ids) }}</div>
-            <div class="p20 center blue w100 i h__k"
-                 data-if="{{= app.plugins.length(model.community_track_ids) }} === 0"
-            >There are no new tracks to download{{</div>
+            <div class="p20 center fs18 blue w100 pt200 i h__k" data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
+            >There are no new tracks to download.</div>
         </div>
     </div>
 </div>
