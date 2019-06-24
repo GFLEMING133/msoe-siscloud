@@ -567,10 +567,13 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	line-height: 20px;
 	font-variant: petite-caps;
 }
+.community-trackBox-top {
+	padding-top: 75px;
+}
 
 /* -----------SORT BY DROP DOWN----------------------------  */
 .sortBy-wrapper {
-	padding-top: 50px;
+	padding-top: 30px;
 }
 .sortBy-text {
 	font-size: 14px;
@@ -582,7 +585,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position: absolute;
 	width: 100%;
-	height: 100px;
+	height: 80px;
 }
 .sortBy-drop-actions {
 	position: relative;
@@ -1438,7 +1441,7 @@ select:focus {
 .pr30									{	padding-right			: 30px !important;						}
 
 .pt40									{	padding-top				: 40px !important;						}
-.pb40									{	padding-bottom		: 40px !important;						}
+.pb40									{	padding-bottom			: 40px !important;						}
 .pl40									{	padding-left			: 40px !important;						}
 .pr40									{	padding-right			: 40px !important;						}
 
@@ -1447,7 +1450,7 @@ select:focus {
 .pl50									{	padding-left			: 50px !important;						}
 .pr50									{	padding-right			: 50px !important;						}
 .pt70						            {   padding-top             : 70px !important;			            }
-
+.pt75									{	padding-top				: 75px !important;						}
 .pt100						            {   padding-top             : 100px !important;			            }
 .pb100						            {   padding-bottom	        : 100px !important;			            }
 .pl100									{	padding-left			: 100px !important;						}

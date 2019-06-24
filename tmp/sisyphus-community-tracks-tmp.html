@@ -48,12 +48,12 @@
                 </div>
             </div>
         </div>
-        <div class="h__k" data-if="{{= model.fetching_community_tracks }} == true">
+        <div class="h__k community-trackBox-top" data-if="{{= model.fetching_community_tracks }} == true">
             <div class="p20 center i h__k">Fetching tracks...</div>
         </div>
         <div class="h__k" data-if="{{= model.fetching_community_tracks }} == false">
                 
-            <div class="h__k pb100 mb75"
+            <div class="h__k pb100 mb75 pt75"
                 data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
                 data-foreach="model.community_track_ids"
                 data-foreach-change="foreach_reset"
