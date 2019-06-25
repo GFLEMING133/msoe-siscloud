@@ -10,7 +10,7 @@ app.model.sisyphus_manager = {
 
             signing_up: 'false',
             signing_in: 'false',
-            track_sort: 'newest design',
+            track_sort: 'newest designs',
             registration: {
                 username: '',
                 email: '',

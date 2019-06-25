@@ -565,7 +565,6 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	font-weight: 600;
 	display: block;
 	line-height: 20px;
-	font-variant: petite-caps;
 }
 .community-trackBox-top {
 	padding-top: 75px;
