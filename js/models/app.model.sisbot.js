@@ -87,6 +87,7 @@ app.model.sisbot = {
 				is_hotspot			: 'true',
 				is_network_connected: 'false',
 
+				is_network_separate: 'false',
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
                 wifi_network        : '',
@@ -157,6 +158,10 @@ app.model.sisbot = {
 		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
 
+		if (this.get('data.is_network_separate') == 'false') {
+			this.on('change:data.is_internet_connected', this.update_network);
+			this.on('change:data.is_network_separate', this.update_network);
+		}
 
 		if (this.get('data.favorite_playlist_id') == 'false')
 			this.setup_favorite_playlist();
@@ -171,6 +176,14 @@ app.model.sisbot = {
 			this.nightmode_sleep_change();
 
 		this._poll_state();
+	},
+	update_network: function() {
+		if (this.get('data.is_network_separate') == 'false') {
+			this.set('data.is_network_connected', this.get('data.is_internet_connected'));
+		} else {
+			this.off('change:data.is_internet_connected', this.update_network);
+			this.off('change:data.is_network_separate', this.update_network);
+		}
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -235,7 +248,7 @@ app.model.sisbot = {
 			}
 		}, 0);
 	},
-	
+
 	_fetching_cloud: false,
 	_fetch_cloud: function () {
 		console.log("_fetch_cloud()");
@@ -937,7 +950,7 @@ app.model.sisbot = {
 		if(is_servo == 'true'){
 			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?"))
 				self.update_tablename();
-				
+
 
 			} else if (is_servo == 'false') {
 				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?"))
@@ -1422,8 +1435,7 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
-		if (this.get('is_connected'))
-			this.check_local_versions(on_cb);
+		if (this.get('is_connected')) this.check_local_versions(on_cb);
 
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
@@ -1439,7 +1451,13 @@ app.model.sisbot = {
 				var remote		= self.get('remote_versions');
 				var has_update	= false;
 
-				if (!remote) return this;
+				if (!remote) {
+					// in case remote server is down/not allowed
+					if (version[0] == '1' && version[1] == '0') self.set('has_software_update', 'true');	// ALWAYS ALLOW UPGRADE FROM V1.0.X
+					else if (+version[1] % 2 == 1) self.set('has_software_update', 'true'); // beta.. Always allow download
+
+					return this;
+				}
 
 				_.each(local, function(local_version, repo) {
 					var remote_version		= remote[repo];
@@ -1512,7 +1530,7 @@ app.model.sisbot = {
 			*/
 		});
 	},
-	check_remote_versions: function (cb) {  
+	check_remote_versions: function (cb) {
 		var self = this;
 
 		var obj = {
