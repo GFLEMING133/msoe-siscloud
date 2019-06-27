@@ -928,7 +928,6 @@ app.model.sisyphus_manager = {
             console.log('get_network_ip_address ==' + ip_address);
             if (!ip_address) return cb();
             var ip_add = ip_address.split('.');
-            console.log('ip address --',ip_add);
             ip_add.pop();
 
             var ip_base = ip_add.join('.');
@@ -944,18 +943,18 @@ app.model.sisyphus_manager = {
         return this;
     },
     ping_sisbot: function(hostname, cb, retries) {
-        console.log("ping_sisbot()");
+        // console.log("ping_sisbot()");        
         var self = this;
 
         if (!retries) retries = 0;
 
-        app.post.fetch(exists = {
-            _url: 'http://' + hostname + '/',
+        app.post.fetch({
+            _url: 'http://' + hostname,
             _type: 'POST',
             _timeout: 2500,
-            endpoint: 'sisbot/exists',
+            endpoint: '/sisbot/exists',
             data: {}
-        }, function exists_cb(obj) {
+        }, function(obj) {
             if (obj.err) {
                 if (hostname == '192.168.42.1') {
                     if (app.is_app == false || app.platform == 'iOS') {
@@ -993,7 +992,7 @@ app.model.sisyphus_manager = {
     },
 
     connect_to_sisbot: function(sisbot_hostname) {
-        console.log("connect_to_sisbot()");
+        // console.log("connect_to_sisbot()");
         if (this.get('sisbot_connecting') == 'true') return false;
         else this.set('sisbot_connecting', 'true');
 
@@ -1018,7 +1017,7 @@ app.model.sisyphus_manager = {
 
             if (app.config.env == 'alpha') {
                 var sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
-                console.log('Connect to Sisbot:', sisbot_data);
+                // console.log('Connect to Sisbot:', sisbot_data);
             } else {
                 if (obj.err) {
                     // IF WE HAVE CONNECTION ERROR
@@ -1063,25 +1062,26 @@ app.model.sisyphus_manager = {
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
-        console.log("get_network_ip_address()");
+        // console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
-            cb(ip_address);
-            console.log('IP ADDRESS',ip_address);
+            cb(ip_address.ip);
+
         }, function on_error(err) {
-            cb();
+            cb(err);
         });
     },
     get_current_ssid: function() {
-        console.log("get_current_ssid()");
+        // console.log("get_current_ssid()");
         if (!app.is_app)
             return this;
 
         var self = this;
 
-        WifiWizard.getCurrentSSID(function on_success(ssid) {
+        WifiWizard2.getConnectedSSID(function on_success(ssid) {
+            console.log('In the WifiWizard2 =', + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
-            // alert(err);
+            alert(err);
         });
     },
     /**************************** PLAYLISTS ***********************************/
@@ -1095,31 +1095,31 @@ app.model.sisyphus_manager = {
             playlist.add_track(msg.track_id);
         }
     },
-    merge_playlists: function() { // unused at this point
-        var merged_playlists = [];
+    // merge_playlists: function() { // unused at this point
+    //     var merged_playlists = [];
 
-        var sisbot = this.get_model('sisbot_id');
-        var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
+    //     var sisbot = this.get_model('sisbot_id');
+    //     var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
 
-        var user = this.get_model('user_id');
-        var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
+    //     var user = this.get_model('user_id');
+    //     var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
 
-        var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
-        var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
-        var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
+    //     var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
+    //     var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
+    //     var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
 
-        _.each(only_sisbot, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'sisbot' });
-        });
-        _.each(only_user, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'user' });
-        });
-        _.each(in_common, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'both' });
-        });
+    //     _.each(only_sisbot, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'sisbot' });
+    //     });
+    //     _.each(only_user, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'user' });
+    //     });
+    //     _.each(in_common, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'both' });
+    //     });
 
-        this.set('merged_playlists', merged_playlists);
-    },
+    //     this.set('merged_playlists', merged_playlists);
+    // },
     /******************** TRACK UPLOAD ****************************************/
     reset_upload_tracks: function() {
         this.set('tracks_to_upload', []);
@@ -1128,7 +1128,7 @@ app.model.sisyphus_manager = {
         sisbot.set('uploading_track', 'false'); // for UI spinner
     },
     on_file_upload: function(track_file) {
-        console.log("On File Upload", track_file.name);
+        // console.log("On File Upload", track_file.name);
 
         var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
         var regex = /.(svg|thr)$/;
@@ -1161,7 +1161,8 @@ app.model.sisyphus_manager = {
             track_model.set('upload_status', 'false'); // not uploaded yet
 
             // error checking
-            if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
+            if (track_model.get('errors').length > 0) 
+            console.log("Track error:", track_model.get('errors'));
         });
 
         // this.set('tracks_to_upload', []);
