@@ -85,11 +85,11 @@ app.model.sisbot = {
 				firmware_version	: '0.5.1',
 
 				is_hotspot			: 'true',
-				is_network_connected: 'false',
 
 				is_network_separate: 'false',
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
+				is_network_separate : 'false',
                 wifi_network        : '',
                 wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
@@ -157,10 +157,12 @@ app.model.sisbot = {
 		this.on('change:data.software_version',				this.check_for_version_update);
 		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
-
+		
 		if (this.get('data.is_network_separate') == 'false') {
-			this.on('change:data.is_internet_connected', this.update_network);
-			this.on('change:data.is_network_separate', this.update_network);
+			this.update_network();
+			this.on('change:data.is_network_connected',     this.update_network);
+			this.on('change:data.is_internet_connected',    this.update_network);
+			this.on('change:is_network_separate',           this.update_network);
 		}
 
 		if (this.get('data.favorite_playlist_id') == 'false')
@@ -206,6 +208,18 @@ app.model.sisbot = {
 		// app.post.fetch(obj, function(resp) {
 		// 	// handle cloud differently
 		// }, 0);
+	},
+	update_network: function () {
+
+		if(this.get('data.is_network_separate') == 'false'){
+			this.set('data.is_network_connected', this.get('data.is_internet_connected'));
+		}else {
+			this.off('change:data.is_internet_connected', this.update_network);
+			this.off('change:data.is_network_separate', this.update_network);
+		}
+		console.log('in the update_network', this.get('data.is_network_separate'), this.get('data.is_internet_connected'),
+		this.get('data.is_network_connected'));
+
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
 		console.log("_update_sisbot()");
@@ -695,7 +709,6 @@ app.model.sisbot = {
 		}
 	},
 	is_internet_connected: function () {
-		debugger;
 		console.log("is_internet_connected()");
 		var self = this;
 
@@ -742,7 +755,6 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
-		debugger;
 		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
