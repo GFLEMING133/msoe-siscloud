@@ -109,7 +109,7 @@
             <span class="strong">Upload Track</span>
             <span class="pull-right fa fa-chevron-right"></span>
         </div>
-        
+
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-if="{{= app.is_app }} == false"
             data-on-click="model.find_tracks"
@@ -126,6 +126,16 @@
         >
             <span class="strong">Advanced Movement</span>
             <span class="pull-right fa fa-chevron-right"></span>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced_lights'}"
+        >
+            <span class="strong">Lights</span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-model="{{= model.sisbot_id }}"

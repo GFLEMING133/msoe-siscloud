@@ -90,8 +90,8 @@ app.model.sisbot = {
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
 				is_network_separate : 'false',
-                wifi_network        : '',
-                wifi_password       : '',
+        wifi_network        : '',
+        wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget			: 'false',
 
@@ -126,7 +126,13 @@ app.model.sisbot = {
 
 				is_paused_between_tracks: 'false',
 				is_waiting_between_tracks: 'false',
-				share_log_files		: 'false'
+				share_log_files		: 'false',
+
+				led_enabled: 'false',
+				led_pattern: 'fade',
+				led_offset : 0,
+				led_primary_color: '0xFFFFFF', // Hex
+				led_secondary_color: '0x00FFFF', // Hex
 			}
 		};
 
@@ -157,7 +163,9 @@ app.model.sisbot = {
 		this.on('change:data.software_version',				this.check_for_version_update);
 		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
-		
+
+		this.on('change:edit.led_pattern', 				this._change_led_pattern);
+
 		if (this.get('data.is_network_separate') == 'false') {
 			this.update_network();
 			this.on('change:data.is_network_connected',     this.update_network);
@@ -1261,6 +1269,78 @@ app.model.sisbot = {
 		this._update_sisbot('set_loop', { value: this.get('data.is_loop') }, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
+	},
+	enable_led: function() {
+		var self = this;
+		// send to sisbot
+		this._update_sisbot('set_led', { is_rgbw: 'true' }, function (obj) {
+			// set as enables
+			console.log("LED resp", obj);
+			self.set('data.led_enabled', obj.resp.is_rgbw);
+		});
+	},
+	_change_led_pattern: function() {
+		var new_pattern = this.get('edit.led_pattern');
+		if (this.get('data.led_pattern') != new_pattern) {
+			this.set('data.led_pattern', new_pattern);
+
+			// send to sisbot
+			this._update_sisbot('lcpWrite', { value: 'i'+new_pattern }, function (obj) {
+				// do nothing
+			});
+		}
+	},
+	led_color: function(data) {
+		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		var self = this;
+		var color_data = {};
+
+		// check for primary change
+		var edit_primary = this.get('edit.led_primary_color');
+		if (this.get('data.led_primary_color') != edit_primary) {
+			this.set('data.led_primary_color', edit_primary);
+
+			color_data.primary_color = edit_primary;
+		}
+
+		// check for primary change
+		var edit_secondary = this.get('edit.led_secondary_color');
+		if (this.get('data.led_secondary_color') != edit_secondary) {
+			this.set('data.led_secondary_color', edit_secondary);
+
+			color_data.secondary_color = edit_secondary;
+		}
+
+		// send to sisbot
+		if (!_.isEmpty(color_data)) {
+			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
+		}
+	},
+	led_offset: function (level) {
+		var self = this;
+
+		// console.log("OFFSET:", level, this.get('data.led_offset'));
+		this.set('data.led_offset', +level).set('edit.led_offset', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			// var start = +new Date();
+			this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
+				// do nothing
+				// var end = +new Date();
+				// console.log("Brightness Response (millis):", end-start);
+				self.set('wait_for_send','false');
+
+				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+
+				if (self.get('edit.led_offset') !== remember_level) {
+					self.led_offset(self.get('edit.led_offset'));
+				}
+			});
+		} else {
+			// console.log("New Offset", level);
+		}
 	},
 	disconnect: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {

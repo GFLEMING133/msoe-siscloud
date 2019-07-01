@@ -71,8 +71,8 @@
             <span>
 
                 <span class="strong">Firmware Update</span>
-                <span class="h__k" 
-                    data-model="{{= model.sisbot_id }}" 
+                <span class="h__k"
+                    data-model="{{= model.sisbot_id }}"
                     data-if="{{= model.data.is_internet_connected }} == true">
                     <span class="fs14 blue h__k"
                         data-run="model.check_for_version_update"
@@ -104,7 +104,7 @@
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'about'}"
-        > --> 
+        > -->
         <!-- <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
         data-on-click="model.open_home_page"
         >
@@ -188,6 +188,11 @@
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == advanced-movement"
     data-template="sisyphus-settings-advanced-movement-tmp"
+></div>
+<!------------------------- ADVANCED LIGHTS --------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == advanced_lights"
+    data-template="sisyphus-settings-advanced-lights-tmp"
 ></div>
 <!------------------------- ADVANCED SETTINGS --------------------------------->
 <div class="h100 h__k"

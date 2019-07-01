@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.10', //
+    version : '1.9.11', // lights first commit
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

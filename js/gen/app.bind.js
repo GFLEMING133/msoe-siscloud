@@ -222,6 +222,7 @@ var Binding = Backbone.View.extend({
         if (this.data.gumwrapper)       this.gumwrapper();
         if (this.data.simplemde)        this.simplemde();
         if (this.data.chosen)           this.chosen();
+        if (this.data.iro)              this.iro();
         if (this.data.chart)            this.chart();
       	if (this.data.leaflet)          this.leaflet();
         if (this.data.tooltip)          this.tooltip();
@@ -1360,23 +1361,23 @@ var Binding = Backbone.View.extend({
         });
     },
     taggle: function () {
-        var self = this;
-        var tags = this.get(this.data.field) || [];
+      var self = this;
+      var tags = this.get(this.data.field) || [];
 
-        app.scripts.fetch('js/libs/lib.taggle.min.js', function () {
-            if (!self.$el) return false;
+      app.scripts.fetch('js/libs/lib.taggle.min.js', function () {
+        if (!self.$el) return false;
 
-            self.taggle = new Taggle(self.$el[0], {
-                tags    : tags,
-                placeholder: 'Tags',
-                onTagAdd: function(event, tag) {
-                    self.model.add(self.data.field, tag);
-                },
-                onTagRemove: function(event, tag) {
-                    self.model.remove(self.data.field, tag);
-                }
-            });
+        self.taggle = new Taggle(self.$el[0], {
+          tags    : tags,
+          placeholder: 'Tags',
+          onTagAdd: function(event, tag) {
+            self.model.add(self.data.field, tag);
+          },
+          onTagRemove: function(event, tag) {
+            self.model.remove(self.data.field, tag);
+          }
         });
+      });
     },
     gumwrapper: function () {
         if (app.is_app)
@@ -1426,18 +1427,43 @@ var Binding = Backbone.View.extend({
             }, 50);
         });
     },
-    chart: function (e) {
-        var self    = this;
-        var d       = this.model.get('data');
-        d.type      = d._type;
-        d.data      = d._data;
-        delete d._type;
-        delete d._data;
+    iro: function (e) {
+      var self = this;
 
-        app.scripts.fetch('js/libs/lib.chart.min.js', function() {
-            if (!self.$el) return false;
-            self._chart = new Chart(self.$el, d);
-        });
+      console.log("Iro Colorpicker", this.data.iro, this.get_value(this.data.value));
+
+      app.scripts.fetch('js/libs/lib.iro.min.js', function () {
+        if (!self.$el) return false;
+
+        setTimeout(function () {
+          if (self.$el) self._iro = iro.ColorPicker(self.data.iro, {
+              // Set the size of the color picker
+              width: 300,
+              // Set the initial color to pure red
+              color: self.get_value(self.data.value)
+          });
+          function onColorChange(color, changes) {
+            // print the color's new hex value to the developer console
+            console.log("Color Change:", color.hexString);
+            self.ctx.set(self.data.field,  color.hexString);
+            if (self.data.onUpdate)     self._call(self.data.onUpdate);
+          }
+          if (self.data.onUpdate) self._iro.on('input:end', onColorChange);
+        }, 50);
+      });
+    },
+    chart: function (e) {
+      var self    = this;
+      var d       = this.model.get('data');
+      d.type      = d._type;
+      d.data      = d._data;
+      delete d._type;
+      delete d._data;
+
+      app.scripts.fetch('js/libs/lib.chart.min.js', function() {
+        if (!self.$el) return false;
+        self._chart = new Chart(self.$el, d);
+      });
     },
     leaflet: function (e) {
         var self      = this;
@@ -1526,43 +1552,43 @@ var Binding = Backbone.View.extend({
                 moveThreshold       : 5,
 
                 onSort: function (evt) {
-                    self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
+                  self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
                 }
             });
         });
     },
     dragula: function () {
-        var self        = this;
-        var data        = this.get_value(this.data.dragula);
-        var arraylike   = document.getElementsByClassName(data.container);
-        var containers  = Array.prototype.slice.call(arraylike);
+      var self        = this;
+      var data        = this.get_value(this.data.dragula);
+      var arraylike   = document.getElementsByClassName(data.container);
+      var containers  = Array.prototype.slice.call(arraylike);
 
-        app.scripts.fetch('js/libs/lib.dragula.min.js', function () {
-            if (!self.$el) return false;
+      app.scripts.fetch('js/libs/lib.dragula.min.js', function () {
+        if (!self.$el) return false;
 
-            self._dragula = dragula(containers, {
-                moves: function (el, container, handle) {
-                    return handle.classList.contains(data.item);
-                },
-                accepts: function (el, target, source, sibling) {
-                    var $s      = $(source).data();
-                    var $t      = $(target).data();
+        self._dragula = dragula(containers, {
+          moves: function (el, container, handle) {
+            return handle.classList.contains(data.item);
+          },
+          accepts: function (el, target, source, sibling) {
+            var $s      = $(source).data();
+            var $t      = $(target).data();
 
-                    var v1      = $s.bind.get_value($s.dragulaAccepts);
-                    var v2      = $t.bind.get_value($t.dragulaAccepts);
+            var v1      = $s.bind.get_value($s.dragulaAccepts);
+            var v2      = $t.bind.get_value($t.dragulaAccepts);
 
-                    return v1 == v2;
-                },
-                revertOnSpill: true
-            }).on('drop', function(el, target, source, sibling) {
-                var $el     = $(el).data();
-                var $t      = $(target).data();
-                var change  = $el.bind.get_value($el.dragulaChange);
-                var val     = $t.bind.get_value($t.dragulaValue);
+            return v1 == v2;
+          },
+          revertOnSpill: true
+        }).on('drop', function(el, target, source, sibling) {
+          var $el     = $(el).data();
+          var $t      = $(target).data();
+          var change  = $el.bind.get_value($el.dragulaChange);
+          var val     = $t.bind.get_value($t.dragulaValue);
 
-                $el.bind._call(change, val);
-            });
+          $el.bind._call(change, val);
         });
+      });
     },
     fullcalendar: function () {
         var self        = this;
