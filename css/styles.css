@@ -939,8 +939,8 @@ li:hover {
 .hvw80									{	height					: 80vw;						}
 .hvw90									{	height					: 90vw;						}
 .hvw100									{	height					: 100vw;					}
-
-.w100                   { width           : 100% !important;          }
+.w99									{ 	width 		  			: 99% !important;			}
+.w100                   				{ 	width           		: 100% !important;          }
 
 .shadow 								{	box-shadow			: 0px 1px 2px #999;}
 .strong									{	font-weight			: 700;						}

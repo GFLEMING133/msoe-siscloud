@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.12', //pushing to test flight
+	version				: '1.8.13', //Updated cordova iOS to 5.0.1, cordova Android to 8.0.0, updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud. Updated other plugins and removed those that were deprocated. Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not connecting to wiFi per Matt K , Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of necessary upgrade.
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/', // local
