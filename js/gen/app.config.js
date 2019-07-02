@@ -80,3 +80,8 @@ if (window.location.href.indexOf('sisyphus.withease') > -1) app.config.env = 'pr
 if (window.location.href.indexOf('siscloud.withease') > -1) app.config.env = 'prod';
 if (window.cordova) app.config.env = 'prod';
 if (window.location.hostname == '') app.config.env = 'prod';
+
+// REMOVE this when done testing with webcenter DEV
+app.config.env = 'wc_test';
+
+
