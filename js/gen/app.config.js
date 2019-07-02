@@ -58,7 +58,7 @@ app.config = {
 		if (this.env == 'alpha') {
 			return '';
 		} else {
-			return this.envs[this.env].api_url;
+			return this.envs[this.env].sisbot_url;
 			// return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
 		}
 	},
