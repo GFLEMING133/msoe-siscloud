@@ -15,8 +15,8 @@ app.config = {
 			web_url		: 'http://dev.webcenter.sisyphus-industries.com/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
 			sisbot_url  : '192.168.1.168:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001, //work=192.168.1.168:3002 home=192.168.1.5:3002
-		}, 
-		wc_test: (function() {
+		}, 		
+  	sisbot: (function() {
 			return {
 				base_url	: window.location.href, 
 				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
@@ -24,23 +24,23 @@ app.config = {
 				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
 			}
-		})(),		
-	  sisbot: (function() {
+		})(),
+		prod: {
+			base_url	: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'http://dev.webcenter.sisyphus-industries.com/',
+			base_port	: 443,
+		},
+  	wc_test: (function() {
 			return {
 				base_url	: window.location.href, 
-				api_url		: 'https://webcenter.sisyphus-industries.com/',
-				web_url		: 'https://webcenter.sisyphus-industries.com/',
+				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+				web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
 				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
 			}
-		})(),
-		prod: {
-			base_url	  : 'https://webcenter.sisyphus-industries.com/',
-			api_url		  : 'https://webcenter.sisyphus-industries.com/',
-			web_url		  : 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'https://webcenter.sisyphus-industries.com/',
-			base_port	: 443,
-		}
+		})()
 	},
 	get_base_url: function () {
 		return this.envs[this.env].base_url;
@@ -86,5 +86,6 @@ if (window.location.hostname == '') app.config.env = 'prod';
 
 // REMOVE this when done testing with webcenter DEV
 //app.config.env = 'wc_test';
+
 
 
