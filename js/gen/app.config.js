@@ -22,7 +22,7 @@ app.config = {
 			web_url		  : 'http://dev.webcenter.sisyphus-industries.com/',
 			sisbot_url  : 'http://dev.webcenter.sisyphus-industries.com/',
 			base_port	: 80,
-		}
+		},
 		sisbot: (function() {
 			return {
 				base_url	: window.location.href, 
