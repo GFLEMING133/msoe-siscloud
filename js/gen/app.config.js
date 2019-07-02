@@ -19,17 +19,17 @@ app.config = {
 		sisbot: (function() {
 			return {
 				base_url	: window.location.href, 
-				api_url		: 'https://webcenter.sisyphus-industries.com/',
-				web_url		: 'https://webcenter.sisyphus-industries.com/',
+				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+				web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
 				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
 			}
 		})(),
 		prod: {
-			base_url	: 'https://webcenter.sisyphus-industries.com/',
-			api_url		: 'https://webcenter.sisyphus-industries.com/',
-			web_url		: 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'https://webcenter.sisyphus-industries.com/',
+			base_url	: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'http://dev.webcenter.sisyphus-industries.com/',
 			base_port	: 443,
 		}
 	},
