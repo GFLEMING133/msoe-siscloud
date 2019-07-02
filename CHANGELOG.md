@@ -1,5 +1,7 @@
+#2019-7-2, 1.8.15
+ - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com in config and     for the generated thumbs.
 #2019-7-1, 1.8.14
- - added <key>NSBluetoothPeripheralUsageDescription</key> to the Sisyphus-Info.plist per error thropwn when uploading to Test Flight.
+ - added <key>NSBluetoothPeripheralUsageDescription</key> to the Sisyphus-Info.plist per error thropwn when uploading to Test Flight. (iOS ONLY)
 #2019-6-27, 1.8.13
  - Updated cordova iOS to 5.0.1
  - Updated Cordova Android to 8.0.0,
