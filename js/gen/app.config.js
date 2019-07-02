@@ -24,7 +24,8 @@ app.config = {
 				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
 			}
-		})(),		sisbot: (function() {
+		})(),		
+	  sisbot: (function() {
 			return {
 				base_url	: window.location.href, 
 				api_url		: 'https://webcenter.sisyphus-industries.com/',
@@ -83,6 +84,6 @@ if (window.cordova) app.config.env = 'prod';
 if (window.location.hostname == '') app.config.env = 'prod';
 
 // REMOVE this when done testing with webcenter DEV
-app.config.env = 'wc_test';
+// app.config.env = 'wc_test';
 
 
