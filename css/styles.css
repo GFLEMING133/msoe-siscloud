@@ -1128,7 +1128,7 @@ select:focus {
 .bg-red 								{	background-color		: #990033 !important;		}
 .bg-white 								{	background-color		: #ffffff !important;		}
 .bg-d-blue 								{	background-color		: #0F72AB !important;		}
-.bg-blue 								{	background-color		: #25b3f8 !important;		}
+.bg-blue 								{	background-color		: #11b2fb !important;		}
 .bg-orange								{	background-color		: #F4AE3D !important;		}
 .bg-green								{	background-color		: #32B150 !important;		}
 .bg-dd-grey								{	background-color		: #222222 !important;		}
@@ -1361,8 +1361,8 @@ select:focus {
 .mb50						            {   margin-bottom		    : 50px !important;			            }
 .ml50									{	margin-left				: 50px !important;			            }
 .mr50						            {   margin-right		    : 50px !important;			            }
-.mb55						      {   margin-bottom		    : 55px !important;			            }
-
+.mb55						      		{   margin-bottom		    : 55px !important;			            }
+.mb51						            {   margin-bottom		    : 51px !important;			            }
 .mt60									{	margin-top				: 60px !important;			            }
 .mb60						            {   margin-bottom		    : 60px !important;			            }
 
@@ -1443,6 +1443,8 @@ select:focus {
 .pb40									{	padding-bottom			: 40px !important;						}
 .pl40									{	padding-left			: 40px !important;						}
 .pr40									{	padding-right			: 40px !important;						}
+
+.pb45									{	padding-bottom			: 45px !important;						}
 
 .pt50						            {   padding-top             : 50px !important;			            }
 .pb50						            {   padding-bottom	        : 50px !important;			            }
