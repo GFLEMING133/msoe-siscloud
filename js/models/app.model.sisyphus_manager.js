@@ -100,7 +100,7 @@ app.model.sisyphus_manager = {
         // Skip account creation at the beginning
         app.current_session().set('signed_in', 'true');
 
-        if (app.config.env == 'sisbot') {
+        if (app.config.env == 'sisbot' || app.config.env == 'wc_test') {
             this.setup_as_sisbot();
         } else if (app.config.env == 'alpha') {
             //this.setup_demo();

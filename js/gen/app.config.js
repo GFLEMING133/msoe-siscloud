@@ -84,6 +84,6 @@ if (window.cordova) app.config.env = 'prod';
 if (window.location.hostname == '') app.config.env = 'prod';
 
 // REMOVE this when done testing with webcenter DEV
-// app.config.env = 'wc_test';
+app.config.env = 'wc_test';
 
 
