@@ -437,7 +437,7 @@ app.model.sisyphus_manager = {
         var user_data = this.get('registration');
         var errors = this.get_errors(user_data);
 
-        user_data._timeout = 5000;
+        //user_data._timeout = 5000;
 
         if (errors.length > 0)
             return this.set('signing_in', 'false').set('errors', errors);
@@ -456,7 +456,7 @@ app.model.sisyphus_manager = {
         user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
                                     
 
-        app.plugins.fetch(user_data, cb, 0);
+        app.post.fetch(user_data, cb, 0);
 
     },
     get_errors: function(user_data) {

@@ -58,7 +58,8 @@ app.config = {
 		if (this.env == 'alpha') {
 			return '';
 		} else {
-			return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
+			return this.envs[this.env].api_url;
+			// return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
 		}
 	},
 	get_thumb_size: function () {
@@ -84,6 +85,6 @@ if (window.cordova) app.config.env = 'prod';
 if (window.location.hostname == '') app.config.env = 'prod';
 
 // REMOVE this when done testing with webcenter DEV
-app.config.env = 'wc_test';
+//app.config.env = 'wc_test';
 
 
