@@ -17,11 +17,11 @@ app.config = {
 			port		: 3001,
 		}, 
 		wc_test: {
-			base_url	  : 'https://dev.webcenter.sisyphus-industries.com/',
-			api_url		  : 'https://dev.webcenter.sisyphus-industries.com/',
-			web_url		  : 'https://dev.webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'https://dev.webcenter.sisyphus-industries.com/',
-			base_port	: 443,
+			base_url	  : 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url		  : 'http://dev.webcenter.sisyphus-industries.com/',
+			web_url		  : 'http://dev.webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'http://dev.webcenter.sisyphus-industries.com/',
+			base_port	: 80,
 		}
 		sisbot: (function() {
 			return {
