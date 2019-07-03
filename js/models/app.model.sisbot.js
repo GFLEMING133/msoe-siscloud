@@ -129,7 +129,7 @@ app.model.sisbot = {
 				share_log_files		: 'false',
 
 				led_enabled: 'false',
-				led_pattern: 'fade',
+				led_pattern: 'spread',
 				led_offset : 0,
 				led_primary_color: '0xFFFFFF', // Hex
 				led_secondary_color: '0x00FFFF', // Hex
@@ -1313,6 +1313,9 @@ app.model.sisbot = {
 
 		// send to sisbot
 		if (!_.isEmpty(color_data)) {
+			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
+			this.save_to_sisbot(this.get('data'));
+
 			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
 		}
 	},
@@ -1333,6 +1336,7 @@ app.model.sisbot = {
 				self.set('wait_for_send','false');
 
 				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+				self.save_to_sisbot(self.get('data'));
 
 				if (self.get('edit.led_offset') !== remember_level) {
 					self.led_offset(self.get('edit.led_offset'));
