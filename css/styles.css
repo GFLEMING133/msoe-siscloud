@@ -532,22 +532,6 @@ body > .container > .row {	/* remove if you want a bottom bar */
 			
 			}
 }
-.track-search-header {
-	background-color: #000;
-	display: block;
-	color: #fff;
-	font-size: 12px;
-	font-weight: 600;
-	height: 50px;
-	border-top: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-
-}
-.tracks-search-back-button {
-	width:15px;
-	padding-top: 10px;
-	padding-left: 20px;
-}
 
 .community-sortBy-header {
 
