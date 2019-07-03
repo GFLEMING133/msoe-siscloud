@@ -13,10 +13,10 @@ app.config = {
 			base_url	: 'http://app.dev.withease.io:3001/', //local url 
 			api_url		: 'https://api.sisyphus.withease.io/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url		: 'http://dev.webcenter.sisyphus-industries.com/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : '192.168.1.168:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : '192.168.1.54:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001, //work=192.168.1.168:3002 home=192.168.1.5:3002
 		}, 		
-  	sisbot: (function() {
+  		sisbot: (function() {
 			return {
 				base_url	: window.location.href, 
 				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
@@ -32,7 +32,7 @@ app.config = {
 			sisbot_url  : 'http://dev.webcenter.sisyphus-industries.com/',
 			base_port	: 443,
 		},
-  	wc_test: (function() {
+  		wc_test: (function() {
 			return {
 				base_url	: window.location.href, 
 				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
@@ -58,8 +58,7 @@ app.config = {
 		if (this.env == 'alpha') {
 			return '';
 		} else {
-			return this.envs[this.env].sisbot_url;
-			// return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
+			return 'http://' + app.manager.get_model('sisbot_id').get('data.local_ip') + ':3001/';
 		}
 	},
 	get_thumb_size: function () {
