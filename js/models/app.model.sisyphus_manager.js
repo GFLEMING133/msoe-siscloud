@@ -100,7 +100,7 @@ app.model.sisyphus_manager = {
         // Skip account creation at the beginning
         app.current_session().set('signed_in', 'true');
 
-        if (app.config.env == 'sisbot') {
+        if (app.config.env == 'sisbot' || app.config.env == 'wc_test' ) {
             this.setup_as_sisbot();
         } else if (app.config.env == 'alpha') {
             //this.setup_demo();
@@ -444,7 +444,7 @@ app.model.sisyphus_manager = {
         var user_data = this.get('registration');
         var errors = this.get_errors(user_data);
 
-        user_data._timeout = 5000;
+        //user_data._timeout = 5000;
 
         if (errors.length > 0)
             return this.set('signing_in', 'false').set('errors', errors);

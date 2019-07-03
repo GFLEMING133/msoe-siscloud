@@ -3,7 +3,8 @@ app.post = {
 
 	},
 	fetch: function (data, cb, retry_count) {
-		if (retry_count !== 0) retry_count = 5;
+		// if retry_count is not defined......which will be the case for all callers of app.plugins.fetch
+		if (typeof retry_count == 'undefined') retry_count = 5; 
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
