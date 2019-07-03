@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.14', //Pushing Webcenter for company testing.
+    version : '1.8.15', //Pushing to Test Flight / Google Play for Community Test launch, 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

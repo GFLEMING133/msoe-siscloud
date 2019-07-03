@@ -1088,6 +1088,7 @@ app.model.track = {
 				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
+				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
 				alert("Track is now in your Library!");
 			}
 		}

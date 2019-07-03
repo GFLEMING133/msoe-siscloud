@@ -538,7 +538,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: inline-block;
 	color: #fff;
 	font-weight: 600;
-	margin-top: 40.5px;
+	margin-top: 23px;
 	
 }
 .ctb-border {
@@ -556,7 +556,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 /* -----------SORT BY DROP DOWN----------------------------  */
 .sortBy-wrapper {
-	position: inherit;
+	padding-top: 50px;
 }
 .sortBy-text {
 	font-size: 13px;
@@ -568,7 +568,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position: absolute;
 	width: 100%;
-	height: 77px;
+	height: 60px;
 }
 .sortBy-drop-actions {
 	position: relative;
