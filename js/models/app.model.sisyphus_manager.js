@@ -391,13 +391,20 @@ app.model.sisyphus_manager = {
         this.set('user_registration', 'sign_in');
     },
     sign_up: function() {
-
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
 
         var self = this;
         var user_data = user_data || this.get('registration');
         var errors = this.get_errors(user_data);
+        if (user_data.username == "")error.push('Username cannot be blank');
+        // function emailIsValid (email) {
+        //     email = user_data.email;
+        //     return /\S+@\S+\.\S+/.test(email)
+           
+        //   }
+        // if(email == false)error.push('Email must be valid');
+        if(user_data.email == "")error.push('Email cannot be blank.');
         if (user_data.password !== user_data.password_confirmation) errors.push('- Password Verification Does Not Match');
         if (errors.length > 0)
             return this.set('signing_up', 'false').set('errors', errors);
@@ -411,7 +418,7 @@ app.model.sisyphus_manager = {
             self._process_registration(user_data, obj.resp);
         
             self.set('signing_up', 'false');
-            app.trigger('session:active', { secondary: 'sign_in', primary: 'community' });
+            app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
         };
 
 
@@ -426,7 +433,7 @@ app.model.sisyphus_manager = {
         	password_confirmation	: user_data.password_confirmation                          
         };
 
-        app.plugins.fetch(post_obj, cb, 0);
+        app.post.fetch(post_obj, cb, 0);
     },
 
     sign_in: function(user_data) {
@@ -456,7 +463,7 @@ app.model.sisyphus_manager = {
         user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
                                     
 
-        app.plugins.fetch(user_data, cb, 0);
+        app.post.fetch(user_data, cb, 0);
 
     },
     get_errors: function(user_data) {

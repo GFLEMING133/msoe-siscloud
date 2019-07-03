@@ -16,7 +16,7 @@
             <div class="w60 hvw40 center vertical active">
                 <div class="h__k">
                         <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
-                            data-src="http://dev.webcenter.sisyphus-industries.com{{= model.data.large_photo }}"
+                            data-src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}"
                         />
                 </div>
             </div>
