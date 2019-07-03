@@ -572,7 +572,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 /* -----------SORT BY DROP DOWN----------------------------  */
 .sortBy-wrapper {
-	padding-top: 30px;
+	position: inherit;
 }
 .sortBy-text {
 	font-size: 13px;
