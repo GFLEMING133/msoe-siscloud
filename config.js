@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.15', //Pushing to Test Flight / Google Play for Community Test launch, 
+    version : '1.8.16', //Pushing to Google Play to be up to date with Test Flight. 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

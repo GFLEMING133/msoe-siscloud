@@ -1,70 +1,13 @@
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
-	
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
-	font-weight: 600;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-ExtraBold.ttf');
-	font-weight: 900;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Medium.ttf');
-	font-weight: 600;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Regular.ttf');
-	font-weight: 400;
-}  */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
-	font-weight: 400;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf');
-	font-weight: 600;
-} */
-
- /* @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Black.ttf');
-	font-weight: 400;
-} */
-/* @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Bold.ttf');
-	font-weight: 400;
-} */
-/* @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-ExtraBold.ttf');
-	font-weight: 900;
-} */
-/* @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Medium.ttf');
-	font-weight: 500;
-} */
-/* @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Regular.ttf');
-	font-weight: 400;
-} */
-/* @font-face {
-	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Black.ttf');
-}  */
+@font-face {
+        font-family: 'Montserrat-medium';
+        src: url('../fonts/Montserrat-Medium.ttf');
+        font-weight: 600;
+}
 /********************************* BASE ***************************************/
-
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 html, body {
 	height						: 100%;
 }
@@ -476,7 +419,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
 .communityTrack {
-	font-weight: 600;
+	font-family: 'Montserrat-medium', Roboto, sans-serif;
 	display: block;
 	line-height: 20px;
 }
@@ -1032,6 +975,7 @@ select:focus {
 .grey-l									{	color		: #acacac !important;					}
 .grey-l-hover:hover						{	color		: #acacac !important;					}
 .grey									{	color		: #838383 !important;					}
+.warmGrey								{	color		: #9b9b9b !important;					}
 .white, .white-hover:hover				{	color		: #fff !important;						}
 .black-hover:hover 						{	color		: #333 !important;						}
 .bblack-hover:hover 					{	color		: #000 !important;						}
@@ -1109,7 +1053,7 @@ select:focus {
 .touch-hover .bg-d-grey-hover:hover		{	background-color		: #333 !important;			}
 
 .bg-danger								{	color					: #c7254e;					}
-.error-msg 								{	width					: 100%;						}
+.error-msg 								{	width					: 100%;						  }
 
 .error-border							{	border-color			: #de0000;					}
 .error									{	color					: #de0000;					}
@@ -1151,10 +1095,11 @@ select:focus {
 .fs16									{	font-size				: 16px !important;			}
 .fs16									{	font-size				: 17px !important;			}
 .fs18									{	font-size				: 18px !important;			}
-.fs19									{	font-size				: 18px !important;			}
+.fs19									{	font-size				: 19px !important;			}
 .fs24									{	font-size				: 24px !important;			}
 
 .fl10									{	line-height				: 1.0em;					}
+.fl12									{   line-height				: 1.2em;					}
 .fl15									{	line-height				: 1.5em;					}
 .fl20									{	line-height				: 2.0em;					}
 
@@ -1165,15 +1110,15 @@ select:focus {
 
 /**************************** BORDERS *****************************************/
 
-.b										{	border						: 1px solid #efefef !important;		}
+.b										{	border					: 1px solid #efefef !important;		}
 .bt										{	border-top				: 1px solid #efefef !important;		}
-.bt-dcdc 							{ border-top				: 1px solid #dcdcdc;}
+.bt-dcdc 								{ border-top				: 1px solid #dcdcdc;				}
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
 .bbw
 
-.b-none									{	border					: none;								}
+.b-none									{	border					: none;								  }
 
 
 .b2										{	border					: 2px solid #838383 !important;		}
@@ -1517,7 +1462,7 @@ input[type="range"]::-ms-fill-upper {
 					.sortBy-dropdown-container {
 						padding-bottom: 60px;
 					}
-				
+							
 }
 
 /* ----------- iPhone X ----------- */
@@ -1571,3 +1516,69 @@ input[type="range"]::-ms-fill-upper {
 			
 			}
 }
+
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat-Black.ttf');
+	
+} */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
+	font-weight: 600;
+} */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat-ExtraBold.ttf');
+	font-weight: 900;
+} */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat-Medium.ttf');
+	font-weight: 600;
+} */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat-Regular.ttf');
+	font-weight: 400;
+}  */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat-Black.ttf');
+	font-weight: 400;
+} */
+/* @font-face {
+	font-family: 'Montserrat';
+	src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf');
+	font-weight: 600;
+} */
+
+ /* @font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-Black.ttf');
+	font-weight: 400;
+} */
+/* @font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-Bold.ttf');
+	font-weight: 400;
+} */
+/* @font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-ExtraBold.ttf');
+	font-weight: 900;
+} */
+/* @font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-Medium.ttf');
+	font-weight: 500;
+} */
+/* @font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-Regular.ttf');
+	font-weight: 400;
+} */
+/* @font-face {
+	font-family: 'Roboto';
+	src: url('../fonts/Roboto-Black.ttf');
+}  */

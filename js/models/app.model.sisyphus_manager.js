@@ -418,7 +418,7 @@ app.model.sisyphus_manager = {
             self._process_registration(user_data, obj.resp);
         
             self.set('signing_up', 'false');
-            app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
+            app.trigger('session:active', { 'primary':'community', 'secondary':'sign_in' });
         };
 
 
@@ -433,10 +433,10 @@ app.model.sisyphus_manager = {
         	password_confirmation	: user_data.password_confirmation                          
         };
 
-        app.post.fetch(post_obj, cb, 0);
+        app.post.fetch2(post_obj, cb, 0);
     },
 
-    sign_in: function(user_data) {
+    sign_in: function(user_data) { 
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -456,14 +456,13 @@ app.model.sisyphus_manager = {
             self.set('errors', []);
             self._process_registration(user_data, obj.resp);
             
-            app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
+            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
         };
 
         user_data.endpoint  = 'auth_user';
         user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
-                                    
-
-        app.post.fetch(user_data, cb, 0);
+    
+        app.post.fetch2(user_data, cb, 0);
 
     },
     get_errors: function(user_data) {
