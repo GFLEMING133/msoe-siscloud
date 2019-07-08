@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.16', //Pushing to Google Play to be up to date with Test Flight. 
+    version : '1.8.18', //Fixed auth_token in fetch2()
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

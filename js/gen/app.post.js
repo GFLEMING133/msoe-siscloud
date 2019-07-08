@@ -61,7 +61,6 @@ app.post = {
 	},
 	
 	fetch2: function (data, cb, retry_count) {
-		
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();
@@ -77,8 +76,8 @@ app.post = {
 		if (app.current_user())
 			req_data.user = app.current_user().get('data');
 			console.log('IN APP POST req_data',req_data)
-		var auth_token = ((req_data || {}).user || {}).auth_token;
-				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
+		var auth_token = app.session.get('auth_token');
+				 console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
 					type			: type,
@@ -89,8 +88,10 @@ app.post = {
 					success: function (data) {
 
 						try {
-							data = JSON.parse(data);
-						} catch(err) {}
+							app.session.set('auth_token', data.resp[0].auth_token);
+						} catch(err) {
+							console.log('Error in the catch fetch2() =', err);
+						}
 		
 						if (_.isFunction(cb))
 							cb(data)

@@ -5,6 +5,7 @@ app.model.session = {
 			type			: 'session',
 			signed_in   	: 'false',
 			mode			: 'app',
+			auth_token		: '',
 			active: {
 				new_type			: 'false',
 				new_form_instance	: 'false', 
@@ -36,8 +37,8 @@ app.model.session = {
 				type    	: 'session',
 				version     : this.current_version,
 		        // for sign in
-		        email       : '',
-		        password    : '',
+		        // email       : '',
+		        // password    : '',
 			}
 		};
 

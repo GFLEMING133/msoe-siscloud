@@ -1,4 +1,4 @@
-<div class="h100 scroll hide-scrollbar">
+<div class="h100 no-scroll">
     <div class="white bg-black hh50 w100 absolute center no-stuffing flex vertical-align bb-white">
         <div class="w30 left pl20 clickable active h__k"
             data-on-click="publish"
@@ -47,7 +47,7 @@
                 </ul>
             </div>
         </div>
-    <div class="h__k content pb150" data-run="model.fetch_community_tracks">
+    <div class="h__k content h100 scroll hide-scrollbar pb150" data-run="model.fetch_community_tracks">
         <div class="h__k community-trackBox-top" data-if="{{= model.fetching_community_tracks }} == true">
             <div class="p20 center i h__k">Fetching tracks...</div>
         </div>

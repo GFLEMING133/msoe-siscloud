@@ -1,5 +1,10 @@
-#2019-7-2, 1.8.15
- - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com in config and     for the generated thumbs.
+#2019-7-8, 1.8.18
+ - Fixed auth_token in fetch2() to be set in proper place. 
+#2019-7-2,3,4, 1.8.15,16 & 17
+ - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com 
+   in config and for the generated thumbs.
+ - corrected scrolling issue in Community Tracks
+ - changed sign_in and sign_up to use the fetch2 function for auth-token & header purposes.
 #2019-7-1, 1.8.14
  - added <key>NSBluetoothPeripheralUsageDescription</key> to the Sisyphus-Info.plist per error thropwn when uploading to Test Flight. (iOS ONLY)
 #2019-6-27, 1.8.13
@@ -8,7 +13,7 @@
  - Updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud. 
  - Updated other plugins and removed those that were deprocated. 
  - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not connecting to wiFi per Matt K , 
- - Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of       necessary upgrade.
+ - Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of necessary upgrade.
 #2019-6-18, 1.8.12 
  - Updated Android Studio, Cordova, Gradel, and SDK Version/API Level and did test launch. 
 #2019-6-18, 1.8.11
@@ -38,7 +43,7 @@
  - Changed <meta> to reflect production and for adding media queries to the css.
  - added text-size-adjust to the styles.css to help display transition.
  - added //comments to the server.js, config.js and app.model.sisyphus_manager with code for setting the local dev environment.
- - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the right url.
+ - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the   right url.
  - adjusted height attribute in the home.html for the Disconnect From WIFI page.
  - changed back-arrow routing in the sisyphus-settings-change-name so it doesnt call the change_name() and routes back to the advance settings page.
  - added conditional confirm()'s to check wether the table is_servo or not so it displays different messages for change table name and firmware update.

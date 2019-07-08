@@ -444,7 +444,7 @@ app.model.sisyphus_manager = {
         var user_data = this.get('registration');
         var errors = this.get_errors(user_data);
 
-        //user_data._timeout = 5000;
+        user_data._timeout = 5000;
 
         if (errors.length > 0)
             return this.set('signing_in', 'false').set('errors', errors);
@@ -454,7 +454,7 @@ app.model.sisyphus_manager = {
                 return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
 
             self.set('errors', []);
-            self._process_registration(user_data, obj.resp);
+            self._process_sign_in(user_data, obj.resp);
             
             app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
         };
@@ -465,6 +465,21 @@ app.model.sisyphus_manager = {
         app.post.fetch2(user_data, cb, 0);
 
     },
+    _process_sign_in: function (user, data_arr) {
+        debugger;
+		var session_data = {
+			email			: user.email,
+            password		: user.password,
+		};
+
+		_.each(data_arr, function (m) {
+			if (m.type == 'user' && m.email == user.email)
+				session_data.user_id = m.id;
+		});
+
+		app.collection.add(data_arr);
+		app.trigger('session:user_sign_in', session_data);
+	},
     get_errors: function(user_data) {
         var errors = [];
         if (!user_data.email || user_data.email == '') errors.push('- Username cannot be blank');

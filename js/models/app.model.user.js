@@ -97,52 +97,52 @@ app.model.user = {
 			setTimeout(function() { self.set('update_msg', []); }, 5000);
 		});
 	},
-	update_password: function() {
-		var self	= this;
-		this.set('password_errs', []);
+	// update_password: function() {
+	// 	var self	= this;
+	// 	this.set('password_errs', []);
 
-		var password	= this.get('password');
-		var errs		= [];
+	// 	var password	= this.get('password');
+	// 	var errs		= [];
 
-		// validation
-		if (password.old == '')
-			errs.push('Old password cannot be blank');
+	// 	// validation
+	// 	if (password.old == '')
+	// 		errs.push('Old password cannot be blank');
 
-		if (password.new == '')
-			errs.push('New password cannot be blank');
+	// 	if (password.new == '')
+	// 		errs.push('New password cannot be blank');
 
-		if (password.new !== password.confirm)
-			errs.push('New password and confirmation do not match');
+	// 	if (password.new !== password.confirm)
+	// 		errs.push('New password and confirmation do not match');
 
-		if (errs.length > 0) {
-			this.set('password_errs', errs);
-			this.trigger('change:password_errs');
-			return this;
-		}
+	// 	if (errs.length > 0) {
+	// 		this.set('password_errs', errs);
+	// 		this.trigger('change:password_errs');
+	// 		return this;
+	// 	}
 
-		// check server to update user
-		var api_req = {
-			endpoint: 'password_profile_reset',
-			id		: this.id,
-			old		: password.old,
-			new		: password.new
-		};
+	// 	// check server to update user
+	// 	var api_req = {
+	// 		endpoint: 'password_profile_reset',
+	// 		id		: this.id,
+	// 		old		: password.old,
+	// 		new		: password.new
+	// 	};
 
-		app.plugins.fetch(api_req, function (cbb) {
-			if (cbb.err) return self.set('password_errs', cbb.err);
+	// 	app.plugins.fetch(api_req, function (cbb) {
+	// 		if (cbb.err) return self.set('password_errs', cbb.err);
 
-			var api_req_2		= self.get('data');
-			api_req_2.password	= password.new;
-			api_req_2.endpoint	= 'password_update';
+	// 		var api_req_2		= self.get('data');
+	// 		api_req_2.password	= password.new;
+	// 		api_req_2.endpoint	= 'password_update';
 
-			app.plugins.fetch(api_req_2, function (cbb) {
-				if (cbb.err) return self.set('password_errs', cbb.err);
+	// 		app.plugins.fetch(api_req_2, function (cbb) {
+	// 			if (cbb.err) return self.set('password_errs', cbb.err);
 
-				self.set('data.password', cbb.resp.password);
-				self.set('password_msg', [ 'Successfully updated your Password' ]);
-				setTimeout(function() { self.set('password_msg', []); }, 5000);
-				app.current_session().set('password', api_req.new).save_session();
-			});
-		});
-	}
+	// 			self.set('data.password', cbb.resp.password);
+	// 			self.set('password_msg', [ 'Successfully updated your Password' ]);
+	// 			setTimeout(function() { self.set('password_msg', []); }, 5000);
+	// 			app.current_session().set('password', api_req.new).save_session();
+	// 		});
+	// 	});
+	// }
 };
