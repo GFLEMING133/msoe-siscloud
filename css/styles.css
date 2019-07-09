@@ -396,9 +396,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: flex;
 	flex-direction: column;
 	min-height: 0;
-	height: 38vh;
-	max-height: 58vh;
+	max-height: 350px;
 	overflow: scroll;
+	padding-bottom: 50px;
 }
 .inherit {
 	position: inherit;
@@ -825,7 +825,9 @@ li:hover {
 	top				: 0;
 	bottom			: 0;
 }
-
+.absolutely {
+	position		: absolute;
+}
 .truncate {
 	white-space		: nowrap;
 	overflow		: hidden;
@@ -1442,17 +1444,6 @@ input[type="range"]::-ms-fill-upper {
 	and (max-device-width: 360px)
 	and (orientation : portrait)
 	{ 
-					.trackBox {
-							height: 100vh;
-							max-height: 47vh;
-							
-					}
-					.scrollDown {
-							/* background-color: #777; */
-							min-height: 35vh;
-							max-height: 47vh;
-							height: 45vh;
-					}
 					.sortBy-wrapper {
 						height: 115px;
 					}
@@ -1462,7 +1453,17 @@ input[type="range"]::-ms-fill-upper {
 					.sortBy-dropdown-container {
 						padding-bottom: 60px;
 					}
-							
+					.trackBox {
+						height: 100vh;
+						max-height: 47vh;
+						
+					}
+					.scrollDown {
+						/* background-color: #777; */
+						min-height: 35vh;
+						max-height: 47vh;
+						height: 45vh;
+					}		
 }
 
 /* ----------- iPhone X ----------- */
@@ -1519,8 +1520,7 @@ input[type="range"]::-ms-fill-upper {
 
 /* @font-face {
 	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
-	
+	src: url('../fonts/Montserrat/Montserrat-Black.ttf');
 } */
 /* @font-face {
 	font-family: 'Montserrat';
@@ -1529,22 +1529,22 @@ input[type="range"]::-ms-fill-upper {
 } */
 /* @font-face {
 	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-ExtraBold.ttf');
+	src: url('../fonts/Montserrat/Montserrat-ExtraBold.ttf');
 	font-weight: 900;
 } */
 /* @font-face {
 	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Medium.ttf');
+	src: url('../fonts/Montserrat/Montserrat-Medium.ttf');
 	font-weight: 600;
 } */
 /* @font-face {
 	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Regular.ttf');
+	src: url('../fonts/Montserrat/Montserrat-Regular.ttf');
 	font-weight: 400;
 }  */
 /* @font-face {
 	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
+	src: url('../fonts/Montserrat/Montserrat-Black.ttf');
 	font-weight: 400;
 } */
 /* @font-face {
@@ -1555,30 +1555,30 @@ input[type="range"]::-ms-fill-upper {
 
  /* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Black.ttf');
+	src: url('../fonts/Roboto/Roboto-Black.ttf');
 	font-weight: 400;
 } */
 /* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Bold.ttf');
+	src: url('../fonts/Roboto/Roboto-Bold.ttf');
 	font-weight: 400;
 } */
 /* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto-ExtraBold.ttf');
+	src: url('../fonts/Roboto/Roboto-ExtraBold.ttf');
 	font-weight: 900;
 } */
 /* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Medium.ttf');
+	src: url('../fonts/Roboto/Roboto-Medium.ttf');
 	font-weight: 500;
 } */
 /* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Regular.ttf');
+	src: url('../fonts/Roboto/Roboto-Regular.ttf');
 	font-weight: 400;
 } */
 /* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto-Black.ttf');
+	src: url('../fonts/Roboto/Roboto-Black.ttf');
 }  */

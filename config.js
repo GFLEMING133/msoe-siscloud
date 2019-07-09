@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.18', //Fixed auth_token in fetch2()
+    version : '1.8.19', //Fixed auth_token in fetch2()
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

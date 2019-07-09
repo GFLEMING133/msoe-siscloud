@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.18', //Fixed auth_token in fetch2()
+	version				: '1.8.19', //Fixed auth_token in fetch2()
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/', // local

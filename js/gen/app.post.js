@@ -74,10 +74,8 @@ app.post = {
 		};
 
 		if (app.current_user())
-			req_data.user = app.current_user().get('data');
-			console.log('IN APP POST req_data',req_data)
 		var auth_token = app.session.get('auth_token');
-				 console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
+				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
 					type			: type,

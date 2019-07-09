@@ -1,5 +1,6 @@
-#2019-7-8, 1.8.18
+#2019-7-8, 1.8.18,19
  - Fixed auth_token in fetch2() to be set in proper place. 
+ - removed debuggers
 #2019-7-2,3,4, 1.8.15,16 & 17
  - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com 
    in config and for the generated thumbs.
