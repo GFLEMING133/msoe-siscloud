@@ -111,7 +111,7 @@ app.model.sisbot = {
 
 				is_homed			: 'false',				// Not used
 				is_serial_open		: 'true',				// Not used
-				is_servo			: 'false',  			//setting for alert()'s
+
 				is_shuffle			: 'true',
 				is_loop				: 'false',
 				brightness			: .5,
@@ -157,7 +157,7 @@ app.model.sisbot = {
 		this.on('change:data.software_version',				this.check_for_version_update);
 		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
-		
+
 		if (this.get('data.is_network_separate') == 'false') {
 			this.update_network();
 			this.on('change:data.is_network_connected',     this.update_network);
@@ -734,7 +734,6 @@ app.model.sisbot = {
 				self.install_updates();
 				}
 	},
-
 	install_updates: function () {
 		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
@@ -775,11 +774,13 @@ app.model.sisbot = {
 		console.log("factory_reset()");
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
+
 		var self = this;
-		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
+		app.plugins.n.notification.confirm('Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
 		function(resp_num) {
 			if (resp_num == 1)
 				return self;
+
 			self.set('data.factory_resetting', 'true')
 
 			self._update_sisbot('factory_reset', {}, function(obj) {
@@ -1336,7 +1337,7 @@ app.model.sisbot = {
 
 		var self = this;
 
-		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone. If you are trying to remove a track click the edit symbol found in the top right corner of the Playlist page, Thanks', function(resp_num) {
+		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone.', function(resp_num) {
 			if (resp_num == 1)
 				return self;
 
@@ -1350,7 +1351,7 @@ app.model.sisbot = {
 
 			self._update_sisbot('remove_track', track, function (obj) {
 				if (obj.err) {
-					alert('There was an error removing the file from your Sisyphus. Please try again later.')
+					alert('There was an error removing the file to your Sisyphus. Please try again later.')
 				} else if (obj.resp) {
 					app.manager.intake_data(obj.resp);
 					var active = app.session.get('active');
