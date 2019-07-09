@@ -264,7 +264,7 @@ app.model.playlist = {
 	_save: function () {
 		var playlist_data = this.get('data');
 
-		playlist_data._url		= 'https://api.sisyphus.withease.io/';
+		playlist_data._url		= app.config.get_webcenter_url();
 		playlist_data._type		= 'POST';
 		playlist_data.endpoint	= 'set';
 

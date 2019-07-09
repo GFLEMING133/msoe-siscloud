@@ -7,7 +7,8 @@ app.model.session = {
 			mode			: 'app',
 			active: {
 				new_type			: 'false',
-				new_form_instance	: 'false',
+				new_form_instance	: 'false', 
+				curtis_sort			: '',
 				primary				: 'false',
 				secondary			: 'false',
 				tertiary			: 'false',

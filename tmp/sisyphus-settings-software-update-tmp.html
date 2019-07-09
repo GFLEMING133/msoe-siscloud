@@ -9,7 +9,7 @@
     <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
         <div class="h__k auto-scroll hide-scrollbar" data-if="{{= model.data }} !== undefined">
             <div class="h__k" data-run="model.check_for_version_update"></div>
-            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
+            <div class="h__k" data-if="{{= model.data.is_network_connected }} == false">
                 <!--------------------------- NOT NETWORK CONNECTED --------------------------->
                 <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
                     <p class="no-stuffing center w100 mt40" aria-hidden="true">
@@ -19,10 +19,27 @@
                         Your Table is Not Connected to WiFi
                     </h3>
                     <p class="p0 m0 fs18 center">
-                        Your table cannot detect if there is a firmware update available. Please connect your table to wifi to check for an update.
+                        Your table cannot detect if there is a firmware update available. Please connect your table to WiFi to check for an update.
                     </p>
 
                     <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k" data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'wifi'}">Connect to WiFi</h2>
+                </div>
+            </div>
+            <div class="h__k" data-if="{{= model.data.is_network_connected }} == true">
+                    <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
+                <!--------------------------- NOT INTERNET CONNECTED --------------------------->
+                <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+                        <img src="img/icon_2x_wifi.png" alt="Wifi" class="hh30" />
+                    </p>
+                    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                        Your Table is Not Connected to the internet.
+                    </h3>
+                    <p class="p0 m0 fs18 center">
+                        Your table cannot detect if there is a firmware update available. 
+                        Please check that your WiFi router is connected to the internet to check for an update.
+                    </p>
+
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">

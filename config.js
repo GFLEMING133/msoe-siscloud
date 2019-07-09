@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.7', // CHANGELOG.md 2019-5-02
+    version : '1.8.10', //
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

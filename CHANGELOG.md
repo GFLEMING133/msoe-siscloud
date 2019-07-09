@@ -1,11 +1,32 @@
+#2019-6-17, 1.8.11
+ - move UI over to webcenter
+
+#2019-6-17, 1.8.10
+ - is_network_connected added for table to connect when no internet.
+ - Fixed white screen of death by removing fonts.google.api. Sourced font locally. 
+ - removed background colors for drag and drop (still in testing)
+ - Spinner added for when connecting a table to WiFi as to allow time to populate list. 
+ - Conditionals added for when is_internet_connected or is_network_connected. 
+ - cleaned up code and commented out functions() not in use. 
+ - sisbot_url in app.config.js for global variable. 
+
+#2019-6-4, 1.8.9
+ - Drag and drop again, now with color... Continued testing on multiple devices.
+ - Now Playing Footer is now clickable and redirects you to the Home page.
+ - Community is going to be available for Beta Testers.
+ - Wifi Connect has spinner to wait for available networks to populate array before showing page.
+ - Redirect back to app after sigining into WiFi.
+#2019-5-31, 1.8.8
+ - increase the retry timeout on get_wifi network list
+
 #2019-5-02, 1.8.7
  - Changed <meta> to reflect production and for adding media queries to the css.
  - added text-size-adjust to the styles.css to help display transition.
  - added //comments to the server.js, config.js and app.model.sisyphus_manager with code for setting the local dev environment.
  - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the right url.
  - adjusted height attribute in the home.html for the Disconnect From WIFI page.
- - changed back-arrow routing in the sisyphus-settings-change-name so it doesn't call the change_name() and routes back to the advance settings page.
- - added conditional confirm()'s to check whether the table is_servo or not so it displays different messages for change table name and firmware update.
+ - changed back-arrow routing in the sisyphus-settings-change-name so it doesnt call the change_name() and routes back to the advance settings page.
+ - added conditional confirm()'s to check wether the table is_servo or not so it displays different messages for change table name and firmware update.
  - made the Firmware Update page scrollable for phones with smaller screens per customer request.
 
 #2019-04-03, 1.8.6
