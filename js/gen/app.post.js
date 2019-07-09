@@ -73,9 +73,11 @@ app.post = {
 			data	: JSON.stringify(data)
 		};
 
-		if (app.current_user())
+		if (app.current_user()) {
+		req_data.user = app.current_user().get('data');
+		}
 		var auth_token = app.session.get('auth_token');
-				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
+		//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
 					type			: type,
@@ -83,10 +85,14 @@ app.post = {
 					headers:   {
 						'Authorization': auth_token
 					},
-					success: function (data) {
-
+					success: function (data, status, xhr) {
 						try {
-							app.session.set('auth_token', data.resp[0].auth_token);
+							
+							if(typeof(data.resp[0].auth_token) != 'undefined') {
+								app.session.set('auth_token', data.resp[0].auth_token);
+							}
+							//console.log('NEXT_TOKEN ==', xhr.getResponseHeader('NEXT-TOKEN'));
+						    //console.log('TOKEN set to -', data.resp[0].auth_token)
 						} catch(err) {
 							console.log('Error in the catch fetch2() =', err);
 						}

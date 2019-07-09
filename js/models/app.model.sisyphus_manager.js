@@ -1363,9 +1363,10 @@ app.model.sisyphus_manager = {
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
-        
+            var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
+            var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
-            self.set('community_track_ids', resp_track_ids);
+            self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
          
