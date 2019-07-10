@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.20', //staging branch push with Sis Firmware Version 1.10.29 for update changes to regression test.
+	version				: '1.8.21', //staging branch push with Sis Firmware Version 1.10.29 for update changes to regression test.
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/', // local
