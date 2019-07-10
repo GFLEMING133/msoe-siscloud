@@ -65,11 +65,11 @@ app.config = {
 // if its an ip address or sisyphus.local, it'll set itself to sisbot
 if (window.location.href.indexOf('withease') < 0)		app.config.env = 'sisbot'; 
 if (window.location.href.indexOf('localhost') > -1)		app.config.env = 'beta';   
-if (window.location.href.indexOf('.local') > -1) app.config.env = 'sisbot';
-if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';
+if (window.location.href.indexOf('.local') > -1)   		app.config.env = 'sisbot';
+if (window.location.href.indexOf('192.168') > -1) 		app.config.env = 'sisbot';
 
 // for any url not including dev, assumes prod env
-if (window.location.href.indexOf('sisyphus.withease') > -1) app.config.env = 'prod';
-if (window.location.href.indexOf('siscloud.withease') > -1) app.config.env = 'prod';
-if (window.cordova) app.config.env = 'prod';
-if (window.location.hostname == '') app.config.env = 'prod';
+if (window.location.href.indexOf('sisyphus.withease') > -1) 	app.config.env = 'prod';
+if (window.location.href.indexOf('siscloud.withease') > -1) 	app.config.env = 'prod';
+if (window.cordova) 											app.config.env = 'prod';
+if (window.location.hostname == '') 							app.config.env = 'prod';

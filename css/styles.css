@@ -1,7 +1,7 @@
 /* @font-face {
 	font-family: 'Montserrat';
 	src: url('../fonts/Montserrat-Black.ttf');
-	
+
 } */
 /* @font-face {
 	font-family: 'Montserrat';
@@ -312,9 +312,16 @@ label {
 }
 
 .scroll {
-	overflow-y					: scroll;
-	overflow-x					: hidden;
-	-webkit-overflow-scrolling	: touch;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.auto-scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    height: 100vh;
 }
 
 .no-scroll {
@@ -362,8 +369,8 @@ input.standard {
 }
 
 .reorder {
-    cursor                      : move;
-    cursor                      : -webkit-grabbing;
+    cursor: move;
+    cursor: -webkit-grabbing;
 }
 
 .show-on-hover-container .show-on-hover-item {
@@ -442,9 +449,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .trackBox {
 	min-height: 0;
 	/* border: 6px solid blue; */
-  height: 42vh; 
+  height: 42vh;
   max-height: 48vh;
- 
+
 }
 
 .scrollDown {
@@ -460,6 +467,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .inherit {
 	position: inherit;
 }
+
 
 .track-search-header {
 	background-color: #000;
@@ -484,7 +492,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	color: #fff;
 	font-weight: 600;
 	margin-top: 40.5px;
-	
+
 }
 .ctb-border {
 	border: 1px solid #dcdcdc;   /*  #dcdcdc */
