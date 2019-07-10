@@ -7,13 +7,13 @@
  - corrected scrolling issue in Community Tracks
  - changed sign_in and sign_up to use the fetch2 function for auth-token & header purposes.
 #2019-7-1, 1.8.14
- - added <key>NSBluetoothPeripheralUsageDescription</key> to the Sisyphus-Info.plist per error thropwn when uploading to Test Flight. (iOS ONLY)
+ - added <key>NSBluetoothPeripheralUsageDescription</key> to the Sisyphus-Info.plist per error thropwn when    uploading to Test Flight. (iOS ONLY)
 #2019-6-27, 1.8.13
  - Updated cordova iOS to 5.0.1
  - Updated Cordova Android to 8.0.0,
  - Updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud. 
- - Updated other plugins and removed those that were deprocated. 
- - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not connecting to wiFi per Matt K , 
+ - Updated other plugins and removed those that were depricated. 
+ - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not             connecting to wiFi per Matt K , 
  - Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of necessary upgrade.
 #2019-6-18, 1.8.12 
  - Updated Android Studio, Cordova, Gradel, and SDK Version/API Level and did test launch. 
