@@ -1078,9 +1078,10 @@ app.model.sisyphus_manager = {
         var self = this;
 
         WifiWizard2.getConnectedSSID(function on_success(ssid) {
+            console.log('In the WifiWizard2 =', + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
-            // alert(err);
+            alert(err);
         });
     },
     /**************************** PLAYLISTS ***********************************/
@@ -1094,31 +1095,31 @@ app.model.sisyphus_manager = {
             playlist.add_track(msg.track_id);
         }
     },
-    merge_playlists: function() { // unused at this point
-        var merged_playlists = [];
+    // merge_playlists: function() { // unused at this point
+    //     var merged_playlists = [];
 
-        var sisbot = this.get_model('sisbot_id');
-        var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
+    //     var sisbot = this.get_model('sisbot_id');
+    //     var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
 
-        var user = this.get_model('user_id');
-        var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
+    //     var user = this.get_model('user_id');
+    //     var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
 
-        var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
-        var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
-        var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
+    //     var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
+    //     var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
+    //     var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
 
-        _.each(only_sisbot, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'sisbot' });
-        });
-        _.each(only_user, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'user' });
-        });
-        _.each(in_common, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'both' });
-        });
+    //     _.each(only_sisbot, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'sisbot' });
+    //     });
+    //     _.each(only_user, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'user' });
+    //     });
+    //     _.each(in_common, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'both' });
+    //     });
 
-        this.set('merged_playlists', merged_playlists);
-    },
+    //     this.set('merged_playlists', merged_playlists);
+    // },
     /******************** TRACK UPLOAD ****************************************/
     reset_upload_tracks: function() {
         this.set('tracks_to_upload', []);
