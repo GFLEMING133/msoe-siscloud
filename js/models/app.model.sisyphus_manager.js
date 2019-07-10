@@ -10,7 +10,7 @@ app.model.sisyphus_manager = {
 
             signing_up: 'false',
             signing_in: 'false',
-            track_sort: 'newest design',
+            track_sort: 'newest designs',
             registration: {
                 username: '',
                 email: '',
@@ -82,6 +82,7 @@ app.model.sisyphus_manager = {
     current_version: 1,
     on_init: function() {
         console.log("on_init() in app.model.sisyphus_manager");
+        console.log("app.config.api_url" + app.config.get_api_url);
         if (window.cordova) StatusBar.show();
 
         app.plugins.n.initialize();
@@ -954,7 +955,7 @@ app.model.sisyphus_manager = {
             _timeout: 2500,
             endpoint: 'sisbot/exists',
             data: {}
-        }, function (obj) {
+        }, function(obj) {
             if (obj.err) {
                 if (hostname == '192.168.42.1') {
                     if (app.is_app == false || app.platform == 'iOS') {
@@ -1017,7 +1018,7 @@ app.model.sisyphus_manager = {
 
             if (app.config.env == 'alpha') {
                 var sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
-                console.log('Connect to Sisbot:', sisbot_data);
+                //console.log('Connect to Sisbot:', sisbot_data);
             } else {
                 if (obj.err) {
                     // IF WE HAVE CONNECTION ERROR
@@ -1062,6 +1063,7 @@ app.model.sisyphus_manager = {
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
+        // console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
             cb(ip_address.ip);
 
@@ -1070,7 +1072,7 @@ app.model.sisyphus_manager = {
         });
     },
     get_current_ssid: function() {
-        console.log("get_current_ssid()");
+        // console.log("get_current_ssid()");
         if (!app.is_app)
             return this;
 
@@ -1243,43 +1245,43 @@ app.model.sisyphus_manager = {
 
 
     /**************************** COMMUNITY ***********************************/
-    fetch_community_playlists: function() {
-        if (this.get('fetched_community_playlists') == 'true')
-            return this;
+    // fetch_community_playlists: function() {
+    //     if (this.get('fetched_community_playlists') == 'true')
+    //         return this;
 
-        var self = this;
+    //     var self = this;
 
-        this.set('fetching_community_playlists', 'true');
+    //     this.set('fetching_community_playlists', 'true');
 
 
-        var playlists = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'GET',
-            endpoint: 'tracks',
-            data: {}
-        };
+    //     var playlists = {
+    //         _url: app.config.get_webcenter_url(),
+    //         _type: 'GET',
+    //         endpoint: 'tracks',
+    //         data: {}
+    //     };
 
-        function cb(obj) {
-            setTimeout(function() {
-                self.set('fetching_community_playlists', 'false');
-            }, 1000)
+    //     function cb(obj) {
+    //         setTimeout(function() {
+    //             self.set('fetching_community_playlists', 'false');
+    //         }, 1000)
 
-            if (obj.err) return self;
+    //         if (obj.err) return self;
 
-            app.collection.add(obj.resp);
+    //         app.collection.add(obj.resp);
 
-            var resp_playlist_ids = _.pluck(obj.resp, 'id');
-            var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-            var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
+    //         var resp_playlist_ids = _.pluck(obj.resp, 'id');
+    //         var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
+    //         var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
 
-            self.set('community_playlist_ids', new_playlist_ids);
-            self.set('fetched_community_playlists', 'true');
-        }
+    //         self.set('community_playlist_ids', new_playlist_ids);
+    //         self.set('fetched_community_playlists', 'true');
+    //     }
 
-        app.post.fetch2(playlists, cb, 0);
+    //     app.post.fetch2(playlists, cb, 0);
 
-        return this;
-    },
+    //     return this;
+    // },
 
     fetch_community_tracks: function() {
         if (this.get('fetched_community_tracks') == 'true')

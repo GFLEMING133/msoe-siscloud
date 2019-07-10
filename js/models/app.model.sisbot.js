@@ -111,6 +111,7 @@ app.model.sisbot = {
 
 				is_homed			: 'false',				// Not used
 				is_serial_open		: 'true',				// Not used
+				is_servo			: 'false', 				//setting for alert()'s
 
 				is_shuffle			: 'true',
 				is_loop				: 'false',
