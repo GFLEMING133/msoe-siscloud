@@ -953,7 +953,7 @@ app.model.sisyphus_manager = {
             _url: 'http://' + hostname,
             _type: 'POST',
             _timeout: 2500,
-            endpoint: 'sisbot/exists',
+            endpoint: '/sisbot/exists',
             data: {}
         }, function(obj) {
             if (obj.err) {
