@@ -1066,20 +1066,21 @@ app.model.sisyphus_manager = {
         // console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
             cb(ip_address.ip);
+            console.log('ip_address.ip ==' + ip_address.ip);
 
         }, function on_error(err) {
             cb(err);
         });
     },
     get_current_ssid: function() {
-        // console.log("get_current_ssid()");
+        console.log("get_current_ssid()");
         if (!app.is_app)
             return this;
 
         var self = this;
 
         WifiWizard2.getConnectedSSID(function on_success(ssid) {
-            console.log('In the WifiWizard2 =', + ssid)
+            console.log('In the WifiWizard2 =' + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
             alert(err);
