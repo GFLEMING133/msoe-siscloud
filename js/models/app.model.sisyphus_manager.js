@@ -943,18 +943,18 @@ app.model.sisyphus_manager = {
         return this;
     },
     ping_sisbot: function(hostname, cb, retries) {
-        console.log("ping_sisbot()");
+        // console.log("ping_sisbot()");
         var self = this;
 
         if (!retries) retries = 0;
 
-        app.post.fetch(exists = {
-            _url: 'http://' + hostname + '/',
+        app.post.fetch({
+            _url: 'http://' + hostname,
             _type: 'POST',
             _timeout: 2500,
             endpoint: 'sisbot/exists',
             data: {}
-        }, function exists_cb(obj) {
+        }, function (obj) {
             if (obj.err) {
                 if (hostname == '192.168.42.1') {
                     if (app.is_app == false || app.platform == 'iOS') {
@@ -992,7 +992,7 @@ app.model.sisyphus_manager = {
     },
 
     connect_to_sisbot: function(sisbot_hostname) {
-        console.log("connect_to_sisbot()");
+        // console.log("connect_to_sisbot()");
         if (this.get('sisbot_connecting') == 'true') return false;
         else this.set('sisbot_connecting', 'true');
 
@@ -1062,12 +1062,11 @@ app.model.sisyphus_manager = {
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
-        console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
-            cb(ip_address);
-            console.log('IP ADDRESS',ip_address);
+            cb(ip_address.ip);
+
         }, function on_error(err) {
-            cb();
+            cb(err);
         });
     },
     get_current_ssid: function() {
@@ -1128,7 +1127,7 @@ app.model.sisyphus_manager = {
         sisbot.set('uploading_track', 'false'); // for UI spinner
     },
     on_file_upload: function(track_file) {
-        console.log("On File Upload", track_file.name);
+        // console.log("On File Upload", track_file.name);
 
         var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
         var regex = /.(svg|thr)$/;
@@ -1161,7 +1160,8 @@ app.model.sisyphus_manager = {
             track_model.set('upload_status', 'false'); // not uploaded yet
 
             // error checking
-            if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
+            if (track_model.get('errors').length > 0) 
+            console.log("Track error:", track_model.get('errors'));
         });
 
         // this.set('tracks_to_upload', []);
