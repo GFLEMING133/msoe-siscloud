@@ -1077,7 +1077,7 @@ app.model.sisyphus_manager = {
 
         var self = this;
 
-        WifiWizard.getCurrentSSID(function on_success(ssid) {
+        WifiWizard2.getConnectedSSID(function on_success(ssid) {
             self.set('current_ssid', ssid);
         }, function on_error(err) {
             // alert(err);
