@@ -103,9 +103,9 @@ app.post = {
 							app.trigger(cb, data);
 					},
 					error: function (resp) {
-
+						// console.log('fetch2 resp error = ', resp.statusText);
 						if (retry_count <= 0) {
-							if (cb) cb({ err: 'Could not make request', resp: null });
+							if (cb) cb({ err: resp.statusText, resp: null });
 							return this;
 						}
 		

@@ -397,14 +397,15 @@ app.model.sisyphus_manager = {
         var self = this;
         var user_data = user_data || this.get('registration');
         var errors = this.get_errors(user_data);
-        if (user_data.username == "")error.push('Username cannot be blank');
+        if (user_data.username == "")errors.push('Username cannot be blank');
         // function emailIsValid (email) {
         //     email = user_data.email;
         //     return /\S+@\S+\.\S+/.test(email)
            
         //   }
         // if(email == false)error.push('Email must be valid');
-        if(user_data.email == "")error.push('Email cannot be blank.');
+        if(user_data.email == "")errors.push('Email cannot be blank.');
+        if (user_data.password < 7) errors.push('Password must be 7 or more charracters, Thanks');
         if (user_data.password !== user_data.password_confirmation) errors.push('- Password Verification Does Not Match');
         if (errors.length > 0)
             return this.set('signing_up', 'false').set('errors', errors);
@@ -446,14 +447,22 @@ app.model.sisyphus_manager = {
 
         user_data._timeout = 5000;
 
+        //______________Password Errors______________________________________
+       
         if (errors.length > 0)
+        
             return this.set('signing_in', 'false').set('errors', errors);
 
         function cb(obj) {
+            debugger;
             if (obj.err)
+                if(obj.err == 'Unauthorized') {
+                    return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
+                }else {
                 return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
-
+                }
             self.set('errors', []);
+
             self._process_sign_in(user_data, obj.resp);
             
             app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
@@ -1398,8 +1407,6 @@ app.model.sisyphus_manager = {
       drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';
-
-     
     }
   },
  
