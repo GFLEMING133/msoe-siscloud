@@ -47,11 +47,11 @@
                 </ul>
             </div>
         </div>
-    <div class="h__k h100 scroll hide-scrollbar pb150" data-run="model.fetch_community_tracks">
+    <div class="h__k h100 scroll hide-scrollbar" data-run="model.fetch_community_tracks">
         <div class="h__k community-trackBox-top" data-if="{{= model.fetching_community_tracks }} == true">
             <div class="p20 center i h__k">Fetching tracks...</div>
         </div>
-        <div class="h__k pb100" data-if="{{= model.fetching_community_tracks }} == false">
+        <div class="h__k mb100" data-if="{{= model.fetching_community_tracks }} == false">
             <div class="h__k"
                 data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
                 data-foreach="model.community_track_ids"
@@ -63,7 +63,8 @@
                 ></div>
             </div>
             <div class="p20 center fs18 blue w100 pt200 i h__k" data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
-            >There are no new tracks to download.</div>
+            >There are no new tracks to download.
+            </div>
         </div>
-    </div>
+    </div> 
 </div>
