@@ -21,13 +21,18 @@
     </div>
     <form>
         <div class="h__k mt40 mb100 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
-            <div class="bg-white black h__k" data-model="{{= parent.id }}">
-                <div id="errors" class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-                    <div class="h__k" data-foreach="model.errors">
-                        <div class="h__k red">{{= scope.value }}</div>
-                    </div>
-                </div>
+            <div class="bg-white black h__k" 
+                data-model="{{= parent.id }}"
+                data-run="model.clear_errors"
+            >
                 <p class="center fs18 fl12">Enter the info below to set up<br/> your Sisyphus account.</p>
+
+                <div class="bg-ll-red p20 sign_up_errors h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+                        <div class="h__k" data-foreach="model.errors">
+                            <div class="h__k red">{{= scope.value }}</div>
+                        </div>
+                </div>
+                
                 <h4 class="pt10 pb10 no-stuffing strong">User Name</h4>
                 <div class="pb10">
                         <input class="h__k w100" type="text" placeholder="user name"

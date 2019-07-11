@@ -405,23 +405,24 @@ app.model.sisyphus_manager = {
         var self = this;
         var user_data = user_data || this.get('registration');
 
-        var element = document.getElementById("errors");
+        var element = $('.sign_up_errors')[0];
         var errors = this.get_errors(user_data);
-        
+        self.set('errors', errors);
         
         if (errors.length > 0){
-            document.addEventListener('click', function() {
-                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-            });
-            return this.set('signing_up', 'false').set('errors', errors)
+             this.set('signing_up', 'false')
+             element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+             return;
         }
-                            
+             
                               
                 
         function cb(obj) {
-            if (obj.err)
-                return self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
-
+            if (obj.err){
+                self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
+                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                return;
+            }
             self.set('errors', []);
             
             self._process_registration(user_data, obj.resp);
@@ -497,29 +498,34 @@ app.model.sisyphus_manager = {
 
 		app.collection.add(data_arr);
 		app.trigger('session:user_sign_in', session_data);
-	},
+    },
+    clear_errors: function(){
+          this.set('errors', []);
+    },
     get_errors: function(user_data) {
         var errors = [];
-        if (!user_data.email || user_data.email == '') errors.push('- Username cannot be blank');
-        if (!user_data.password || user_data.password == '') errors.push('- Password cannot be blank');
-         //__________________SignUp Errors________________________ //
-         if (user_data.username == ""){
-            errors.push('Username cannot be blank'); 
 
-            }if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
+        if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
+        if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
+         //__________________SignUp Errors________________________ //
+         if (this.get('signing_up') == 'true'){
+            if (user_data.username == ""){
+                errors.push('Username cannot be blank'); 
+
+            }
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
                 errors.push("The email you entered is invalid, please enter a valid email");
 
-                }if (user_data.email == ""){
-                    errors.push('Email cannot be blank.');
+            }
+            if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){ 
+                errors.push('Password must be 7 or more characters');
 
-                    }if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){ 
-                        errors.push('Password must be 7 or more characters, Thanks');
-
-                        }if (user_data.password !== user_data.password_confirmation){
-                            errors.push('Password Verification Does Not Match');
+            }
+            if (user_data.password !== user_data.password_confirmation){
+                errors.push('Password Verification Does Not Match');
                         
-                            }
-
+            }
+        }
         return errors;
     },
     _process_registration: function(user, data_arr) {
@@ -1052,7 +1058,7 @@ app.model.sisyphus_manager = {
     },
 
     connect_to_sisbot: function(sisbot_hostname) {
-        // console.log("connect_to_sisbot()");
+        // console.log("connect_to_sisbot()", sisbot_hostname);
         if (this.get('sisbot_connecting') == 'true') return false;
         else this.set('sisbot_connecting', 'true');
 
@@ -1060,7 +1066,8 @@ app.model.sisyphus_manager = {
 
         var self = this;
         var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : this.get('sisbot_hostname');
-
+        if(sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
+        // console.log("connect_to_sisbot()2", sisbot_hostname);
         // ping sisbot for connection
         var obj = {
             _url: 'http://' + sisbot_hostname + '/',
