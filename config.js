@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.21', ////staging branch push with Sis Firmware Version 1.10.29 for update changes to regression test.
+    version : '1.8.22', // Switch to Webcenter
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
