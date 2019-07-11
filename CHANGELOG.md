@@ -1,3 +1,9 @@
+#2019-7-10, 1.8.21
+ - Fixed merge conflicts and updated code to reflect UI changes from beta releases. 
+ - WiFi disconnect or power loss no longer bricks table while updating. 
+ - Pushed to Test Flight and Google Pay and then released into the wild. 
+
+ 
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
  - Fixed white screen of death by removing fonts.google.api. Sourced font locally.
