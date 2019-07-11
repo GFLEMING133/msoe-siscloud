@@ -390,6 +390,14 @@ app.model.sisyphus_manager = {
         this.set('errors', []);
         this.set('user_registration', 'sign_in');
     },
+    show_password: function() {
+        var x = document.getElementById("showPassword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+    },
     sign_up: function() {
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
@@ -455,12 +463,13 @@ app.model.sisyphus_manager = {
 
         function cb(obj) {
             debugger;
-            if (obj.err)
+            if (obj.err){
                 if(obj.err == 'Unauthorized') {
                     return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
                 }else {
                 return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
                 }
+            }
             self.set('errors', []);
 
             self._process_sign_in(user_data, obj.resp);
