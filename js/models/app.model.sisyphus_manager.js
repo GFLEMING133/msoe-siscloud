@@ -398,39 +398,39 @@ app.model.sisyphus_manager = {
                 x.type = "password";
             }
     },
+   
     sign_up: function() {
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
-
         var self = this;
         var user_data = user_data || this.get('registration');
+
+        var element = document.getElementById("errors");
         var errors = this.get_errors(user_data);
-        if (user_data.username == "")errors.push('Username cannot be blank');
-        // function emailIsValid (email) {
-        //     email = user_data.email;
-        //     return /\S+@\S+\.\S+/.test(email)
-           
-        //   }
-        // if(email == false)error.push('Email must be valid');
-        if(user_data.email == "")errors.push('Email cannot be blank.');
-        if (user_data.password < 7) errors.push('Password must be 7 or more charracters, Thanks');
-        if (user_data.password !== user_data.password_confirmation) errors.push('- Password Verification Does Not Match');
-        if (errors.length > 0)
-            return this.set('signing_up', 'false').set('errors', errors);
-
+        
+        
+        if (errors.length > 0){
+            document.addEventListener('click', function() {
+                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
+            return this.set('signing_up', 'false').set('errors', errors)
+        }
+                            
+                              
+                
         function cb(obj) {
-
             if (obj.err)
                 return self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
 
             self.set('errors', []);
+            
             self._process_registration(user_data, obj.resp);
         
             self.set('signing_up', 'false');
             app.trigger('session:active', { 'primary':'community', 'secondary':'sign_in' });
         };
-
-
+        
+       
         var post_obj = {
             _url: app.config.get_webcenter_url(),
             _type: 'POST',
@@ -446,6 +446,7 @@ app.model.sisyphus_manager = {
     },
 
     sign_in: function(user_data) { 
+        debugger;
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -457,17 +458,15 @@ app.model.sisyphus_manager = {
 
         //______________Password Errors______________________________________
        
-        if (errors.length > 0)
-        
+        if (errors.length > 0){
             return this.set('signing_in', 'false').set('errors', errors);
-
+        }
         function cb(obj) {
-            debugger;
             if (obj.err){
                 if(obj.err == 'Unauthorized') {
                     return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
                 }else {
-                return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
+                    return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
                 }
             }
             self.set('errors', []);
@@ -484,14 +483,16 @@ app.model.sisyphus_manager = {
 
     },
     _process_sign_in: function (user, data_arr) {
+        
 		var session_data = {
 			email			: user.email,
             password		: user.password,
 		};
-
+        var self = this;
 		_.each(data_arr, function (m) {
 			if (m.type == 'user' && m.email == user.email)
-				session_data.user_id = m.id;
+                session_data.user_id = m.id;
+                self.set('user_id', m.id );
 		});
 
 		app.collection.add(data_arr);
@@ -501,6 +502,23 @@ app.model.sisyphus_manager = {
         var errors = [];
         if (!user_data.email || user_data.email == '') errors.push('- Username cannot be blank');
         if (!user_data.password || user_data.password == '') errors.push('- Password cannot be blank');
+         //__________________SignUp Errors________________________ //
+         if (user_data.username == ""){
+            errors.push('Username cannot be blank'); 
+
+            }if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
+                errors.push("The email you entered is invalid, please enter a valid email");
+
+                }if (user_data.email == ""){
+                    errors.push('Email cannot be blank.');
+
+                    }if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){ 
+                        errors.push('Password must be 7 or more characters, Thanks');
+
+                        }if (user_data.password !== user_data.password_confirmation){
+                            errors.push('Password Verification Does Not Match');
+                        
+                            }
 
         return errors;
     },
