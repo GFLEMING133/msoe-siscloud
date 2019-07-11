@@ -1,3 +1,5 @@
+#2019-7-10 1.8.21
+ - staging branch was pushed to release.
 #2019-7-8, 1.8.18,19
  - Fixed auth_token in fetch2() to be set in proper place. 
  - removed debuggers

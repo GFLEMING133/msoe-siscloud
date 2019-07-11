@@ -1365,12 +1365,13 @@ app.model.sisyphus_manager = {
             var resp_track_ids = _.pluck(obj.resp, 'id');
             var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
             var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
-
+            self.openSort();
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
          
         }
+        
         this.fetch_community_tracks();
         app.post.fetch2(tracks, cb, 0);
         
@@ -1394,8 +1395,10 @@ app.model.sisyphus_manager = {
       drop[0].style.opacity = '1';
       
     }else {
+      drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';
+
      
     }
   },

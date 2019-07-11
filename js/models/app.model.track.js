@@ -921,27 +921,29 @@ app.model.track = {
 			lastR: this.get('data.lastR'),
 			reversible: this.get('data.reversible')
 		};
+		debugger;
 		return return_obj;
 	},
 	playlist_cancel: function () {
 		this.set('is_adding', 'false');
 		return this;
 	},
-	playlist_add: function () {
-		this.get_not_playlists();
-		this.set('is_adding', 'true');
-	},
-	playlist_add_finish: function (playlist_id) {
-		var playlist = app.collection.get(playlist_id);
-		playlist.add_nx('data.tracks', this.playlist_obj());
-		playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
-		this.remove('playlist_not_ids', playlist_id);
-		this.add('playlist_ids', playlist_id);
+	// playlist_add: function () {
+	// 	debugger;
+	// 	this.get_not_playlists();
+	// 	this.set('is_adding', 'true');
+	// },
+	// playlist_add_finish: function (playlist_id) {
+	// 	var playlist = app.collection.get(playlist_id);
+	// 	playlist.add_nx('data.tracks', this.playlist_obj());
+	// 	playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
+	// 	this.remove('playlist_not_ids', playlist_id);
+	// 	this.add('playlist_ids', playlist_id);
 
-		playlist.save();
+	// 	playlist.save();
 
-		this.playlist_cancel();
-	},
+	// 	this.playlist_cancel();
+	// },
 	goBackFromHero: function() {
 		var active = app.session.get('active');
 		console.log("I made it to Hero");
