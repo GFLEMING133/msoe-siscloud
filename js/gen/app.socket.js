@@ -34,7 +34,8 @@ app.socket = {
 			self.socket.close();
 			delete self.socket;
 		}
-        // if(this.server_ip.match(/^https?:\/\//i)) this.server_ip = this.server_ip.replace(/^https?:\/\//i, "");
+		if(this.server_ip.match(/^https?:\/\//i)) this.server_ip = this.server_ip.replace(/^https?:\/\//i, "");
+		if(this.server_ip.match(/:[0-9]+\/?$/i)) this.server_ip = this.server_ip.replace(/:[0-9]+\/?$/i, "");
 	    self.socket = io.connect( this.server_ip + ':3002'); //change to 3000 for download to work 
 
 		self.socket.on('connect', function () {			self.on_connect();		});

@@ -447,7 +447,6 @@ app.model.sisyphus_manager = {
     },
 
     sign_in: function(user_data) { 
-        debugger;
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -1065,7 +1064,7 @@ app.model.sisyphus_manager = {
         this.set('errors', []);
 
         var self = this;
-        var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : this.get('sisbot_hostname');
+        var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : self.get('sisbot_hostname');
         if(sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
         // console.log("connect_to_sisbot()2", sisbot_hostname);
         // ping sisbot for connection

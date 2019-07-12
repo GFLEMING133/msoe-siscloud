@@ -213,6 +213,7 @@ app.model.sisbot = {
 		
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
+
 		console.log("_update_sisbot()");
 		if (!_timeout) _timeout = 5000;
 
@@ -526,7 +527,7 @@ app.model.sisbot = {
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
 			sleep_time				: '10:00 PM',
-			wake_time					: '8:00 AM',
+			wake_time				: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
 		}
