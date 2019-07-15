@@ -1,3 +1,10 @@
+#2019-7-15 1.8.23
+ - Fixed fonts to be sourced in properly through css. 
+ - added Show Password to Community sign-in page
+ - public / private to displaty in Community track list as well as private being iktalisized.
+ - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
+ - changed padding on pause/play button to help with sizing  
+
 #2019-7-10 1.8.21
  - staging branch was pushed to release.
 #2019-7-8, 1.8.18,19

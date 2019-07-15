@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.22', //Community changes
+    version : '1.8.23', //Sourced in fonts properly, added private and public to track list, Added Show Password to Sign in. Changed meta tag in dev.index to try and correnct iPhone XC Max swipe bar issue. READ MORE in CHANGELOG Community changes
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

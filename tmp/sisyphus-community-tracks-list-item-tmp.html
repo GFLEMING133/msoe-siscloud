@@ -14,7 +14,7 @@
             <div class="w70 hvw10 pt20 pl24-2 vertical-align">
                 <div class="fs18 black strong h__k">{{= model.data.name }}</div>
                 <div class="fs13  warmGrey mt5 communityTrack sort_created_by h__k">by {{= model.data.created_by_name }}</div>
-                <div class="fs13  warmGrey mt5 communityTrack sort_created_by h__k">{{= model.data.is_public }}</div>
+                <div class="fs13  warmGrey mt5 communityTrack sort_created_by h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
                 <!-- <div class="h__k">{{= JSON.stringify(model.data) }}</div> -->
                 <!-- <div class="fs12  warmGrey mt5 communityTrack sort_date h__k">{{= model.data.date_created }}</div> -->
             </div>
