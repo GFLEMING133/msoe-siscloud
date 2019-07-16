@@ -1666,6 +1666,7 @@ input[type="range"]::-ms-fill-upper {
 			.scrollDown {
 					/* background-color: pink; */
 					height: 100vh;
+					max-height: 460px;
 			
 			}
 } 
