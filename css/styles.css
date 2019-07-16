@@ -325,6 +325,52 @@ label {
 	right:-5px;
 }
 
+  
+.shuffle_tooltip .tooltiptext {
+	font-family: "Montserrat-Black", "Roboto", sans-serif;
+	visibility: hidden;
+	width: 120px;
+	background-color: #000;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+  
+	/* Position the tooltip */
+	top: -5px;
+    right: 20%;
+	position: absolute;
+
+}
+  
+.shuffle_tooltip:hover .tooltiptext {
+	font-size: 14px;
+	font-family: "Montserrat-Black", "Roboto", sans-serif;
+	visibility: visible;
+}
+.loop_tooltip .tooltiptext {
+	font-family: "Montserrat-Black", "Roboto", sans-serif;
+	visibility: hidden;
+	width: 120px;
+	background-color: #000;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+  
+	/* Position the tooltip */
+	top: 15px;
+	left: 70%;
+	position: absolute;
+
+}
+  
+.loop_tooltip:hover .tooltiptext {
+	font-size: 14px;
+	font-family: "Montserrat-Black", "Roboto", sans-serif;
+	visibility: visible;
+}
+
 .scroll {
 	overflow-y					: scroll;
 	overflow-x					: hidden;

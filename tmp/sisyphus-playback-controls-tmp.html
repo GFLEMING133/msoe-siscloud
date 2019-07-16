@@ -1,9 +1,13 @@
-<div class="w33 center">
-    <i class="fas fa-random f-large p20 rounded clickable active h__k {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
-        data-if="{{= model.data.active_playlist_id }} !== false"
-        data-on-click="model.set_shuffle"
-        aria-hidden="true"
-    ></i>
+<div class="w33 center relative">
+    <div class="shuffle_tooltip">
+        <span class="tooltiptext">Shuffle</span>
+        <i class="fas fa-random f-large p20 rounded relative clickable active h__k {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
+            data-if="{{= model.data.active_playlist_id }} !== false"
+            data-on-click="model.set_shuffle"
+            aria-hidden="true"
+        >
+        </i>
+    </div>
 </div>
 <div class="w33 center">
     <div class="clickable active h__k" aria-hidden="true"
@@ -16,9 +20,12 @@
     ><img src="img/icon_2x_button_pause.png" alt="Play Button" class="hh100 pb50" /></div>
 </div>
 <div class="w33 center">
-    <i class="fa fa-retweet f-large p20 rounded clickable active h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
-        data-if="{{= model.data.active_playlist_id }} !== false"
-        data-on-click="model.set_loop"
-        aria-hidden="true"
-    ></i>
+    <div class="loop_tooltip">
+        <span class="tooltiptext">Loop</span>
+        <i class="fa fa-retweet f-large p20 rounded clickable active h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
+            data-if="{{= model.data.active_playlist_id }} !== false"
+            data-on-click="model.set_loop"
+            aria-hidden="true"
+        ></i>
+    </div>
 </div>
