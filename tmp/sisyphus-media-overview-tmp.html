@@ -2,7 +2,7 @@
     <div class="white bg-black pull-top w100 center no-stuffing hh50 h__k flex vertical-align">
         <div class="w15 pt30 center">&nbsp;</div>
         <div class="w70">
-            <h1 class="h__k no-stuffing fs18 capitalize truncate">Library</h1>
+            <h1 class="h__k no-stuffing fs18 capitalize truncate">Tracks</h1>
         </div>
         <div class="w15 pt30 center">&nbsp;</div>
     </div>
@@ -13,7 +13,11 @@
                 data-on-click="publish"  
                 data-publish="session:active"
                 data-msg="{'secondary':'tracks','goBack':'tracks'}"
-            >   <i class="fa fa-circle-o-notch f-medium" />
+            >   <div class="wrapper">
+                <div class="tracks_circle"> 
+                    <div class="tracks_inner_circle"></div>
+                </div>
+                </div> 
                 <span class="pl20 pr20 fs18 lh18 strong w100">Tracks</span>
                 <span class="right fa fa-chevron-right"></span>
             </div>
@@ -22,7 +26,7 @@
                 data-publish="session:active"
                 data-msg="{'secondary':'playlists','goBack':'playlist'}"
             >
-                <i class="fa fa-list f-medium" />
+                <i class="fa fa-list" />
                 <span class="pl20 pr20 fs18 lh18 strong w100">Playlists</span>
                 <span class="right fa fa-chevron-right"></span>
             </div>

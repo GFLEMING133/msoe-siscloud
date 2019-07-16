@@ -69,6 +69,14 @@
 html, body {
 	height						: 100%;
 }
+body{
+	padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+}
+.footer_Xphone {
+	margin-bottom: constant(safe-area-inset-bottom);
+    margin-bottom: env(safe-area-inset-bottom);
+}
 
 img {
 	translateZ					: 0;    /** GETS GPU TO RENDER IMG */
@@ -98,12 +106,17 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-weight					: 500;
+	font-family					: "Montserrat-Medium";
+	font-weight					: 600;
 }
 
 h1 {
+	font-family					: "Montserrat-Bold";
 	font-size					: 2.25em;
 	line-height					: 1.25em;
+}
+.montserrat_m{
+	font-family: "Montserrat-Medium";
 }
 
 p {
@@ -1019,6 +1032,53 @@ select:focus {
 .icon-xsm {
 	width	: 25px;
 	height	: 25px;
+}
+
+/************************************TRACKS PAGE ICONS*******************************/
+.tracks_circle {
+	width: 20px;
+	height: 20px;
+	-webkit-font-smoothing: antialiased;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px solid #000;
+}
+.tracks_inner_circle {
+	background-color: #fff;
+    width: 8px;
+	height: 8px;
+	-webkit-font-smoothing: antialiased;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    margin-top: 4px;
+    margin-left: 4px;
+  }
+.fa-list{
+	font-size: 1.5em;
+	/* font-style: italic; */
+
+}
+
+.add_tracks_circle {
+	width: 20px;
+    height: 20px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px solid #838383;
+}
+.checked_circle {
+	width: 20px;
+    height: 20px;
+    -webkit-font-smoothing: antialiased;
+	-webkit-border-radius: 10px;
+	color: #32B150;
 }
 
 /**************************** COLORS ******************************************/

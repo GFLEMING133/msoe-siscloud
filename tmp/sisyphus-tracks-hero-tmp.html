@@ -17,7 +17,12 @@
 <div class="flex pt20 pr20 pl20 pb20 h__k">
     <div class="w100">
         <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
-        <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
+        <!-- <div class="fs12 lh20 grey block h__k" data-if="{{= model.data.created_by_name }} == false">
+             by Sisyphus Industries
+        </div>
+        <div class="fs12 lh20 grey block h__k" data-if="{{= model.data.created_by_name }} !== false">
+             by {{= model.data.created_by_name }}
+        </div>  -->
     </div>
 </div>
 <div class="bg-grey-l flex">

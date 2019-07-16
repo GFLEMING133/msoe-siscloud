@@ -7,7 +7,7 @@
             data-model="{{= model.data.active_playlist_id }}"
         >Playing from {{= model.data.name }}</h3>
         <div class="h__k" data-if="{{= model.data.active_track.id }} !== false">
-            <h2 class="h__k fs18 lh18 no-stuffing capitalize truncate"
+            <h2 class="h__k fs18 lh18 no-stuffing capitalize truncate strong"
                 data-model="{{= model.data.active_track.id }}"
             >{{= model.data.name }}</h2>
         </div>
@@ -19,7 +19,7 @@
         ></div>
         <div class="h__k pl20" data-if="{{= model.data.active_track.id }} !== false">
             <h3 class="h__k fs13 lh18 no-stuffing capitalize truncate">Playing Track</h3>
-            <h2 class="h__k fs18 lh18 no-stuffing capitalize truncate"
+            <h2 class="h__k fs18 lh18 no-stuffing capitalize truncate strong"
                 data-model="{{= model.data.active_track.id }}"
             >{{= model.data.name }}</h2>
         </div>

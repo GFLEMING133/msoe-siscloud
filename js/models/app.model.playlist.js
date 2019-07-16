@@ -85,6 +85,7 @@ app.model.playlist = {
 		var b = this.get('add_playlist_tracks[' + track_id + ']');
 		this.set('add_playlist_tracks[' + track_id + ']', ++b);
 		this.add_track(track_id);
+		this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
 	},
 	add_tracks_done: function () {
 		var self = this;
