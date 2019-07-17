@@ -106,17 +106,23 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-family					: "Montserrat-Medium";
+	font-family					: "Montserrat-Medium", "Roboto-Medium",sans-serif;
 	font-weight					: 600;
 }
 
 h1 {
-	font-family					: "Montserrat-Bold";
+	font-family					: "Montserrat-Bold","Roboto-Bold", sans-serif;
 	font-size					: 2.25em;
 	line-height					: 1.25em;
 }
 .montserrat_m{
-	font-family: "Montserrat-Medium";
+	font-family: "Montserrat-Medium","Roboto-Medium", sans-serif;
+}
+.montserrat_semi_bold{
+	font-family: "Montserrat-SemiBold","Roboto-Medium", sans-serif;
+}
+.montserrat_black {
+	font-family: "Montserrat-Black", "Roboto-Black", sans-serif;
 }
 
 p {
@@ -1124,7 +1130,7 @@ select:focus {
     height: 20px;
     -webkit-font-smoothing: antialiased;
 	-webkit-border-radius: 10px;
-	color: #32B150;
+	border-radius: 10px;
 }
 
 /**************************** COLORS ******************************************/
@@ -1144,7 +1150,7 @@ select:focus {
 .grey-l									{	color		: #acacac !important;					}
 .grey-l-hover:hover						{	color		: #acacac !important;					}
 .grey									{	color		: #838383 !important;					}
-.warmGrey								{	color		: #9b9b9b;					}
+.warmGrey								{	color		: #9b9b9b;								}
 .white, .white-hover:hover				{	color		: #fff !important;						}
 .black-hover:hover 						{	color		: #333 !important;						}
 .bblack-hover:hover 					{	color		: #000 !important;						}
