@@ -25,7 +25,7 @@
             data-if="{{= grandparent.active.primary }} !== media"
         />
         <br clear="both" />
-        <span class="f-small strong">Tracks</span>
+        <span class="f-small strong">Library</span>
     </div>
     <!--after user is signed in to community-->
     <div class="w25 pt10 clickable active h__k {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
@@ -44,21 +44,21 @@
         <span class="f-small strong">Community</span>
     </div>
       <!--if the user is not signed in to community -->
-        <div class="w25 pt10 clickable active h__k {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
-            data-if="{{= parent.user_id }} == false"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'primary':'community','secondary':'false' }" 
-        >
-            <img src="img/icon_2x_bottomnav_community_active.png" alt="Add to Playlist" class="hh18 h__k"
-                data-if="{{= grandparent.active.primary }} == community"
-            />
-            <img src="img/icon_2x_bottomnav_community.png" alt="Add to Playlist" class="hh18 h__k"
-                data-if="{{= grandparent.active.primary }} !== community"
-            />
-            <br clear="both" />
-            <span class="f-small strong">Community</span>
-        </div>
+    <div class="w25 pt10 clickable active h__k {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
+        data-if="{{= parent.user_id }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'community','secondary':'false' }" 
+    >
+        <img src="img/icon_2x_bottomnav_community_active.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} == community"
+        />
+        <img src="img/icon_2x_bottomnav_community.png" alt="Add to Playlist" class="hh18 h__k"
+            data-if="{{= grandparent.active.primary }} !== community"
+        />
+        <br clear="both" />
+        <span class="f-small strong">Community</span>
+    </div>
     <div class="w25 pt10 clickable active h__k {{= (grandparent.active.primary == 'settings') ? 'white' : 'grey' }}"
         data-on-click="publish"
         data-publish="session:active"

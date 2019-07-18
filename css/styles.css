@@ -1,88 +1,64 @@
-/*------------------MONTESERRAT------------------------*/
+/*------------------MONTSERRAT------------------------*/
+
 @font-face {
 	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
-
-} 
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
-	font-weight: 600;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-ExtraBold.ttf');
-	font-weight: 900;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Medium.ttf');
-	font-weight: 600;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Regular.ttf');
+	src: url('/fonts/Montserrat/Montserrat-Regular.ttf');
 	font-weight: 400;
-}  */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
-	font-weight: 400;
-} 
+}  
 @font-face {
         font-family: 'Montserrat-Medium';
-        src: url('../fonts/Montserrat/Montserrat-Medium.ttf');
+        src: url('/fonts/Montserrat/Montserrat-Medium.ttf');
         font-weight: 600;
 }
 @font-face {
 	font-family: 'Montserrat-SemiBold';
-	src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf');
+	src: url('/fonts/Montserrat/Montserrat-SemiBold.ttf');
 	font-weight: 600;
 }
 @font-face {
 	font-family: 'Montserrat-Bold';
-	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
+	src: url('/fonts/Montserrat/Montserrat-Bold.ttf');
 	font-weight: 600;
 }
 @font-face {
 	font-family: 'Montserrat-ExtraBold';
-	src: url('../fonts/Montserrat/Montserrat-ExtraBold.ttf');
+	src: url('/fonts/Montserrat/Montserrat-ExtraBold.ttf');
 	font-weight: 900;
 }
 @font-face {
 	font-family: 'Montserrat-Black';
-	src: url('../fonts/Montserrat/Montserrat-Black.ttf');
+	src: url('/fonts/Montserrat/Montserrat-Black.ttf');
 	font-weight: 400;
 }
 /*-------------------ROBOTO FONT---------------------*/
 @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto/Roboto-Regular.ttf');
+	src: url('/fonts/Roboto/Roboto-Regular.ttf');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto-Medium';
-	src: url('../fonts/Roboto/Roboto-Medium.ttf');
+	src: url('/fonts/Roboto/Roboto-Medium.ttf');
 	font-weight: 500;
 }
 @font-face {
 	font-family: 'Roboto-Black';
-	src: url('../fonts/Roboto/Roboto-Black.ttf');
+	src: url('/fonts/Roboto/Roboto-Black.ttf');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto-Italic';
-	src: url('../fonts/Roboto/Roboto-Italic.ttf');
+	src: url('/fonts/Roboto/Roboto-Italic.ttf');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto-Bold';
-	src: url('../fonts/Roboto/Roboto-Bold.ttf');
+	src: url('/fonts/Roboto/Roboto-Bold.ttf');
 	font-weight: 600;
 }
 @font-face {
 	font-family: 'Roboto-ExtraBold 900';
-	src: url('../fonts/Roboto/Roboto-ExtraBold.ttf');
+	src: url('/fonts/Roboto/Roboto-ExtraBold.ttf');
 	font-weight: 900;
 }
  
@@ -131,7 +107,7 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-family					: "Montserrat-Medium", "Roboto-Medium",sans-serif;
+	font-family					: "Montserrat-SemiBold", "Roboto-Medium",sans-serif;
 	font-weight					: 600;
 }
 
@@ -141,13 +117,13 @@ h1 {
 	line-height					: 1.25em;
 }
 .montserrat_m{
-	font-family: "Montserrat-Medium","Roboto-Medium", sans-serif;
+	font-family: "Montserrat-Medium","Roboto-Medium", sans-serif !important;
 }
 .montserrat_semi_bold{
-	font-family: "Montserrat-SemiBold","Roboto-Medium", sans-serif;
+	font-family: "Montserrat-SemiBold","Roboto-Medium", sans-serif !important;
 }
 .montserrat_black {
-	font-family: "Montserrat-Black", "Roboto-Black", sans-serif;
+	font-family: "Montserrat-Black", "Roboto-Black", sans-serif !important;
 }
 
 p {
@@ -373,8 +349,8 @@ label {
 	position: absolute;
 
 }
-  
-.shuffle_tooltip:hover .tooltiptext {
+  /**************How to make on hover Tool Tips for icons******************/
+/* .shuffle_tooltip:hover .tooltiptext {
 	font-size: 14px;
 	font-family: "Montserrat-Black", "Roboto", sans-serif;
 	visibility: visible;
@@ -389,12 +365,12 @@ label {
 	border-radius: 6px;
 	padding: 5px 0;
   
-	/* Position the tooltip */
+	/* Position the tooltip   <<<<< add * / back 
 	top: 15px;
 	left: 70%;
 	position: absolute;
 
-}
+}*/
   
 .loop_tooltip:hover .tooltiptext {
 	font-size: 14px;
@@ -1087,6 +1063,9 @@ select:focus {
 	padding-bottom: 8px;
 
 }
+.fa-retweet {
+
+}
 
 /**************************** ZINDEX ******************************************/
 
@@ -1667,45 +1646,31 @@ input[type="range"]::-ms-fill-upper {
 
 /* Portrait */
 @media only screen 
-    and (min-device-width: 300px)
-    and (max-device-width: 320px)
-    and (max-device-height: 480px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 38%;
-        max-height: 140px;
-        
-    }
-    .scrollDown {
-        /* background-color: hotpink; */
-        min-height: 0;
-        max-height: 160px;
-        height: 155px;
+	and (min-device-width: 300px) 
+	and (max-device-width: 320px) 
+	and (max-device-height: 480px) 
+	and (orientation : portrait) 
+	{ 
+    .sortBy-wrapper {height: 115px;}
+
+    .sortBy-drop-actions{width: 220px;}
+    .sortBy-dropdown-container {padding-bottom: 60px;}
+    .trackBox {height: 38%;max-height: 140px;}
+    .scrollDown { /* background-color: hotpink; */ 
+	min-height: 0;
+	max-height: 160px;
+	height: 155px;
     }       
 }
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 @media only screen 
-    and (min-device-width: 300px)
-    and (max-device-width: 320px)
-    and (max-device-height: 568px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
+	and (min-device-width: 300px)
+	and (max-device-width: 320px)
+	and (max-device-height: 568px)
+	and (orientation : portrait)
+	{ 
+  .sortBy-wrapper {height: 115px;}
+  .sortBy-drop-actions{width: 220px;}
     .sortBy-dropdown-container {
         padding-bottom: 60px;
     }
@@ -2074,7 +2039,6 @@ and (orientation : portrait)
     .scrollDown {
             /* background-color: darkcyan; */
             height: 350px;
-    
     }
 }
 

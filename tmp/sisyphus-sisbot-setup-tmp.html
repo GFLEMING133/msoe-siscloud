@@ -37,7 +37,7 @@
                     <h4 class="pt10 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
                     <div class="flex vertical-align">
                         <div class="w24-2">
-                            <i class="fa fa-sun-o" aria-hidden="true"></i>
+                            <i class="fas fa-sun" aria-hidden="true"></i>
                         </div>
                         <div class="w24-19">
                             <input class="h__k w100" type="range" min="0" max="1" step=".05"
@@ -47,7 +47,7 @@
                             />
                         </div>
                         <div class="w24-3 pl24-1">
-                            <i class="fa fa-sun-o f-large" aria-hidden="true"></i>
+                            <i class="fas fa-sun f-large" aria-hidden="true"></i>
                         </div>
                     </div>
 
@@ -55,8 +55,8 @@
                         data-on-click="model.set_autodim_default"
                         data-if="{{= model.default_settings.is_autodim }} !== undefined"
                     >
-                        <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
-                        <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.default_settings.is_autodim }} == false"></span>
+                        <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
+                        <span class="h__k black f-large bg-white fas fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
                         <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
                     </div>
 

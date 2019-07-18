@@ -8,7 +8,7 @@
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
         <!------------------------- SISBOT SETTINGS ------------------------------->
-        <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
+        <h3 class="no-stuffing p20 pb10 fs18 lh18 montserrat_semi_bold">Brightness</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
             <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
                 <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
             <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.data.is_autodim }} == false"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
-        <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Speed</h3>
+        <h3 class="no-stuffing p20 pb10 fs18 lh18 montserrat_semi_bold">Speed</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}">
             <div class="w5 center clickable active pt15 pb15 h__k" data-on-click="model.speed_min">
                 <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
@@ -70,7 +70,7 @@
         >
             <span>
 
-                <span class="strong">Firmware Update</span>
+                <span class="montserrat_semi_bold">Firmware Update</span>
                 <span class="h__k" 
                     data-model="{{= model.sisbot_id }}" 
                     data-if="{{= model.data.is_internet_connected }} == true">
@@ -92,7 +92,7 @@
             data-publish="session:active"
             data-msg="{'secondary':'night_mode'}"
         >
-            <span class="strong">Night Mode</span>
+            <span class="montserrat_semi_bold">Night Mode</span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
@@ -108,7 +108,7 @@
         <!-- <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
         data-on-click="model.open_home_page"
         >
-        <span class="strong">About</span>
+        <span class="montserrat_semi_bold">About</span>
         <span class="pull-right">
             <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
@@ -118,7 +118,7 @@
             data-publish="session:active"
             data-msg="{'secondary':'advanced_settings'}"
         >
-            <span class="strong">Advanced</span>
+            <span class="montserrat_semi_bold">Advanced</span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
@@ -126,7 +126,7 @@
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
             data-on-click="model.open_home_page"
         >
-            <span class="strong">Visit Sisyphus Website</span>
+            <span class="montserrat_semi_bold">Visit Sisyphus Website</span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
@@ -136,7 +136,7 @@
             data-publish="session:active"
             data-msg="{'secondary':'go-to-sleep'}"
         >
-            <span class="strong">Go to Sleep</span>
+            <span class="montserrat_semi_bold">Go to Sleep</span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
