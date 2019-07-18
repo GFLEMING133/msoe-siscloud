@@ -1,11 +1,14 @@
 #2019-7-15 1.8.23
  - Fixed fonts to be sourced in properly through css. 
  - added Show Password to Community sign-in page
- - public / private to displaty in Community track list as well as private being iktalisized.
+ - public / private to displaty in Community track list as well as private being italisized.
  - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
  - changed padding on pause/play button to help with sizing  
 
-#2019-7-10 1.8.21
+#2019-7-10, 1.8.21
+ - Fixed merge conflicts and updated code to reflect UI changes from beta releases. 
+ - WiFi disconnect or power loss no longer bricks table while updating. 
+ - Pushed to Test Flight and Google Pay and then released into the wild. 
  - staging branch was pushed to release.
 #2019-7-8, 1.8.18,19
  - Fixed auth_token in fetch2() to be set in proper place. 
@@ -29,25 +32,25 @@
 #2019-6-18, 1.8.11
  - is_network_separate added to fix updating issue and Connect to WiFi 
  - merged staging with beta
- - move UI over to webcenter
- 
+ - move UI over to webcenter 
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
- - Fixed white screen of death by removing fonts.google.api. Sourced font locally. 
+ - Fixed white screen of death by removing fonts.google.api. Sourced font locally.
  - removed background colors for drag and drop (still in testing)
- - Spinner added for when connecting a table to WiFi as to allow time to populate list. 
- - Conditionals added for when is_internet_connected or is_network_connected. 
- - cleaned up code and commented out functions() not in use. 
- - sisbot_url in app.config.js for global variable. 
+ - Spinner added for when connecting a table to WiFi as to allow time to populate list.
+ - Conditionals added for when is_internet_connected or is_network_connected.
+ - cleaned up code and commented out functions() not in use.
+ - sisbot_url in app.config.js for global variable.
 
 #2019-6-4, 1.8.9
  - Drag and drop again, now with color... Continued testing on multiple devices.
- - Now Playing Footer is now clickable and redirects you to the Home page. 
- - Community is going to be available for Beta Testers. 
- - Wifi Connect has spinner to wait for available networks to populate array before showing page. 
- - Redirect back to app after sigining into WiFi. 
+ - Now Playing Footer is now clickable and redirects you to the Home page.
+ - Community is going to be available for Beta Testers.
+ - Wifi Connect has spinner to wait for available networks to populate array before showing page.
+ - Redirect back to app after signing into WiFi.
 #2019-5-31, 1.8.8
  - increase the retry timeout on get_wifi network list
+  - back out a bad update
 
 #2019-5-02, 1.8.7
  - Changed <meta> to reflect production and for adding media queries to the css.

@@ -82,6 +82,7 @@ app.model.sisyphus_manager = {
     current_version: 1,
     on_init: function() {
         console.log("on_init() in app.model.sisyphus_manager");
+        console.log("app.config.api_url" + app.config.get_api_url);
         if (window.cordova) StatusBar.show();
 
         app.plugins.n.initialize();
@@ -1131,6 +1132,7 @@ app.model.sisyphus_manager = {
         // console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
             cb(ip_address.ip);
+            // console.log('ip_address.ip ==' + ip_address.ip);
 
         }, function on_error(err) {
             cb(err);
@@ -1144,7 +1146,7 @@ app.model.sisyphus_manager = {
         var self = this;
 
         WifiWizard2.getConnectedSSID(function on_success(ssid) {
-            console.log('In the WifiWizard2 =', + ssid)
+            // console.log('In the WifiWizard2 =' + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
             alert(err);

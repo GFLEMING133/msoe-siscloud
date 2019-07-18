@@ -86,6 +86,7 @@ app.model.sisbot = {
 
 				is_hotspot			: 'true',
 
+				is_network_separate: 'false',
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
 				is_network_separate : 'false',
@@ -110,7 +111,8 @@ app.model.sisbot = {
 
 				is_homed			: 'false',				// Not used
 				is_serial_open		: 'true',				// Not used
-				is_servo			: 'false',  			//setting for alert()'s
+				is_servo			: 'false', 				//setting for alert()'s
+
 				is_shuffle			: 'true',
 				is_loop				: 'false',
 				brightness			: .5,
@@ -156,8 +158,8 @@ app.model.sisbot = {
 		this.on('change:data.software_version',				this.check_for_version_update);
 		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
-		if (this.get('data.is_network_separate') == 'false') 
-		{
+
+		if (this.get('data.is_network_separate') == 'false') {
 			this.update_network();
 			this.on('change:data.is_network_connected',     this.update_network);
 			this.on('change:data.is_internet_connected',    this.update_network);
@@ -177,6 +179,14 @@ app.model.sisbot = {
 			this.nightmode_sleep_change();
 
 		this._poll_state();
+	},
+	update_network: function() {
+		if (this.get('data.is_network_separate') == 'false') {
+			this.set('data.is_network_connected', this.get('data.is_internet_connected'));
+		} else {
+			this.off('change:data.is_internet_connected', this.update_network);
+			this.off('change:data.is_network_separate', this.update_network);
+		}
 	},
 	after_export: function () {
 		app.current_session().set_active({ sisbot_id: 'false' });
@@ -201,16 +211,16 @@ app.model.sisbot = {
 		// }, 0);
 	},
 	update_network: function () {
-		
+
 		if(this.get('data.is_network_separate') == 'false'){
-			this.set('data.is_network_connected', this.get('data.is_internet_connected'));		
+			this.set('data.is_network_connected', this.get('data.is_internet_connected'));
 		}else {
 			this.off('change:data.is_internet_connected', this.update_network);
 			this.off('change:data.is_network_separate', this.update_network);
 		}
 		console.log('in the update_network', this.get('data.is_network_separate'), this.get('data.is_internet_connected'),
 		this.get('data.is_network_connected'));
-		
+
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
 
@@ -254,7 +264,7 @@ app.model.sisbot = {
 			}
 		}, 0);
 	},
-	
+
 	_fetching_cloud: false,
 	_fetch_cloud: function () {
 		console.log("_fetch_cloud()");
@@ -726,7 +736,6 @@ app.model.sisbot = {
 				self.install_updates();
 				}
 	},
-
 	install_updates: function () {
 		console.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true')
@@ -767,11 +776,13 @@ app.model.sisbot = {
 		console.log("factory_reset()");
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
+
 		var self = this;
-		app.plugins.n.notification.confirm(' Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
+		app.plugins.n.notification.confirm('Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
 		function(resp_num) {
 			if (resp_num == 1)
 				return self;
+
 			self.set('data.factory_resetting', 'true')
 
 			self._update_sisbot('factory_reset', {}, function(obj) {
@@ -781,7 +792,7 @@ app.model.sisbot = {
 					app.manager.intake_data(obj.resp);
 				}
 			});
-		}, 'Factory Reset?', ['Cancel', 'OK ERASE ME']);
+		}, 'Factory Reset?', ['Cancel', 'OK']);
 	},
 	setup_update_hostname: function () {
 		console.log("setup_update_hostname()");
@@ -949,12 +960,11 @@ app.model.sisbot = {
 	},
 	update_tableName_alert: function () {
 		let self = this;
-		let alertMessage;
 		let is_servo = self.get('data.is_servo');
 		if(is_servo == 'true'){
 			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?"))
 				self.update_tablename();
-				
+
 
 			} else if (is_servo == 'false') {
 				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?"))
@@ -1328,7 +1338,7 @@ app.model.sisbot = {
 
 		var self = this;
 
-		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone. If you are trying to remove a track click the edit symbol found in the top right corner of the Playlist page, Thanks', function(resp_num) {
+		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone.', function(resp_num) {
 			if (resp_num == 1)
 				return self;
 
@@ -1439,7 +1449,7 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
-		if (this.get('is_connected'))
+		if (this.get('is_connected')) 
 			this.check_local_versions(on_cb);
 
 		if (this.get('data.is_hotspot') == 'true') {
@@ -1456,7 +1466,13 @@ app.model.sisbot = {
 				var remote		= self.get('remote_versions');
 				var has_update	= false;
 
-				if (!remote) return this;
+				if (!remote) {
+					// in case remote server is down/not allowed
+					if (version[0] == '1' && version[1] == '0') self.set('has_software_update', 'true');	// ALWAYS ALLOW UPGRADE FROM V1.0.X
+					else if (+version[1] % 2 == 1) self.set('has_software_update', 'true'); // beta.. Always allow download
+
+					return this;
+				}
 
 				_.each(local, function(local_version, repo) {
 					var remote_version		= remote[repo];
@@ -1529,7 +1545,7 @@ app.model.sisbot = {
 			*/
 		});
 	},
-	check_remote_versions: function (cb) {  
+	check_remote_versions: function (cb) {
 		var self = this;
 
 		var obj = {
