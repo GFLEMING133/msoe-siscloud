@@ -649,10 +649,14 @@ app.model.sisbot = {
 		var endpoint	= (this.is_legacy()) ? 'change_to_wifi' : 'connect_to_wifi';
 
 		if (credentials.password == '') {
+			alert("No password? It's ok , were just making sure.");
+		}
+		if (credentials.password > 0 && credentials.password < 8 ) {
 			this.set('wifi_error', 'true');
+			alert('Wi-Fi password mut be 8 characters or more.');
 			return this;
 		}
-
+		
 		this.set('data.failed_to_connect_to_wifi', 'false')
 			.set('data.is_hotspot', 'false')
 			.set('data.wifi_forget', 'true')
