@@ -651,7 +651,7 @@ app.model.sisbot = {
 		if (credentials.password == '') {
 			alert("No password? It's ok , were just making sure.");
 		}
-		if (credentials.password > 0 && credentials.password < 8 ) {
+		if (credentials.password.length > 0 && credentials.password.length < 8 ) {
 			this.set('wifi_error', 'true');
 			alert('Wi-Fi password mut be 8 characters or more.');
 			return this;
