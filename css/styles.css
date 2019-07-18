@@ -1646,21 +1646,31 @@ input[type="range"]::-ms-fill-upper {
 
 /* Portrait */
 @media only screen 
-	and (min-device-width: 300px) 
-	and (max-device-width: 320px) 
-	and (max-device-height: 480px) 
-	and (orientation : portrait) 
+	and (min-device-width: 300px)
+	and (max-device-width: 320px)
+	and (max-device-height: 480px)
+	and (orientation : portrait)
 	{ 
-    .sortBy-wrapper {height: 115px;}
-
-    .sortBy-drop-actions{width: 220px;}
-    .sortBy-dropdown-container {padding-bottom: 60px;}
-    .trackBox {height: 38%;max-height: 140px;}
-    .scrollDown { /* background-color: hotpink; */ 
-	min-height: 0;
-	max-height: 160px;
-	height: 155px;
-    }       
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 38%;
+		max-height: 140px;
+		
+	}
+	.scrollDown {
+		/* background-color: hotpink; */
+		min-height: 0;
+		max-height: 160px;
+		height: 155px;
+	}		
 }
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 @media only screen 
@@ -1669,285 +1679,289 @@ input[type="range"]::-ms-fill-upper {
 	and (max-device-height: 568px)
 	and (orientation : portrait)
 	{ 
-  .sortBy-wrapper {height: 115px;}
-  .sortBy-drop-actions{width: 220px;}
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 48%;
-        max-height: 210px;
-        
-    }
-    .scrollDown {
-        /* background-color: salmon; */
-        min-height: 0;
-        max-height: 220px;
-        height: 210px;
-    }       
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 48%;
+		max-height: 210px;
+		
+	}
+	.scrollDown {
+		/* background-color: salmon; */
+		min-height: 0;
+		max-height: 220px;
+		height: 210px;
+	}		
 }
 @media only screen 
-    and (min-device-width: 321px)
-    and (max-device-width: 340px)
-    and (max-device-height: 533px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 100vh;
-        max-height: 47vh;
-        
-    }
-    .scrollDown {
-        /* background-color: #F4AE3D; */
-        min-height: 35vh;
-        max-height: 47vh;
-        height: 45vh;
-    }       
+	and (min-device-width: 321px)
+	and (max-device-width: 340px)
+	and (max-device-height: 533px)
+	and (orientation : portrait)
+	{ 
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 100vh;
+		max-height: 47vh;
+		
+	}
+	.scrollDown {
+		/* background-color: #F4AE3D; */
+		min-height: 35vh;
+		max-height: 47vh;
+		height: 45vh;
+	}		
 }
 @media only screen 
-    and (min-device-width: 341px)
-    and (max-device-width: 360px)
-    and (max-device-height: 640px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 58%;
-        max-height: 290px;
-        
-    }
-    .scrollDown {
-        /* background-color: #777;*/
-        min-height: 0; 
-        max-height: 290px;
-        height: 280px;
-    }       
+	and (min-device-width: 341px)
+	and (max-device-width: 360px)
+	and (max-device-height: 640px)
+	and (orientation : portrait)
+	{ 
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 58%;
+		max-height: 290px;
+		
+	}
+	.scrollDown {
+		/* background-color: #777;*/
+		min-height: 0; 
+		max-height: 290px;
+		height: 280px;
+	}		
 }
 /****************Galaxy S10 5G*****************/
 @media only screen 
 and (min-width: 360px) 
 and (max-width: 767px) 
 and (orientation : portrait)
-    { 
-    .trackBox {
-    height: 460px;
-    max-height: 475px;
-            
-    }
-    .scrollDown {
-        /* background-color:rosybrown; */
-        min-height: 0;
-        max-height: 475px;
-        height: 460px;
-        display: flex;
-    }
+	{ 
+	.trackBox {
+	height: 460px;
+	max-height: 475px;
+			
+	}
+	.scrollDown {
+		/* background-color:rosybrown; */
+		min-height: 0;
+		max-height: 475px;
+		height: 460px;
+		display: flex;
+	}
 }
 
 /* Portrait */
 @media only screen  
-    and (min-device-width: 361px)
-    and (max-device-width: 374px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 100vh;
-            max-height: 52vh;
-                    
-            }
-    .scrollDown {
-            /* background-color: #32B150; */
-            min-height: 0;
-            max-height: 380px;
-            height: 360px;
-            display: block;
-    
-    }
+	and (min-device-width: 361px)
+	and (max-device-width: 374px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 100vh;
+			max-height: 52vh;
+					
+			}
+	.scrollDown {
+			/* background-color: #32B150; */
+			min-height: 0;
+			max-height: 380px;
+			height: 360px;
+			display: block;
+	
+	}
 }
 @media only screen  
-    and (min-device-width: 375px)
-    and (max-device-width: 384px)
-    and (max-device-height: 667px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-        height: 58%;
-        max-height: 310px;
-                    
-            }
-    .scrollDown {
-            /* background-color: #fdc539; */
-            min-height: 0;
-            max-height: 320px;
-            height: 310px;
+	and (min-device-width: 375px)
+	and (max-device-width: 384px)
+	and (max-device-height: 667px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+		height: 58%;
+		max-height: 310px;
+					
+			}
+	.scrollDown {
+			/* background-color: #fdc539; */
+			min-height: 0;
+			max-height: 320px;
+			height: 310px;
 
-    
-    }
+	
+	}
 }
 /**************iPhone XS MAX*******************/
 @media only screen  
-    and (device-width: 375px)
-    and (device-height: 812px)
-    and (orientation : portrait)
-    {
+	and (device-width: 375px)
+	and (device-height: 812px)
+	and (orientation : portrait)
+	{
 
-    .app .app-container {
-        margin-top              : 25px !important; 
-    }
-    .footer_Xphone {
-        margin-bottom: constant(safe-area-inset-bottom);
-        margin-bottom: env(safe-area-inset-bottom);
-    } 
-    .trackBox {
-            height: 520px;
-            max-height: 520px;
-                    
-            }
-    .scrollDown {
-            /* background-color:yellowgreen; */
-            min-height: 0;
-            max-height: 520px;
-            height: 520px;
-            display: flex;
-    }
+	.app .app-container {
+		margin-top				: 25px !important; 
+	}
+	.footer_Xphone {
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+	} 
+	.trackBox {
+			height: 520px;
+			max-height: 520px;
+					
+			}
+	.scrollDown {
+			/* background-color:yellowgreen; */
+			min-height: 0;
+			max-height: 520px;
+			height: 520px;
+			display: flex;
+	}
 }
 /********* iPhone X MAybe*******/
 @media only screen  
-    and (device-width: 414px)
-    and (device-width: 896px)
-    and (orientation : portrait)
-    {
-    .app .app-container {
-        margin-top              : 25px !important; 
+	and (device-width: 414px)
+	and (device-width: 896px)
+	and (orientation : portrait)
+	{
+	.app .app-container {
+		margin-top				: 25px !important; 
 
-    }
-    .footer_Xphone {
-        margin-bottom: constant(safe-area-inset-bottom);
-        margin-bottom: env(safe-area-inset-bottom);
-    } 
-    .trackBox {
-            height: 350px;
-            max-height: 360px;
-                    
-            }
-    .scrollDown {
-            /* background-color:blue;*/
-            min-height: 0;
-            max-height: 360px;
-            height: 350px;
-            display: flex;
-    }
-            
+	}
+	.footer_Xphone {
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+	} 
+	.trackBox {
+			height: 350px;
+			max-height: 360px;
+					
+			}
+	.scrollDown {
+			/* background-color:blue;*/
+			min-height: 0;
+			max-height: 360px;
+			height: 350px;
+			display: flex;
+	}
+			
 }
 
 @media only screen  
-    and (min-device-width: 411px)
-    and (max-device-width: 430px)
-    and (max-device-height: 732px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color: pink;*/
-            height: 100vh; 
-            max-height: 350px;
-    
-    }
+	and (min-device-width: 411px)
+	and (max-device-width: 430px)
+	and (max-device-height: 732px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color: pink;*/
+			height: 100vh; 
+			max-height: 350px;
+	
+	}
 } 
 @media only screen  
-    and (device-width: 414px)
-    and (device-height: 736px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color:darkkhaki; */
-            height: 100vh;
-            max-height: 350px;
-    
-    }
+	and (device-width: 414px)
+	and (device-height: 736px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color:darkkhaki; */
+			height: 100vh;
+			max-height: 350px;
+	
+	}
 }
 /*************iPhone XS Max**************/
 @media only screen 
     and (device-width : 414px) 
     and (device-height : 896px) 
-    and (-webkit-device-pixel-ratio : 3) 
-    {
-        .app .app-container {
-            margin-top              : 25px !important; 
-        }
-        .footer_Xphone {
-            margin-bottom: constant(safe-area-inset-bottom);
-            margin-bottom: env(safe-area-inset-bottom);
-        }  
-        .trackBox {
-            height: 58%;
-            max-height: 360px;   
-            }
-    .scrollDown {
-            /* background-color: blueviolet; */
-            height: 350px;
-            max-height: 360px;
-    
-    }
+	and (-webkit-device-pixel-ratio : 3) 
+	{
+		.app .app-container {
+			margin-top				: 25px !important; 
+		}
+		.footer_Xphone {
+			margin-bottom: constant(safe-area-inset-bottom);
+			margin-bottom: env(safe-area-inset-bottom);
+		}  
+		.trackBox {
+			height: 58%;
+			max-height: 360px;   
+			}
+	.scrollDown {
+			/* background-color: blueviolet; */
+			height: 350px;
+			max-height: 360px;
+	
+	}
 
-    }
+	}
 @media only screen  
-    and (min-device-width: 411px)
-    and (max-device-width: 430px)
-    and (max-device-height: 823px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color:darkgreen; */
-            height: 100vh;
-            max-height: 350px;
-    
-    }
+	and (min-device-width: 411px)
+	and (max-device-width: 430px)
+	and (max-device-height: 823px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color:darkgreen; */
+			height: 100vh;
+			max-height: 350px;
+	
+	}
 }
 
 @media only screen  
-    and (min-device-width: 461px)
-    and (max-device-width: 480px)
-    and (max-device-height: 854px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color: red; */
-            height: 100vh;
-            max-height: 350px;
-    
-    }
+	and (min-device-width: 461px)
+	and (max-device-width: 480px)
+	and (max-device-height: 854px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color: red; */
+			height: 100vh;
+			max-height: 350px;
+	
+	}
 }  
 
 @media only screen  
@@ -1955,90 +1969,91 @@ and (min-device-width: 561px)
 and (max-device-width: 600px)
 and (max-device-height: 960px)
 and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color: orange;*/
-            height: 100vh; 
-            max-height: 350px;
-    
-    }
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color: orange;*/
+			height: 100vh; 
+			max-height: 350px;
+	
+	}
 }
 @media only screen  
 and (min-device-width: 601px)
 and (max-device-width: 660px)
 and (orientation : portrait)
-    {   
-    .trackBox {
-            height: 38vh;
-            max-height: 58vh;   
-            }
-    .scrollDown {
-            /* background-color: brown; */
-            height: 58vh;
-    
-    }
+	{	
+	.trackBox {
+			height: 38vh;
+			max-height: 58vh;   
+			}
+	.scrollDown {
+			/* background-color: brown; */
+			height: 58vh;
+	
+	}
 }@media only screen  
 and (min-device-width: 661px)
 and (max-device-width: 700px)
 and (orientation : portrait)
-    {
-    .trackBox {
-            height: 38vh;
-            max-height: 58vh;   
-            }
-    .scrollDown {
-            /* background-color: darkcyan; */
-            height: 58vh;
-    
-    }
+	{
+	.trackBox {
+			height: 38vh;
+			max-height: 58vh;   
+			}
+	.scrollDown {
+			/* background-color: darkcyan; */
+			height: 58vh;
+	
+	}
 } 
 
 @media only screen  
-    and (device-width: 800px)
-    and (device-height: 1280px)
-    and (orientation : portrait)
-    {
-        .trackBox {
-                height: 58%;
-                max-height: 360px;   
-                }
-        .scrollDown {
-                /* background-color: lightgoldenrodyellow; */
-                height: 350px;
-        
-        }
+	and (device-width: 800px)
+	and (device-height: 1280px)
+	and (orientation : portrait)
+	{
+		.trackBox {
+				height: 58%;
+				max-height: 360px;   
+				}
+		.scrollDown {
+				/* background-color: lightgoldenrodyellow; */
+				height: 350px;
+		
+		}
 }
 @media only screen  
-    and (device-width: 768px)
-    and (device-height: 1024px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 360px;   
-            }
-    .scrollDown {
-            /* background-color: lightskyblue; */
-            height: 350px;
-    
-    }
+	and (device-width: 768px)
+	and (device-height: 1024px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 360px;   
+			}
+	.scrollDown {
+			/* background-color: lightskyblue; */
+			height: 350px;
+	
+	}
 }
 @media only screen  
-    and (device-width: 1024px)
-    and (device-height: 1366px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 360px;   
-            }
-    .scrollDown {
-            /* background-color: darkcyan; */
-            height: 350px;
-    }
+	and (device-width: 1024px)
+	and (device-height: 1366px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 360px;   
+			}
+	.scrollDown {
+			/* background-color: darkcyan; */
+			height: 350px;
+	
+	}
 }
 
