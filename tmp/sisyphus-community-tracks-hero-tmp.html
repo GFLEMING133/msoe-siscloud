@@ -32,16 +32,15 @@
                 <div class="fs18 lh20 pt40 black block strong h__k">{{= model.data.name }}</div>
                 <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
             </div>
-            <div class="pt10 h100 vertical right">
+            <div class="pt10 h100 vertical clickable right h__k"
+                data-model="{{= session.active.track_id}}"
+                data-on-click="model.download_wc" 
+                data-msg="{{= model.data.track_id }}"
+            >
                     <i class="grey pt40" aria-hidden="true">
-                        <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
+                        <img src="img/download_grey.png" alt="Download CLoud" class="w25p" />
                     </i>
             </div>
-        </div>
-    </div>
-    <div class="bg-grey-l pb10 clickable flex h__k" data-model="{{= session.active.track_id}}" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
-        <div class="w20 w10 vertical center h__k" data-on-click="model.download_wc" data-msg="{{= model.data.track_id }}">
-                <i class="fa pt15 white fa-cloud-download f-xlarge" aria-hidden="true"></i>
         </div>
     </div>
 </div>
