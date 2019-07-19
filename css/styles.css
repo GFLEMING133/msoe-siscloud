@@ -1,25 +1,48 @@
-/*------------------MONTSERRAT------------------------*/
 
 @font-face {
-	font-family: 'Montserrat';
-	src: url('/fonts/Montserrat/Montserrat-Regular.ttf');
-	font-weight: 400;
-}  
-@font-face {
-        font-family: 'Montserrat-Medium';
-        src: url('/fonts/Montserrat/Montserrat-Medium.ttf');
-        font-weight: 600;
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/montserrat-regular-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-regular-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-regular-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-regular-webfont.svg#montserratregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+
 @font-face {
-	font-family: 'Montserrat-SemiBold';
-	src: url('/fonts/Montserrat/Montserrat-SemiBold.ttf');
-	font-weight: 600;
+    font-family: 'Montserrat-Medium';
+    src: url('../fonts/Montserrat/montserrat-medium-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-medium-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-medium-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-medium-webfont.svg#montserrat_mediumregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+
 @font-face {
-	font-family: 'Montserrat-Bold';
-	src: url('/fonts/Montserrat/Montserrat-Bold.ttf');
-	font-weight: 600;
+    font-family: 'Montserrat-SemiBold';
+    src: url('../fonts/Montserrat/montserrat-semibold-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-semibold-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-semibold-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-semibold-webfont.svg#montserrat_semiboldregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('../fonts/Montserrat/montserrat-bold-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-bold-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-bold-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-bold-webfont.svg#montserratbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/* 
 @font-face {
 	font-family: 'Montserrat-ExtraBold';
 	src: url('/fonts/Montserrat/Montserrat-ExtraBold.ttf');
@@ -29,9 +52,9 @@
 	font-family: 'Montserrat-Black';
 	src: url('/fonts/Montserrat/Montserrat-Black.ttf');
 	font-weight: 400;
-}
+} */
 /*-------------------ROBOTO FONT---------------------*/
-@font-face {
+/* @font-face {
 	font-family: 'Roboto';
 	src: url('/fonts/Roboto/Roboto-Regular.ttf');
 	font-weight: 400;
@@ -60,7 +83,7 @@
 	font-family: 'Roboto-ExtraBold 900';
 	src: url('/fonts/Roboto/Roboto-ExtraBold.ttf');
 	font-weight: 900;
-}
+}  */
  
 /********************************* BASE ***************************************/
 * {
@@ -94,7 +117,7 @@ a, a:hover {
 }
 
 body, h1, h2, h3, h4, h5, h6, p {
-	font-family					: "Montserrat", "Roboto", sans-serif;
+	font-family					: 'Montserrat', sans-serif;
 	font-weight					: 400;
 	text-rendering				: optimizeLegibility;
     -webkit-font-smoothing		: antialiased;
@@ -107,24 +130,24 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-family					: "Montserrat-SemiBold", "Roboto-Medium",sans-serif;
+	font-family					: 'Montserrat-SemiBold', sans-serif;
 	font-weight					: 600;
 }
 
 h1 {
-	font-family					: "Montserrat-Bold","Roboto-Bold", sans-serif;
+	font-family					: 'Montserrat-Bold', sans-serif;
 	font-size					: 2.25em;
 	line-height					: 1.25em;
 }
 .montserrat_m{
-	font-family: "Montserrat-Medium","Roboto-Medium", sans-serif !important;
+	font-family: "Montserrat-Medium", sans-serif;
 }
 .montserrat_semi_bold{
-	font-family: "Montserrat-SemiBold","Roboto-Medium", sans-serif !important;
+	font-family: "Montserrat-SemiBold", sans-serif;
 }
-.montserrat_black {
+/* .montserrat_black {
 	font-family: "Montserrat-Black", "Roboto-Black", sans-serif !important;
-}
+} */
 
 p {
 	font-size					: 1em;
