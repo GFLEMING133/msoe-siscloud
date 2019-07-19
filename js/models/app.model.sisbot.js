@@ -577,7 +577,6 @@ app.model.sisbot = {
 		console.log("get_networks()");
 		var self			= this;
 		var wifi_networks	= [];
-
 		if (app.config.env == 'alpha') {
 			this.set('wifi_networks', ['test', 'test 2', 'test 3']);
 			return this;
@@ -639,6 +638,12 @@ app.model.sisbot = {
 			app.trigger('session:active', { secondary: 'software-update', primary: 'settings' });
 		}
 	},
+	clear_wifi_errors: function(){
+		debugger;
+		this.set('wifi_error','false');
+		this.set('wifi_connecting','false');
+		this.set('data.wifi_password', 'false');
+  },
   	connect_to_wifi: function () {
 		console.log("connect_to_wifi()");
 		this.set('wifi_error', 'false')
