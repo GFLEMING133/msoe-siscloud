@@ -10,6 +10,7 @@ app.model.track = {
 
 			upload_status		: 'hidden',		// hidden|false|uploading|success
 			sisbot_upload		: 'false',
+			community_track_downloaded	: 'false',
 			generating_thumbnails: 'false',
 
 			is_favorite			: 'false',
@@ -1048,6 +1049,7 @@ app.model.track = {
   download_wc: function(track_id) {
 		var self = this;
 		console.log("track : download", track_id);
+		self.set('community_track_downloaded', 'true');
 
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
@@ -1084,10 +1086,11 @@ app.model.track = {
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else {
 					alert('Failed to get verts for this download ' + self.id);
+					self.set('community_track_downloaded', 'false');
 					return;
 				}
 
-				self.set('data.verts', obj.resp);
+				self.set('data.verts', obj.resp);	
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
 				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });

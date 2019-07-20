@@ -25,11 +25,19 @@
             </div>
         </div>
     </div>
-    <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
-        <div class="w20 w10 clickable vertical center h__k" data-on-click="model.download_wc" data-msg="{{= model.data.track_id}}">
-             
+    <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">  
+        <div class="w20 w10 clickable vertical center h__k"
+            data-if="{{= model.community_track_downloaded }} == false"
+            data-on-click="model.download_wc" 
+            data-msg="{{= model.data.track_id}}">
+            
                 <img src="img/download_white.png" alt="Download Cloud" class="white pt15">
         </div>
+        <div class="h__k"
+            data-if="{{= model.community_track_downloaded}} == true" >
+                <img src="img/checkCircle.png" alt="Checked Circle" class="pt15 pl25" >
+        </div>
+
 
         <div class="w25 clickable active center pt15 pb15 h__k"
                 data-on-click="publish"  

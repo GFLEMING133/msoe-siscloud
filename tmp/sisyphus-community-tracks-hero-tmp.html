@@ -27,19 +27,24 @@
         data-publish="session:toggle"
         data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
     >  
+    
         <div class="flex pr20 pl20 pb20 h__k">
             <div class="w100">
                 <div class="fs18 lh20 pt40 black block strong h__k">{{= model.data.name }}</div>
                 <div class="fs12 lh20 grey block h__k">by {{= model.data.created_by_name }}</div>
             </div>
-            <div class="pt10 h100 vertical clickable right h__k"
+            <div class="h100 vertical clickable right h__k"
                 data-model="{{= session.active.track_id}}"
                 data-on-click="model.download_wc" 
                 data-msg="{{= model.data.track_id }}"
+                data-if="{{= model.community_track_downloaded}} == false"
             >
-                    <i class="grey pt40" aria-hidden="true">
-                        <img src="img/download_grey.png" alt="Download CLoud" class="w25p" />
-                    </i>
+                <img src="img/download_grey.png" alt="Download CLoud" class="pt50" />
+                  
+            </div>
+            <div class="h100 vertical right h__k"
+                data-if="{{= model.community_track_downloaded}} == true" >
+                    <img src="img/checkCircle.png" alt="Checked Circle" class="pt50" >
             </div>
         </div>
     </div>

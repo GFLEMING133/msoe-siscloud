@@ -1783,6 +1783,9 @@ and (min-width: 360px)
 and (max-width: 767px) 
 and (orientation : portrait)
 	{ 
+	body {
+		padding-bottom: 25px;
+	}
 	.trackBox {
 	height: 460px;
 	max-height: 475px;
@@ -1843,7 +1846,9 @@ and (orientation : portrait)
 	and (device-height: 812px)
 	and (orientation : portrait)
 	{
-
+	body {
+		padding-bottom: 25px;
+	}
 	.app .app-container {
 		margin-top				: 25px !important; 
 	}
@@ -1870,6 +1875,9 @@ and (orientation : portrait)
 	and (device-width: 896px)
 	and (orientation : portrait)
 	{
+	body {
+		padding-bottom: 25px;
+	}
 	.app .app-container {
 		margin-top				: 25px !important; 
 
@@ -1932,6 +1940,9 @@ and (orientation : portrait)
     and (device-height : 896px) 
 	and (-webkit-device-pixel-ratio : 3) 
 	{
+		body {
+			padding-bottom: 25px;
+		}
 		.app .app-container {
 			margin-top				: 25px !important; 
 		}
@@ -1942,13 +1953,13 @@ and (orientation : portrait)
 		.trackBox {
 			height: 58%;
 			max-height: 360px;   
-			}
-	.scrollDown {
+		}
+		.scrollDown {
 			/* background-color: blueviolet; */
 			height: 350px;
 			max-height: 360px;
 	
-	}
+		}
 
 	}
 @media only screen  
