@@ -82,7 +82,6 @@ app.model.sisyphus_manager = {
     current_version: 1,
     on_init: function() {
         console.log("on_init() in app.model.sisyphus_manager");
-        console.log("app.config.api_url" + app.config.get_api_url);
         if (window.cordova) StatusBar.show();
 
         app.plugins.n.initialize();
