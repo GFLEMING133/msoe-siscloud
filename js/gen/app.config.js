@@ -11,15 +11,15 @@ app.config = {
 		},
 		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3001/', //local url 
-			api_url		: 'http://localhost:3000/', // add entry in your computers /etc/hosts mapped to your bot's IP address
-			web_url		: 'http://localhost:3000/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
+			api_url		: 'http://dev.webcenter.sisyphus-industries.com/', // add entry in your computers /etc/hosts mapped to your bot's IP address
+			web_url		: 'http://dev.webcenter.sisyphus-industries.com/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
 			sisbot_url  : 'http://192.168.1.4:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001, //work=192.168.1.168:3002 home=192.168.1.5:3002
 		}, 		
   		sisbot: {
 				base_url	: window.location.href, 
-				api_url		: 'https://webcenter.sisyphus-industries.com/',
-				web_url		: 'https://webcenter.sisyphus-industries.com/',
+				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+				web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
 				sisbot_url  : window.location.href, //talking to sisbot
 				port		: 3001,
 			},

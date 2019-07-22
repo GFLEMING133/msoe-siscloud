@@ -1793,7 +1793,6 @@ and (orientation : portrait)
 	.scrollDown {
 		/* background-color:rosybrown; */
 		min-height: 0;
-		max-height: 475px;
 		height: 460px;
 		display: flex;
 	}
@@ -1893,7 +1892,7 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color:blue;*/
 			min-height: 0;
-			max-height: 360px;
+			max-height: 350px;
 			height: 350px;
 			display: flex;
 	}
