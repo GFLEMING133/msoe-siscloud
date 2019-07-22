@@ -10,55 +10,58 @@ app.model.track = {
 
 			upload_status		: 'hidden',		// hidden|false|uploading|success
 			sisbot_upload		: 'false',
+			community_track_downloaded	: 'false',
 			generating_thumbnails: 'false',
 
 			is_favorite			: 'false',
 
-			d3: 'false',
+			d3					: 'false',
 			d3_data : {
-				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
-				stroke: '#797977', // #797977, #948252
-				stroke_width: 3,
-				stroke_edge: '#fdfaf3', // #fdfaf3, #f6ebcd
-				stroke_edge_width: 7,
-				points:	[],
-				steps: 0,
-				r_max_dist: 0.1,
-				retrace_steps: 5,
-				loaded: "false",
-				circle: "true",
-				circle_stroke: '#d6d2ca',
-				circle_stroke_width: 2,
-				square: "false"
+				background			: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
+				stroke				: '#797977', // #797977, #948252
+				stroke_width		: 3,
+				stroke_edge			: '#fdfaf3', // #fdfaf3, #f6ebcd
+				stroke_edge_width	: 7,
+				points				:	[],
+				steps				: 0,
+				r_max_dist			: 0.1,
+				retrace_steps		: 5,
+				loaded				: "false",
+			circle					: "true",
+				circle_stroke		: '#d6d2ca',
+				circle_stroke_width	: 2,
+				square				: "false"
 			},
-			edit_steps	: 15, // for slider
-			steps		: 15, // steps between svg points to make
-			max_steps	: 30, // max steps
+			edit_steps			: 15, // for slider
+			steps				: 15, // steps between svg points to make
+			max_steps			: 30, // max steps
 
 			data		: {
-				id								: data.id,
-				type    					: 'track',
-				version						: this.current_version,
+				id					: data.id,
+				type    			: 'track',
+				version				: this.current_version,
 
-        name          		: '',
-        is_published			: 'false',
-				duration					: '90',		// minutes
+        		name          		: '',
+        		is_published		: 'false',
+				duration			: '90',		// minutes
 
-				created_by_id			: 'false',
-				created_by_name		: 'false',
+				created_by_id		: 'false',
+				email				: 'false', //community
+				created_by_name		: 'false', //community
+				is_public			: 'false', //community 
 
 				original_file_type: 'false', 	// thr|svg
 				has_verts_file		: 'false',
-				verts							: '',		// temporary
+				verts				: '',		// temporary
 
-				default_vel				: 1,
-				default_accel			: 0.5,
+				default_vel			: 1,
+				default_accel		: 0.5,
 				default_thvmax		: 1,
-				reversed					: false,
-				firstR						: -1,
-				lastR							: -1,
-				type							: 'r',
-				reversible				: false
+				reversed			: false,
+				firstR				: -1,
+				lastR				: -1,
+				type				: 'r',
+				reversible			: false
 			}
 		};
 
@@ -921,27 +924,29 @@ app.model.track = {
 			lastR: this.get('data.lastR'),
 			reversible: this.get('data.reversible')
 		};
+		debugger;
 		return return_obj;
 	},
 	playlist_cancel: function () {
 		this.set('is_adding', 'false');
 		return this;
 	},
-	playlist_add: function () {
-		this.get_not_playlists();
-		this.set('is_adding', 'true');
-	},
-	playlist_add_finish: function (playlist_id) {
-		var playlist = app.collection.get(playlist_id);
-		playlist.add_nx('data.tracks', this.playlist_obj());
-		playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
-		this.remove('playlist_not_ids', playlist_id);
-		this.add('playlist_ids', playlist_id);
+	// playlist_add: function () {
+	// 	debugger;
+	// 	this.get_not_playlists();
+	// 	this.set('is_adding', 'true');
+	// },
+	// playlist_add_finish: function (playlist_id) {
+	// 	var playlist = app.collection.get(playlist_id);
+	// 	playlist.add_nx('data.tracks', this.playlist_obj());
+	// 	playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
+	// 	this.remove('playlist_not_ids', playlist_id);
+	// 	this.add('playlist_ids', playlist_id);
 
-		playlist.save();
+	// 	playlist.save();
 
-		this.playlist_cancel();
-	},
+	// 	this.playlist_cancel();
+	// },
 	goBackFromHero: function() {
 		var active = app.session.get('active');
 		console.log("I made it to Hero");
@@ -1045,8 +1050,8 @@ app.model.track = {
 	},
   download_wc: function(track_id) {
 		var self = this;
-		
 		console.log("track : download", track_id);
+		self.set('community_track_downloaded', 'true');
 
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
@@ -1055,7 +1060,6 @@ app.model.track = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
-			
 			};
 
 		}
@@ -1065,7 +1069,6 @@ app.model.track = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
-			
 			};
 		}
 		else {
@@ -1085,12 +1088,14 @@ app.model.track = {
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else {
 					alert('Failed to get verts for this download ' + self.id);
+					self.set('community_track_downloaded', 'false');
 					return;
 				}
 
-				self.set('data.verts', obj.resp);
+				self.set('data.verts', obj.resp);	
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
+				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
 				alert("Track is now in your Library!");
 			}
 		}
@@ -1098,48 +1103,6 @@ app.model.track = {
 		app.post.fetch2(req_obj, cb, 0);
 	},
 
-
-	// download: function () {
-
-	// 	var self = this;
-	// 	debugger; //this throws error because of SSL Certificate for the websocket.. change the self.socket to 3000 in the app.socket.js (line 36)
-	// 						//Chrome doesn't allow unsecure websocket (ws) connections to localhost (only wss, so you should setup a TLS certificate for your 
-	// 						//local web/websocket server). However the same should work fine with Firefox.
-	// 	if (this.get('data.verts') !== '') {
-	// 		console.log("track : download  verts already present, call sisbot:track_add");
-	// 		app.trigger('manager:download_track', this.id);
-	// 		app.trigger('sisbot:track_add', this);
-	// 		return this;
-	// 	}
-
-	// 	var req_obj = {
-	// 		_url	: app.config.get_sisbot_url(),
-	// 		_type	: 'POST',
-	// 		endpoint: 'tracks/1/download.json',
-	// 		id		: this.id
-	// 	};
-
-	// 	var req_obj = {
-	// 		_url	: app.config.get_sisbot_url(),
-	// 		_type	: 'GET',
-	// 		endpoint: 'tracks/1/download.json',
-	// 		id		: this.id
-	// 	};
-		
-	// 	function cb(obj) {
-	// 		debugger;
-	// 		if (obj.err) {
-	// 			alert('There was an error downloading this track. Please try again later')
-	// 		} else {
-	// 			console.log('track : download response = ', obj.resp);
-	// 			self.set('data.verts', obj.resp);
-	// 			app.trigger('manager:download_track', self.id);
-	// 			app.trigger('sisbot:track_add', self);
-	// 		}
-	// 	}
-
-	// 	app.post.fetch2(req_obj, cb, 0);
-	// },
 	publish_upload: function() {
 		var self = this;
 
@@ -1156,15 +1119,5 @@ app.model.track = {
 	unpublish: function () {
 		this.set('data.is_published', 'false').save();
 	},
-	// _save: function (track_data) {
-	// 	if (!track_data)	track_data = this.get('data');
-
-	// 	track_data._url			= app.config.get_sisbot_url();
-	// 	track_data._type		= 'POST';
-	// 	track_data.endpoint		= 'set';
-
-	// 	app.post.fetch(track_data, function cb(obj) {
-	// 		if (obj.err)	alert('Error saving track to cloud');
-	// 	}, 0);
-	// },
+	
 };

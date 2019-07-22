@@ -7,7 +7,7 @@
             data-msg="{'track_id':'false','secondary':'false'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="h__k" data-template="sisyphus-playing-active-tmp"></div>
-        <div class="h__k" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
+        <div class="h__k clickable active" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
             <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
                 <div class="pull-right pl20 pr20 h__k"
                     data-model="{{= model.data.active_playlist_id }}"

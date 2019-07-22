@@ -3,7 +3,8 @@ app.post = {
 
 	},
 	fetch: function (data, cb, retry_count) {
-		if (retry_count !== 0) retry_count = 5;
+		// if retry_count is not defined......which will be the case for all callers of app.plugins.fetch
+		if (typeof retry_count == 'undefined') retry_count = 5; 
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
@@ -60,7 +61,6 @@ app.post = {
 	},
 	
 	fetch2: function (data, cb, retry_count) {
-		
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();
@@ -73,11 +73,11 @@ app.post = {
 			data	: JSON.stringify(data)
 		};
 
-		if (app.current_user())
-			req_data.user = app.current_user().get('data');
-			console.log('IN APP POST req_data',req_data)
-		var auth_token = ((req_data || {}).user || {}).auth_token;
-				//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
+		if (app.current_user()) {
+		req_data.user = app.current_user().get('data');
+		}
+		var auth_token = app.session.get('auth_token');
+		//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {
 					url				: url,
 					type			: type,
@@ -85,11 +85,17 @@ app.post = {
 					headers:   {
 						'Authorization': auth_token
 					},
-					success: function (data) {
-
+					success: function (data, status, xhr) {
 						try {
-							data = JSON.parse(data);
-						} catch(err) {}
+							
+							if(typeof(data.resp[0].auth_token) != 'undefined') {
+								app.session.set('auth_token', data.resp[0].auth_token);
+							}
+							//console.log('NEXT_TOKEN ==', xhr.getResponseHeader('NEXT-TOKEN'));
+						    //console.log('TOKEN set to -', data.resp[0].auth_token)
+						} catch(err) {
+							console.log('Error in the catch fetch2() =', err);
+						}
 		
 						if (_.isFunction(cb))
 							cb(data)
@@ -97,9 +103,9 @@ app.post = {
 							app.trigger(cb, data);
 					},
 					error: function (resp) {
-
+						// console.log('fetch2 resp error = ', resp.statusText);
 						if (retry_count <= 0) {
-							if (cb) cb({ err: 'Could not make request', resp: null });
+							if (cb) cb({ err: resp.statusText, resp: null });
 							return this;
 						}
 		

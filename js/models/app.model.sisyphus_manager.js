@@ -10,7 +10,7 @@ app.model.sisyphus_manager = {
 
             signing_up: 'false',
             signing_in: 'false',
-            track_sort: 'newest design',
+            track_sort: 'newest designs',
             registration: {
                 username: '',
                 email: '',
@@ -100,7 +100,7 @@ app.model.sisyphus_manager = {
         // Skip account creation at the beginning
         app.current_session().set('signed_in', 'true');
 
-        if (app.config.env == 'sisbot') {
+        if (app.config.env == 'sisbot' || app.config.env == 'wc_test' ) {
             this.setup_as_sisbot();
         } else if (app.config.env == 'alpha') {
             //this.setup_demo();
@@ -390,31 +390,48 @@ app.model.sisyphus_manager = {
         this.set('errors', []);
         this.set('user_registration', 'sign_in');
     },
+    show_password: function() {
+        var x = document.getElementById("showPassword");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+    },
+   
     sign_up: function() {
-
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
-
         var self = this;
         var user_data = user_data || this.get('registration');
+
+        var element = $('.sign_up_errors')[0];
         var errors = this.get_errors(user_data);
-        if (user_data.password !== user_data.password_confirmation) errors.push('- Password Verification Does Not Match');
-        if (errors.length > 0)
-            return this.set('signing_up', 'false').set('errors', errors);
-
+        self.set('errors', errors);
+        
+        if (errors.length > 0){
+             this.set('signing_up', 'false')
+             element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+             return;
+        }
+             
+                              
+                
         function cb(obj) {
-
-            if (obj.err)
-                return self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
-
+            if (obj.err){
+                self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
+                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                return;
+            }
             self.set('errors', []);
+            
             self._process_registration(user_data, obj.resp);
         
             self.set('signing_up', 'false');
-            app.trigger('session:active', { secondary: 'sign_in', primary: 'community' });
+            app.trigger('session:active', { 'primary':'community', 'secondary':'sign_in' });
         };
-
-
+        
+       
         var post_obj = {
             _url: app.config.get_webcenter_url(),
             _type: 'POST',
@@ -426,10 +443,10 @@ app.model.sisyphus_manager = {
         	password_confirmation	: user_data.password_confirmation                          
         };
 
-        app.plugins.fetch(post_obj, cb, 0);
+        app.post.fetch2(post_obj, cb, 0);
     },
 
-    sign_in: function(user_data) {
+    sign_in: function(user_data) { 
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -439,31 +456,75 @@ app.model.sisyphus_manager = {
 
         user_data._timeout = 5000;
 
-        if (errors.length > 0)
+        //______________Password Errors______________________________________
+       
+        if (errors.length > 0){
             return this.set('signing_in', 'false').set('errors', errors);
-
+        }
         function cb(obj) {
-            if (obj.err)
-                return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
-
+            if (obj.err){
+                if(obj.err == 'Unauthorized') {
+                    return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
+                }else {
+                    return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
+                }
+            }
             self.set('errors', []);
-            self._process_registration(user_data, obj.resp);
+
+            self._process_sign_in(user_data, obj.resp);
             
-            app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
+            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
         };
 
         user_data.endpoint  = 'auth_user';
         user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
-                                    
+    
+        app.post.fetch2(user_data, cb, 0);
 
-        app.plugins.fetch(user_data, cb, 0);
+    },
+    _process_sign_in: function (user, data_arr) {
+        
+		var session_data = {
+			email			: user.email,
+            password		: user.password,
+		};
+        var self = this;
+		_.each(data_arr, function (m) {
+			if (m.type == 'user' && m.email == user.email)
+                session_data.user_id = m.id;
+                self.set('user_id', m.id );
+		});
 
+		app.collection.add(data_arr);
+		app.trigger('session:user_sign_in', session_data);
+    },
+    clear_errors: function(){
+          this.set('errors', []);
     },
     get_errors: function(user_data) {
         var errors = [];
-        if (!user_data.email || user_data.email == '') errors.push('- Username cannot be blank');
-        if (!user_data.password || user_data.password == '') errors.push('- Password cannot be blank');
 
+        if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
+        if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
+         //__________________SignUp Errors________________________ //
+         if (this.get('signing_up') == 'true'){
+            if (user_data.username == ""){
+                errors.push('Username cannot be blank'); 
+
+            }
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
+                errors.push("The email you entered is invalid, please enter a valid email");
+
+            }
+            if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){ 
+                errors.push('Password must be 7 or more characters');
+
+            }
+            if (user_data.password !== user_data.password_confirmation){
+                errors.push('Password Verification Does Not Match');
+                        
+            }
+        }
         return errors;
     },
     _process_registration: function(user, data_arr) {
@@ -495,29 +556,33 @@ app.model.sisyphus_manager = {
             this.setup_sisbots_page();
     },
     
-    sign_up_via_settings: function() {
-        this.on(this.after_settings);
-        this.sign_up();
-    },
-    sign_in_via_settings: function() {
-        this.on('change:user_id', this.after_settings);
-        this.sign_in();
-    },
-    after_settings: function() {
-        this.off('change:user_id');
-        app.trigger('session:active', { primary: 'community' });
-    },
-    sign_in_via_session: function(data) {
-        this.set('registration', data);
-        this.sign_in();
-        return this;
-    },
-    sign_out: function() {
-        this.set('sisbot_id', 'false')
-            .set('is_sisbot_available', 'false')
-            .set('user_id', 'false');
-        app.current_session().sign_out();
-    },
+    // sign_up_via_settings: function() {
+    //     debugger;
+    //     this.on(this.after_settings);
+    //     this.sign_up();
+    // },
+    // sign_in_via_settings: function() {
+    //     debugger;
+    //     this.on('change:user_id', this.after_settings);
+    //     this.sign_in();
+    // },
+    // after_settings: function() {
+    //     debugger;
+    //     this.off('change:user_id');
+    //     app.trigger('session:active', { primary: 'community' });
+    // },
+    // sign_in_via_session: function(data) {
+    //     debugger;
+    //     this.set('registration', data);
+    //     this.sign_in();
+    //     return this;
+    // },
+    // sign_out: function() {
+    //     this.set('sisbot_id', 'false')
+    //         .set('is_sisbot_available', 'false')
+    //         .set('user_id', 'false');
+    //     app.current_session().sign_out();
+    // },
     forgot_password: function(user_data) { 
         var errors = [];
         if (!user_data || user_data == '') errors.push('- Email cannot be blank');
@@ -925,8 +990,8 @@ app.model.sisyphus_manager = {
         var self = this;
 
         this.get_network_ip_address(function(ip_address) {
+            console.log('get_network_ip_address ==' + ip_address);
             if (!ip_address) return cb();
-
             var ip_add = ip_address.split('.');
             ip_add.pop();
 
@@ -943,18 +1008,18 @@ app.model.sisyphus_manager = {
         return this;
     },
     ping_sisbot: function(hostname, cb, retries) {
-        console.log("ping_sisbot()");
+        // console.log("ping_sisbot()");        
         var self = this;
 
         if (!retries) retries = 0;
 
-        app.post.fetch(exists = {
-            _url: 'http://' + hostname + '/',
+        app.post.fetch({
+            _url: 'http://' + hostname,
             _type: 'POST',
             _timeout: 2500,
-            endpoint: 'sisbot/exists',
+            endpoint: '/sisbot/exists',
             data: {}
-        }, function exists_cb(obj) {
+        }, function(obj) {
             if (obj.err) {
                 if (hostname == '192.168.42.1') {
                     if (app.is_app == false || app.platform == 'iOS') {
@@ -992,15 +1057,16 @@ app.model.sisyphus_manager = {
     },
 
     connect_to_sisbot: function(sisbot_hostname) {
-        console.log("connect_to_sisbot()");
+        // console.log("connect_to_sisbot()", sisbot_hostname);
         if (this.get('sisbot_connecting') == 'true') return false;
         else this.set('sisbot_connecting', 'true');
 
         this.set('errors', []);
 
         var self = this;
-        var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : this.get('sisbot_hostname');
-
+        var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : self.get('sisbot_hostname');
+        if(sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
+        // console.log("connect_to_sisbot()2", sisbot_hostname);
         // ping sisbot for connection
         var obj = {
             _url: 'http://' + sisbot_hostname + '/',
@@ -1017,7 +1083,7 @@ app.model.sisyphus_manager = {
 
             if (app.config.env == 'alpha') {
                 var sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
-                console.log('Connect to Sisbot:', sisbot_data);
+                // console.log('Connect to Sisbot:', sisbot_data);
             } else {
                 if (obj.err) {
                     // IF WE HAVE CONNECTION ERROR
@@ -1062,25 +1128,27 @@ app.model.sisyphus_manager = {
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
-        console.log("get_network_ip_address()");
+        // console.log("get_network_ip_address()");
         networkinterface.getWiFiIPAddress(function on_success(ip_address) {
-            cb(ip_address);
-            console.log('IP ADDRESS',ip_address);
+            cb(ip_address.ip);
+            // console.log('ip_address.ip ==' + ip_address.ip);
+
         }, function on_error(err) {
-            cb();
+            cb(err);
         });
     },
     get_current_ssid: function() {
-        console.log("get_current_ssid()");
+        // console.log("get_current_ssid()");
         if (!app.is_app)
             return this;
 
         var self = this;
 
-        WifiWizard.getCurrentSSID(function on_success(ssid) {
+        WifiWizard2.getConnectedSSID(function on_success(ssid) {
+            // console.log('In the WifiWizard2 =' + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
-            // alert(err);
+            alert(err);
         });
     },
     /**************************** PLAYLISTS ***********************************/
@@ -1094,31 +1162,31 @@ app.model.sisyphus_manager = {
             playlist.add_track(msg.track_id);
         }
     },
-    merge_playlists: function() { // unused at this point
-        var merged_playlists = [];
+    // merge_playlists: function() { // unused at this point
+    //     var merged_playlists = [];
 
-        var sisbot = this.get_model('sisbot_id');
-        var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
+    //     var sisbot = this.get_model('sisbot_id');
+    //     var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
 
-        var user = this.get_model('user_id');
-        var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
+    //     var user = this.get_model('user_id');
+    //     var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
 
-        var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
-        var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
-        var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
+    //     var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
+    //     var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
+    //     var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
 
-        _.each(only_sisbot, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'sisbot' });
-        });
-        _.each(only_user, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'user' });
-        });
-        _.each(in_common, function(p_id) {
-            merged_playlists.push({ id: p_id, status: 'both' });
-        });
+    //     _.each(only_sisbot, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'sisbot' });
+    //     });
+    //     _.each(only_user, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'user' });
+    //     });
+    //     _.each(in_common, function(p_id) {
+    //         merged_playlists.push({ id: p_id, status: 'both' });
+    //     });
 
-        this.set('merged_playlists', merged_playlists);
-    },
+    //     this.set('merged_playlists', merged_playlists);
+    // },
     /******************** TRACK UPLOAD ****************************************/
     reset_upload_tracks: function() {
         this.set('tracks_to_upload', []);
@@ -1127,7 +1195,7 @@ app.model.sisyphus_manager = {
         sisbot.set('uploading_track', 'false'); // for UI spinner
     },
     on_file_upload: function(track_file) {
-        console.log("On File Upload", track_file.name);
+        // console.log("On File Upload", track_file.name);
 
         var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
         var regex = /.(svg|thr)$/;
@@ -1160,7 +1228,8 @@ app.model.sisyphus_manager = {
             track_model.set('upload_status', 'false'); // not uploaded yet
 
             // error checking
-            if (track_model.get('errors').length > 0) console.log("Track error:", track_model.get('errors'));
+            if (track_model.get('errors').length > 0) 
+            console.log("Track error:", track_model.get('errors'));
         });
 
         // this.set('tracks_to_upload', []);
@@ -1242,43 +1311,43 @@ app.model.sisyphus_manager = {
 
 
     /**************************** COMMUNITY ***********************************/
-    fetch_community_playlists: function() {
-        if (this.get('fetched_community_playlists') == 'true')
-            return this;
+    // fetch_community_playlists: function() {
+    //     if (this.get('fetched_community_playlists') == 'true')
+    //         return this;
 
-        var self = this;
+    //     var self = this;
 
-        this.set('fetching_community_playlists', 'true');
+    //     this.set('fetching_community_playlists', 'true');
 
 
-        var playlists = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'GET',
-            endpoint: 'tracks',
-            data: {}
-        };
+    //     var playlists = {
+    //         _url: app.config.get_webcenter_url(),
+    //         _type: 'GET',
+    //         endpoint: 'tracks',
+    //         data: {}
+    //     };
 
-        function cb(obj) {
-            setTimeout(function() {
-                self.set('fetching_community_playlists', 'false');
-            }, 1000)
+    //     function cb(obj) {
+    //         setTimeout(function() {
+    //             self.set('fetching_community_playlists', 'false');
+    //         }, 1000)
 
-            if (obj.err) return self;
+    //         if (obj.err) return self;
 
-            app.collection.add(obj.resp);
+    //         app.collection.add(obj.resp);
 
-            var resp_playlist_ids = _.pluck(obj.resp, 'id');
-            var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-            var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
+    //         var resp_playlist_ids = _.pluck(obj.resp, 'id');
+    //         var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
+    //         var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
 
-            self.set('community_playlist_ids', new_playlist_ids);
-            self.set('fetched_community_playlists', 'true');
-        }
+    //         self.set('community_playlist_ids', new_playlist_ids);
+    //         self.set('fetched_community_playlists', 'true');
+    //     }
 
-        app.post.fetch2(playlists, cb, 0);
+    //     app.post.fetch2(playlists, cb, 0);
 
-        return this;
-    },
+    //     return this;
+    // },
 
     fetch_community_tracks: function() {
         if (this.get('fetched_community_tracks') == 'true')
@@ -1294,26 +1363,20 @@ app.model.sisyphus_manager = {
             data: {}
         };
 
-
-
         function cb(obj) {
             setTimeout(function() {
                 self.set('fetching_community_tracks', 'false');
             }, 1000);
-
             if (obj.err) return self;
-
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
-           
             var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
             var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
-         
         }
        
         app.post.fetch2(tracks, cb, 0);
@@ -1343,16 +1406,18 @@ app.model.sisyphus_manager = {
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
-        
-
-            self.set('community_track_ids', resp_track_ids);
+            var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
+            var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
+            self.openSort();
+            self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
          
         }
-       
+        
+        this.fetch_community_tracks();
         app.post.fetch2(tracks, cb, 0);
-
+        
         return this;
     },
 
@@ -1360,6 +1425,7 @@ app.model.sisyphus_manager = {
         this.remove('community_playlist_ids', playlist_id);
     },
     download_track: function(track_id) {
+
         console.log("download_track" + track_id);
         this.remove('community_track_ids', track_id);
     },
@@ -1372,9 +1438,9 @@ app.model.sisyphus_manager = {
       drop[0].style.opacity = '1';
       
     }else {
+      drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';
-     
     }
   },
  
