@@ -46,7 +46,9 @@ app.model.track = {
 				duration			: '90',		// minutes
 
 				created_by_id		: 'false',
-				created_by_name		: 'false',
+				email				: 'false', //community
+				created_by_name		: 'false', //community
+				is_public			: 'false', //community 
 
 				original_file_type: 'false', 	// thr|svg
 				has_verts_file		: 'false',
