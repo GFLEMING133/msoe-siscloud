@@ -587,9 +587,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
 .communityTrack {
-	font-family: 'Montserrat-Medium', 'Roboto', sans-serif;
 	display: block;
-	line-height: 20px;
 }
 .community-trackBox-top {
 	padding-top: 75px;
