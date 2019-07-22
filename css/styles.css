@@ -1794,6 +1794,7 @@ and (orientation : portrait)
 		/* background-color:rosybrown; */
 		min-height: 0;
 		height: 460px;
+		max-height: 460px;
 		display: flex;
 	}
 }
@@ -1814,6 +1815,7 @@ and (orientation : portrait)
 			min-height: 0;
 			max-height: 380px;
 			height: 360px;
+			max-height:360px;
 			display: block;
 	
 	}
@@ -1832,7 +1834,7 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color: #fdc539; */
 			min-height: 0;
-			max-height: 320px;
+			max-height: 310px;
 			height: 310px;
 
 	
@@ -1956,6 +1958,7 @@ and (orientation : portrait)
 			/* background-color: blueviolet; */
 			height: 350px;
 			max-height: 360px;
+
 	
 		}
 
@@ -2008,7 +2011,7 @@ and (orientation : portrait)
 			}
 	.scrollDown {
 			/* background-color: orange;*/
-			height: 100vh; 
+			height: 350px; 
 			max-height: 350px;
 	
 	}
@@ -2025,6 +2028,7 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color: brown; */
 			height: 58vh;
+			max-height: 58vh;
 	
 	}
 }@media only screen  
@@ -2039,6 +2043,7 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color: darkcyan; */
 			height: 58vh;
+			max-height: 58vh;
 	
 	}
 } 
@@ -2055,6 +2060,7 @@ and (orientation : portrait)
 		.scrollDown {
 				/* background-color: lightgoldenrodyellow; */
 				height: 350px;
+				max-height: 350px;
 		
 		}
 }
