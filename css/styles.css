@@ -90,6 +90,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 html, body {
+	scroll-behavior: smooth;
 	height						: 100%;
 }
 body{
