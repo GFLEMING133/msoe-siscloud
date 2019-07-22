@@ -34,10 +34,9 @@
         </div>
         <div class="h__k pt50"
             data-foreach="model.data.tracks"
-            data-foreach-change="foreach_reset"
+            data-foreach-map="true"
         >
             <div class="h__k {{= (scope.index !== 0) ? 'bt' : '' }}"
-                data-model="{{= scope.value.id }}"
                 data-template="sisyphus-tracks-list-item-tmp"
             ></div>
         </div>

@@ -503,7 +503,7 @@ app.model.sisbot = {
 
 				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
-					app.socket.initialize();		// try to connect to socket
+					// app.socket.initialize();		// try to connect to socket
 				}
 			} else if (obj.err) {
 				self._poll_failure();
