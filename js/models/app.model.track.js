@@ -1,21 +1,21 @@
 app.model.track = {
 	defaults: function (data) {
 		var obj = {
-			id					: data.id,
-			type				: 'track',
+			id							: data.id,
+			type						: 'track',
 
-			is_adding			: 'false',
-			playlist_ids		: [],
-			playlist_not_ids	: [],
+			is_adding					: 'false',
+			playlist_ids				: [],
+			playlist_not_ids			: [],
 
-			upload_status		: 'hidden',		// hidden|false|uploading|success
-			sisbot_upload		: 'false',
+			upload_status				: 'hidden',		// hidden|false|uploading|success
+			sisbot_upload				: 'false',
 			community_track_downloaded	: 'false',
-			generating_thumbnails: 'false',
+			generating_thumbnails		: 'false',
 
-			is_favorite			: 'false',
+			is_favorite					: 'false',
 
-			d3					: 'false',
+			d3							: 'false',
 			d3_data : {
 				background			: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
 				stroke				: '#797977', // #797977, #948252
@@ -32,11 +32,11 @@ app.model.track = {
 				circle_stroke_width	: 2,
 				square				: "false"
 			},
-			edit_steps			: 15, // for slider
-			steps				: 15, // steps between svg points to make
-			max_steps			: 30, // max steps
+		edit_steps					: 15, // for slider
+			steps					: 15, // steps between svg points to make
+			max_steps				: 30, // max steps
 
-			data		: {
+			data		: 			{
 				id					: data.id,
 				type    			: 'track',
 				version				: this.current_version,

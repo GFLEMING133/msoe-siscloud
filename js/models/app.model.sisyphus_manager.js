@@ -119,6 +119,7 @@ app.model.sisyphus_manager = {
     intake_data: function(given_data) {
         console.log("intake_data()");
         var self = this;
+
         if (!_.isArray(given_data)) given_data = [given_data];
 
         _.each(given_data, function(data) {

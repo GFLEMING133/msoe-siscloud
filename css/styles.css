@@ -1448,7 +1448,6 @@ select:focus {
 .mb55						      		{   margin-bottom		    : 55px !important;			            }
 .mb51						            {   margin-bottom		    : 51px !important;			            }
 .mt60									{	margin-top				: 60px !important;			            }
-.mb60						            {   margin-bottom		    : 60px !important;			            }
 
 .mt70									{	margin-top				: 70px !important;			            }
 .mb70						            {   margin-bottom		    : 70px !important;			            }
@@ -1840,7 +1839,7 @@ and (orientation : portrait)
 	
 	}
 }
-/**************iPhone XS MAX*******************/
+/**************iPhone XS MAX COLINS PHONE*******************/
 @media only screen  
 	and (device-width: 375px)
 	and (device-height: 812px)
@@ -1857,19 +1856,25 @@ and (orientation : portrait)
 		margin-bottom: env(safe-area-inset-bottom);
 	} 
 	.trackBox {
-			height: 520px;
-			max-height: 520px;
+
+
 					
 			}
 	.scrollDown {
 			/* background-color:yellowgreen; */
 			min-height: 0;
-			max-height: 520px;
-			height: 520px;
+
+			height: 460px;
 			display: flex;
 	}
+	.iPXMAXmb70  {
+		margin-bottom: 70px !important;
+	}
+	.iPXMAXmb84 {
+		margin-bottom: 84px !important;
+	}
 }
-/********* iPhone X MAybe*******/
+/********* iPhone X *******/
 @media only screen  
 	and (device-width: 414px)
 	and (device-width: 896px)
@@ -1879,7 +1884,7 @@ and (orientation : portrait)
 		padding-bottom: 25px;
 	}
 	.app .app-container {
-		margin-top				: 25px !important; 
+		margin-top: 25px !important; 
 
 	}
 	.footer_Xphone {
@@ -1887,17 +1892,20 @@ and (orientation : portrait)
 		margin-bottom: env(safe-area-inset-bottom);
 	} 
 	.trackBox {
-			height: 350px;
 			max-height: 360px;
 					
 			}
 	.scrollDown {
-			/* background-color:blue;*/
+			/* background-color:blue; */
 			min-height: 0;
 			max-height: 350px;
 			height: 350px;
 			display: flex;
 	}
+	.iPXmb60  {
+		margin-bottom: 60px !important;
+	}
+
 			
 }
 
@@ -1912,7 +1920,7 @@ and (orientation : portrait)
 			max-height: 350px;   
 			}
 	.scrollDown {
-			/* background-color: pink;*/
+			/* background-color: pink; */
 			height: 100vh; 
 			max-height: 350px;
 	
@@ -1943,6 +1951,7 @@ and (orientation : portrait)
 		body {
 			padding-bottom: 25px;
 		}
+	
 		.app .app-container {
 			margin-top				: 25px !important; 
 		}
@@ -1958,10 +1967,13 @@ and (orientation : portrait)
 			/* background-color: blueviolet; */
 			height: 350px;
 			max-height: 360px;
-
-	
 		}
-
+		.iPXmb60  {
+			margin-bottom: 70px !important;
+		}
+		.iPXmb74 {
+			margin-bottom: 74px !important;
+		}
 	}
 @media only screen  
 	and (min-device-width: 411px)
@@ -2010,7 +2022,7 @@ and (orientation : portrait)
 			max-height: 350px;   
 			}
 	.scrollDown {
-			/* background-color: orange;*/
+			/* background-color: orange; */
 			height: 350px; 
 			max-height: 350px;
 	
