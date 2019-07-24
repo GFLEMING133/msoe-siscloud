@@ -79,9 +79,9 @@ app.model.sisbot = {
 
 				reason_unavailable	: 'false',				// connect_to_wifi|reset_to_hotspot|resetting|restarting|rebooting
 				installing_updates	: 'false',
-				factory_resetting	: 'false',
+				factory_resetting		: 'false',
 
-				pi_id				: '',
+				pi_id							: '',
 				firmware_version	: '0.5.1',
 
 				is_hotspot			: 'true',
@@ -90,44 +90,46 @@ app.model.sisbot = {
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
 				is_network_separate : 'false',
-                wifi_network        : '',
-                wifi_password       : '',
+        wifi_network        : '',
+        wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget			: 'false',
 
 
-				playlist_ids		: [],
-				default_playlist_id	: 'false',
-				favorite_playlist_id: 'false',
-				track_ids			: [],
+				playlist_ids					: [],
+				default_playlist_id		: 'false',
+				favorite_playlist_id	: 'false',
+				track_ids							: [],
 
 				active_playlist_id	: 'false',
-				active_track_id		: 'false',
-				active_track		: 'false',
+				active_track_id			: 'false',
+				active_track				: 'false',
 
 				current_time		: 0,					// seconds
 
-				state				: 'waiting',			// playing|homing|paused|waiting
+				state						: 'waiting',			// playing|homing|paused|waiting
 
-				is_homed			: 'false',				// Not used
-				is_serial_open		: 'true',				// Not used
-				is_servo			: 'false', 				//setting for alert()'s
+				is_homed				: 'false',				// Not used
+				is_serial_open	: 'true',				// Not used
+				is_servo				: 'false', 				//setting for alert()'s
 
-				is_shuffle			: 'true',
-				is_loop				: 'false',
-				brightness			: .5,
-				speed				: .3,
-				is_autodim			: 'true',
-				is_nightlight		: 'false',
-				is_sleeping			: 'false',
-				timezone_offset		: moment().format('Z'),
-				nightlight_brightness: 0.2,
-				sleep_time			: '10:00 PM',					// 10:00 PM sleep_time
-				wake_time			: '8:00 AM',					// 8:00 AM  wake_time
+				is_shuffle						: 'true',
+				is_loop								: 'false',
+				brightness						: .5,
+				speed									: .3,
+				is_autodim						: 'true',
+				is_nightlight					: 'false',
+				is_sleeping						: 'false',
+				timezone_offset				: moment().format('Z'),
+				nightlight_brightness	: 0.2,
 
-				is_paused_between_tracks: 'false',
-				is_waiting_between_tracks: 'false',
-				share_log_files		: 'false'
+				is_sleep_enabled	: 'true',
+				sleep_time				: '10:00 PM',					// 10:00 PM sleep_time
+				wake_time					: '8:00 AM',					// 8:00 AM  wake_time
+
+				is_paused_between_tracks	: 'false',
+				is_waiting_between_tracks	: 'false',
+				share_log_files						: 'false'
 			}
 		};
 
@@ -177,6 +179,9 @@ app.model.sisbot = {
 
 		if (this.get('data.is_sleeping') == 'true')
 			this.nightmode_sleep_change();
+
+		if (this.get('data.sleep_time') == 'false') // fix is_sleep_enabled toggle
+			this.set('data.is_sleep_enabled', 'false');
 
 		this._poll_state();
 	},
@@ -536,6 +541,7 @@ app.model.sisbot = {
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
+			is_sleep_enabled	: 'true',
 			sleep_time				: '10:00 PM',
 			wake_time				: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
@@ -661,7 +667,7 @@ app.model.sisbot = {
 			alert('Wi-Fi password mut be 8 characters or more.');
 			return this;
 		}
-		
+
 		this.set('data.failed_to_connect_to_wifi', 'false')
 			.set('data.is_hotspot', 'false')
 			.set('data.wifi_forget', 'true')
@@ -858,34 +864,37 @@ app.model.sisbot = {
 		if (status == 'false') {
 			this.set('default_settings.sleep_time', '10:00 PM')
 				.set('default_settings.wake_time', '8:00 AM')
-				.set('default_settings.is_nightlight', 'false');
+				.set('default_settings.is_nightlight', 'false')
+				.set('default_settings.is_sleep_enabled', 'true');
 		} else {
 			this.set('default_settings.sleep_time', 'false')
-				.set('default_settings.wake_time', 'false');
+				.set('default_settings.wake_time', 'false')
+				.set('default_settings.is_sleep_enabled', 'false');
 		}
 
 		return this;
 	},
 	nightmode_disable_toggle: function () {
-		var status = this.get('edit.sleep_time');
+		var status = this.get('edit.is_sleep_enabled');
 
 		if (status == 'false') {
 			this.set('edit.sleep_time', '10:00 PM')
 				.set('edit.wake_time', '8:00 AM')
-				.set('edit.is_nightlight', 'false');
+				.set('edit.is_nightlight', 'false')
+				.set('edit.is_sleep_enabled', 'true');
 		} else {
 			this.set('edit.sleep_time', 'false')
-				.set('edit.wake_time', 'false');
+				.set('edit.wake_time', 'false')
+				.set('edit.is_sleep_enabled', 'false');
 		}
 
 		return this;
 	},
 	update_nightmode: function () {
-		if (app.config.env == 'alpha')
-			return app.trigger('session:active', { secondary: 'false' });
+		if (app.config.env == 'alpha') return app.trigger('session:active', { secondary: 'false' });
 
 		var self		= this;
-		var edit		= _.pick(this.get('edit'), 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
+		var edit		= _.pick(this.get('edit'), 'is_sleep_enabled', 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
 		var errors 		= [];
 
 		this.set('errors', []);
@@ -904,8 +913,7 @@ app.model.sisbot = {
 		});
 	},
 	nightmode_sleep_change: function () {
-		if (this.is_legacy())
-			return this;
+		if (this.is_legacy()) return this;
 
 		var status = this.get('data.is_sleeping');
 
@@ -914,7 +922,7 @@ app.model.sisbot = {
 				app.manager.set('show_sleeping_page', 'true');
 			} else {
 				app.manager.set('show_sleeping_page', 'false')
-							.trigger('change:show_sleeping_page');
+					.trigger('change:show_sleeping_page');
 			}
 		}
 
@@ -1458,7 +1466,7 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
-		if (this.get('is_connected')) 
+		if (this.get('is_connected'))
 			this.check_local_versions(on_cb);
 
 		if (this.get('data.is_hotspot') == 'true') {

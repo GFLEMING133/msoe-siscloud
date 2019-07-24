@@ -204,14 +204,16 @@ app.model.playlist = {
 		this.remove('active_tracks['+track_index+']');
 	},
 	move_array: function (field, old_index, new_index) {
+		field = field.replace(/^(model|parents?\[[0-9]+\]?|parent|grandparent|g_grandparent|g_g_grandparent)\.?/i, '');
+		// console.log('Move Array', this.id, field, old_index, new_index);
 		var val		= this.get(field);
 		var length	= val.length;
 		var opt		= val.splice(old_index, 1);
 
 		val.splice(new_index, 0, opt[0]);
-		this.set(field, val);
+		this.set(field, val, {silent:true});
 
-		this.trigger('change:' + field);
+		// this.trigger('change:' + field);
 	},
 	add_track_and_save: function(track_id) {
 		var track = app.collection.get(track_id);

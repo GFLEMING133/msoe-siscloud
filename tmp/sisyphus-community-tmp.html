@@ -1,12 +1,13 @@
-<!-- <div class="h100 scroll hide-scrollbar ">
+<div class="h100">
+  <!-- <div class="h100 scroll hide-scrollbar ">
         <div class="white bg-black hh50 w100 center flex vertical-align">
             <div class="w15 center f-large">&nbsp;</div>
             <div class="w70">
-                <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Community</h1>
+                <h1 class="no-stuffing fs18 lh18 capitalize truncate">Community</h1>
             </div>
             <div class="w15 center f-large">&nbsp;</div>
         </div>
-    <div class="h__k " data-if="{{= parent.user_id }} == false">
+    <div data-if="{{= parent.user_id }} == false">
             <p class="no-stuffing center w100 mt100" aria-hidden="true">
                     <img src="img/globeCopy.png" alt="Community" class="hh30" />
             </p>
@@ -14,7 +15,7 @@
                 Sisyphus Community
             </h3>
     </div>
-    <div class="h__k" data-if="{{= parent.user_id }} == false">
+    <div data-if="{{= parent.user_id }} == false">
         <h3 class="m0 pt20 pb20 center justify fs24 lh24">
             This is Coming Soon!
         </h3>
@@ -25,25 +26,25 @@
         <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
             <div class="w15 center f-large">&nbsp;</div>
             <div class="w70">
-                <h1 class="h__k no-stuffing fs18 lh18 capitalize truncate">Community</h1>
+                <h1 class="no-stuffing fs18 lh18 capitalize truncate">Community</h1>
             </div>
             <div class="w15 center f-large">&nbsp;</div>
         </div>
-        <div class="h__k mt10" data-model="{{= model.sisbot_id }}">
-            <div class="h__k pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
-                    
-                <div class="i center shadow bg-grey-ll p30 clickable h__k"
+        <div class="mt10" data-model="{{= model.sisbot_id }}">
+            <div class="pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
+
+                <div class="i center shadow bg-grey-ll p30 clickable"
                     data-on-click="publish"
                     data-publish="session:active"
                     data-msg="{'primary':'settings','secondary':'wifi'}"
                 >Your Sisyphus must be connected to the internet via wifi. Click here to connect</div>
-                
+
                 <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                     Sisyphus Community
                 </h3>
             </div>
-            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true"> 
-                <div class="h__k " data-if="{{= parent.user_id }} == false">
+            <div data-if="{{= model.data.is_internet_connected }} == true">
+                <div data-if="{{= parent.user_id }} == false">
                     <p class="no-stuffing center w100 mt100" aria-hidden="true">
                             <img src="img/globeCopy.png" alt="Community" class="hh30" />
                     </p>
@@ -51,7 +52,7 @@
                         Sisyphus Community
                     </h3>
                 </div>
-                <div class="h__k" data-if="{{= parent.user_id }} == false">
+                <div data-if="{{= parent.user_id }} == false">
                     <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                         This is Coming Soon...very soon!
                     </h3>
@@ -60,33 +61,34 @@
         </div>
     </div> -->
     <!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == false"
-    data-template="sisyphus-community-starter-page-tmp"
-></div>
+  <div class="h100"
+      data-if="{{= parent.active.secondary }} == false"
+      data-template="sisyphus-community-starter-page-tmp"
+  ></div>
 
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == sign_in"
-    data-template="sisyphus-community-sign-in-tmp"
-></div>
+  <div class="h100"
+      data-if="{{= parent.active.secondary }} == sign_in"
+      data-template="sisyphus-community-sign-in-tmp"
+  ></div>
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == create_account"
-    data-template="sisyphus-community-create-account-tmp"
-></div>
+  <div class="h100"
+      data-if="{{= parent.active.secondary }} == create_account"
+      data-template="sisyphus-community-create-account-tmp"
+  ></div>
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == community-tracks"
-    data-template="sisyphus-community-tracks-tmp"
-></div>
+  <div class="h100"
+      data-if="{{= parent.active.secondary }} == community-tracks"
+      data-template="sisyphus-community-tracks-tmp"
+  ></div>
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == tracks-hero"
-    data-template="sisyphus-community-tracks-hero-tmp"
-></div>
+  <div class="h100"
+      data-if="{{= parent.active.secondary }} == tracks-hero"
+      data-template="sisyphus-community-tracks-hero-tmp"
+  ></div>
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == forget_password"
-    data-template="sisyphus-community-forget-password-tmp"
-></div>
+  <div class="h100"
+      data-if="{{= parent.active.secondary }} == forget_password"
+      data-template="sisyphus-community-forget-password-tmp"
+  ></div>
+</div>

@@ -1,45 +1,38 @@
 <div class="h100">
-    <div class="pull-top white bg-black hh50 w100 center no-stuffing h__k flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <div class="w30 left pl20 f-large clickable h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'playlists'}"
-        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
-        <div class="w40">
-            <h1 class="h__k fs18 lh18 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
-        </div>
-        <div class="w30 right p15 pr20 f-large clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'playlist-edit'}"
-        ><img src="img/icon_2x_playlist_edit.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align" data-model="{{= parent.active.playlist_id }}">
+    <div class="w30 left pl20 f-large clickable"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'playlists'}"
+    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="w40">
+      <h1 class="fs18 lh18 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
-        <!--------------------------- PLAYLIST TRACKS ---------------------------->
-        <div class="bg-black hh50 w100 no-stuffing absolutely">
-            <div class="center pt5">
-                <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded mr10 clickable h__k"
-                    data-on-click="model.play" data-msg="{{= 0 }}"
-                >
-                    <i class="fas fa-play pr5 pl5"></i>
-                    Play
-                </div>
-                <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded ml10 clickable h__k"
-                    data-on-click="model.play_shuffled"
-                >
-                    <i class="fas fa-random pr5 pl5"></i>
-                    Shuffle
-                </div>
-            </div>
+    <div class="w30 right p15 pr20 f-large clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'playlist-edit'}"
+    ><img src="img/icon_2x_playlist_edit.png" alt="Back" class="hh50 pt15 pb15" /></div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= parent.active.playlist_id }}">
+    <!--------------------------- PLAYLIST TRACKS ---------------------------->
+    <div class="bg-black hh50 w100 no-stuffing absolutely">
+      <div class="center pt5">
+        <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded mr10 clickable"
+            data-on-click="model.play" data-msg="{{= 0 }}" >
+          <i class="fas fa-play pr5 pl5"></i> Play
         </div>
-        <div class="h__k pt50"
-            data-foreach="model.data.tracks"
-            data-foreach-map="true"
-        >
-            <div class="h__k {{= (scope.index !== 0) ? 'bt' : '' }}"
-                data-template="sisyphus-tracks-list-item-tmp"
-            ></div>
+        <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded ml10 clickable"
+            data-on-click="model.play_shuffled" >
+          <i class="fas fa-random pr5 pl5"></i> Shuffle
         </div>
-        <div class="hh150">&nbsp;</div>
+      </div>
     </div>
+    <div class="pt50"
+        data-foreach="model.data.tracks"
+        data-foreach-map="true">
+      <div class="{{= (scope.index !== 0) ? 'bt' : '' }}" data-template="sisyphus-tracks-list-item-tmp"></div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
 </div>

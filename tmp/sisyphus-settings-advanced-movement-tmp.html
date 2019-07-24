@@ -1,41 +1,41 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w15 left pl20 clickable active h__k"
+        <div class="w15 left pl20 clickable active"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'advanced_settings'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w70">
-            <h1 class="h__k no-stuffing fs18 lh18 capitalize">Advanced Movement</h1>
+            <h1 class="no-stuffing fs18 lh18 capitalize">Advanced Movement</h1>
         </div>
         <div class="w15">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
+    <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
         <div class="bb hh50 p20 fs17 mt40 flex vertical-align"><p class="i red">* This is advanced functionality, your table may loose position or malfunction.</p></div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active h__k" data-on-click="model.home">Home</div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active" data-on-click="model.home">Home</div>
 
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active h__k {{= (model.jog_type == 'jogThetaLeft') ? 'bg-grey-ll' : '' }}"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogThetaLeft') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaLeft"
         >Jog Theta Left</div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active h__k {{= (model.jog_type == 'jogThetaRight') ? 'bg-grey-ll' : '' }}"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogThetaRight') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaRight"
         >Jog Theta Right</div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active h__k {{= (model.jog_type == 'jogRhoOutward') ? 'bg-grey-ll' : '' }}"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogRhoOutward') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogRhoOutward"
         >Jog Rho Outward</div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active h__k {{= (model.jog_type == 'jogRhoInward') ? 'bg-grey-ll' : '' }}"
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogRhoInward') ? 'bg-grey-ll' : '' }}"
             data-touch-start="model.jog_start"
             data-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"

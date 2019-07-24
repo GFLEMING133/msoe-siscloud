@@ -1,32 +1,31 @@
-<div class="h100 h__k" data-model="{{= session.active.track_id }}">
+<div class="h100" data-model="{{= session.active.track_id }}">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 left pl20 clickable active h__k"
+        <div class="w30 left pl20 clickable active"
             data-on-click="model.goBackFromHero"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w40">
-            <h1 class="h__k no-stuffing fs18 capitalize truncate h__k">{{= model.data.name }}</h1>
+            <h1 class="no-stuffing fs18 capitalize truncate">{{= model.data.name }}</h1>
         </div>
         <div class="w30 pt30 center">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
-        <div class="h__k bg-grey-ll bb" data-if="{{= model.is_adding }} == true">
-            <div class="h__k p20 center i" data-if="{{= app.plugins.length(model.playlist_not_ids) }} == 0">
+        <div class="bg-grey-ll bb" data-if="{{= model.is_adding }} == true">
+            <div class="p20 center i" data-if="{{= app.plugins.length(model.playlist_not_ids) }} == 0">
                 There are no playlists to add to
             </div>
-            <div class="h__k"
+            <div
                 data-if="{{= app.plugins.length(model.playlist_not_ids) }} > 0"
                 data-foreach="model.playlist_not_ids"
                 data-foreach-map="true"
-                data-foreach-change="foreach_reset"
             >
-                <div class="p10 bb-med clickable active bg-grey-ll-hover h__k"
+                <div class="p10 bb-med clickable active bg-grey-ll-hover"
                     data-on-click="parent.playlist_add_finish"
                     data-msg="{{= model.id }}"
                 >Add to "{{= model.data.name }}"</div>
             </div>
         </div>
         <div class="h100 scroll hide-scrollbar">
-            <div class="h__k" data-template="sisyphus-tracks-hero-tmp"></div>
+            <div data-template="sisyphus-tracks-hero-tmp"></div>
         </div>
     </div>
 </div>

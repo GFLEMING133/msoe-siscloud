@@ -38,7 +38,8 @@ var app = {
 		app.collection							= new app.base.collection(null, { model: app.model.neuron });
 		app.collection.on_init();
 
-		app._base = new Binding({ el: $('.body') });
+		app.bind = new Binding({ el: $('.body') });
+		// app._base = new Binding({ el: $('.body') });
 		Backbone.history.start();
 		this.setup_fastclick();
 

@@ -25,7 +25,7 @@ app.socket = {
 		// compare ip, if new, reset
 		var ip = app.config.get_sisbot_url();
         //    console.log('ip===', ip)
-	    // var ip = app.collection.get(sisbot_id).get('data.local_ip'); 
+	    // var ip = app.collection.get(sisbot_id).get('data.local_ip');
 
 		this.server_ip = ip;
 	    //console.log('Socket session', this.server_ip);
@@ -36,7 +36,7 @@ app.socket = {
 		}
 		if(this.server_ip.match(/^https?:\/\//i)) this.server_ip = this.server_ip.replace(/^https?:\/\//i, "");
 		if(this.server_ip.match(/(:[0-9]+)?\/?$/i)) this.server_ip = this.server_ip.replace(/(:[0-9]+)?\/?$/i, "");
-	    self.socket = io.connect( this.server_ip + ':3002'); //change to 3000 for download to work 
+	    self.socket = io.connect( this.server_ip + ':3002'); //change to 3000 for download to work
 
 		self.socket.on('connect', function () {			self.on_connect();		});
 	    self.socket.on('reconnect', function() {        self.on_reconnect();    });
@@ -66,15 +66,7 @@ app.socket = {
 		app.trigger("socket:error", err);
     },
     on_set: function(data) {
-		app.manager.intake_data(data);
-      // if (!_.isArray(data)) data = [data];
-			//
-      // _.each(data, function(datum) {
-      //   if (datum && datum.id) {
-			// 		if (app.collection.exists(datum.id)) app.collection.get(datum.id).set('data', datum);
-			// 		else app.collection.add(datum);
-			// 	}
-      // });
+			app.manager.intake_data(data);
     },
     on_erase: function(data) {
         console.log('socket: erase');

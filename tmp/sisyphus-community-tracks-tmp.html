@@ -1,70 +1,69 @@
 <div class="h100 no-scroll">
     <div class="white bg-black hh50 w100 absolute center no-stuffing flex vertical-align bb-white">
-        <div class="w30 left pl20 clickable active h__k"
+        <div class="w30 left pl20 clickable active"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'primary':'current','secondary':'false'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
             <div class="w70">
-                <h1 class="h__k no-stuffing fs18 pr50 communityTrack capitalize truncate">Track Search</h1>
+                <h1 class="no-stuffing fs18 pr50 communityTrack capitalize truncate">Track Search</h1>
             </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
         <div class="sortBy-wrapper">
-            <div class="sortBy-dropdown-container h__k" data-on-click="model.openSort">
+            <div class="sortBy-dropdown-container" data-on-click="model.openSort">
                 <div class="community-sortBy-header"><span class="sortBy-text">Sort By</span></div>
                 <div class="sortBy-drop-actions" >
-                    <div class="sortBy-SORT-style uppercase h__k">
-                        {{= model.track_sort}} 
+                    <div class="sortBy-SORT-style uppercase">
+                        {{= model.track_sort}}
                     </div>
-                    <div class="upDown-arrows"> 
+                    <div class="upDown-arrows">
                         <p><i class="SortUp fas fa-sort-up fa-2x"></i></p>
                         <p><i class="SortDown fas fa-sort-down fa-2x"></i><p>
                     </div>
                 </div>
             </div>
-            <div class="sortBy-container-contents">  
+            <div class="sortBy-container-contents">
                 <ul class="sortBy-list">
-                    <li class="clickable h__k" 
+                    <li class="clickable"
                         data-on-click="model.sort_function"
                         data-on-click="model.sort_function"
-                        data-on-click="publish"  
+                        data-on-click="publish"
                         data-publish="session:active"
                         data-msg="newest designs">
-                        <a class="sortBy-item">NEWEST DESIGNS</a></li> 
-                    <li class="clickable h__k" 
+                        <a class="sortBy-item">NEWEST DESIGNS</a></li>
+                    <li class="clickable"
                         data-on-click="model.sort_function"
                         data-on-click="model.sort_function"
-                        data-on-click="publish"  
+                        data-on-click="publish"
                         data-msg="name">
                         <a class="sortBy-item">NAME</a></li>
-                    <li class="clickable h__k" 
+                    <li class="clickable"
                         data-on-click="model.sort_function"
-                        data-on-click="publish"  
+                        data-on-click="publish"
                         data-publish="session:active"
                         data-msg="artist">
                         <a class="sortBy-item" >ARTIST</a></li>
                 </ul>
             </div>
         </div>
-    <div class="h__k h100 pt20 scroll hide-scrollbar" data-run="model.fetch_community_tracks">
-        <div class="h__k community-trackBox-top" data-if="{{= model.fetching_community_tracks }} == true">
-            <div class="p20 center i h__k">Fetching tracks...</div>
+    <div class="h100 pt20 scroll hide-scrollbar" data-run="model.fetch_community_tracks">
+        <div class="community-trackBox-top" data-if="{{= model.fetching_community_tracks }} == true">
+            <div class="p20 center i">Fetching tracks...</div>
         </div>
-        <div class="h__k pb250" data-if="{{= model.fetching_community_tracks }} == false">
-            <div class="h__k"
+        <div class="pb250" data-if="{{= model.fetching_community_tracks }} == false">
+            <div
                 data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
                 data-foreach="model.community_track_ids"
-                data-foreach-change="foreach_reset"
                 data-foreach-map="true"
             >
-                <div class="h__k w100"
+                <div class="w100"
                     data-template="sisyphus-community-tracks-list-item-tmp"
                 ></div>
             </div>
-            <div class="p20 center fs18 blue w100 pt200 i h__k" data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
+            <div class="p20 center fs18 blue w100 pt200 i" data-if="{{= app.plugins.length(model.community_track_ids) }} == 0"
             >There are no new tracks to download.
             </div>
         </div>
-    </div> 
+    </div>
 </div>

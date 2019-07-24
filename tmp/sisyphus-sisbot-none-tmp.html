@@ -1,29 +1,31 @@
-<div class="hh50 w100 bg-black no-stuffing h__k"
-    data-template="sisyphus-header-default-tmp"
-></div>
-<div class="bg-white black pl40 pr40">
-    <p class="no-stuffing center w100 mt40 h__k"
-        data-on-tap="model._apple_counter"
-        data-on-click="model._apple_counter"
-        aria-hidden="true"
-    ></>
-    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-        No table found
-    </h3>
-    <p class="center fs18 lh24">
-        Check that your table is plugged in, that you are connected to the same network as the Sisyphus,
-         then click the "Find Sisyphus" button below in 30 seconds.
-    </p>
-        <div class="pb20 h__k" data-if="{{= app.platform }} == Android">
-            <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
-                data-if="{{= app.is_app }} == true"
-                data-on-click="model.open_network_settings"
-            >Open Wifi Settings</p>
-        </div>    
-            <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
-                data-on-click="set"
-                data-field="model.sisbot_registration"
-                data-value="find"
-            >Find Sisyphus</p>
-    </div>
+<div>
+  <div class="hh50 w100 bg-black no-stuffing"
+      data-template="sisyphus-header-default-tmp"
+  ></div>
+  <div class="bg-white black pl40 pr40">
+      <p class="no-stuffing center w100 mt40"
+          data-on-tap="model._apple_counter"
+          data-on-click="model._apple_counter"
+          aria-hidden="true"
+      ></>
+      <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          No table found
+      </h3>
+      <p class="center fs18 lh24">
+          Check that your table is plugged in, that you are connected to the same network as the Sisyphus,
+           then click the "Find Sisyphus" button below in 30 seconds.
+      </p>
+          <div class="pb20" data-if="{{= app.platform }} == Android">
+              <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+                  data-if="{{= app.is_app }} == true"
+                  data-on-click="model.open_network_settings"
+              >Open Wifi Settings</p>
+          </div>
+              <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+                  data-on-click="set"
+                  data-field="model.sisbot_registration"
+                  data-value="find"
+              >Find Sisyphus</p>
+      </div>
+  </div>
 </div>

@@ -56,7 +56,7 @@ app.model.sisyphus_manager = {
             community_page: 'tracks',
             community_playlist_ids: [],
             community_track_ids: [],
-            
+
 
             is_ble_enabled: 'false',
             local_version: 'na',
@@ -117,47 +117,53 @@ app.model.sisyphus_manager = {
         return this;
     },
     intake_data: function(given_data) {
-        console.log("intake_data()");
-        var self = this;
-        if (!_.isArray(given_data)) given_data = [given_data];
+      console.log("intake_data()");
+      var self = this;
+      if (!_.isArray(given_data)) given_data = [given_data];
 
-        _.each(given_data, function(data) {
-            if (!data || !data.id) {
-                // do nothing for responses that aren't objects
-            } else if (app.collection.exists(data.id)) {
-                var m = app.collection.get(data.id);
-                var d = m.get('data');
+      _.each(given_data, function(data) {
+        if (!data || !data.id) {
+          // do nothing for responses that aren't objects
+        } else if (app.collection.exists(data.id)) {
+          var m = app.collection.get(data.id);
+          var d = m.get('data');
 
-                _.each(data, function(val, key) {
-                    if (d && d[key] !== val) {
-                        if (_.isArray(val)) {
-                            var is_diff = false;
-                            if (!_.isArray(d[key])) {
-                                is_diff = true;
-                            } else if (val.length !== d[key].length) {
-                                is_diff = true;
-                            } else {
-                                _.each(val, function(vall, i) {
-                                    if (vall !== d[key][i]) {
-                                        is_diff = true;
-                                    }
-                                });
-                            }
+          _.each(data, function(val, key) {
+            if (d && d[key] !== val) {
+              if (_.isArray(val)) {
+                var is_diff = false;
+                if (!_.isArray(d[key])) {
+                  is_diff = true;
+                } else if (val.length !== d[key].length) {
+                  is_diff = true;
+                } else {
+                  _.each(val, function(vall, i) {
+                    var new_str = vall;
+                    if (_.isObject(new_str) || _.isArray(new_str)) new_str = JSON.stringify(new_str);
+                    var old_str = d[key][i];
+                    if (_.isObject(old_str) || _.isArray(old_str)) old_str = JSON.stringify(old_str);
 
-                            if (is_diff == true) {
-                                m.set('data.' + key, val);
-                                m.trigger('change:data.' + key);
-                            }
-                        } else {
-                            m.set('data.' + key, val);
-                            m.trigger('change:data.' + key);
-                        }
+                    if (new_str != old_str) {
+                      is_diff = true;
+                      console.log("Array change", key, new_str, old_str);
                     }
-                });
-            } else {
-                app.collection.add(data);
+                  });
+                }
+
+                if (is_diff == true) {
+                  m.set('data.' + key, val);
+                  m.trigger('change:data.' + key);
+                }
+              } else {
+                m.set('data.' + key, val);
+                m.trigger('change:data.' + key);
+              }
             }
-        });
+          });
+        } else {
+          app.collection.add(data);
+        }
+      });
     },
     has_user: function() {
         return (this.get('user_id') !== 'false') ? 'true' : 'false';
@@ -398,7 +404,7 @@ app.model.sisyphus_manager = {
                 x.type = "password";
             }
     },
-   
+
     sign_up: function() {
         if (this.get('signing_up') == 'true') return true;
         else this.set('signing_up', 'true');
@@ -408,15 +414,15 @@ app.model.sisyphus_manager = {
         var element = $('.sign_up_errors')[0];
         var errors = this.get_errors(user_data);
         self.set('errors', errors);
-        
+
         if (errors.length > 0){
              this.set('signing_up', 'false')
              element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
              return;
         }
-             
-                              
-                
+
+
+
         function cb(obj) {
             if (obj.err){
                 self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
@@ -424,14 +430,14 @@ app.model.sisyphus_manager = {
                 return;
             }
             self.set('errors', []);
-            
+
             self._process_registration(user_data, obj.resp);
-        
+
             self.set('signing_up', 'false');
             app.trigger('session:active', { 'primary':'community', 'secondary':'sign_in' });
         };
-        
-       
+
+
         var post_obj = {
             _url: app.config.get_webcenter_url(),
             _type: 'POST',
@@ -440,13 +446,13 @@ app.model.sisyphus_manager = {
             username                : user_data.username,
         	email					: user_data.email,
         	password				: user_data.password,
-        	password_confirmation	: user_data.password_confirmation                          
+        	password_confirmation	: user_data.password_confirmation
         };
 
         app.post.fetch2(post_obj, cb, 0);
     },
 
-    sign_in: function(user_data) { 
+    sign_in: function(user_data) {
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
@@ -457,7 +463,7 @@ app.model.sisyphus_manager = {
         user_data._timeout = 5000;
 
         //______________Password Errors______________________________________
-       
+
         if (errors.length > 0){
             return this.set('signing_in', 'false').set('errors', errors);
         }
@@ -472,18 +478,18 @@ app.model.sisyphus_manager = {
             self.set('errors', []);
 
             self._process_sign_in(user_data, obj.resp);
-            
+
             app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
         };
 
         user_data.endpoint  = 'auth_user';
-        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
-    
+        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
+
         app.post.fetch2(user_data, cb, 0);
 
     },
     _process_sign_in: function (user, data_arr) {
-        
+
 		var session_data = {
 			email			: user.email,
             password		: user.password,
@@ -509,20 +515,20 @@ app.model.sisyphus_manager = {
          //__________________SignUp Errors________________________ //
          if (this.get('signing_up') == 'true'){
             if (user_data.username == ""){
-                errors.push('Username cannot be blank'); 
+                errors.push('Username cannot be blank');
 
             }
             if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
                 errors.push("The email you entered is invalid, please enter a valid email");
 
             }
-            if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){ 
+            if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){
                 errors.push('Password must be 7 or more characters');
 
             }
             if (user_data.password !== user_data.password_confirmation){
                 errors.push('Password Verification Does Not Match');
-                        
+
             }
         }
         return errors;
@@ -533,7 +539,7 @@ app.model.sisyphus_manager = {
             password: user.password,
             password_confirmation: user.password_confirmation,
         };
-        
+
         var self = this;
         var server_user = false;
 
@@ -555,7 +561,7 @@ app.model.sisyphus_manager = {
         if (this.get('sisbot_id') == 'false')
             this.setup_sisbots_page();
     },
-    
+
     // sign_up_via_settings: function() {
     //     debugger;
     //     this.on(this.after_settings);
@@ -583,11 +589,11 @@ app.model.sisyphus_manager = {
     //         .set('user_id', 'false');
     //     app.current_session().sign_out();
     // },
-    forgot_password: function(user_data) { 
+    forgot_password: function(user_data) {
         var errors = [];
         if (!user_data || user_data == '') errors.push('- Email cannot be blank');
         var self = this;
-        
+
         user_email = this.get('forgot_email'); //this is the object
 
         function cb(obj) {
@@ -596,12 +602,12 @@ app.model.sisyphus_manager = {
             self.set('errors', []);
 
             self._process_email(user_email, obj.resp);
-            
-            
+
+
         };
         user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
         user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
-      
+
         console.log('user_email ==', user_email);
         app.post.fetch(user_email, cb, 0 );
 
@@ -610,7 +616,7 @@ app.model.sisyphus_manager = {
         var session_data = {
             email: user.email
         };
-        
+
         var self = this;
         var server_user = false;
         alert('An email has been sent with instructions on how to reset your password.')
@@ -624,7 +630,7 @@ app.model.sisyphus_manager = {
 
         app.collection.add(data_arr);
         app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
-    
+
     },
     /*********************** SISBOT ONBOARDING ********************************/
     _has_update: function(sisbot, remote) {
@@ -1008,7 +1014,7 @@ app.model.sisyphus_manager = {
         return this;
     },
     ping_sisbot: function(hostname, cb, retries) {
-        // console.log("ping_sisbot()");        
+        // console.log("ping_sisbot()");
         var self = this;
 
         if (!retries) retries = 0;
@@ -1086,9 +1092,9 @@ app.model.sisyphus_manager = {
                 // console.log('Connect to Sisbot:', sisbot_data);
             } else {
                 if (obj.err) {
-                    // IF WE HAVE CONNECTION ERROR
-                    self.connect_to_sisbot(sisbot_hostname);
-                    return self.set('errors', ['- That sisbot does not appear to be on the network']);
+                  // IF WE HAVE CONNECTION ERROR
+                  self.connect_to_sisbot(sisbot_hostname);
+                  return self.set('errors', ['- That sisbot does not appear to be on the network']);
                 }
 
                 var sisbot_data = obj.resp;
@@ -1098,17 +1104,17 @@ app.model.sisyphus_manager = {
             // add sisbot data to our local collection
             _.each(sisbot_data, function(data) {
                 if (app.collection.exists(data.id)) {
-                    app.collection.get(data.id).set('data', data);
+                  app.collection.get(data.id).set('data', data);
                 } else {
-                    app.collection.add(data);
+                  app.collection.add(data);
                 }
 
                 if (data.type == 'sisbot') {
-                    if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
-                    self.set('sisbot_id', data.id);
+                  if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
+                  self.set('sisbot_id', data.id);
 
-                    app.collection.get(data.id).sisbot_listeners();
-                    app.socket.initialize();
+                  app.collection.get(data.id).sisbot_listeners();
+                  app.socket.initialize();
                 }
             });
 
@@ -1228,7 +1234,7 @@ app.model.sisyphus_manager = {
             track_model.set('upload_status', 'false'); // not uploaded yet
 
             // error checking
-            if (track_model.get('errors').length > 0) 
+            if (track_model.get('errors').length > 0)
             console.log("Track error:", track_model.get('errors'));
         });
 
@@ -1378,7 +1384,7 @@ app.model.sisyphus_manager = {
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
         }
-       
+
         app.post.fetch2(tracks, cb, 0);
 
         return this;
@@ -1412,12 +1418,12 @@ app.model.sisyphus_manager = {
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
-         
+
         }
-        
+
         this.fetch_community_tracks();
         app.post.fetch2(tracks, cb, 0);
-        
+
         return this;
     },
 
@@ -1429,21 +1435,21 @@ app.model.sisyphus_manager = {
         console.log("download_track" + track_id);
         this.remove('community_track_ids', track_id);
     },
-    //Actions drop down menu  
+    //Actions drop down menu
     openSort: function() {
     var drop = document.getElementsByClassName("sortBy-container-contents");
     var dAction = document.getElementsByClassName("sortBy-drop-actions");
     if (!drop[0].style.visibility || drop[0].style.visibility ===  'hidden') {
       drop[0].style.visibility = 'visible';
       drop[0].style.opacity = '1';
-      
+
     }else {
       drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';
     }
   },
- 
+
 
     /**************************** DEMO ****************************************/
     setup_as_sisbot: function() {
