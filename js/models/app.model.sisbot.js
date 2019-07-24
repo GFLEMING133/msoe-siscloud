@@ -393,7 +393,6 @@ app.model.sisbot = {
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
-		console.log("_socket_connect()");
 		var self = this;
 
 		console.log("Sisbot: Socket Connect");
@@ -407,11 +406,11 @@ app.model.sisbot = {
 
 		this.wifi_connected();
 
-		setTimeout(function() {
-			self._update_sisbot('state', {}, function (obj) {
-				if (obj.resp) app.manager.intake_data(obj.resp);
-			});
-		}, 10000);
+		// setTimeout(function() {
+		// 	self._update_sisbot('state', {}, function (obj) {
+		// 		if (obj.resp) app.manager.intake_data(obj.resp);
+		// 	});
+		// }, 10000);
 	},
 	_socket_disconnect: function() {
 		console.log("_socket_disconnect()");
@@ -508,7 +507,7 @@ app.model.sisbot = {
 
 				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
-					// app.socket.initialize();		// try to connect to socket
+					app.socket.initialize();		// try to connect to socket
 				}
 			} else if (obj.err) {
 				self._poll_failure();

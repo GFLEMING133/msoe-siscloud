@@ -1,5 +1,5 @@
 var Binding = Backbone.View.extend({
-  render_wait: 50,
+  render_wait: 25,
   render_start: null,
   render_count: 0,
   render_timeout: null,

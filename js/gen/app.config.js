@@ -1,7 +1,7 @@
 app.config = {
 	env					: 'prod',
 	version				: '1.8.24', // Bind2 change
-	debug 			: false,
+	debug 			: true,
 	envs	: {
 		alpha: {	// loads local data only
 			base_url	: 'http://app.dev.withease.io:3001/', // local
@@ -24,11 +24,11 @@ app.config = {
 			sisbot_url  : window.location.href, //talking to sisbot
 			port		: 3001,
 		},
-		prod: {
-			base_url	: 'https://webcenter.sisyphus-industries.com/',
+		prod: { // Android/iOS apps
+			base_url	: 'false', // unused
 			api_url		: 'https://webcenter.sisyphus-industries.com/',
 			web_url		: 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'https://webcenter.sisyphus-industries.com/',
+			sisbot_url  : 'false', // determined by table connected to
 			base_port	: 443,
 		},
   		wc_test:{

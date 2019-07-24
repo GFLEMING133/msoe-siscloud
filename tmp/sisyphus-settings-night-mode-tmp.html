@@ -30,12 +30,11 @@
                   data-on-click="model.nightmode_disable_toggle"></i>
               <p class="no-stuffing pt10 pb10 w100 fs18">Enable Night Mode</p>
             </div>
-            <div data-debug="true" data-if="{{= model.edit.is_sleep_enabled }} !== false">
+            <div data-if="{{= model.edit.is_sleep_enabled }} !== false">
                 <div class="flex">
                     <div class="w50 pr15">
                       <h4 class="pb5 fs18 lh18 strong no-stuffing">Start</h4>
                   		<input class="w100"
-                          data-debug="true"
                   				type="text"
                   				placeholder="10:00 PM"
                   				lib-flatpickr="{'noCalendar':'true','enableTime':'true','defaultHour':22,'dateFormat':'h:i K','minuteIncrement':15}"
