@@ -139,9 +139,14 @@ app.model.sisyphus_manager = {
                                 is_diff = true;
                             } else {
                                 _.each(val, function(vall, i) {
-                                    if (vall !== d[key][i]) {
-                                        is_diff = true;
-                                    }
+                                    var new_str = vall;                     
+                                        if (_.isObject(new_str) || _.isArray(new_str)) new_str = JSON.stringify(new_str);  
+                                    var old_str = d[key][i];                     
+                                        if (_.isObject(old_str) || _.isArray(old_str)) old_str = JSON.stringify(old_str);    
+                                            if (new_str != old_str) {                       
+                                                is_diff = true;                       
+                                                console.log("Array change", key, new_str, old_str); 
+                                            }
                                 });
                             }
 

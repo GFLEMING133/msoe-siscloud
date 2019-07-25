@@ -639,7 +639,6 @@ app.model.sisbot = {
 		}
 	},
 	clear_wifi_errors: function(){
-		debugger;
 		this.set('wifi_error','false');
 		this.set('wifi_connecting','false');
 		this.set('data.wifi_password', 'false');
@@ -651,48 +650,61 @@ app.model.sisbot = {
 
 		var self		= this;
 		var credentials = this.get('wifi');
-		var endpoint	= (this.is_legacy()) ? 'change_to_wifi' : 'connect_to_wifi';
-
 		if (credentials.password == '') {
-			alert("No password? It's ok , were just making sure.");
-		}
-		if (credentials.password.length > 0 && credentials.password.length < 8 ) {
+			app.plugins.n.notification.confirm("No password? It's ok , we're just making sure.",
+			function(resp_num) {
+				if(resp_num !== 1){
+					return self;
+				}else{	
+					self._connect_to_wifi();
+				}
+			}, 'No Password?', ['Connect','Cancel']); 
+		}else if (credentials.password.length > 0 && credentials.password.length < 8 ) {
 			this.set('wifi_error', 'true');
 			alert('Wi-Fi password mut be 8 characters or more.');
 			return this;
+		}else {
+			this._connect_to_wifi();
 		}
+	  },
+	_connect_to_wifi: function () {
 		
+		var self= this;
+		var credentials = this.get('wifi');
+		var endpoint	= (this.is_legacy()) ? 'change_to_wifi' : 'connect_to_wifi';
+
 		this.set('data.failed_to_connect_to_wifi', 'false')
-			.set('data.is_hotspot', 'false')
-			.set('data.wifi_forget', 'true')
-			.set('wifi_connecting', 'true');
+				.set('data.is_hotspot', 'false')
+				.set('data.wifi_forget', 'true')
+				.set('wifi_connecting', 'true');
 
-		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
-			if (obj.err && obj.err !== 'Could not make request') {
-				console.log('wifi err', obj.err);
-				self.set('wifi_error', 'true')
-					.set('wifi_connecting', 'false');
-			} else if (obj.resp) {
-				app.manager.intake_data(obj.resp);
-			}
+			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
+				if (obj.err && obj.err !== 'Could not make request') {
+					console.log('wifi err', obj.err);
+					self.set('wifi_error', 'true')
+						.set('wifi_connecting', 'false');
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
 
-			if (self.is_legacy()) {
-				setTimeout(function() {
-					self.set('data.failed_to_connect_to_wifi', 'false')
-						.set('data.reason_unavailable', 'connect_to_wifi')
-						.set('data.is_hotspot', 'false')
-						.set('data.wifi_forget', 'true');
-
+				if (self.is_legacy()) {
 					setTimeout(function() {
 						self.set('data.failed_to_connect_to_wifi', 'false')
 							.set('data.reason_unavailable', 'connect_to_wifi')
 							.set('data.is_hotspot', 'false')
 							.set('data.wifi_forget', 'true');
+
+						setTimeout(function() {
+							self.set('data.failed_to_connect_to_wifi', 'false')
+								.set('data.reason_unavailable', 'connect_to_wifi')
+								.set('data.is_hotspot', 'false')
+								.set('data.wifi_forget', 'true');
+						}, 200);
 					}, 200);
-				}, 200);
-			}
-		});
-  	},
+				}
+			});
+
+	},
 	disconnect_wifi: function () {
 		console.log("disconnect_wifi()");
 		var self = this;

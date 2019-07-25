@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.24', //Sourced in fonts properly, added private and public to track list, Added Show Password to Sign in. Changed meta tag in dev.index to try and correnct iPhone XC Max swipe bar issue. READ MORE in CHANGELOG Community changes
+    version : '1.8.26', //fixed playlis "play" "shuffle" div to fixed and moved it out of scroll area for iphone/added media queries 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

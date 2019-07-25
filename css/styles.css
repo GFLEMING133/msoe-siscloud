@@ -103,7 +103,7 @@ body{
 }
 
 img {
-	translateZ					: 0;    /** GETS GPU TO RENDER IMG */
+	translateZ					: 0;     /** GETS GPU TO RENDER IMG */
 }
 
 pre {
@@ -404,7 +404,9 @@ label {
 .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+	-webkit-overflow-scrolling: touch;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 
 .auto-scroll {
@@ -696,11 +698,11 @@ li:hover {
 	padding-top: 30px;
 } */
 
-.hover, .hover > * 											{	color				: #efefef;	}
-.hover:hover, .hover:hover > * 					{	color				: #333;			}
+.hover, .hover > * 								{	color				: #efefef;	}
+.hover:hover, .hover:hover > * 					{	color				: #333;		}
 
-.hover-dark, .hover-dark > * 						{	color				: #888;			}
-.hover-dark:hover, .hover-dark:hover > *{	color				: #fff;			}
+.hover-dark, .hover-dark > * 					{	color				: #888;		}
+.hover-dark:hover, .hover-dark:hover > *		{	color				: #fff;		}
 
 
 @keyframes spin {
@@ -925,6 +927,16 @@ li:hover {
 	top			: 0px;
 	bottom		: 0px;
 	z-index		: 1000;
+}
+.fixed2{
+	position	: fixed;
+	left		: 0px;
+	right		: 0px;
+	z-index		: 1000;
+
+}
+.sticky {
+	position: sticky;
 }
 
 
@@ -1446,7 +1458,7 @@ select:focus {
 .ml50									{	margin-left				: 50px !important;			            }
 .mr50						            {   margin-right		    : 50px !important;			            }
 .mb55						      		{   margin-bottom		    : 55px !important;			            }
-.mb51						            {   margin-bottom		    : 51px !important;			            }
+.mb51						            {   margin-bottom		    : 50px !important;			            }
 .mt60									{	margin-top				: 60px !important;			            }
 
 .mt70									{	margin-top				: 70px !important;			            }
@@ -1691,7 +1703,10 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 0;
 		max-height: 160px;
 		height: 155px;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
 }
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 @media only screen 
@@ -1719,7 +1734,11 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 0;
 		max-height: 220px;
 		height: 210px;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
+	
 }
 @media only screen 
 	and (min-device-width: 321px)
@@ -1746,7 +1765,10 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 35vh;
 		max-height: 47vh;
 		height: 45vh;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
 }
 @media only screen 
 	and (min-device-width: 341px)
@@ -1773,12 +1795,15 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 0; 
 		max-height: 290px;
 		height: 280px;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
-/****************Galaxy S10 5G*****************/
+/****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen 
 and (min-width: 360px) 
-and (max-width: 767px) 
+and (min-height: 767px) 
 and (orientation : portrait)
 	{ 
 	body {
@@ -1796,6 +1821,10 @@ and (orientation : portrait)
 		max-height: 460px;
 		display: flex;
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
+	
 }
 
 /* Portrait */
@@ -1818,6 +1847,9 @@ and (orientation : portrait)
 			display: block;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
 	and (min-device-width: 375px)
@@ -1835,8 +1867,9 @@ and (orientation : portrait)
 			min-height: 0;
 			max-height: 310px;
 			height: 310px;
-
-	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 /**************iPhone XS MAX COLINS PHONE*******************/
@@ -1855,11 +1888,7 @@ and (orientation : portrait)
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
 	} 
-	.trackBox {
 
-
-					
-			}
 	.scrollDown {
 			/* background-color:yellowgreen; */
 			min-height: 0;
@@ -1868,10 +1897,13 @@ and (orientation : portrait)
 			display: flex;
 	}
 	.iPXMAXmb70  {
-		margin-bottom: 70px !important;
+		margin-bottom: 50px !important;
 	}
 	.iPXMAXmb84 {
 		margin-bottom: 84px !important;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 /********* iPhone X *******/
@@ -1905,7 +1937,9 @@ and (orientation : portrait)
 	.iPXmb60  {
 		margin-bottom: 60px !important;
 	}
-
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 			
 }
 
@@ -1925,6 +1959,9 @@ and (orientation : portrait)
 			max-height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 } 
 @media only screen  
 	and (device-width: 414px)
@@ -1940,6 +1977,9 @@ and (orientation : portrait)
 			height: 100vh;
 			max-height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 /*************iPhone XS Max**************/
@@ -1974,6 +2014,9 @@ and (orientation : portrait)
 		.iPXmb74 {
 			margin-bottom: 74px !important;
 		}
+		.media_query_mt0 {
+			margin-top: 0px !important;
+		}
 	}
 @media only screen  
 	and (min-device-width: 411px)
@@ -1990,6 +2033,9 @@ and (orientation : portrait)
 			height: 100vh;
 			max-height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 
@@ -2009,6 +2055,9 @@ and (orientation : portrait)
 			max-height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }  
 
 @media only screen  
@@ -2027,6 +2076,9 @@ and (orientation : portrait)
 			max-height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
 and (min-device-width: 601px)
@@ -2042,6 +2094,9 @@ and (orientation : portrait)
 			height: 58vh;
 			max-height: 58vh;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }@media only screen  
 and (min-device-width: 661px)
@@ -2075,6 +2130,9 @@ and (orientation : portrait)
 				max-height: 350px;
 		
 		}
+		.media_query_mt0 {
+			margin-top: 0px !important;
+		}
 }
 @media only screen  
 	and (device-width: 768px)
@@ -2090,6 +2148,9 @@ and (orientation : portrait)
 			height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
 	and (device-width: 1024px)
@@ -2104,6 +2165,9 @@ and (orientation : portrait)
 			/* background-color: darkcyan; */
 			height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 
