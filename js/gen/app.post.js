@@ -4,7 +4,7 @@ app.post = {
 	},
 	fetch: function (data, cb, retry_count) {
 		// if retry_count is not defined......which will be the case for all callers of app.plugins.fetch
-		if (typeof retry_count == 'undefined') retry_count = 5; 
+		if (typeof retry_count == 'undefined') retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
@@ -17,13 +17,14 @@ app.post = {
 		delete data._url;
 		delete data._timeout;
 		delete data.endpoint;
-	
+
 		var req_data = {
 			data	: JSON.stringify(data)
 		};
 
-		if (app.current_user())
-			req_data.user = app.current_user().get('data');
+		console.log("Retry count", retry_count);
+
+		if (app.current_user()) req_data.user = app.current_user().get('data');
 
 		var obj = {
 			url			: url,
@@ -33,17 +34,17 @@ app.post = {
 				withCredentials: false
 			},
 			success		: function (data) {
+				console.log("POST success", url, data);
 				try {
 					data = JSON.parse(data);
 				} catch(err) {}
 
-				if (_.isFunction(cb))
-					cb(data)
-				else if (_.isString(cb))
-					app.trigger(cb, data);
+				if (_.isFunction(cb)) cb(data)
+				else if (_.isString(cb)) app.trigger(cb, data);
 			},
 			error		: function (resp) {
 				if (retry_count <= 0) {
+					console.log("POST Error:", url, resp.statusText);
 					if (cb) cb({ err: 'Could not make request', resp: null });
 					return this;
 				}
@@ -54,12 +55,11 @@ app.post = {
 			},
 			timeout: timeout
 		};
-		if (obj.type == 'GET')
-			delete obj.data;
+		if (obj.type == 'GET') delete obj.data;
 
 		$.ajax(obj);
 	},
-	
+
 	fetch2: function (data, cb, retry_count) {
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
@@ -87,7 +87,7 @@ app.post = {
 					},
 					success: function (data, status, xhr) {
 						try {
-							
+
 							if(typeof(data.resp[0].auth_token) != 'undefined') {
 								app.session.set('auth_token', data.resp[0].auth_token);
 							}
@@ -96,7 +96,7 @@ app.post = {
 						} catch(err) {
 							console.log('Error in the catch fetch2() =', err);
 						}
-		
+
 						if (_.isFunction(cb))
 							cb(data)
 						else if (_.isString(cb))
@@ -108,7 +108,7 @@ app.post = {
 							if (cb) cb({ err: resp.statusText, resp: null });
 							return this;
 						}
-		
+
 						setTimeout(function () {
 							app.post.fetch(_data, cb, --retry_count);
 						}, 5000);
