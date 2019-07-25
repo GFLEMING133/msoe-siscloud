@@ -11,7 +11,7 @@
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
         <div class="flex vertical-align pl20 pr20 h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
             <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
-                <i class="fa fa-sun-o center clickable active grey" aria-hidden="true"></i>
+                <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
             </div>
             <div class="w90 flex relative center">
                 <span class="w2-5"></span>
@@ -22,7 +22,7 @@
                 <span class="w2-5"></span>
             </div>
             <div class="w5 center blue-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
-                <i class="fa fa-sun-o f-large center clickable active grey" aria-hidden="true"></i>
+                <i class="fas fa-sun f-large center clickable active grey" aria-hidden="true"></i>
             </div>
         </div>
         <div class="pl20 pt5 pb5 pr20 w100 vertical h__k"
@@ -31,8 +31,8 @@
             data-on-click="model.autodim_toggle"
             data-if="{{= model.data.is_autodim }} !== undefined"
         >
-            <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
-            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.data.is_autodim }} == false"></span>
+            <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
+            <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.data.is_autodim }} == false"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Speed</h3>
@@ -58,8 +58,8 @@
             data-on-click="model.pause_between_tracks"
             data-if="{{= model.data.is_paused_between_tracks }} !== undefined"
         >
-            <span class="h__k black f-large bg-white fa fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
-            <span class="h__k black f-large bg-white fa fa-square-o" data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
+            <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
+            <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
         </div>
 

@@ -39,7 +39,7 @@ app.socket = {
 			self.socket.close();
 			delete self.socket;
 		}
-
+		
     self.socket = io.connect( 'http://' + this.server_ip + ':3002'); //change to 3000 for download to work
 
 		self.socket.on('connect', function () {			self.on_connect();		});
