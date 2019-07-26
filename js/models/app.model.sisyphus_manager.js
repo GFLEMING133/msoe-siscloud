@@ -827,11 +827,11 @@ app.model.sisyphus_manager = {
     /**************************** FIND SISBOTS ********************************/
     _apple_counts: 0,
     _apple_counter: function() {
-        console.log("_apple_counter()");
-        this._apple_counts++;
-        if (this._apple_counts > 5) {
-            app.config.env = 'alpha';
-        }
+      this._apple_counts++;
+      console.log("_apple_counter()", this._apple_counts);
+      if (this._apple_counts > 5) {
+        app.config.env = 'alpha';
+      }
     },
     find_sisbots: function() {
       console.log("find_sisbots()", this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
@@ -1100,11 +1100,13 @@ app.model.sisyphus_manager = {
         console.log("fetch()", obj);
         app.post.fetch(obj, function(obj) {
             self.set('sisbot_connecting', 'false')
-              .set('errors', [])
+              .set('errors', []);
+
+            var sisbot_data = obj.resp;
 
             if (app.config.env == 'alpha') {
-              var sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
-              // console.log('Connect to Sisbot:', sisbot_data);
+              sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
+              console.log('APPLE testing, connect to Sisbot:', sisbot_data);
             } else {
               if (obj.err) {
                 // IF WE HAVE CONNECTION ERROR
@@ -1112,8 +1114,6 @@ app.model.sisyphus_manager = {
                 return self.set('errors', ['- That sisbot does not appear to be on the network']);
               }
             }
-
-            var sisbot_data = obj.resp;
 
             // add sisbot data to our local collection
             _.each(sisbot_data, function(data) {
