@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.24', // Connection changes
+	version				: '1.8.26', // Addressing Connection changesfrom Matt 
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only
@@ -19,8 +19,8 @@ app.config = {
 		},
 		sisbot: {
 			base_url	: window.location.href,
-			api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
-			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url		: 'http://webcenter.sisyphus-industries.com/',
+			web_url		: 'http://webcenter.sisyphus-industries.com/',
 			sisbot_url  : window.location.href, //talking to sisbot
 			port		: 3001,
 		},

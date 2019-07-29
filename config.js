@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.24', // Connection changes
+    version : '1.8.26', // Addressing Connection issues from previous launch
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
