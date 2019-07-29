@@ -1107,7 +1107,7 @@ function Element(el, parent, _scope) {
     // render self if subview changed
     if (this.is_changed && this.el_id) {
       var $el = $('.'+this.el_id);
-      return $el.replaceWith(this.html());
+      return $el.empty().replaceWith(this.html());
     } else {
       // render only changed subviews
       _.each(this.subviews, function(child_el) {
