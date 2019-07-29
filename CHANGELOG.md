@@ -1,3 +1,8 @@
+#2019-7-29 1.8.27
+ - Fix (remove) jump back to home page on reconnect
+ - Fix wifi reconnect issues on bad password
+ - Fix Wifi network list reselecting first entry
+
 #2019-7-25 1.8.24
  - Fixing/improving finding sisbots on mobile app
  - When switching to hotspot, it should reconnect faster after joining that network

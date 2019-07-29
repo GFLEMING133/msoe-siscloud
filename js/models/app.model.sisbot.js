@@ -1,5 +1,6 @@
 app.model.sisbot = {
 	polling_timeout: null,
+	_retry_find: false,
 	defaults: function (data) {
 		var obj = {
 			id				: data.id,
@@ -431,22 +432,27 @@ app.model.sisbot = {
 	_poll_timer: false,
 	_poll_failure: function () {
 		console.log("_poll_failure()");
-		if (this._poll_timer == false) this._poll_timer = moment();
+		if (this._poll_timer == false) {
+			this._poll_timer = moment();
+			this._retry_find = true;
+		}
 
 		var disconnect_length = moment().diff(this._poll_timer);
 
 		this.set('disconnect_length', disconnect_length);
 
-		if (disconnect_length > 15000) {
+		if (this._retry_find && disconnect_length > 20000) { // extended to catch the fallback to hotspot
 			// Try to find any tables again !!TODO: the manager should handle this
 			app.manager.find_sisbots();
 			// this._fetch_bluetooth();
 			// this._fetch_network();
 			// this._fetch_cloud();
+
+			this._retry_find = false; // don't bother more than once
 		}
 
 
-		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') && disconnect_length > 75000) {
+		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') && disconnect_length > 60000) {
 			this._poll_failure_stop();
 		} else if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
 			// do nothing.. We haven't timed out
@@ -593,10 +599,11 @@ app.model.sisbot = {
 			var uniq_wifi = _.uniq(wifi_networks.sort());
 
 			var current_ssid = app.manager.get('current_ssid');
+			var current_name = self.get('wifi.name');
 
 			if (uniq_wifi.indexOf(current_ssid) > -1) {
 				self.set('wifi.name', current_ssid);
-			} else if (uniq_wifi.length > 0) {
+			} else if (uniq_wifi.length > 0 && uniq_wifi.indexOf(current_name) < 0) {
 				self.set('wifi.name', uniq_wifi[0]);
 			}
 

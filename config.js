@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.26', // Addressing Connection issues from previous launch
+    version : '1.8.27', // Fix wifi reconnect issues, jumping to home screen on reconnect
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
