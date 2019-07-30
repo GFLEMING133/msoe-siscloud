@@ -1,5 +1,6 @@
 #2019-7-29 1.8.28
  - Onboarding Wifi list spinner and dropdown fix
+ - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.
 #2019-7-29 1.8.27
  - Fix (remove) jump back to home page on reconnect
  - Fix wifi reconnect issues on bad password
