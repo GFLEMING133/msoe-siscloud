@@ -1801,7 +1801,7 @@ input[type="range"]::-ms-fill-upper {
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen 
 and (min-width: 360px) 
-and (min-height: 767px) 
+and (max-width: 767px) 
 and (orientation : portrait)
 	{ 
 	body {
