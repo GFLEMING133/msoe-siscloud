@@ -583,6 +583,7 @@ app.model.sisbot = {
 		console.log("get_networks()");
 		var self			= this;
 		var wifi_networks	= [];
+		this.set('show_wifi_list', 'false');
 
 		if (app.config.env == 'alpha') {
 			this.set('wifi_networks', ['test', 'test 2', 'test 3']);

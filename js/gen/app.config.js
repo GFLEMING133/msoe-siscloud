@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.27', // Fix wifi (bad password) reconnect issues, jumping to home screen on reconnect
+	version				: '1.8.28', // Onboarding Wifi list spinner and dropdown fix
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only
