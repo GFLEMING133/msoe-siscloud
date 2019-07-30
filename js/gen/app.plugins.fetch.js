@@ -18,17 +18,14 @@ var harness = {
 		var self	= this;
 		var now		= Date.now();
 
-		if (this.qq.length == 0)
-			return false;
+		if (this.qq.length == 0) return false;
 
-		if (now - this.last_checkin < this.check_time)
-			return false;
+		if (now - this.last_checkin < this.check_time) return false;
 
 		var length			= this.qq.length;
 		this.last_checkin	= now;
 
-		if (length > 100)
-			length = 100;
+		if (length > 100) length = 100;
 
 		var curr = this.qq.splice(0, length);
 
@@ -42,6 +39,9 @@ var harness = {
 			var remove_index	= [];
 
 			_.each(curr, function (ind_req, i) {
+				if (typeof ind_req.data.id == 'undefined') {
+					ind_req.data.id = app.plugins.uuid();
+				}
 				var str = ind_req.data.id + '|' + ind_req.data.endpoint;
 
 				if (ind_req.cb) {

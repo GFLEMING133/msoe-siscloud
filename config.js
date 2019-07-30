@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.26', //fixed playlis "play" "shuffle" div to fixed and moved it out of scroll area for iphone/added media queries 
+    version : '1.8.27', // Fix wifi reconnect issues, jumping to home screen on reconnect
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

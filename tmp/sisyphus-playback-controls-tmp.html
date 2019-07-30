@@ -1,6 +1,5 @@
 <div class="w33 center relative">
     <div class="shuffle_tooltip">
-        <!-- <span class="tooltiptext">Shuffle</span> -->
         <i class="fas fa-random f-large p20 rounded relative clickable active h__k {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
             data-if="{{= model.data.active_playlist_id }} !== false"
             data-on-click="model.set_shuffle"
@@ -21,8 +20,7 @@
 </div>
 <div class="w33 center">
     <div class="loop_tooltip">
-        <!-- <span class="tooltiptext">Loop</span> -->
-        <i class="fas fa-retweet f-large p20 rounded clickable active h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
+        <i class="fa fa-retweet f-large p20 rounded clickable active h__k {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
             data-if="{{= model.data.active_playlist_id }} !== false"
             data-on-click="model.set_loop"
             aria-hidden="true"
