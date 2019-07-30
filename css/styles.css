@@ -1550,6 +1550,7 @@ select:focus {
 .pr100									{	padding-right			: 100px !important;						}
 
 .pl110									{	padding-left			: 110px !important;						}
+.pt110						            {   padding-top             : 110px !important;			            }
 .pt150						            {   padding-top             : 150px !important;			            }
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
@@ -1767,8 +1768,8 @@ input[type="range"]::-ms-fill-upper {
 		margin-top: 0px !important;
 	}	
 }
+/* *********iPhone 7 aka my testing device ************** */
 @media only screen 
-	and (min-device-width: 341px)
 	and (max-device-width: 360px)
 	and (max-device-height: 640px)
 	and (orientation : portrait)
@@ -1783,15 +1784,15 @@ input[type="range"]::-ms-fill-upper {
 		padding-bottom: 60px;
 	}
 	.trackBox {
-		height: 58%;
-		max-height: 290px;
+		height: 250px;
+		max-height: 250px;
 		
 	}
 	.scrollDown {
-		/* background-color: #777;*/
+		/* background-color: blue; */
 		min-height: 0; 
-		max-height: 290px;
-		height: 280px;
+		max-height: 250px;
+		height: 250px;
 	}	
 	.media_query_mt0 {
 		margin-top: 0px !important;
