@@ -1,90 +1,88 @@
-/*------------------MONTESERRAT------------------------*/
-@font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
 
-} 
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
-	font-weight: 600;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-ExtraBold.ttf');
-	font-weight: 900;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Medium.ttf');
-	font-weight: 600;
-} */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Regular.ttf');
-	font-weight: 400;
-}  */
-/* @font-face {
-	font-family: 'Montserrat';
-	src: url('../fonts/Montserrat-Black.ttf');
-	font-weight: 400;
-} 
 @font-face {
-        font-family: 'Montserrat-Medium';
-        src: url('../fonts/Montserrat/Montserrat-Medium.ttf');
-        font-weight: 600;
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/montserrat-regular-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-regular-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-regular-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-regular-webfont.svg#montserratregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
+
 @font-face {
-	font-family: 'Montserrat-SemiBold';
-	src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf');
-	font-weight: 600;
+    font-family: 'Montserrat-Medium';
+    src: url('../fonts/Montserrat/montserrat-medium-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-medium-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-medium-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-medium-webfont.svg#montserrat_mediumregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+
 @font-face {
-	font-family: 'Montserrat-Bold';
-	src: url('../fonts/Montserrat/Montserrat-Bold.ttf');
-	font-weight: 600;
+    font-family: 'Montserrat-SemiBold';
+    src: url('../fonts/Montserrat/montserrat-semibold-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-semibold-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-semibold-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-semibold-webfont.svg#montserrat_semiboldregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('../fonts/Montserrat/montserrat-bold-webfont.woff2') format('woff2'),
+         url('../fonts/Montserrat/montserrat-bold-webfont.woff') format('woff'),
+         url('../fonts/Montserrat/montserrat-bold-webfont.ttf') format('truetype'),
+         url('../fonts/Montserrat/montserrat-bold-webfont.svg#montserratbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/* 
 @font-face {
 	font-family: 'Montserrat-ExtraBold';
-	src: url('../fonts/Montserrat/Montserrat-ExtraBold.ttf');
+	src: url('/fonts/Montserrat/Montserrat-ExtraBold.ttf');
 	font-weight: 900;
 }
 @font-face {
 	font-family: 'Montserrat-Black';
-	src: url('../fonts/Montserrat/Montserrat-Black.ttf');
+	src: url('/fonts/Montserrat/Montserrat-Black.ttf');
 	font-weight: 400;
-}
+} */
 /*-------------------ROBOTO FONT---------------------*/
-@font-face {
+/* @font-face {
 	font-family: 'Roboto';
-	src: url('../fonts/Roboto/Roboto-Regular.ttf');
+	src: url('/fonts/Roboto/Roboto-Regular.ttf');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto-Medium';
-	src: url('../fonts/Roboto/Roboto-Medium.ttf');
+	src: url('/fonts/Roboto/Roboto-Medium.ttf');
 	font-weight: 500;
 }
 @font-face {
 	font-family: 'Roboto-Black';
-	src: url('../fonts/Roboto/Roboto-Black.ttf');
+	src: url('/fonts/Roboto/Roboto-Black.ttf');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto-Italic';
-	src: url('../fonts/Roboto/Roboto-Italic.ttf');
+	src: url('/fonts/Roboto/Roboto-Italic.ttf');
 	font-weight: 400;
 }
 @font-face {
 	font-family: 'Roboto-Bold';
-	src: url('../fonts/Roboto/Roboto-Bold.ttf');
+	src: url('/fonts/Roboto/Roboto-Bold.ttf');
 	font-weight: 600;
 }
 @font-face {
 	font-family: 'Roboto-ExtraBold 900';
-	src: url('../fonts/Roboto/Roboto-ExtraBold.ttf');
+	src: url('/fonts/Roboto/Roboto-ExtraBold.ttf');
 	font-weight: 900;
-}
+}  */
  
 /********************************* BASE ***************************************/
 * {
@@ -92,6 +90,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 html, body {
+	scroll-behavior: smooth;
 	height						: 100%;
 }
 body{
@@ -104,7 +103,7 @@ body{
 }
 
 img {
-	translateZ					: 0;    /** GETS GPU TO RENDER IMG */
+	translateZ					: 0;     /** GETS GPU TO RENDER IMG */
 }
 
 pre {
@@ -118,7 +117,7 @@ a, a:hover {
 }
 
 body, h1, h2, h3, h4, h5, h6, p {
-	font-family					: "Montserrat", "Roboto", sans-serif;
+	font-family					: 'Montserrat', sans-serif;
 	font-weight					: 400;
 	text-rendering				: optimizeLegibility;
     -webkit-font-smoothing		: antialiased;
@@ -131,24 +130,24 @@ body, h1, h2, h3, h4, h5, h6, p {
 }
 
 h1, h2, h3 {
-	font-family					: "Montserrat-Medium", "Roboto-Medium",sans-serif;
+	font-family					: 'Montserrat-SemiBold', sans-serif;
 	font-weight					: 600;
 }
 
 h1 {
-	font-family					: "Montserrat-Bold","Roboto-Bold", sans-serif;
+	font-family					: 'Montserrat-Bold', sans-serif;
 	font-size					: 2.25em;
 	line-height					: 1.25em;
 }
 .montserrat_m{
-	font-family: "Montserrat-Medium","Roboto-Medium", sans-serif;
+	font-family: "Montserrat-Medium", sans-serif;
 }
 .montserrat_semi_bold{
-	font-family: "Montserrat-SemiBold","Roboto-Medium", sans-serif;
+	font-family: "Montserrat-SemiBold", sans-serif;
 }
-.montserrat_black {
-	font-family: "Montserrat-Black", "Roboto-Black", sans-serif;
-}
+/* .montserrat_black {
+	font-family: "Montserrat-Black", "Roboto-Black", sans-serif !important;
+} */
 
 p {
 	font-size					: 1em;
@@ -373,8 +372,8 @@ label {
 	position: absolute;
 
 }
-  
-.shuffle_tooltip:hover .tooltiptext {
+  /**************How to make on hover Tool Tips for icons******************/
+/* .shuffle_tooltip:hover .tooltiptext {
 	font-size: 14px;
 	font-family: "Montserrat-Black", "Roboto", sans-serif;
 	visibility: visible;
@@ -389,12 +388,12 @@ label {
 	border-radius: 6px;
 	padding: 5px 0;
   
-	/* Position the tooltip */
+	/* Position the tooltip   <<<<< add * / back 
 	top: 15px;
 	left: 70%;
 	position: absolute;
 
-}
+}*/
   
 .loop_tooltip:hover .tooltiptext {
 	font-size: 14px;
@@ -405,7 +404,9 @@ label {
 .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+	-webkit-overflow-scrolling: touch;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 
 .auto-scroll {
@@ -589,9 +590,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
 .communityTrack {
-	font-family: 'Montserrat-Medium', 'Roboto', sans-serif;
 	display: block;
-	line-height: 20px;
 }
 .community-trackBox-top {
 	padding-top: 75px;
@@ -617,7 +616,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position: absolute;
 	width: 100%;
-	height: 60px;
+	height: 80px;
 }
 .sortBy-drop-actions {
 	position: relative;
@@ -699,11 +698,11 @@ li:hover {
 	padding-top: 30px;
 } */
 
-.hover, .hover > * 											{	color				: #efefef;	}
-.hover:hover, .hover:hover > * 					{	color				: #333;			}
+.hover, .hover > * 								{	color				: #efefef;	}
+.hover:hover, .hover:hover > * 					{	color				: #333;		}
 
-.hover-dark, .hover-dark > * 						{	color				: #888;			}
-.hover-dark:hover, .hover-dark:hover > *{	color				: #fff;			}
+.hover-dark, .hover-dark > * 					{	color				: #888;		}
+.hover-dark:hover, .hover-dark:hover > *		{	color				: #fff;		}
 
 
 @keyframes spin {
@@ -928,6 +927,16 @@ li:hover {
 	top			: 0px;
 	bottom		: 0px;
 	z-index		: 1000;
+}
+.fixed2{
+	position	: fixed;
+	left		: 0px;
+	right		: 0px;
+	z-index		: 1000;
+
+}
+.sticky {
+	position: sticky;
 }
 
 
@@ -1446,9 +1455,8 @@ select:focus {
 .ml50									{	margin-left				: 50px !important;			            }
 .mr50						            {   margin-right		    : 50px !important;			            }
 .mb55						      		{   margin-bottom		    : 55px !important;			            }
-.mb51						            {   margin-bottom		    : 51px !important;			            }
+.mb51						            {   margin-bottom		    : 50px !important;			            }
 .mt60									{	margin-top				: 60px !important;			            }
-.mb60						            {   margin-bottom		    : 60px !important;			            }
 
 .mt70									{	margin-top				: 70px !important;			            }
 .mb70						            {   margin-bottom		    : 70px !important;			            }
@@ -1542,6 +1550,7 @@ select:focus {
 .pr100									{	padding-right			: 100px !important;						}
 
 .pl110									{	padding-left			: 110px !important;						}
+.pt110						            {   padding-top             : 110px !important;			            }
 .pt150						            {   padding-top             : 150px !important;			            }
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
@@ -1667,322 +1676,386 @@ input[type="range"]::-ms-fill-upper {
 
 /* Portrait */
 @media only screen 
-    and (min-device-width: 300px)
-    and (max-device-width: 320px)
-    and (max-device-height: 480px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 38%;
-        max-height: 140px;
-        
-    }
-    .scrollDown {
-        /* background-color: hotpink; */
-        min-height: 0;
-        max-height: 160px;
-        height: 155px;
-    }       
+	and (min-device-width: 300px)
+	and (max-device-width: 320px)
+	and (max-device-height: 480px)
+	and (orientation : portrait)
+	{ 
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 38%;
+		max-height: 140px;
+		margin-bottom: 100px;
+		
+	}
+	.scrollDown {
+		/* background-color: hotpink; */
+		min-height: 0;
+		max-height: 160px;
+		height: 155px;
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
 }
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 @media only screen 
-    and (min-device-width: 300px)
-    and (max-device-width: 320px)
-    and (max-device-height: 568px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 48%;
-        max-height: 210px;
-        
-    }
-    .scrollDown {
-        /* background-color: salmon; */
-        min-height: 0;
-        max-height: 220px;
-        height: 210px;
-    }       
+	and (min-device-width: 300px)
+	and (max-device-width: 320px)
+	and (max-device-height: 568px)
+	and (orientation : portrait)
+	{ 
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 48%;
+		max-height: 210px;
+		
+	}
+	.scrollDown {
+		/* background-color: salmon; */
+		min-height: 0;
+		max-height: 220px;
+		height: 210px;
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
+	
 }
 @media only screen 
-    and (min-device-width: 321px)
-    and (max-device-width: 340px)
-    and (max-device-height: 533px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 100vh;
-        max-height: 47vh;
-        
-    }
-    .scrollDown {
-        /* background-color: #F4AE3D; */
-        min-height: 35vh;
-        max-height: 47vh;
-        height: 45vh;
-    }       
+	and (min-device-width: 321px)
+	and (max-device-width: 340px)
+	and (max-device-height: 533px)
+	and (orientation : portrait)
+	{ 
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 100vh;
+		max-height: 47vh;
+		
+	}
+	.scrollDown {
+		/* background-color: #F4AE3D; */
+		min-height: 35vh;
+		max-height: 47vh;
+		height: 45vh;
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
 }
+/* *********iPhone 7 aka my testing device ************** */
 @media only screen 
-    and (min-device-width: 341px)
-    and (max-device-width: 360px)
-    and (max-device-height: 640px)
-    and (orientation : portrait)
-    { 
-    .sortBy-wrapper {
-        height: 115px;
-    }
-    .sortBy-drop-actions{
-        width: 220px;
-    }
-    .sortBy-dropdown-container {
-        padding-bottom: 60px;
-    }
-    .trackBox {
-        height: 58%;
-        max-height: 290px;
-        
-    }
-    .scrollDown {
-        /* background-color: #777;*/
-        min-height: 0; 
-        max-height: 290px;
-        height: 280px;
-    }       
+	and (max-device-width: 360px)
+	and (max-device-height: 640px)
+	and (orientation : portrait)
+	{ 
+	.sortBy-wrapper {
+		height: 115px;
+	}
+	.sortBy-drop-actions{
+		width: 220px;
+	}
+	.sortBy-dropdown-container {
+		padding-bottom: 60px;
+	}
+	.trackBox {
+		height: 250px;
+		max-height: 250px;
+		
+	}
+	.scrollDown {
+		/* background-color: blue; */
+		min-height: 0; 
+		max-height: 250px;
+		height: 250px;
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
-/****************Galaxy S10 5G*****************/
+/****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen 
 and (min-width: 360px) 
-and (max-width: 767px) 
+and (min-height: 767px) 
 and (orientation : portrait)
-    { 
-    .trackBox {
-    height: 460px;
-    max-height: 475px;
-            
-    }
-    .scrollDown {
-        /* background-color:rosybrown; */
-        min-height: 0;
-        max-height: 475px;
-        height: 460px;
-        display: flex;
-    }
+	{ 
+	body {
+		padding-bottom: 25px;
+	}
+	.trackBox {
+	height: 460px;
+	max-height: 475px;
+			
+	}
+	.scrollDown {
+		/* background-color:rosybrown; */
+		min-height: 0;
+		height: 460px;
+		max-height: 460px;
+		display: flex;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
+	
 }
 
 /* Portrait */
 @media only screen  
-    and (min-device-width: 361px)
-    and (max-device-width: 374px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 100vh;
-            max-height: 52vh;
-                    
-            }
-    .scrollDown {
-            /* background-color: #32B150; */
-            min-height: 0;
-            max-height: 380px;
-            height: 360px;
-            display: block;
-    
-    }
+	and (min-device-width: 361px)
+	and (max-device-width: 374px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 100vh;
+			max-height: 52vh;
+					
+			}
+	.scrollDown {
+			/* background-color: #32B150; */
+			min-height: 0;
+			max-height: 380px;
+			height: 360px;
+			max-height:360px;
+			display: block;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
-    and (min-device-width: 375px)
-    and (max-device-width: 384px)
-    and (max-device-height: 667px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-        height: 58%;
-        max-height: 310px;
-                    
-            }
-    .scrollDown {
-            /* background-color: #fdc539; */
-            min-height: 0;
-            max-height: 320px;
-            height: 310px;
-
-    
-    }
+	and (min-device-width: 375px)
+	and (max-device-width: 384px)
+	and (max-device-height: 667px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+		height: 58%;
+		max-height: 310px;
+					
+			}
+	.scrollDown {
+			/* background-color: #fdc539; */
+			min-height: 0;
+			max-height: 310px;
+			height: 310px;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
-/**************iPhone XS MAX*******************/
+/**************iPhone XS MAX COLINS PHONE*******************/
 @media only screen  
-    and (device-width: 375px)
-    and (device-height: 812px)
-    and (orientation : portrait)
-    {
+	and (device-width: 375px)
+	and (device-height: 812px)
+	and (orientation : portrait)
+	{
+	body {
+		padding-bottom: 25px;
+	}
+	.app .app-container {
+		margin-top				: 25px !important; 
+	}
+	.footer_Xphone {
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+	} 
 
-    .app .app-container {
-        margin-top              : 25px !important; 
-    }
-    .footer_Xphone {
-        margin-bottom: constant(safe-area-inset-bottom);
-        margin-bottom: env(safe-area-inset-bottom);
-    } 
-    .trackBox {
-            height: 520px;
-            max-height: 520px;
-                    
-            }
-    .scrollDown {
-            /* background-color:yellowgreen; */
-            min-height: 0;
-            max-height: 520px;
-            height: 520px;
-            display: flex;
-    }
+	.scrollDown {
+			/* background-color:yellowgreen; */
+			min-height: 0;
+
+			height: 460px;
+			display: flex;
+	}
+	.iPXMAXmb70  {
+		margin-bottom: 70px !important;
+	}
+	.iPXMAXmb84 {
+		margin-bottom: 84px !important;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
-/********* iPhone X MAybe*******/
+/********* iPhone X *******/
 @media only screen  
-    and (device-width: 414px)
-    and (device-width: 896px)
-    and (orientation : portrait)
-    {
-    .app .app-container {
-        margin-top              : 25px !important; 
+	and (device-width: 414px)
+	and (device-width: 896px)
+	and (orientation : portrait)
+	{
+	body {
+		padding-bottom: 25px;
+	}
+	.app .app-container {
+		margin-top: 25px !important; 
 
-    }
-    .footer_Xphone {
-        margin-bottom: constant(safe-area-inset-bottom);
-        margin-bottom: env(safe-area-inset-bottom);
-    } 
-    .trackBox {
-            height: 350px;
-            max-height: 360px;
-                    
-            }
-    .scrollDown {
-            /* background-color:blue;*/
-            min-height: 0;
-            max-height: 360px;
-            height: 350px;
-            display: flex;
-    }
-            
+	}
+	.footer_Xphone {
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+	} 
+	.trackBox {
+			max-height: 360px;
+					
+			}
+	.scrollDown {
+			/* background-color:blue; */
+			min-height: 0;
+			max-height: 350px;
+			height: 350px;
+			display: flex;
+	}
+	.iPXmb60  {
+		margin-bottom: 60px !important;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
+			
 }
 
 @media only screen  
-    and (min-device-width: 411px)
-    and (max-device-width: 430px)
-    and (max-device-height: 732px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color: pink;*/
-            height: 100vh; 
-            max-height: 350px;
-    
-    }
+	and (min-device-width: 411px)
+	and (max-device-width: 430px)
+	and (max-device-height: 732px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color: pink; */
+			height: 100vh; 
+			max-height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 } 
 @media only screen  
-    and (device-width: 414px)
-    and (device-height: 736px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color:darkkhaki; */
-            height: 100vh;
-            max-height: 350px;
-    
-    }
+	and (device-width: 414px)
+	and (device-height: 736px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color:darkkhaki; */
+			height: 100vh;
+			max-height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 /*************iPhone XS Max**************/
 @media only screen 
     and (device-width : 414px) 
     and (device-height : 896px) 
-    and (-webkit-device-pixel-ratio : 3) 
-    {
-        .app .app-container {
-            margin-top              : 25px !important; 
-        }
-        .footer_Xphone {
-            margin-bottom: constant(safe-area-inset-bottom);
-            margin-bottom: env(safe-area-inset-bottom);
-        }  
-        .trackBox {
-            height: 58%;
-            max-height: 360px;   
-            }
-    .scrollDown {
-            /* background-color: blueviolet; */
-            height: 350px;
-            max-height: 360px;
-    
-    }
-
-    }
+	and (-webkit-device-pixel-ratio : 3) 
+	{
+		body {
+			padding-bottom: 25px;
+		}
+	
+		.app .app-container {
+			margin-top				: 25px !important; 
+		}
+		.footer_Xphone {
+			margin-bottom: constant(safe-area-inset-bottom);
+			margin-bottom: env(safe-area-inset-bottom);
+		}  
+		.trackBox {
+			height: 58%;
+			max-height: 360px;   
+		}
+		.scrollDown {
+			/* background-color: blueviolet; */
+			height: 350px;
+			max-height: 360px;
+		}
+		.iPXmb60  {
+			margin-bottom: 70px !important;
+		}
+		.iPXmb74 {
+			margin-bottom: 74px !important;
+		}
+		.media_query_mt0 {
+			margin-top: 0px !important;
+		}
+	}
 @media only screen  
-    and (min-device-width: 411px)
-    and (max-device-width: 430px)
-    and (max-device-height: 823px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color:darkgreen; */
-            height: 100vh;
-            max-height: 350px;
-    
-    }
+	and (min-device-width: 411px)
+	and (max-device-width: 430px)
+	and (max-device-height: 823px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color:darkgreen; */
+			height: 100vh;
+			max-height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 
 @media only screen  
-    and (min-device-width: 461px)
-    and (max-device-width: 480px)
-    and (max-device-height: 854px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color: red; */
-            height: 100vh;
-            max-height: 350px;
-    
-    }
+	and (min-device-width: 461px)
+	and (max-device-width: 480px)
+	and (max-device-height: 854px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color: red; */
+			height: 100vh;
+			max-height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }  
 
 @media only screen  
@@ -1990,91 +2063,109 @@ and (min-device-width: 561px)
 and (max-device-width: 600px)
 and (max-device-height: 960px)
 and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 350px;   
-            }
-    .scrollDown {
-            /* background-color: orange;*/
-            height: 100vh; 
-            max-height: 350px;
-    
-    }
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 350px;   
+			}
+	.scrollDown {
+			/* background-color: orange; */
+			height: 350px; 
+			max-height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
 and (min-device-width: 601px)
 and (max-device-width: 660px)
 and (orientation : portrait)
-    {   
-    .trackBox {
-            height: 38vh;
-            max-height: 58vh;   
-            }
-    .scrollDown {
-            /* background-color: brown; */
-            height: 58vh;
-    
-    }
+	{	
+	.trackBox {
+			height: 38vh;
+			max-height: 58vh;   
+			}
+	.scrollDown {
+			/* background-color: brown; */
+			height: 58vh;
+			max-height: 58vh;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }@media only screen  
 and (min-device-width: 661px)
 and (max-device-width: 700px)
 and (orientation : portrait)
-    {
-    .trackBox {
-            height: 38vh;
-            max-height: 58vh;   
-            }
-    .scrollDown {
-            /* background-color: darkcyan; */
-            height: 58vh;
-    
-    }
+	{
+	.trackBox {
+			height: 38vh;
+			max-height: 58vh;   
+			}
+	.scrollDown {
+			/* background-color: darkcyan; */
+			height: 58vh;
+			max-height: 58vh;
+	
+	}
 } 
 
 @media only screen  
-    and (device-width: 800px)
-    and (device-height: 1280px)
-    and (orientation : portrait)
-    {
-        .trackBox {
-                height: 58%;
-                max-height: 360px;   
-                }
-        .scrollDown {
-                /* background-color: lightgoldenrodyellow; */
-                height: 350px;
-        
-        }
+	and (device-width: 800px)
+	and (device-height: 1280px)
+	and (orientation : portrait)
+	{
+		.trackBox {
+				height: 58%;
+				max-height: 360px;   
+				}
+		.scrollDown {
+				/* background-color: lightgoldenrodyellow; */
+				height: 350px;
+				max-height: 350px;
+		
+		}
+		.media_query_mt0 {
+			margin-top: 0px !important;
+		}
 }
 @media only screen  
-    and (device-width: 768px)
-    and (device-height: 1024px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 360px;   
-            }
-    .scrollDown {
-            /* background-color: lightskyblue; */
-            height: 350px;
-    
-    }
+	and (device-width: 768px)
+	and (device-height: 1024px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 360px;   
+			}
+	.scrollDown {
+			/* background-color: lightskyblue; */
+			height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
-    and (device-width: 1024px)
-    and (device-height: 1366px)
-    and (orientation : portrait)
-    {
-    .trackBox {
-            height: 58%;
-            max-height: 360px;   
-            }
-    .scrollDown {
-            /* background-color: darkcyan; */
-            height: 350px;
-    
-    }
+	and (device-width: 1024px)
+	and (device-height: 1366px)
+	and (orientation : portrait)
+	{
+	.trackBox {
+			height: 58%;
+			max-height: 360px;   
+			}
+	.scrollDown {
+			/* background-color: darkcyan; */
+			height: 350px;
+	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 
