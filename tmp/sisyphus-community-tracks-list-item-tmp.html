@@ -1,47 +1,47 @@
 <div class="h__k" data-run="model.collapse">
-        <div class="flex clickable active ctb-border h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
-            data-on-click="publish"
-            data-publish="session:toggle"
-            data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
-        >
-            <div class="flex hh100 h__k ">
-                <div class="w25 pt20 pl15 center vertical">
-                    <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
-                        data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
-                    />
-                </div>
-                
-                <div class="w70 pt20 pl24-2 vertical-align">
-                    <div class="fs18 black strong h__k">{{= model.data.name }}</div>
-                    <div class="fs13  warmGrey pt10 sort_created_by h__k">by {{= model.data.created_by_name }}</div>
-                    <div class="fs13  warmGrey pt5 sort_created_by h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
-                </div>
-                <div class="w20 pt20 pr15 h100 vertical right clickable">
-                        <i class="grey pt20" aria-hidden="true">
-                            <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
-                        </i>
-                </div>
+    <div class="flex clickable active ctb-border h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
+        data-on-click="publish"
+        data-publish="session:toggle"
+        data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
+    >
+        <div class="flex hh100 h__k ">
+            <div class="w25 pt20 pl15 center vertical">
+                <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
+                    data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
+                />
+            </div>
+            
+            <div class="w70 pt20 pl24-2 vertical-align">
+                <div class="fs18 black strong h__k">{{= model.data.name }}</div>
+                <div class="fs13  warmGrey pt10 sort_created_by h__k">by {{= model.data.created_by_name }}</div>
+                <div class="fs13  warmGrey pt5 sort_created_by h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
+            </div>
+            <div class="w20 pt20 pr15 h100 vertical right clickable">
+                    <i class="grey pt20" aria-hidden="true">
+                        <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
+                    </i>
             </div>
         </div>
-        <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">  
-            <div class="w20 w10 clickable vertical center h__k"
-                data-if="{{= model.community_track_downloaded }} == false"
-                data-on-click="model.download_wc" 
-                data-msg="{{= model.data.track_id}}">
-                
-                    <img src="img/download_white.png" alt="Download Cloud" class="white pt15">
-            </div>
-            <div class="h__k"
-                data-if="{{= model.community_track_downloaded}} == true" >
-                    <img src="img/checkCircle.png" alt="Checked Circle" class="pt15 pl25" >
-            </div>
-    
-    
-            <div class="w25 clickable active center pt15 pb15 h__k"
-                    data-on-click="publish"  
-                    data-publish="session:active"
-                    data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
-                ><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" />
-            </div>
+    </div>
+    <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">  
+        <div class="w20 w10 clickable vertical center h__k"
+            data-if="{{= model.community_track_downloaded }} == false"
+            data-on-click="model.download_wc" 
+            data-msg="{{= model.data.track_id}}">
+            
+                <img src="img/download_white.png" alt="Download Cloud" class="white pt15">
         </div>
-    </div>    
+        <div class="h__k"
+            data-if="{{= model.community_track_downloaded}} == true" >
+                <img src="img/checkCircle.png" alt="Checked Circle" class="pt15 pl25" >
+        </div>
+
+
+        <div class="w25 clickable active center pt15 pb15 h__k"
+                data-on-click="publish"  
+                data-publish="session:active"
+                data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
+            ><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" />
+        </div>
+    </div>
+</div>    
