@@ -1,3 +1,5 @@
+#2019-7-29 1.8.28
+ - Onboarding Wifi list spinner and dropdown fix
 #2019-7-29 1.8.27
  - Fix (remove) jump back to home page on reconnect
  - Fix wifi reconnect issues on bad password
