@@ -119,6 +119,7 @@ app.model.sisyphus_manager = {
     intake_data: function(given_data) {
       console.log("intake_data()");
       var self = this;
+
       if (!_.isArray(given_data)) given_data = [given_data];
 
       _.each(given_data, function(data) {
@@ -142,10 +143,9 @@ app.model.sisyphus_manager = {
                     if (_.isObject(new_str) || _.isArray(new_str)) new_str = JSON.stringify(new_str);
                     var old_str = d[key][i];
                     if (_.isObject(old_str) || _.isArray(old_str)) old_str = JSON.stringify(old_str);
-
                     if (new_str != old_str) {
-                      is_diff = true;
-                      console.log("Array change", key, new_str, old_str);
+                        is_diff = true;
+                        console.log("Array change", key, new_str, old_str);
                     }
                   });
                 }
@@ -190,26 +190,26 @@ app.model.sisyphus_manager = {
     },
 
     check_remote_versions: function(cb) {
-        var self = this;
+      var self = this;
 
-        var obj = {
-            _url: app.config.get_api_url(),
-            _type: 'POST',
-            endpoint: 'latest_software_version',
-            data: {}
-        };
+      var obj = {
+        _url: app.config.get_api_url(),
+        _type: 'POST',
+        endpoint: 'latest_software_version',
+        data: {}
+      };
 
-        app.post.fetch(obj, function(cbb) {
-            self.set('remote_versions', cbb.resp);
-        }, 0);
+      app.post.fetch(obj, function(cbb) {
+        self.set('remote_versions', cbb.resp);
+      }, 0);
 
-        return this;
+      return this;
     },
     _admin_taps: 0,
     check_admin: function() {
-        if (++this._admin_taps > 5) {
-            this.set('is_admin', 'true');
-        }
+      if (++this._admin_taps > 5) {
+        this.set('is_admin', 'true');
+      }
     },
     /**************************** BLUETOOTH ***********************************/
     force_reload: function() {
@@ -741,49 +741,54 @@ app.model.sisyphus_manager = {
         return this;
     },
     open_network_settings: function() {
-        console.log("open_network_settings()");
-        var self = this;
+      console.log("open_network_settings()");
+      var self = this;
 
-        self.set('sisbot_registration', 'waiting');
+      self.set('sisbot_registration', 'waiting');
 
-        window.cordova.plugins.settings.open('wifi', function success(resp) {
-            self.await_network_connection(function() {
-                self.set('sisbot_registration', 'find');
-            }, 0);
-        }, function error(err) {
-            alert('Error opening WiFi settings. Please manually go to your WiFi settings');
-        });
+      window.cordova.plugins.settings.open('wifi', function success(resp) {
+        self.await_network_connection(function() {
+          console.log("Wifi: await network connection");
+          self.set('sisbot_registration', 'find');
+        }, 0);
+      }, function error(err) {
+        alert('Error opening WiFi settings. Please manually go to your WiFi settings');
+      });
 
-        return this;
+      return this;
     },
     open_network_settings_from_error: function() {
-        console.log("open_network_settings_from_error()");
-        var self = this;
+      console.log("open_network_settings_from_error()");
+      var self = this;
 
-        window.cordova.plugins.settings.open('wifi', function success(resp) {
-            // we are attempting to reconnect to hotspot
-            self.get_model('sisbot_id')._poll_restart();
-            self.set('sisbot_reconnecting', 'true');
-        }, function error(err) {
-            self.set('sisbot_reconnecting', 'false');
-            alert('Error opening WiFi settings. Please manually go to your WiFi settings');
-        });
+      window.cordova.plugins.settings.open('wifi', function success(resp) {
+        // we are attempting to reconnect to hotspot
+        // self.get_model('sisbot_id')._poll_restart();
+        console.log("Wifi: reconnecting");
+        self.find_sisbots();
+        self.set('sisbot_reconnecting', 'true');
+      }, function error(err) {
+        self.set('sisbot_reconnecting', 'false');
+        alert('Error opening WiFi settings. Please manually go to your WiFi settings');
+      });
     },
     open_network_settings_for_hotspot: function() {
-        console.log("open_network_settings_for_hotspot()");
-        var self = this;
+      console.log("open_network_settings_for_hotspot()");
+      var self = this;
 
-        self.set('sisbot_reconnecting', 'true');
+      self.set('sisbot_reconnecting', 'true');
 
-        window.cordova.plugins.settings.open('wifi', function success(resp) {
-            // we are attempting to reconnect to hotspot
-            self.await_network_connection(function() {
-                self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
-            }, 0);
-        }, function error(err) {
-            self.set('sisbot_reconnecting', 'false');
-            alert('Error opening wifi settings. Please manually go to your wifi settings');
-        });
+      window.cordova.plugins.settings.open('wifi', function success(resp) {
+        // we are attempting to reconnect to hotspot
+        self.await_network_connection(function() {
+          console.log("Wifi: await network connection");
+          self.find_sisbots();
+          // self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
+        }, 0);
+      }, function error(err) {
+        self.set('sisbot_reconnecting', 'false');
+        alert('Error opening wifi settings. Please manually go to your wifi settings');
+      });
     },
     await_network_connection: function(cb, count) {
         console.log("await_network_connection()");
@@ -799,14 +804,16 @@ app.model.sisyphus_manager = {
         }, 500);
     },
     reconnect_from_error: function() {
-        console.log("reconnect_from_error()");
+        console.log("Wifi: reconnect_from_error()");
         this.set('sisbot_reconnecting', 'true');
-        this.get_model('sisbot_id')._poll_restart();
+        // this.get_model('sisbot_id')._poll_restart();
+        this.find_sisbots();
     },
     reconnect_to_hotspot: function() {
-        console.log("reconnect_to_hotspot()");
+        console.log("Wifi: Reconnect to hotspot");
         this.set('sisbot_reconnecting', 'true');
-        this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
+        // this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
+        this.find_sisbots();
     },
     check_reconnect_status: function() {
         console.log("check_reconnect_status()");
@@ -825,15 +832,15 @@ app.model.sisyphus_manager = {
     /**************************** FIND SISBOTS ********************************/
     _apple_counts: 0,
     _apple_counter: function() {
-        console.log("_apple_counter()");
-        this._apple_counts++;
-        if (this._apple_counts > 5) {
-            app.config.env = 'alpha';
-        }
+      this._apple_counts++;
+      console.log("_apple_counter()", this._apple_counts);
+      if (this._apple_counts > 5) {
+        app.config.env = 'alpha';
+      }
     },
     find_sisbots: function() {
-        console.log("find_sisbots()");
-        var self = this;
+      console.log("find_sisbots()", this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
+      var self = this;
 
         if (app.is_app) {
             if (device.platform == 'Android') {
@@ -853,13 +860,15 @@ app.model.sisyphus_manager = {
             this._find_sisbots();
         }
     },
-    rescan: function() {
-        console.log("rescan()");
-        this.set('sisbots_scanning', 'true');
-        this.set('sisbot_registration', 'find');
-        window.location.reload();
-    },
-    _find_sisbots: function () {
+  rescan: function() {
+    console.log("rescan()");
+    this.set('sisbots_scanning', 'true');
+    this.set('sisbot_registration', 'find');
+    window.location.reload();
+  },
+  _find_sisbots: function () {
+    if (this.get('sisbots_scanning') == 'true') return;
+
 		console.log("_find_sisbots()");
 		// this will find the sisbots on the local network
 		var self			= this;
@@ -874,28 +883,52 @@ app.model.sisyphus_manager = {
 		}
 		this.set('sisbots_networked', []);
 		this.set('sisbots_ip_name', {});
+    // this.set('sisbot_id', 'false'); // ?? clear ?? // causes errors on check_reconnect_status
+    this.set('sisbot_registration', 'find'); // ?? maybe ??
 		this.set('sisbots_scanning', 'true');
+    console.log('Find Sisbots:', this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
 
 		var num_checks = 5;
 
 		function on_cb() {
-			console.log("Find CB");
 			--num_checks;
-			if (num_checks == 0) {
 
+      console.log("Is Sisbot Available:", self.get('sisbot_registration'), self.get('is_sisbot_available'), self.get('sisbots_scanning'));
+
+      if (self.get('sisbots_scanning') == 'false') return;
+
+      switch (num_checks) {
+        case 4:
+      		console.log("Find Hotspot");
+      		self.find_hotspot(on_cb);
+          break;
+        case 3:
+      		console.log("Find User Sisbots");
+      		self.find_user_sisbots(on_cb);
+          break;
+        case 2:
+      		console.log("Find Bluetooth Sisbots");
+      		self.find_bluetooth_sisbots(on_cb);
+          break;
+        case 1:
+      		console.log("Find Network Sisbots");
+      		self.find_network_sisbots(on_cb);
+          break;
+        default:
 				// DEBUGGING CODE: COMMENT BEFORE COMMIT
 				// self.set('sisbot_registration', 'none');
 				// return this;
 
 				var sisbots = _.uniq(self.get('sisbots_networked'));
+  			console.log("Find CB", sisbots);
 				self.set('sisbots_networked', sisbots);
 				self.set('sisbots_scanning', 'false');
 				var curr_reg = self.get('sisbot_registration');
 
 				if (app.config.env == 'alpha') {
 					self.connect_to_sisbot('192.168.42.1');
-				} else if (app.config.env == 'beta') {
-					self.connect_to_sisbot(app.config.get_sisbot_url());
+				// } else if (app.config.env == 'beta') {
+				// 	self.connect_to_sisbot(app.config.get_sisbot_url());
 				} else if (sisbots.length == 1) {
 					self.set('sisbot_registration', 'connecting');
 					self.connect_to_sisbot(sisbots[0]);
@@ -912,47 +945,38 @@ app.model.sisyphus_manager = {
 			}
 		}
 
-		console.log("Find Hotspot");
-		this.find_hotspot(on_cb);
-		console.log("Find Session");
-		this.find_session_sisbots(on_cb);
-		console.log("Find User Sisbots");
-		this.find_user_sisbots(on_cb);
-		console.log("Find Bluetooth Sisbots");
-		this.find_bluetooth_sisbots(on_cb);
-		console.log("Find Network Sisbots");
-		this.find_network_sisbots(on_cb);
+    console.log("Find Session");
+    this.find_session_sisbots(on_cb);
 	},
-    find_hotspot: function(cb) {
-        console.log("find_sisbots()");
-        var hotspot_hostname = '192.168.42.1';
+  find_hotspot: function(cb) {
+    console.log("find_sisbots()");
+    var hotspot_hostname = '192.168.42.1';
 
-        this.ping_sisbot(hotspot_hostname, cb);
+    this.ping_sisbot(hotspot_hostname, cb);
 
-        return this;
-    },
-    find_session_sisbots: function(cb) {
-        console.log("find_session_sisbots()");
-        var self = this;
-        var session_sisbots = app.current_session().get_sisbots();
-        var num_cbs = session_sisbots.length + 1;
+    return this;
+  },
+  find_session_sisbots: function(cb) {
+    console.log("find_session_sisbots()");
+    var self = this;
+    var session_sisbots = app.current_session().get_sisbots();
+    var num_cbs = session_sisbots.length + 1;
 
-        function on_cb() {
-            if (--num_cbs == 0) cb();
-        }
+    function on_cb() {
+      if (--num_cbs == 0) cb();
+    }
 
-        _.each(session_sisbots, function(hostname) {
-            self.ping_sisbot(hostname, on_cb);
-        });
+    _.each(session_sisbots, function(hostname) {
+      self.ping_sisbot(hostname, on_cb);
+    });
 
-        on_cb();
+    on_cb();
 
-        return this;
-    },
+    return this;
+  },
     find_user_sisbots: function(cb) {
         console.log("find_user_sisbots()");
-        if (this.get('user_id') == 'false')
-            return cb();
+        if (this.get('user_id') == 'false') return cb();
 
         var self = this;
         var user_sisbots = this.get_model('user_id').get('data.sisbot_hostnames');
@@ -971,99 +995,94 @@ app.model.sisyphus_manager = {
         return this;
     },
     find_bluetooth_sisbots: function(cb) {
-        console.log("find_bluetooth_sisbots()");
-        if (!app.is_app)
-            return cb();
+      if (!app.is_app) return cb();
+      console.log("find_bluetooth_sisbots()");
 
-        var self = this;
-        var ip_address = false;
+      var self = this;
+      var ip_address = false;
 
+      this.start_ble_scan('sisbot', function(ip_address) {
+        if (ip_address) {
+          console.log("Bluetooth IP: ", ip_address);
+          self.ping_sisbot(ip_address, cb);
+        } else cb();
+      });
 
-        this.start_ble_scan('sisbot', function(ip_address) {
-            if (ip_address)
-                self.ping_sisbot(ip_address, cb);
-            else
-                cb();
-        });
-
-        return this;
+      return this;
     },
     find_network_sisbots: function(cb) {
-        console.log("find_network_sisbots()");
-        if (!app.is_app)
-            return cb();
+      console.log("find_network_sisbots()");
+      if (!app.is_app) return cb();
 
-        var self = this;
+      var self = this;
 
-        this.get_network_ip_address(function(ip_address) {
-            console.log('get_network_ip_address ==' + ip_address);
-            if (!ip_address) return cb();
-            var ip_add = ip_address.split('.');
-            ip_add.pop();
+      this.get_network_ip_address(function(ip_address) {
+        console.log('get_network_ip_address ==' + ip_address);
+        if (!ip_address) return cb();
+        var ip_add = ip_address.split('.');
+        ip_add.pop();
 
-            var ip_base = ip_add.join('.');
-            var count = 0;
+        var ip_base = ip_add.join('.');
+        var count = 0;
 
-            _.each(_.range(0, 256), function(num) {
-                self.ping_sisbot(ip_base + '.' + num, function() {
-                    if (++count == 255) cb();
-                });
-            });
+        _.each(_.range(0, 256), function(num) {
+          self.ping_sisbot(ip_base + '.' + num, function() {
+            if (++count == 255) cb();
+          });
         });
+      });
 
-        return this;
+      return this;
     },
     ping_sisbot: function(hostname, cb, retries) {
-        // console.log("ping_sisbot()");
+        console.log("ping_sisbot()", hostname);
         var self = this;
 
         if (!retries) retries = 0;
 
         app.post.fetch({
-            _url: 'http://' + hostname,
-            _type: 'POST',
-            _timeout: 2500,
-            endpoint: '/sisbot/exists',
-            data: {}
+          _url: 'http://' + hostname,
+          _type: 'POST',
+          _timeout: 2500,
+          endpoint: '/sisbot/exists',
+          data: {}
         }, function(obj) {
-            if (obj.err) {
-                if (hostname == '192.168.42.1') {
-                    if (app.is_app == false || app.platform == 'iOS') {
-                        if (hostname == self._ble_ip) {
-                            self.set('sisbot_registration', 'hotspot');
-                        }
-                        // do nothing
-                    } else if (retries > 10) {
-                        if (hostname == self._ble_ip) {
-                            self.set('sisbot_registration', 'hotspot');
-                        }
-                        // do nothing
-                    } else {
-                        setTimeout(function() {
-                            self.ping_sisbot(hostname, cb, ++retries)
-                        }, 100);
-                        return this;
-                    }
+          if (obj.err) {
+            if (hostname == '192.168.42.1') {
+              if (app.is_app == false || app.platform == 'iOS') {
+                if (hostname == self._ble_ip) {
+                  self.set('sisbot_registration', 'hotspot');
                 }
-
-                return cb();
+                // do nothing
+              } else if (retries > 10) {
+                if (hostname == self._ble_ip) {
+                  self.set('sisbot_registration', 'hotspot');
+                }
+                // do nothing
+              } else {
+                setTimeout(function() {
+                  self.ping_sisbot(hostname, cb, ++retries)
+                }, 100);
+                return this;
+              }
             }
 
-            if (!obj.resp || !obj.resp.hostname)
-                return cb();
+            return cb();
+          }
 
-            // Default select the one we are already on
-            self.set('sisbot_hostname', obj.resp.local_ip);
-            self.add('sisbots_networked', obj.resp.local_ip);
-            self.set("sisbots_ip_name['" + obj.resp.local_ip.replace(/\./gi, '-') + "']", obj.resp.name);
-            cb();
+          if (!obj.resp || !obj.resp.hostname) return cb();
+
+          // Default select the one we are already on
+          self.set('sisbot_hostname', obj.resp.local_ip);
+          self.add('sisbots_networked', obj.resp.local_ip);
+          self.set("sisbots_ip_name['" + obj.resp.local_ip.replace(/\./gi, '-') + "']", obj.resp.name);
+          cb();
         }, 0);
 
         return this;
     },
 
     connect_to_sisbot: function(sisbot_hostname) {
-        // console.log("connect_to_sisbot()", sisbot_hostname);
         if (this.get('sisbot_connecting') == 'true') return false;
         else this.set('sisbot_connecting', 'true');
 
@@ -1072,76 +1091,83 @@ app.model.sisyphus_manager = {
         var self = this;
         var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : self.get('sisbot_hostname');
         if(sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
-        // console.log("connect_to_sisbot()2", sisbot_hostname);
+        console.log("connect_to_sisbot()", sisbot_hostname);
+
         // ping sisbot for connection
         var obj = {
             _url: 'http://' + sisbot_hostname + '/',
             _type: 'POST',
-            _timeout: 1500,
+            _timeout: 5000,
             _console: true,
             endpoint: 'sisbot/connect',
             data: {},
         };
 
+        console.log("fetch()", obj);
         app.post.fetch(obj, function(obj) {
             self.set('sisbot_connecting', 'false')
-                .set('errors', [])
+              .set('errors', []);
+
+            var sisbot_data = obj.resp;
 
             if (app.config.env == 'alpha') {
-                var sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
-                // console.log('Connect to Sisbot:', sisbot_data);
+              sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
+              console.log('APPLE testing, connect to Sisbot:', sisbot_data);
             } else {
-                if (obj.err) {
-                  // IF WE HAVE CONNECTION ERROR
-                  self.connect_to_sisbot(sisbot_hostname);
-                  return self.set('errors', ['- That sisbot does not appear to be on the network']);
-                }
-
-                var sisbot_data = obj.resp;
+              if (obj.err) {
+                // IF WE HAVE CONNECTION ERROR
+                self.connect_to_sisbot(sisbot_hostname);
+                return self.set('errors', ['- That sisbot does not appear to be on the network']);
+              }
             }
-
 
             // add sisbot data to our local collection
             _.each(sisbot_data, function(data) {
-                if (app.collection.exists(data.id)) {
-                  app.collection.get(data.id).set('data', data);
-                } else {
-                  app.collection.add(data);
-                }
+              if (app.collection.exists(data.id)) {
+                app.collection.get(data.id).set('data', data);
+              } else {
+                app.collection.add(data);
+              }
 
-                if (data.type == 'sisbot') {
-                  if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
-                  self.set('sisbot_id', data.id);
+              if (data.type == 'sisbot') {
+                if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
+                self.set('sisbot_id', data.id);
 
-                  app.collection.get(data.id).sisbot_listeners();
-                  app.socket.initialize();
-                }
+                var sisbot = app.collection.get(data.id);
+                sisbot.sisbot_listeners();
+
+                // update ip address
+                app.config.set_sisbot_url(sisbot.get('data.local_ip'));
+                app.socket.initialize();
+              }
             });
 
-            self.get_model('sisbot_id').set('is_connected', 'true');
+            self.get_model('sisbot_id').set('is_connected', 'true')
+              .set('sisbots_scanning', 'false'); // cancel out of scanning
 
             app.current_session().add_nx('sisbot_hostnames', sisbot_hostname);
             app.current_session().save_session();
-            app.trigger('session:active', { secondary: 'false', primary: 'current' });
+            console.log("Connected: on page", app.session.get('active.primary'));
+            if (app.session.get('active.primary') == 'false') app.trigger('session:active', { secondary: 'false', primary: 'current' });
             // hotspot access allows not requiring user
             if (self.get_model('user_id')) {
-                self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
-                self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
-                self.get_model('user_id').save(true);
+              self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
+              self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
+              self.get_model('user_id').save(true);
             }
         }, 0);
 
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
-        // console.log("get_network_ip_address()");
-        networkinterface.getWiFiIPAddress(function on_success(ip_address) {
-            cb(ip_address.ip);
-            // console.log('ip_address.ip ==' + ip_address.ip);
+      // console.log("get_network_ip_address()");
+      networkinterface.getWiFiIPAddress(function on_success(ip_address) {
+        cb(ip_address.ip);
+        // console.log('ip_address.ip ==' + ip_address.ip);
 
-        }, function on_error(err) {
-            cb(err);
-        });
+      }, function on_error(err) {
+        cb(err);
+      });
     },
     get_current_ssid: function() {
         // console.log("get_current_ssid()");

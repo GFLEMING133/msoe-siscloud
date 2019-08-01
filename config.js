@@ -1,5 +1,5 @@
 var config = {
-    version : '1.7.24', // Bind2 update
+    version : '1.8.28', // Onboarding Wifi list spinner and dropdown fix
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

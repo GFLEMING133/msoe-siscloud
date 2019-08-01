@@ -3,28 +3,34 @@
       data-template="sisyphus-header-default-tmp"
   ></div>
   <div class="bg-white black pl40 pr40">
-      <p class="no-stuffing center w100 mt40" aria-hidden="true">
-          <img src="img/icon_2x_check.png" alt="WiFi" class="hh30" />
-      </p>
-      <h3 class="m0 pt20 pb30 center justify fs24 lh24">
-          Connect to New Table
-      </h3>
-      <p class="center fs18 lh24">
-          Open your phone's WiFi settings and connect to the
-          Sisyphus network. Then return back here after you have connected.
-      </p>
-      <div class="pb20" data-if="{{= model.sisbot_connecting }} == false">
-          <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
-                  data-on-click="set"
-                  data-field="model.sisbot_registration"
-                  data-value="find"
-          >Find Sisyphus</p>
-      </div>
-      <div class="p20 center i white pull-bottom" data-if="{{= model.sisbot_connecting }} == true">
-          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-          <div>
-              Connecting...
-          </div>
-      </div>
+    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+      <img src="img/icon_2x_check.png" alt="WiFi" class="hh30" />
+    </p>
+    <h3 class="m0 pt20 pb30 center justify fs24 lh24">
+        Connect to New Table
+    </h3>
+    <p class="center fs18 lh24">
+        Open your phone's WiFi settings and connect to the
+        Sisyphus network. Then return back here after you have connected.
+    </p>
+    <div class="pb20" data-if="{{= model.sisbot_connecting }} == false">
+      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+          data-if="{{= app.is_app }} == true"
+          data-on-click="model.open_network_settings_from_error"
+      >Open Wifi Settings</p>
+      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+              data-on-click="set"
+              data-field="model.sisbot_registration"
+              data-value="find"
+      >Find Sisyphus</p>
+    </div>
+    <div class="p20 center i" data-if="{{= model.sisbots_scanning }} == true">
+        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+        <div>Scanning...</div>
+    </div>
+    <div class="p20 center i" data-if="{{= model.sisbot_connecting }} == true">
+        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+        <div>Connecting...</div>
+    </div>
   </div>
 </div>

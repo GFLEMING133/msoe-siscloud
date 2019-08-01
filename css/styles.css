@@ -103,7 +103,7 @@ body{
 }
 
 img {
-	translateZ					: 0;    /** GETS GPU TO RENDER IMG */
+	translateZ					: 0;     /** GETS GPU TO RENDER IMG */
 }
 
 pre {
@@ -404,7 +404,9 @@ label {
 .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+	-webkit-overflow-scrolling: touch;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 
 .auto-scroll {
@@ -696,11 +698,11 @@ li:hover {
 	padding-top: 30px;
 } */
 
-.hover, .hover > * 											{	color				: #efefef;	}
-.hover:hover, .hover:hover > * 					{	color				: #333;			}
+.hover, .hover > * 								{	color				: #efefef;	}
+.hover:hover, .hover:hover > * 					{	color				: #333;		}
 
-.hover-dark, .hover-dark > * 						{	color				: #888;			}
-.hover-dark:hover, .hover-dark:hover > *{	color				: #fff;			}
+.hover-dark, .hover-dark > * 					{	color				: #888;		}
+.hover-dark:hover, .hover-dark:hover > *		{	color				: #fff;		}
 
 
 @keyframes spin {
@@ -926,6 +928,16 @@ li:hover {
 	bottom		: 0px;
 	z-index		: 1000;
 }
+.fixed2{
+	position	: fixed;
+	left		: 0px;
+	right		: 0px;
+	z-index		: 1000;
+
+}
+.sticky {
+	position: sticky;
+}
 
 
 .float-center	{
@@ -1082,9 +1094,6 @@ select:focus {
 	border-bottom-right-radius: 5px;
 	padding-top: 8px;
 	padding-bottom: 8px;
-
-}
-.fa-retweet {
 
 }
 
@@ -1446,9 +1455,8 @@ select:focus {
 .ml50									{	margin-left				: 50px !important;			            }
 .mr50						            {   margin-right		    : 50px !important;			            }
 .mb55						      		{   margin-bottom		    : 55px !important;			            }
-.mb51						            {   margin-bottom		    : 51px !important;			            }
+.mb51						            {   margin-bottom		    : 50px !important;			            }
 .mt60									{	margin-top				: 60px !important;			            }
-.mb60						            {   margin-bottom		    : 60px !important;			            }
 
 .mt70									{	margin-top				: 70px !important;			            }
 .mb70						            {   margin-bottom		    : 70px !important;			            }
@@ -1542,6 +1550,7 @@ select:focus {
 .pr100									{	padding-right			: 100px !important;						}
 
 .pl110									{	padding-left			: 110px !important;						}
+.pt110						            {   padding-top             : 110px !important;			            }
 .pt150						            {   padding-top             : 150px !important;			            }
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
@@ -1692,7 +1701,10 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 0;
 		max-height: 160px;
 		height: 155px;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
 }
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 @media only screen 
@@ -1720,7 +1732,11 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 0;
 		max-height: 220px;
 		height: 210px;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
+	
 }
 @media only screen 
 	and (min-device-width: 321px)
@@ -1747,10 +1763,13 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 35vh;
 		max-height: 47vh;
 		height: 45vh;
-	}		
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}	
 }
+/* *********iPhone 7 aka my testing device ************** */
 @media only screen 
-	and (min-device-width: 341px)
 	and (max-device-width: 360px)
 	and (max-device-height: 640px)
 	and (orientation : portrait)
@@ -1765,18 +1784,21 @@ input[type="range"]::-ms-fill-upper {
 		padding-bottom: 60px;
 	}
 	.trackBox {
-		height: 58%;
-		max-height: 290px;
+		height: 250px;
+		max-height: 250px;
 		
 	}
 	.scrollDown {
-		/* background-color: #777;*/
+		/* background-color: blue; */
 		min-height: 0; 
-		max-height: 290px;
-		height: 280px;
-	}		
+		max-height: 250px;
+		height: 250px;
+	}	
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
-/****************Galaxy S10 5G*****************/
+/****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen 
 and (min-width: 360px) 
 and (max-width: 767px) 
@@ -1794,8 +1816,13 @@ and (orientation : portrait)
 		/* background-color:rosybrown; */
 		min-height: 0;
 		height: 460px;
+		max-height: 460px;
 		display: flex;
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
+	
 }
 
 /* Portrait */
@@ -1814,8 +1841,12 @@ and (orientation : portrait)
 			min-height: 0;
 			max-height: 380px;
 			height: 360px;
+			max-height:360px;
 			display: block;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 @media only screen  
@@ -1832,13 +1863,14 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color: #fdc539; */
 			min-height: 0;
-			max-height: 320px;
+			max-height: 310px;
 			height: 310px;
-
-	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
-/**************iPhone XS MAX*******************/
+/**************iPhone XS MAX COLINS PHONE*******************/
 @media only screen  
 	and (device-width: 375px)
 	and (device-height: 812px)
@@ -1854,20 +1886,25 @@ and (orientation : portrait)
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
 	} 
-	.trackBox {
-			height: 520px;
-			max-height: 520px;
-					
-			}
+
 	.scrollDown {
 			/* background-color:yellowgreen; */
 			min-height: 0;
-			max-height: 520px;
-			height: 520px;
+
+			height: 460px;
 			display: flex;
 	}
+	.iPXMAXmb70  {
+		margin-bottom: 70px !important;
+	}
+	.iPXMAXmb84 {
+		margin-bottom: 84px !important;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
-/********* iPhone X MAybe*******/
+/********* iPhone X *******/
 @media only screen  
 	and (device-width: 414px)
 	and (device-width: 896px)
@@ -1877,7 +1914,7 @@ and (orientation : portrait)
 		padding-bottom: 25px;
 	}
 	.app .app-container {
-		margin-top				: 25px !important; 
+		margin-top: 25px !important; 
 
 	}
 	.footer_Xphone {
@@ -1885,16 +1922,21 @@ and (orientation : portrait)
 		margin-bottom: env(safe-area-inset-bottom);
 	} 
 	.trackBox {
-			height: 350px;
 			max-height: 360px;
 					
 			}
 	.scrollDown {
-			/* background-color:blue;*/
+			/* background-color:blue; */
 			min-height: 0;
 			max-height: 350px;
 			height: 350px;
 			display: flex;
+	}
+	.iPXmb60  {
+		margin-bottom: 60px !important;
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 			
 }
@@ -1910,10 +1952,13 @@ and (orientation : portrait)
 			max-height: 350px;   
 			}
 	.scrollDown {
-			/* background-color: pink;*/
+			/* background-color: pink; */
 			height: 100vh; 
 			max-height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 } 
 @media only screen  
@@ -1931,6 +1976,9 @@ and (orientation : portrait)
 			max-height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 /*************iPhone XS Max**************/
 @media only screen 
@@ -1941,6 +1989,7 @@ and (orientation : portrait)
 		body {
 			padding-bottom: 25px;
 		}
+	
 		.app .app-container {
 			margin-top				: 25px !important; 
 		}
@@ -1956,9 +2005,16 @@ and (orientation : portrait)
 			/* background-color: blueviolet; */
 			height: 350px;
 			max-height: 360px;
-	
 		}
-
+		.iPXmb60  {
+			margin-bottom: 70px !important;
+		}
+		.iPXmb74 {
+			margin-bottom: 74px !important;
+		}
+		.media_query_mt0 {
+			margin-top: 0px !important;
+		}
 	}
 @media only screen  
 	and (min-device-width: 411px)
@@ -1975,6 +2031,9 @@ and (orientation : portrait)
 			height: 100vh;
 			max-height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 
@@ -1994,6 +2053,9 @@ and (orientation : portrait)
 			max-height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }  
 
 @media only screen  
@@ -2007,10 +2069,13 @@ and (orientation : portrait)
 			max-height: 350px;   
 			}
 	.scrollDown {
-			/* background-color: orange;*/
-			height: 100vh; 
+			/* background-color: orange; */
+			height: 350px; 
 			max-height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 @media only screen  
@@ -2025,7 +2090,11 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color: brown; */
 			height: 58vh;
+			max-height: 58vh;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }@media only screen  
 and (min-device-width: 661px)
@@ -2039,6 +2108,7 @@ and (orientation : portrait)
 	.scrollDown {
 			/* background-color: darkcyan; */
 			height: 58vh;
+			max-height: 58vh;
 	
 	}
 } 
@@ -2055,7 +2125,11 @@ and (orientation : portrait)
 		.scrollDown {
 				/* background-color: lightgoldenrodyellow; */
 				height: 350px;
+				max-height: 350px;
 		
+		}
+		.media_query_mt0 {
+			margin-top: 0px !important;
 		}
 }
 @media only screen  
@@ -2072,6 +2146,9 @@ and (orientation : portrait)
 			height: 350px;
 	
 	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
+	}
 }
 @media only screen  
 	and (device-width: 1024px)
@@ -2086,6 +2163,9 @@ and (orientation : portrait)
 			/* background-color: darkcyan; */
 			height: 350px;
 	
+	}
+	.media_query_mt0 {
+		margin-top: 0px !important;
 	}
 }
 

@@ -17,33 +17,34 @@ app.socket = {
     var sisbot_id = app.manager.get('sisbot_id');
     if (sisbot_id == 'false') return this;
 
-		if (app.manager.get_model('sisbot_id').is_legacy() == true) {
-			return this;
-		}
+		if (app.manager.get_model('sisbot_id').is_legacy() == true) return this;
 
 		// compare ip, if new, reset
 		var ip = app.config.get_sisbot_url();
+		if (ip == 'false') return; // stop if not set
 
-		if (ip == 'false') return; // quit if not available
     //    console.log('ip===', ip)
     // var ip = app.collection.get(sisbot_id).get('data.local_ip');
 
+		if(ip.match(/^https?:\/\//i)) ip = ip.replace(/^https?:\/\//i, "");
+		if(ip.match(/:[0-9]+\/?$/i)) ip = ip.replace(/:[0-9]+\/?$/i, "");
+
+		if (this.server_ip == ip) return console.log("Same Socket IP, skip recreate", ip);
+
 		this.server_ip = ip;
-    //console.log('Socket session', this.server_ip);
+    console.log('Socket Address', this.server_ip);
 
 		if (self.socket) {
+			console.log("Close Socket", self.socket);
 			self.socket.close();
 			delete self.socket;
 		}
-		if(this.server_ip.match(/^https?:\/\//i)) this.server_ip = this.server_ip.replace(/^https?:\/\//i, "");
-		if(this.server_ip.match(/(:[0-9]+)?\/?$/i)) this.server_ip = this.server_ip.replace(/(:[0-9]+)?\/?$/i, "");
 
-		console.log("Socket: connect", this.server_ip);
-    self.socket = io.connect( this.server_ip + ':3002'); //change to 3000 for download to work
+    self.socket = io.connect( 'http://' + this.server_ip + ':3002'); //change to 3000 for download to work
 
 		self.socket.on('connect', function () {			self.on_connect();		});
     self.socket.on('reconnect', function() {        self.on_reconnect();    });
-		self.socket.on('reconnect_attempt', function() {        self.on_reconnect_attempt();    });
+    self.socket.on('reconnect_attempt', function() {        self.on_reconnect_attempt();    });
     self.socket.on('disconnect', function() {       self.on_disconnect();   });
 		self.socket.on('error', function(err) { 		self.on_error(err); 	});
 
@@ -53,34 +54,34 @@ app.socket = {
 
     self.socket.emit('register', { id: sisbot_id });
 	},
-    on_connect: function(socket) {
-      console.log('socket: connect');
-			app.trigger("socket:connect", null);
-    },
-    on_reconnect: function() {
-      console.log('socket: reconnect');
-			app.trigger("socket:reconnect", null);
-    },
-    on_reconnect_attempt: function() {
-      console.log('socket: reconnect_attempt');
-			app.trigger("socket:reconnect", null);
-    },
-    on_disconnect: function() {
-      console.log('socket: disconnect');
-			app.trigger("socket:disconnect", null);
-    },
-    on_error: function(err) {
-      //console.log('socket: error', err);
-			app.trigger("socket:error", err);
-    },
-    on_set: function(data) {
-			app.manager.intake_data(data);
-    },
-    on_erase: function(data) {
-      console.log('socket: erase');
-      //app.collection.remove(data.id);
-    },
-    on_test: function(data) {
-      console.log('socket: test', data);
-    },
+  on_connect: function(socket) {
+    console.log('socket: connect');
+		app.trigger("socket:connect", null);
+  },
+  on_reconnect: function() {
+    console.log('socket: reconnect');
+		app.trigger("socket:reconnect", null);
+  },
+  on_reconnect_attempt: function() {
+    console.log('socket: reconnect_attempt');
+		app.trigger("socket:reconnect_attempt", null);
+  },
+  on_disconnect: function() {
+    console.log('socket: disconnect');
+		app.trigger("socket:disconnect", null);
+  },
+  on_error: function(err) {
+    //console.log('socket: error', err);
+		app.trigger("socket:error", err);
+  },
+  on_set: function(data) {
+		app.manager.intake_data(data);
+  },
+  on_erase: function(data) {
+    console.log('socket: erase');
+    //app.collection.remove(data.id);
+  },
+  on_test: function(data) {
+    console.log('socket: test', data);
+  },
 };

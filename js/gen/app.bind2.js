@@ -804,6 +804,8 @@ function Element(el, parent, _scope) {
           self.triggers[trigger_str] = function () {
             var is_change = false;
 
+            // TODO: watch for data-if (if only listener & if evaluation doesn't change, don't re-render)
+
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
               var new_value = self.get_value(self.el[key]);
