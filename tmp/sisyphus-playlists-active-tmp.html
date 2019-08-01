@@ -6,7 +6,7 @@
             data-msg="{'secondary':'playlists'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w40">
-            <h1 class="h__k fs18 lh18 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
+            <h1 class="h__k fs18 lh18 pb5 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
         </div>
         <div class="w30 right p15 pr20 f-large clickable active h__k"
             data-on-click="publish"
@@ -14,10 +14,9 @@
             data-msg="{'secondary':'playlist-edit'}"
         ><img src="img/icon_2x_playlist_edit.png" alt="Back" class="hh50 pt15 pb15" /></div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
-        <!--------------------------- PLAYLIST TRACKS ---------------------------->
-        <div class="bg-black hh50 w100 no-stuffing absolutely">
-            <div class="center pt5">
+    <div class="body-header h100 h__k" data-model="{{= parent.active.playlist_id }}">
+        <div class="bg-black hh50 w100 mt50 media_query_mt0 fixed2">
+            <div class="center pt10">
                 <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded mr10 clickable h__k"
                     data-on-click="model.play" data-msg="{{= 0 }}"
                 >
@@ -32,14 +31,17 @@
                 </div>
             </div>
         </div>
-        <div class="h__k pt50"
-            data-foreach="model.data.tracks"
-            data-foreach-map="true"
-        >
-            <div class="h__k {{= (scope.index !== 0) ? 'bt' : '' }}"
-                data-template="sisyphus-tracks-list-item-tmp"
-            ></div>
+        <!--------------------------- PLAYLIST TRACKS ---------------------------->
+        <div class="h100 scroll hide-scrollbar">
+            <div class="h__k pt50 "
+                data-foreach="model.data.tracks"
+                data-foreach-map="true"
+            >
+                <div class="h__k {{= (scope.index !== 0) ? 'bt' : '' }}"
+                    data-template="sisyphus-tracks-list-item-tmp"
+                ></div>
+            </div>
+            <div class="hh150">&nbsp;</div>
         </div>
-        <div class="hh150">&nbsp;</div>
     </div>
 </div>

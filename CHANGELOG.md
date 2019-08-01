@@ -1,20 +1,39 @@
+#2019-7-29 1.8.28
+ - Onboarding Wifi list spinner and dropdown fix
+ - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.
+#2019-7-29 1.8.27
+ - Fix (remove) jump back to home page on reconnect
+ - Fix wifi reconnect issues on bad password
+ - Fix Wifi network list reselecting first entry
+
+#2019-7-25 1.8.24
+ - Fixing/improving finding sisbots on mobile app
+ - When switching to hotspot, it should reconnect faster after joining that network
+ - Removed duplicate find code from sisbot model, all finding of sisbots handled in manager
+ 
+ #2019-7-15 1.8.24,25
+ - iPhone MAX, X, XS have targeted media queries.
+ - App is now displaying correctly on iPhone X/XS/MAX with notch and microphone.
+ - sisyphus-playlists-active-tmp. "Play" and Shuffle" div is position:fixed, moved out of .scroll <div></div> and media-queried iPhones to have no margin-top.     (NEEDS TESTING ON MULTIPLE PHONES!!)
+ - Error handeling for wifi login in sisyphus-settings-wifi-tmp. Now handles 8 or less characters, Wrong SSID info and No Password w/alert that is changing to a   confirm.
+ - fontawesome updated. fa became far or fas and added some newer looking icons. 
+
 #2019-7-15 1.8.23
- - Fixed fonts to be sourced in properly through css. 
+ - Fixed fonts to be sourced in properly through css.
  - added Show Password to Community sign-in page
- - public / private to displaty in Community track list as well as private being italisized.
+ - public / private to display in Community track list as well as private being italisized.
  - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
  - changed padding on pause/play button to help with sizing  
-
 #2019-7-10, 1.8.21
- - Fixed merge conflicts and updated code to reflect UI changes from beta releases. 
- - WiFi disconnect or power loss no longer bricks table while updating. 
- - Pushed to Test Flight and Google Pay and then released into the wild. 
+ - Fixed merge conflicts and updated code to reflect UI changes from beta releases.
+ - WiFi disconnect or power loss no longer bricks table while updating.
+ - Pushed to Test Flight and Google Pay and then released into the wild.
  - staging branch was pushed to release.
 #2019-7-8, 1.8.18,19
- - Fixed auth_token in fetch2() to be set in proper place. 
+ - Fixed auth_token in fetch2() to be set in proper place.
  - removed debuggers
 #2019-7-2,3,4, 1.8.15,16 & 17
- - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com 
+ - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com
    in config and for the generated thumbs.
  - corrected scrolling issue in Community Tracks
  - changed sign_in and sign_up to use the fetch2 function for auth-token & header purposes.
@@ -23,16 +42,16 @@
 #2019-6-27, 1.8.13
  - Updated cordova iOS to 5.0.1
  - Updated Cordova Android to 8.0.0,
- - Updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud. 
- - Updated other plugins and removed those that were depricated. 
- - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not             connecting to wiFi per Matt K , 
+ - Updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud.
+ - Updated other plugins and removed those that were depricated.
+ - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not             connecting to wiFi per Matt K ,
  - Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of necessary upgrade.
-#2019-6-18, 1.8.12 
- - Updated Android Studio, Cordova, Gradel, and SDK Version/API Level and did test launch. 
+#2019-6-18, 1.8.12
+ - Updated Android Studio, Cordova, Gradel, and SDK Version/API Level and did test launch.
 #2019-6-18, 1.8.11
- - is_network_separate added to fix updating issue and Connect to WiFi 
+ - is_network_separate added to fix updating issue and Connect to WiFi
  - merged staging with beta
- - move UI over to webcenter 
+ - move UI over to webcenter
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
  - Fixed white screen of death by removing fonts.google.api. Sourced font locally.
