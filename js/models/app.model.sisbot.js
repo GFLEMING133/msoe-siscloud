@@ -615,7 +615,6 @@ app.model.sisbot = {
 
 			self.set('wifi_networks', uniq_wifi);
 			self.set('show_wifi_list', 'true');
-			console.log("Wifi networks", JSON.stringify(uniq_wifi));
 		}, 10000); // wait ten seconds before retrying
   },
 	wifi_failed_to_connect: function () {

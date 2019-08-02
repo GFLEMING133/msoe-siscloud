@@ -112,8 +112,8 @@ function Element(el, parent, _scope) {
 
   this.el_type = null;
   this.el_text = null;
-  this.el = { class     : '' }; // attributes as given by html
-  this.r_el = { class :'' }; // attributes as will be rendered to screen
+  this.el = { class: '' }; // attributes as given by html
+  this.r_el = {}; // attributes as will be rendered to screen
   this.template  = null;
 
   this.is_h__k = false;
@@ -719,8 +719,6 @@ function Element(el, parent, _scope) {
 
       // save attribute values as templated
       if (list.length > 0) {
-        // console.log("Attr listeners", key, r_key, self.get_value(r_key), list);
-
         if (key == 'class') {
           var classes = '';
           if (self.is_hidden) classes += 'hidden ';
@@ -728,6 +726,8 @@ function Element(el, parent, _scope) {
           classes += self.get_value(r_key);
 
           self.r_el[key] = classes;
+
+          // console.log("Attr listeners", key, self.el[key], self.r_el[key]);
         } else self.r_el[key] = self.get_value(r_key);
       }
 
@@ -804,13 +804,28 @@ function Element(el, parent, _scope) {
           self.triggers[trigger_str] = function () {
             var is_change = false;
 
-            // TODO: watch for data-if (if only listener & if evaluation doesn't change, don't re-render)
-
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
               var new_value = self.get_value(self.el[key]);
 
-              if (new_value != old_value) is_change = true;
+              // class specific check
+              if (key == 'class') {
+                var classes = '';
+                if (self.is_hidden) classes += 'hidden ';
+                if (self.el_id) classes += self.el_id+' ';
+                classes += new_value;
+
+                new_value = classes;
+              }
+
+              if (new_value != old_value) {
+                // TODO: watch for data-if (if only listener & if evaluation doesn't change, don't re-render)
+                if (key == 'data-if') {
+                  var old_if = !self.is_hidden;
+                  var new_if = self.if(new_value);
+                  if (old_if != new_if) is_change = true;
+                } else is_change = true;
+              }
             });
 
             // check if text changed
@@ -877,23 +892,31 @@ function Element(el, parent, _scope) {
     return list;
   };
   /***************************** LOGIC **************************************/
-  this.if = function () {
-      var statement   = this.get_value(this.data.if).split(/\s?(\=\=|\!\=\=|\<\=?|\>\=?)\s?/);
-      var first       = '' + statement[0];
-      var comparator  = statement[1];
-      var second      = '' + statement[2];
-      var is_true     = false;
+  this.if = function (data) {
+    // run if on given data, or this.data.if
+    var compare;
+    if (data) compare = data;
+    else compare = this.get_value(this.data.if);
 
-      // evaluate
-      if (comparator == '==' && first == second)          is_true = true;
-      else if (comparator == '!==' && first !== second)   is_true = true;
-      else if (comparator == '>' && +first > +second)     is_true = true;
-      else if (comparator == '>=' && +first >= +second)   is_true = true;
-      else if (comparator == '<' && +first < +second)     is_true = true;
-      else if (comparator == '<=' && +first <= +second)   is_true = true;
+    // split string out for comparison
+    var statement   = compare.split(/\s?(\=\=|\!\=\=|\<\=?|\>\=?)\s?/);
+    var first       = '' + statement[0];
+    var comparator  = statement[1];
+    var second      = '' + statement[2];
+    var is_true     = false;
 
-      // change visibility
-      this.is_hidden = !is_true;
+    // evaluate
+    if (comparator == '==' && first == second)          is_true = true;
+    else if (comparator == '!==' && first !== second)   is_true = true;
+    else if (comparator == '>' && +first > +second)     is_true = true;
+    else if (comparator == '>=' && +first >= +second)   is_true = true;
+    else if (comparator == '<' && +first < +second)     is_true = true;
+    else if (comparator == '<=' && +first <= +second)   is_true = true;
+
+    // change visibility
+    this.is_hidden = !is_true;
+
+    return is_true;
   };
   /***************************** CHILD CHAINING ***************************/
   this.add_subviews = function(el) {
@@ -1076,28 +1099,34 @@ function Element(el, parent, _scope) {
         var model = this.get_model(_foreach);
         var field = this.get_field(_foreach);
         list = model.get(field);
-        if (!_.isArray(list)) list = [list];
+        if (_.isString(list)) list = [list];
       } else console.log("Unknown foreach", _foreach);
+
+      // map to [{obj, index}]
+      list = _.map(list, function(obj, index) { return { obj: obj, index: index }; });
 
       // treat values as model.id's?
       var is_map = false;
       if (this.data.foreachMap) is_map = true;
 
-      if (self.data.debug) console.log("Add foreach element", list);
+      if (self.data.debug) console.log("Add foreach element", JSON.stringify(list));
 
       // loop through list
-      _.each(list, function(item, index) {
+      _.each(list, function(item, count) {
         if (!self.data.foreachLimit || (self.data.foreachLimit && index < +self.data.foreachLimit)) {
-          var _scope = { index: index };
+          var _scope = {
+            index: item.index,
+            count: count
+          };
           var new_element = $(loop_element.cloneNode(true));
 
           if (is_map) {
-            if (_.isObject(item)) new_element.attr('data-model', item.id);
-            else new_element.attr('data-model', item);
-          } else _scope.value = item;
+            if (_.isObject(item.obj)) new_element.attr('data-model', item.obj.id);
+            else new_element.attr('data-model', item.obj);
+          } else _scope.value = item.obj;
 
           // add subviews
-          if (self.data.debug) console.log("Add foreach element", item, index, is_map, _scope);
+          if (self.data.debug) console.log("Add foreach element", item.obj, item.index, count, is_map, JSON.stringify(_scope));
           self.subviews.push(new Element(new_element, self, _scope));
         }
       });
