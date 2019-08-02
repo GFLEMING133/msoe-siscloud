@@ -34,7 +34,10 @@ var Binding = Backbone.View.extend({
     var self = this;
     clearTimeout(this.render_timeout);
 
-    if (this.render_count == 0) this.render_start = new Date();
+    if (this.render_count == 0) {
+      this.render_start = new Date();
+      // if (app.config.debug) console.log("Bind: render start", this.render_start);
+    }
     this.render_count++;
 
     this.render_timeout = setTimeout(function() {
@@ -42,16 +45,20 @@ var Binding = Backbone.View.extend({
     }, self.render_wait);
   },
   _render: function() {
-    var render_end = new Date();
-    if (app.config.debug) console.log("Bind: render", this.render_count, (render_end - this.render_start)+'ms');
-    this.render_count = 0;
+    if (this.render_count <= 0) return this; // exit, unnecessary
+
+    var render_begin = new Date();
+    if (app.config.debug) console.log("Bind: render begin", this.render_count, (render_begin - this.render_start)+'ms');
 
     // get template to add to this DOM element
     if (this.element.is_changed) this.$el.html(this.element.html());
     else this.element.render();
 
-    app.trigger('bind:after_render');
+    var render_end = new Date();
+    if (app.config.debug) console.log("Bind: render end", this.render_count, (render_end - render_begin)+'ms', 'total', (render_end - this.render_start)+'ms');
+    this.render_count = 0;
 
+    app.trigger('bind:after_render');
     return this;
   }
 });
@@ -78,7 +85,7 @@ var Binding = Backbone.View.extend({
     data-placeholder :: input placeholder text
     data-replace :: for img elements, if the src fails to load, show this template instead. Use with data-on-error="replace".
   data-on:
-    data-on-click :: triggers event on element click, calling function on current model
+    data-on-click :: triggers event on element click, calling function (i.e. set, back, forward)
     data-on-key-enter :: triggers event on Enter key being pressed, while this element is active
     data-on-mouse-over :: triggers event on mouseOver of element
     data-on-mouse-out :: triggers event on mouseOut of element
@@ -191,7 +198,7 @@ function Element(el, parent, _scope) {
           try {
             var list = _.chain(this.el_text.match(/\{\{(.*?)\}\}/gi))
                 .map(function(r) {
-                  var listeners = r.match(/(session|manager|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
+                  var listeners = r.match(/(app|session|manager|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
                   return listeners;
                 }).flatten().compact().value();
             if (list.length > 0) { // check for listeners in this text
@@ -819,7 +826,6 @@ function Element(el, parent, _scope) {
               }
 
               if (new_value != old_value) {
-                // TODO: watch for data-if (if only listener & if evaluation doesn't change, don't re-render)
                 if (key == 'data-if') {
                   var old_if = !self.is_hidden;
                   var new_if = self.if(new_value);
@@ -1113,7 +1119,7 @@ function Element(el, parent, _scope) {
 
       // loop through list
       _.each(list, function(item, count) {
-        if (!self.data.foreachLimit || (self.data.foreachLimit && index < +self.data.foreachLimit)) {
+        if (!self.data.foreachLimit || (self.data.foreachLimit && count < +self.data.foreachLimit)) {
           var _scope = {
             index: item.index,
             count: count
@@ -1132,6 +1138,17 @@ function Element(el, parent, _scope) {
       });
 
     }
+  };
+  /***************************** ROUTING ************************************/
+  this.back = function () {
+      window.history.back();
+  };
+  this.forward = function () {
+      window.history.forward();
+  };
+  this.href = function () {
+      var href = this.get_value(this.data.href);
+      app.router.navigate(JSON.stringify(href), false); // ??
   };
   /***************************** RENDERING ********************************/
   this.render = function() {
