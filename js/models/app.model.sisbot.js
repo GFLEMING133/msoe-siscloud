@@ -1283,6 +1283,7 @@ app.model.sisbot = {
 		var new_pattern = this.get('edit.led_pattern');
 		if (this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
+			this.save_to_sisbot(this.get('data'));
 
 			// send to sisbot
 			this._update_sisbot('lcpWrite', { value: 'i'+new_pattern }, function (obj) {
