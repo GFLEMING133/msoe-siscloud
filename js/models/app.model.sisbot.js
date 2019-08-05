@@ -129,7 +129,7 @@ app.model.sisbot = {
 				share_log_files		: 'false',
 
 				led_enabled: 'false',
-				led_pattern: 'spread',
+				led_pattern: 'white',
 				led_offset : 0,
 				led_primary_color: '0xFFFFFF', // Hex
 				led_secondary_color: '0x00FFFF', // Hex
