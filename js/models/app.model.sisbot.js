@@ -1020,8 +1020,9 @@ app.model.sisbot = {
 			console.log('RESTART');
 		});
 	},
-	save_to_sisbot: function (data) {
-		this._update_sisbot('save', data, function(obj) {});
+	save_to_sisbot: function (data, cb) {
+		if (!cb) cb = function(obj) {};
+		this._update_sisbot('save', data, cb);
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
@@ -1334,14 +1335,15 @@ app.model.sisbot = {
 				// do nothing
 				// var end = +new Date();
 				// console.log("Brightness Response (millis):", end-start);
-				self.set('wait_for_send','false');
 
 				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
-				self.save_to_sisbot(self.get('data'));
+				self.save_to_sisbot(self.get('data'), function(obj) {
+					self.set('wait_for_send','false');
 
-				if (self.get('edit.led_offset') !== remember_level) {
-					self.led_offset(self.get('edit.led_offset'));
-				}
+					if (self.get('edit.led_offset') !== remember_level) {
+						self.led_offset(self.get('edit.led_offset'));
+					}
+				});
 			});
 		} else {
 			// console.log("New Offset", level);
