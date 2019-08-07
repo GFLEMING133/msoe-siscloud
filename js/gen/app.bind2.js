@@ -126,6 +126,7 @@ function Element(el, parent, _scope) {
   this.is_h__k = false;
   this.is_hidden = false;
   this.is_changed = true;
+  this.is_model_changed = true;
   this.is_event = false; // has (on) events associated
   this.is_lib = false; // uses additional library
 
@@ -198,7 +199,7 @@ function Element(el, parent, _scope) {
           try {
             var list = _.chain(this.el_text.match(/\{\{(.*?)\}\}/gi))
                 .map(function(r) {
-                  var listeners = r.match(/(app|session|manager|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
+                  var listeners = r.match(/(app|session|manager|scope|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
                   return listeners;
                 }).flatten().compact().value();
             if (list.length > 0) { // check for listeners in this text
@@ -238,6 +239,8 @@ function Element(el, parent, _scope) {
         this.add_subviews(this.$el);
 
         this.setup_listeners();
+
+        if (this.el_text && this.parent_element.data.debug) console.log('El_text', this.get_value(this.el_text));
       }
 
       this.is_changed = false;
@@ -456,10 +459,12 @@ function Element(el, parent, _scope) {
   };
   /***************************** SETUP MODEL ********************************/
   this.setup_model = function () {
+    if (!this.is_model_changed) return; // exit if model not changed
+
     var self = this;
     var scope       = (this._scope) ? this._scope : { value: false, index: false }
     this.scope      = app.neuron(scope);
-    if (this._scope && this.data.debug) console.log("Setup model", this._scope, this.scope);
+    if (this._scope && this.data.debug) console.log("Setup scope", this._scope, this.scope);
 
     // inherit model/parents from parent element
     if (this.parent_element) {
@@ -489,6 +494,8 @@ function Element(el, parent, _scope) {
     }
 
     if (this.data.state) this.model.set(this.get_value(this.data.state));
+
+    this.is_model_changed = false;
   };
   this.get_subvalue = function(val) {
     try {
@@ -642,7 +649,6 @@ function Element(el, parent, _scope) {
     }
 
     // if (this.cluster) json._cluster_      = this.cluster;
-    if (this.data.debug) console.log("JSON", json);
 
     return json;
   };
@@ -753,10 +759,7 @@ function Element(el, parent, _scope) {
 
         // console.log("Foreach", _foreach, field);
         self.triggers['_foreach'] = function () {
-          if (self.data.debug || self.el_text) {
-            console.log("Foreach Triggered: ", val, trigger_str, self.el_id);
-            console.log("Compare:", self.el, self.r_el);
-          }
+          // if (self.data.debug || self.el_text) console.log("Foreach Triggered: ", val, trigger_str, self.el_id);
           // remove children right away
           self.remove_children();
 
@@ -825,16 +828,23 @@ function Element(el, parent, _scope) {
                 new_value = classes;
               }
 
+              // fix non-string values
+              if (!_.isString(old_value)) old_value = JSON.stringify(old_value);
+              if (!_.isString(new_value)) new_value = JSON.stringify(new_value);
+
               if (new_value != old_value) {
-                if (key == 'data-if') {
+                if (key == 'data-if' && !new_value.match(/<|>/i)) { // mark as changed if comparing < or > values
                   var old_if = !self.is_hidden;
                   var new_if = self.if(new_value);
                   if (old_if != new_if) is_change = true;
+                } else if (key.match(/^data-(model|scope|defaults|state)$/i)) {
+                  self.is_model_changed = true;
+                  is_change = true;
                 } else is_change = true;
               }
             });
 
-            // check if text changed
+            // check if text, mark changed
             if (self.el_text) is_change = true;
 
             if (is_change) {
@@ -866,7 +876,7 @@ function Element(el, parent, _scope) {
     if (string.indexOf('{[') > -1) {
       var sublist = _.chain(string.match(/\{\[(.*?)\]\}/gi))
       .map(function(r) {
-        var listeners = r.match(/(session|manager|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
+        var listeners = r.match(/(session|manager|scope|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
         listeners = _.map(listeners, function(l) { return l.replace(/\['/gi, "[").replace(/'\]/gi, "]"); });
         return listeners;
       })
@@ -883,7 +893,7 @@ function Element(el, parent, _scope) {
     if (string.indexOf('{{') > -1) {
       var tmp_list = _.chain(string.match(/\{\{(.*?)\}\}/gi))
         .map(function(r) {
-          var listeners = r.match(/(session|manager|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
+          var listeners = r.match(/(session|manager|scope|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
           listeners = _.map(listeners, function(l) { return l.replace(/\['/gi, ".").replace(/'\]/gi, ""); });
           // if (self.data.debug) console.log(attr, "Listeners", listeners);
           return listeners;
@@ -1101,7 +1111,7 @@ function Element(el, parent, _scope) {
         _foreach = _foreach.replace(/(^\[)|(\]$)/g, ''); // remove array ends
         if (_foreach == '') return; // exit out of empty array
         list = _foreach.split(',');
-      } else if (_foreach.match(/^(session|manager|model.|parents?.|grandparent.g_grandparent.|g_g_grandparent.)/i)) {
+      } else if (_foreach.match(/^(session.|manager.|scope.|model.|parents?.|grandparent.|g_grandparent.|g_g_grandparent.)/i)) {
         var model = this.get_model(_foreach);
         var field = this.get_field(_foreach);
         list = model.get(field);
@@ -1154,8 +1164,35 @@ function Element(el, parent, _scope) {
   this.render = function() {
     // render self if subview changed
     if (this.is_changed && this.el_id) {
+      var self = this;
+
       var $el = $('.'+this.el_id);
-      return $el.empty().replaceWith(this.html());
+
+      this.prerender();
+
+      // change the attributes
+      _.each(this.el, function(value, key) {
+        if (key.indexOf('data-') == 0) {
+          if (self.show_data) $el.attr(key, value);
+        } else if (key.indexOf('lib-') == 0) {
+          if (self.show_lib) $el.attr(key, value);
+        } else if (key.indexOf('tg-') == 0) {
+          if (self.show_tg) $el.attr(key, value);
+        } else if (key == 'class') {
+          var classes = '';
+
+          if (self.is_hidden) classes += 'hidden ';
+          if (self.el_id) classes += self.el_id+' ';
+          if (self.is_h__k) classes += self.get_value(value);
+          else classes += value;
+
+          if (classes != '')  $el.attr(key, classes.trim());
+        } else if (self.is_h__k) $el.attr(key, self.get_value(value));
+        else $el.attr(key, value);
+      });
+
+      var children = this.render_children();
+      return $el.empty().append(children);
     } else {
       // render only changed subviews
       _.each(this.subviews, function(child_el) {
@@ -1207,12 +1244,17 @@ function Element(el, parent, _scope) {
     if (this.el_type.match(/img|input|br|hr|meta/i)) returnValue += ' />';
     else {
       returnValue += '>';
+      returnValue += this.render_children();
+      returnValue += '</'+this.el_type+'>';
+    }
+
+    return returnValue;
+  };
+  this.render_children = function() {
+    var returnValue = '';
       _.each(this.subviews, function(child_el) {
         returnValue += child_el.html();
       });
-      returnValue += '</'+this.el_type+'>';
-      if (this.data.debug) console.log("Render subviews", returnValue, this.subviews.length);
-    }
 
     return returnValue;
   };
