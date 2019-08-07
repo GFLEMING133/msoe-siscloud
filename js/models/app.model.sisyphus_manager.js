@@ -920,7 +920,7 @@ app.model.sisyphus_manager = {
 				// return this;
 
 				var sisbots = _.uniq(self.get('sisbots_networked'));
-  			console.log("Find CB", sisbots);
+  			console.log("Find CB" + JSON.stringify(sisbots));
 				self.set('sisbots_networked', sisbots);
 				self.set('sisbots_scanning', 'false');
 				var curr_reg = self.get('sisbot_registration');
@@ -1043,28 +1043,28 @@ app.model.sisyphus_manager = {
         app.post.fetch({
           _url: 'http://' + hostname,
           _type: 'POST',
-          _timeout: 2500,
+          _timeout: 2000, //2500 << og timeout
           endpoint: '/sisbot/exists',
           data: {}
         }, function(obj) {
           if (obj.err) {
             if (hostname == '192.168.42.1') {
-              if (app.is_app == false || app.platform == 'iOS') {
+            //   if (app.is_app == false || app.platform == 'iOS') {
                 if (hostname == self._ble_ip) {
                   self.set('sisbot_registration', 'hotspot');
                 }
                 // do nothing
-              } else if (retries > 10) {
-                if (hostname == self._ble_ip) {
-                  self.set('sisbot_registration', 'hotspot');
-                }
-                // do nothing
-              } else {
-                setTimeout(function() {
-                  self.ping_sisbot(hostname, cb, ++retries)
-                }, 100);
-                return this;
-              }
+            //   } else if (retries > 10) {
+            //     if (hostname == self._ble_ip) {
+            //       self.set('sisbot_registration', 'hotspot');
+            //     }
+            //     // do nothing
+            //   } else {
+            //     setTimeout(function() {
+            //       self.ping_sisbot(hostname, cb, ++retries)
+            //     }, 100);
+            //     return this;
+            //   }
             }
 
             return cb();

@@ -22,7 +22,7 @@ app.post = {
 			data	: JSON.stringify(data)
 		};
 
-		console.log("Retry count", retry_count);
+		console.log("Retry count" + retry_count);
 
 		if (app.current_user()) req_data.user = app.current_user().get('data');
 
