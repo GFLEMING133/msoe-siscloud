@@ -8,7 +8,7 @@ app.model.session = {
 			auth_token		: '',
 			active: {
 				new_type			: 'false',
-				new_form_instance	: 'false', 
+				new_form_instance	: 'false',
 				curtis_sort			: '',
 				primary				: 'false',
 				secondary			: 'false',
@@ -212,6 +212,13 @@ app.model.session = {
 			return [];
 		}
 	},
+	clear_sisbots: function() {
+		try {
+			if (!window.localStorage) return false;
+
+			localStorage.removeItem('sisbots');
+		} catch (err) {}
+	},
 	get_session: function () {
 		try {
 			var session = window.localStorage.getItem('session');
@@ -244,6 +251,7 @@ app.model.session = {
 				return false;
 
 			localStorage.removeItem('session');
+			localStorage.removeItem('sisbots');
 		} catch (err) {}
 	},
 };

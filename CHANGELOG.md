@@ -1,6 +1,8 @@
 #2019-7-29 1.8.28
  - Onboarding Wifi list spinner and dropdown fix
  - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.
+ - Prioritize known/network bots over bots in hotspot mode when finding sisbots
+
 #2019-7-29 1.8.27
  - Fix (remove) jump back to home page on reconnect
  - Fix wifi reconnect issues on bad password
@@ -10,13 +12,13 @@
  - Fixing/improving finding sisbots on mobile app
  - When switching to hotspot, it should reconnect faster after joining that network
  - Removed duplicate find code from sisbot model, all finding of sisbots handled in manager
- 
+
  #2019-7-15 1.8.24,25
  - iPhone MAX, X, XS have targeted media queries.
  - App is now displaying correctly on iPhone X/XS/MAX with notch and microphone.
  - sisyphus-playlists-active-tmp. "Play" and Shuffle" div is position:fixed, moved out of .scroll <div></div> and media-queried iPhones to have no margin-top.     (NEEDS TESTING ON MULTIPLE PHONES!!)
  - Error handeling for wifi login in sisyphus-settings-wifi-tmp. Now handles 8 or less characters, Wrong SSID info and No Password w/alert that is changing to a   confirm.
- - fontawesome updated. fa became far or fas and added some newer looking icons. 
+ - fontawesome updated. fa became far or fas and added some newer looking icons.
 
 #2019-7-15 1.8.23
  - Fixed fonts to be sourced in properly through css.

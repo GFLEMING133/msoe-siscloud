@@ -664,10 +664,10 @@ app.model.sisbot = {
 			function(resp_num) {
 				if(resp_num !== 1){
 					return self;
-				}else{	
+				}else{
 					self._connect_to_wifi();
 				}
-			}, 'No Password?', ['Yes','No']); 
+			}, 'No Password?', ['Yes','No']);
 		}else if (credentials.password.length > 0 && credentials.password.length < 8 ) {
 			this.set('wifi_error', 'true');
 			alert('Your Wi-Fi password mut be 8 characters or more.');
@@ -677,7 +677,7 @@ app.model.sisbot = {
 		}
 	  },
 	_connect_to_wifi: function () {
-		
+
 		var self= this;
 		var credentials = this.get('wifi');
 		var endpoint	= (this.is_legacy()) ? 'change_to_wifi' : 'connect_to_wifi';
@@ -1298,9 +1298,9 @@ app.model.sisbot = {
 	},
 	disconnect: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {
-			if (resp_num == 1)
-				return self;
+			if (resp_num == 1) return self;
 
+	    app.current_session().clear_sisbots(); // clear known sisbots
 			window.location.reload();
 		}, 'Disconnect?', ['Cancel', 'OK']);
 	},
