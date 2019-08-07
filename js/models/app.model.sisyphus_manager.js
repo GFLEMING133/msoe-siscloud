@@ -1038,33 +1038,33 @@ app.model.sisyphus_manager = {
       console.log("ping_sisbot()", hostname);
       var self = this;
 
-      if (!retries) retries = 0;
+        if (!retries) retries = 0;
 
-      app.post.fetch({
-        _url: 'http://' + hostname,
-        _type: 'POST',
-        _timeout: 2500,
-        endpoint: '/sisbot/exists',
-        data: {}
-      }, function(obj) {
-        if (obj.err) {
-          if (hostname == '192.168.42.1') {
-            if (app.is_app == false || app.platform == 'iOS') {
-              if (hostname == self._ble_ip) {
-                self.set('sisbot_registration', 'hotspot');
-              }
-              // do nothing
-            } else if (retries > 10) {
-              if (hostname == self._ble_ip) {
-                self.set('sisbot_registration', 'hotspot');
-              }
-              // do nothing
-            } else {
-              setTimeout(function() {
-                self.ping_sisbot(hostname, cb, ++retries)
-              }, 100);
-              return this;
-            }
+        app.post.fetch({
+          _url: 'http://' + hostname,
+          _type: 'POST',
+          _timeout: 2000, //2500 << og timeout
+          endpoint: '/sisbot/exists',
+          data: {}
+        }, function(obj) {
+          if (obj.err) {
+            if (hostname == '192.168.42.1') {
+            //   if (app.is_app == false || app.platform == 'iOS') {
+                if (hostname == self._ble_ip) {
+                  self.set('sisbot_registration', 'hotspot');
+                }
+                // do nothing
+            //   } else if (retries > 10) {
+            //     if (hostname == self._ble_ip) {
+            //       self.set('sisbot_registration', 'hotspot');
+            //     }
+            //     // do nothing
+            //   } else {
+            //     setTimeout(function() {
+            //       self.ping_sisbot(hostname, cb, ++retries)
+            //     }, 100);
+            //     return this;
+            //   }
           }
 
           return cb();

@@ -1894,12 +1894,12 @@ and (orientation : portrait)
 			height: 460px;
 			display: flex;
 	}
-	.iPXMAXmb70  {
+	/* .iPXMAXmb70  {
 		margin-bottom: 70px !important;
-	}
-	.iPXMAXmb84 {
+	} */
+	/* .iPXMAXmb84 {
 		margin-bottom: 84px !important;
-	}
+	} */
 	.media_query_mt0 {
 		margin-top: 0px !important;
 	}
@@ -1932,9 +1932,9 @@ and (orientation : portrait)
 			height: 350px;
 			display: flex;
 	}
-	.iPXmb60  {
+	/* .iPXmb60  {
 		margin-bottom: 60px !important;
-	}
+	} */
 	.media_query_mt0 {
 		margin-top: 0px !important;
 	}
@@ -2006,12 +2006,12 @@ and (orientation : portrait)
 			height: 350px;
 			max-height: 360px;
 		}
-		.iPXmb60  {
+		/* .iPXmb60  {
 			margin-bottom: 70px !important;
 		}
 		.iPXmb74 {
 			margin-bottom: 74px !important;
-		}
+		} */
 		.media_query_mt0 {
 			margin-top: 0px !important;
 		}
