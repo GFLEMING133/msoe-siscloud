@@ -1,13 +1,16 @@
 var Binding = Backbone.View.extend({
+  debug: false, // debug for Rendering
   render_wait: 25,
+  is_rendering: false,
   render_start: null,
   render_count: 0,
   render_timeout: null,
+  render_ids: [],
   element: null,
   initialize: function (opts) {
     _.extend(this, opts);
 
-    if (app.config.debug) console.log("Binding opts", opts);
+    if (this.debug) console.log("Binding opts", opts);
     this.element = new Element($(this.$el.children()[0]));
     this.element.is_changed = true; // force redraw first time
 
@@ -30,33 +33,52 @@ var Binding = Backbone.View.extend({
     // console.log("Bind get", id);
     return this.element.get(id);
   },
-  render: function() {
+  render: function(el_id) {
     var self = this;
     clearTimeout(this.render_timeout);
 
     if (this.render_count == 0) {
+      this.render_ids.length = 0;
       this.render_start = new Date();
-      // if (app.config.debug) console.log("Bind: render start", this.render_start);
+      if (this.debug) console.log("Bind: render start", this.render_start);
     }
     this.render_count++;
 
-    this.render_timeout = setTimeout(function() {
-      self._render();
-    }, self.render_wait);
+    if (el_id) this.render_ids.push(el_id);
+
+    // queue up a render
+    if (!this.is_rendering) {
+      this.render_timeout = setTimeout(function() {
+        self._render();
+      }, self.render_wait);
+    }
   },
   _render: function() {
     if (this.render_count <= 0) return this; // exit, unnecessary
+    this.is_rendering = true; // mark as rendering
+
+    var render_els = _.uniq(this.render_ids);
+    if (this.debug) console.log("Bind Render:", render_els);
+
+    var render_start_count = this.render_count;
 
     var render_begin = new Date();
-    if (app.config.debug) console.log("Bind: render begin", this.render_count, (render_begin - this.render_start)+'ms');
+    if (this.debug) console.log("Bind: render begin", this.render_count, (render_begin - this.render_start)+'ms', this.render_start);
 
     // get template to add to this DOM element
     if (this.element.is_changed) this.$el.html(this.element.html());
     else this.element.render();
 
     var render_end = new Date();
-    if (app.config.debug) console.log("Bind: render end", this.render_count, (render_end - render_begin)+'ms', 'total', (render_end - this.render_start)+'ms');
+
+    if (this.render_count > render_start_count) {
+      if (this.debug) console.warn("Extra renders may have been missed, re-rendering...");
+      return this._render(); //this.element.render();
+    }
+
+    if (this.debug) console.log("Bind: render end", this.render_count, (render_end - render_begin)+'ms', 'total', (render_end - this.render_start)+'ms', this.render_start);
     this.render_count = 0;
+    this.is_rendering = false;
 
     app.trigger('bind:after_render');
     return this;
