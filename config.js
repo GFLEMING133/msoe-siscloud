@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.28', // Onboarding Wifi list spinner and dropdown fix
+    version : '1.8.32', //margin top padding, updated Sortable.js and testing app before merging with Staging
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

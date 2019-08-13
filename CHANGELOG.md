@@ -1,9 +1,21 @@
+#2019-8-12 1.8.30 & 31
+ - Onboarding Wifi list spinner and dropdown fix
+ - Updated Sortable.js to address passiveEventListener issues.
+ - iPhone media query for footer added back  
+ - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals, 
+ - _find_sisbots() changed order of switch case for finding bots first
+
+#2019-8-7 1.8.29
+ - Changed timeout in ping_sisbot() to spped up Android connect when searching for tables. 
+ - Commented out old conditionals in the ping_sisbot()
+ - In the _find_sisbots() changed order of swtch(num_check) case 1 through 4 to show bots first per Micahs request.
+ - removed Media Queries to address pushed up footer on iPhones. 
 #2019-7-29 1.8.28
  - Onboarding Wifi list spinner and dropdown fix
  - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.
  - Prioritize known/network bots over bots in hotspot mode when finding sisbots
 
-#2019-7-29 1.8.27
+#2019-7-27 1.8.27
  - Fix (remove) jump back to home page on reconnect
  - Fix wifi reconnect issues on bad password
  - Fix Wifi network list reselecting first entry

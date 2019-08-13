@@ -1060,7 +1060,7 @@ app.model.track = {
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
+				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
 
 		}
@@ -1069,7 +1069,7 @@ app.model.track = {
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
+				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
 		}
 		else {
