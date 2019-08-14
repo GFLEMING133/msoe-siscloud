@@ -1,5 +1,5 @@
 <div class="playback-controls h__k" data-if="{{= model.data }} !== undefined">
-    <div class="pull-bottom hh100 mb35 iPXmb60 bg-black h__k" data-if="{{= session.active.primary }} == current">
+    <div class="pull-bottom hh100 mb35 controls_adjustment bg-black h__k" data-if="{{= session.active.primary }} == current">
         <div class="h__k" data-if="{{= model.data }} !== undefined">
             <div class="flex p20 h__k"
                 data-if="{{= model.data.state }} == playing"
@@ -19,8 +19,8 @@
             </div>
         </div>
     </div>
-    <div class="pull-bottom iPXMAXmb84 iPXmb74 hh50 mb50 pr20 bg-black h__k" data-if="{{= session.active.primary }} !== current">
-        <div class="h__k" data-if="{{= model.data }} !== undefined">
+    <div class="pull-bottom hh60 mb50 playback_adjustment pr20 bg-black h__k" data-if="{{= session.active.primary }} !== current">
+        <div class="h__k pt5 playback_pt_adjustment" data-if="{{= model.data }} !== undefined">
             <div class="hh50 flex vertical-align h__k" data-if="{{= model.data.state }} == playing">
                 <div class="w70 h__k" data-template="sisyphus-playing-active-tmp"></div>
                 <div class="w30 right">
