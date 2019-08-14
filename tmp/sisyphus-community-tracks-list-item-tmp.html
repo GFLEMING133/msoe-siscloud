@@ -1,21 +1,21 @@
 <div class="h__k" data-run="model.collapse">
-    <div class="flex clickable active ctb-border h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
+    <div class="flex clickable active pb10 ctb-border h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
         data-on-click="publish"
         data-publish="session:toggle"
         data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
     >
             <div class="w20 pt10 pb10 pl20 center vertical">
-                <div class="w80p hh80">
+                <div class="w80p hh80 pt10">
                     <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
                         data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
                     />
                 </div>
             </div>
             
-            <div class="w60 pt20 pl24-2 vertical-align">
+            <div class="w60 pt25  pl20">
                 <div class="fs18 black strong h__k">{{= model.data.name }}</div>
-                <div class="fs13  warmGrey pt10 sort_created_by h__k">by {{= model.data.created_by_name }}</div>
-                <div class="fs13  warmGrey pt5 sort_created_by h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
+                <div class="fs13  warmGrey pt10 h__k">by {{= model.data.created_by_name }}</div>
+                <div class="fs13  warmGrey pt5 h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
             </div>
             <div class="w20 pt10 pb10 h100 vertical right">
                     <i class="grey pt20 pb20 pr20" aria-hidden="true">
