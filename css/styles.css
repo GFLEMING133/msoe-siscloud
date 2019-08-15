@@ -521,7 +521,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	font-weight: 600;
 	height: 50px;
 	border-top: 2px solid #fff;
-  border-bottom: 2px solid #fff;
+  	border-bottom: 2px solid #fff;
 
 }
 .tracks-search-back-button {
@@ -539,10 +539,6 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .ctb-border {
 	border: 1px solid #dcdcdc;   /*  #dcdcdc */
-}
-
-.communityTrack {
-	display: block;
 }
 
 .private_italic { 
@@ -563,7 +559,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
     padding-left: 15px;
     padding-bottom: 15px;
 	background-color: #000;
-	position: relative;
+	position: absolute;
 	width: 100%;
 	
 }
@@ -1650,10 +1646,8 @@ input[type="range"]::-ms-fill-upper {
 		max-height: 160px;
 		height: 155px;
 	}	
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}	
-}
+		
+} 
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 @media only screen 
 	and (min-device-width: 300px)
@@ -1667,22 +1661,16 @@ input[type="range"]::-ms-fill-upper {
 	.sortBy-drop-actions{
 		width: 220px;
 	}
-	.trackBox {
-		height: 48%;
-		max-height: 210px;
-		
-	}
+	
 	.scrollDown {
 		/* background-color: salmon; */
 		min-height: 0;
 		max-height: 220px;
 		height: 210px;
 	}	
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}	
 	
 }
+
 @media only screen 
 	and (min-device-width: 321px)
 	and (max-device-width: 340px)
@@ -1695,26 +1683,17 @@ input[type="range"]::-ms-fill-upper {
 	.sortBy-drop-actions{
 		width: 220px;
 	}
-
-	.trackBox {
-		height: 100vh;
-		max-height: 47vh;
-		
-	}
 	.scrollDown {
 		/* background-color: #F4AE3D; */
 		min-height: 35vh;
 		max-height: 47vh;
 		height: 45vh;
 	}	
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}	
+	
 }
-/* *********iPhone 7 aka my testing device ************** */
 @media only screen 
-	and (max-device-width: 360px)
-	and (max-device-height: 640px)
+	and (max-device-width: 375px)
+	and (max-device-height: 667px)
 	and (orientation : portrait)
 	{ 
 	.sortBy-wrapper {
@@ -1735,9 +1714,7 @@ input[type="range"]::-ms-fill-upper {
 		max-height: 250px;
 		height: 250px;
 	}	
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+
 }
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen 
@@ -1760,9 +1737,7 @@ and (orientation : portrait)
 		max-height: 460px;
 		display: flex;
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+
 	
 }
 
@@ -1772,10 +1747,7 @@ and (orientation : portrait)
 	and (max-device-width: 374px)
 	and (orientation : portrait)
 	{
-	.trackBox {
-			max-height: 52vh;
-					
-			}
+
 	.scrollDown {
 			/* background-color: #32B150; */
 			min-height: 0;
@@ -1785,30 +1757,22 @@ and (orientation : portrait)
 			display: block;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
 }
+/* *********iPhone 7 aka my testing device ************** */
+
 @media only screen  
 	and (min-device-width: 375px)
-	and (max-device-width: 384px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
 	{
-	.trackBox {
-		height: 58%;
-		max-height: 310px;
-					
-			}
+	
 	.scrollDown {
 			/* background-color: #fdc539; */
 			min-height: 0;
-			max-height: 310px;
-			height: 310px;
+			max-height: 350px;
+			height: 350px;
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+
 }
 /**************iPhone X /XS MArlo/Micah*******************/
 @media only screen  
@@ -1845,9 +1809,7 @@ and (orientation : portrait)
 	.playback_pt_adjustment {
 		padding-top: 10px
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+
 }
 /********* iPhone *******/
 @media only screen  
@@ -1867,10 +1829,7 @@ and (orientation : portrait)
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
 	} 
-	.trackBox {
-			max-height: 360px;
-					
-			}
+
 	.scrollDown {
 			/* background-color:blue; */
 			min-height: 0;
@@ -1886,9 +1845,7 @@ and (orientation : portrait)
 		height: 100px;
 	}
 	
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+
 			
 }
 
@@ -1898,38 +1855,28 @@ and (orientation : portrait)
 	and (max-device-height: 732px)
 	and (orientation : portrait)
 	{
-	.trackBox {
-			height: 58%;
-			max-height: 350px;   
-			}
+
 	.scrollDown {
 			/* background-color: pink; */
 			height: 100vh; 
 			max-height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+
 } 
 @media only screen  
 	and (device-width: 414px)
 	and (device-height: 736px)
 	and (orientation : portrait)
 	{
-	.trackBox {
-			height: 58%;
-			max-height: 350px;   
-			}
+
 	.scrollDown {
 			/* background-color:darkkhaki; */
 			height: 100vh;
 			max-height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }
 /*************iPhone XS Max COLINS PHONE**************/
 @media only screen 
@@ -1958,9 +1905,7 @@ and (orientation : portrait)
 			height: 100px;
 		}
 
-		/* .media_query_mt0 {
-			margin-top: 0px !important;
-		} */
+		
 	}
 
 	/*************** iPhone XR **************/
@@ -1989,9 +1934,7 @@ and (orientation : portrait)
 		.playback_adjustment  {
 			height: 100px;
 		}
-		/* .media_query_mt0 {
-			margin-top: 0px !important;
-		} */
+		
 	}
 
 @media only screen  
@@ -2000,19 +1943,14 @@ and (orientation : portrait)
 	and (max-device-height: 823px)
 	and (orientation : portrait)
 	{
-	.trackBox {
-			height: 58%;
-			max-height: 350px;   
-			}
+
 	.scrollDown {
 			/* background-color:darkgreen; */
 			height: 100vh;
 			max-height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }
 
 @media only screen  
@@ -2021,19 +1959,14 @@ and (orientation : portrait)
 	and (max-device-height: 854px)
 	and (orientation : portrait)
 	{
-	.trackBox {
-			height: 58%;
-			max-height: 350px;   
-			}
+
 	.scrollDown {
 			/* background-color: red; */
 			height: 100vh;
 			max-height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }  
 
 @media only screen  
@@ -2052,9 +1985,7 @@ and (orientation : portrait)
 			max-height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }
 @media only screen  
 and (min-device-width: 601px)
@@ -2071,9 +2002,7 @@ and (orientation : portrait)
 			max-height: 58vh;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }@media only screen  
 and (min-device-width: 661px)
 and (max-device-width: 700px)
@@ -2124,9 +2053,7 @@ and (orientation : portrait)
 			height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }
 @media only screen  
 	and (device-width: 1024px)
@@ -2142,8 +2069,6 @@ and (orientation : portrait)
 			height: 350px;
 	
 	}
-	.media_query_mt0 {
-		margin-top: 0px !important;
-	}
+	
 }
 

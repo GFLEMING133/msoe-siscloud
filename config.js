@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.32', //margin top padding, updated Sortable.js and testing app before merging with Staging
+    version : '1.8.32', //iPhone media queries now fixed for notch, multiple ui changes for iPhone , testing app before merging with Staging
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
