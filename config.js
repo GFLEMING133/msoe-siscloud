@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.32', //iPhone media queries now fixed for notch, multiple ui changes for iPhone , testing app before merging with Staging
+    version : '1.8.33', //Community styling, Ui fixes , media query cleanup, 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

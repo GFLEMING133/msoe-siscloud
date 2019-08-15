@@ -1,3 +1,7 @@
+#2019-8-15 1.8.32 & 33
+ - Community UI changes and re-configuring of pages to flow seemlessly with iPhone gap and notch
+ - Cleaned up media queries and classes 
+ - Changed all alert()'s to app.plugins.n.alert() and added custom Headers to some. EXCEPT alert()'s used for debugging
 #2019-8-12 1.8.30 & 31
  - Onboarding Wifi list spinner and dropdown fix
  - Updated Sortable.js to address passiveEventListener issues.
