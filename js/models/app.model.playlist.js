@@ -270,7 +270,7 @@ app.model.playlist = {
 		playlist_data.endpoint	= 'set';
 
 		app.post.fetch(playlist_data, function cb(obj) {
-			if (obj.err)	alert('Error saving playlist to cloud');
+			if (obj.err) app.plugins.n.notification.alert('Error saving playlist to cloud');
 		}, 0);
 	},
 	_publish_tracks: function () {

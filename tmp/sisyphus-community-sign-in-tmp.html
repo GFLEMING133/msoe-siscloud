@@ -1,3 +1,4 @@
+
 <div class="pull-top bg-white w100">
     <div class="white bg-black w100 center no-stuffing flex">
         <div class="w15 center clickable active blue-hover h__k"
@@ -11,7 +12,7 @@
         <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
 </div>
-<div class="body-header h__k pl40 pr40" data-model="{{= model.sisbot_id }}">
+<div class="body-header pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
     <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
         <div class="i center shadow bg-grey-ll p30 m10 clickable active h__k"
             data-on-click="publish"
@@ -30,43 +31,43 @@
                 </div>
             </div>
         <form>
-            <h4 class=" pt20 pb10 no-stuffing strong">Email</h4>
-            <div class=" pb10">
-                <input class="h__k w100" type="text" placeholder="your_email@address.com"
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.registration.email"
-                    value="{{= model.registration.email }}"
-                />
-            </div>
-            <h4 class=" pt10 pb10 inline no-stuffing strong">Password</h4><a 
-            class="pt10 pb10 inline-right right blue-l clickable h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'primary':'community','secondary':'forget_password'}">Forget your password?</a>
-            
-            <div class=" pb10">
-                <input class="h__k w100" id="showPassword" type="password" placeholder="password"
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.registration.password"
-                    value="{{= model.registration.password }}"
-                />
-                <div class="pt10">
-                    <input class="h__k " type="checkbox" data-on-click="model.show_password" />
-                    Show Password
+                <h4 class=" pt20 pb10 no-stuffing strong">Email</h4>
+                <div class=" pb10">
+                    <input class="h__k w100" type="text" placeholder="your_email@address.com"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.registration.email"
+                        value="{{= model.registration.email }}"
+                    />
                 </div>
-            </div>
-            <br clear="both">
-            <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
-                        data-on-click="model.sign_in"
-                    
-            >SIGN IN</div>
+                <h4 class=" pt10 pb10 inline no-stuffing strong">Password</h4><a 
+                class="pt10 pb10 inline-right right blue-l clickable h__k"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'primary':'community','secondary':'forget_password'}">Forget your password?</a>
+                
+                <div class=" pb10">
+                    <input class="h__k w100" id="showPassword" type="password" placeholder="password"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.registration.password"
+                        value="{{= model.registration.password }}"
+                    />
+                    <div class="pt10">
+                        <input class="h__k " type="checkbox" data-on-click="model.show_password" />
+                        Show Password
+                    </div>
+                </div>
+                <br clear="both">
+                <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+                            data-on-click="model.sign_in"
+                        
+                >SIGN IN</div>
 
-            <div class="h__k pt30 fs18 mt100 clickable active center"
-                        data-on-click="publish"
-                        data-publish="session:active"
-                        data-msg="{'secondary':'create_account'}"
-            >Dont have an account? <a class="blue-l">Sign Up</a></div>
-        </div>
+                <div class="h__k pt30 fs18 lh24 mt50 clickable active center"
+                            data-on-click="publish"
+                            data-publish="session:active"
+                            data-msg="{'secondary':'create_account'}"
+                >Dont have an account? </br> <a class="blue-l pr5">Sign Up</a></div>
+            </div>
         </form>
     </div>
 </div>

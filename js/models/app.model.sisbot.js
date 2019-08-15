@@ -670,7 +670,7 @@ app.model.sisbot = {
 			}, 'No Password?', ['Yes','No']);
 		}else if (credentials.password.length > 0 && credentials.password.length < 8 ) {
 			this.set('wifi_error', 'true');
-			alert('Your Wi-Fi password mut be 8 characters or more.');
+			app.plugins.n.notification.alert('Your Wi-Fi password mut be 8 characters or more.');
 			return this;
 		}else {
 			this._connect_to_wifi();
@@ -1312,7 +1312,7 @@ app.model.sisbot = {
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			console.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
-				alert('There was an error adding the playlist to your Sisyphus. Please try again later.')
+				return app.plugins.n.notification.alert('There was an error adding the playlist to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
@@ -1329,7 +1329,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
 			if (obj.err) {
-				alert('There was an error removing your Playlist. Please try again later.')
+				return app.plugins.n.notification.alert('There was an error removing your Playlist. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { 'secondary': 'playlists' });
@@ -1384,7 +1384,7 @@ app.model.sisbot = {
 
 			self._update_sisbot('remove_track', track, function (obj) {
 				if (obj.err) {
-					alert('There was an error removing the file from your Sisyphus. Please try again later.')
+					return app.plugins.n.notification.alert('There was an error removing the file from your Sisyphus. Please try again later.');
 				} else if (obj.resp) {
 					app.manager.intake_data(obj.resp);
 					var active = app.session.get('active');
@@ -1406,7 +1406,7 @@ app.model.sisbot = {
 			console.log('track get verts', obj);
 
 			if (obj.err) {
-				alert('There was an error getting the track verts.');
+				return app.plugins.n.notification.alert('There was an error getting the tracks verts.');
 			} else if (obj.resp) {
 				cb(obj.resp);
 			}

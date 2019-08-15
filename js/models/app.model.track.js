@@ -996,7 +996,14 @@ app.model.track = {
 	},
 	favorite_toggle: function () {
 		if (app.manager.get_model('sisbot_id').is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
+			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
+			function(resp_num) {
+				if (resp_num == 1){
+					return;
+				}
+				app.collection.get(playlist_id).add_track_and_save(trackID);	
+				
+			},'Outdated Firmware', ['OK']);	
 
 		var status = this.get('is_favorite');
 		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
@@ -1020,7 +1027,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				alert('There was an error downloading this track. Please try again later -', obj.err)
+				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download();
@@ -1041,7 +1048,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				alert('There was an error downloading this track header. Please try again later - ', obj.err)
+				return app.plugins.n.notification.alert('There was an error downloading this track header. Please try again later - ', obj.err);
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download_wc();
@@ -1073,22 +1080,22 @@ app.model.track = {
 			};
 		}
 		else {
-			alert('track is missing file_type header ' + self.id);
-			return;
+			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
+	
 		}
 
 
 
 		function cb(obj) {
 			if (obj.err) {
-				alert('There was an error downloading this track. Please try again later - ', obj.err)
+				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
 				console.log('track : download response = ', obj.resp);
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else {
-					alert('Failed to get verts for this download ' + self.id);
+					return app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
 					self.set('community_track_downloaded', 'false');
 					return;
 				}
@@ -1097,7 +1104,13 @@ app.model.track = {
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
 				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
-				alert("Track is now in your Library!");
+				return app.plugins.n.notification.confirm("Track is now in your Library!", 
+				function(resp_num) {
+					if (resp_num == 1){
+						return;
+					}	
+					
+				},'Track Added!', ['OK']);	
 			}
 		}
 

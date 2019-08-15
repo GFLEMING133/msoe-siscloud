@@ -225,7 +225,7 @@ app.model.sisyphus_manager = {
     },
     check_ble_status: function() {
         console.log("check_ble_status()");
-        if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
+       if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
             this.set('is_ble_enabled', 'true');
             return this;
         }
@@ -338,7 +338,7 @@ app.model.sisyphus_manager = {
             self.ble_cb();
         }, function on_error(error) {
             if (connect_retries > 5) {
-                alert('Bluetooth Connect Error: ' + error);
+                app.plugins.n.notification.alert('Bluetooth Connect Error: ' + error);
                 self.ble_cb();
             } else {
                 setTimeout(function() {
@@ -619,8 +619,18 @@ app.model.sisyphus_manager = {
 
         var self = this;
         var server_user = false;
-        alert('An email has been sent with instructions on how to reset your password.')
+        
+        app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
+        function(resp_num) {
+            if (resp_num == 1){
+                return;
+            }
+            app.collection.get(playlist_id).add_track_and_save(trackID);	
+            
+        },'Email Sent', ['OK']);	
+        
         _.each(data_arr, function(m) {
+            
             if (m.type == 'user' && m.email == user.email) {
                 server_user = m;
                 session_data.user_id = m.id;
@@ -752,7 +762,7 @@ app.model.sisyphus_manager = {
           self.set('sisbot_registration', 'find');
         }, 0);
       }, function error(err) {
-        alert('Error opening WiFi settings. Please manually go to your WiFi settings');
+        return app.plugins.n.notification.alert('Error opening WiFi settings. Please manually go to your WiFi settings');
       });
 
       return this;
@@ -769,7 +779,7 @@ app.model.sisyphus_manager = {
         self.set('sisbot_reconnecting', 'true');
       }, function error(err) {
         self.set('sisbot_reconnecting', 'false');
-        alert('Error opening WiFi settings. Please manually go to your WiFi settings');
+        return app.plugins.n.notification.alert('Error opening WiFi settings. Please manually go to your WiFi settings');
       });
     },
     open_network_settings_for_hotspot: function() {
@@ -787,7 +797,7 @@ app.model.sisyphus_manager = {
         }, 0);
       }, function error(err) {
         self.set('sisbot_reconnecting', 'false');
-        alert('Error opening wifi settings. Please manually go to your wifi settings');
+        return app.plugins.n.notification.alert('Error opening wifi settings. Please manually go to your wifi settings');
       });
     },
     await_network_connection: function(cb, count) {
