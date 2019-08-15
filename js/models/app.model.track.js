@@ -1020,7 +1020,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				alert('There was an error downloading this track. Please try again later')
+				alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download();
@@ -1041,7 +1041,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				alert('There was an error downloading this track header. Please try again later')
+				alert('There was an error downloading this track header. Please try again later - ', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download_wc();
@@ -1081,7 +1081,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err) {
-				alert('There was an error downloading this track. Please try again later')
+				alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
 				console.log('track : download response = ', obj.resp);
 
