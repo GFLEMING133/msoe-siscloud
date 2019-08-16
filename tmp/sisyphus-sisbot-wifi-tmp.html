@@ -13,8 +13,14 @@
                 <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                     Connect Sisyphus to your home network
                 </h3>
-
                 <div class="mt20 pb20 h__k" data-run="model.get_networks">
+                  <div class="p20 center i h__k" data-if="{{= model.show_wifi_list }} == false">
+                          <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                          <div class="h__k fs18 lh18">
+                              Gathering Networks...
+                          </div>
+                  </div>
+                  <div class="h__k" data-if="{{= model.show_wifi_list }} == true">
                     <p class="no-stuffing fs18 lh18 strong mb5">Network Name</p>
                     <div class="select-box block hh40 relative">
                         <div class="absolute z20">
@@ -24,12 +30,11 @@
                                 data-foreach-add="foreach_reset"
                                 data-foreach-change="foreach_reset"
                                 data-foreach-default="WiFi Networks"
-                                data-on-change="foreach_reset"
                                 data-selected="{{= model.wifi.name }}"
                             ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
                         </div>
                         <div class="absolute z10">
-                            <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
+                            <p class="no-stuffing fas fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
                                 style="padding-bottom: 12px !important;"
                                 aria-hidden="true"
                             ></>
@@ -69,21 +74,22 @@
                             data-if="{{= model.data.is_network_connected }} == false"
                         >Connect</p>
                     </div>
+                  </div>
 
-                    <span class="block hh20">&nbsp;</span>
+                  <span class="block hh20">&nbsp;</span>
 
-                    <div class="p20 mb100 center clickable active blue fs18 lh18 h__k"
-                        data-if="{{= model.data.is_hotspot }} == true"
-                        data-on-click="parent.should_show_setup_page"
-                    >Skip this step</div>
-                    <div class="h__k mb100" data-if="{{= model.data.is_hotspot }} == false">
-                        <div class="p20 center i h__k" data-if="{{= model.data.is_network_connected }} == false">
-                            <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                            <div class="h__k fs18 lh18">
-                                Connecting...
-                            </div>
-                        </div>
+                  <div class="p20 mb100 center clickable active blue fs18 lh18 h__k"
+                      data-if="{{= model.data.is_hotspot }} == true"
+                      data-on-click="parent.should_show_setup_page"
+                  >Skip this step</div>
+                  <div class="h__k mb100" data-if="{{= model.data.is_hotspot }} == false">
+                    <div class="p20 center i h__k" data-if="{{= model.data.is_network_connected }} == false">
+                      <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                      <div class="h__k fs18 lh18">
+                        Connecting...
+                      </div>
                     </div>
+                  </div>
 
                 </div>
             </div>

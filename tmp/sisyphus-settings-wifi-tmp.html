@@ -26,88 +26,90 @@
                         Gathering Networks...
                     </div>
             </div>
-            <h4 class="no-stuffing fs18 lh18 pb5 strong">Network Name</h4>
-            <div class="select-box block mb50 relative h__k" data-if="{{= model.wifi_connecting }} == false">
-                <div class="absolute z20">
-                    <select class="w100 corner-5px h__k fs18 p10"
-                        data-field="model.wifi.name"
-                        data-foreach="model.wifi_networks"
-                        data-foreach-add="foreach_reset"
-                        data-foreach-change="foreach_reset"
-                        data-foreach-default="WiFi Networks"
-                        data-on-change="foreach_reset"
-                        data-selected="{{= model.wifi.name }}"
-                    ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+            <div class="h__k" data-if="{{= model.show_wifi_list }} == true" data-run="model.clear_wifi_errors">
+                <h4 class="no-stuffing fs18 lh18 pb5 strong">Network Name</h4>
+                <div class="select-box block mb50 relative h__k" data-if="{{= model.wifi_connecting }} == false">
+                    <div class="absolute z20">
+                        <select class="w100 corner-5px h__k fs18 p10"
+                            data-field="model.wifi.name"
+                            data-foreach="model.wifi_networks"
+                            data-foreach-add="foreach_reset"
+                            data-foreach-change="foreach_reset"
+                            data-foreach-default="WiFi Networks"
+                            data-selected="{{= model.wifi.name }}"
+                            data-chosen="true"
+                        ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+                    </div>
+                    <div class="absolute z10">
+                        <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
+                            style="padding-bottom: 12px !important;"
+                            aria-hidden="true"
+                        ></>
+                    </div>
                 </div>
-                <div class="absolute z10">
-                    <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
-                        style="padding-bottom: 12px !important;"
-                        aria-hidden="true"
-                    ></>
+                <div class="select-box block mb50 relative h__k" data-if="{{= model.wifi_connecting }} == true">
+                    <div class="absolute z20">
+                        <select class="w100 corner-5px h__k fs18 p10"
+                            data-field="model.wifi.name"
+                            data-foreach="model.wifi_networks"
+                            data-foreach-add="foreach_reset"
+                            data-foreach-change="foreach_reset"
+                            data-foreach-default="WiFi Networks"
+                            data-selected="{{= model.wifi.name }}"
+                            data-chosen="true"
+                            disabled
+                        ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+                    </div>
+                    <div class="absolute z10">
+                        <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
+                            style="padding-bottom: 12px !important;"
+                            aria-hidden="true"
+                        ></>
+                    </div>
                 </div>
-            </div>
-            <div class="select-box block mb50 relative h__k" data-if="{{= model.wifi_connecting }} == true">
-                <div class="absolute z20">
-                    <select class="w100 corner-5px h__k fs18 p10"
-                        data-field="model.wifi.name"
-                        data-foreach="model.wifi_networks"
-                        data-foreach-add="foreach_reset"
-                        data-foreach-change="foreach_reset"
-                        data-foreach-default="WiFi Networks"
-                        data-on-change="foreach_reset"
-                        data-selected="{{= model.wifi.name }}"
+                <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Network Password</h4>
+                <div class="h__k" data-if="{{= model.wifi_error }} == false">
+                    <input class="h__k corner-5px mt5 mb5 fs18 w100" type="text" placeholder="password"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.wifi.password"
+                        value="{{= model.wifi.password }}"
+                        data-value="{{= model.wifi.password }}"
+                        data-if="{{= model.wifi_connecting }} == false"
+                    />
+                    <input class="h__k corner-5px mt5 mb5 fs18 w100" type="text" placeholder="password"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.wifi.password"
+                        value="{{= model.wifi.password }}"
+                        data-value="{{= model.wifi.password }}"
+                        data-if="{{= model.wifi_connecting }} == true"
                         disabled
-                    ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+                    />
                 </div>
-                <div class="absolute z10">
-                    <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
-                        style="padding-bottom: 12px !important;"
-                        aria-hidden="true"
-                    ></>
+                <div class="h__k" data-if="{{= model.wifi_error }} == true">
+                    <input class="h__k fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.wifi.password"
+                        value="{{= model.wifi.wifi_password }}"
+                    />
+                    <div class="pull-right error f-small">Wi-Fi password cannot be less than 8 characters</div>
                 </div>
-            </div>
-            <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Network Password</h4>
-            <div class="h__k" data-if="{{= model.wifi_error }} == false">
-                <input class="h__k corner-5px mt5 mb5 fs18 w100" type="text" placeholder="password"
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.wifi.password"
-                    value="{{= model.wifi.password }}"
-                    data-value="{{= model.wifi.password }}"
-                    data-if="{{= model.wifi_connecting }} == false"
-                />
-                <input class="h__k corner-5px mt5 mb5 fs18 w100" type="text" placeholder="password"
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.wifi.password"
-                    value="{{= model.wifi.password }}"
-                    data-value="{{= model.wifi.password }}"
-                    data-if="{{= model.wifi_connecting }} == true"
-                    disabled
-                />
-            </div>
-            <div class="h__k" data-if="{{= model.wifi_error }} == true">
-                <input class="h__k fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.wifi.password"
-                    value="{{= model.wifi.wifi_password }}"
-                />
-                <div class="pull-right error f-small">Wi-Fi password cannot be blank</div>
-            </div>
-            <div class="h__k" data-if="{{= model.wifi_error }} == incorrect">
-                <input class="h__k fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    data-field="model.wifi.password"
-                    value="{{= model.wifi.wifi_password }}"
-                />
-                <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
-            </div>
+                <div class="h__k" data-if="{{= model.wifi_error }} == incorrect">
+                    <input class="h__k fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password"
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        data-field="model.wifi.password"
+                        value="{{= model.wifi.wifi_password }}"
+                    />
+                    <div class="pull-right error f-small h__k">Incorrect Wi-Fi Password</div>
+                </div>
 
-            <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active h__k"
-                data-if="{{= model.data.is_hotspot }} == true"
-                data-on-click="model.connect_to_wifi"
-            >Connect</p>
-            <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
-                data-if="{{= model.data.wifi_forget }} == true"
-            >Connect</p>
+                <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active h__k"
+                    data-if="{{= model.data.is_hotspot }} == true"
+                    data-on-click="model.connect_to_wifi"
+                >Connect</p>
+                <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase h__k"
+                    data-if="{{= model.data.wifi_forget }} == true"
+                >Connect</p>
+            </div>
 
             <span class="block hh20">&nbsp;</span>
 
@@ -120,3 +122,4 @@
         </div>
     </div>
 </div>
+    

@@ -1,9 +1,75 @@
-#2019-7-10, 1.8.21
- - Fixed merge conflicts and updated code to reflect UI changes from beta releases. 
- - WiFi disconnect or power loss no longer bricks table while updating. 
- - Pushed to Test Flight and Google Pay and then released into the wild. 
+#2019-8-15 1.8.32 & 33
+ - Community UI changes and re-configuring of pages to flow seemlessly with iPhone gap and notch
+ - Cleaned up media queries and classes 
+ - Changed all alert()'s to app.plugins.n.alert() and added custom Headers to some. EXCEPT alert()'s used for debugging
+#2019-8-12 1.8.30 & 31
+ - Onboarding Wifi list spinner and dropdown fix
+ - Updated Sortable.js to address passiveEventListener issues.
+ - iPhone media query for footer added back  
+ - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals, 
+ - _find_sisbots() changed order of switch case for finding bots first
 
- 
+#2019-8-7 1.8.29
+ - Changed timeout in ping_sisbot() to spped up Android connect when searching for tables. 
+ - Commented out old conditionals in the ping_sisbot()
+ - In the _find_sisbots() changed order of swtch(num_check) case 1 through 4 to show bots first per Micahs request.
+ - removed Media Queries to address pushed up footer on iPhones. 
+#2019-7-29 1.8.28
+ - Onboarding Wifi list spinner and dropdown fix
+ - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.
+ - Prioritize known/network bots over bots in hotspot mode when finding sisbots
+
+#2019-7-27 1.8.27
+ - Fix (remove) jump back to home page on reconnect
+ - Fix wifi reconnect issues on bad password
+ - Fix Wifi network list reselecting first entry
+
+#2019-7-25 1.8.24
+ - Fixing/improving finding sisbots on mobile app
+ - When switching to hotspot, it should reconnect faster after joining that network
+ - Removed duplicate find code from sisbot model, all finding of sisbots handled in manager
+
+ #2019-7-15 1.8.24,25
+ - iPhone MAX, X, XS have targeted media queries.
+ - App is now displaying correctly on iPhone X/XS/MAX with notch and microphone.
+ - sisyphus-playlists-active-tmp. "Play" and Shuffle" div is position:fixed, moved out of .scroll <div></div> and media-queried iPhones to have no margin-top.     (NEEDS TESTING ON MULTIPLE PHONES!!)
+ - Error handeling for wifi login in sisyphus-settings-wifi-tmp. Now handles 8 or less characters, Wrong SSID info and No Password w/alert that is changing to a   confirm.
+ - fontawesome updated. fa became far or fas and added some newer looking icons.
+
+#2019-7-15 1.8.23
+ - Fixed fonts to be sourced in properly through css.
+ - added Show Password to Community sign-in page
+ - public / private to display in Community track list as well as private being italisized.
+ - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
+ - changed padding on pause/play button to help with sizing  
+#2019-7-10, 1.8.21
+ - Fixed merge conflicts and updated code to reflect UI changes from beta releases.
+ - WiFi disconnect or power loss no longer bricks table while updating.
+ - Pushed to Test Flight and Google Pay and then released into the wild.
+ - staging branch was pushed to release.
+#2019-7-8, 1.8.18,19
+ - Fixed auth_token in fetch2() to be set in proper place.
+ - removed debuggers
+#2019-7-2,3,4, 1.8.15,16 & 17
+ - Pushing Community to Test Flight and Google Play for Company testing. web_uRL has been changed to http://dev.webcenter.sisyphus-industries.com
+   in config and for the generated thumbs.
+ - corrected scrolling issue in Community Tracks
+ - changed sign_in and sign_up to use the fetch2 function for auth-token & header purposes.
+#2019-7-1, 1.8.14
+ - added <key>NSBluetoothPeripheralUsageDescription</key> to the Sisyphus-Info.plist per error thropwn when    uploading to Test Flight. (iOS ONLY)
+#2019-6-27, 1.8.13
+ - Updated cordova iOS to 5.0.1
+ - Updated Cordova Android to 8.0.0,
+ - Updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud.
+ - Updated other plugins and removed those that were depricated.
+ - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not             connecting to wiFi per Matt K ,
+ - Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of necessary upgrade.
+#2019-6-18, 1.8.12
+ - Updated Android Studio, Cordova, Gradel, and SDK Version/API Level and did test launch.
+#2019-6-18, 1.8.11
+ - is_network_separate added to fix updating issue and Connect to WiFi
+ - merged staging with beta
+ - move UI over to webcenter
 #2019-6-17, 1.8.10
  - is_network_connected added for table to connect when no internet.
  - Fixed white screen of death by removing fonts.google.api. Sourced font locally.
@@ -27,7 +93,7 @@
  - Changed <meta> to reflect production and for adding media queries to the css.
  - added text-size-adjust to the styles.css to help display transition.
  - added //comments to the server.js, config.js and app.model.sisyphus_manager with code for setting the local dev environment.
- - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the right url.
+ - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the   right url.
  - adjusted height attribute in the home.html for the Disconnect From WIFI page.
  - changed back-arrow routing in the sisyphus-settings-change-name so it doesnt call the change_name() and routes back to the advance settings page.
  - added conditional confirm()'s to check wether the table is_servo or not so it displays different messages for change table name and firmware update.

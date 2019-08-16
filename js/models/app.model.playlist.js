@@ -85,6 +85,7 @@ app.model.playlist = {
 		var b = this.get('add_playlist_tracks[' + track_id + ']');
 		this.set('add_playlist_tracks[' + track_id + ']', ++b);
 		this.add_track(track_id);
+		this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
 	},
 	add_tracks_done: function () {
 		var self = this;
@@ -269,7 +270,7 @@ app.model.playlist = {
 		playlist_data.endpoint	= 'set';
 
 		app.post.fetch(playlist_data, function cb(obj) {
-			if (obj.err)	alert('Error saving playlist to cloud');
+			if (obj.err) app.plugins.n.notification.alert('Error saving playlist to cloud');
 		}, 0);
 	},
 	_publish_tracks: function () {

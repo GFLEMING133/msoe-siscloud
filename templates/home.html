@@ -5,7 +5,7 @@
         ></div>
         <div class="bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
-            <p class="no-stuffing fa fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></>
+            <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></>
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
                     Connection Lost!
                 </h3>
@@ -26,7 +26,7 @@
                     >Retry Connecting</p>
                     <div class="p20 center i black h__k" data-if="{{= model.is_polling }} == true">
                         <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18">
+                        <div class="h__k fs18 lh18 i">
                             Reconnecting...
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                     >Retry Connecting</p>
                     <div class="p20 center i black h__k" data-if="{{= model.is_polling }} == true">
                         <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18">
+                        <div class="h__k fs18 lh18 i">
                             Reconnecting...
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
-                <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+                <h3 class="m0 pt110 pb20 center justify fs24 lh24">
                     Changing Wifi Network
                 </h3>
                 <p class="center fs18 lh24 h__k">

@@ -16,7 +16,7 @@
             Save
         </div>
     </div>
-        <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= parent.active.playlist_id }}">
+        <div class="body-header h100 h__k" data-model="{{= parent.active.playlist_id }}">
             <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
             <div class="pt20 pb20 pl40 pr40 h__k" data-run="model.setup_edit">
                 <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
@@ -38,7 +38,7 @@
                 </span>
             </div>
             <!--------------------------- TRACKS ---------------------------------->
-            <div class="h__k trackBox">
+            <div class="h__k no-scroll hide-scrollbar">
                 <div class="i center p20 h__k" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
                     There are no tracks in this playlist
                 </div>
@@ -49,7 +49,7 @@
                     data-foreach-add="foreach_reset"
                     data-foreach-remove="foreach_reset"
                 >
-                    <div class="h__k {{= (scope.index !== 0) ? 'bt' : '' }}"
+                    <div class="h__k reorder {{= (scope.index !== 0) ? 'bt' : '' }}"
                         data-model="{{= scope.value.id }}"
                         data-template="sisyphus-tracks-list-item-edit-tmp"
                     ></div>

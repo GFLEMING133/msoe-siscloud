@@ -12,8 +12,18 @@
 	<div class="w60 pt30 pl10">
         <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
         <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
+        <div class="fs12 lh20 warmGrey block  h__k"
+            data-if="{{= grandparent.add_playlist_tracks }} !== undefined"
+        >   
+            <div class="h__k montserrat_semi_bold">count= {{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div>
+        </div>
 	</div>
-    <div class="w20 mt5 pt30 pb10 h100 f18 right vertical h__k"
-        data-if="{{= grandparent.add_playlist_tracks }} !== undefined"
-    ><div class="h__k">{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div></div>
+    <div class="h100 block">
+            <div class="h__k" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0" >
+                <div class="add_tracks_circle mt40"></div>
+            </div> 
+            <div class="h__k" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0" >
+                <img  src="img/checkCircle@2x.png" class=" mt40 checked_circle"></img>
+            </div>
+    </div>
 </div>

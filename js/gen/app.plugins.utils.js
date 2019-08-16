@@ -347,7 +347,7 @@ app.plugins.file_download = function (sUrl) {
 
     //iOS devices do not support downloading. We have to inform user about this.
     if (/(iP)/g.test(navigator.userAgent)) {
-        alert('Your device does not support files downloading. Please try again in desktop browser.');
+        app.plugins.n.notification.alert('Your device does not support files downloading. Please try again in desktop browser.');
         return false;
     }
 

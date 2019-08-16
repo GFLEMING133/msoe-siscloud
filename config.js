@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.22', // Switch to Webcenter
+    version : '1.8.33', //Community styling, Ui fixes , media query cleanup, 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

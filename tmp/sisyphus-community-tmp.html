@@ -1,4 +1,4 @@
-<div class="h100 scroll hide-scrollbar ">
+<!-- <div class="h100 scroll hide-scrollbar ">
         <div class="white bg-black hh50 w100 center flex vertical-align">
             <div class="w15 center f-large">&nbsp;</div>
             <div class="w70">
@@ -19,8 +19,8 @@
             This is Coming Soon!
         </h3>
     </div>
-</div>
-<!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
+</div> -->
+
     <!-- <div class="h100 scroll hide-scrollbar ">
         <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
             <div class="w15 center f-large">&nbsp;</div>
@@ -41,24 +41,26 @@
                 <h3 class="m0 pt20 pb20 center justify fs24 lh24">
                     Sisyphus Community
                 </h3>
-            </div> -->
-            <!-- <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true"> -->
-            <!-- <div class="h__k " data-if="{{= parent.user_id }} == false">
+            </div>
+            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true"> 
+                <div class="h__k " data-if="{{= parent.user_id }} == false">
                     <p class="no-stuffing center w100 mt100" aria-hidden="true">
                             <img src="img/globeCopy.png" alt="Community" class="hh30" />
                     </p>
                     <h3 class="m0 pt20 pb20 pl40 pr40 center justify fs24 lh24">
                         Sisyphus Community
                     </h3>
-            </div>
-            <div class="h__k" data-if="{{= parent.user_id }} == false">
-                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                    This is Coming Soon...very soon!
-                </h3>
+                </div>
+                <div class="h__k" data-if="{{= parent.user_id }} == false">
+                    <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                        This is Coming Soon...very soon!
+                    </h3>
+                </div>
             </div>
         </div>
     </div> -->
-<!-- <div class="h__k h100"
+    <!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
+<div class="h__k h100"
     data-if="{{= parent.active.secondary }} == false"
     data-template="sisyphus-community-starter-page-tmp"
 ></div>
@@ -82,4 +84,9 @@
 <div class="h__k h100"
     data-if="{{= parent.active.secondary }} == tracks-hero"
     data-template="sisyphus-community-tracks-hero-tmp"
-></div> -->
+></div>
+
+<div class="h__k h100"
+    data-if="{{= parent.active.secondary }} == forget_password"
+    data-template="sisyphus-community-forget-password-tmp"
+></div>
