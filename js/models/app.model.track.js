@@ -22,7 +22,7 @@ app.model.track = {
 				stroke_width		: 3,
 				stroke_edge			: '#fdfaf3', // #fdfaf3, #f6ebcd
 				stroke_edge_width	: 7,
-				points				:	[],
+				points				: [],
 				steps				: 0,
 				r_max_dist			: 0.1,
 				retrace_steps		: 5,
@@ -996,7 +996,7 @@ app.model.track = {
 	},
 	favorite_toggle: function () {
 		if (app.manager.get_model('sisbot_id').is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
 			function(resp_num) {
 				if (resp_num == 1){
 					return;
@@ -1095,7 +1095,7 @@ app.model.track = {
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else {
-					return app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
+					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
 					self.set('community_track_downloaded', 'false');
 					return;
 				}
