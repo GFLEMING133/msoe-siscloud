@@ -24,7 +24,7 @@ var app = function(given_config,ansible) {
 	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
-	if (config.env.indexOf('dev') > -1 ||   config.env.indexOf('sisbot') == -1) { 
+	if (config.env.indexOf('dev') > -1 ||   config.env.indexOf('sisbot') == -1) {
 		fs.watch(config.dir + '/templates', regenerate_index_page);
 		fs.watch(config.dir + '/tmp', regenerate_index_page);
 		fs.watch(config.dir + '/js/gen', regenerate_index_page);
@@ -130,6 +130,8 @@ function regenerate_index_page() {
 		"lib.backbone.min.js",				// 22kb
 		"lib.backbone.nested.js",			// 4kb
 		"lib.moment.min.js",				// 34kb
+		"lib.iro.min.js",
+		"lib.iro-white-plugin.js"
 	];
 	var all = [];
 	_.each(files, function(filename) {

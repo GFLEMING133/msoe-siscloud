@@ -1,5 +1,5 @@
 var config = {
-    version : '1.9.12', // save color settings
+    version : '1.9.13', // Color UI Adjustments
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

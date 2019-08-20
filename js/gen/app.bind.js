@@ -335,7 +335,7 @@ var Binding = Backbone.View.extend({
         }
 	},
     onUpdate: function () {
-        if (this.data.onUpdate)     this._call(this.data.onUpdate);
+      if (this.data && this.data.onUpdate)  this._call(this.data.onUpdate);
     },
     onReset: function () {
         if (this.data.onReset)      this._call(this.data.reset);
@@ -1432,25 +1432,30 @@ var Binding = Backbone.View.extend({
 
       console.log("Iro Colorpicker", this.data.iro, this.get_value(this.data.value));
 
-      app.scripts.fetch('js/libs/lib.iro.min.js', function () {
+      iro.use(iroWhitePlugin);
+
+      // preloaded, don't need to fetch
+      // app.scripts.fetch('js/libs/lib.iro.min.js', function () {
         if (!self.$el) return false;
 
         setTimeout(function () {
+          console.log("Iro Colorpicker", self.data.iro, self.get_value(self.data.value));
           if (self.$el) self._iro = iro.ColorPicker(self.data.iro, {
               // Set the size of the color picker
               width: 300,
               // Set the initial color to pure red
-              color: self.get_value(self.data.value)
+              color: self.get_value(self.data.value),
+              transparency: true
           });
           function onColorChange(color, changes) {
             // print the color's new hex value to the developer console
-            console.log("Color Change:", color.hexString);
-            self.ctx.set(self.data.field,  color.hexString);
+            console.log("Color Change:", color.hex8String);
+            self.ctx.set(self.data.field,  color.hex8String);
             if (self.data.onUpdate)     self._call(self.data.onUpdate);
           }
           if (self.data.onUpdate) self._iro.on('input:end', onColorChange);
         }, 50);
-      });
+      // });
     },
     chart: function (e) {
       var self    = this;

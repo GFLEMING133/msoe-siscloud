@@ -1,5 +1,6 @@
 app.model.sisbot = {
 	polling_timeout: null,
+	is_saving: [],
 	defaults: function (data) {
 		var obj = {
 			id				: data.id,
@@ -62,6 +63,11 @@ app.model.sisbot = {
 			uploading_track			: 'false',
 
 			wait_for_send				: 'false', // don't send request before hearing response
+
+			display_primary_color: '0xFFFFFF',
+			rem_primary_color: '0xFFFFFFFF',
+			display_secondary_color: '0xFFFFFF',
+			rem_secondary_color: '0x00FFFFFF',
 
 			edit		: {},
 			data		: {
@@ -129,10 +135,11 @@ app.model.sisbot = {
 				share_log_files		: 'false',
 
 				led_enabled: 'false',
+				led_pattern_ids: ['white','fade','spread','rainbow'],
 				led_pattern: 'white',
 				led_offset : 0,
-				led_primary_color: '0xFFFFFF', // Hex
-				led_secondary_color: '0x00FFFF', // Hex
+				led_primary_color: '0xFFFFFFFF', // Hex
+				led_secondary_color: '0x00FFFFFF', // Hex
 			}
 		};
 
@@ -1021,8 +1028,32 @@ app.model.sisbot = {
 		});
 	},
 	save_to_sisbot: function (data, cb) {
+		var self = this;
+		console.log("Save to Sisbot");
+
 		if (!cb) cb = function(obj) {};
-		this._update_sisbot('save', data, cb);
+
+		this.is_saving.push({data: data, cb:cb});
+
+		if (this.is_saving.length == 1) {
+			this._save_to_sisbot();
+		}
+	},
+	_save_to_sisbot: function() {
+		var self = this;
+
+		this._update_sisbot('save', this.is_saving[0].data, function(err, resp) {
+			self.is_saving[0].cb(err, resp);
+
+			// remove from queue
+			var remove_save = self.is_saving.shift();
+
+			if (self.is_saving.length > 0) {
+				setTimeout(function() {
+					self._save_to_sisbot();
+				}, 50);
+			}
+		});
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
@@ -1281,42 +1312,105 @@ app.model.sisbot = {
 		});
 	},
 	_change_led_pattern: function() {
+		var self = this;
+		console.log("Change Pattern");
+
 		var new_pattern = this.get('edit.led_pattern');
 		if (this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
-			this.save_to_sisbot(this.get('data'));
+
+			self.save_to_sisbot(self.get('data'));
 
 			// send to sisbot
-			this._update_sisbot('lcpWrite', { value: 'i'+new_pattern }, function (obj) {
+			self._update_sisbot('lcpWrite', { value: 'i'+new_pattern }, function (obj) {
 				// do nothing
 			});
 		}
+	},
+	_update_pattern_colors: function() {
+		var do_save = false;
+
+		// load last used color from this pattern
+		var pattern = app.collection.get(this.get('data.led_pattern'));
+		if (pattern) {
+			if (pattern.get('data.is_white') == 'true') {
+				console.log("Update white from led_pattern", pattern.get('data'));
+				this.set('edit.led_primary_color', pattern.get_white_color());
+				this.led_color();
+			} else if (pattern.get('data.is_primary_color') == 'true' || pattern.get('data.is_secondary_color') == 'true') {
+				console.log("Update colors from led_pattern", pattern.get('data'));
+				if (pattern.get('data.is_primary_color') == 'true' && pattern.get('data.led_primary_color') != 'false') this.set('edit.led_primary_color', pattern.get('data.led_primary_color'));
+				if (pattern.get('data.is_secondary_color') == 'true' && pattern.get('data.led_secondary_color') != 'false') this.set('edit.led_secondary_color', pattern.get('data.led_secondary_color'));
+				this.led_color();
+			} else {
+				console.log("No color update from led_pattern", pattern.get('data'));
+				do_save = true;
+			}
+		} else do_save = true;
+
+		console.log("Update Pattern Colors", do_save, pattern.get('data'));
+
+		return do_save;
+	},
+	remember_colors: function(data) {
+		console.log("Remember LED_Colors", data);
+
+		this.set('rem_primary_color', this.get('data.led_primary_color'));
+		this.set('rem_secondary_color', this.get('data.led_secondary_color'));
+	},
+	cancel_color: function(data) {
+		this.set('edit.led_primary_color', this.get('rem_primary_color'));
+		this.set('edit.led_secondary_color', this.get('rem_secondary_color'));
+
+		this.led_color();
+
+		app.trigger('session:active', { 'secondary': 'false' });
 	},
 	led_color: function(data) {
 		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		var self = this;
 		var color_data = {};
 
+		var led_pattern = this.get_model('data.led_pattern');
+
 		// check for primary change
 		var edit_primary = this.get('edit.led_primary_color');
+		if (edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
+		console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
 		if (this.get('data.led_primary_color') != edit_primary) {
 			this.set('data.led_primary_color', edit_primary);
 
-			color_data.primary_color = edit_primary;
-		}
+			console.log("Update Primary Color", this.get('data.led_primary_color'), this.get('display_primary_color'));
 
-		// check for primary change
+			color_data.primary_color = edit_primary;
+
+			// update the led_pattern
+			if (led_pattern) led_pattern.set('data.led_primary_color', edit_primary);
+		}
+		this.set('display_primary_color', edit_primary.substr(0,7));
+
+		// check for secondary change
 		var edit_secondary = this.get('edit.led_secondary_color');
+		if (edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
+		console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
 		if (this.get('data.led_secondary_color') != edit_secondary) {
 			this.set('data.led_secondary_color', edit_secondary);
 
+			console.log("Update Secondary Color", this.get('data.led_secondary_color'), this.get('display_secondary_color'));
+
 			color_data.secondary_color = edit_secondary;
+
+			// update the led_pattern
+			if (led_pattern) led_pattern.set('data.led_secondary_color', edit_secondary);
 		}
+		this.set('display_secondary_color', edit_secondary.substr(0,7));
 
 		// send to sisbot
 		if (!_.isEmpty(color_data)) {
 			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
-			this.save_to_sisbot(this.get('data'));
+			var save_data = [this.get('data')];
+			if (led_pattern) save_data.push(led_pattern.get('data'));
+			this.save_to_sisbot(save_data);
 
 			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
 		}
