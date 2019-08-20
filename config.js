@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.34', //Pushing for regression testing 
+    version : '1.8.35', //Splash Screen fixed and removed pull-top for community header 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {

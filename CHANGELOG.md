@@ -1,5 +1,9 @@
-#2019-8-15 1.8.34
- - Regression Testing staging branch with previous changes. 
+#2019-8-15 1.8.34 & 35
+ - Regression Testing staging branch with previous changes.
+ - Sisbot updates included in regression testing. 
+ - removed pull-top from Community header to address white gap on Android 
+ - added new splash screen for ios to address default cordova photo showing. new png is 1125x2436
+ - community is "//commeneted out" in this release.
 #2019-8-15 1.8.32 & 33
  - Community UI changes and re-configuring of pages to flow seemlessly with iPhone gap and notch
  - Added scrolling to all pages in Community. 

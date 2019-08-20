@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.34', //Pushing for regression testing. 
+	version				: '1.8.35', //Splash Screen fixed and removed pull-top for community header 
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
