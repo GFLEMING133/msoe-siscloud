@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.33', //Community styling, Ui fixes , media query cleanup, 
+    version : '1.8.34', //Pushing for regression testing 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
