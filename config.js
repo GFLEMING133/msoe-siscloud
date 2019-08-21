@@ -1,5 +1,5 @@
 var config = {
-    version : '1.8.33', //Community styling, Ui fixes , media query cleanup, 
+    version : '1.8.35', //Splash Screen fixed and removed pull-top for community header 
     debug   : true,
     env     : process.env.NODE_ENV,
     matt_dev: {
