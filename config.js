@@ -1,7 +1,7 @@
 var config = {
-    version : '1.8.35', //Splash Screen fixed and removed pull-top for community header 
-    debug   : true,
-    env     : process.env.NODE_ENV,
+    version		: '1.8.36', //Custom notification for updating table added and final before push to master
+    debug     : true,
+    env       : process.env.NODE_ENV,
     matt_dev: {
       base_dir	: '/Users/mattfox12/Documents/Sodo/Ease/app',
       port			: 3001,
