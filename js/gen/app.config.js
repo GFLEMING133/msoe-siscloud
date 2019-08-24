@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.36', //Custom notification for updating table added and final before push to master
+	version				: '1.8.37', //adjusted sisyphus-header-tmp and Settings and Advanced page with padding and margin. Regression tested everything using 1.10.30(sisbot)
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
