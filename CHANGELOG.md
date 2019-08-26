@@ -1,26 +1,26 @@
 #2019-8-15 1.8.34 & 35
  - Regression Testing staging branch with previous changes.
- - Sisbot updates included in regression testing. 
- - removed pull-top from Community header to address white gap on Android 
+ - Sisbot updates included in regression testing.
+ - removed pull-top from Community header to address white gap on Android
  - added new splash screen for ios to address default cordova photo showing. new png is 1125x2436
- - community is "//commeneted out" in this release.
+ - community is "//commented out" in this release.
 #2019-8-15 1.8.32 & 33
  - Community UI changes and re-configuring of pages to flow seemlessly with iPhone gap and notch
- - Added scrolling to all pages in Community. 
- - Cleaned up media queries and classes 
+ - Added scrolling to all pages in Community.
+ - Cleaned up media queries and classes
  - Changed all alert()'s to app.plugins.n.alert() and added custom Headers to some. EXCEPT alert()'s used for debugging
 #2019-8-12 1.8.30 & 31
  - Onboarding Wifi list spinner and dropdown fix
  - Updated Sortable.js to address passiveEventListener issues.
  - iPhone media query for footer added back  
- - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals, 
+ - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals,
  - _find_sisbots() changed order of switch case for finding bots first
 
 #2019-8-7 1.8.29
- - Changed timeout in ping_sisbot() to spped up Android connect when searching for tables. 
+ - Changed timeout in ping_sisbot() to spped up Android connect when searching for tables.
  - Commented out old conditionals in the ping_sisbot()
  - In the _find_sisbots() changed order of swtch(num_check) case 1 through 4 to show bots first per Micahs request.
- - removed Media Queries to address pushed up footer on iPhones. 
+ - removed Media Queries to address pushed up footer on iPhones.
 #2019-7-29 1.8.28
  - Onboarding Wifi list spinner and dropdown fix
  - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.
