@@ -56,7 +56,7 @@ app.model.sisyphus_manager = {
             community_page: 'tracks',
             community_playlist_ids: [],
             community_track_ids: [],
-            
+
 
             is_ble_enabled: 'false',
             local_version: 'na',
@@ -117,7 +117,7 @@ app.model.sisyphus_manager = {
         return this;
     },
     intake_data: function(given_data) {
-        console.log("intake_data()");
+        // console.log("intake_data()", given_data);
         var self = this;
         if (!_.isArray(given_data)) given_data = [given_data];
 
@@ -409,7 +409,7 @@ app.model.sisyphus_manager = {
 
             self.set('errors', []);
             self._process_registration(user_data, obj.resp);
-        
+
             self.set('signing_up', 'false');
             app.trigger('session:active', { secondary: 'sign_in', primary: 'community' });
         };
@@ -423,7 +423,7 @@ app.model.sisyphus_manager = {
             username                : user_data.username,
         	email					: user_data.email,
         	password				: user_data.password,
-        	password_confirmation	: user_data.password_confirmation                          
+        	password_confirmation	: user_data.password_confirmation
         };
 
         app.plugins.fetch(post_obj, cb, 0);
@@ -448,13 +448,13 @@ app.model.sisyphus_manager = {
 
             self.set('errors', []);
             self._process_registration(user_data, obj.resp);
-            
+
             app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
         };
 
         user_data.endpoint  = 'auth_user';
-        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW 
-                                    
+        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
+
 
         app.plugins.fetch(user_data, cb, 0);
 
@@ -472,7 +472,7 @@ app.model.sisyphus_manager = {
             password: user.password,
             password_confirmation: user.password_confirmation,
         };
-        
+
         var self = this;
         var server_user = false;
 
@@ -494,7 +494,7 @@ app.model.sisyphus_manager = {
         if (this.get('sisbot_id') == 'false')
             this.setup_sisbots_page();
     },
-    
+
     sign_up_via_settings: function() {
         this.on(this.after_settings);
         this.sign_up();
@@ -518,11 +518,11 @@ app.model.sisyphus_manager = {
             .set('user_id', 'false');
         app.current_session().sign_out();
     },
-    forgot_password: function(user_data) { 
+    forgot_password: function(user_data) {
         var errors = [];
         if (!user_data || user_data == '') errors.push('- Email cannot be blank');
         var self = this;
-        
+
         user_email = this.get('forgot_email'); //this is the object
 
         function cb(obj) {
@@ -531,12 +531,12 @@ app.model.sisyphus_manager = {
             self.set('errors', []);
 
             self._process_email(user_email, obj.resp);
-            
-            
+
+
         };
         user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
         user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
-      
+
         console.log('user_email ==', user_email);
         app.post.fetch(user_email, cb, 0 );
 
@@ -545,7 +545,7 @@ app.model.sisyphus_manager = {
         var session_data = {
             email: user.email
         };
-        
+
         var self = this;
         var server_user = false;
         alert('An email has been sent with instructions on how to reset your password.')
@@ -559,7 +559,7 @@ app.model.sisyphus_manager = {
 
         app.collection.add(data_arr);
         app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
-    
+
     },
     /*********************** SISBOT ONBOARDING ********************************/
     _has_update: function(sisbot, remote) {
@@ -1306,16 +1306,16 @@ app.model.sisyphus_manager = {
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
-           
+
             var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
             var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
-         
+
         }
-       
+
         app.post.fetch2(tracks, cb, 0);
 
         return this;
@@ -1343,14 +1343,14 @@ app.model.sisyphus_manager = {
             app.collection.add(obj.resp);
 
             var resp_track_ids = _.pluck(obj.resp, 'id');
-        
+
 
             self.set('community_track_ids', resp_track_ids);
             self.set('fetched_community_tracks', 'true');
             console.log('new_track_ids', obj.resp);
-         
+
         }
-       
+
         app.post.fetch2(tracks, cb, 0);
 
         return this;
@@ -1363,21 +1363,21 @@ app.model.sisyphus_manager = {
         console.log("download_track" + track_id);
         this.remove('community_track_ids', track_id);
     },
-    //Actions drop down menu  
+    //Actions drop down menu
     openSort: function() {
     var drop = document.getElementsByClassName("sortBy-container-contents");
     var dAction = document.getElementsByClassName("sortBy-drop-actions");
     if (!drop[0].style.visibility || drop[0].style.visibility ===  'hidden') {
       drop[0].style.visibility = 'visible';
       drop[0].style.opacity = '1';
-      
+
     }else {
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';
-     
+
     }
   },
- 
+
 
     /**************************** DEMO ****************************************/
     setup_as_sisbot: function() {

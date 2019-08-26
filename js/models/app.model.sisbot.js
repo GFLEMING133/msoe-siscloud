@@ -1,6 +1,5 @@
 app.model.sisbot = {
 	polling_timeout: null,
-	is_saving: [],
 	defaults: function (data) {
 		var obj = {
 			id				: data.id,
@@ -64,9 +63,7 @@ app.model.sisbot = {
 
 			wait_for_send				: 'false', // don't send request before hearing response
 
-			display_primary_color: '0xFFFFFF',
 			rem_primary_color: '0xFFFFFFFF',
-			display_secondary_color: '0xFFFFFF',
 			rem_secondary_color: '0x00FFFFFF',
 
 			edit		: {},
@@ -225,7 +222,6 @@ app.model.sisbot = {
 		// }, 0);
 	},
 	update_network: function () {
-
 		if(this.get('data.is_network_separate') == 'false'){
 			this.set('data.is_network_connected', this.get('data.is_internet_connected'));
 		}else {
@@ -237,11 +233,10 @@ app.model.sisbot = {
 
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-		console.log("_update_sisbot()");
+		console.log("_update_sisbot()", endpoint, data);
 		if (!_timeout) _timeout = 5000;
 
-		if (app.config.env == 'alpha')
-			return this;
+		if (app.config.env == 'alpha') return this;
 
 		var self	= this;
 		var address	= this.get('data.local_ip')
@@ -261,8 +256,7 @@ app.model.sisbot = {
 				self._poll_failure();
 				if (cb) cb(resp);
 			} else {
-				if (resp.err == null)
-					self.check_for_unavailable();
+				if (resp.err == null) self.check_for_unavailable();
 
 				if (resp.err) {
 					alert(resp.err);
@@ -850,8 +844,9 @@ app.model.sisbot = {
 		});
 	},
 	setup_edit: function () {
-		this.set('edit', this.get('data'))
-			.set('errors', []);
+		this.set('edit', this.get('data')).set('errors', []);
+
+		console.log("Sisbot edit", this.get('edit'));
 
 		return this;
 	},
@@ -1029,31 +1024,10 @@ app.model.sisbot = {
 	},
 	save_to_sisbot: function (data, cb) {
 		var self = this;
+		if (!cb) cb = function(obj) {};
 		console.log("Save to Sisbot");
 
-		if (!cb) cb = function(obj) {};
-
-		this.is_saving.push({data: data, cb:cb});
-
-		if (this.is_saving.length == 1) {
-			this._save_to_sisbot();
-		}
-	},
-	_save_to_sisbot: function() {
-		var self = this;
-
-		this._update_sisbot('save', this.is_saving[0].data, function(err, resp) {
-			self.is_saving[0].cb(err, resp);
-
-			// remove from queue
-			var remove_save = self.is_saving.shift();
-
-			if (self.is_saving.length > 0) {
-				setTimeout(function() {
-					self._save_to_sisbot();
-				}, 50);
-			}
-		});
+		this._update_sisbot('save', data, cb);
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
@@ -1319,7 +1293,7 @@ app.model.sisbot = {
 		if (this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
 
-			self.save_to_sisbot(self.get('data'));
+			// self.save_to_sisbot(self.get('data'));
 
 			// send to sisbot
 			self._update_sisbot('lcpWrite', { value: 'i'+new_pattern }, function (obj) {
@@ -1332,6 +1306,7 @@ app.model.sisbot = {
 
 		// load last used color from this pattern
 		var pattern = app.collection.get(this.get('data.led_pattern'));
+		console.log("Update Pattern Colors", pattern.get('data'));
 		if (pattern) {
 			if (pattern.get('data.is_white') == 'true') {
 				console.log("Update white from led_pattern", pattern.get('data'));
@@ -1347,8 +1322,6 @@ app.model.sisbot = {
 				do_save = true;
 			}
 		} else do_save = true;
-
-		console.log("Update Pattern Colors", do_save, pattern.get('data'));
 
 		return do_save;
 	},
@@ -1380,14 +1353,13 @@ app.model.sisbot = {
 		if (this.get('data.led_primary_color') != edit_primary) {
 			this.set('data.led_primary_color', edit_primary);
 
-			console.log("Update Primary Color", this.get('data.led_primary_color'), this.get('display_primary_color'));
+			console.log("Update Primary Color", this.get('data.led_primary_color'));
 
 			color_data.primary_color = edit_primary;
 
 			// update the led_pattern
 			if (led_pattern) led_pattern.set('data.led_primary_color', edit_primary);
 		}
-		this.set('display_primary_color', edit_primary.substr(0,7));
 
 		// check for secondary change
 		var edit_secondary = this.get('edit.led_secondary_color');
@@ -1396,14 +1368,13 @@ app.model.sisbot = {
 		if (this.get('data.led_secondary_color') != edit_secondary) {
 			this.set('data.led_secondary_color', edit_secondary);
 
-			console.log("Update Secondary Color", this.get('data.led_secondary_color'), this.get('display_secondary_color'));
+			console.log("Update Secondary Color", this.get('data.led_secondary_color'));
 
 			color_data.secondary_color = edit_secondary;
 
 			// update the led_pattern
 			if (led_pattern) led_pattern.set('data.led_secondary_color', edit_secondary);
 		}
-		this.set('display_secondary_color', edit_secondary.substr(0,7));
 
 		// send to sisbot
 		if (!_.isEmpty(color_data)) {

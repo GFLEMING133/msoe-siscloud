@@ -4,6 +4,12 @@ app.model.led_pattern = {
 			id					: data.id,
 			type				: 'led_pattern',
 
+			display_primary_color: '0xFFFFFF',
+			primary_text_color		: 'white', // css color for the button text, adjust based on primary lightness, white|black
+
+			display_secondary_color: '0xFFFFFF',
+			secondary_text_color	: 'white', // white|black
+
 			data				: {
 				id									: data.id,
 				type    						: 'led_pattern',
@@ -23,10 +29,52 @@ app.model.led_pattern = {
 		return obj;
 	},
 	current_version: 1,
+	on_init: function() {
+		this.update_primary_color();
+		this.update_secondary_color();
+
+		this.on('change:data.led_primary_color', 				this.update_primary_color);
+		this.on('change:data.led_secondary_color', 			this.update_secondary_color);
+	},
 	setup_colors: function() {
+		console.log(this.get('data.name'), 'Setup colors');
 		var sisbot = app.manager.get_model('sisbot_id');
-		if (sisbot) {
-			sisbot._update_pattern_colors();
+		if (sisbot) sisbot._update_pattern_colors();
+	},
+	update_primary_color: function() {
+		var color_data = this.get('data.led_primary_color');
+		if (color_data != 'false') {
+			// split individual colors
+			var red = parseInt(color_data.substr(1, 2), 16);
+			var green = parseInt(color_data.substr(3, 2), 16);
+			var blue = parseInt(color_data.substr(5, 2), 16);
+			// var white = parseInt(color_data.substr(7, 2), 16);
+
+			var average = (red + green + blue)/3;
+			if (average > 208) this.set('primary_text_color', 'black');
+			else this.set('primary_text_color', 'white');
+
+			this.set('display_primary_color', color_data.substr(0,7));
+
+			console.log("Primary colors:", this.get('data.name'), red, green, blue, average, this.get('display_primary_color'));
+		}
+	},
+	update_secondary_color: function() {
+		var color_data = this.get('data.led_secondary_color');
+		if (color_data != 'false') {
+			// split individual colors
+			var red = parseInt(color_data.substr(1, 2), 16);
+			var green = parseInt(color_data.substr(3, 2), 16);
+			var blue = parseInt(color_data.substr(5, 2), 16);
+			// var white = parseInt(color_data.substr(7, 2), 16);
+
+			var average = (red + green + blue)/3;
+			if (average > 208) this.set('secondary_text_color', 'black');
+			else this.set('secondary_text_color', 'white');
+
+			this.set('display_secondary_color', color_data.substr(0,7));
+
+			console.log("Secondary colors:", this.get('data.name'), red, green, blue, average, this.get('display_secondary_color'));
 		}
 	},
 	get_white_color: function() {

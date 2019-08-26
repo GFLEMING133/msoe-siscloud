@@ -8,7 +8,7 @@ app.data = [
 	{
 		id: 'fade',
 		type: 'led_pattern',
-		name: 'Fade',
+		name: 'Rho Fade',
 		is_white: 'false',
 		is_primary_color: 'true',
 		led_primary_color: '#6699FFFF',

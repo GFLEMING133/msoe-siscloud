@@ -732,32 +732,34 @@ var Binding = Backbone.View.extend({
     },
     /***************************** LOGIC **************************************/
     if: function () {
-        var statement   = this.get_value(this.data.if).split(/\s?(\=\=|\!\=\=|\<|\>)\s?/);
-        var first       = '' + statement[0];
-        var comparator  = statement[1];
-        var second      = '' + statement[2];
-        var is_true     = false;
+      if (!this.$el) return; // exit if this element no longer exists
 
-        // evaluate
-        if (comparator == '==' && first == second)          is_true = true;
-        else if (comparator == '!==' && first !== second)   is_true = true;
-        else if (comparator == '>' && +first > +second)     is_true = true;
-        else if (comparator == '<' && +first < +second)     is_true = true;
+      var statement   = this.get_value(this.data.if).split(/\s?(\=\=|\!\=\=|\<|\>)\s?/);
+      var first       = '' + statement[0];
+      var comparator  = statement[1];
+      var second      = '' + statement[2];
+      var is_true     = false;
 
-        // change visibility
-        if (is_true)    this.$el.removeClass('hidden')
-        else            this.$el.addClass('hidden')
+      // evaluate
+      if (comparator == '==' && first == second)          is_true = true;
+      else if (comparator == '!==' && first !== second)   is_true = true;
+      else if (comparator == '>' && +first > +second)     is_true = true;
+      else if (comparator == '<' && +first < +second)     is_true = true;
 
-        this.if_evaluation = is_true;
+      // change visibility
+      if (is_true)    this.$el.removeClass('hidden')
+      else            this.$el.addClass('hidden')
 
-        // Handle re-rendering of subvalues
-        if (this.data.template) this.if_template();
-        if (!this.data.template && this.orig && this.orig._html && this.orig._html.indexOf('h__k') > -1) {
-            this.template = this.orig._html;
-            this.if_template();
-        }
-        if (this.data.checked)  this.checked();
-        if (this.data.foreach)  this.foreach();
+      this.if_evaluation = is_true;
+
+      // Handle re-rendering of subvalues
+      if (this.data.template) this.if_template();
+      if (!this.data.template && this.orig && this.orig._html && this.orig._html.indexOf('h__k') > -1) {
+          this.template = this.orig._html;
+          this.if_template();
+      }
+      if (this.data.checked)  this.checked();
+      if (this.data.foreach)  this.foreach();
     },
     if_template: function () {
         var self = this;
@@ -816,6 +818,7 @@ var Binding = Backbone.View.extend({
             this.ctx.set(obj);
         }
 
+        console.log("Update", e, this.$el, this.data);
         if (this.onUpdate) this.onUpdate();
         app.trigger('trigger:updated:' + this.cid, this.data.value);
     },
@@ -1228,8 +1231,8 @@ var Binding = Backbone.View.extend({
         if (attr_name == 'data-if')         this.if();
         if (attr_name == 'data-foreach')    this.foreach_reset();
         if (attr_name == 'data-tooltip')    this.tooltip();
-		if (attr_name == 'data-chosen')     this.chosen();
-		if (attr_name == 'data-selected')   this.selected();
+    		if (attr_name == 'data-chosen')     this.chosen();
+    		if (attr_name == 'data-selected')   this.selected();
         if (attr_name == 'data-src')        this.src();
 
         if (this.is_rendered && attr_name == 'class' && this.data.if)
@@ -1436,25 +1439,27 @@ var Binding = Backbone.View.extend({
 
       // preloaded, don't need to fetch
       // app.scripts.fetch('js/libs/lib.iro.min.js', function () {
-        if (!self.$el) return false;
+      if (!self.$el) return false;
 
-        setTimeout(function () {
-          console.log("Iro Colorpicker", self.data.iro, self.get_value(self.data.value));
-          if (self.$el) self._iro = iro.ColorPicker(self.data.iro, {
-              // Set the size of the color picker
-              width: 300,
-              // Set the initial color to pure red
-              color: self.get_value(self.data.value),
-              transparency: true
-          });
-          function onColorChange(color, changes) {
-            // print the color's new hex value to the developer console
-            console.log("Color Change:", color.hex8String);
-            self.ctx.set(self.data.field,  color.hex8String);
-            if (self.data.onUpdate)     self._call(self.data.onUpdate);
-          }
-          if (self.data.onUpdate) self._iro.on('input:end', onColorChange);
-        }, 50);
+      // setTimeout(function () {
+      if (self.$el && !self._iro) {
+        console.log("Iro Colorpicker", self.data.iro, self.get_value(self.data.value));
+        self._iro = iro.ColorPicker(self.data.iro, {
+            // Set the size of the color picker
+            width: 300,
+            // Set the initial color to pure red
+            color: self.get_value(self.data.value),
+            transparency: true
+        });
+        function onColorChange(color, changes) {
+          // print the color's new hex value to the developer console
+          console.log("Color Change:", color.hex8String);
+          self.ctx.set(self.data.field,  color.hex8String);
+          if (self.data.onUpdate)     self._call(self.data.onUpdate);
+        }
+        if (self.data.onUpdate) self._iro.on('input:end', onColorChange);
+      }
+      // }, 50);
       // });
     },
     chart: function (e) {

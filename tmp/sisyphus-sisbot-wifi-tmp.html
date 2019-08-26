@@ -18,21 +18,22 @@
                     <p class="no-stuffing fs18 lh18 strong mb5">Network Name</p>
                     <div class="select-box block hh40 relative">
                         <div class="absolute z20">
-                            <select class="w100 corner-5px h__k fs18 lh20 p10 pt7 pb7"
-                                data-field="model.wifi.name"
-                                data-foreach="model.wifi_networks"
-                                data-foreach-add="foreach_reset"
-                                data-foreach-change="foreach_reset"
-                                data-foreach-default="WiFi Networks"
-                                data-on-change="foreach_reset"
-                                data-selected="{{= model.wifi.name }}"
-                            ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option></select>
+                          <select class="w100 corner-5px h__k fs18 lh20 p10 pt7 pb7"
+                              data-field="model.wifi.name"
+                              data-foreach="model.wifi_networks"
+                              data-foreach-add="foreach_reset"
+                              data-foreach-change="foreach_reset"
+                              data-foreach-default="WiFi Networks"
+                              data-on-change="foreach_reset"
+                              data-selected="{{= model.wifi.name }}"
+                            ><option class="h__k pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option>
+                          </select>
                         </div>
                         <div class="absolute z10">
                             <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
                                 style="padding-bottom: 12px !important;"
                                 aria-hidden="true"
-                            ></>
+                            ></p>
                         </div>
                     </div>
 
