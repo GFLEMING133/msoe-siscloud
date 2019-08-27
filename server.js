@@ -130,6 +130,8 @@ function regenerate_index_page() {
 		"lib.backbone.min.js",				// 22kb
 		"lib.backbone.nested.js",			// 4kb
 		"lib.moment.min.js",				// 34kb
+		"lib.iro.min.js",
+		"lib.iro-white-plugin.js"
 	];
 	var all = [];
 	_.each(files, function(filename) {

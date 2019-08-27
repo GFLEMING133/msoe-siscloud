@@ -496,7 +496,6 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	/* border: 6px solid blue; */
 	height: 42vh;
 	max-height: 48vh;
-
 }
 
 .scrollDown {
@@ -528,13 +527,11 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	padding-top: 10px;
 	padding-left: 20px;
 }
-
 .community-sortBy-header {
 	display: inline-block;
 	color: #fff;
 	font-weight: 600;
 	margin-top: 20.5px;
-
 }
 .ctb-border {
 	border: 1px solid #dcdcdc;   /*  #dcdcdc */
@@ -1149,7 +1146,7 @@ select:focus {
 .black 									{	color		: #333 !important;						}
 .blue-l 								{	color		: #22AEFF !important;					}
 .blue, .blue-hover:hover 				{	color		: #11b2fb !important;					}
-.orange									{	color		: #b44a27 !important;					}
+.orange									{	color		: #F4AE3D !important;					}
 .green									{	color		: #32B150 !important;					}
 .red									{	color		: #d0021b !important;					}
 .xl-grey								{	color		: #EEE !important;						}
@@ -1284,6 +1281,7 @@ select:focus {
 .fl15									{	line-height				: 1.5em;					}
 .fl20									{	line-height				: 2.0em;					}
 
+.lh-1									{	line-height				: -1px;						}
 .lh12									{	line-height				: 12px;						}
 .lh18									{	line-height				: 18px;						}
 .lh20									{	line-height				: 20px;						}
@@ -1338,6 +1336,8 @@ select:focus {
 .p30									{	padding					: 30px !important;						}
 .p40									{	padding					: 40px !important;						}
 .p75									{	padding					: 75px !important;						}
+
+.mcenter								{ 	margin-left: auto; 		margin-right: auto; 					}
 
 .m0										{	margin					: 0px !important;						}
 .m5										{	margin					: 5px !important;						}
