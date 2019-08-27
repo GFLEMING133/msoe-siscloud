@@ -1853,17 +1853,17 @@ and (orientation : portrait)
 	}
 
 } 
+/**************iPhone 6 & 7 PLus**************/
 @media only screen  
-	and (device-width: 414px)
-	and (device-height: 736px)
+	and (min-device-width: 414px)
+	and (max-device-height: 736px)
 	and (orientation : portrait)
 	{
 
 	.scrollDown {
-			/* background-color:darkkhaki; */
-			height: 100vh;
-			max-height: 350px;
-	
+			/* background-color:darkgreen; */
+			height: 410px;
+			max-height: 410px;
 	}
 	
 }
@@ -1925,89 +1925,7 @@ and (orientation : portrait)
 		}
 		
 	}
-
-@media only screen  
-	and (min-device-width: 411px)
-	and (max-device-width: 430px)
-	and (max-device-height: 823px)
-	and (orientation : portrait)
-	{
-
-	.scrollDown {
-			/* background-color:darkgreen; */
-			height: 100vh;
-			max-height: 350px;
-	
-	}
-	
-}
-
-@media only screen  
-	and (min-device-width: 461px)
-	and (max-device-width: 480px)
-	and (max-device-height: 854px)
-	and (orientation : portrait)
-	{
-
-	.scrollDown {
-			/* background-color: red; */
-			height: 100vh;
-			max-height: 350px;
-	
-	}
-	
-}  
-
-@media only screen  
-and (min-device-width: 561px)
-and (max-device-width: 600px)
-and (max-device-height: 960px)
-and (orientation : portrait)
-	{
-	.trackBox {
-			height: 58%;
-			max-height: 350px;   
-			}
-	.scrollDown {
-			/* background-color: orange; */
-			height: 350px; 
-			max-height: 350px;
-	
-	}
-	
-}
-@media only screen  
-and (min-device-width: 601px)
-and (max-device-width: 660px)
-and (orientation : portrait)
-	{	
-	.trackBox {
-			height: 38vh;
-			max-height: 58vh;   
-			}
-	.scrollDown {
-			/* background-color: brown; */
-			height: 58vh;
-			max-height: 58vh;
-	
-	}
-	
-}@media only screen  
-and (min-device-width: 661px)
-and (max-device-width: 700px)
-and (orientation : portrait)
-	{
-	.trackBox {
-			height: 38vh;
-			max-height: 58vh;   
-			}
-	.scrollDown {
-			/* background-color: darkcyan; */
-			height: 58vh;
-			max-height: 58vh;
-	
-	}
-} 
+ 
 
 @media only screen  
 	and (device-width: 800px)

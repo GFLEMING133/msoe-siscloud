@@ -759,13 +759,28 @@ app.model.sisbot = {
 	install_update_alert: function () {
 		let self = this;
 		let is_servo = self.get('data.is_servo');
+		let true_text = "Your ball will home to the middle and the table will restart. This may take sometime. Are you sure you want to continue?";
+		let false_text = "Your table will restart this may take sometime. Are you sure you want to continue?";
 		if(is_servo == 'true') {
-			if(confirm("Your ball will home to the middle and the table will restart. This may take sometime. Are you sure you want to continue?"))
-				self.install_updates();
-
+			if(app.plugins.n.notification.confirm(true_text,
+				function(resp_num){
+					if(resp_num == 1) {
+						return self;
+					}
+					self.install_updates();
+				}, 'Update Table?', ['Cancel', 'OK'])
+			 );
+				
 			} else if(is_servo == 'false'){
-				if(confirm("Your table will restart this may take sometime. Are you sure you want to continue?"))
-				self.install_updates();
+				if(app.plugins.n.notification.confirm(false_text, 
+					function(resp_num){
+						if(resp_num == 1) {
+							return self;
+						}
+						self.install_updates();
+					}, 'Update Table?', ['Cancel', 'OK'])
+				);
+				
 			}
 	},
 	install_updates: function () {
