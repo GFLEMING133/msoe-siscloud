@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.38', //adjusted media queries for iPhone 6 & 7 Plus 
+	version				: '1.8.4', // WebCenter and Lights now available. 
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
