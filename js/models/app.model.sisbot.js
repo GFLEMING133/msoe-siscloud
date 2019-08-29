@@ -1342,10 +1342,10 @@ app.model.sisbot = {
 		if (this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
 
-			// self.save_to_sisbot(self.get('data'));
-
 			// send to sisbot
-			self._update_sisbot('lcpWrite', { value: 'i'+new_pattern }, function (obj) {
+			var pattern = app.collection.get(new_pattern);
+			console.log("Update Pattern", pattern.get('data'));
+			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
 				// do nothing
 			});
 		}
