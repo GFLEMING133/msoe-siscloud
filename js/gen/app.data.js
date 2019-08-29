@@ -33,4 +33,12 @@ app.data = [
 		is_primary_color: 'false',
 		is_secondary_color: 'false'
 	},
+	{
+		id: 'calibrate',
+		type: 'led_pattern',
+		name: 'Calibrate',
+		is_white: 'false',
+		is_primary_color: 'false',
+		is_secondary_color: 'false'
+	},
 ];

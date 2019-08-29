@@ -11,55 +11,27 @@
     <div class="w15">&nbsp;</div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
-    <div class="h__k" data-if="{{= model.data.led_enabled }} !== true">
-      <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Enable LEDs</h3>
-      <div class="p20 pt0">
-        <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong h__k"
-        data-on-click="model.enable_led"
-        >Enable LEDs</div>
-      </div>
-    </div>
+    <!-- <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Restart LEDs</h3>
+    <div class="p20 pt0">
+      <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong h__k"
+      data-on-click="model.enable_led"
+      >Restart LEDs</div>
+    </div> -->
     <div class="h__k" data-if="{{= model.data.led_enabled }} == true">
-      <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Pattern</h3>
-      <div class="pl20 pr20 pb10">
-        <select class="h__k w100"
+      <div class="pl20 pr20">
+        <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong h__k"
+            data-on-click="set"
             data-field="model.edit.led_pattern"
-            data-selected="{{= model.edit.led_pattern }}">
-          <option value="white">White</option>
-          <option value="fade">Fade</option>
-          <option value="spread">Spread</option>
-          <option value="rainbow">Rainbow</option>
-        </select>
+            data-value="calibrate">
+          Calibrate Theta
+        </div>
       </div>
-      <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Primary Color</h3>
-      <div class="p20 mcenter h__k"
-          id="primary"
-          data-iro="#primary"
-          data-field="model.edit.led_primary_color"
-          data-value="{{= model.edit.led_primary_color }}"
-          data-on-update="model.led_color"></div>
-      <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Secondary Color</h3>
-      <div class="p20 mcenter h__k"
-          id="secondary"
-          data-iro="#secondary"
-          data-field="model.edit.led_secondary_color"
-          data-value="{{= model.edit.led_secondary_color }}"
-          data-on-update="model.led_color"></div>
-      <h3 class="no-stuffing p20 pb10 fs18 lh18 strong h__k">Offset {{= model.edit.led_offset }}</h3>
+      <h3 class="no-stuffing p20 pb10 fs18 lh18 strong h__k">LED Offset {{= model.edit.led_offset }}</h3>
       <div class="flex vertical-align pl20 pr20">
-        <div class="w5 blue-hover pt15 pb15">
-            &nbsp;
-        </div>
-        <div class="w90 flex relative center">
-          <span class="w2-5"></span>
-          <input class="h__k w90" type="range" min="0" max="360" step="2.5"
+        <div class="w100 flex relative center">
+          <input class="h__k w100" type="range" min="-180" max="180" step="1.5"
               data-on-input="model.led_offset"
-              value="{{= model.edit.led_offset }}"
-          />
-          <span class="w2-5"></span>
-        </div>
-        <div class="w5 center blue-hover pt15 pb15">
-          &nbsp;
+              value="{{= model.edit.led_offset }}" />
         </div>
       </div>
     </div>

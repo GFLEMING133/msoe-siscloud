@@ -33,11 +33,11 @@
               <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
               <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
             </div>
-      
+
             <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
             <div class="flex vertical-align pl20 pr20">
               <div class="w5 blue-hover pt15 pb15 h__k" data-on-click="model.brightness_min">
-                <i class="fa fa-sun-o center clickable active grey" aria-hidden="true"></i>
+                <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
               </div>
               <div class="w90 flex relative center">
                 <span class="w2-5"></span>
@@ -47,17 +47,17 @@
                 <span class="w2-5"></span>
               </div>
               <div class="w5 center blue-hover pt15 pb15 h__k" data-on-click="model.brightness_max">
-                <i class="fa fa-sun-o f-large center clickable active grey" aria-hidden="true"></i>
+                <i class="fas fa-sun f-large center clickable active grey" aria-hidden="true"></i>
               </div>
             </div>
             <div class="pl20 pt5 pb5 pr20 pb20 w100 vertical clickable h__k"
                 data-on-click="model.autodim_toggle"
-                data-if="{{= model.data.is_autodim }} !== undefined">
+                data-if="{{= model.data.is_autodim_allowed }} !== false">
               <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
               <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.data.is_autodim }} == false"></span>
               <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
             </div>
-            
+
             <div class="h__k" data-if="{{= model.data.led_enabled }} == true">
               <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Mode</h3>
               <div class="pl20 pr20 pb10">
@@ -123,8 +123,8 @@
         >
             <span>
                 <span class="montserrat_semi_bold">Firmware Update</span>
-                <span class="h__k" 
-                    data-model="{{= model.sisbot_id }}" 
+                <span class="h__k"
+                    data-model="{{= model.sisbot_id }}"
                     data-if="{{= model.data.is_internet_connected }} == true">
                     <span class="fs14 blue h__k"
                         data-run="model.check_for_version_update"
@@ -226,6 +226,10 @@
     data-template="sisyphus-settings-advanced-movement-tmp"
 ></div>
 <!------------------------- ADVANCED LIGHTS --------------------------------->
+<div class="h100 h__k"
+    data-if="{{= parent.active.secondary }} == advanced_lights"
+    data-template="sisyphus-settings-advanced-lights-tmp"
+></div>
 <div class="h100 h__k"
     data-if="{{= parent.active.secondary }} == primary_color"
     data-template="sisyphus-settings-primary-color-tmp"

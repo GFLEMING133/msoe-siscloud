@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.4', // WebCenter and Lights now available. 
+	version				: '1.8.36', // WebCenter and Lights now available.
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {

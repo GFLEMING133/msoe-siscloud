@@ -121,6 +121,7 @@ app.model.sisbot = {
 				is_loop				: 'false',
 				brightness			: .5,
 				speed				: .3,
+				is_autodim_allowed	: 'true',
 				is_autodim			: 'true',
 				is_nightlight		: 'false',
 				is_sleeping			: 'false',
@@ -778,9 +779,9 @@ app.model.sisbot = {
 					self.install_updates();
 				}, 'Update Table?', ['Cancel', 'OK'])
 			 );
-				
+
 			} else if(is_servo == 'false'){
-				if(app.plugins.n.notification.confirm(false_text, 
+				if(app.plugins.n.notification.confirm(false_text,
 					function(resp_num){
 						if(resp_num == 1) {
 							return self;
@@ -788,7 +789,7 @@ app.model.sisbot = {
 						self.install_updates();
 					}, 'Update Table?', ['Cancel', 'OK'])
 				);
-				
+
 			}
 	},
 	install_updates: function () {
@@ -1442,7 +1443,7 @@ app.model.sisbot = {
 
 		if (this.get('wait_for_send') == 'false') {
 			// var start = +new Date();
-			this.set('wait_for_send','true');
+			// this.set('wait_for_send','true');
 			var remember_level = +level;
 			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
 				// do nothing
@@ -1450,13 +1451,13 @@ app.model.sisbot = {
 				// console.log("Brightness Response (millis):", end-start);
 
 				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
-				self.save_to_sisbot(self.get('data'), function(obj) {
-					self.set('wait_for_send','false');
-
-					if (self.get('edit.led_offset') !== remember_level) {
-						self.led_offset(self.get('edit.led_offset'));
-					}
-				});
+				// self.save_to_sisbot(self.get('data'), function(obj) {
+				// 	self.set('wait_for_send','false');
+				//
+				// 	if (self.get('edit.led_offset') !== remember_level) {
+				// 		self.led_offset(self.get('edit.led_offset'));
+				// 	}
+				// });
 			});
 		} else {
 			// console.log("New Offset", level);
