@@ -934,14 +934,14 @@ li:hover {
 .clickable 								{	cursor					: pointer;					}
 .no-stuffing							{	margin					: 0px;		padding: 0px;	}
 .stuffing								{	margin					: 0px;		padding: 10px;	}
-.block									{	display					: block;}
+.block									{	display					: block;                    }
 .inline									{	float					: left;		display: inline;}
 .inline-right							{	float					: right;	display: inline;}
 .inline-block							{	display					: inline-block;				}
-.left									{ text-align					: left;					}
-.center 								{	text-align					: center; 				}
-.right									{ text-align					: right;				}
-.i 										{	font-style					: italic; 				}
+.left									{ 	text-align				: left;						}
+.center 								{	text-align				: center; 					}
+.right									{ 	text-align				: right;					}
+.i 										{	font-style				: italic; 					}
 .strikethrough							{	text-decoration			: line-through;				}
 .uppercase								{	text-transform			: uppercase;				}
 .capitalize								{	text-transform			: capitalize;				}
@@ -1291,7 +1291,7 @@ select:focus {
 
 .b										{	border					: 1px solid #efefef !important;		}
 .bt										{	border-top				: 1px solid #efefef !important;		}
-.bt-dcdc 								{ border-top				: 1px solid #dcdcdc;				}
+.bt-dcdc 								{ 	border-top				: 1px solid #dcdcdc;				}
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
