@@ -134,6 +134,8 @@ app.model.sisbot = {
 				is_waiting_between_tracks: 'false',
 				share_log_files		: 'false',
 
+				table_settings: {}, // Advanced table settings, overrides CSON on reboot
+
 				led_enabled: 'false',
 				led_pattern_ids: ['white','fade','spread','rainbow'],
 				led_pattern: 'white',
@@ -962,7 +964,7 @@ app.model.sisbot = {
 				app.manager.set('show_sleeping_page', 'true');
 			} else {
 				app.manager.set('show_sleeping_page', 'false')
-							.trigger('change:show_sleeping_page');
+					.trigger('change:show_sleeping_page');
 			}
 		}
 
@@ -1066,7 +1068,9 @@ app.model.sisbot = {
 		});
 
 	},
-	restart: function () {		// CURRENTLY UNUSED
+	restart: function () {
+		this.set('data.reason_unavailable','restarting');
+
 		this._update_sisbot('restart', {}, function(obj) {
 			console.log('RESTART');
 		});
@@ -1639,6 +1643,36 @@ app.model.sisbot = {
 		});
 
 		return this;
+	},
+	/******************** CSON OVERRIDE ******************************************/
+	confirm_advanced_settings: function() {
+		var self = this;
+
+		// make sure a change occured
+		console.log("Advanced Update", this.get('data.table_settings'), this.get('edit.table_settings'));
+		var edit_value = this.get('edit.table_settings');
+		var data_value = this.get('data.table_settings');
+		if (JSON.stringify(edit_value) == JSON.stringify(data_value)) return app.trigger('session:active', { secondary: 'advanced_settings' });
+
+		app.plugins.n.notification.confirm("Changing these settings may cause your table to not function as expected.",
+			function(resp_num) {
+				console.log("Confirm resp", resp_num);
+				if (resp_num !== 2) {
+					return self;
+				} else {
+					self.save_to_sisbot(self.get('edit'), function(obj) {
+						if (obj.err) return console.log("Save error", obj.err);
+
+						if (obj.resp) app.manager.intake_data(obj.resp);
+
+						// go back a page
+						app.trigger('session:active', { secondary: 'advanced_settings' });
+
+						app.plugins.n.notification.alert('A restart is required for the changes to take effect.');
+						self.restart();
+					});
+				}
+			}, 'Confirm', ['Save','Cancel']);
 	},
 	/******************** VERSIONING ******************************************/
 	check_for_version_update: function () {
