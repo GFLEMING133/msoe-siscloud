@@ -1,6 +1,7 @@
 #2019-08-29 1.8.36
  - RGBW Lights added to UI
  - Webcenter added to UI
+ - CSON override added to UI
 #2019-8-15 1.8.34 & 35
  - Regression Testing staging branch with previous changes.
  - Sisbot updates included in regression testing.
