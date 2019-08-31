@@ -685,6 +685,18 @@ li:hover {
 	display					: flex;
 	width					: 100%;
 }
+.flex-center-column {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center-row {
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
@@ -1023,7 +1035,7 @@ li:hover {
 
 select {
     padding						: 7px 8px;
-	border						: 2px solid #838383;
+	border						: 2px solid #000;
     box-shadow					: none;
     background					: transparent;
     background-image			: none;
@@ -1183,6 +1195,9 @@ select:focus {
   background: -webkit-linear-gradient(#fdcc52, #fdc539);
   background: linear-gradient(#fdcc52, #fdc539);
 }
+.bg-69 {
+	background-color: #696969;
+}
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
 .c-info 								{	color		: #134550 !important;					}
@@ -1295,10 +1310,8 @@ select:focus {
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
-.bbw
-
 .b-none									{	border					: none;								  }
-
+.bb-10p									{   border-bottom			: 10px solid  #000;		}
 
 .b2										{	border					: 2px solid #838383 !important;		}
 
@@ -1337,7 +1350,7 @@ select:focus {
 .p40									{	padding					: 40px !important;						}
 .p75									{	padding					: 75px !important;						}
 
-.mcenter								{ 	margin-left: auto; 		margin-right: auto; 					}
+.mcenter								{ 	margin-left: 15px; 		margin-right: 15px; 					}
 
 .m0										{	margin					: 0px !important;						}
 .m5										{	margin					: 5px !important;						}
