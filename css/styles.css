@@ -688,7 +688,7 @@ li:hover {
 .flex-center-column {
 	display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 .flex-center-row {
@@ -982,6 +982,7 @@ li:hover {
 .corner-4px, .corner-4px:hover			{	border-radius				: 4px;		}
 .corner-5px, .corner-5px:hover			{	border-radius				: 5px;		}
 .corner-10px, .corner-10px:hover		{	border-radius				: 10px;		}
+.corner-20px, .corner-20px:hover		{	border-radius				: 20px;		}
 .corner-tl-none, .corner-tl-none:hover	{	border-top-left-radius		: 0px;		}
 .corner-tr-none, .corner-tr-none:hover	{	border-top-right-radius		: 0px;		}
 .corner-bl-none, .corner-bl-none:hover	{	border-bottom-left-radius	: 0px;		}
@@ -1198,6 +1199,10 @@ select:focus {
 .bg-69 {
 	background-color: #696969;
 }
+.bg-linear {	
+	background-image: radial-gradient(circle, #fff, #11b2fb, #000, #000 ) ;		
+}
+
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
 .c-info 								{	color		: #134550 !important;					}
@@ -1327,7 +1332,7 @@ select:focus {
 .bb-med									{	border-bottom			: 1px solid #ccc !important;		}
 .bl-med									{	border-left				: 1px solid #ccc !important;		}
 .br-med									{	border-right			: 1px solid #ccc !important;		}
-
+.b-ededed								{	border					: 2px solid #ededed !important;		}
 .b-dark									{	border					: 2px solid #444444 !important;		}
 .bt-dark								{	border-top				: 1px solid #444444 !important;		}
 .bb-dark								{	border-bottom			: 1px solid #444444 !important;		}
@@ -1380,7 +1385,7 @@ select:focus {
 .mb10									{	margin-bottom			: 10px !important;			            }
 .ml10									{	margin-left				: 10px !important;			            }
 .mr10									{	margin-right			: 10px !important;			            }
-
+.mbox10 								{   margin 					: 10px 10px !important; 				}
 .mt15									{	margin-top				: 15px !important;			            }
 .mb15									{	margin-bottom			: 15px !important;			            }
 .ml15									{	margin-left				: 15px !important;			            }
@@ -1528,6 +1533,7 @@ select:focus {
 .pl250									{	padding-left			: 250px !important;						}
 .pr250									{	padding-right			: 250px !important;						}
 
+.pbox 									{	padding					: 10px 30px !important;					}
 /**************************** CSS CHECKBOXES **********************************/
 
 input.cmn-toggle-round + label {

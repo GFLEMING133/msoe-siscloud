@@ -8,31 +8,32 @@
     </div>
     <div class="w15">&nbsp;</div>
   </div>
-  <div class="body-header h100 flex-center-column scroll hide-scrollbar bg-69">
-    <!-- <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Secondary Color</h3> -->
-    <div class="h__k mt20"
-        id="secondary"
-        data-iro="#secondary"
-        data-field="model.edit.led_secondary_color"
-        data-value="{{= model.edit.led_secondary_color }}"
-        data-on-update="model.led_color"></div>
-    <div class="bb-10p w100 mt10"></div>
-    <div class="flex bg-black b-dark">
-      <div class="p10 w50">
-        <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong h__k"
-            data-on-click="model.cancel_color">
-          Cancel
+  <div class="pb100 h100 scroll hide-scrollbar bg-black">
+    <div class="pt100 m0 flex-center-column bg-linear">
+      <!-- <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Secondary Color</h3> -->
+      <div class="h__k mt20 mb50 pbox corner-20px"
+          id="secondary"
+          data-iro="#secondary"
+          data-field="model.edit.led_secondary_color"
+          data-value="{{= model.edit.led_secondary_color }}"
+          data-on-update="model.led_color"></div>
+      <!-- <div class="bb-10p w100 mt10"></div> -->
+      <div class="flex-center-row w100 pb50">
+        <div class="p10 flex">
+          <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong h__k"
+              data-on-click="model.cancel_color">
+            Cancel
+          </div>
         </div>
-      </div>
-      <div class="p10 w50">
-        <div class="w100 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'false'}">
-          Save
+        <div class="p10 flex">
+          <div class="w100 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'secondary':'false'}">
+            Save
+          </div>
         </div>
       </div>
     </div>
-    <div class="hh150">&nbsp;</div>
   </div>
 </div>

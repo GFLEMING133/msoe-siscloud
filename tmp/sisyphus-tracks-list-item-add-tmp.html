@@ -1,7 +1,4 @@
-<div class="flex pl20 pr20 clickable active bt h__k"
-    data-on-click="grandparent.add_tracks_add"
-    data-msg="{{= model.id }}"
->
+<div class="flex pl20 pr20 bt h__k">
 	<div class="w20 pt10 pb10 center vertical">
         <div class="w80 hh80">
             <img src="" class="w100 center h__k" alt="{{= model.data.name }}"
@@ -12,6 +9,7 @@
 	<div class="w60 pt30 pl10">
         <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
         <div class="fs12 lh20 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
+
         <div class="fs12 lh20 warmGrey block  h__k"
             data-if="{{= grandparent.add_playlist_tracks }} !== undefined"
         >   
@@ -20,10 +18,21 @@
 	</div>
     <div class="h100 block">
             <div class="h__k" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0" >
-                <div class="add_tracks_circle mt40"></div>
+                <div class="add_tracks_circle mt40 h__k"
+                    data-on-click="grandparent.add_tracks_add"
+                    data-msg="{{= model.id }}"></div>
             </div> 
+            
             <div class="h__k" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0" >
-                <img  src="img/checkCircle@2x.png" class=" mt40 checked_circle"></img>
+                <i class="fa fa-minus-circle f-large center clickable active red mt40 inline pr5 h__k" 
+                    data-on-click="grandparent.minus_tracks_minus"
+                    data-msg="{{= model.id}}"
+                    aria-hidden="true"></i>
+
+                <i class="fa fa-plus-circle f-large center clickable active green mt40 h__k"
+                    data-on-click="grandparent.add_tracks_add"
+                    data-msg="{{= model.id }}" 
+                    aria-hidden="true"></i>
             </div>
     </div>
 </div>

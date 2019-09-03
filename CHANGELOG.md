@@ -1,4 +1,9 @@
-#2019-08-29 1.8.36
+#2019-09-01 1.8.41
+ - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned 
+ - Added styling 
+ - Fixed community-hero from cloud overflowing outside of app on local-host
+ - Regression testing pages updated
+#2019-08-29 1.8.36-40
  - RGBW Lights added to UI
  - Webcenter added to UI
  - CSON override added to UI
