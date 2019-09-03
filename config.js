@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.43', // Save Button showing for Night Mode unabled
+	version				: '1.8.44', // Added Traingle back to No Table Found for Apples internal testing of the app
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
