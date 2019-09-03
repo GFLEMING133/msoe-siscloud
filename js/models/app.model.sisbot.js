@@ -931,6 +931,7 @@ app.model.sisbot = {
 		return this;
 	},
 	update_nightmode: function () {
+		debugger;
 		if (app.config.env == 'alpha')
 			return app.trigger('session:active', { secondary: 'false' });
 
@@ -1314,6 +1315,41 @@ app.model.sisbot = {
 	},
 	speed_min: function () {
 		this.speed(0);
+	},
+	//MATT There is the Other led_offset() on line 1478
+	led_offset2: function (level) {
+		var self = this;
+
+		this.set('data.led_offset', +level).set('edit.led_offset', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_led_offset', { value: remember_level }, function (obj) {
+				self.set('wait_for_send','false');
+
+				if (self.get('edit.led_offset') !== remember_level) {
+					console.log("LED OffSet", remember_level, self.get('edit.led_offset'));
+					self.led_offset2(self.get('edit.led_offset'));
+				}
+			});
+		}
+	},
+	led_offset_up: function () {
+		var level = +this.get('data.led_offset');
+		if (level <= .95) level = level + .05;
+		this.led_offset2(level);
+	},
+	led_offset_down: function () {
+		var level = +this.get('data.led_offset');
+		if (level >= .05) level = level - .05;
+		this.led_offset2(level);
+	},
+	led_offset_max: function () {
+		this.led_offset2(1);
+	},
+	led_offset_min: function () {
+		this.led_offset(20);
 	},
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
