@@ -820,7 +820,7 @@ var Binding = Backbone.View.extend({
 
         console.log("Update", e, this.$el, this.data);
         if (this.onUpdate) this.onUpdate();
-        app.trigger('trigger:updated:' + this.cid, this.data.value);
+        if (this.data && this.data.value) app.trigger('trigger:updated:' + this.cid, this.data.value);
     },
     /***************************** CLUSTER ************************************/
     setup_cluster: function () {
