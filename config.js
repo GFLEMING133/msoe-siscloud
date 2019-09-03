@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.42', // Save Button showing for Night Mode unabled
+	version				: '1.8.43', // Save Button showing for Night Mode unabled
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
