@@ -22,7 +22,7 @@
         <h3 class="no-stuffing p20 pb30 fs18 lh18 strong h__k">LED Offset {{= model.edit.led_offset }}</h3>
       <div class="flex vertical-align p10 w100">
         <div class="w100 flex relative center">
-          <div class="w5 blue-hover pt15 pb10 h__k" data-on-click="model.brightness_min">
+          <div class="w5 blue-hover pt15 pb10 h__k" data-on-click="model.led_offset_min">
               <i class="fa fa-minus-circle center clickable active grey mr10" aria-hidden="true"></i>
             </div>
             <div class="w100 mt10">
@@ -30,7 +30,7 @@
                   data-on-input="model.led_offset"
                   value="{{= model.edit.led_offset }}" />
             </div>
-          <div class="w5 center blue-hover pt10 pb10 h__k" data-on-click="model.brightness_max">
+          <div class="w5 center blue-hover pt10 pb10 h__k" data-on-click="model.led_offset_max">
               <i class="fa fa-plus-circle f-large center clickable active green ml5" aria-hidden="true"></i>
           </div>
         </div>

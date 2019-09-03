@@ -24,12 +24,12 @@
             </div> 
             
             <div class="h__k" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0" >
-                <i class="fa fa-minus-circle f-large center clickable active red mt40 inline pr5 h__k" 
+                <i class="fa fa-minus-circle f-large center clickable active warmGrey mt40 inline pr5 h__k" 
                     data-on-click="grandparent.minus_tracks_minus"
                     data-msg="{{= model.id}}"
                     aria-hidden="true"></i>
 
-                <i class="fa fa-plus-circle f-large center clickable active green mt40 h__k"
+                <i class="fa fa-plus-circle f-large center clickable active warmRed mt40 h__k"
                     data-on-click="grandparent.add_tracks_add"
                     data-msg="{{= model.id }}" 
                     aria-hidden="true"></i>
