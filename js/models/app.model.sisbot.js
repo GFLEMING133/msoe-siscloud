@@ -1337,19 +1337,19 @@ app.model.sisbot = {
 	},
 	led_offset_up: function () {
 		var level = +this.get('data.led_offset');
-		if (level <= .95) level = level + .05;
+		if (level <= 180) level = level + 1;
 		this.led_offset2(level);
 	},
 	led_offset_down: function () {
 		var level = +this.get('data.led_offset');
-		if (level >= .05) level = level - .05;
-		this.led_offset2(level);
+		if (level >= -180) level = level - 1;
+		this.led_offset2(level--);
 	},
 	led_offset_max: function () {
-		this.led_offset2(1);
+		this.led_offset2(180);
 	},
 	led_offset_min: function () {
-		this.led_offset(20);
+		this.led_offset(-180);
 	},
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
