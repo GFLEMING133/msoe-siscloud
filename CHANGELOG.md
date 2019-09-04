@@ -2,6 +2,16 @@
  - Merged staging into beta
  - Fixed scrolling issues with Community pages
  - pushing for Beta testers
+ #2019-9-4 1.8.45
+ - Reverted birghtness_min /will be fixed on back end. 
+ - Changed Target Version in Xcode to address dissapearing dropdown issue. 
+ - Changed default Device Orientation in the pList file to have only Portrait available for app. 
+#2019-9-3 1.8.43 & 44
+ - Added exclamation triangle back to No Table FOund page for Apples internal testing 
+ - Fixed brightness_min value in <input> and in the brightness_min() to .10 to fix off set.
+ - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix. 
+ - Commented out Community (again)
+ - this is being pushed to Production.
 #2019-09-01 1.8.41
  - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned 
  - Added styling 
