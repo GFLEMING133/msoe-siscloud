@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.38', //adjusted media queries for iPhone 6 & 7 Plus 
+	version				: '1.8.45', // Changing deployment target and fixing Device Orientation defaults. Added Traingle back to No Table Found for Apples internal testing of the app
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
