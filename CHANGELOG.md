@@ -1,3 +1,7 @@
+#2019-9-4 1.8.45
+ - Reverted birghtness_min /will be fixed on back end. 
+ - Changed Target Version in Xcode to address dissapearing dropdown issue. 
+ - Changed default Device Orientation in the pList file to have only Portrait available for app. 
 #2019-9-3 1.8.43 & 44
  - Added exclamation triangle back to No Table FOund page for Apples internal testing 
  - Fixed brightness_min value in <input> and in the brightness_min() to .10 to fix off set.
