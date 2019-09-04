@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.43', //Triangel added back to No Table Found for apples internal testing.
+	version				: '1.8.46', //Community back oppen along with lights, fixed scrolling for community pages, merged staging into beta
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {

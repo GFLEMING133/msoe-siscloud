@@ -9,7 +9,7 @@
             <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
         </div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar pb150 h__k" data-model="{{= model.sisbot_id }}">
+    <div class="body-header h100 scroll hide-scrollbar pb100 h__k" data-model="{{= model.sisbot_id }}">
         <div class="h__k pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
                 
             <div class="i center shadow bg-grey-ll p30 clickable h__k"
@@ -22,7 +22,7 @@
                 Sisyphus Community
             </h3>
         </div>
-        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
+        <div class="h__k pb100" data-if="{{= model.data.is_internet_connected }} == true">
             <div class="h__k pl50 pr50 pt10" data-if="{{= parent.user_id }} == false">
                 <p class="no-stuffing center w100 mt40" aria-hidden="true">
                         <img src="img/globeCopy.png" alt="Community" class="hh30" />

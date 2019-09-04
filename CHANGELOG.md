@@ -1,3 +1,7 @@
+#2019-09-04 1.8.45
+ - Merged staging into beta
+ - Fixed scrolling issues with Community pages
+ - pushing for Beta testers
 #2019-09-01 1.8.41
  - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned 
  - Added styling 
