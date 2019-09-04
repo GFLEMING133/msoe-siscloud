@@ -1,11 +1,11 @@
 #2019-9-4 1.8.45
- - Reverted birghtness_min /will be fixed on back end. 
- - Changed Target Version in Xcode to address dissapearing dropdown issue. 
- - Changed default Device Orientation in the pList file to have only Portrait available for app. 
+ - Reverted brightness_min /will be fixed on back end.
+ - Changed Target Version in Xcode to address disappearing dropdown issue.
+ - Changed default Device Orientation in the pList file to have only Portrait available for app.
 #2019-9-3 1.8.43 & 44
- - Added exclamation triangle back to No Table FOund page for Apples internal testing 
+ - Added exclamation triangle back to No Table Found page for Apples internal testing
  - Fixed brightness_min value in <input> and in the brightness_min() to .10 to fix off set.
- - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix. 
+ - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix.
  - Commented out Community (again)
  - this is being pushed to Production.
 #2019-8-15 1.8.34 & 35
@@ -15,7 +15,7 @@
  - added new splash screen for ios to address default cordova photo showing. new png is 1125x2436
  - community is "//commented out" in this release.
 #2019-8-15 1.8.32 & 33
- - Community UI changes and re-configuring of pages to flow seemlessly with iPhone gap and notch
+ - Community UI changes and re-configuring of pages to flow seamlessly with iPhone gap and notch
  - Added scrolling to all pages in Community.
  - Cleaned up media queries and classes
  - Changed all alert()'s to app.plugins.n.alert() and added custom Headers to some. EXCEPT alert()'s used for debugging
@@ -50,7 +50,7 @@
  - iPhone MAX, X, XS have targeted media queries.
  - App is now displaying correctly on iPhone X/XS/MAX with notch and microphone.
  - sisyphus-playlists-active-tmp. "Play" and Shuffle" div is position:fixed, moved out of .scroll <div></div> and media-queried iPhones to have no margin-top.     (NEEDS TESTING ON MULTIPLE PHONES!!)
- - Error handeling for wifi login in sisyphus-settings-wifi-tmp. Now handles 8 or less characters, Wrong SSID info and No Password w/alert that is changing to a   confirm.
+ - Error handling for wifi login in sisyphus-settings-wifi-tmp. Now handles 8 or less characters, Wrong SSID info and No Password w/alert that is changing to a   confirm.
  - fontawesome updated. fa became far or fas and added some newer looking icons.
 
 #2019-7-15 1.8.23
@@ -78,7 +78,7 @@
  - Updated cordova iOS to 5.0.1
  - Updated Cordova Android to 8.0.0,
  - Updated WifiWizard / polygonproducts to WiFiWizard2 and changed code in siscloud.
- - Updated other plugins and removed those that were depricated.
+ - Updated other plugins and removed those that were deprecated.
  - Changed android:usesCleartextTraffic=true in the AndroidManifest to correct launch error of not             connecting to wiFi per Matt K ,
  - Updated gradle to version 5.4.1 . ALl is tested and working for the API level that has been upgraded to 28 per Google Plays notice of necessary upgrade.
 #2019-6-18, 1.8.12
@@ -112,7 +112,7 @@
  - added //comments to the server.js, config.js and app.model.sisyphus_manager with code for setting the local dev environment.
  - added conditional in _find_sisbots() to check for the env=beta for setting local dev env and added else if to connect_to_sisbot if beta so it calls the   right url.
  - adjusted height attribute in the home.html for the Disconnect From WIFI page.
- - changed back-arrow routing in the sisyphus-settings-change-name so it doesnt call the change_name() and routes back to the advance settings page.
+ - changed back-arrow routing in the sisyphus-settings-change-name so it doesn't call the change_name() and routes back to the advance settings page.
  - added conditional confirm()'s to check wether the table is_servo or not so it displays different messages for change table name and firmware update.
  - made the Firmware Update page scrollable for phones with smaller screens per customer request.
 
