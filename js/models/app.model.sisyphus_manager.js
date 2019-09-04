@@ -937,8 +937,8 @@ app.model.sisyphus_manager = {
 
   				if (app.config.env == 'alpha') {
   					self.connect_to_sisbot('192.168.42.1');
-  				// } else if (app.config.env == 'beta') {
-  				// 	self.connect_to_sisbot(app.config.get_sisbot_url());
+  				} else if (app.config.env == 'beta') {
+  				 	self.connect_to_sisbot(app.config.get_sisbot_url());
   				} else if (sisbots.length == 1) {
   					self.set('sisbot_registration', 'connecting');
   					self.connect_to_sisbot(sisbots[0]);

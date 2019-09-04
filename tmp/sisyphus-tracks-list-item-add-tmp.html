@@ -18,18 +18,18 @@
 	</div>
     <div class="h100 flex1center ">
             <div class="h__k flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0" >
-                <div class="add_tracks_circle h__k"
+                <div class="add_tracks_circle mr10 h__k"
                     data-on-click="grandparent.add_tracks_add"
                     data-msg="{{= model.id }}"></div>
             </div> 
             
             <div class="h__k flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0" >
-                <i class="fa fa-minus-circle f-large clickable active warmGrey pr5 h__k" 
+                <i class="fa fa-minus-circle f-large clickable active warmGrey mr15 h__k" 
                     data-on-click="grandparent.minus_tracks_minus"
                     data-msg="{{= model.id}}"
                     aria-hidden="true"></i>
 
-                <i class="fa fa-plus-circle f-large clickable active green h__k"
+                <i class="fa fa-plus-circle mr10 f-large clickable active green h__k"
                     data-on-click="grandparent.add_tracks_add"
                     data-msg="{{= model.id }}" 
                     aria-hidden="true"></i>
