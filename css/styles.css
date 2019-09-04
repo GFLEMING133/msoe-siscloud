@@ -699,6 +699,36 @@ li:hover {
     justify-content: center;
     align-items: center;
 }
+.flex1start {
+	display: flex;
+	flex: 1;
+	justify-content: flex-start;
+	align-items: center
+}
+.flex1center {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+
+}
+.flex-row {
+	flex-direction: row;
+}
+.flex-column {
+	flex-direction: column;
+}
+.flex1end {
+	display: flex;
+	flex: 1;
+	justify-content: flex-end;
+	align-items: center
+}
+.align-start {
+	align-self: flex-start;
+}
+.word-break {
+	word-break: break-word;
+}
 
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
