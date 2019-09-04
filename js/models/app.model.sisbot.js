@@ -1315,41 +1315,6 @@ app.model.sisbot = {
 	speed_min: function () {
 		this.speed(0);
 	},
-	//MATT There is the Other led_offset() on line 1478
-	led_offset2: function (level) {
-		var self = this;
-
-		this.set('data.led_offset', +level).set('edit.led_offset', +level);
-
-		if (this.get('wait_for_send') == 'false') {
-			this.set('wait_for_send','true');
-			var remember_level = +level;
-			this._update_sisbot('set_led_offset', { value: remember_level }, function (obj) {
-				self.set('wait_for_send','false');
-
-				if (self.get('edit.led_offset') !== remember_level) {
-					console.log("LED OffSet", remember_level, self.get('edit.led_offset'));
-					self.led_offset2(self.get('edit.led_offset'));
-				}
-			});
-		}
-	},
-	led_offset_up: function () {
-		var level = +this.get('data.led_offset');
-		if (level <= 180) level = level + 1;
-		this.led_offset2(level);
-	},
-	led_offset_down: function () {
-		var level = +this.get('data.led_offset');
-		if (level >= -180) level = level - 1;
-		this.led_offset2(level--);
-	},
-	led_offset_max: function () {
-		this.led_offset2(180);
-	},
-	led_offset_min: function () {
-		this.led_offset(-180);
-	},
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
@@ -1383,7 +1348,7 @@ app.model.sisbot = {
 
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
-			console.log("Update Pattern", pattern.get('data'));
+			console.log("Update Pattern", JSON.stringify(pattern.get('data')));
 			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
 				// do nothing
 			});
@@ -1473,6 +1438,18 @@ app.model.sisbot = {
 
 			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
 		}
+	},
+	led_offset_up: function () {
+		var level = +this.get('data.led_offset');
+		level += 1;
+		if (level > 180) level = 180;
+		this.led_offset(level);
+	},
+	led_offset_down: function () {
+		var level = +this.get('data.led_offset');
+		level -= 1;
+		if (level < -180) level = -180;
+		this.led_offset(level);
 	},
 	led_offset: function (level) {
 		var self = this;

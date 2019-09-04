@@ -18,20 +18,20 @@
       >Restart LEDs</div>
     </div> -->
     <div class="h__k" data-if="{{= model.data.led_enabled }} == true">
-      <div class="p30 i fs14 lh24">*Calibraitng LED's is best done using the "Spread" routine and running the track "Sine"</div>
-        <h3 class="no-stuffing p20 pb30 fs18 lh18 strong h__k">LED Offset {{= model.edit.led_offset }}</h3>
-      <div class="flex vertical-align p10 w100">
+      <div class="p30 pb10 i fs14 lh24">*Calibrating LED's is best done using the "Spread" routine and running the track "Sine"</div>
+      <h3 class="no-stuffing p20 pb30 fs18 lh18 strong h__k">LED Offset {{= model.edit.led_offset }}</h3>
+      <div class="flex vertical-align pl10 pr10 w100">
         <div class="w100 flex relative center">
-          <div class="w5 blue-hover pt15 pb10 h__k" data-on-click="model.led_offset_down">
-              <i class="fa fa-minus-circle center clickable active warmGrey mr10" aria-hidden="true"></i>
-            </div>
-            <div class="w100 mt10">
-              <input class="h__k w100" type="range" min="-180" max="180" step="1.5"
-                  data-on-input="model.led_offset2"
-                  value="{{= model.edit.led_offset }}" />
-            </div>
-          <div class="w5 center blue-hover pt10 pb10 h__k" data-on-click="model.led_offset_up">
-              <i class="fa fa-plus-circle f-large center clickable active green ml5" aria-hidden="true"></i>
+          <div class="w5 blue-hover center pt10 pb10 h__k" data-on-click="model.led_offset_down">
+            <i class="fa fa-minus-circle center clickable active grey" aria-hidden="true"></i>
+          </div>
+          <div class="w90 mt3 p5 mb3">
+            <input class="h__k w100" type="range" min="-180" max="180" step="1.5"
+                data-on-input="model.led_offset"
+                value="{{= model.edit.led_offset }}" />
+          </div>
+          <div class="w5 blue-hover center pt10 pb10 h__k" data-on-click="model.led_offset_up">
+            <i class="fa fa-plus-circle center clickable active grey" aria-hidden="true"></i>
           </div>
         </div>
       </div>

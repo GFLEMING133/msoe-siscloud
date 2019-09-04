@@ -316,7 +316,7 @@ label {
 	right:-5px;
 }
 
-  
+
 .shuffle_tooltip .tooltiptext {
 	font-family: "Montserrat-Black", "Roboto", sans-serif;
 	visibility: hidden;
@@ -326,7 +326,7 @@ label {
 	text-align: center;
 	border-radius: 6px;
 	padding: 5px 0;
-  
+
 	/* Position the tooltip */
 	top: -5px;
     right: 20%;
@@ -348,14 +348,14 @@ label {
 	text-align: center;
 	border-radius: 6px;
 	padding: 5px 0;
-  
-	/* Position the tooltip   <<<<< add * / back 
+
+	/* Position the tooltip   <<<<< add * / back
 	top: 15px;
 	left: 70%;
 	position: absolute;
 
 }*/
-  
+
 .loop_tooltip:hover .tooltiptext {
 	font-size: 14px;
 	font-family: "Montserrat-Black", "Roboto", sans-serif;
@@ -537,10 +537,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	border: 1px solid #dcdcdc;   /*  #dcdcdc */
 }
 
-.private_italic { 
+.private_italic {
 	font-style: italic;
 	color: #F4AE3D !important;
-	
+
  }
 
 /* -----------SORT BY DROP DOWN----------------------------  */
@@ -557,7 +557,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position: absolute;
 	width: 100%;
-	
+
 }
 .sortBy-drop-actions {
 	position: relative;
@@ -1232,8 +1232,8 @@ select:focus {
 .bg-69 {
 	background-color: #696969;
 }
-.bg-linear {	
-	background-image: radial-gradient(circle, #fff, #11b2fb, #000, #000 ) ;		
+.bg-linear {
+	background-image: radial-gradient(circle, #fff, #11b2fb, #000, #000 ) ;
 }
 
 
@@ -1541,9 +1541,11 @@ select:focus {
 .pb50						            {   padding-bottom	        : 50px !important;			            }
 .pl50									{	padding-left			: 50px !important;						}
 .pr50									{	padding-right			: 50px !important;						}
+
 .pt65						            {   padding-top             : 65px !important;			            }
 .pt70						            {   padding-top             : 70px !important;			            }
 .pt75									{	padding-top				: 75px !important;						}
+
 .pt100						            {   padding-top             : 100px !important;			            }
 .pb100						            {   padding-bottom	        : 100px !important;			            }
 .pl100									{	padding-left			: 100px !important;						}
@@ -1551,6 +1553,7 @@ select:focus {
 
 .pl110									{	padding-left			: 110px !important;						}
 .pt110						            {   padding-top             : 110px !important;			            }
+
 .pt150						            {   padding-top             : 150px !important;			            }
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
@@ -1676,13 +1679,13 @@ input[type="range"]::-ms-fill-upper {
 
 
 /* Portrait */
-@media only screen 
+@media only screen
 	and (min-device-width: 300px)
 	and (max-device-width: 320px)
 	and (max-device-height: 480px)
 	and (orientation : portrait)
-	{ 
-	
+	{
+
 	.sortBy-drop-actions{
 		width: 220px;
 	}
@@ -1690,44 +1693,44 @@ input[type="range"]::-ms-fill-upper {
 		height: 38%;
 		max-height: 140px;
 		margin-bottom: 100px;
-		
+
 	}
 	.scrollDown {
 		/* background-color: hotpink; */
 		min-height: 0;
 		max-height: 160px;
 		height: 155px;
-	}	
-		
-} 
+	}
+
+}
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
-@media only screen 
+@media only screen
 	and (min-device-width: 300px)
 	and (max-device-width: 320px)
 	and (max-device-height: 568px)
 	and (orientation : portrait)
-	{ 
-	
+	{
+
 	.sortBy-drop-actions{
 		width: 220px;
 	}
-	
+
 	.scrollDown {
 		/* background-color: salmon; */
 		min-height: 0;
 		max-height: 220px;
 		height: 210px;
-	}	
-	
+	}
+
 }
 
-@media only screen 
+@media only screen
 	and (min-device-width: 321px)
 	and (max-device-width: 340px)
 	and (max-device-height: 533px)
 	and (orientation : portrait)
-	{ 
-	
+	{
+
 	.sortBy-drop-actions{
 		width: 220px;
 	}
@@ -1736,15 +1739,15 @@ input[type="range"]::-ms-fill-upper {
 		min-height: 35vh;
 		max-height: 47vh;
 		height: 45vh;
-	}	
-	
+	}
+
 }
-@media only screen 
+@media only screen
 	and (max-device-width: 375px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
-	{ 
-	
+	{
+
 	.sortBy-drop-actions{
 		width: 220px;
 	}
@@ -1752,22 +1755,22 @@ input[type="range"]::-ms-fill-upper {
 	.trackBox {
 		height: 250px;
 		max-height: 250px;
-		
+
 	}
 	.scrollDown {
 		/* background-color: blue; */
-		min-height: 0; 
+		min-height: 0;
 		max-height: 250px;
 		height: 250px;
-	}	
+	}
 
 }
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
-@media only screen 
-and (min-width: 360px) 
-and (max-width: 767px) 
+@media only screen
+and (min-width: 360px)
+and (max-width: 767px)
 and (orientation : portrait)
-	{ 
+	{
 	body {
 		padding-bottom: 25px;
 	}
@@ -1779,11 +1782,11 @@ and (orientation : portrait)
 		max-height: 460px;
 		display: flex;
 	}
-	
+
 }
 
 /* Portrait */
-@media only screen  
+@media only screen
 	and (min-device-width: 361px)
 	and (max-device-width: 374px)
 	and (orientation : portrait)
@@ -1796,17 +1799,17 @@ and (orientation : portrait)
 			height: 360px;
 			max-height:360px;
 			display: block;
-	
+
 	}
 }
 /* *********iPhone 7 aka my testing device ************** */
 
-@media only screen  
+@media only screen
 	and (min-device-width: 375px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
 	{
-	
+
 	.scrollDown {
 			/* background-color: #fdc539; */
 			min-height: 0;
@@ -1816,7 +1819,7 @@ and (orientation : portrait)
 
 }
 /**************iPhone X /XS MArlo/Micah*******************/
-@media only screen  
+@media only screen
 	and (device-width: 375px)
 	and (device-height: 812px)
 	and (orientation : portrait)
@@ -1825,14 +1828,14 @@ and (orientation : portrait)
 		padding-bottom: 25px;
 	}
 	.app .app-container {
-		margin-top: 25px !important; 
+		margin-top: 25px !important;
 
 	}
 	.footer_Xphone {
 		position: absolute;
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
-	} 
+	}
 
 	.scrollDown {
 			/* background-color:yellowgreen; */
@@ -1842,8 +1845,8 @@ and (orientation : portrait)
 	}
 	.controls_adjustment  {
 		margin-bottom: 70px !important;
-	} 
-	
+	}
+
 	.playback_adjustment {
 		height: 100px;
 	}
@@ -1853,7 +1856,7 @@ and (orientation : portrait)
 
 }
 /********* iPhone *******/
-@media only screen  
+@media only screen
 	and (device-width: 414px)
 	and (device-width: 896px)
 	and (orientation : portrait)
@@ -1862,14 +1865,14 @@ and (orientation : portrait)
 		padding-bottom: 25px;
 	}
 	.app .app-container {
-		margin-top: 25px !important; 
+		margin-top: 25px !important;
 
 	}
 	.footer_Xphone {
 		position: absolute;
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
-	} 
+	}
 
 	.scrollDown {
 			/* background-color:blue; */
@@ -1880,17 +1883,17 @@ and (orientation : portrait)
 	}
 	.controls_adjustment  {
 		margin-bottom: 50px !important;
-	} 
-	
+	}
+
 	.playback_adjustment {
 		height: 100px;
 	}
-	
 
-			
+
+
 }
 
-@media only screen  
+@media only screen
 	and (min-device-width: 411px)
 	and (max-device-width: 430px)
 	and (max-device-height: 732px)
@@ -1899,14 +1902,14 @@ and (orientation : portrait)
 
 	.scrollDown {
 			/* background-color: pink; */
-			height: 100vh; 
+			height: 100vh;
 			max-height: 350px;
-	
+
 	}
 
-} 
+}
 /**************iPhone 6 & 7 PLus**************/
-@media only screen  
+@media only screen
 	and (min-device-width: 414px)
 	and (max-device-height: 736px)
 	and (orientation : portrait)
@@ -1917,23 +1920,23 @@ and (orientation : portrait)
 			height: 410px;
 			max-height: 410px;
 	}
-	
+
 }
 /*************iPhone XS Max COLINS PHONE**************/
-@media only screen 
-    and (device-width : 414px) 
-    and (device-height : 896px) 
-	and (-webkit-device-pixel-ratio : 3) 
+@media only screen
+    and (device-width : 414px)
+    and (device-height : 896px)
+	and (-webkit-device-pixel-ratio : 3)
 	{
 		.app .app-container {
-			margin-top: 25px !important; 
-	
-		}		
+			margin-top: 25px !important;
+
+		}
 		.footer_Xphone {
 			margin-bottom: constant(safe-area-inset-bottom);
 			margin-bottom: env(safe-area-inset-bottom);
-		}  
-	
+		}
+
 		.scrollDown {
 			/* background-color: blueviolet; */
 			height: 550px;
@@ -1941,29 +1944,29 @@ and (orientation : portrait)
 		}
 		 .controls_adjustment  {
 			margin-bottom: 70px !important;
-		} 
+		}
 		.playback_adjustment  {
 			height: 100px;
 		}
 
-		
+
 	}
 
 	/*************** iPhone XR **************/
-	@media only screen 
-    and (device-width : 414px) 
-    and (device-height : 896px) 
-	and (-webkit-device-pixel-ratio : 2) 
+	@media only screen
+    and (device-width : 414px)
+    and (device-height : 896px)
+	and (-webkit-device-pixel-ratio : 2)
 	{
 		.app .app-container {
-			margin-top: 25px !important; 
-	
-		}		
+			margin-top: 25px !important;
+
+		}
 		.footer_Xphone {
 			margin-bottom: constant(safe-area-inset-bottom);
 			margin-bottom: env(safe-area-inset-bottom);
-		}  
-	
+		}
+
 		.scrollDown {
 			/* background-color: BLACK; */
 			height: 550px;
@@ -1971,63 +1974,62 @@ and (orientation : portrait)
 		}
 		 .controls_adjustment  {
 			margin-bottom: 70px !important;
-		} 
+		}
 		.playback_adjustment  {
 			height: 100px;
 		}
-		
-	}
- 
 
-@media only screen  
+	}
+
+
+@media only screen
 	and (device-width: 800px)
 	and (device-height: 1280px)
 	and (orientation : portrait)
 	{
 		.trackBox {
 				height: 58%;
-				max-height: 360px;   
+				max-height: 360px;
 				}
 		.scrollDown {
 				/* background-color: lightgoldenrodyellow; */
 				height: 350px;
 				max-height: 350px;
-		
+
 		}
 		.media_query_mt0 {
 			margin-top: 0px !important;
 		}
 }
-@media only screen  
+@media only screen
 	and (device-width: 768px)
 	and (device-height: 1024px)
 	and (orientation : portrait)
 	{
 	.trackBox {
 			height: 58%;
-			max-height: 360px;   
+			max-height: 360px;
 			}
 	.scrollDown {
 			/* background-color: lightskyblue; */
 			height: 350px;
-	
+
 	}
-	
+
 }
-@media only screen  
+@media only screen
 	and (device-width: 1024px)
 	and (device-height: 1366px)
 	and (orientation : portrait)
 	{
 	.trackBox {
 			height: 58%;
-			max-height: 360px;   
+			max-height: 360px;
 			}
 	.scrollDown {
 			/* background-color: darkcyan; */
 			height: 350px;
-	
-	}
-	
-}
 
+	}
+
+}
