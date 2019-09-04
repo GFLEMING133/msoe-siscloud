@@ -1,3 +1,9 @@
+#2019-9-3 1.8.43 & 44
+ - Added exclamation triangle back to No Table FOund page for Apples internal testing 
+ - Fixed brightness_min value in <input> and in the brightness_min() to .10 to fix off set.
+ - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix. 
+ - Commented out Community (again)
+ - this is being pushed to Production.
 #2019-8-15 1.8.34 & 35
  - Regression Testing staging branch with previous changes.
  - Sisbot updates included in regression testing. 
