@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.44', // Added Traingle back to No Table Found for Apples internal testing of the app
+	version				: '1.8.45', // Changing deployment target and fixing Device Orientation defaults. Added Traingle back to No Table Found for Apples internal testing of the app
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app

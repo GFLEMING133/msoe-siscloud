@@ -1265,7 +1265,7 @@ app.model.sisbot = {
 		this.brightness(1);
 	},
 	brightness_min: function () {
-		this.brightness(.10);
+		this.brightness(0);
 	},
 	set_autodim_default: function () {
 		var opp = app.plugins.bool_opp[this.get('default_settings.is_autodim')];
