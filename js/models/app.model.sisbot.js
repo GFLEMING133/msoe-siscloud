@@ -897,7 +897,6 @@ app.model.sisbot = {
 	},
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
-
 		console.log("Sisbot edit", this.get('edit'));
 
 		return this;

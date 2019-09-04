@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.42', //Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned added linear-gradient. Fixed community-hero from cloud overflowing outside of app on local-host
+	version				: '1.8.43', //Triangel added back to No Table Found for apples internal testing.
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
