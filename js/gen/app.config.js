@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.45', // Changing deployment target and fixing Device Orientation defaults. Added Traingle back to No Table Found for Apples internal testing of the app
+	version				: '1.8.47', //Community closing out
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
@@ -14,7 +14,7 @@ app.config = {
 			base_url	: 'http://app.dev.withease.io:3001/', //local url 
 			api_url		: 'https://webcenter.sisyphus-industries.com/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url		: 'https://webcenter.sisyphus-industries.com/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.1.4:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.3:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
 		sisbot: {
