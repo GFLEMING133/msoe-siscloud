@@ -26,6 +26,16 @@ app.data = [
 		led_secondary_color: '#6699FF99'
 	},
 	{
+		id: 'comet',
+		type: 'led_pattern',
+		name: 'Comet',
+		is_white: 'false',
+		is_primary_color: 'true',
+		led_primary_color: '#FFFFFFFF',
+		is_secondary_color: 'true',
+		led_secondary_color: '#000e0f00'
+	},
+	{
 		id: 'rainbow',
 		type: 'led_pattern',
 		name: 'Rainbow',
