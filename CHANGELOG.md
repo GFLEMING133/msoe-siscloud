@@ -1,3 +1,8 @@
+#2019-09-06 1.8.48
+ - Reworked  scrollDown media queries using max-height: calc() 
+ - Removed max-height from .web .app {} in css per Matt 
+ - Removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. 
+ - Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
 #2019-09-04 1.8.45
  - Merged staging into beta
  - Fixed scrolling issues with Community pages

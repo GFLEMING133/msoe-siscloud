@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.46', //Community back oppen along with lights, fixed scrolling for community pages, merged staging into beta
+	version				: '1.8.48', //Reworked  scrollDown media queries using max-height: calc(), removed max-height from .web .app {} in css per Matt, removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
