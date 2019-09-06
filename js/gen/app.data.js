@@ -11,9 +11,9 @@ app.data = [
 		name: 'Rho Fade',
 		is_white: 'false',
 		is_primary_color: 'true',
-		led_primary_color: '#6699FFFF',
+		led_primary_color: '#6699FF00',
 		is_secondary_color: 'true',
-		led_secondary_color: '#9900FFFF'
+		led_secondary_color: '#9900FF00'
 	},
 	{
 		id: 'spread',
@@ -23,7 +23,7 @@ app.data = [
 		is_primary_color: 'true',
 		led_primary_color: '#FFFFFFFF',
 		is_secondary_color: 'true',
-		led_secondary_color: '#6699FF99'
+		led_secondary_color: '#6699FF00'
 	},
 	{
 		id: 'comet',
