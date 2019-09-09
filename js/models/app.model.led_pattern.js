@@ -89,16 +89,34 @@ app.model.led_pattern = {
 			var green = Math.round(156 + (255-156) * scale);
 			var blue = 255; // doesn't change
 
+			console.log("Blue", scale, red, green, blue);
+			red = red.toString(16);
+			if (red.length < 2) red = '0'+red;
+			green = green.toString(16);
+			if (green.length < 2) green = '0'+green;
+			blue = blue.toString(16);
+			if (blue.length < 2) blue = '0'+blue;
+
+			returnValue = '#'+red+green+blue+'FF';
+
 			returnValue = '#'+red.toString(16)+green.toString(16)+blue.toString(16)+'FF';
 		} else if (value > 0.5) {
 			// orange: max 255, 147, 41
 			var scale = 1.0-(value-0.5)*2;
 
 			var red = 255; // doesn't change
-			var green = Math.round(147 + (255-147) * scale);
-			var blue = Math.round(41 + (255-41) * scale);
+			var green = Math.round(32 + (255-32) * scale);
+			var blue = Math.round(1 + (255-1) * scale);
 
-			returnValue = '#'+red.toString(16)+green.toString(16)+blue.toString(16)+'FF';
+			console.log("Orange", scale, red, green, blue);
+			red = red.toString(16);
+			if (red.length < 2) red = '0'+red;
+			green = green.toString(16);
+			if (green.length < 2) green = '0'+green;
+			blue = blue.toString(16);
+			if (blue.length < 2) blue = '0'+blue;
+
+			returnValue = '#'+red+green+blue+'FF';
 		}
 
 		return returnValue.toUpperCase();
@@ -106,10 +124,10 @@ app.model.led_pattern = {
 	set_white: function (level) {
 		var self = this;
 
-		console.log("White:", level, this.get('data.white_value'));
+		// console.log("White:", level, this.get('data.white_value'));
 		this.set('data.white_value', +level).set('edit.white_value', +level);
 		var white_color = this.get_white_color();
-		console.log("White:", white_color);
+		// console.log("White:", white_color);
 		this.set('data.primary_color', white_color);
 		//
 

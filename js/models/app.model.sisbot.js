@@ -137,7 +137,7 @@ app.model.sisbot = {
 				table_settings: {}, // Advanced table settings, overrides CSON on reboot
 
 				led_enabled: 'false',
-				led_pattern_ids: ['white','fade','spread','comet','rainbow'],
+				led_pattern_ids: ['white','solid','fade','spread','comet','rainbow'],
 				led_pattern: 'white',
 				led_offset : 0,
 				led_primary_color: '0xFFFFFFFF', // Hex
@@ -930,7 +930,6 @@ app.model.sisbot = {
 		return this;
 	},
 	update_nightmode: function () {
-		debugger;
 		if (app.config.env == 'alpha')
 			return app.trigger('session:active', { secondary: 'false' });
 

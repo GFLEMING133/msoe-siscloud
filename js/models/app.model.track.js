@@ -49,7 +49,7 @@ app.model.track = {
 				created_by_id		: 'false',
 				email				: 'false', //community
 				created_by_name		: 'false', //community
-				is_public			: 'false', //community 
+				is_public			: 'false', //community
 
 				original_file_type  : 'false', 	// thr|svg
 				has_verts_file		: 'false',
@@ -925,7 +925,6 @@ app.model.track = {
 			lastR: this.get('data.lastR'),
 			reversible: this.get('data.reversible')
 		};
-		debugger;
 		return return_obj;
 	},
 	playlist_cancel: function () {
@@ -1001,9 +1000,9 @@ app.model.track = {
 				if (resp_num == 1){
 					return;
 				}
-				app.collection.get(playlist_id).add_track_and_save(trackID);	
-				
-			},'Outdated Firmware', ['OK']);	
+				app.collection.get(playlist_id).add_track_and_save(trackID);
+
+			},'Outdated Firmware', ['OK']);
 
 		var status = this.get('is_favorite');
 		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
@@ -1071,7 +1070,7 @@ app.model.track = {
 			};
 
 		}
-		else if (self.get('data.original_file_type') == 'svg') 
+		else if (self.get('data.original_file_type') == 'svg')
 		{
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
@@ -1081,7 +1080,7 @@ app.model.track = {
 		}
 		else {
 			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
-	
+
 		}
 
 
@@ -1100,17 +1099,17 @@ app.model.track = {
 					return;
 				}
 
-				self.set('data.verts', obj.resp);	
+				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
 				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
-				return app.plugins.n.notification.confirm("Track is now in your Library!", 
+				return app.plugins.n.notification.confirm("Track is now in your Library!",
 				function(resp_num) {
 					if (resp_num == 1){
 						return;
-					}	
-					
-				},'Track Added!', ['OK']);	
+					}
+
+				},'Track Added!', ['OK']);
 			}
 		}
 
@@ -1133,5 +1132,5 @@ app.model.track = {
 	unpublish: function () {
 		this.set('data.is_published', 'false').save();
 	},
-	
+
 };

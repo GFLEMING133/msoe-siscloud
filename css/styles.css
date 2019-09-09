@@ -170,7 +170,7 @@ label {
 	margin					: 0px auto;
 	height					: 90%;
 	margin-top				: 20px;
-	max-height				: 640px;
+	/* max-height				: 640px; */
 	box-shadow				: 0px 1px 1px #000;
 }
 

@@ -6,14 +6,23 @@ app.data = [
 		is_white: 'true'
 	},
 	{
+		id: 'solid',
+		type: 'led_pattern',
+		name: 'Solid',
+		is_white: 'false',
+		is_primary_color: 'true',
+		led_primary_color: '#0066FF00',
+		is_secondary_color: 'false'
+	},
+	{
 		id: 'fade',
 		type: 'led_pattern',
 		name: 'Rho Fade',
 		is_white: 'false',
 		is_primary_color: 'true',
-		led_primary_color: '#6699FFFF',
+		led_primary_color: '#6699FF00',
 		is_secondary_color: 'true',
-		led_secondary_color: '#9900FFFF'
+		led_secondary_color: '#9900FF00'
 	},
 	{
 		id: 'spread',
@@ -21,9 +30,9 @@ app.data = [
 		name: 'Spread',
 		is_white: 'false',
 		is_primary_color: 'true',
-		led_primary_color: '#FFFFFFFF',
+		led_primary_color: '#FFFFFF00',
 		is_secondary_color: 'true',
-		led_secondary_color: '#6699FF99'
+		led_secondary_color: '#6699FF00'
 	},
 	{
 		id: 'comet',

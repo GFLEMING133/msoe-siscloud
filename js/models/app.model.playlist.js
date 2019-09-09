@@ -94,7 +94,7 @@ app.model.playlist = {
 		if(track_index >= 0) {
 		this.set('add_playlist_tracks[' + track_id + ']', --b);
 		this.remove_track(track_index);
-		} 
+		}
 		this.trigger('change:add_playlist_tracks[' + track_id + ']');
 	},
 	add_tracks_done: function () {
@@ -244,7 +244,6 @@ app.model.playlist = {
 		this.save();
 	},
 	remove_track_and_save: function(track_id) {
-		debugger;
 		var track = app.collection.get(track_id);
 		var tracks = this.get('data.tracks');
 		var new_tracks		= [];
