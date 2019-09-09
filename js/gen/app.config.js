@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.46', //Community back oppen along with lights, fixed scrolling for community pages, merged staging into beta
+	version				: '1.8.48', //Reworked  scrollDown media queries using max-height: calc(), removed max-height from .web .app {} in css per Matt, removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
@@ -14,7 +14,7 @@ app.config = {
 			base_url	: 'http://app.dev.withease.io:3001/', //local url
 			api_url		: 'https://webcenter.sisyphus-industries.com/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url		: 'https://webcenter.sisyphus-industries.com/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.1.4:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.3:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
 		sisbot: {
