@@ -64,8 +64,9 @@ app.model.sisbot = {
 
 			wait_for_send				: 'false', // don't send request before hearing response
 
-			rem_primary_color: '0xFFFFFFFF',
-			rem_secondary_color: '0x00FFFFFF',
+			rem_pattern					: 'false',
+			rem_primary_color		: '0xFFFFFFFF',
+			rem_secondary_color	: '0x00FFFFFF',
 
 			edit		: {},
 			data		: {
@@ -1333,13 +1334,27 @@ app.model.sisbot = {
 		// send to sisbot
 		this._update_sisbot('set_led', { is_rgbw: 'true' }, function (obj) {
 			// set as enables
-			console.log("LED resp", obj);
+			// console.log("LED resp", obj);
 			self.set('data.led_enabled', obj.resp.is_rgbw);
 		});
 	},
+	calibrate_pattern: function() {
+		var self = this;
+		if (this.get('edit.led_pattern') != 'calibrate') {
+			// console.log("Switch to Calibrate, remember", this.get('data.led_pattern'));
+			this.set('rem_pattern', this.get('data.led_pattern'));
+
+			this.set('edit.led_pattern', 'calibrate');
+
+			this.listenToOnce(app.session, 'change:active.secondary', function() {
+				// console.log("Reset pattern to", self.get('rem_pattern'));
+				self.set('edit.led_pattern', self.get('rem_pattern'));
+			});
+		}
+	},
 	_change_led_pattern: function() {
 		var self = this;
-		console.log("Change Pattern");
+		// console.log("Change Pattern");
 
 		var new_pattern = this.get('edit.led_pattern');
 		if (this.get('data.led_pattern') != new_pattern) {

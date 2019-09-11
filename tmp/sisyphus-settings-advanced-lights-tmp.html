@@ -18,7 +18,7 @@
       >Restart LEDs</div>
     </div> -->
     <div class="h__k" data-if="{{= model.data.led_enabled }} == true">
-      <div class="p30 pb10 i fs14 lh24">*Calibrating LED's is best done using the "Spread" routine and running the track "Sine"</div>
+      <div class="p30 pb10 i fs14 lh24">*Calibrating LED's is best done running the track "Sine" and using the "Calibrate Pattern" button below</div>
       <h3 class="no-stuffing p20 pb30 fs18 lh18 strong h__k">LED Offset {{= model.edit.led_offset }}</h3>
       <div class="flex vertical-align pl10 pr10 w100">
         <div class="w100 flex relative center">
@@ -37,9 +37,7 @@
       </div>
       <div class="p30">
         <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong h__k"
-            data-on-click="set"
-            data-field="model.edit.led_pattern"
-            data-value="calibrate">
+            data-on-click="model.calibrate_pattern">
           Calibrate Pattern
         </div>
       </div>
