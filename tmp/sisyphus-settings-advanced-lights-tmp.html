@@ -1,0 +1,47 @@
+<div class="h100">
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+    <div class="w15 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced_settings'}"
+    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="w70">
+        <h1 class="no-stuffing fs18 lh18 capitalize">Advanced Lights</h1>
+    </div>
+    <div class="w15">&nbsp;</div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
+    <!-- <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Restart LEDs</h3>
+    <div class="p20 pt0">
+      <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+      data-on-click="model.enable_led"
+      >Restart LEDs</div>
+    </div> -->
+    <div data-if="{{= model.data.led_enabled }} == true">
+      <div class="p30 pb10 i fs14 lh24">*Calibrating LED's is best done running the track "Sine" and using the "Calibrate Pattern" button below</div>
+      <h3 class="no-stuffing p20 pb30 fs18 lh18 strong">LED Offset {{= model.edit.led_offset }}</h3>
+      <div class="flex vertical-align pl10 pr10 w100">
+        <div class="w100 flex relative center">
+          <div class="w5 blue-hover center pt10 pb10" data-on-click="model.led_offset_down">
+            <i class="fa fa-minus-circle center clickable active grey" aria-hidden="true"></i>
+          </div>
+          <div class="w90 mt3 p5 mb3">
+            <input class="w100" type="range" min="-180" max="180" step="1.5"
+                data-on-input="model.led_offset"
+                value="{{= model.edit.led_offset }}" />
+          </div>
+          <div class="w5 blue-hover center pt10 pb10" data-on-click="model.led_offset_up">
+            <i class="fa fa-plus-circle center clickable active grey" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div class="p30">
+        <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+            data-on-click="model.calibrate_pattern">
+          Calibrate Pattern
+        </div>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

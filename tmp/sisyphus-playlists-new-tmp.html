@@ -1,48 +1,47 @@
 <div class="h100">
-    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align" data-model="{{= parent.active.playlist_id }}">
-        <div class="w40">
-            <h1 class="fs18 lh18 no-stuffing capitalize">{{= (model.data.is_saved == 'true') ? model.data.name : 'New Playlist' }}</h1>
-        </div>
-        <div class="w30 right p15 pr20 fs18 lh18 clickable active"
-            data-on-click="model.save_edit"
-        >Save</div>
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align" data-model="{{= parent.active.playlist_id }}">
+    <div class="w40">
+      <h1 class="fs18 lh18 no-stuffing capitalize">{{= (model.data.is_saved == 'true') ? model.data.name : 'New Playlist' }}</h1>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar" data-model="{{= parent.active.playlist_id }}">
-        <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
-        <div class="pt20 pb20 pl40 pr40">
-            <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
-            <input class="corner-5px mt5 w100" type="text" placeholder="Playlist Name"
-                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                data-field="model.edit.name"
-                value="{{= model.edit.name }}"
-            />
-        </div>
-        <!--------------------------- ADD TRACKS ------------------------------>
-        <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'playlist-edit-tracks'}"
-        >
-            <span class="strong">Add Tracks</span>
-            <span class="pull-right">
-                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-        </div>
-        <!--------------------------- TRACKS ---------------------------------->
-        <div class="trackBox">
-            <div class="i center p20" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
-                There are no tracks in this playlist
-            </div>
-            <div class="scrollDown hide-scrollbar"
-                lib-sortable=".reorder"
-                data-field="model.active_tracks"
-                data-foreach="model.active_tracks"
-            >
-                <div class="{{= (scope.index !== 0) ? 'bt' : '' }}"
-                    data-model="{{= scope.value.id }}"
-                    data-template="sisyphus-tracks-list-item-edit-tmp"
-                ></div>
-            </div>
-        </div>
+    <div class="w30 right p15 pr20 fs18 lh18 clickable active" data-on-click="model.save_edit">Save</div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= parent.active.playlist_id }}">
+    <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
+    <div class="pt20 pb20 pl40 pr40">
+      <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
+      <input class="corner-5px mt5 w100"
+          type="text"
+          placeholder="Playlist Name"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-field="model.edit.name"
+          value="{{= model.edit.name }}" />
     </div>
+    <!--------------------------- ADD TRACKS ------------------------------>
+    <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'playlist-edit-tracks'}">
+      <span class="strong">Add Tracks</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div>
+    <!--------------------------- TRACKS ---------------------------------->
+    <div class="trackBox">
+      <div class="i center p20" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
+        There are no tracks in this playlist
+      </div>
+      <div class="scrollDown hide-scrollbar"
+          lib-sortable=".reorder"
+          data-field="model.active_tracks"
+          data-foreach="model.active_tracks">
+        <div class="reorder {{= (scope.index !== 0) ? 'bt' : '' }}"
+            data-model="{{= scope.value.id }}"
+            data-template="sisyphus-tracks-list-item-edit-tmp"></div>
+      </div>
+    </div>
+  </div>
 </div>

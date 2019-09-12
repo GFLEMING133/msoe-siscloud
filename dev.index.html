@@ -21,7 +21,7 @@
 
 <body class="h100 no-stuffing">
 	<div class="body h100">
-		<div class="h100 h__k touch-hover {{= model.mode }} {{= model.platform }}" data-model="current_session">
+		<div class="h100 touch-hover {{= model.mode }} {{= model.platform }}" data-model="current_session">
 			<div class="content h100">
 				<div class="h__k bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
 			</div>
@@ -32,7 +32,6 @@
 	<div id="templates" class="hidden">{{{= templates }}}</div>
 
 	<script src="cordova.js"></script>
-	<script type="text/javascript" src="node_modules/default-passive-events/dist/index.js"></script>
 	<script src="js/app.js"></script>
 	<script src="prod/libs.js"></script>
 	<script src="prod/gen.js"></script>

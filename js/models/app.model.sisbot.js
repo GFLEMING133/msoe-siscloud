@@ -64,6 +64,10 @@ app.model.sisbot = {
 
 			wait_for_send				: 'false', // don't send request before hearing response
 
+			rem_pattern					: 'false',
+			rem_primary_color		: '0xFFFFFFFF',
+			rem_secondary_color	: '0x00FFFFFF',
+
 			edit		: {},
 			data		: {
 				id					: data.id,
@@ -108,29 +112,37 @@ app.model.sisbot = {
 
 				current_time		: 0,					// seconds
 
-				state						: 'waiting',			// playing|homing|paused|waiting
+				state				: 'waiting',			// playing|homing|paused|waiting
 
-				is_homed				: 'false',				// Not used
-				is_serial_open	: 'true',				// Not used
-				is_servo				: 'false', 				//setting for alert()'s
+				is_homed			: 'false',				// Not used
+				is_serial_open		: 'true',				// Not used
+				is_servo			: 'false', 				//setting for alert()'s
 
-				is_shuffle						: 'true',
-				is_loop								: 'false',
-				brightness						: .5,
-				speed									: .3,
-				is_autodim						: 'true',
-				is_nightlight					: 'false',
-				is_sleeping						: 'false',
-				timezone_offset				: moment().format('Z'),
-				nightlight_brightness	: 0.2,
+				is_shuffle			: 'true',
+				is_loop				: 'false',
+				brightness			: .5,
+				speed				: .3,
+				is_autodim_allowed	: 'true',
+				is_autodim			: 'true',
+				is_nightlight		: 'false',
+				is_sleeping			: 'false',
+				timezone_offset		: moment().format('Z'),
+				nightlight_brightness: 0.2,
+				sleep_time			: '10:00 PM',					// 10:00 PM sleep_time
+				wake_time			: '8:00 AM',					// 8:00 AM  wake_time
 
-				is_sleep_enabled	: 'true',
-				sleep_time				: '10:00 PM',					// 10:00 PM sleep_time
-				wake_time					: '8:00 AM',					// 8:00 AM  wake_time
+				is_paused_between_tracks: 'false',
+				is_waiting_between_tracks: 'false',
+				share_log_files		: 'false',
 
-				is_paused_between_tracks	: 'false',
-				is_waiting_between_tracks	: 'false',
-				share_log_files						: 'false'
+				table_settings: {}, // Advanced table settings, overrides CSON on reboot
+
+				led_enabled: 'false',
+				led_pattern_ids: ['white','solid','fade','spread','comet','rainbow'],
+				led_pattern: 'white',
+				led_offset : 0,
+				led_primary_color: '0xFFFFFFFF', // Hex
+				led_secondary_color: '0x00FFFFFF', // Hex
 			}
 		};
 
@@ -161,6 +173,8 @@ app.model.sisbot = {
 		this.on('change:data.software_version',				this.check_for_version_update);
 		this.on('change:data.reason_unavailable',			this.check_for_unavailable);
 		this.on('change:data',								this.nightmode_sleep_change);
+
+		this.on('change:edit.led_pattern', 				this._change_led_pattern);
 
 		if (this.get('data.is_network_separate') == 'false') {
 			this.update_network();
@@ -217,7 +231,6 @@ app.model.sisbot = {
 		// }, 0);
 	},
 	update_network: function () {
-
 		if(this.get('data.is_network_separate') == 'false'){
 			this.set('data.is_network_connected', this.get('data.is_internet_connected'));
 		}else {
@@ -229,12 +242,10 @@ app.model.sisbot = {
 
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-
-		console.log("_update_sisbot()");
+		console.log("_update_sisbot()", endpoint, data);
 		if (!_timeout) _timeout = 5000;
 
-		if (app.config.env == 'alpha')
-			return this;
+		if (app.config.env == 'alpha') return this;
 
 		var self	= this;
 		var address	= this.get('data.local_ip');
@@ -243,10 +254,10 @@ app.model.sisbot = {
 		// 192.168.42.1 | iOS | state
 
 		var obj = {
-			_url	: 'http://' + address + '/',
+			// _url	: 'http://' + address + '/',
 			_type	: 'POST',
 			_timeout: _timeout,
-			endpoint: 'sisbot/' + endpoint,
+			endpoint: endpoint, // 'sisbot/' + endpoint,
 			data	: data
 		};
 		app.post.fetch(obj, function(resp) {
@@ -254,8 +265,7 @@ app.model.sisbot = {
 				self._poll_failure();
 				if (cb) cb(resp);
 			} else {
-				if (resp.err == null)
-					self.check_for_unavailable();
+				if (resp.err == null) self.check_for_unavailable();
 
 				if (resp.err) {
 					alert(resp.err);
@@ -675,7 +685,7 @@ app.model.sisbot = {
 			}, 'No Password?', ['Yes','No']);
 		}else if (credentials.password.length > 0 && credentials.password.length < 8 ) {
 			this.set('wifi_error', 'true');
-			alert('Your Wi-Fi password mut be 8 characters or more.');
+			app.plugins.n.notification.alert('Your Wi-Fi password mut be 8 characters or more.');
 			return this;
 		}else {
 			this._connect_to_wifi();
@@ -764,13 +774,28 @@ app.model.sisbot = {
 	install_update_alert: function () {
 		let self = this;
 		let is_servo = self.get('data.is_servo');
+		let true_text = "Your ball will home to the middle and the table will restart. This may take sometime. Are you sure you want to continue?";
+		let false_text = "Your table will restart this may take sometime. Are you sure you want to continue?";
 		if(is_servo == 'true') {
-			if(confirm("Your ball will home to the middle and the table will restart. This may take sometime. Are you sure you want to continue?"))
-				self.install_updates();
+			if(app.plugins.n.notification.confirm(true_text,
+				function(resp_num){
+					if(resp_num == 1) {
+						return self;
+					}
+					self.install_updates();
+				}, 'Update Table?', ['Cancel', 'OK'])
+			 );
 
 			} else if(is_servo == 'false'){
-				if(confirm("Your table will restart this may take sometime. Are you sure you want to continue?"))
-				self.install_updates();
+				if(app.plugins.n.notification.confirm(false_text,
+					function(resp_num){
+						if(resp_num == 1) {
+							return self;
+						}
+						self.install_updates();
+					}, 'Update Table?', ['Cancel', 'OK'])
+				);
+
 			}
 	},
 	install_updates: function () {
@@ -875,8 +900,8 @@ app.model.sisbot = {
 		});
 	},
 	setup_edit: function () {
-		this.set('edit', this.get('data'))
-			.set('errors', []);
+		this.set('edit', this.get('data')).set('errors', []);
+		console.log("Sisbot edit", this.get('edit'));
 
 		return this;
 	},
@@ -1048,13 +1073,19 @@ app.model.sisbot = {
 		});
 
 	},
-	restart: function () {		// CURRENTLY UNUSED
+	restart: function () {
+		this.set('data.reason_unavailable','restarting');
+
 		this._update_sisbot('restart', {}, function(obj) {
 			console.log('RESTART');
 		});
 	},
-	save_to_sisbot: function (data) {
-		this._update_sisbot('save', data, function(obj) {});
+	save_to_sisbot: function (data, cb) {
+		var self = this;
+		if (!cb) cb = function(obj) {};
+		console.log("Save to Sisbot");
+
+		this._update_sisbot('save', data, cb);
 	},
 	save_log_sharing: function (data) {
 		if (this.is_legacy()) {
@@ -1303,11 +1334,175 @@ app.model.sisbot = {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 	},
+	enable_led: function() {
+		var self = this;
+		// send to sisbot
+		this._update_sisbot('set_led', { is_rgbw: 'true' }, function (obj) {
+			// set as enables
+			// console.log("LED resp", obj);
+			self.set('data.led_enabled', obj.resp.is_rgbw);
+		});
+	},
+	calibrate_pattern: function() {
+		var self = this;
+		if (this.get('edit.led_pattern') != 'calibrate') {
+			// console.log("Switch to Calibrate, remember", this.get('data.led_pattern'));
+			this.set('rem_pattern', this.get('data.led_pattern'));
+
+			this.set('edit.led_pattern', 'calibrate');
+
+			this.listenToOnce(app.session, 'change:active.secondary', function() {
+				// console.log("Reset pattern to", self.get('rem_pattern'));
+				self.set('edit.led_pattern', self.get('rem_pattern'));
+			});
+		}
+	},
+	_change_led_pattern: function() {
+		var self = this;
+		// console.log("Change Pattern");
+
+		var new_pattern = this.get('edit.led_pattern');
+		if (this.get('data.led_pattern') != new_pattern) {
+			this.set('data.led_pattern', new_pattern);
+
+			// send to sisbot
+			var pattern = app.collection.get(new_pattern);
+			console.log("Update Pattern", JSON.stringify(pattern.get('data')));
+			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
+				// do nothing
+			});
+		}
+	},
+	_update_pattern_colors: function() {
+		var do_save = false;
+
+		// load last used color from this pattern
+		var pattern = app.collection.get(this.get('data.led_pattern'));
+		console.log("Update Pattern Colors", pattern.get('data'));
+		if (pattern) {
+			if (pattern.get('data.is_white') == 'true') {
+				console.log("Update white from led_pattern", pattern.get('data'));
+				this.set('edit.led_primary_color', pattern.get_white_color());
+				this.led_color();
+			} else if (pattern.get('data.is_primary_color') == 'true' || pattern.get('data.is_secondary_color') == 'true') {
+				console.log("Update colors from led_pattern", pattern.get('data'));
+				if (pattern.get('data.is_primary_color') == 'true' && pattern.get('data.led_primary_color') != 'false') this.set('edit.led_primary_color', pattern.get('data.led_primary_color'));
+				if (pattern.get('data.is_secondary_color') == 'true' && pattern.get('data.led_secondary_color') != 'false') this.set('edit.led_secondary_color', pattern.get('data.led_secondary_color'));
+				this.led_color();
+			} else {
+				console.log("No color update from led_pattern", pattern.get('data'));
+				do_save = true;
+			}
+		} else do_save = true;
+
+		return do_save;
+	},
+	remember_colors: function(data) {
+		console.log("Remember LED_Colors", data);
+
+		this.set('rem_primary_color', this.get('data.led_primary_color'));
+		this.set('rem_secondary_color', this.get('data.led_secondary_color'));
+	},
+	cancel_color: function(data) {
+		this.set('edit.led_primary_color', this.get('rem_primary_color'));
+		this.set('edit.led_secondary_color', this.get('rem_secondary_color'));
+
+		this.led_color();
+
+		app.trigger('session:active', { 'secondary': 'false' });
+	},
+	led_color: function(data) {
+		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		var self = this;
+		var color_data = {};
+
+		var led_pattern = this.get_model('data.led_pattern');
+
+		// check for primary change
+		var edit_primary = this.get('edit.led_primary_color');
+		if (edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
+		console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
+		if (this.get('data.led_primary_color') != edit_primary) {
+			this.set('data.led_primary_color', edit_primary);
+
+			console.log("Update Primary Color", this.get('data.led_primary_color'));
+
+			color_data.primary_color = edit_primary;
+
+			// update the led_pattern
+			if (led_pattern) led_pattern.set('data.led_primary_color', edit_primary);
+		}
+
+		// check for secondary change
+		var edit_secondary = this.get('edit.led_secondary_color');
+		if (edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
+		console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
+		if (this.get('data.led_secondary_color') != edit_secondary) {
+			this.set('data.led_secondary_color', edit_secondary);
+
+			console.log("Update Secondary Color", this.get('data.led_secondary_color'));
+
+			color_data.secondary_color = edit_secondary;
+
+			// update the led_pattern
+			if (led_pattern) led_pattern.set('data.led_secondary_color', edit_secondary);
+		}
+
+		// send to sisbot
+		if (!_.isEmpty(color_data)) {
+			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
+			var save_data = [this.get('data')];
+			if (led_pattern) save_data.push(led_pattern.get('data'));
+			this.save_to_sisbot(save_data);
+
+			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
+		}
+	},
+	led_offset_up: function () {
+		var level = +this.get('data.led_offset');
+		level += 1;
+		if (level > 180) level = 180;
+		this.led_offset(level);
+	},
+	led_offset_down: function () {
+		var level = +this.get('data.led_offset');
+		level -= 1;
+		if (level < -180) level = -180;
+		this.led_offset(level);
+	},
+	led_offset: function (level) {
+		var self = this;
+
+		// console.log("OFFSET:", level, this.get('data.led_offset'));
+		this.set('data.led_offset', +level).set('edit.led_offset', +level);
+
+		if (this.get('wait_for_send') == 'false') {
+			// var start = +new Date();
+			// this.set('wait_for_send','true');
+			var remember_level = +level;
+			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
+				// do nothing
+				// var end = +new Date();
+				// console.log("Brightness Response (millis):", end-start);
+
+				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+				// self.save_to_sisbot(self.get('data'), function(obj) {
+				// 	self.set('wait_for_send','false');
+				//
+				// 	if (self.get('edit.led_offset') !== remember_level) {
+				// 		self.led_offset(self.get('edit.led_offset'));
+				// 	}
+				// });
+			});
+		} else {
+			// console.log("New Offset", level);
+		}
+	},
 	disconnect: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {
-			if (resp_num == 1)
-				return self;
+			if (resp_num == 1) return self;
 
+	    app.current_session().clear_sisbots(); // clear known sisbots
 			window.location.reload();
 		}, 'Disconnect?', ['Cancel', 'OK']);
 	},
@@ -1319,7 +1514,7 @@ app.model.sisbot = {
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			console.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
-				alert('There was an error adding the playlist to your Sisyphus. Please try again later.')
+				return app.plugins.n.notification.alert('There was an error adding the playlist to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
@@ -1336,7 +1531,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
 			if (obj.err) {
-				alert('There was an error removing your Playlist. Please try again later.')
+				return app.plugins.n.notification.alert('There was an error removing your Playlist. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { 'secondary': 'playlists' });
@@ -1391,7 +1586,7 @@ app.model.sisbot = {
 
 			self._update_sisbot('remove_track', track, function (obj) {
 				if (obj.err) {
-					alert('There was an error removing the file from your Sisyphus. Please try again later.')
+					return app.plugins.n.notification.alert('There was an error removing the file from your Sisyphus. Please try again later.');
 				} else if (obj.resp) {
 					app.manager.intake_data(obj.resp);
 					var active = app.session.get('active');
@@ -1413,7 +1608,7 @@ app.model.sisbot = {
 			console.log('track get verts', obj);
 
 			if (obj.err) {
-				alert('There was an error getting the track verts.');
+				return app.plugins.n.notification.alert('There was an error getting the tracks verts.');
 			} else if (obj.resp) {
 				cb(obj.resp);
 			}
@@ -1479,6 +1674,36 @@ app.model.sisbot = {
 		});
 
 		return this;
+	},
+	/******************** CSON OVERRIDE ******************************************/
+	confirm_advanced_settings: function() {
+		var self = this;
+
+		// make sure a change occured
+		console.log("Advanced Update", this.get('data.table_settings'), this.get('edit.table_settings'));
+		var edit_value = this.get('edit.table_settings');
+		var data_value = this.get('data.table_settings');
+		if (JSON.stringify(edit_value) == JSON.stringify(data_value)) return app.trigger('session:active', { secondary: 'advanced_settings' });
+
+		app.plugins.n.notification.confirm("Changing these settings may cause your table to not function as expected.",
+			function(resp_num) {
+				console.log("Confirm resp", resp_num);
+				if (resp_num !== 2) {
+					return self;
+				} else {
+					self.save_to_sisbot(self.get('edit'), function(obj) {
+						if (obj.err) return console.log("Save error", obj.err);
+
+						if (obj.resp) app.manager.intake_data(obj.resp);
+
+						// go back a page
+						app.trigger('session:active', { secondary: 'advanced_settings' });
+
+						app.plugins.n.notification.alert('A restart is required for the changes to take effect.');
+						self.restart();
+					});
+				}
+			}, 'Confirm', ['Save','Cancel']);
 	},
 	/******************** VERSIONING ******************************************/
 	check_for_version_update: function () {

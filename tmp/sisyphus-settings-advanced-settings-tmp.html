@@ -10,53 +10,53 @@
     </div>
     <div class="w15 center f-large">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar">
-    <div class="bb p20 fs14 flex" data-model="{{= model.sisbot_id }}">
-      <div class="w40 strong">Sisyphus ID</div>
-      <div class="w60 truncate pull-right grey">{{= model.id }}</div>
-    </div>
-    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
-      <span class="strong">Sisyphus URL</span>
-      <span class="pull-right grey">{{= model.data.hostname }}:3001</span>
-    </div>
-    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
-      <span class="strong">Sisyphus IP Address</span>
-      <span class="pull-right grey">{{= model.data.local_ip }}</span>
-    </div>
-    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
-      <span class="strong">Sisyphus Firmware Version</span>
-      <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
-    </div>
-    <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
-        <div class="bb p20 fs14">
-            <span class="strong">Local Sisbot Version</span>
-            <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
-        </div>
-        <div class="bb p20 fs14">
-            <span class="strong">Local Proxy Version</span>
-            <span class="pull-right grey">{{= model.local_versions.proxy }}</span>
-        </div>
-        <div class="bb p20 fs14">
-            <span class="strong">Local App Version</span>
-            <span class="pull-right grey">{{= model.local_versions.app }}</span>
-        </div>
-        <div class="bb p20 fs14">
-            <span class="strong">Remote Sisbot Version</span>
-            <span class="pull-right grey">{{= model.remote_versions.sisbot }}</span>
-        </div>
-        <div class="bb p20 fs14">
-            <span class="strong">Remote Proxy Version</span>
-            <span class="pull-right grey">{{= model.remote_versions.proxy }}</span>
-        </div>
-        <div class="bb p20 fs14">
-            <span class="strong">Remote App Version</span>
-            <span class="pull-right grey">{{= model.remote_versions.app }}</span>
-        </div>
-        <div class="bb p20 fs14">
-            <span class="strong">Remote Api Version</span>
-            <span class="pull-right grey">{{= model.remote_versions.api }}</span>
-        </div>
-    </div>
+  <div class="body-header h100 pb50 scroll hide-scrollbar">
+      <div class="bb p20 fs14 flex" data-model="{{= model.sisbot_id }}">
+          <div class="w40 strong">Sisyphus ID</div>
+          <div class="w60 truncate pull-right grey">{{= model.id }}</div>
+      </div>
+      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
+          <span class="strong">Sisyphus URL</span>
+          <span class="pull-right grey">{{= model.data.hostname }}:3001</span>
+      </div>
+      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
+          <span class="strong">Sisyphus IP Address</span>
+          <span class="pull-right grey">{{= model.data.local_ip }}</span>
+      </div>
+      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
+          <span class="strong">Sisyphus Firmware Version</span>
+          <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+      </div>
+      <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
+          <div class="bb p20 fs14">
+              <span class="strong">Local Sisbot Version</span>
+              <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+          </div>
+          <div class="bb p20 fs14">
+              <span class="strong">Local Proxy Version</span>
+              <span class="pull-right grey">{{= model.local_versions.proxy }}</span>
+          </div>
+          <div class="bb p20 fs14">
+              <span class="strong">Local App Version</span>
+              <span class="pull-right grey">{{= model.local_versions.app }}</span>
+          </div>
+          <div class="bb p20 fs14">
+              <span class="strong">Remote Sisbot Version</span>
+              <span class="pull-right grey">{{= model.remote_versions.sisbot }}</span>
+          </div>
+          <div class="bb p20 fs14">
+              <span class="strong">Remote Proxy Version</span>
+              <span class="pull-right grey">{{= model.remote_versions.proxy }}</span>
+          </div>
+          <div class="bb p20 fs14">
+              <span class="strong">Remote App Version</span>
+              <span class="pull-right grey">{{= model.remote_versions.app }}</span>
+          </div>
+          <div class="bb p20 fs14">
+              <span class="strong">Remote Api Version</span>
+              <span class="pull-right grey">{{= model.remote_versions.api }}</span>
+          </div>
+      </div>
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-model="{{= model.sisbot_id }}"
           data-run="model.is_legacy"
@@ -108,7 +108,6 @@
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
           </span>
       </div>
-
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-if="{{= app.is_app }} == false"
           data-on-click="publish"
@@ -141,6 +140,27 @@
           <span class="pull-right">
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
           </span>
+      </div>
+      <div data-model="{{= model.sisbot_id }}">
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced_lights'}"
+            data-if="{{= model.data.led_enabled }} == true">
+          <span class="strong montserrat_semi_bold">Advanced Lights</span>
+          <span class="pull-right">
+            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+          </span>
+        </div>
+      </div>
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'advanced_table'}">
+        <span class="strong montserrat_semi_bold">Table Settings</span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
       </div>
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-model="{{= model.sisbot_id }}"

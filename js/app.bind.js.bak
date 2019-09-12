@@ -222,6 +222,7 @@ var Binding = Backbone.View.extend({
         if (this.data.gumwrapper)       this.gumwrapper();
         if (this.data.simplemde)        this.simplemde();
         if (this.data.chosen)           this.chosen();
+        if (this.data.iro)              this.iro();
         if (this.data.chart)            this.chart();
       	if (this.data.leaflet)          this.leaflet();
         if (this.data.tooltip)          this.tooltip();
@@ -334,7 +335,7 @@ var Binding = Backbone.View.extend({
         }
 	},
     onUpdate: function () {
-        if (this.data.onUpdate)     this._call(this.data.onUpdate);
+      if (this.data && this.data.onUpdate)  this._call(this.data.onUpdate);
     },
     onReset: function () {
         if (this.data.onReset)      this._call(this.data.reset);
@@ -566,14 +567,14 @@ var Binding = Backbone.View.extend({
         this.$el.attr('src', this.get_value(this.data.src));
     },
     toggle: function (e) {
-		var opp     = { 'true': 'false', 'false': 'true' };
-        var field   = this.get_value(this.data.field);
-        var val     = opp[this.ctx.get(field)];
+	    var opp     = { 'true': 'false', 'false': 'true' };
+      var field   = this.get_value(this.data.field);
+      var val     = opp[this.ctx.get(field)];
 
-        if (!val) val = 'false';
-        this.ctx.set(field, val)
-            .trigger('change:' + field)
-            .trigger('change:' + field.replace(/\'/gi, ''));
+      if (!val) val = 'true'; // change to true if previously undefined
+      this.ctx.set(field, val)
+        .trigger('change:' + field)
+        .trigger('change:' + field.replace(/\'/gi, ''));
 	},
     file_reader: function (e) {
         var self            = this;
@@ -731,32 +732,34 @@ var Binding = Backbone.View.extend({
     },
     /***************************** LOGIC **************************************/
     if: function () {
-        var statement   = this.get_value(this.data.if).split(/\s?(\=\=|\!\=\=|\<|\>)\s?/);
-        var first       = '' + statement[0];
-        var comparator  = statement[1];
-        var second      = '' + statement[2];
-        var is_true     = false;
+      if (!this.$el) return; // exit if this element no longer exists
 
-        // evaluate
-        if (comparator == '==' && first == second)          is_true = true;
-        else if (comparator == '!==' && first !== second)   is_true = true;
-        else if (comparator == '>' && +first > +second)     is_true = true;
-        else if (comparator == '<' && +first < +second)     is_true = true;
+      var statement   = this.get_value(this.data.if).split(/\s?(\=\=|\!\=\=|\<|\>)\s?/);
+      var first       = '' + statement[0];
+      var comparator  = statement[1];
+      var second      = '' + statement[2];
+      var is_true     = false;
 
-        // change visibility
-        if (is_true)    this.$el.removeClass('hidden')
-        else            this.$el.addClass('hidden')
+      // evaluate
+      if (comparator == '==' && first == second)          is_true = true;
+      else if (comparator == '!==' && first !== second)   is_true = true;
+      else if (comparator == '>' && +first > +second)     is_true = true;
+      else if (comparator == '<' && +first < +second)     is_true = true;
 
-        this.if_evaluation = is_true;
+      // change visibility
+      if (is_true)    this.$el.removeClass('hidden')
+      else            this.$el.addClass('hidden')
 
-        // Handle re-rendering of subvalues
-        if (this.data.template) this.if_template();
-        if (!this.data.template && this.orig && this.orig._html && this.orig._html.indexOf('h__k') > -1) {
-            this.template = this.orig._html;
-            this.if_template();
-        }
-        if (this.data.checked)  this.checked();
-        if (this.data.foreach)  this.foreach();
+      this.if_evaluation = is_true;
+
+      // Handle re-rendering of subvalues
+      if (this.data.template) this.if_template();
+      if (!this.data.template && this.orig && this.orig._html && this.orig._html.indexOf('h__k') > -1) {
+          this.template = this.orig._html;
+          this.if_template();
+      }
+      if (this.data.checked)  this.checked();
+      if (this.data.foreach)  this.foreach();
     },
     if_template: function () {
         var self = this;
@@ -815,8 +818,9 @@ var Binding = Backbone.View.extend({
             this.ctx.set(obj);
         }
 
+        console.log("Update", e, this.$el, this.data);
         if (this.onUpdate) this.onUpdate();
-        app.trigger('trigger:updated:' + this.cid, this.data.value);
+        if (this.data && this.data.value) app.trigger('trigger:updated:' + this.cid, this.data.value);
     },
     /***************************** CLUSTER ************************************/
     setup_cluster: function () {
@@ -1227,8 +1231,8 @@ var Binding = Backbone.View.extend({
         if (attr_name == 'data-if')         this.if();
         if (attr_name == 'data-foreach')    this.foreach_reset();
         if (attr_name == 'data-tooltip')    this.tooltip();
-		if (attr_name == 'data-chosen')     this.chosen();
-		if (attr_name == 'data-selected')   this.selected();
+    		if (attr_name == 'data-chosen')     this.chosen();
+    		if (attr_name == 'data-selected')   this.selected();
         if (attr_name == 'data-src')        this.src();
 
         if (this.is_rendered && attr_name == 'class' && this.data.if)
@@ -1360,23 +1364,23 @@ var Binding = Backbone.View.extend({
         });
     },
     taggle: function () {
-        var self = this;
-        var tags = this.get(this.data.field) || [];
+      var self = this;
+      var tags = this.get(this.data.field) || [];
 
-        app.scripts.fetch('js/libs/lib.taggle.min.js', function () {
-            if (!self.$el) return false;
+      app.scripts.fetch('js/libs/lib.taggle.min.js', function () {
+        if (!self.$el) return false;
 
-            self.taggle = new Taggle(self.$el[0], {
-                tags    : tags,
-                placeholder: 'Tags',
-                onTagAdd: function(event, tag) {
-                    self.model.add(self.data.field, tag);
-                },
-                onTagRemove: function(event, tag) {
-                    self.model.remove(self.data.field, tag);
-                }
-            });
+        self.taggle = new Taggle(self.$el[0], {
+          tags    : tags,
+          placeholder: 'Tags',
+          onTagAdd: function(event, tag) {
+            self.model.add(self.data.field, tag);
+          },
+          onTagRemove: function(event, tag) {
+            self.model.remove(self.data.field, tag);
+          }
         });
+      });
     },
     gumwrapper: function () {
         if (app.is_app)
@@ -1426,18 +1430,50 @@ var Binding = Backbone.View.extend({
             }, 50);
         });
     },
-    chart: function (e) {
-        var self    = this;
-        var d       = this.model.get('data');
-        d.type      = d._type;
-        d.data      = d._data;
-        delete d._type;
-        delete d._data;
+    iro: function (e) {
+      var self = this;
 
-        app.scripts.fetch('js/libs/lib.chart.min.js', function() {
-            if (!self.$el) return false;
-            self._chart = new Chart(self.$el, d);
+      console.log("Iro Colorpicker", this.data.iro, this.get_value(this.data.value));
+
+      iro.use(iroWhitePlugin);
+
+      // preloaded, don't need to fetch
+      // app.scripts.fetch('js/libs/lib.iro.min.js', function () {
+      if (!self.$el) return false;
+
+      // setTimeout(function () {
+      if (self.$el && !self._iro) {
+        console.log("Iro Colorpicker", self.data.iro, self.get_value(self.data.value));
+        self._iro = iro.ColorPicker(self.data.iro, {
+            // Set the size of the color picker
+            width: 300,
+            // Set the initial color to pure red
+            color: self.get_value(self.data.value),
+            transparency: true
         });
+        function onColorChange(color, changes) {
+          // print the color's new hex value to the developer console
+          console.log("Color Change:", color.hex8String);
+          self.ctx.set(self.data.field,  color.hex8String);
+          if (self.data.onUpdate)     self._call(self.data.onUpdate);
+        }
+        if (self.data.onUpdate) self._iro.on('input:end', onColorChange);
+      }
+      // }, 50);
+      // });
+    },
+    chart: function (e) {
+      var self    = this;
+      var d       = this.model.get('data');
+      d.type      = d._type;
+      d.data      = d._data;
+      delete d._type;
+      delete d._data;
+
+      app.scripts.fetch('js/libs/lib.chart.min.js', function() {
+        if (!self.$el) return false;
+        self._chart = new Chart(self.$el, d);
+      });
     },
     leaflet: function (e) {
         var self      = this;
@@ -1526,43 +1562,43 @@ var Binding = Backbone.View.extend({
                 moveThreshold       : 5,
 
                 onSort: function (evt) {
-                    self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
+                  self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
                 }
             });
         });
     },
     dragula: function () {
-        var self        = this;
-        var data        = this.get_value(this.data.dragula);
-        var arraylike   = document.getElementsByClassName(data.container);
-        var containers  = Array.prototype.slice.call(arraylike);
+      var self        = this;
+      var data        = this.get_value(this.data.dragula);
+      var arraylike   = document.getElementsByClassName(data.container);
+      var containers  = Array.prototype.slice.call(arraylike);
 
-        app.scripts.fetch('js/libs/lib.dragula.min.js', function () {
-            if (!self.$el) return false;
+      app.scripts.fetch('js/libs/lib.dragula.min.js', function () {
+        if (!self.$el) return false;
 
-            self._dragula = dragula(containers, {
-                moves: function (el, container, handle) {
-                    return handle.classList.contains(data.item);
-                },
-                accepts: function (el, target, source, sibling) {
-                    var $s      = $(source).data();
-                    var $t      = $(target).data();
+        self._dragula = dragula(containers, {
+          moves: function (el, container, handle) {
+            return handle.classList.contains(data.item);
+          },
+          accepts: function (el, target, source, sibling) {
+            var $s      = $(source).data();
+            var $t      = $(target).data();
 
-                    var v1      = $s.bind.get_value($s.dragulaAccepts);
-                    var v2      = $t.bind.get_value($t.dragulaAccepts);
+            var v1      = $s.bind.get_value($s.dragulaAccepts);
+            var v2      = $t.bind.get_value($t.dragulaAccepts);
 
-                    return v1 == v2;
-                },
-                revertOnSpill: true
-            }).on('drop', function(el, target, source, sibling) {
-                var $el     = $(el).data();
-                var $t      = $(target).data();
-                var change  = $el.bind.get_value($el.dragulaChange);
-                var val     = $t.bind.get_value($t.dragulaValue);
+            return v1 == v2;
+          },
+          revertOnSpill: true
+        }).on('drop', function(el, target, source, sibling) {
+          var $el     = $(el).data();
+          var $t      = $(target).data();
+          var change  = $el.bind.get_value($el.dragulaChange);
+          var val     = $t.bind.get_value($t.dragulaValue);
 
-                $el.bind._call(change, val);
-            });
+          $el.bind._call(change, val);
         });
+      });
     },
     fullcalendar: function () {
         var self        = this;

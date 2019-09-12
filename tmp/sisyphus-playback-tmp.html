@@ -1,52 +1,46 @@
 <div class="playback-controls" data-if="{{= model.data }} !== undefined">
-    <div class="pull-bottom hh100 mb35 iPXmb70 iPXMAXmb70 bg-black" data-if="{{= session.active.primary }} == current">
-        <div data-if="{{= model.data }} !== undefined">
-            <div class="flex p20"
-                data-if="{{= model.data.state }} == playing"
-                data-template="sisyphus-playback-controls-tmp"
-            ></div>
-            <div class="p20"
-                data-if="{{= model.data.state }} == paused"
-                data-template="sisyphus-playback-controls-tmp"
-            ></div>
-            <div class="p10 pt30 center white" data-if="{{= model.data.state }} == homing">
-                <div class="uppercase fs18 lh18">Homing your table</div>
-                <div class="fs12 lh18">This should only take a moment...</div>
-            </div>
-            <div class="p10 pt30 center white" data-if="{{= model.data.state }} == waiting">
-                <div class="uppercase fs18 lh18">Waiting</div>
-                <div class="fs12 lh18">This table is waiting for further instructions</div>
-            </div>
-        </div>
+  <div class="pull-bottom hh100 mb35 controls_adjustment bg-black" data-if="{{= session.active.primary }} == current">
+    <div data-if="{{= model.data }} !== undefined">
+      <div class="flex p20" data-if="{{= model.data.state }} == playing" data-template="sisyphus-playback-controls-tmp"></div>
+      <div class="p20" data-if="{{= model.data.state }} == paused" data-template="sisyphus-playback-controls-tmp"></div>
+      <div class="p10 pt30 center white" data-if="{{= model.data.state }} == homing">
+        <div class="uppercase fs18 lh18">Homing your table</div>
+        <div class="fs12 lh18">This should only take a moment...</div>
+      </div>
+      <div class="p10 pt30 center white" data-if="{{= model.data.state }} == waiting">
+        <div class="uppercase fs18 lh18">Waiting</div>
+        <div class="fs12 lh18">This table is waiting for further instructions</div>
+      </div>
     </div>
-    <div class="pull-bottom iPXMAXmb84 iPXmb74 hh50 mb50 pr20 bg-black" data-if="{{= session.active.primary }} !== current">
-        <div data-if="{{= model.data }} !== undefined">
-            <div class="hh50 flex vertical-align" data-if="{{= model.data.state }} == playing">
-                <div class="w70" data-template="sisyphus-playing-active-tmp"></div>
-                <div class="w30 right">
-                    <div class="clickable active" aria-hidden="true"
-                        data-if="{{= model.data.state }} == playing"
-                        data-on-click="model.pause"
-                    ><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
-                </div>
-            </div>
-            <div class="hh50 flex vertical-align" data-if="{{= model.data.state }} == paused">
-                <div class="w70" data-template="sisyphus-playing-active-tmp"></div>
-                <div class="w30 right">
-                    <div class="clickable active" aria-hidden="true"
-                        data-if="{{= model.data.state }} == paused"
-                        data-on-click="model.play"
-                    ><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>
-                </div>
-            </div>
-            <div class="hh50 center pt10 white" data-if="{{= model.data.state }} == homing">
-                <div class="uppercase fs18 lh18">Homing your table</div>
-                <div class="fs12 lh18">This should only take a moment...</div>
-            </div>
-            <div class="hh50 center pt10 white" data-if="{{= model.data.state }} == waiting">
-                <div class="uppercase fs18 lh18">Waiting</div>
-                <div class="fs12 lh18">This table is waiting for further instructions</div>
-            </div>
+  </div>
+  <div class="pull-bottom hh60 mb50 playback_adjustment pr20 bg-black" data-if="{{= session.active.primary }} !== current">
+    <div class="pt5 playback_pt_adjustment" data-if="{{= model.data }} !== undefined">
+      <div class="hh50 flex vertical-align" data-if="{{= model.data.state }} == playing">
+        <div class="w70" data-template="sisyphus-playing-active-tmp"></div>
+        <div class="w30 right">
+          <div class="clickable active"
+              aria-hidden="true"
+              data-if="{{= model.data.state }} == playing"
+              data-on-click="model.pause"><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
         </div>
+      </div>
+      <div class="hh50 flex vertical-align" data-if="{{= model.data.state }} == paused">
+        <div class="w70" data-template="sisyphus-playing-active-tmp"></div>
+        <div class="w30 right">
+          <div class="clickable active"
+              aria-hidden="true" 
+              data-if="{{= model.data.state }} == paused" 
+              data-on-click="model.play"><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>
+        </div>
+      </div>
+      <div class="hh50 center pt10 white" data-if="{{= model.data.state }} == homing">
+        <div class="uppercase fs18 lh18">Homing your table</div>
+        <div class="fs12 lh18">This should only take a moment...</div>
+      </div>
+      <div class="hh50 center pt10 white" data-if="{{= model.data.state }} == waiting">
+        <div class="uppercase fs18 lh18">Waiting</div>
+        <div class="fs12 lh18">This table is waiting for further instructions</div>
+      </div>
     </div>
+  </div>
 </div>

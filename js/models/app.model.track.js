@@ -22,7 +22,7 @@ app.model.track = {
 				stroke_width		: 3,
 				stroke_edge			: '#fdfaf3', // #fdfaf3, #f6ebcd
 				stroke_edge_width	: 7,
-				points				:	[],
+				points				: [],
 				steps				: 0,
 				r_max_dist			: 0.1,
 				retrace_steps		: 5,
@@ -49,7 +49,7 @@ app.model.track = {
 				created_by_id		: 'false',
 				email				: 'false', //community
 				created_by_name		: 'false', //community
-				is_public			: 'false', //community 
+				is_public			: 'false', //community
 
 				original_file_type  : 'false', 	// thr|svg
 				has_verts_file		: 'false',
@@ -925,7 +925,6 @@ app.model.track = {
 			lastR: this.get('data.lastR'),
 			reversible: this.get('data.reversible')
 		};
-		debugger;
 		return return_obj;
 	},
 	playlist_cancel: function () {
@@ -996,7 +995,14 @@ app.model.track = {
 	},
 	favorite_toggle: function () {
 		if (app.manager.get_model('sisbot_id').is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
+			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
+			function(resp_num) {
+				if (resp_num == 1){
+					return;
+				}
+				app.collection.get(playlist_id).add_track_and_save(trackID);
+
+			},'Outdated Firmware', ['OK']);
 
 		var status = this.get('is_favorite');
 		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
@@ -1020,7 +1026,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				alert('There was an error downloading this track. Please try again later')
+				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download();
@@ -1041,7 +1047,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				alert('There was an error downloading this track header. Please try again later')
+				return app.plugins.n.notification.alert('There was an error downloading this track header. Please try again later - ', obj.err);
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download_wc();
@@ -1060,44 +1066,50 @@ app.model.track = {
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
+				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
 
 		}
-		else if (self.get('data.original_file_type') == 'svg') 
+		else if (self.get('data.original_file_type') == 'svg')
 		{
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
 				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download_track_thr.json?class=downloadTrackLink`,
+				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
 		}
 		else {
-			alert('track is missing file_type header ' + self.id);
-			return;
+			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
+
 		}
 
 
 
 		function cb(obj) {
 			if (obj.err) {
-				alert('There was an error downloading this track. Please try again later')
+				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
 				console.log('track : download response = ', obj.resp);
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else {
-					alert('Failed to get verts for this download ' + self.id);
+					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
 					self.set('community_track_downloaded', 'false');
 					return;
 				}
 
-				self.set('data.verts', obj.resp);	
+				self.set('data.verts', obj.resp);
 				app.trigger('manager:download_track', self.id);
 				app.trigger('sisbot:track_add', self);
 				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
-				alert("Track is now in your Library!");
+				return app.plugins.n.notification.confirm("Track is now in your Library!",
+				function(resp_num) {
+					if (resp_num == 1){
+						return;
+					}
+
+				},'Track Added!', ['OK']);
 			}
 		}
 
@@ -1120,5 +1132,5 @@ app.model.track = {
 	unpublish: function () {
 		this.set('data.is_published', 'false').save();
 	},
-	
+
 };
