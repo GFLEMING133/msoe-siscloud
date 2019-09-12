@@ -1,6 +1,8 @@
 #2019-09-12 1.8.49
  - Install Python added to Advanced Table Settings
  - Demo pattern added to Advanced Lights Settings
+ - Warm white balance adjustment
+ - Auto -resume previous pattern after leaving calibrate lights page.
 #2019-09-06 1.8.48
  - Reworked  scrollDown media queries using max-height: calc()
  - Removed max-height from .web .app {} in css per Matt

@@ -213,33 +213,33 @@ app.model.sisyphus_manager = {
     },
     /**************************** BLUETOOTH ***********************************/
     force_reload: function() {
-        window.location.reload();
+      window.location.reload();
     },
     open_ble_settings: function() {
-        console.log("open_ble_settings()");
-        window.cordova.plugins.settings.open('bluetooth', function success(resp) {
-            // do nothing
-        }, function error(err) {
-            // do nothing
-        });
+      console.log("open_ble_settings()");
+      window.cordova.plugins.settings.open('bluetooth', function success(resp) {
+        // do nothing
+      }, function error(err) {
+        // do nothing
+      });
     },
     check_ble_status: function() {
-        console.log("check_ble_status()");
-        if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
-            this.set('is_ble_enabled', 'true');
-            return this;
-        }
+      console.log("check_ble_status()");
+      if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
+        this.set('is_ble_enabled', 'true');
+        return this;
+      }
 
-        var self = this;
+      var self = this;
 
-        cordova.plugins.BluetoothStatus.initPlugin();
+      cordova.plugins.BluetoothStatus.initPlugin();
 
-        window.addEventListener('BluetoothStatus.enabled', function() {
-            self.set('is_ble_enabled', 'true');
-        });
-        window.addEventListener('BluetoothStatus.disabled', function() {
-            self.set('is_ble_enabled', 'false');
-        });
+      window.addEventListener('BluetoothStatus.enabled', function() {
+        self.set('is_ble_enabled', 'true');
+      });
+      window.addEventListener('BluetoothStatus.disabled', function() {
+        self.set('is_ble_enabled', 'false');
+      });
     },
     check_ble_permissions: function(cb) {
         console.log("check_ble_permissions()");

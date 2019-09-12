@@ -116,11 +116,13 @@ function regenerate_index_page() {
 	var all = [];
 	_.each(files, function(filename) {
 		var css = fs.readFileSync(config.dir + '/' + filename, 'utf-8');
-		all.push(css)
+		var minified = new cleanCSS().minify(css).styles;
+		all.push(minified)
 	});
-	var minified = new cleanCSS().minify(all.join('')).styles;
-	fs.writeFileSync(config.dir + '/prod/styles.css', minified);
+	
+	fs.writeFileSync(config.dir + '/prod/styles.css', all.join(''));
 	// 242KB
+
 
 	// Concatenate Libs
 	var files	   = [

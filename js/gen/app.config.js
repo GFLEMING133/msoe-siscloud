@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.49', // Install Python button added to Advanced Table Settings, Demo pattern added to Advanced Lights
+	version				: '1.8.49', // Install Python button added to Advanced Table Settings, Demo pattern added to Advanced Lights, Warm white balance adjustment & Auto -resume previous pattern after leaving calibrate lights page.
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
