@@ -1116,21 +1116,21 @@ app.model.track = {
 		app.post.fetch2(req_obj, cb, 0);
 	},
 
-	publish_upload: function() {
-		var self = this;
+	// publish_upload: function() {
+	// 	var self = this;
 
-		app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
-			self.set('data.verts', verts);
-			self.set('data.is_published', 'true');
-			self.upload_track_to_cloud();
-		});
-		return this;
-	},
-	publish: function () {
-		this.set('data.is_published', 'true').save();
-	},
-	unpublish: function () {
-		this.set('data.is_published', 'false').save();
-	},
+	// 	app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
+	// 		self.set('data.verts', verts);
+	// 		self.set('data.is_published', 'true');
+	// 		self.upload_track_to_cloud();
+	// 	});
+	// 	return this;
+	// },
+	// publish: function () {
+	// 	this.set('data.is_published', 'true').save();
+	// },
+	// unpublish: function () {
+	// 	this.set('data.is_published', 'false').save();
+	// },
 
 };

@@ -54,7 +54,7 @@
     <div class="h__k pt150" data-if="{{= model.fetching_community_tracks }} == true">
         <div class="p20 center blue-l i h__k">Fetching tracks...</div>
     </div>
-    <div class="h__k pt65" data-if="{{= model.fetching_community_tracks }} == false">
+    <div class="h__k pt65 pb100" data-if="{{= model.fetching_community_tracks }} == false">
         <div class="h__k"
             data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
             data-foreach="model.community_track_ids"
