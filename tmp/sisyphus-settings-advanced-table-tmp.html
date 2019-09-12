@@ -59,6 +59,17 @@
             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
             data-field="model.edit.table_settings.rgbwCount"
             value="{{= model.data.table_settings.rgbwCount }}" />
+        <p class="pt20 no-stuffing w100 fs18 lh18 mb5">Python Requirement</p>
+        <div class="mt5 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong h__k"
+            data-on-click="model.python_install"
+            data-if="{{= model.data.is_internet_connected }} == true">
+          Install Python
+        </div>
+        <div class="mt5 p15 btn bg-grey w100 m0 active corner-5px uppercase fs18 strong h__k"
+            data-if="{{= model.data.is_internet_connected }} == false">
+          Install Python
+        </div>
+        <div class="i fs14 lh24">*If you purchased your table after September 16th, 2019, you do not need this step.</div>
       </div>
     </div>
     <div class="p20 w100 bb vertical clickable h__k"

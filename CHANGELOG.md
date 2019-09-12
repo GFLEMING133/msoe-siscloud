@@ -1,28 +1,30 @@
-#2019-09-12 1.8.49 
+#2019-09-12 1.8.49
+ - Install Python added to Advanced Table Settings
+ - Demo pattern added to Advanced Lights Settings
  - Warm white balance adjustment
- - Auto -resume previous pattern after leaving calibrate lights page. 
+ - Auto -resume previous pattern after leaving calibrate lights page.
 #2019-09-06 1.8.48
- - Reworked  scrollDown media queries using max-height: calc() 
- - Removed max-height from .web .app {} in css per Matt 
- - Removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. 
+ - Reworked  scrollDown media queries using max-height: calc()
+ - Removed max-height from .web .app {} in css per Matt
+ - Removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data.
  - Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
 #2019-09-04 1.8.45
  - Merged staging into beta
  - Fixed scrolling issues with Community pages
  - pushing for Beta testers
  #2019-9-4 1.8.45
- - Reverted birghtness_min /will be fixed on back end. 
- - Changed Target Version in Xcode to address dissapearing dropdown issue. 
- - Changed default Device Orientation in the pList file to have only Portrait available for app. 
+ - Reverted birghtness_min /will be fixed on back end.
+ - Changed Target Version in Xcode to address dissapearing dropdown issue.
+ - Changed default Device Orientation in the pList file to have only Portrait available for app.
 #2019-9-3 1.8.43 & 44
- - Added exclamation triangle back to No Table FOund page for Apples internal testing 
+ - Added exclamation triangle back to No Table FOund page for Apples internal testing
  - Fixed brightness_min value in <input> and in the brightness_min() to .10 to fix off set.
- - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix. 
+ - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix.
  - Commented out Community (again)
  - this is being pushed to Production.
 #2019-09-01 1.8.41
- - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned 
- - Added styling 
+ - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned
+ - Added styling
  - Fixed community-hero from cloud overflowing outside of app on local-host
  - Regression testing pages updated
 #2019-08-29 1.8.36-40
