@@ -153,14 +153,16 @@
                 </span>
               </div>
             </div>
-            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'secondary':'advanced_table'}">
-              <span class="strong montserrat_semi_bold">Table Settings</span>
-              <span class="pull-right">
-                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-              </span>
+            <div class="h__k" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
+                <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
+                    data-on-click="publish"
+                    data-publish="session:active"
+                    data-msg="{'secondary':'advanced_table'}">
+                    <span class="strong montserrat_semi_bold">Table Settings</span>
+                    <span class="pull-right">
+                        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+                    </span>
+                </div>
             </div>
             <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active h__k"
                 data-model="{{= model.sisbot_id }}"
