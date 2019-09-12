@@ -28,7 +28,7 @@ app.model.session = {
 
 			platform				: 'app',			// app|web
 			user_id					: 'false',
-			sign_in_id			: '',
+			sign_in_id				: '',
 			sisyphus_manager_id		: 'false',
 			modal_id				: 'false',
 
