@@ -225,7 +225,7 @@ app.model.sisyphus_manager = {
     },
     check_ble_status: function() {
         console.log("check_ble_status()");
-       if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
+        if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
             this.set('is_ble_enabled', 'true');
             return this;
         }
@@ -489,20 +489,19 @@ app.model.sisyphus_manager = {
 
     },
     _process_sign_in: function (user, data_arr) {
+  		var session_data = {
+  			email			: user.email,
+        password		: user.password,
+  		};
+      var self = this;
+  		_.each(data_arr, function (m) {
+  			if (m.type == 'user' && m.email == user.email)
+                  session_data.user_id = m.id;
+                  self.set('user_id', m.id );
+  		});
 
-		var session_data = {
-			email			: user.email,
-            password		: user.password,
-		};
-        var self = this;
-		_.each(data_arr, function (m) {
-			if (m.type == 'user' && m.email == user.email)
-                session_data.user_id = m.id;
-                self.set('user_id', m.id );
-		});
-
-		app.collection.add(data_arr);
-		app.trigger('session:user_sign_in', session_data);
+  		app.collection.add(data_arr);
+  		app.trigger('session:user_sign_in', session_data);
     },
     clear_errors: function(){
           this.set('errors', []);
@@ -619,18 +618,18 @@ app.model.sisyphus_manager = {
 
         var self = this;
         var server_user = false;
-        
+
         app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
         function(resp_num) {
             if (resp_num == 1){
                 return;
             }
-            app.collection.get(playlist_id).add_track_and_save(trackID);	
-            
-        },'Email Sent', ['OK']);	
-        
+            app.collection.get(playlist_id).add_track_and_save(trackID);
+
+        },'Email Sent', ['OK']);
+
         _.each(data_arr, function(m) {
-            
+
             if (m.type == 'user' && m.email == user.email) {
                 server_user = m;
                 session_data.user_id = m.id;
