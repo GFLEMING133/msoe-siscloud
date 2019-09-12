@@ -3,6 +3,9 @@
  - Demo pattern added to Advanced Lights Settings
  - Warm white balance adjustment
  - Auto -resume previous pattern after leaving calibrate lights page.
+ - Back button added back to Night Mode page
+ - Padding-bottom added to fix cut off screens on iPhone.
+ - Table Settings tab is now hidden unitl 7 tap is applied.
 #2019-09-06 1.8.48
  - Reworked  scrollDown media queries using max-height: calc()
  - Removed max-height from .web .app {} in css per Matt
