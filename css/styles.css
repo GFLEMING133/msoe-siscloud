@@ -906,7 +906,7 @@ li:hover {
 .pull-left								{	float		: left;		text-align: left;			}
 .clear 									{ 	clear		: both; 								}
 .clear-left 							{ 	clear		: left; 								}
-.clear-right 							{ clear			: right;;								}
+.clear-right 							{ 	clear		: right;;								}
 
 .fixed		{
 	position	: fixed;

@@ -32,13 +32,31 @@ app.model.session = {
 			sisyphus_manager_id		: 'false',
 			modal_id				: 'false',
 
+		
+			user_registration: 'false', // false|sign_up|sign_in|hostname
+
+            signing_up: 'false',
+            signing_in: 'false',
+            registration: {
+                username: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
+            },
+            forgot_email: {
+                email: '',
+            },
+			remember_me: 'false', //community log
+			show_password: 'false', //community log
+			sisbot_id			: 'false',
+
 			data		: {
 				id			: data.id,
 				type    	: 'session',
 				version     : this.current_version,
 		        // for sign in
-		        // email       : '',
-		        // password    : '',
+				email		: '',
+				password	: '',
 			}
 		};
 
@@ -175,9 +193,11 @@ app.model.session = {
 					session.active[key] = 'false';
 			});
 		}
+		
 		if (session) this.set('active', session.active);
 
 		this.set('signed_in', 'true');
+		
 		this.save_session();
 		console.log('AFTER SIGN IN');
 	},
@@ -189,6 +209,260 @@ app.model.session = {
 			.set('signed_in', 'false');
 		window.location.reload();
 	},
+	   /**************************** USER REGISTRATION ***************************/
+	setup_registration: function() {
+	if (this.get('user_id') == 'false')
+		this.setup_sign_up();
+    },
+    setup_sign_up: function() {
+        this.set('errors', []);
+        this.set('user_registration', 'sign_up');
+    },
+    setup_sign_in: function() {
+        this.set('errors', []);
+        this.set('user_registration', 'sign_in');
+    },
+
+    sign_up: function() {
+        if (this.get('signing_up') == 'true') return true;
+        else this.set('signing_up', 'true');
+        var self = this;
+        var user_data = this.get('registration');
+
+        var element = $('.sign_up_errors')[0];
+        var errors = this.get_errors(user_data);
+        self.set('errors', errors);
+
+        if (errors.length > 0){
+             this.set('signing_up', 'false')
+             element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+             return;
+        }
+
+
+
+        function cb(obj) {
+			console.log('sign_up self._process_registration OBJ RESP',obj.resp, obj.err );
+            if (obj.err){
+                self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
+                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                return;
+            }
+            self.set('errors', []);
+			
+            self._process_registration(user_data, obj.resp);
+
+			self.set('signing_up', 'false'); 
+			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp. 
+			app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });//directing to the sign-in page after registration
+			// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above. 
+			
+        };
+
+
+        var post_obj = {
+            _url: app.config.get_webcenter_url(),
+            _type: 'POST',
+            _timeout: 60000,
+            endpoint: 'register_user.json',
+            username                : user_data.username,
+        	email					: user_data.email,
+        	password				: user_data.password,
+        	password_confirmation	: user_data.password_confirmation
+        };
+
+        app.post.fetch(post_obj, cb, 0);
+    },
+
+    sign_in: function(user_data) {
+        if (this.get('signing_in') == 'true') return false;
+        else this.set('signing_in', 'true');
+
+        var self = this;
+        var user_data = this.get('registration');
+        var errors = this.get_errors(user_data);
+
+        user_data._timeout = 5000;
+
+        //______________Password Errors______________________________________
+
+        if (errors.length > 0){
+            return this.set('signing_in', 'false').set('errors', errors);
+        }
+        function cb(obj) {
+            if (obj.err){
+                if(obj.err == 'Unauthorized') {
+                    return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
+                }else {
+                    return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
+                }
+            }
+            self.set('errors', []);
+
+            self._process_sign_in(user_data, obj.resp);
+
+            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
+        };
+
+        user_data.endpoint  = 'auth_user';
+        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
+
+        app.post.fetch2(user_data, cb, 0);
+
+    },
+    _process_sign_in: function (user, data_arr) {
+
+  		var session_data = {
+  			email			: user.email,
+        	password		: user.password,
+  		};
+      var self = this;
+  		_.each(data_arr, function (m) {
+  			if (m.type == 'user' && m.email == user.email)
+                  session_data.user_id = m.id;
+                  self.set('user_id', m.id );
+  		});
+
+  		app.manager.intake_data(data_arr);
+  		app.trigger('session:user_sign_in', session_data);
+    },
+    clear_errors: function(){
+          this.set('errors', []);
+    },
+    get_errors: function(user_data) {
+        var errors = [];
+
+        if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
+        if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
+         //__________________SignUp Errors________________________ //
+         if (this.get('signing_up') == 'true'){
+            if (user_data.username == ""){
+                errors.push('Username cannot be blank');
+
+            }
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
+                errors.push("The email you entered is invalid, please enter a valid email");
+
+            }
+            if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){
+                errors.push('Password must be 7 or more characters');
+
+            }
+            if (user_data.password !== user_data.password_confirmation){
+                errors.push('Password Verification Does Not Match');
+
+            }
+        }
+        return errors;
+    },
+    _process_registration: function(user, data_arr) {
+
+        var session_data = {
+            email: user.email,
+            password: user.password,
+            password_confirmation: user.password_confirmation,
+        };
+
+        var self = this;
+        var server_user = false;
+
+        _.each(data_arr, function(m) {
+		
+            if (m.type == 'user' && m.email == user.email) {
+                server_user = m;
+                session_data.user_id = m.id;
+            }
+        });
+
+        app.manager.intake_data(data_arr);
+        app.trigger('session:user_sign_in', session_data);
+
+
+        // setup user info here
+        this.set('user_id', session_data.user_id);
+
+    },
+ 
+    // sign_up_via_settings: function() {
+    //    
+    //     this.on(this.after_settings);
+    //     this.sign_up();
+    // },
+    // sign_in_via_settings: function() {
+    //    
+    //     this.on('change:user_id', this.after_settings);
+    //     this.sign_in();
+    // },
+    // after_settings: function() {
+    //    
+    //     this.off('change:user_id');
+    //     app.trigger('session:active', { primary: 'community' });
+    // },
+    // sign_in_via_session: function(data) {
+    //    
+    //     this.set('registration', data);
+    //     this.sign_in();
+    //     return this;
+    // },
+    // sign_out: function() {
+    //     this.set('sisbot_id', 'false')
+    //         .set('is_sisbot_available', 'false')
+    //         .set('user_id', 'false');
+    //     app.current_session().sign_out();
+    // },
+    forgot_password: function(user_data) {
+        var errors = [];
+        if (!user_data || user_data == '') errors.push('- Email cannot be blank');
+        var self = this;
+
+        user_email = this.get('forgot_email'); //this is the object
+
+        function cb(obj) {
+            if (errors.length > 0 || obj.err)
+                return self.set('forgot_email', 'false').set('errors', [errors, 'That email is not in our system']);
+            self.set('errors', []);
+
+            self._process_email(user_email, obj.resp);
+
+
+        };
+        user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
+        user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
+
+        console.log('user_email ==', user_email);
+        app.post.fetch(user_email, cb, 0 );
+
+    },
+    _process_email: function(user, data_arr) {
+        var session_data = {
+            email: user.email
+        };
+
+        var self = this;
+        var server_user = false;
+
+        app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
+        function(resp_num) {
+            if (resp_num == 1){
+                return;
+            }
+            app.collection.get(playlist_id).add_track_and_save(trackID);
+
+        },'Email Sent', ['OK']);
+
+        _.each(data_arr, function(m) {
+
+            if (m.type == 'user' && m.email == user.email) {
+                server_user = m;
+                session_data.user_id = m.id;
+                self.set('sisbots_user', m.sisbot_ids);
+            }
+        });
+
+        app.collection.add(data_arr);
+		app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
+	},
+
 	/************************** CHECK SESSION STORED LOCALLY ******************/
 	check_session_sign_in: function () {
 		//if (app.is_app) return false;

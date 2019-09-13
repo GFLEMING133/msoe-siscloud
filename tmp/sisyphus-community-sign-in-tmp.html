@@ -23,7 +23,7 @@
         </div>
         <div class="h__k pb150" data-if="{{= model.data.is_internet_connected }} == true">
             <div class="bg-white pt20 black h__k" 
-                data-model="{{= app.manager.id }}"
+                data-model="{{= session.id }}"
                 data-run="model.clear_errors"
             >
                 <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
@@ -32,31 +32,43 @@
                     </div>
                 </div>
             <form>
-                    <h4 class=" pt20 pb10 no-stuffing strong">Email</h4>
+                    <label class=" pt20 pb10 no-stuffing fs18 less_strong">Email</label>
                     <div class=" pb10">
-                        <input class="h__k w100" type="text" placeholder="your_email@address.com"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        <input class="h__k w100" type="email" placeholder="your_email@address.com"
+                            autocomplete="on" autocorrect="off" autocapitalize="off"  spellcheck="false"
                             data-field="model.registration.email"
                             value="{{= model.registration.email }}"
                         />
                     </div>
-                    <h4 class=" pt10 pb10 inline no-stuffing strong">Password</h4><a 
-                    class="pt10 pb10 inline-right right blue-l clickable h__k"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'primary':'community','secondary':'forget_password'}">Forget your password?</a>
+                    <label class="pt10 pb10 mt5 inline no-stuffing fs18 less_strong">Password</label>
+                        <a class="pt10 pb10 inline-right right blue-l clickable h__k"
+                        data-on-click="publish"
+                        data-publish="session:active"
+                        data-msg="{'primary':'community','secondary':'forget_password'}">Forget your password?
+                        </a>
                     
                     <div class=" pb10">
-                        <input class="h__k w100" id="showPassword" type="password" placeholder="password"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                        <input class="h__k w100" type="{{= (model.show_password == 'true') ? 'text' : 'password'}}" placeholder="password"
+                            autocomplete="on" autocorrect="off" autocapitalize="off" spellcheck="false"
                             data-field="model.registration.password"
                             value="{{= model.registration.password }}"
                         />
-                        <div class="pt10">
-                            <input class="h__k " type="checkbox" data-on-click="model.show_password" />
-                            Show Password
-                        </div>
                     </div>
+
+                    <div class="h__k pt10 pull-left"     
+                        data-field="model.remember_me"     
+                        data-on-click="toggle">   
+                        <input id="rememberMe" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.remember_me"   />   
+                        <label for="rememberMe">Remember Me</label> 
+                    </div>
+                    
+                    <div class="h__k pt10 pull-right"     
+                        data-field="model.show_password"     
+                        data-on-click="toggle">   
+                        <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.show_password"   />   
+                        <label for="showPassword">Show Password</label> 
+                    </div>
+    
                     <br clear="both">
                     <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
                                 data-on-click="model.sign_in"
