@@ -36,11 +36,6 @@ app.model.led_pattern = {
 		this.on('change:data.led_primary_color', 				this.update_primary_color);
 		this.on('change:data.led_secondary_color', 			this.update_secondary_color);
 	},
-	setup_colors: function() {
-		console.log(this.get('data.name'), 'Setup colors');
-		var sisbot = app.manager.get_model('sisbot_id');
-		if (sisbot) sisbot._update_pattern_colors();
-	},
 	update_primary_color: function() {
 		var color_data = this.get('data.led_primary_color');
 		if (color_data != 'false') {
@@ -128,7 +123,7 @@ app.model.led_pattern = {
 	set_white: function (level) {
 		var self = this;
 
-		// console.log("White:", level, this.get('data.white_value'));
+		console.log("White:", level, this.get('data.white_value'));
 		this.set('data.white_value', +level).set('edit.white_value', +level);
 		var white_color = this.get_white_color();
 		// console.log("White:", white_color);

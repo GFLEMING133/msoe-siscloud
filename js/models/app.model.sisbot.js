@@ -1360,9 +1360,10 @@ app.model.sisbot = {
 	},
 	_change_led_pattern: function() {
 		var self = this;
-		// console.log("Change Pattern");
 
 		var new_pattern = this.get('edit.led_pattern');
+		console.log("Change Pattern", new_pattern);
+
 		if (new_pattern != 'false' && this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
 
@@ -1370,7 +1371,7 @@ app.model.sisbot = {
 			var pattern = app.collection.get(new_pattern);
 			console.log("Update Pattern", JSON.stringify(pattern.get('data')));
 			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-				// do nothing
+				// nothing
 			});
 		}
 	},
@@ -1428,7 +1429,7 @@ app.model.sisbot = {
 
 			console.log("Update Primary Color", this.get('data.led_primary_color'));
 
-			color_data.primary_color = edit_primary;
+			color_data.led_primary_color = edit_primary;
 
 			// update the led_pattern
 			if (led_pattern) led_pattern.set('data.led_primary_color', edit_primary);
@@ -1443,7 +1444,7 @@ app.model.sisbot = {
 
 			console.log("Update Secondary Color", this.get('data.led_secondary_color'));
 
-			color_data.secondary_color = edit_secondary;
+			color_data.led_secondary_color = edit_secondary;
 
 			// update the led_pattern
 			if (led_pattern) led_pattern.set('data.led_secondary_color', edit_secondary);
