@@ -50,7 +50,7 @@ app.config = {
 		return this.envs[this.env].sisbot_url;
 	},
 	set_sisbot_url: function (data) {
-		console.log("Sisbot URL: ", data);
+		console.warn("Sisbot URL: ", data);
 		if(!data.match(/^https?:\/\//i)) data = 'http://' + data;
 
 		if(!data.match(/:[0-9]+\/?$/i)) data += ":3002/";

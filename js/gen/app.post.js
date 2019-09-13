@@ -10,10 +10,7 @@ app.post = {
 		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
 
-		if (data.endpoint)		{
-			if (url.substr(-1) == '/' && data.endpoint.substr(0,1) == '/') url.replace(/\/$/, '');
-			url		+= data.endpoint;
-		}
+		if (data.endpoint) url	+= data.endpoint;
 		if (data._timeout)		timeout = data._timeout;
 
 		var type = data._type || 'POST';
@@ -21,8 +18,6 @@ app.post = {
 		delete data._url;
 		delete data._timeout;
 		delete data.endpoint;
-
-		console.log("Endpoint: "+data._url+" :: "+app.config.get_sisbot_url()+" = "+url+", Retry count " + retry_count);
 
 		var req_data = {
 			data	: JSON.stringify(data)

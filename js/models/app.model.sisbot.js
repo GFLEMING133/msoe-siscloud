@@ -218,7 +218,7 @@ app.model.sisbot = {
 		console.log("_fetch_log()");
 		var data = this.get('data');
 		var obj = {
-			_url	:  app.config.get_sisbot_url(),
+			// _url	:  app.config.get_sisbot_url(),
 			_type	: 'POST',
 			_timeout: 60000,
 			endpoint: 'get_log',

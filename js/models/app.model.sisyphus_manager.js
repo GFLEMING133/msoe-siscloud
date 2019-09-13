@@ -1100,6 +1100,7 @@ app.model.sisyphus_manager = {
         var self = this;
         var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : self.get('sisbot_hostname');
         if(sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
+        if (sisbot_hostname.match(/\/+$/)) sisbot_hostname = sisbot_hostname.replace(/\/+$/, "");
         console.log("connect_to_sisbot()", sisbot_hostname);
 
         // ping sisbot for connection
