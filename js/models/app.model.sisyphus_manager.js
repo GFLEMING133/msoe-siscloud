@@ -212,33 +212,33 @@ app.model.sisyphus_manager = {
     },
     /**************************** BLUETOOTH ***********************************/
     force_reload: function() {
-        window.location.reload();
+      window.location.reload();
     },
     open_ble_settings: function() {
-        console.log("open_ble_settings()");
-        window.cordova.plugins.settings.open('bluetooth', function success(resp) {
-            // do nothing
-        }, function error(err) {
-            // do nothing
-        });
+      console.log("open_ble_settings()");
+      window.cordova.plugins.settings.open('bluetooth', function success(resp) {
+        // do nothing
+      }, function error(err) {
+        // do nothing
+      });
     },
     check_ble_status: function() {
-        console.log("check_ble_status()");
-       if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
-            this.set('is_ble_enabled', 'true');
-            return this;
-        }
+      console.log("check_ble_status()");
+      if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
+        this.set('is_ble_enabled', 'true');
+        return this;
+      }
 
-        var self = this;
+      var self = this;
 
-        cordova.plugins.BluetoothStatus.initPlugin();
+      cordova.plugins.BluetoothStatus.initPlugin();
 
-        window.addEventListener('BluetoothStatus.enabled', function() {
-            self.set('is_ble_enabled', 'true');
-        });
-        window.addEventListener('BluetoothStatus.disabled', function() {
-            self.set('is_ble_enabled', 'false');
-        });
+      window.addEventListener('BluetoothStatus.enabled', function() {
+        self.set('is_ble_enabled', 'true');
+      });
+      window.addEventListener('BluetoothStatus.disabled', function() {
+        self.set('is_ble_enabled', 'false');
+      });
     },
     check_ble_permissions: function(cb) {
         console.log("check_ble_permissions()");
@@ -488,20 +488,19 @@ app.model.sisyphus_manager = {
 
     },
     _process_sign_in: function (user, data_arr) {
+  		var session_data = {
+  			email			: user.email,
+        password		: user.password,
+  		};
+      var self = this;
+  		_.each(data_arr, function (m) {
+  			if (m.type == 'user' && m.email == user.email)
+                  session_data.user_id = m.id;
+                  self.set('user_id', m.id );
+  		});
 
-		var session_data = {
-			email			: user.email,
-            password		: user.password,
-		};
-        var self = this;
-		_.each(data_arr, function (m) {
-			if (m.type == 'user' && m.email == user.email)
-                session_data.user_id = m.id;
-                self.set('user_id', m.id );
-		});
-
-		app.collection.add(data_arr);
-		app.trigger('session:user_sign_in', session_data);
+  		app.collection.add(data_arr);
+  		app.trigger('session:user_sign_in', session_data);
     },
     clear_errors: function(){
           this.set('errors', []);

@@ -120,74 +120,76 @@
           </span>
       </div>
 
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-if="{{= app.is_app }} == false"
-          data-on-click="model.find_tracks"
-      >
-          <span class="strong montserrat_semi_bold">Find More Tracks</span>
-          <span class="pull-right">
-              <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
-          </span>
-      </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'advanced-movement'}"
-      >
-          <span class="strong montserrat_semi_bold">Advanced Movement</span>
-          <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
-      </div>
-      <div data-model="{{= model.sisbot_id }}">
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'advanced_lights'}"
-            data-if="{{= model.data.led_enabled }} == true">
-          <span class="strong montserrat_semi_bold">Advanced Lights</span>
-          <span class="pull-right">
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-if="{{= app.is_app }} == false"
+        data-on-click="model.find_tracks"
+    >
+        <span class="strong montserrat_semi_bold">Find More Tracks</span>
+        <span class="pull-right">
+            <span class="pull-right">
             <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
-        </div>
-      </div>
+        </span>
+        </span>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced-movement'}"
+    >
+        <span class="strong montserrat_semi_bold">Advanced Movement</span>
+        <span class="pull-right">
+            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+    </div>
+    <div data-model="{{= model.sisbot_id }}">
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'advanced_table'}">
-        <span class="strong montserrat_semi_bold">Table Settings</span>
+          data-msg="{'secondary':'advanced_lights'}"
+          data-if="{{= model.data.led_enabled }} == true">
+        <span class="strong montserrat_semi_bold">Advanced Lights</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-model="{{= model.sisbot_id }}"
-          data-on-click="model.disconnect"
-      >
-          <span class="strong montserrat_semi_bold">Logout from Sisyphus</span>
-          <span class="pull-right"></span>
-      </div>
-      <div data-model="{{= model.sisbot_id }}">
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-if="{{= model.data.is_network_connected }} == true"
-              data-on-click="model.disconnect_wifi"
-          >
-              <span class="strong montserrat_semi_bold">Disconnect from WiFi network</span>
-              <span class="pull-right"></span>
-          </div>
-      </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'factory-reset'}"
-      >
-          <span class="strong montserrat_semi_bold">Factory Reset</span>
-          <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
-      </div>
-      <div class="hh150">&nbsp;</div>
+    </div>
+    <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'advanced_table'}">
+            <span class="strong montserrat_semi_bold">Table Settings</span>
+            <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
+        </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-model="{{= model.sisbot_id }}"
+        data-on-click="model.disconnect"
+    >
+        <span class="strong montserrat_semi_bold">Logout from Sisyphus</span>
+        <span class="pull-right"></span>
+    </div>
+    <div data-model="{{= model.sisbot_id }}">
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+            data-if="{{= model.data.is_network_connected }} == true"
+            data-on-click="model.disconnect_wifi"
+        >
+            <span class="strong montserrat_semi_bold">Disconnect from WiFi network</span>
+            <span class="pull-right"></span>
+        </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'factory-reset'}"
+    >
+        <span class="strong montserrat_semi_bold">Factory Reset</span>
+        <span class="pull-right">
+            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+    </div>
+    <div class="hh150">&nbsp;</div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.48', //Reworked  scrollDown media queries using max-height: calc(), removed max-height from .web .app {} in css per Matt, removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
 	debug 			: true,
+	version				: '1.8.49', // Install Python button added to Advanced Table Settings, Demo pattern added to Advanced Lights, Warm white balance adjustment & Auto -resume previous pattern after leaving calibrate lights page.
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app

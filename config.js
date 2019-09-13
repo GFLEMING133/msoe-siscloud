@@ -1,5 +1,5 @@
 var config = {
-	version			: '1.8.48', //Reworked scrollDown media queries using max-height: calc(), removed max-height from .web .app {} in css per Matt, removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
+  version				: '1.8.49', // - Warm white balance adjustment & Auto -resume previous pattern after leaving calibrate lights page. 	version			: '1.8.48', //Reworked scrollDown media queries using max-height: calc(), removed max-height from .web .app {} in css per Matt, removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data. Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {

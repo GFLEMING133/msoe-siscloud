@@ -1343,6 +1343,12 @@ app.model.sisbot = {
 			self.set('data.led_enabled', obj.resp.is_rgbw);
 		});
 	},
+	demo_pattern: function() {
+		var self = this;
+		if (this.get('edit.led_pattern') != 'demo') {
+			this.set('edit.led_pattern', 'demo');
+		}
+	},
 	calibrate_pattern: function() {
 		var self = this;
 		if (this.get('edit.led_pattern') != 'calibrate') {
@@ -1362,7 +1368,7 @@ app.model.sisbot = {
 		// console.log("Change Pattern");
 
 		var new_pattern = this.get('edit.led_pattern');
-		if (this.get('data.led_pattern') != new_pattern) {
+		if (new_pattern != 'false' && this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
 
 			// send to sisbot
@@ -1497,6 +1503,28 @@ app.model.sisbot = {
 		} else {
 			// console.log("New Offset", level);
 		}
+	},
+	python_install: function() {
+		var self = this;
+
+		if (this.get('data.installing_updates') == 'true') return this;
+
+		app.plugins.n.notification.confirm('If your RGBW lights are already working, you do not need this step. Continue?', function(resp_num) {
+			if (resp_num < 2) return self;
+
+			// install_python
+			console.log("Install Python!", resp_num);
+
+			self._update_sisbot('install_python', {}, function(obj) {
+				if (obj.err) {
+					self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
+			});
+
+			return this;
+		}, 'Install Python?', ['Cancel', 'OK']);
 	},
 	disconnect: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {

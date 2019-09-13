@@ -60,4 +60,12 @@ app.data = [
 		is_primary_color: 'false',
 		is_secondary_color: 'false'
 	},
+	{
+		id: 'demo',
+		type: 'led_pattern',
+		name: 'Demo',
+		is_white: 'false',
+		is_primary_color: 'false',
+		is_secondary_color: 'false'
+	},
 ];
