@@ -393,16 +393,16 @@ app.model.sisbot = {
 		*/
 	},
 	_update_timestamp: function() {
-		console.log("_update_timestamp()");
+		// console.log("_update_timestamp()");
 		this.set('timestamp', ''+Date.now());
-		console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
+		// console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
-		console.log("_socket_connect()");
+		// console.log("_socket_connect()");
 		var self = this;
 
-		console.log("Sisbot: Socket Connect");
+		// console.log("Sisbot: Socket Connect");
 
 		this.set('is_socket_connected', 'true');
 		this.set('is_polling', "false");
@@ -420,11 +420,11 @@ app.model.sisbot = {
 		}, 10000);
 	},
 	_socket_disconnect: function() {
-		console.log("_socket_disconnect()");
+		// console.log("_socket_disconnect()");
 		this.set('is_socket_connected', 'false');
 
 		var self = this;
-		console.log("Sisbot: Socket Disconnect");
+		// console.log("Sisbot: Socket Disconnect");
 
 		if (this.get('is_polling') == "false") {
 			setTimeout(function() {
@@ -434,7 +434,7 @@ app.model.sisbot = {
 		}
 	},
 	_socket_error: function(data) {
-		console.log("Sisbot: Socket Error", data);
+		// console.log("Sisbot: Socket Error", data);
 		if (this.get('is_polling') == "false") {
 			this.set('is_polling', "true");
 			this._poll_state();
@@ -443,7 +443,7 @@ app.model.sisbot = {
 	/**************************** POLLING *************************************/
 	_poll_timer: false,
 	_poll_failure: function () {
-		console.log("_poll_failure()");
+		// console.log("_poll_failure()");
 		if (this._poll_timer == false) {
 			this._poll_timer = moment();
 			this._retry_find = true;
@@ -481,7 +481,7 @@ app.model.sisbot = {
 		return this;
 	},
 	_poll_failure_stop: function () {
-		console.log("_poll_failure_stop()");
+		// console.log("_poll_failure_stop()");
 		if (this._poll_then_reset_bool == true) {
 			window.location.reload();
 		}
@@ -490,19 +490,19 @@ app.model.sisbot = {
 				   .set('sisbot_reconnecting', 'false');
 	},
 	_poll_restart: function () {
-		console.log("_poll_restart()");
+		// console.log("_poll_restart()");
 		this._poll_timer = false;
 		this.set('is_polling', 'true');
 		this._poll_state();
 	},
 	_poll_then_reset_bool: false,
 	_poll_then_reset: function() {
-		console.log("_poll_then_reset()");
+		// console.log("_poll_then_reset()");
 		this._poll_then_reset_bool = true;
 		this._poll_restart();
 	},
 	_poll_state: function () {
-		console.log("_poll_state()");
+		// console.log("_poll_state()");
 		var self = this;
 
 		if (app.config.env == 'alpha') {

@@ -224,7 +224,9 @@ app.model.playlist = {
 		this.trigger('change:' + field);
 	},
 	add_track_and_save: function(track_id) {
+		console.log(track_id);
 		var track = app.collection.get(track_id);
+		console.log(track);
 		var track_obj = {
 			id		: track_id,
 			vel		: track.get('data.default_vel'),
@@ -240,6 +242,13 @@ app.model.playlist = {
 		sorted_tracks.push(index);
 		});
 		this.set("data.sorted_tracks", sorted_tracks);
+		app.plugins.n.notification.confirm("Track is now in your Library!",
+		function(resp_num) {
+			if (resp_num == 1){
+				return;
+			}
+
+		},'Track Added!', ['OK']);
 
 		this.save();
 	},
