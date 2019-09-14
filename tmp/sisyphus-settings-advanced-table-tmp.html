@@ -53,7 +53,8 @@
         <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.edit.table_settings.useRGBW }} !== true"></span>
         <p class="no-stuffing pl10 w100 fs18 lh18">RGBW Lights</p>
       </div>
-      <div class="pt20 h__k" data-if="{{= model.edit.table_settings.useRGBW }} == true">
+      <p class="i">*Remember to hit the save button <i class="fas fa-arrow-down"></i></p>
+      <div class="h__k" data-if="{{= model.edit.table_settings.useRGBW }} == true">
         <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
         <input class="h__k fs18 w100" type="text" placeholder="100"
             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"

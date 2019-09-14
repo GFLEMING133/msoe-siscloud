@@ -229,7 +229,7 @@ app.model.sisyphus_manager = {
       });
     },
     check_ble_permissions: function(cb) {
-        // console.log("check_ble_permissions()");
+        console.log("check_ble_permissions()");
 
         var self = this;
 
@@ -270,7 +270,7 @@ app.model.sisyphus_manager = {
         }, {});
     },
     start_ble_scan: function(device_name, cb) {
-        // console.log("start_ble_scan()");
+        console.log("start_ble_scan()");
         var self = this;
 
         this._ble_cb = cb;
@@ -372,7 +372,7 @@ app.model.sisyphus_manager = {
     },
  
     _has_update: function(sisbot, remote) {
-        // console.log("_has_update()");
+        console.log("_has_update()");
 
         if (!remote)
             return false;
@@ -434,11 +434,11 @@ app.model.sisyphus_manager = {
         return this;
     },
     should_show_setup_page: function() {
-        // console.log("should_show_setup_page()");
+        console.log("should_show_setup_page()");
         this.set('show_wifi_page', 'false');
     },
     should_show_nightlight: function() {
-        // console.log("should_show_nightlight()");
+        console.log("should_show_nightlight()");
         // error check name first
         var sisbot = this.get_model('sisbot_id');
 
@@ -450,7 +450,7 @@ app.model.sisyphus_manager = {
         }
     },
     save_hostname: function() {
-        // console.log("save_hostname()");
+        console.log("save_hostname()");
         var sisbot = this.get_model('sisbot_id');
         sisbot.set('updating_hostname', 'true');
         this.listenTo(sisbot, 'change:updating_hostname', this.after_hostname);
@@ -557,13 +557,13 @@ app.model.sisyphus_manager = {
     _apple_counts: 0,
     _apple_counter: function() {
       this._apple_counts++;
-    //   console.log("_apple_counter()", this._apple_counts);
+      console.log("_apple_counter()", this._apple_counts);
       if (this._apple_counts > 5) {
         app.config.env = 'alpha';
       }
     },
     find_sisbots: function() {
-    //   console.log("find_sisbots()", this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
+      console.log("find_sisbots()", this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
       var self = this;
 
         if (app.is_app) {
@@ -585,7 +585,7 @@ app.model.sisyphus_manager = {
         }
     },
   rescan: function() {
-    // console.log("rescan()");
+    console.log("rescan()");
     app.current_session().clear_sisbots();
     this.set('sisbots_scanning', 'true');
     this.set('sisbot_registration', 'find');
@@ -594,7 +594,7 @@ app.model.sisyphus_manager = {
   _find_sisbots: function () {
     if (this.get('sisbots_scanning') == 'true') return;
 
-		// console.log("_find_sisbots()");
+		console.log("_find_sisbots()");
 		// this will find the sisbots on the local network
 		var self			= this;
 		 // conditional for if in beta localhost mode or not to ignore error.
@@ -611,14 +611,14 @@ app.model.sisyphus_manager = {
     // this.set('sisbot_id', 'false'); // ?? clear ?? // causes errors on check_reconnect_status
     this.set('sisbot_registration', 'find'); // ?? maybe ??
 		this.set('sisbots_scanning', 'true');
-    // console.log('Find Sisbots:', this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
+    console.log('Find Sisbots:', this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
 
 		var num_checks = 4;
 
 		function on_cb() {
 			--num_checks;
 
-    //   console.log("Is Sisbot Available:", self.get('sisbot_registration'), self.get('is_sisbot_available'), self.get('sisbots_scanning'));
+      console.log("Is Sisbot Available:", self.get('sisbot_registration'), self.get('is_sisbot_available'), self.get('sisbots_scanning'));
 
       if (self.get('sisbots_scanning') == 'false') return;
 
@@ -627,15 +627,15 @@ app.model.sisyphus_manager = {
 
       switch (num_checks) {
         case 3:
-      		// console.log("Find Hotspot");
+      		console.log("Find Hotspot");
       		self.find_hotspot(on_cb);
           break;
         case 2:
-      		// console.log("Find Network Sisbots");
+      		console.log("Find Network Sisbots");
       		self.find_network_sisbots(on_cb);
           break;
         case 1:
-      		// console.log("Find Bluetooth Sisbots");
+      		console.log("Find Bluetooth Sisbots");
       		self.find_bluetooth_sisbots(on_cb);
           break;
         default:
@@ -644,7 +644,7 @@ app.model.sisyphus_manager = {
   				// return this;
 
   				var sisbots = _.uniq(self.get('sisbots_networked'));
-    			// console.log("Find CB", sisbots);
+    			console.log("Find CB", sisbots);
   				self.set('sisbots_networked', sisbots);
   				self.set('sisbots_scanning', 'false');
   				var curr_reg = self.get('sisbot_registration');
@@ -669,11 +669,11 @@ app.model.sisyphus_manager = {
 			}
 		}
 
-    // console.log("Find Session");
+    console.log("Find Session");
     this.find_session_sisbots(on_cb);
 	},
   find_hotspot: function(cb) {
-    // console.log("find_sisbots()");
+    console.log("in find_hotspot to find_sisbots()");
     var hotspot_hostname = '192.168.42.1';
 
     this.ping_sisbot(hotspot_hostname, cb);
@@ -681,7 +681,7 @@ app.model.sisyphus_manager = {
     return this;
   },
   find_session_sisbots: function(cb) {
-    // console.log("find_session_sisbots()");
+    console.log("find_session_sisbots()");
     var self = this;
     var session_sisbots = app.current_session().get_sisbots();
     var num_cbs = session_sisbots.length + 1;
@@ -699,7 +699,7 @@ app.model.sisyphus_manager = {
     return this;
   },
   find_user_sisbots: function(cb) {
-    //   console.log("find_user_sisbots()", this.get('user_id'));
+      console.log("find_user_sisbots()", this.get('user_id'));
       if (this.get('user_id') == 'false') return cb();
 
       var self = this;
@@ -720,14 +720,14 @@ app.model.sisyphus_manager = {
   },
   find_bluetooth_sisbots: function(cb) {
     if (!app.is_app) return cb();
-    // console.log("find_bluetooth_sisbots()");
+    console.log("find_bluetooth_sisbots()");
 
     var self = this;
     var ip_address = false;
 
     this.start_ble_scan('sisbot', function(ip_address) {
       if (ip_address) {
-        // console.log("Bluetooth IP: ", ip_address);
+        console.log("Bluetooth IP: ", ip_address);
         self.ping_sisbot(ip_address, cb);
       } else cb();
     });
@@ -735,13 +735,13 @@ app.model.sisyphus_manager = {
     return this;
   },
   find_network_sisbots: function(cb) {
-    // console.log("find_network_sisbots()");
+    console.log("find_network_sisbots()");
     if (!app.is_app) return cb();
 
     var self = this;
 
     this.get_network_ip_address(function(ip_address) {
-    //   console.log('get_network_ip_address ==' + ip_address);
+      console.log('get_network_ip_address ==' + ip_address);
       if (!ip_address) return cb();
       var ip_add = ip_address.split('.');
       ip_add.pop();
@@ -759,7 +759,7 @@ app.model.sisyphus_manager = {
     return this;
   },
   ping_sisbot: function(hostname, cb, retries) {
-    //   console.log("ping_sisbot()", hostname);
+      console.log("ping_sisbot()", hostname);
       var self = this;
 
         if (!retries) retries = 0;
@@ -777,23 +777,9 @@ app.model.sisyphus_manager = {
                 if (hostname == self._ble_ip) {
                   self.set('sisbot_registration', 'hotspot');
                 }
-                // do nothing
-            //   } else if (retries > 10) {
-            //     if (hostname == self._ble_ip) {
-            //       self.set('sisbot_registration', 'hotspot');
-            //     }
-            //     // do nothing
-            //   } else {
-            //     setTimeout(function() {
-            //       self.ping_sisbot(hostname, cb, ++retries)
-            //     }, 100);
-            //     return this;
-            //   }
-          }
-
+            }
           return cb();
         }
-
         if (!obj.resp || !obj.resp.hostname) return cb();
 
         // Default select the one we are already on
@@ -815,7 +801,7 @@ app.model.sisyphus_manager = {
         var self = this;
         var sisbot_hostname = (_.isString(sisbot_hostname)) ? sisbot_hostname : self.get('sisbot_hostname');
         if(sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
-        // console.log("connect_to_sisbot()", sisbot_hostname);
+        console.log("connect_to_sisbot()", sisbot_hostname);
 
         // ping sisbot for connection
         var obj = {
@@ -827,7 +813,7 @@ app.model.sisyphus_manager = {
             data: {},
         };
 
-        // console.log("fetch()", obj);
+        console.log("fetch()", obj);
         app.post.fetch(obj, function(obj) {
             self.set('sisbot_connecting', 'false')
               .set('errors', []);
@@ -836,7 +822,7 @@ app.model.sisyphus_manager = {
 
             if (app.config.env == 'alpha') {
               sisbot_data = self.get_default_sisbot(); // DEFAULT SISBOT
-            //   console.log('APPLE testing, connect to Sisbot:', sisbot_data);
+              console.log('APPLE testing, connect to Sisbot:', sisbot_data);
             } else {
               if (obj.err) {
                 // IF WE HAVE CONNECTION ERROR
@@ -871,7 +857,7 @@ app.model.sisyphus_manager = {
 
             app.current_session().add_nx('sisbot_hostnames', sisbot_hostname);
             app.current_session().save_session();
-            // console.log("Connected: on page", app.session.get('active.primary'));
+            console.log("Connected: on page", app.session.get('active.primary'));
             if (app.session.get('active.primary') == 'false') app.trigger('session:active', { secondary: 'false', primary: 'current' });
             // hotspot access allows not requiring user
             if (self.get_model('user_id')) {
@@ -884,24 +870,24 @@ app.model.sisyphus_manager = {
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
-      // console.log("get_network_ip_address()");
+      console.log("get_network_ip_address()");
       networkinterface.getWiFiIPAddress(function on_success(ip_address) {
         cb(ip_address.ip);
-        // console.log('ip_address.ip ==' + ip_address.ip);
+        console.log('ip_address.ip ==' + ip_address.ip);
 
       }, function on_error(err) {
         cb(err);
       });
     },
     get_current_ssid: function() {
-        // console.log("get_current_ssid()");
+        console.log("get_current_ssid()");
         if (!app.is_app)
             return this;
 
         var self = this;
 
         WifiWizard2.getConnectedSSID(function on_success(ssid) {
-            // console.log('In the WifiWizard2 =' + ssid)
+            console.log('In the WifiWizard2 =' + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
             alert(err);
@@ -918,31 +904,7 @@ app.model.sisyphus_manager = {
             playlist.add_track(msg.track_id);
         }
     },
-    // merge_playlists: function() { // unused at this point
-    //     var merged_playlists = [];
 
-    //     var sisbot = this.get_model('sisbot_id');
-    //     var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
-
-    //     var user = this.get_model('user_id');
-    //     var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
-
-    //     var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
-    //     var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
-    //     var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
-
-    //     _.each(only_sisbot, function(p_id) {
-    //         merged_playlists.push({ id: p_id, status: 'sisbot' });
-    //     });
-    //     _.each(only_user, function(p_id) {
-    //         merged_playlists.push({ id: p_id, status: 'user' });
-    //     });
-    //     _.each(in_common, function(p_id) {
-    //         merged_playlists.push({ id: p_id, status: 'both' });
-    //     });
-
-    //     this.set('merged_playlists', merged_playlists);
-    // },
     /******************** TRACK UPLOAD ****************************************/
     reset_upload_tracks: function() {
         this.set('tracks_to_upload', []);
@@ -951,7 +913,7 @@ app.model.sisyphus_manager = {
         sisbot.set('uploading_track', 'false'); // for UI spinner
     },
     on_file_upload: function(track_file) {
-        // console.log("On File Upload", track_file.name);
+        console.log("On File Upload", track_file.name);
 
         var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
         var regex = /.(svg|thr)$/;
@@ -1067,43 +1029,7 @@ app.model.sisyphus_manager = {
 
 
     /**************************** COMMUNITY ***********************************/
-    // fetch_community_playlists: function() {
-    //     if (this.get('fetched_community_playlists') == 'true')
-    //         return this;
 
-    //     var self = this;
-
-    //     this.set('fetching_community_playlists', 'true');
-
-
-    //     var playlists = {
-    //         _url: app.config.get_webcenter_url(),
-    //         _type: 'GET',
-    //         endpoint: 'tracks',
-    //         data: {}
-    //     };
-
-    //     function cb(obj) {
-    //         setTimeout(function() {
-    //             self.set('fetching_community_playlists', 'false');
-    //         }, 1000)
-
-    //         if (obj.err) return self;
-
-    //         app.collection.add(obj.resp);
-
-    //         var resp_playlist_ids = _.pluck(obj.resp, 'id');
-    //         var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-    //         var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
-
-    //         self.set('community_playlist_ids', new_playlist_ids);
-    //         self.set('fetched_community_playlists', 'true');
-    //     }
-
-    //     app.post.fetch2(playlists, cb, 0);
-
-    //     return this;
-    // },
 
     fetch_community_tracks: function() {
         if (this.get('fetched_community_tracks') == 'true')
@@ -1369,90 +1295,8 @@ app.model.sisyphus_manager = {
 
         return this;
     },
-    // save_new_tracks: function() {
-    //     var data = [{
-    //         id: '_Test_1_01',
-    //         type: 'track',
-    //         name: 'Test 1 01',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_2_00',
-    //         type: 'track',
-    //         name: 'Test 2 00',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_3_11',
-    //         type: 'track',
-    //         name: 'Test 3 11',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_4_10',
-    //         type: 'track',
-    //         name: 'Test 4 10',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_5_11',
-    //         type: 'track',
-    //         name: 'Test 5 11',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_6_10',
-    //         type: 'track',
-    //         name: 'Test 6 10',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_7_10',
-    //         type: 'track',
-    //         name: 'Test 7 10',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_8_00',
-    //         type: 'track',
-    //         name: 'Test 8 00',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_9_00',
-    //         type: 'track',
-    //         name: 'Test 9 00',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_10_01',
-    //         type: 'track',
-    //         name: 'Test 10 01',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }];
 
-    //     function save_track() {
-    //         if (data.length == 0)
-    //             return this;
-
-    //         var track = data.shift();
-
-    //         track._url = app.config.get_webcenter_url();
-    //         track._type = 'POST';
-    //         track.endpoint = 'set';
-
-    //         function cb(obj) {
-    //             save_track();
-    //         }
-
-    //         app.post.fetch(track, cb, 0);
-    //     }
-
-    //     save_track();
-    // }
 };
-
 function newFunction() {
     return 'sisyphus_manager.data';
 }

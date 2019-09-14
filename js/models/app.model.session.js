@@ -383,33 +383,7 @@ app.model.session = {
 
     },
  
-    // sign_up_via_settings: function() {
-    //    
-    //     this.on(this.after_settings);
-    //     this.sign_up();
-    // },
-    // sign_in_via_settings: function() {
-    //    
-    //     this.on('change:user_id', this.after_settings);
-    //     this.sign_in();
-    // },
-    // after_settings: function() {
-    //    
-    //     this.off('change:user_id');
-    //     app.trigger('session:active', { primary: 'community' });
-    // },
-    // sign_in_via_session: function(data) {
-    //    
-    //     this.set('registration', data);
-    //     this.sign_in();
-    //     return this;
-    // },
-    // sign_out: function() {
-    //     this.set('sisbot_id', 'false')
-    //         .set('is_sisbot_available', 'false')
-    //         .set('user_id', 'false');
-    //     app.current_session().sign_out();
-    // },
+ 
     forgot_password: function(user_data) {
         var errors = [];
         if (!user_data || user_data == '') errors.push('- Email cannot be blank');
