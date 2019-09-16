@@ -1,5 +1,5 @@
 var config = {
-	  version		: '1.8.52', // Community closed 
+  version				: '1.8.52', // Demo Pattern added to main list
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {

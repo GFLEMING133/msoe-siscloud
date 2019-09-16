@@ -67,8 +67,6 @@
                     data-foreach="model.data.led_pattern_ids"
                     data-foreach-add="foreach_reset"
                     data-foreach-change="foreach_reset"
-                    data-foreach-default="{{= (model.edit.led_pattern == 'demo') ? 'Demo Pattern' : 'Select Pattern' }}"
-                    data-foreach-default-value="{{= (model.edit.led_pattern == 'demo') ? 'demo' : 'false' }}"
                     data-foreach-map="true">
                   <option class="h__k" value="{{= model.id }}">{{= model.data.name }}</option>
                 </select>
