@@ -1,3 +1,9 @@
+#2019-09-12 1.8.50 & 51
+ - Added Add to playlist to the Community when downloading tracks. 
+ - Moved sing_in /sign_up functionality to model.session
+ - Added eye icons to show password instead of wording and checkbox.
+ - Remember now stores email and password to session and auto log_in when coming back to Coommunity after closing app. 
+ - Removed back arrow from Track Search and Night Mode
 #2019-09-12 1.8.49
  - Install Python added to Advanced Table Settings
  - Demo pattern added to Advanced Lights Settings
