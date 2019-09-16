@@ -26,26 +26,26 @@ app.model.session = {
 			debug_mode				: 'false',
 			sisbot_hostnames		: [],
 
-			platform				: 'app',			// app|web
-			user_id					: 'false',
-			sign_in_id				: '',
+			platform							: 'app',			// app|web
+			user_id								: 'false',
+			sign_in_id						: '',
 			sisyphus_manager_id		: 'false',
-			modal_id				: 'false',
+			modal_id							: 'false',
 
-		
+
 			user_registration: 'false', // false|sign_up|sign_in|hostname
 
-            signing_up: 'false',
-            signing_in: 'false',
-            registration: {
-                username: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-            },
-            forgot_email: {
-                email: '',
-            },
+      signing_up: 'false',
+      signing_in: 'false',
+      registration: {
+          username: '',
+          email: '',
+          password: '',
+          password_confirmation: '',
+      },
+      forgot_email: {
+          email: '',
+      },
 			remember_me: 'false', //community log
 			show_password: 'false', //community log
 			sisbot_id			: 'false',
@@ -54,9 +54,6 @@ app.model.session = {
 				id			: data.id,
 				type    	: 'session',
 				version     : this.current_version,
-		        // for sign in
-				email		: '',
-				password	: '',
 			}
 		};
 
@@ -66,7 +63,16 @@ app.model.session = {
 	on_init: function () {
 		app.session = this;
 
-  		this.listenTo(app,	'session:sign_out',			this.sign_out);
+		var saved_session = this.get_session();
+		if (_.isObject(saved_session)) {
+			if (saved_session.active) this.set('active', saved_session.active);
+			if (saved_session.remember_me) {
+				this.set('remember_me', saved_session.remember_me);
+				if (saved_session.registration) this.set('registration', saved_session.registration);
+			}
+		}
+
+  	this.listenTo(app,	'session:sign_out',			this.sign_out);
 		this.listenTo(app,	'session:active',			this.set_active);
 		this.listenTo(app,	'session:toggle',			this.set_toggle);
 		this.listenTo(app,	'session:user_sign_in',		this.after_sign_in);
@@ -193,11 +199,11 @@ app.model.session = {
 					session.active[key] = 'false';
 			});
 		}
-		
+
 		if (session) this.set('active', session.active);
 
 		this.set('signed_in', 'true');
-		
+
 		this.save_session();
 		console.log('AFTER SIGN IN');
 	},
@@ -249,14 +255,14 @@ app.model.session = {
                 return;
             }
             self.set('errors', []);
-			
+
             self._process_registration(user_data, obj.resp);
 
-			self.set('signing_up', 'false'); 
-			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp. 
+			self.set('signing_up', 'false');
+			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
 			app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });//directing to the sign-in page after registration
-			// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above. 
-			
+			// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above.
+
         };
 
 
@@ -275,11 +281,14 @@ app.model.session = {
     },
 
     sign_in: function(user_data) {
+			console.log("Session Sign In()");
+
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
 
         var self = this;
         var user_data = this.get('registration');
+
         var errors = this.get_errors(user_data);
 
         user_data._timeout = 5000;
@@ -292,9 +301,9 @@ app.model.session = {
         function cb(obj) {
             if (obj.err){
                 if(obj.err == 'Unauthorized') {
-                    return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
+                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['- ' + 'Email or Password is incorrect.']);
                 }else {
-                    return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
+                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['- ' + obj.err]);
                 }
             }
             self.set('errors', []);
@@ -367,7 +376,7 @@ app.model.session = {
         var server_user = false;
 
         _.each(data_arr, function(m) {
-		
+
             if (m.type == 'user' && m.email == user.email) {
                 server_user = m;
                 session_data.user_id = m.id;
@@ -382,8 +391,8 @@ app.model.session = {
         this.set('user_id', session_data.user_id);
 
     },
- 
- 
+
+
     forgot_password: function(user_data) {
         var errors = [];
         if (!user_data || user_data == '') errors.push('- Email cannot be blank');
@@ -464,15 +473,17 @@ app.model.session = {
 		try {
 			if (!window.localStorage) return false;
 
-			localStorage.removeItem('sisbots');
+			window.localStorage.removeItem('sisbots');
 		} catch (err) {}
 	},
 	get_session: function () {
+		console.log("Get Session");
 		try {
+			if (!window.localStorage) return false;
+
 			var session = window.localStorage.getItem('session');
 
-			if (session)
-				session = JSON.parse(session);
+			if (session) session = JSON.parse(session);
 
 			return session;
 		} catch(err) {
@@ -480,26 +491,33 @@ app.model.session = {
 		}
 	},
 	save_session: function () {
+		console.log("Save Session");
 		try {
-			if (!window.localStorage)
-				return false;
+			if (!window.localStorage) return false;
 
-			localStorage.setItem('session', JSON.stringify(this.toJSON()));
+			var saveJSON = this.toJSON();
+			// remove values that shouldn't be saved
+			delete saveJSON.auth_token;
+			if (saveJSON.remember_me == 'false') delete saveJSON.registration;
+
+			window.localStorage.setItem('session', JSON.stringify(saveJSON));
+			console.log("Session JSON", this.toJSON());
 
 			var curr_sisbots = this.get_sisbots();
 			var sess_sisbots = this.get('sisbot_hostnames');
 			var uniq_sisbots = _.uniq(_.union(sess_sisbots, curr_sisbots));
 
-			localStorage.setItem('sisbots', JSON.stringify(uniq_sisbots));
+			window.localStorage.setItem('sisbots', JSON.stringify(uniq_sisbots));
 		} catch (err) {}
 	},
 	remove_session: function () {
+		console.log("Remove Session");
 		try {
 			if (!window.localStorage)
 				return false;
 
-			localStorage.removeItem('session');
-			localStorage.removeItem('sisbots');
+			window.localStorage.removeItem('session');
+			window.localStorage.removeItem('sisbots');
 		} catch (err) {}
 	},
 };
