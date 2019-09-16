@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.50', // removed unused functions to graveyardOfFunctions.js, uncommented console.logs from previous commit. 
+  version				: '1.8.51', // Remember me is now working, removed back arrow from Community tracks added padding-bottom to <form> sign-in tmp</form>
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
