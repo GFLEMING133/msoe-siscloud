@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.51', // Remember me is now working, removed back arrow from Community tracks added padding-bottom to <form> sign-in tmp</form>
+  version				: '1.8.52', // Demo Pattern added to main list
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
