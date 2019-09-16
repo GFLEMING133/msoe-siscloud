@@ -31,7 +31,7 @@
                         <div class="h__k red">{{= scope.value }}</div>
                     </div>
                 </div>
-            <form>
+            <form class="pb100">
                     <label class=" pt20 pb10 no-stuffing fs18 less_strong">Email</label>
                     <div class=" pb10">
                         <input class="h__k w100" type="email" placeholder="your_email@address.com"
@@ -56,17 +56,25 @@
                     </div>
 
                     <div class="h__k pt10 pull-left"     
-                        data-field="model.remember_me"     
+                        data-field="model.remember_me"    
                         data-on-click="toggle">   
                         <input id="rememberMe" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.remember_me"   />   
                         <label for="rememberMe">Remember Me</label> 
                     </div>
                     
                     <div class="h__k pt10 pull-right"     
-                        data-field="model.show_password"     
+                        data-field="model.show_password" 
+                        data-if="{{= model.show_password }} == true"    
                         data-on-click="toggle">   
-                        <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.show_password"   />   
-                        <label for="showPassword">Show Password</label> 
+                        <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.show_password" hidden />   
+                        <label class="h__k clickable" for="showPassword"><i class="fas fa-eye blue"></i></label> 
+                    </div>
+                    <div class="h__k pt10 pull-right"     
+                        data-field="model.show_password" 
+                        data-if="{{= model.show_password }} == false"    
+                        data-on-click="toggle">   
+                        <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.show_password" hidden />   
+                        <label class="h__k clickable" for="showPassword" data-if="{{= model.show_password }} == false"><i class="fas fa-eye-slash"></i></label> 
                     </div>
     
                     <br clear="both">
