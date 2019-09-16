@@ -1410,7 +1410,7 @@ app.model.sisbot = {
 		if (this.get('data.installing_updates') == 'true') return this;
 
 		app.plugins.n.notification.confirm('If your RGBW lights are already working, you do not need this step. Continue?', function(resp_num) {
-			if (resp_num < 2) return self;
+			if (resp_num == 1) return self;
 
 			// install_python
 			console.log("Install Python!", resp_num);
@@ -1616,7 +1616,7 @@ app.model.sisbot = {
 		app.plugins.n.notification.confirm("Changing these settings may cause your table to not function as expected.",
 			function(resp_num) {
 				console.log("Confirm resp", resp_num);
-				if (resp_num !== 2) {
+				if (resp_num == 1) {
 					return self;
 				} else {
 					self.save_to_sisbot(self.get('edit'), function(obj) {
@@ -1631,7 +1631,7 @@ app.model.sisbot = {
 						self.restart();
 					});
 				}
-			}, 'Confirm', ['Save','Cancel']);
+			}, 'Confirm', ['Cancel','Save']);
 	},
 	/******************** VERSIONING ******************************************/
 	check_for_version_update: function () {
