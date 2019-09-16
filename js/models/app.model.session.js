@@ -26,11 +26,11 @@ app.model.session = {
 			debug_mode				: 'false',
 			sisbot_hostnames		: [],
 
-			platform							: 'app',			// app|web
-			user_id								: 'false',
-			sign_in_id						: '',
+			platform				: 'app',			// app|web
+			user_id					: 'false',
+			sign_in_id				: '',
 			sisyphus_manager_id		: 'false',
-			modal_id							: 'false',
+			modal_id				: 'false',
 
 
 			user_registration: 'false', // false|sign_up|sign_in|hostname
