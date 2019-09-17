@@ -6,28 +6,16 @@ app.model.sisyphus_manager = {
             device_ip: 'false',
 
             user_id: 'false',
-            user_registration: 'false', // false|sign_up|sign_in|hostname
-
-            signing_up: 'false',
-            signing_in: 'false',
+           
             track_sort: 'newest designs',
-            registration: {
-                username: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-            },
-            forgot_email: {
-                email: '',
-            },
-
             sisbot_id: 'false',
             is_sisbot_available: 'false',
             sisbot_registration: 'find', // find|none|hotspot|multiple
 
             show_wifi_page: 'false',
-            show_setup_page: 'false',
             show_nightlight_page: 'false',
+
+            show_setup_page: 'false',
             show_software_update_page: 'false',
             show_sleeping_page: 'false',
 
@@ -81,7 +69,7 @@ app.model.sisyphus_manager = {
     },
     current_version: 1,
     on_init: function() {
-        console.log("on_init() in app.model.sisyphus_manager");
+        // console.log("on_init() in app.model.sisyphus_manager");
         if (window.cordova) StatusBar.show();
 
         app.plugins.n.initialize();
@@ -98,7 +86,6 @@ app.model.sisyphus_manager = {
         this.get_current_ssid();
 
         // Skip account creation at the beginning
-        app.current_session().set('signed_in', 'true');
 
         if (app.config.env == 'sisbot' || app.config.env == 'wc_test' ) {
             this.setup_as_sisbot();
@@ -117,7 +104,7 @@ app.model.sisyphus_manager = {
         return this;
     },
     intake_data: function(given_data) {
-        console.log("intake_data()");
+        // console.log("intake_data()", given_data);
         var self = this;
 
         if (!_.isArray(given_data)) given_data = [given_data];
@@ -145,7 +132,7 @@ app.model.sisyphus_manager = {
                                         if (_.isObject(old_str) || _.isArray(old_str)) old_str = JSON.stringify(old_str);
                                             if (new_str != old_str) {
                                                 is_diff = true;
-                                                console.log("Array change", key, new_str, old_str);
+                                                // console.log("Array change", key, new_str, old_str);
                                             }
                                 });
                             }
@@ -213,33 +200,33 @@ app.model.sisyphus_manager = {
     },
     /**************************** BLUETOOTH ***********************************/
     force_reload: function() {
-        window.location.reload();
+      window.location.reload();
     },
     open_ble_settings: function() {
-        console.log("open_ble_settings()");
-        window.cordova.plugins.settings.open('bluetooth', function success(resp) {
-            // do nothing
-        }, function error(err) {
-            // do nothing
-        });
+      console.log("open_ble_settings()");
+      window.cordova.plugins.settings.open('bluetooth', function success(resp) {
+        // do nothing
+      }, function error(err) {
+        // do nothing
+      });
     },
     check_ble_status: function() {
-        console.log("check_ble_status()");
-       if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
-            this.set('is_ble_enabled', 'true');
-            return this;
-        }
+    //   console.log("check_ble_status()");
+      if (!app.is_app || app.config.env == 'alpha') {   // COMENT OUT THIS IF FOR SIMULATING IN XCODE!!
+        this.set('is_ble_enabled', 'true');
+        return this;
+      }
 
-        var self = this;
+      var self = this;
 
-        cordova.plugins.BluetoothStatus.initPlugin();
+      cordova.plugins.BluetoothStatus.initPlugin();
 
-        window.addEventListener('BluetoothStatus.enabled', function() {
-            self.set('is_ble_enabled', 'true');
-        });
-        window.addEventListener('BluetoothStatus.disabled', function() {
-            self.set('is_ble_enabled', 'false');
-        });
+      window.addEventListener('BluetoothStatus.enabled', function() {
+        self.set('is_ble_enabled', 'true');
+      });
+      window.addEventListener('BluetoothStatus.disabled', function() {
+        self.set('is_ble_enabled', 'false');
+      });
     },
     check_ble_permissions: function(cb) {
         console.log("check_ble_permissions()");
@@ -383,266 +370,7 @@ app.model.sisyphus_manager = {
             evothings.ble.close(device);
         });
     },
-    /**************************** USER REGISTRATION ***************************/
-    setup_registration: function() {
-        if (this.get('user_id') == 'false')
-            this.setup_sign_up();
-    },
-    setup_sign_up: function() {
-        this.set('errors', []);
-        this.set('user_registration', 'sign_up');
-    },
-    setup_sign_in: function() {
-        this.set('errors', []);
-        this.set('user_registration', 'sign_in');
-    },
-    show_password: function() {
-        var x = document.getElementById("showPassword");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-    },
-
-    sign_up: function() {
-        if (this.get('signing_up') == 'true') return true;
-        else this.set('signing_up', 'true');
-        var self = this;
-        var user_data = user_data || this.get('registration');
-
-        var element = $('.sign_up_errors')[0];
-        var errors = this.get_errors(user_data);
-        self.set('errors', errors);
-
-        if (errors.length > 0){
-             this.set('signing_up', 'false')
-             element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-             return;
-        }
-
-
-
-        function cb(obj) {
-            if (obj.err){
-                self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
-                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                return;
-            }
-            self.set('errors', []);
-
-            self._process_registration(user_data, obj.resp);
-
-            self.set('signing_up', 'false');
-            app.trigger('session:active', { 'primary':'community', 'secondary':'sign_in' });
-        };
-
-
-        var post_obj = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'POST',
-            _timeout: 60000,
-            endpoint: 'register_user.json',
-            username                : user_data.username,
-        	email					: user_data.email,
-        	password				: user_data.password,
-        	password_confirmation	: user_data.password_confirmation
-        };
-
-        app.post.fetch2(post_obj, cb, 0);
-    },
-
-    sign_in: function(user_data) {
-        if (this.get('signing_in') == 'true') return false;
-        else this.set('signing_in', 'true');
-
-        var self = this;
-        var user_data = this.get('registration');
-        var errors = this.get_errors(user_data);
-
-        user_data._timeout = 5000;
-
-        //______________Password Errors______________________________________
-
-        if (errors.length > 0){
-            return this.set('signing_in', 'false').set('errors', errors);
-        }
-        function cb(obj) {
-            if (obj.err){
-                if(obj.err == 'Unauthorized') {
-                    return self.set('signing_in', 'false').set('errors', ['- ' + 'Email or Password is incorrect.']);
-                }else {
-                    return self.set('signing_in', 'false').set('errors', ['- ' + obj.err]);
-                }
-            }
-            self.set('errors', []);
-
-            self._process_sign_in(user_data, obj.resp);
-
-            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
-        };
-
-        user_data.endpoint  = 'auth_user';
-        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
-
-        app.post.fetch2(user_data, cb, 0);
-
-    },
-    _process_sign_in: function (user, data_arr) {
-
-		var session_data = {
-			email			: user.email,
-            password		: user.password,
-		};
-        var self = this;
-		_.each(data_arr, function (m) {
-			if (m.type == 'user' && m.email == user.email)
-                session_data.user_id = m.id;
-                self.set('user_id', m.id );
-		});
-
-		app.collection.add(data_arr);
-		app.trigger('session:user_sign_in', session_data);
-    },
-    clear_errors: function(){
-          this.set('errors', []);
-    },
-    get_errors: function(user_data) {
-        var errors = [];
-
-        if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
-        if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
-         //__________________SignUp Errors________________________ //
-         if (this.get('signing_up') == 'true'){
-            if (user_data.username == ""){
-                errors.push('Username cannot be blank');
-
-            }
-            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
-                errors.push("The email you entered is invalid, please enter a valid email");
-
-            }
-            if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){
-                errors.push('Password must be 7 or more characters');
-
-            }
-            if (user_data.password !== user_data.password_confirmation){
-                errors.push('Password Verification Does Not Match');
-
-            }
-        }
-        return errors;
-    },
-    _process_registration: function(user, data_arr) {
-        var session_data = {
-            email: user.email,
-            password: user.password,
-            password_confirmation: user.password_confirmation,
-        };
-
-        var self = this;
-        var server_user = false;
-
-        _.each(data_arr, function(m) {
-            if (m.type == 'user' && m.email == user.email) {
-                server_user = m;
-                session_data.user_id = m.id;
-                self.set('sisbots_user', m.sisbot_ids);
-            }
-        });
-
-        app.collection.add(data_arr);
-        app.trigger('session:user_sign_in', session_data);
-
-
-        // setup user info here
-        this.set('user_id', session_data.user_id);
-
-        if (this.get('sisbot_id') == 'false')
-            this.setup_sisbots_page();
-    },
-
-    // sign_up_via_settings: function() {
-    //     debugger;
-    //     this.on(this.after_settings);
-    //     this.sign_up();
-    // },
-    // sign_in_via_settings: function() {
-    //     debugger;
-    //     this.on('change:user_id', this.after_settings);
-    //     this.sign_in();
-    // },
-    // after_settings: function() {
-    //     debugger;
-    //     this.off('change:user_id');
-    //     app.trigger('session:active', { primary: 'community' });
-    // },
-    // sign_in_via_session: function(data) {
-    //     debugger;
-    //     this.set('registration', data);
-    //     this.sign_in();
-    //     return this;
-    // },
-    // sign_out: function() {
-    //     this.set('sisbot_id', 'false')
-    //         .set('is_sisbot_available', 'false')
-    //         .set('user_id', 'false');
-    //     app.current_session().sign_out();
-    // },
-    forgot_password: function(user_data) {
-        var errors = [];
-        if (!user_data || user_data == '') errors.push('- Email cannot be blank');
-        var self = this;
-
-        user_email = this.get('forgot_email'); //this is the object
-
-        function cb(obj) {
-            if (errors.length > 0 || obj.err)
-                return self.set('forgot_email', 'false').set('errors', [errors, 'That email is not in our system']);
-            self.set('errors', []);
-
-            self._process_email(user_email, obj.resp);
-
-
-        };
-        user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
-        user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
-
-        console.log('user_email ==', user_email);
-        app.post.fetch(user_email, cb, 0 );
-
-    },
-    _process_email: function(user, data_arr) {
-        var session_data = {
-            email: user.email
-        };
-
-        var self = this;
-        var server_user = false;
-        
-        app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
-        function(resp_num) {
-            if (resp_num == 1){
-                return;
-            }
-            app.collection.get(playlist_id).add_track_and_save(trackID);	
-            
-        },'Email Sent', ['OK']);	
-        
-        _.each(data_arr, function(m) {
-            
-            if (m.type == 'user' && m.email == user.email) {
-                server_user = m;
-                session_data.user_id = m.id;
-                self.set('sisbots_user', m.sisbot_ids);
-            }
-        });
-
-        app.collection.add(data_arr);
-        app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
-
-    },
-    /*********************** SISBOT ONBOARDING ********************************/
+ 
     _has_update: function(sisbot, remote) {
         console.log("_has_update()");
 
@@ -668,7 +396,7 @@ app.model.sisyphus_manager = {
         return has_update;
     },
     should_show_onboarding: function() {
-        console.log("should_show_onboarding()");
+        // console.log("should_show_onboarding()");
         var sisbot = this.get_model('sisbot_id');
         var hotspot_status = sisbot.get('data.is_hotspot');
         var reminder_status = sisbot.get('data.do_not_remind');
@@ -729,36 +457,22 @@ app.model.sisyphus_manager = {
         sisbot.update_hostname();
     },
     after_hostname: function() {
-        console.log("after_hostname()");
+        // console.log("after_hostname()");
         var sisbot = this.get_model('sisbot_id');
         this.stopListening(sisbot, 'change:updating_hostname');
         this.set('show_hostname_page', 'false');
     },
     /*********************** SISBOT FIND **************************************/
-    setup_sisbots_page: function() {
-        console.log("setup_sisbots_page()");
-        var _sisbots_user = this.get('sisbots_user');
-        var sisbots_user = [];
-
-        _.each(_sisbots_user, function(s_id) {
-            if (app.collection.exists(s_id))
-                sisbots_user.push(s_id);
-        });
-
-        this.set('sisbots_user', sisbots_user)
-            .set('errors', []);
-
-        return this;
-    },
+   
     open_network_settings: function() {
-      console.log("open_network_settings()");
+    //   console.log("open_network_settings()");
       var self = this;
 
       self.set('sisbot_registration', 'waiting');
 
       window.cordova.plugins.settings.open('wifi', function success(resp) {
         self.await_network_connection(function() {
-          console.log("Wifi: await network connection");
+        //   console.log("Wifi: await network connection");
           self.set('sisbot_registration', 'find');
         }, 0);
       }, function error(err) {
@@ -768,13 +482,13 @@ app.model.sisyphus_manager = {
       return this;
     },
     open_network_settings_from_error: function() {
-      console.log("open_network_settings_from_error()");
+    //   console.log("open_network_settings_from_error()");
       var self = this;
 
       window.cordova.plugins.settings.open('wifi', function success(resp) {
         // we are attempting to reconnect to hotspot
         // self.get_model('sisbot_id')._poll_restart();
-        console.log("Wifi: reconnecting");
+        // console.log("Wifi: reconnecting");
         self.find_sisbots();
         self.set('sisbot_reconnecting', 'true');
       }, function error(err) {
@@ -783,7 +497,7 @@ app.model.sisyphus_manager = {
       });
     },
     open_network_settings_for_hotspot: function() {
-      console.log("open_network_settings_for_hotspot()");
+    //   console.log("open_network_settings_for_hotspot()");
       var self = this;
 
       self.set('sisbot_reconnecting', 'true');
@@ -791,7 +505,7 @@ app.model.sisyphus_manager = {
       window.cordova.plugins.settings.open('wifi', function success(resp) {
         // we are attempting to reconnect to hotspot
         self.await_network_connection(function() {
-          console.log("Wifi: await network connection");
+        //   console.log("Wifi: await network connection");
           self.find_sisbots();
           // self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
         }, 0);
@@ -801,7 +515,7 @@ app.model.sisyphus_manager = {
       });
     },
     await_network_connection: function(cb, count) {
-        console.log("await_network_connection()");
+        // console.log("await_network_connection()");
         var self = this;
         setTimeout(function() {
             if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
@@ -814,19 +528,19 @@ app.model.sisyphus_manager = {
         }, 500);
     },
     reconnect_from_error: function() {
-        console.log("Wifi: reconnect_from_error()");
+        // console.log("Wifi: reconnect_from_error()");
         this.set('sisbot_reconnecting', 'true');
         // this.get_model('sisbot_id')._poll_restart();
         this.find_sisbots();
     },
     reconnect_to_hotspot: function() {
-        console.log("Wifi: Reconnect to hotspot");
+        // console.log("Wifi: Reconnect to hotspot");
         this.set('sisbot_reconnecting', 'true');
         // this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
         this.find_sisbots();
     },
     check_reconnect_status: function() {
-        console.log("check_reconnect_status()");
+        // console.log("check_reconnect_status()");
         var sisbot = this.get_model('sisbot_id');
 
         if (this.get('sisbot_reconnecting') == 'true' && this.get('is_sisbot_available') == 'true' && sisbot.get('data.do_not_remind') == 'false') {
@@ -938,7 +652,7 @@ app.model.sisyphus_manager = {
   				if (app.config.env == 'alpha') {
   					self.connect_to_sisbot('192.168.42.1');
   				} else if (app.config.env == 'beta') {
-  					self.connect_to_sisbot(app.config.get_sisbot_url());
+  				 	self.connect_to_sisbot(app.config.get_sisbot_url());
   				} else if (sisbots.length == 1) {
   					self.set('sisbot_registration', 'connecting');
   					self.connect_to_sisbot(sisbots[0]);
@@ -959,7 +673,7 @@ app.model.sisyphus_manager = {
     this.find_session_sisbots(on_cb);
 	},
   find_hotspot: function(cb) {
-    console.log("find_sisbots()");
+    console.log("in find_hotspot to find_sisbots()");
     var hotspot_hostname = '192.168.42.1';
 
     this.ping_sisbot(hotspot_hostname, cb);
@@ -1063,23 +777,9 @@ app.model.sisyphus_manager = {
                 if (hostname == self._ble_ip) {
                   self.set('sisbot_registration', 'hotspot');
                 }
-                // do nothing
-            //   } else if (retries > 10) {
-            //     if (hostname == self._ble_ip) {
-            //       self.set('sisbot_registration', 'hotspot');
-            //     }
-            //     // do nothing
-            //   } else {
-            //     setTimeout(function() {
-            //       self.ping_sisbot(hostname, cb, ++retries)
-            //     }, 100);
-            //     return this;
-            //   }
-          }
-
+            }
           return cb();
         }
-
         if (!obj.resp || !obj.resp.hostname) return cb();
 
         // Default select the one we are already on
@@ -1170,24 +870,24 @@ app.model.sisyphus_manager = {
     },
     /**************************** NETWORK INFO **********************************/
     get_network_ip_address: function(cb) {
-      // console.log("get_network_ip_address()");
+      console.log("get_network_ip_address()");
       networkinterface.getWiFiIPAddress(function on_success(ip_address) {
         cb(ip_address.ip);
-        // console.log('ip_address.ip ==' + ip_address.ip);
+        console.log('ip_address.ip ==' + ip_address.ip);
 
       }, function on_error(err) {
         cb(err);
       });
     },
     get_current_ssid: function() {
-        // console.log("get_current_ssid()");
+        console.log("get_current_ssid()");
         if (!app.is_app)
             return this;
 
         var self = this;
 
         WifiWizard2.getConnectedSSID(function on_success(ssid) {
-            // console.log('In the WifiWizard2 =' + ssid)
+            console.log('In the WifiWizard2 =' + ssid)
             self.set('current_ssid', ssid);
         }, function on_error(err) {
             alert(err);
@@ -1204,31 +904,7 @@ app.model.sisyphus_manager = {
             playlist.add_track(msg.track_id);
         }
     },
-    // merge_playlists: function() { // unused at this point
-    //     var merged_playlists = [];
 
-    //     var sisbot = this.get_model('sisbot_id');
-    //     var sisbot_playlist_ids = (sisbot) ? sisbot.get('data.playlist_ids') : [];
-
-    //     var user = this.get_model('user_id');
-    //     var user_playlist_ids = (user) ? user.get('data.playlist_ids') : [];
-
-    //     var only_sisbot = _.difference(sisbot_playlist_ids, user_playlist_ids);
-    //     var only_user = _.difference(user_playlist_ids, sisbot_playlist_ids);
-    //     var in_common = _.intersection(sisbot_playlist_ids, user_playlist_ids);
-
-    //     _.each(only_sisbot, function(p_id) {
-    //         merged_playlists.push({ id: p_id, status: 'sisbot' });
-    //     });
-    //     _.each(only_user, function(p_id) {
-    //         merged_playlists.push({ id: p_id, status: 'user' });
-    //     });
-    //     _.each(in_common, function(p_id) {
-    //         merged_playlists.push({ id: p_id, status: 'both' });
-    //     });
-
-    //     this.set('merged_playlists', merged_playlists);
-    // },
     /******************** TRACK UPLOAD ****************************************/
     reset_upload_tracks: function() {
         this.set('tracks_to_upload', []);
@@ -1237,7 +913,7 @@ app.model.sisyphus_manager = {
         sisbot.set('uploading_track', 'false'); // for UI spinner
     },
     on_file_upload: function(track_file) {
-        // console.log("On File Upload", track_file.name);
+        console.log("On File Upload", track_file.name);
 
         var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
         var regex = /.(svg|thr)$/;
@@ -1353,43 +1029,7 @@ app.model.sisyphus_manager = {
 
 
     /**************************** COMMUNITY ***********************************/
-    // fetch_community_playlists: function() {
-    //     if (this.get('fetched_community_playlists') == 'true')
-    //         return this;
 
-    //     var self = this;
-
-    //     this.set('fetching_community_playlists', 'true');
-
-
-    //     var playlists = {
-    //         _url: app.config.get_webcenter_url(),
-    //         _type: 'GET',
-    //         endpoint: 'tracks',
-    //         data: {}
-    //     };
-
-    //     function cb(obj) {
-    //         setTimeout(function() {
-    //             self.set('fetching_community_playlists', 'false');
-    //         }, 1000)
-
-    //         if (obj.err) return self;
-
-    //         app.collection.add(obj.resp);
-
-    //         var resp_playlist_ids = _.pluck(obj.resp, 'id');
-    //         var sisbot_playlist_ids = self.get_model('sisbot_id').get('data.playlist_ids');
-    //         var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
-
-    //         self.set('community_playlist_ids', new_playlist_ids);
-    //         self.set('fetched_community_playlists', 'true');
-    //     }
-
-    //     app.post.fetch2(playlists, cb, 0);
-
-    //     return this;
-    // },
 
     fetch_community_tracks: function() {
         if (this.get('fetched_community_tracks') == 'true')
@@ -1418,7 +1058,7 @@ app.model.sisyphus_manager = {
 
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
-            console.log('new_track_ids', obj.resp);
+            // console.log('new_track_ids', obj.resp);
         }
 
         app.post.fetch2(tracks, cb, 0);
@@ -1435,7 +1075,7 @@ app.model.sisyphus_manager = {
             endpoint: 'tracks.json?sort=' + sort_params,
             data: {}
         };
-         console.log('sortorder',sort_params); console.log('tracks',tracks)
+        //  console.log('sortorder',sort_params); console.log('tracks',tracks)
 
 
         function cb(obj) {
@@ -1450,10 +1090,11 @@ app.model.sisyphus_manager = {
             var resp_track_ids = _.pluck(obj.resp, 'id');
             var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
             var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
+            
             self.openSort();
             self.set('community_track_ids', new_track_ids);
             self.set('fetched_community_tracks', 'true');
-            console.log('new_track_ids', obj.resp);
+            // console.log('new_track_ids', obj.resp);
 
         }
 
@@ -1462,29 +1103,30 @@ app.model.sisyphus_manager = {
 
         return this;
     },
+    //Actions drop down menu
+    openSort: function() {
+        var drop = document.getElementsByClassName("sortBy-container-contents");
+        var dAction = document.getElementsByClassName("sortBy-drop-actions");
+        if (!drop[0].style.visibility || drop[0].style.visibility ===  'hidden') {
+            drop[0].style.visibility = 'visible';
+            drop[0].style.opacity = '1';
+    
+        }else {
+            drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
+            drop[0].style.visibility = 'hidden';
+            drop[0].style.opacity = '0';
+        }
+        },
 
     download_playlist: function(playlist_id) {
         this.remove('community_playlist_ids', playlist_id);
     },
     download_track: function(track_id) {
 
-        console.log("download_track" + track_id);
+        // console.log("download_track" + track_id);
         this.remove('community_track_ids', track_id);
     },
-    //Actions drop down menu
-    openSort: function() {
-    var drop = document.getElementsByClassName("sortBy-container-contents");
-    var dAction = document.getElementsByClassName("sortBy-drop-actions");
-    if (!drop[0].style.visibility || drop[0].style.visibility ===  'hidden') {
-      drop[0].style.visibility = 'visible';
-      drop[0].style.opacity = '1';
 
-    }else {
-      drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
-      drop[0].style.visibility = 'hidden';
-      drop[0].style.opacity = '0';
-    }
-  },
 
 
     /**************************** DEMO ****************************************/
@@ -1653,90 +1295,8 @@ app.model.sisyphus_manager = {
 
         return this;
     },
-    // save_new_tracks: function() {
-    //     var data = [{
-    //         id: '_Test_1_01',
-    //         type: 'track',
-    //         name: 'Test 1 01',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_2_00',
-    //         type: 'track',
-    //         name: 'Test 2 00',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_3_11',
-    //         type: 'track',
-    //         name: 'Test 3 11',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_4_10',
-    //         type: 'track',
-    //         name: 'Test 4 10',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_5_11',
-    //         type: 'track',
-    //         name: 'Test 5 11',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_6_10',
-    //         type: 'track',
-    //         name: 'Test 6 10',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_7_10',
-    //         type: 'track',
-    //         name: 'Test 7 10',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_8_00',
-    //         type: 'track',
-    //         name: 'Test 8 00',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_9_00',
-    //         type: 'track',
-    //         name: 'Test 9 00',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }, {
-    //         id: '_Test_10_01',
-    //         type: 'track',
-    //         name: 'Test 10 01',
-    //         is_published: 'true',
-    //         created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-    //     }];
 
-    //     function save_track() {
-    //         if (data.length == 0)
-    //             return this;
-
-    //         var track = data.shift();
-
-    //         track._url = app.config.get_webcenter_url();
-    //         track._type = 'POST';
-    //         track.endpoint = 'set';
-
-    //         function cb(obj) {
-    //             save_track();
-    //         }
-
-    //         app.post.fetch(track, cb, 0);
-    //     }
-
-    //     save_track();
-    // }
 };
-
 function newFunction() {
     return 'sisyphus_manager.data';
 }

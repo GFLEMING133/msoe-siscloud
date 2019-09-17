@@ -35,37 +35,41 @@
             </div>
         </div>
     </div>
-</div> 
+</div> -->
+    <!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
+<div class="h__k h100" data-if="{{= parent.signed_in }} == false">
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-starter-page-tmp"
+    ></div>
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == sign_in"
+        data-template="sisyphus-community-sign-in-tmp"
+    ></div>
 
-<!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == create_account"
+        data-template="sisyphus-community-create-account-tmp"
+    ></div>
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == forget_password"
+        data-template="sisyphus-community-forget-password-tmp"
+    ></div>
+</div>
 
-<!-- <div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == false"
-    data-template="sisyphus-community-starter-page-tmp"
-></div>
+<div class="h__k h100" data-if="{{= parent.signed_in }} == true">
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-tracks-tmp"
+    ></div>
 
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == community-tracks"
+        data-template="sisyphus-community-tracks-tmp"
+    ></div>
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == sign_in"
-    data-template="sisyphus-community-sign-in-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == create_account"
-    data-template="sisyphus-community-create-account-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == community-tracks"
-    data-template="sisyphus-community-tracks-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == tracks-hero"
-    data-template="sisyphus-community-tracks-hero-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == forget_password"
-    data-template="sisyphus-community-forget-password-tmp"
-></div> -->
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == tracks-hero"
+        data-template="sisyphus-community-tracks-hero-tmp"
+    ></div>
+</div>

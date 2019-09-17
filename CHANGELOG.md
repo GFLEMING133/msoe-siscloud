@@ -1,36 +1,69 @@
-#2019-9-4 1.8.45
- - Reverted birghtness_min /will be fixed on back end. 
- - Changed Target Version in Xcode to address dissapearing dropdown issue. 
- - Changed default Device Orientation in the pList file to have only Portrait available for app. 
+
+#2019-09-12 1.8.50 & 51
+ - Added Add to playlist to the Community when downloading tracks. 
+ - Moved sing_in /sign_up functionality to model.session
+ - Added eye icons to show password instead of wording and checkbox.
+ - Remember now stores email and password to session and auto log_in when coming back to Coommunity after closing app. 
+ - Removed back arrow from Track Search and Night Mode
+#2019-09-12 1.8.49
+ - Install Python added to Advanced Table Settings
+ - Demo pattern added to Advanced Lights Settings
+ - Warm white balance adjustment
+ - Auto -resume previous pattern after leaving calibrate lights page.
+ - Back button added back to Night Mode page
+ - Padding-bottom added to fix cut off screens on iPhone.
+ - Table Settings tab is now hidden unitl 7 tap is applied.
+#2019-09-06 1.8.48
+ - Reworked  scrollDown media queries using max-height: calc()
+ - Removed max-height from .web .app {} in css per Matt
+ - Removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data.
+ - Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
+#2019-09-04 1.8.45
+ - Merged staging into beta
+ - Fixed scrolling issues with Community pages
+ - pushing for Beta testers
+ #2019-9-4 1.8.45
+ - Reverted birghtness_min /will be fixed on back end.
+ - Changed Target Version in Xcode to address dissapearing dropdown issue.
+ - Changed default Device Orientation in the pList file to have only Portrait available for app.
 #2019-9-3 1.8.43 & 44
- - Added exclamation triangle back to No Table FOund page for Apples internal testing 
+ - Added exclamation triangle back to No Table FOund page for Apples internal testing
  - Fixed brightness_min value in <input> and in the brightness_min() to .10 to fix off set.
- - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix. 
+ - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix.
  - Commented out Community (again)
  - this is being pushed to Production.
+#2019-09-01 1.8.41
+ - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned
+ - Added styling
+ - Fixed community-hero from cloud overflowing outside of app on local-host
+ - Regression testing pages updated
+#2019-08-29 1.8.36-40
+ - RGBW Lights added to UI
+ - Webcenter added to UI
+ - CSON override added to UI
 #2019-8-15 1.8.34 & 35
  - Regression Testing staging branch with previous changes.
- - Sisbot updates included in regression testing. 
- - removed pull-top from Community header to address white gap on Android 
+ - Sisbot updates included in regression testing.
+ - removed pull-top from Community header to address white gap on Android
  - added new splash screen for ios to address default cordova photo showing. new png is 1125x2436
  - community is "//commeneted out" in this release.
 #2019-8-15 1.8.32 & 33
  - Community UI changes and re-configuring of pages to flow seemlessly with iPhone gap and notch
- - Added scrolling to all pages in Community. 
- - Cleaned up media queries and classes 
+ - Added scrolling to all pages in Community.
+ - Cleaned up media queries and classes
  - Changed all alert()'s to app.plugins.n.alert() and added custom Headers to some. EXCEPT alert()'s used for debugging
 #2019-8-12 1.8.30 & 31
  - Onboarding Wifi list spinner and dropdown fix
  - Updated Sortable.js to address passiveEventListener issues.
  - iPhone media query for footer added back  
- - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals, 
+ - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals,
  - _find_sisbots() changed order of switch case for finding bots first
 
 #2019-8-7 1.8.29
- - Changed timeout in ping_sisbot() to spped up Android connect when searching for tables. 
+ - Changed timeout in ping_sisbot() to spped up Android connect when searching for tables.
  - Commented out old conditionals in the ping_sisbot()
  - In the _find_sisbots() changed order of swtch(num_check) case 1 through 4 to show bots first per Micahs request.
- - removed Media Queries to address pushed up footer on iPhones. 
+ - removed Media Queries to address pushed up footer on iPhones.
 #2019-7-29 1.8.28
  - Onboarding Wifi list spinner and dropdown fix
  - merged staging with beta to push beta to TestFlight and Google Play to test all changes --WiFi, WiFi error handeling, ui changes and font replacement.

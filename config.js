@@ -1,5 +1,5 @@
 var config = {
-	version				: '1.8.47', // Community closing out.
+  version				: '1.8.53', // Fixed Color Picker not appearing
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
