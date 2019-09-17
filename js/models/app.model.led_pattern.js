@@ -96,8 +96,7 @@ app.model.led_pattern = {
 
 			returnValue = '#'+red.toString(16)+green.toString(16)+blue.toString(16)+'FF';
 		} else if (value > 0.5) {
-			// orange: max 255, 147, 41
-			// new: 255, 98, 0, 89 : FF620059
+			// orange: 255, 98, 0, 89 : FF620059
 			var scale = 1.0-(value-0.5)*2;
 
 			var red = 255; // doesn't change
