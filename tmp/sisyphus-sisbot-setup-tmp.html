@@ -17,7 +17,7 @@
                     You can easily change these settings later.
                 </p>
                 <div class="mt30 pb20 h__k" data-run="model.defaults_setup">
-                    <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Name Your Sisyphus</h4>
+                    <h4 class="pt10 pb10 fs18 lh18 strong no-stuffing">Name Your Sisyphus</h4>
                     <div class="pb10 h__k" data-if="{{= model.default_settings_error }} == true">
                         <input class="h__k error-border fs18 pl10 w100" type="text" placeholder="Sisyphus Name"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
@@ -26,40 +26,40 @@
                         />
                         <div class="pull-right error f-small h__k">Table Name Required</div>
                     </div>
-                    <div class="pb10 h__k" data-if="{{= model.default_settings_error }} == false">
+                    <div class="pb20 h__k" data-if="{{= model.default_settings_error }} == false">
                         <input class="h__k fs18 pl10 w100" type="text" placeholder="Sisyphus Name"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                             data-field="model.default_settings.name"
                             value="{{= model.default_settings.name }}"
                         />
                     </div>
-
-                    <h4 class="pt10 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
-                    <div class="flex vertical-align">
-                        <div class="w24-2">
-                            <i class="fas fa-sun" aria-hidden="true"></i>
+                    <div class="h__k" data-if="{{= model.default_settings.is_autodim }} == undefined">
+                        <h4 class="pt10 pb10 fs18 lh18 strong nAdjust Brightnesso-stuffing"></h4>
+                        <div class="flex vertical-align">
+                            <div class="w24-2">
+                                <i class="fas fa-sun" aria-hidden="true"></i>
+                            </div>
+                            <div class="w24-19">
+                                <input class="h__k w100" type="range" min="0" max="1" step=".05"
+                                    data-on-input="model.default_brightness"
+                                    data-on-update="bg_test"
+                                    value="{{= model.default_settings.brightness }}"
+                                />
+                            </div>
+                            <div class="w24-3 pl24-1">
+                                <i class="fas fa-sun f-large" aria-hidden="true"></i>
+                            </div>
                         </div>
-                        <div class="w24-19">
-                            <input class="h__k w100" type="range" min="0" max="1" step=".05"
-                                data-on-input="model.default_brightness"
-                                data-on-update="bg_test"
-                                value="{{= model.default_settings.brightness }}"
-                            />
-                        </div>
-                        <div class="w24-3 pl24-1">
-                            <i class="fas fa-sun f-large" aria-hidden="true"></i>
+                    
+                        <div class="pt20 pb20 vertical h__k"
+                            data-on-click="model.set_autodim_default"
+                            data-if="{{= model.default_settings.is_autodim }} !== undefined"
+                        >
+                            <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
+                            <span class="h__k black f-large bg-white fas fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
+                            <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
                         </div>
                     </div>
-
-                    <div class="pt20 pb20 vertical h__k"
-                        data-on-click="model.set_autodim_default"
-                        data-if="{{= model.default_settings.is_autodim }} !== undefined"
-                    >
-                        <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
-                        <span class="h__k black f-large bg-white fas fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
-                        <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
-                    </div>
-
                     <p class="p15 mb100 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
                         data-on-click="parent.should_show_nightlight"
                     >Next Step</p>
