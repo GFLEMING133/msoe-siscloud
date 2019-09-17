@@ -5,7 +5,7 @@
         ></div>
         <div class="bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
-            <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></>
+            <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></p>
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
                     Connection Lost!
                 </h3>
@@ -40,7 +40,7 @@
                     A restart is required for these settings to take effect.
                     Please wait this will take some time.
                 </p>
-               
+
                 <div class="pb20">
                     <!-- <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
                         data-if="{{= model.is_polling }} == false"
@@ -60,13 +60,13 @@
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == rebooting">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
-                   
+
                 </h3>
                 <p class="center fs18 lh24">
-                    A restart is required for these settings to take effect. 
+                    A restart is required for these settings to take effect.
                     Please wait this will take some time.
                 </p>
-        
+
                 <div class="pb20">
                     <!-- <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase h__k"
                         data-if="{{= model.is_polling }} == false"
@@ -86,7 +86,7 @@
             </div>
             <div class="h__k" data-if="{{= model.data.reason_unavailable }} == restarting">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
-                   
+
                 </h3>
                 <p class="center fs18 lh24">
                     A restart is required for these settings to take effect.
@@ -115,7 +115,7 @@
                 </h3>
                 <p class="center fs18 lh24 h__k">
                     Your Sisyphus is attempting to connect to your local router.
-					If it does not automatically reconnect, please open Wifi Settings
+					          If it does not automatically reconnect, please open Wifi Settings
                     and reconnect to the {{= model.data.name }} network.
                 </p>
                 <div class="pb20 h__k" data-if="{{= parent.sisbot_reconnecting }} == false">
@@ -133,7 +133,7 @@
                 <div class="p20 center i white pull-bottom h__k" data-if="{{= parent.sisbot_reconnecting }} == true">
                     <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
                     <div class="h__k black">
-                        Connecting...
+                      Connecting...
                     </div>
                 </div>
             </div>

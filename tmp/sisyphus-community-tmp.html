@@ -6,7 +6,7 @@
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
-    <div class="h__k body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+    <div class="h__k body-header h100 scroll hide-scrollbar pb150" data-model="{{= model.sisbot_id }}">
         <div class="h__k pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
                 
             <div class="i center shadow bg-grey-ll p30 clickable h__k"
@@ -19,7 +19,7 @@
                 Sisyphus Community
             </h3>
         </div>
-        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true"> 
+        <div class="h__k pb150" data-if="{{= model.data.is_internet_connected }} == true"> 
             <div class="h__k " data-if="{{= parent.user_id }} == false">
                 <p class="no-stuffing center w100 mt100" aria-hidden="true">
                         <img src="img/globeCopy.png" alt="Community" class="hh30" />
@@ -35,37 +35,41 @@
             </div>
         </div>
     </div>
-</div> 
+</div> -->
+    <!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
+<div class="h__k h100" data-if="{{= parent.signed_in }} == false">
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-starter-page-tmp"
+    ></div>
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == sign_in"
+        data-template="sisyphus-community-sign-in-tmp"
+    ></div>
 
-<!-- UNCOMMENT BELOW WHEN READY FOR COMMUNITY -->
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == create_account"
+        data-template="sisyphus-community-create-account-tmp"
+    ></div>
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == forget_password"
+        data-template="sisyphus-community-forget-password-tmp"
+    ></div>
+</div>
 
-<!-- <div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == false"
-    data-template="sisyphus-community-starter-page-tmp"
-></div>
+<div class="h__k h100" data-if="{{= parent.signed_in }} == true">
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-tracks-tmp"
+    ></div>
 
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == community-tracks"
+        data-template="sisyphus-community-tracks-tmp"
+    ></div>
 
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == sign_in"
-    data-template="sisyphus-community-sign-in-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == create_account"
-    data-template="sisyphus-community-create-account-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == community-tracks"
-    data-template="sisyphus-community-tracks-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == tracks-hero"
-    data-template="sisyphus-community-tracks-hero-tmp"
-></div>
-
-<div class="h__k h100"
-    data-if="{{= parent.active.secondary }} == forget_password"
-    data-template="sisyphus-community-forget-password-tmp"
-></div> -->
+    <div class="h__k h100"
+        data-if="{{= parent.active.secondary }} == tracks-hero"
+        data-template="sisyphus-community-tracks-hero-tmp"
+    ></div>
+</div>

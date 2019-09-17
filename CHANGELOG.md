@@ -1,4 +1,27 @@
-#2019-9-4 1.8.45
+#2019-09-12 1.8.50 & 51
+ - Added Add to playlist to the Community when downloading tracks.
+ - Moved sing_in /sign_up functionality to model.session
+ - Added eye icons to show password instead of wording and checkbox.
+ - Remember now stores email and password to session and auto log_in when coming back to Coommunity after closing app.
+ - Removed back arrow from Track Search and Night Mode
+#2019-09-12 1.8.49
+ - Install Python added to Advanced Table Settings
+ - Demo pattern added to Advanced Lights Settings
+ - Warm white balance adjustment
+ - Auto -resume previous pattern after leaving calibrate lights page.
+ - Back button added back to Night Mode page
+ - Padding-bottom added to fix cut off screens on iPhone.
+ - Table Settings tab is now hidden until 7 tap is applied.
+#2019-09-06 1.8.48
+ - Reworked  scrollDown media queries using max-height: calc()
+ - Removed max-height from .web .app {} in css per Matt
+ - Removed white from the app.data.js, primary & secondary-color-tmp have new on-click to publish instead of canceling data.
+ - Added data-rangetype='true' in the <input> sliding bar in the settings for brightness.
+#2019-09-04 1.8.45
+ - Merged staging into beta
+ - Fixed scrolling issues with Community pages
+ - pushing for Beta testers
+ #2019-9-4 1.8.45
  - Reverted brightness_min /will be fixed on back end.
  - Changed Target Version in Xcode to address disappearing dropdown issue.
  - Changed default Device Orientation in the pList file to have only Portrait available for app.
@@ -8,6 +31,15 @@
  - Night Mode now showing the save button with Enable Night Mode box unchecked for bug fix.
  - Commented out Community (again)
  - this is being pushed to Production.
+#2019-09-01 1.8.41
+ - Spread and Rho Fade Primary and Secondary pages styled and flex-justify-aligned
+ - Added styling
+ - Fixed community-hero from cloud overflowing outside of app on local-host
+ - Regression testing pages updated
+#2019-08-29 1.8.36-40
+ - RGBW Lights added to UI
+ - Webcenter added to UI
+ - CSON override added to UI
 #2019-8-15 1.8.34 & 35
  - Regression Testing staging branch with previous changes.
  - Sisbot updates included in regression testing.
