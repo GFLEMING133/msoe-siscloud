@@ -35,7 +35,7 @@
                     </div>
 
                     <h4 class="pt10 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
-                    <div class="flex vertical-align">
+                    <div class="flex pb20 vertical-align">
                         <div class="w24-2">
                             <i class="fas fa-sun" aria-hidden="true"></i>
                         </div>
@@ -50,16 +50,14 @@
                             <i class="fas fa-sun f-large" aria-hidden="true"></i>
                         </div>
                     </div>
-
-                    <div class="pt20 pb20 vertical h__k"
-                        data-on-click="model.set_autodim_default"
-                        data-if="{{= model.default_settings.is_autodim }} !== undefined"
-                    >
-                        <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
-                        <span class="h__k black f-large bg-white fas fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
-                        <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
+                    <div class="h__k" data-if="{{= model.default_settings.is_autodim }} == undefined">
+                        <div class="pt20 pb20 vertical h__k"
+                            data-on-click="model.set_autodim_default">
+                            <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
+                            <span class="h__k black f-large bg-white fas fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
+                            <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
+                        </div>
                     </div>
-
                     <p class="p15 mb100 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
                         data-on-click="parent.should_show_nightlight"
                     >Next Step</p>
