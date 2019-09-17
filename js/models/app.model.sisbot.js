@@ -195,8 +195,10 @@ app.model.sisbot = {
 		if (this.get('data.is_sleeping') == 'true')
 			this.nightmode_sleep_change();
 
-		if (this.get('data.led_pattern') != 'false')
+		if (this.get('data.led_pattern') != 'false') {
+			this.setup_edit();
 			this._update_pattern_colors();
+		}
 
 		this._poll_state();
 	},
@@ -1332,7 +1334,7 @@ app.model.sisbot = {
 
 		// check for primary change
 		var edit_primary = this.get('edit.led_primary_color');
-		if (edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
+		if (edit_primary && edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
 		console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
 		if (this.get('data.led_primary_color') != edit_primary) {
 			this.set('data.led_primary_color', edit_primary);
@@ -1347,7 +1349,7 @@ app.model.sisbot = {
 
 		// check for secondary change
 		var edit_secondary = this.get('edit.led_secondary_color');
-		if (edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
+		if (edit_secondary && edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
 		console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
 		if (this.get('data.led_secondary_color') != edit_secondary) {
 			this.set('data.led_secondary_color', edit_secondary);
