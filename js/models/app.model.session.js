@@ -413,8 +413,17 @@ app.model.session = {
         user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
 
         console.log('user_email ==', user_email);
-        app.post.fetch(user_email, cb, 0 );
+		app.post.fetch(user_email, cb, 0 );
+		app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
+        function(resp_num) {
+            if (resp_num == 1){
+                return;
+            }
 
+		},'Email Sent', ['OK']);
+
+		app.trigger('session:active', {'primary':'community','secondary':'false'});
+        
     },
     _process_email: function(user, data_arr) {
         var session_data = {
@@ -423,15 +432,6 @@ app.model.session = {
 
         var self = this;
         var server_user = false;
-
-        app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
-        function(resp_num) {
-            if (resp_num == 1){
-                return;
-            }
-            app.collection.get(playlist_id).add_track_and_save(trackID);
-
-        },'Email Sent', ['OK']);
 
         _.each(data_arr, function(m) {
 
