@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.52', // Demo Pattern added to main list
+	version				: '1.8.53', // merged beta in and then merged into master after regression testing. Added a call to _update_pattern_colors() so edit{} was not empty on start
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
