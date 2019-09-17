@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.52', // Demo Pattern added to main list
+  version				: '1.8.53', // Fixed Color Picker not appearing
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {

@@ -1433,9 +1433,7 @@ var Binding = Backbone.View.extend({
     iro: function (e) {
       var self = this;
 
-      console.log("Iro Colorpicker", this.data.iro, this.get_value(this.data.value));
-
-      iro.use(iroWhitePlugin);
+      // console.log("Iro Colorpicker", this.data.iro, this.get_value(this.data.value));
 
       // preloaded, don't need to fetch
       // app.scripts.fetch('js/libs/lib.iro.min.js', function () {
@@ -1443,7 +1441,10 @@ var Binding = Backbone.View.extend({
 
       // setTimeout(function () {
       if (self.$el && !self._iro) {
+        iro.use(iroWhitePlugin);
+
         console.log("Iro Colorpicker", self.data.iro, self.get_value(self.data.value));
+
         self._iro = iro.ColorPicker(self.data.iro, {
             // Set the size of the color picker
             width: 300,

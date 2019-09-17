@@ -195,6 +195,9 @@ app.model.sisbot = {
 		if (this.get('data.is_sleeping') == 'true')
 			this.nightmode_sleep_change();
 
+		if (this.get('data.led_pattern') != 'false')
+			this._update_pattern_colors();
+
 		this._poll_state();
 	},
 	update_network: function() {
@@ -1270,6 +1273,9 @@ app.model.sisbot = {
 
 		if (new_pattern != 'false' && this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
+
+			// update Colors
+			this._update_pattern_colors();
 
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
