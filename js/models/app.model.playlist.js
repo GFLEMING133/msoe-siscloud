@@ -87,6 +87,16 @@ app.model.playlist = {
 		this.add_track(track_id);
 		this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
 	},
+	minus_tracks_minus: function (track_id) {
+		var b = this.get('add_playlist_tracks[' + track_id + ']');
+		var active_tracks		= _.pluck(this.get('active_tracks'), "id");
+		var track_index 		= active_tracks.lastIndexOf(track_id);
+		if(track_index >= 0) {
+		this.set('add_playlist_tracks[' + track_id + ']', --b);
+		this.remove_track(track_index);
+		}
+		this.trigger('change:add_playlist_tracks[' + track_id + ']');
+	},
 	add_tracks_done: function () {
 		var self = this;
 
@@ -214,7 +224,9 @@ app.model.playlist = {
 		this.trigger('change:' + field);
 	},
 	add_track_and_save: function(track_id) {
+		console.log(track_id);
 		var track = app.collection.get(track_id);
+		console.log(track);
 		var track_obj = {
 			id		: track_id,
 			vel		: track.get('data.default_vel'),
@@ -230,6 +242,13 @@ app.model.playlist = {
 		sorted_tracks.push(index);
 		});
 		this.set("data.sorted_tracks", sorted_tracks);
+		app.plugins.n.notification.confirm("Track is now in your Library!",
+		function(resp_num) {
+			if (resp_num == 1){
+				return;
+			}
+
+		},'Track Added!', ['OK']);
 
 		this.save();
 	},
@@ -250,46 +269,5 @@ app.model.playlist = {
 			.set("data.sorted_tracks", sorted_tracks)
 			.save();
 	},
-	/**************************** COMMUNITY ***********************************/
-	check_publish: function () {
-		if (this.get('data.is_published') == 'true')	this.publish()
-		else 											this.unpublish();
-	},
-	publish: function () {
-		this._save();
-		this._publish_tracks();
-	},
-	unpublish: function () {
-		this._save();
-	},
-	_save: function () {
-		var playlist_data = this.get('data');
 
-		playlist_data._url		= app.config.get_webcenter_url();
-		playlist_data._type		= 'POST';
-		playlist_data.endpoint	= 'set';
-
-		app.post.fetch(playlist_data, function cb(obj) {
-			if (obj.err) app.plugins.n.notification.alert('Error saving playlist to cloud');
-		}, 0);
-	},
-	_publish_tracks: function () {
-		_.each(this.get('data.tracks'), function(track_obj) {
-			app.collection.get(track_obj.id).publish_upload();
-		});
-	},
-	download: function () {
-		var self				= this;
-		var curr_track_ids		= app.manager.get_model('sisbot_id').get('data.track_ids');
-		var track_ids			= _.pluck(this.get('data.tracks'), 'id');
-		var tracks_to_download	= _.difference(track_ids, curr_track_ids);
-
-		app.trigger('sisbot:playlist_add', this);
-		app.trigger('manager:download_playlist', this.id);
-
-		_.each(tracks_to_download, function (track_id) {
-			var track_model = app.collection.add({ id: track_id, type: 'track' });
-			track_model.fetch_then_download();
-		});
-	}
 };

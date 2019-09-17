@@ -170,7 +170,6 @@ label {
 	margin					: 0px auto;
 	height					: 90%;
 	margin-top				: 20px;
-	max-height				: 640px;
 	box-shadow				: 0px 1px 1px #000;
 }
 
@@ -316,7 +315,7 @@ label {
 	right:-5px;
 }
 
-  
+
 .shuffle_tooltip .tooltiptext {
 	font-family: "Montserrat-Black", "Roboto", sans-serif;
 	visibility: hidden;
@@ -326,7 +325,7 @@ label {
 	text-align: center;
 	border-radius: 6px;
 	padding: 5px 0;
-  
+
 	/* Position the tooltip */
 	top: -5px;
     right: 20%;
@@ -348,14 +347,14 @@ label {
 	text-align: center;
 	border-radius: 6px;
 	padding: 5px 0;
-  
-	/* Position the tooltip   <<<<< add * / back 
+
+	/* Position the tooltip   <<<<< add * / back
 	top: 15px;
 	left: 70%;
 	position: absolute;
 
 }*/
-  
+
 .loop_tooltip:hover .tooltiptext {
 	font-size: 14px;
 	font-family: "Montserrat-Black", "Roboto", sans-serif;
@@ -491,20 +490,22 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	overflow-y			: scroll;
 }
 
-.trackBox {
+/* .trackBox {
 	min-height: 0;
-	/* border: 6px solid blue; */
+
 	height: 42vh;
 	max-height: 48vh;
+} */
 
-}
-
-.scrollDown {
+.web .scrollDown {
 	/* border: 6px solid green; */
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-	max-height: 350px;
+	max-height: calc(90vh - 310px);
+	overflow: scroll;
+	padding-bottom: 50px;
+}
+.app .scrollDown {
+	/* border: 6px solid blue; */
+	max-height: calc(100vh - 340px);
 	overflow: scroll;
 	padding-bottom: 50px;
 }
@@ -528,22 +529,20 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	padding-top: 10px;
 	padding-left: 20px;
 }
-
 .community-sortBy-header {
 	display: inline-block;
 	color: #fff;
 	font-weight: 600;
 	margin-top: 20.5px;
-
 }
 .ctb-border {
 	border: 1px solid #dcdcdc;   /*  #dcdcdc */
 }
 
-.private_italic { 
+.private_italic {
 	font-style: italic;
 	color: #F4AE3D !important;
-	
+
  }
 
 /* -----------SORT BY DROP DOWN----------------------------  */
@@ -560,7 +559,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position: absolute;
 	width: 100%;
-	
+
 }
 .sortBy-drop-actions {
 	position: relative;
@@ -679,7 +678,9 @@ li:hover {
 }
 
 /**************************** Flex ********************************************/
-
+#secondary, #primary{
+	background: #111;
+}
 .flex {
 	display					: -webkit-box;
 	display					: -webkit-flex;
@@ -687,6 +688,48 @@ li:hover {
     -webkit-justify-content : space-between;
 	display					: flex;
 	width					: 100%;
+}
+.flex-center-column {
+	display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.flex-center-row {
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.flex1start {
+	display: flex;
+	flex: 1;
+	justify-content: flex-start;
+	align-items: center
+}
+.flex1center {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+
+}
+.flex-row {
+	flex-direction: row;
+}
+.flex-column {
+	flex-direction: column;
+}
+.flex1end {
+	display: flex;
+	flex: 1;
+	justify-content: flex-end;
+	align-items: center
+}
+.align-start {
+	align-self: flex-start;
+}
+.word-break {
+	word-break: break-word;
 }
 
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
@@ -863,7 +906,7 @@ li:hover {
 .pull-left								{	float		: left;		text-align: left;			}
 .clear 									{ 	clear		: both; 								}
 .clear-left 							{ 	clear		: left; 								}
-.clear-right 							{ clear			: right;;								}
+.clear-right 							{ 	clear		: right;;								}
 
 .fixed		{
 	position	: fixed;
@@ -937,14 +980,14 @@ li:hover {
 .clickable 								{	cursor					: pointer;					}
 .no-stuffing							{	margin					: 0px;		padding: 0px;	}
 .stuffing								{	margin					: 0px;		padding: 10px;	}
-.block									{	display					: block;}
+.block									{	display					: block;                    }
 .inline									{	float					: left;		display: inline;}
 .inline-right							{	float					: right;	display: inline;}
 .inline-block							{	display					: inline-block;				}
-.left									{ text-align					: left;					}
-.center 								{	text-align					: center; 				}
-.right									{ text-align					: right;				}
-.i 										{	font-style					: italic; 				}
+.left									{ 	text-align				: left;						}
+.center 								{	text-align				: center; 					}
+.right									{ 	text-align				: right;					}
+.i 										{	font-style				: italic; 					}
 .strikethrough							{	text-decoration			: line-through;				}
 .uppercase								{	text-transform			: uppercase;				}
 .capitalize								{	text-transform			: capitalize;				}
@@ -973,6 +1016,7 @@ li:hover {
 .corner-4px, .corner-4px:hover			{	border-radius				: 4px;		}
 .corner-5px, .corner-5px:hover			{	border-radius				: 5px;		}
 .corner-10px, .corner-10px:hover		{	border-radius				: 10px;		}
+.corner-20px, .corner-20px:hover		{	border-radius				: 20px;		}
 .corner-tl-none, .corner-tl-none:hover	{	border-top-left-radius		: 0px;		}
 .corner-tr-none, .corner-tr-none:hover	{	border-top-right-radius		: 0px;		}
 .corner-bl-none, .corner-bl-none:hover	{	border-bottom-left-radius	: 0px;		}
@@ -1026,7 +1070,7 @@ li:hover {
 
 select {
     padding						: 7px 8px;
-	border						: 2px solid #838383;
+	border						: 2px solid #000;
     box-shadow					: none;
     background					: transparent;
     background-image			: none;
@@ -1146,20 +1190,21 @@ select:focus {
 .bl-blue								{	border-left				: 3px solid #22AEFF;		}
 .bl-orange								{	border-left				: 3px solid #F4AE3D;		}
 
-.black 									{	color		: #333 !important;						}
+.black 									{	color		: #333    !important;					}
 .blue-l 								{	color		: #22AEFF !important;					}
 .blue, .blue-hover:hover 				{	color		: #11b2fb !important;					}
-.orange									{	color		: #b44a27 !important;					}
+.orange									{	color		: #F4AE3D !important;					}
 .green									{	color		: #32B150 !important;					}
 .red									{	color		: #d0021b !important;					}
-.xl-grey								{	color		: #EEE !important;						}
+.xl-grey								{	color		: #EEE    !important;					}
 .grey-l									{	color		: #acacac !important;					}
 .grey-l-hover:hover						{	color		: #acacac !important;					}
 .grey									{	color		: #838383 !important;					}
-.warmGrey								{	color		: #9b9b9b;								}
-.white, .white-hover:hover				{	color		: #fff !important;						}
-.black-hover:hover 						{	color		: #333 !important;						}
-.bblack-hover:hover 					{	color		: #000 !important;						}
+.warmGrey								{	color		: #9b9b9b !important;					}
+.warmRed							    {	color 	 	: #990033 !important;					}
+.white, .white-hover:hover				{	color		: #fff    !important;					}
+.black-hover:hover 						{	color		: #333    !important;					}
+.bblack-hover:hover 					{	color		: #000    !important;					}
 
 .bg-black 								{	background-color		: #000000 !important;		}
 
@@ -1173,7 +1218,7 @@ select:focus {
 .bg-green								{	background-color		: #32B150 !important;		}
 .bg-dd-grey								{	background-color		: #222222 !important;		}
 .bg-d-grey								{	background-color		: #292929 !important;		}
-.bg-m-grey								{	background-color		: #555 !important;			}
+.bg-m-grey								{	background-color		: #555 	  !important;		}
 .bg-grey								{	background-color		: #838383 !important;		}
 .bg-grey-l								{	background-color		: #9b9b9b !important;		}
 .bg-grey-lt								{	background-color		: #dcdcdc !important;		}
@@ -1186,6 +1231,13 @@ select:focus {
   background: -webkit-linear-gradient(#fdcc52, #fdc539);
   background: linear-gradient(#fdcc52, #fdc539);
 }
+.bg-69 {
+	background-color: #696969;
+}
+.bg-linear {
+	background-image: radial-gradient(circle, #fff, #11b2fb, #000, #000 ) ;
+}
+
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
 .c-info 								{	color		: #134550 !important;					}
@@ -1284,6 +1336,7 @@ select:focus {
 .fl15									{	line-height				: 1.5em;					}
 .fl20									{	line-height				: 2.0em;					}
 
+.lh-1									{	line-height				: -1px;						}
 .lh12									{	line-height				: 12px;						}
 .lh18									{	line-height				: 18px;						}
 .lh20									{	line-height				: 20px;						}
@@ -1293,14 +1346,12 @@ select:focus {
 
 .b										{	border					: 1px solid #efefef !important;		}
 .bt										{	border-top				: 1px solid #efefef !important;		}
-.bt-dcdc 								{ border-top				: 1px solid #dcdcdc;				}
+.bt-dcdc 								{ 	border-top				: 1px solid #dcdcdc;				}
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
-.bbw
-
 .b-none									{	border					: none;								  }
-
+.bb-10p									{   border-bottom			: 10px solid  #000;		}
 
 .b2										{	border					: 2px solid #838383 !important;		}
 
@@ -1316,7 +1367,7 @@ select:focus {
 .bb-med									{	border-bottom			: 1px solid #ccc !important;		}
 .bl-med									{	border-left				: 1px solid #ccc !important;		}
 .br-med									{	border-right			: 1px solid #ccc !important;		}
-
+.b-ededed								{	border					: 2px solid #ededed !important;		}
 .b-dark									{	border					: 2px solid #444444 !important;		}
 .bt-dark								{	border-top				: 1px solid #444444 !important;		}
 .bb-dark								{	border-bottom			: 1px solid #444444 !important;		}
@@ -1338,6 +1389,8 @@ select:focus {
 .p30									{	padding					: 30px !important;						}
 .p40									{	padding					: 40px !important;						}
 .p75									{	padding					: 75px !important;						}
+
+.mcenter								{ 	margin-left: 15px; 		margin-right: 15px; 					}
 
 .m0										{	margin					: 0px !important;						}
 .m5										{	margin					: 5px !important;						}
@@ -1367,7 +1420,7 @@ select:focus {
 .mb10									{	margin-bottom			: 10px !important;			            }
 .ml10									{	margin-left				: 10px !important;			            }
 .mr10									{	margin-right			: 10px !important;			            }
-
+.mbox10 								{   margin 					: 10px 10px !important; 				}
 .mt15									{	margin-top				: 15px !important;			            }
 .mb15									{	margin-bottom			: 15px !important;			            }
 .ml15									{	margin-left				: 15px !important;			            }
@@ -1490,9 +1543,11 @@ select:focus {
 .pb50						            {   padding-bottom	        : 50px !important;			            }
 .pl50									{	padding-left			: 50px !important;						}
 .pr50									{	padding-right			: 50px !important;						}
+
 .pt65						            {   padding-top             : 65px !important;			            }
 .pt70						            {   padding-top             : 70px !important;			            }
 .pt75									{	padding-top				: 75px !important;						}
+
 .pt100						            {   padding-top             : 100px !important;			            }
 .pb100						            {   padding-bottom	        : 100px !important;			            }
 .pl100									{	padding-left			: 100px !important;						}
@@ -1500,6 +1555,7 @@ select:focus {
 
 .pl110									{	padding-left			: 110px !important;						}
 .pt110						            {   padding-top             : 110px !important;			            }
+
 .pt150						            {   padding-top             : 150px !important;			            }
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
@@ -1515,6 +1571,7 @@ select:focus {
 .pl250									{	padding-left			: 250px !important;						}
 .pr250									{	padding-right			: 250px !important;						}
 
+.pbox 									{	padding					: 10px 30px !important;					}
 /**************************** CSS CHECKBOXES **********************************/
 
 input.cmn-toggle-round + label {
@@ -1622,149 +1679,52 @@ input[type="range"]::-ms-fill-upper {
 /******************MEDIA QUERIES*******************/
 
 
-
-/* Portrait */
-@media only screen 
-	and (min-device-width: 300px)
-	and (max-device-width: 320px)
-	and (max-device-height: 480px)
-	and (orientation : portrait)
-	{ 
-	
-	.sortBy-drop-actions{
-		width: 220px;
-	}
-	.trackBox {
-		height: 38%;
-		max-height: 140px;
-		margin-bottom: 100px;
-		
-	}
-	.scrollDown {
-		/* background-color: hotpink; */
-		min-height: 0;
-		max-height: 160px;
-		height: 155px;
-	}	
-		
-} 
-/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
-@media only screen 
-	and (min-device-width: 300px)
-	and (max-device-width: 320px)
-	and (max-device-height: 568px)
-	and (orientation : portrait)
-	{ 
-	
-	.sortBy-drop-actions{
-		width: 220px;
-	}
-	
-	.scrollDown {
-		/* background-color: salmon; */
-		min-height: 0;
-		max-height: 220px;
-		height: 210px;
-	}	
-	
-}
-
-@media only screen 
-	and (min-device-width: 321px)
-	and (max-device-width: 340px)
-	and (max-device-height: 533px)
-	and (orientation : portrait)
-	{ 
-	
-	.sortBy-drop-actions{
-		width: 220px;
-	}
-	.scrollDown {
-		/* background-color: #F4AE3D; */
-		min-height: 35vh;
-		max-height: 47vh;
-		height: 45vh;
-	}	
-	
-}
-@media only screen 
-	and (max-device-width: 375px)
-	and (max-device-height: 667px)
-	and (orientation : portrait)
-	{ 
-	
-	.sortBy-drop-actions{
-		width: 220px;
-	}
-
-	.trackBox {
-		height: 250px;
-		max-height: 250px;
-		
-	}
-	.scrollDown {
-		/* background-color: blue; */
-		min-height: 0; 
-		max-height: 250px;
-		height: 250px;
-	}	
-
-}
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
-@media only screen 
-and (min-width: 360px) 
-and (max-width: 767px) 
+@media only screen
+and (min-width: 360px)
+and (max-width: 767px)
 and (orientation : portrait)
-	{ 
+	{
 	body {
 		padding-bottom: 25px;
 	}
-
-	.scrollDown {
-		/* background-color:rosybrown; */
-		min-height: 0;
-		height: 460px;
-		max-height: 460px;
-		display: flex;
+	.app .scrollDown {
+		/* background-color: #fdc539; */
+		max-height: calc(100vh - 330px);
 	}
-	
+
 }
 
-/* Portrait */
-@media only screen  
-	and (min-device-width: 361px)
-	and (max-device-width: 374px)
+/**************iPhone 6 & 7 PLus**************/
+@media only screen
+	and (min-device-width: 414px)
+	and (max-device-height: 736px)
 	and (orientation : portrait)
 	{
+     .app .scrollDown {
+		 /* background-color: #00b1fa; */
+		 max-height: calc(100vh - 320px);
+	 }
 
-	.scrollDown {
-			/* background-color: #32B150; */
-			min-height: 0;
-			max-height: 380px;
-			height: 360px;
-			max-height:360px;
-			display: block;
-	
-	}
+
 }
 /* *********iPhone 7 aka my testing device ************** */
 
-@media only screen  
+@media only screen
 	and (min-device-width: 375px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
 	{
-	
-	.scrollDown {
-			/* background-color: #fdc539; */
-			min-height: 0;
-			max-height: 350px;
-			height: 350px;
-	}
+		.app .scrollDown {
+			/* border: 4px solid purple; */
+			max-height: calc(100vh - 320px);
+
+		}
+
 
 }
 /**************iPhone X /XS MArlo/Micah*******************/
-@media only screen  
+@media only screen
 	and (device-width: 375px)
 	and (device-height: 812px)
 	and (orientation : portrait)
@@ -1773,25 +1733,23 @@ and (orientation : portrait)
 		padding-bottom: 25px;
 	}
 	.app .app-container {
-		margin-top: 25px !important; 
+		margin-top: 25px !important;
 
 	}
 	.footer_Xphone {
 		position: absolute;
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
-	} 
-
-	.scrollDown {
-			/* background-color:yellowgreen; */
-			min-height: 0;
-			height: 460px;
-			display: flex;
 	}
+	.app .scrollDown {
+		/* background-color: red; */
+		max-height: calc(100vh - 360px);
+	}
+
 	.controls_adjustment  {
 		margin-bottom: 70px !important;
-	} 
-	
+	}
+
 	.playback_adjustment {
 		height: 100px;
 	}
@@ -1800,182 +1758,35 @@ and (orientation : portrait)
 	}
 
 }
-/********* iPhone *******/
-@media only screen  
-	and (device-width: 414px)
-	and (device-width: 896px)
-	and (orientation : portrait)
+
+
+/*************iPhone XS Max & XR COLINS PHONE**************/
+@media only screen
+    and (device-width : 414px)
+    and (device-height : 896px)
+	and (-webkit-device-pixel-ratio : 3)
 	{
-	body {
-		padding-bottom: 25px;
-	}
-	.app .app-container {
-		margin-top: 25px !important; 
-
-	}
-	.footer_Xphone {
-		position: absolute;
-		margin-bottom: constant(safe-area-inset-bottom);
-		margin-bottom: env(safe-area-inset-bottom);
-	} 
-
-	.scrollDown {
-			/* background-color:blue; */
-			min-height: 0;
-			max-height: 350px;
-			height: 350px;
-			display: flex;
-	}
-	.controls_adjustment  {
-		margin-bottom: 50px !important;
-	} 
-	
-	.playback_adjustment {
-		height: 100px;
-	}
-	
-
-			
-}
-
-@media only screen  
-	and (min-device-width: 411px)
-	and (max-device-width: 430px)
-	and (max-device-height: 732px)
-	and (orientation : portrait)
-	{
-
-	.scrollDown {
-			/* background-color: pink; */
-			height: 100vh; 
-			max-height: 350px;
-	
-	}
-
-} 
-/**************iPhone 6 & 7 PLus**************/
-@media only screen  
-	and (min-device-width: 414px)
-	and (max-device-height: 736px)
-	and (orientation : portrait)
-	{
-
-	.scrollDown {
-			/* background-color:darkgreen; */
-			height: 410px;
-			max-height: 410px;
-	}
-	
-}
-/*************iPhone XS Max COLINS PHONE**************/
-@media only screen 
-    and (device-width : 414px) 
-    and (device-height : 896px) 
-	and (-webkit-device-pixel-ratio : 3) 
-	{
+		body {
+			padding-bottom: 25px;
+		}
 		.app .app-container {
-			margin-top: 25px !important; 
-	
-		}		
+			margin-top: 25px !important;
+
+		}
 		.footer_Xphone {
 			margin-bottom: constant(safe-area-inset-bottom);
 			margin-bottom: env(safe-area-inset-bottom);
-		}  
-	
-		.scrollDown {
-			/* background-color: blueviolet; */
-			height: 550px;
-			max-height: 550px;
 		}
-		 .controls_adjustment  {
+		.controls_adjustment  {
 			margin-bottom: 70px !important;
-		} 
+		}
 		.playback_adjustment  {
 			height: 100px;
 		}
+		.app .scrollDown {
+			/* background-color: #00b1fa; */
+			max-height: calc(100vh - 360px);
 
-		
-	}
+		}
 
-	/*************** iPhone XR **************/
-	@media only screen 
-    and (device-width : 414px) 
-    and (device-height : 896px) 
-	and (-webkit-device-pixel-ratio : 2) 
-	{
-		.app .app-container {
-			margin-top: 25px !important; 
-	
-		}		
-		.footer_Xphone {
-			margin-bottom: constant(safe-area-inset-bottom);
-			margin-bottom: env(safe-area-inset-bottom);
-		}  
-	
-		.scrollDown {
-			/* background-color: BLACK; */
-			height: 550px;
-			max-height: 550px;
-		}
-		 .controls_adjustment  {
-			margin-bottom: 70px !important;
-		} 
-		.playback_adjustment  {
-			height: 100px;
-		}
-		
 	}
- 
-
-@media only screen  
-	and (device-width: 800px)
-	and (device-height: 1280px)
-	and (orientation : portrait)
-	{
-		.trackBox {
-				height: 58%;
-				max-height: 360px;   
-				}
-		.scrollDown {
-				/* background-color: lightgoldenrodyellow; */
-				height: 350px;
-				max-height: 350px;
-		
-		}
-		.media_query_mt0 {
-			margin-top: 0px !important;
-		}
-}
-@media only screen  
-	and (device-width: 768px)
-	and (device-height: 1024px)
-	and (orientation : portrait)
-	{
-	.trackBox {
-			height: 58%;
-			max-height: 360px;   
-			}
-	.scrollDown {
-			/* background-color: lightskyblue; */
-			height: 350px;
-	
-	}
-	
-}
-@media only screen  
-	and (device-width: 1024px)
-	and (device-height: 1366px)
-	and (orientation : portrait)
-	{
-	.trackBox {
-			height: 58%;
-			max-height: 360px;   
-			}
-	.scrollDown {
-			/* background-color: darkcyan; */
-			height: 350px;
-	
-	}
-	
-}
-

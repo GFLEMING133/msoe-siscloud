@@ -64,8 +64,9 @@ app.model.sisbot = {
 
 			wait_for_send				: 'false', // don't send request before hearing response
 
-			rem_primary_color: '0xFFFFFFFF',
-			rem_secondary_color: '0x00FFFFFF',
+			rem_pattern					: 'false',
+			rem_primary_color			: '0xFFFFFFFF',
+			rem_secondary_color			: '0x00FFFFFF',
 
 			edit		: {},
 			data		: {
@@ -137,7 +138,7 @@ app.model.sisbot = {
 				table_settings: {}, // Advanced table settings, overrides CSON on reboot
 
 				led_enabled: 'false',
-				led_pattern_ids: ['white','fade','spread','rainbow'],
+				led_pattern_ids: ['white','solid','fade','spread','comet','rainbow','demo'],
 				led_pattern: 'white',
 				led_offset : 0,
 				led_primary_color: '0xFFFFFFFF', // Hex
@@ -193,6 +194,9 @@ app.model.sisbot = {
 
 		if (this.get('data.is_sleeping') == 'true')
 			this.nightmode_sleep_change();
+
+		if (this.get('data.led_pattern') != 'false')
+			this._update_pattern_colors();
 
 		this._poll_state();
 	},
@@ -277,103 +281,7 @@ app.model.sisbot = {
 		}, 0);
 	},
 
-	// _fetching_cloud: false,
-	// _fetch_cloud: function () {
-	// 	console.log("_fetch_cloud()");
-	// 	if (this._fetching_cloud) 	return this;
-	//
-	// 	var self = this;
-	// 	this._fetching_cloud = true;
-	//
-	// 	var current_ip	= this.get('data.local_ip');
-	//
-	// 	app.post.fetch(exists = {
-	// 		_url	: app.config.get_api_url(),
-	// 		_type	: 'GET',
-	// 		_timeout: 1250,
-	// 		endpoint: 'sisbot_state/' + this.id,
-	// 	}, function exists_cb(obj) {
-	// 		self._fetching_cloud = false;
-	// 		// debugger;
-	// 		// console.log("_fetch_cloud() returned " + JSON.stringify(obj));
-	// 		if (obj.resp && obj.resp.local_ip) {
-	// 			// we are internet connected!
-	// 			var ip_address = obj.resp.local_ip;
-	// 			self.set('data.local_ip', ip_address);
-	// 		}
-	// 	}, 0);
-	// },
-	// _fetching_bluetooth: false,
-	// _fetch_bluetooth: function () {
-	// 	console.log("_fetch_bluetooth()");
-	// 	if (!app.is_app)				return this;
-	// 	if (this._fetching_bluetooth) 	return this;
-	//
-	// 	var self = this;
-	// 	this._fetching_bluetooth = true;
-	//
-	// 	var current_ip	= this.get('data.local_ip');
-	// 	var sub_id		= this.id.substr(this.id.length - 7);
-	//
-	// 	if (this.is_legacy()) sub_id = 'sisyphus';
-	//
-	// 	app.manager.start_ble_scan(sub_id, function (ip_address) {
-	// 		self._fetching_bluetooth = false;
-	//
-	// 		if (!ip_address) {
-	// 			// no ip address. must be doing network stuff
-	// 		} else if (current_ip == ip_address && ip_address == '192.168.42.1') {
-	// 			// sisyphus is in hotspot mode and we failed to connect to it
-	// 			self.set('data.reason_unavailable', 'connect_to_wifi');
-	// 		} else if (current_ip !== ip_address) {
-	// 			// we successfully connected to wifi!
-	// 			self.set('data.local_ip', ip_address);
-	// 		}
-	// 	});
-	// },
-	// _fetch_network: function () {
-	// 	console.log("_fetch_network()");
-	// 	if (!app.is_app) return this;
-	//
-	// 	var self = this;
-	//
-	// 	app.manager.get_network_ip_address(function(ip_address) {
-	// 		if (!ip_address)	return self;
-	//
-	// 		var ip_add	= ip_address.split('.');
-	// 		ip_add.pop();
-	//
-	// 		var ip_base = ip_add.join('.');
-	// 		var count = 0;
-	//
-	// 		_.each(_.range(0, 256), function(num) {
-	// 			self._ping_sisbot(ip_base + '.' + num);
-	// 		});
-	// 	});
-	//
-	// 	return this;
-	// },
-	// _ping_sisbot: function(hostname) {   // trying to find what sisbots are available.
-	// 	console.log("_ping_sisbot()", hostname);
-	// 	var self = this;
-	//
-	// 	app.post.fetch(exists = {
-	// 		_url	: 'http://' + hostname + '/',
-	// 		_type	: 'POST',
-	// 		_timeout: 1250,
-	// 		endpoint: 'sisbot/exists',
-	// 		data	: {}
-	// 	}, function exists_cb(obj) {
-	// 		if (!obj.resp || !obj.resp.hostname)
-	// 			return self;
-	//
-	// 		if (obj.resp.id == self.id) {
-	// 			app.manager.intake_data(obj.resp);
-	// 		}
-	// 	}, 0);
-	//
-	// 	return this;
-	// },
+
 	_check_serial: function () {
 		console.log("_check_serial()");
 
@@ -392,16 +300,16 @@ app.model.sisbot = {
 		*/
 	},
 	_update_timestamp: function() {
-		console.log("_update_timestamp()");
+		// console.log("_update_timestamp()");
 		this.set('timestamp', ''+Date.now());
-		console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
+		// console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
-		console.log("_socket_connect()");
+		// console.log("_socket_connect()");
 		var self = this;
 
-		console.log("Sisbot: Socket Connect");
+		// console.log("Sisbot: Socket Connect");
 
 		this.set('is_socket_connected', 'true');
 		this.set('is_polling', "false");
@@ -419,11 +327,11 @@ app.model.sisbot = {
 		}, 10000);
 	},
 	_socket_disconnect: function() {
-		console.log("_socket_disconnect()");
+		// console.log("_socket_disconnect()");
 		this.set('is_socket_connected', 'false');
 
 		var self = this;
-		console.log("Sisbot: Socket Disconnect");
+		// console.log("Sisbot: Socket Disconnect");
 
 		if (this.get('is_polling') == "false") {
 			setTimeout(function() {
@@ -433,7 +341,7 @@ app.model.sisbot = {
 		}
 	},
 	_socket_error: function(data) {
-		console.log("Sisbot: Socket Error", data);
+		// console.log("Sisbot: Socket Error", data);
 		if (this.get('is_polling') == "false") {
 			this.set('is_polling', "true");
 			this._poll_state();
@@ -442,7 +350,7 @@ app.model.sisbot = {
 	/**************************** POLLING *************************************/
 	_poll_timer: false,
 	_poll_failure: function () {
-		console.log("_poll_failure()");
+		// console.log("_poll_failure()");
 		if (this._poll_timer == false) {
 			this._poll_timer = moment();
 			this._retry_find = true;
@@ -480,7 +388,7 @@ app.model.sisbot = {
 		return this;
 	},
 	_poll_failure_stop: function () {
-		console.log("_poll_failure_stop()");
+		// console.log("_poll_failure_stop()");
 		if (this._poll_then_reset_bool == true) {
 			window.location.reload();
 		}
@@ -489,19 +397,19 @@ app.model.sisbot = {
 				   .set('sisbot_reconnecting', 'false');
 	},
 	_poll_restart: function () {
-		console.log("_poll_restart()");
+		// console.log("_poll_restart()");
 		this._poll_timer = false;
 		this.set('is_polling', 'true');
 		this._poll_state();
 	},
 	_poll_then_reset_bool: false,
 	_poll_then_reset: function() {
-		console.log("_poll_then_reset()");
+		// console.log("_poll_then_reset()");
 		this._poll_then_reset_bool = true;
 		this._poll_restart();
 	},
 	_poll_state: function () {
-		console.log("_poll_state()");
+		// console.log("_poll_state()");
 		var self = this;
 
 		if (app.config.env == 'alpha') {
@@ -897,7 +805,6 @@ app.model.sisbot = {
 	},
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
-
 		console.log("Sisbot edit", this.get('edit'));
 
 		return this;
@@ -1334,23 +1241,47 @@ app.model.sisbot = {
 		// send to sisbot
 		this._update_sisbot('set_led', { is_rgbw: 'true' }, function (obj) {
 			// set as enables
-			console.log("LED resp", obj);
+			// console.log("LED resp", obj);
 			self.set('data.led_enabled', obj.resp.is_rgbw);
 		});
 	},
+	demo_pattern: function() {
+		var self = this;
+		if (this.get('edit.led_pattern') != 'demo') {
+			this.set('edit.led_pattern', 'demo');
+		}
+	},
+	calibrate_pattern: function() {
+		var self = this;
+		if (this.get('edit.led_pattern') != 'calibrate') {
+			// console.log("Switch to Calibrate, remember", this.get('data.led_pattern'));
+			this.set('rem_pattern', this.get('data.led_pattern'));
+
+			this.set('edit.led_pattern', 'calibrate');
+
+			this.listenToOnce(app.session, 'change:active.secondary', function() {
+				// console.log("Reset pattern to", self.get('rem_pattern'));
+				self.set('edit.led_pattern', self.get('rem_pattern'));
+			});
+		}
+	},
 	_change_led_pattern: function() {
 		var self = this;
-		console.log("Change Pattern");
 
 		var new_pattern = this.get('edit.led_pattern');
-		if (this.get('data.led_pattern') != new_pattern) {
+		console.log("Change Pattern", new_pattern);
+
+		if (new_pattern != 'false' && this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
+
+			// update Colors
+			this._update_pattern_colors();
 
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
-			console.log("Update Pattern", pattern.get('data'));
+			console.log("Update Pattern", JSON.stringify(pattern.get('data')));
 			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-				// do nothing
+				// nothing
 			});
 		}
 	},
@@ -1408,7 +1339,7 @@ app.model.sisbot = {
 
 			console.log("Update Primary Color", this.get('data.led_primary_color'));
 
-			color_data.primary_color = edit_primary;
+			color_data.led_primary_color = edit_primary;
 
 			// update the led_pattern
 			if (led_pattern) led_pattern.set('data.led_primary_color', edit_primary);
@@ -1423,7 +1354,7 @@ app.model.sisbot = {
 
 			console.log("Update Secondary Color", this.get('data.led_secondary_color'));
 
-			color_data.secondary_color = edit_secondary;
+			color_data.led_secondary_color = edit_secondary;
 
 			// update the led_pattern
 			if (led_pattern) led_pattern.set('data.led_secondary_color', edit_secondary);
@@ -1438,6 +1369,18 @@ app.model.sisbot = {
 
 			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
 		}
+	},
+	led_offset_up: function () {
+		var level = +this.get('data.led_offset');
+		level += 1;
+		if (level > 180) level = 180;
+		this.led_offset(level);
+	},
+	led_offset_down: function () {
+		var level = +this.get('data.led_offset');
+		level -= 1;
+		if (level < -180) level = -180;
+		this.led_offset(level);
 	},
 	led_offset: function (level) {
 		var self = this;
@@ -1466,6 +1409,28 @@ app.model.sisbot = {
 		} else {
 			// console.log("New Offset", level);
 		}
+	},
+	python_install: function() {
+		var self = this;
+
+		if (this.get('data.installing_updates') == 'true') return this;
+
+		app.plugins.n.notification.confirm('If your RGBW lights are already working, you do not need this step. Continue?', function(resp_num) {
+			if (resp_num == 1) return self;
+
+			// install_python
+			console.log("Install Python!", resp_num);
+
+			self._update_sisbot('install_python', {}, function(obj) {
+				if (obj.err) {
+					self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
+			});
+
+			return this;
+		}, 'Install Python?', ['Cancel', 'OK']);
 	},
 	disconnect: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {
@@ -1657,7 +1622,7 @@ app.model.sisbot = {
 		app.plugins.n.notification.confirm("Changing these settings may cause your table to not function as expected.",
 			function(resp_num) {
 				console.log("Confirm resp", resp_num);
-				if (resp_num !== 2) {
+				if (resp_num == 1) {
 					return self;
 				} else {
 					self.save_to_sisbot(self.get('edit'), function(obj) {
@@ -1672,7 +1637,7 @@ app.model.sisbot = {
 						self.restart();
 					});
 				}
-			}, 'Confirm', ['Save','Cancel']);
+			}, 'Confirm', ['Cancel','Save']);
 	},
 	/******************** VERSIONING ******************************************/
 	check_for_version_update: function () {

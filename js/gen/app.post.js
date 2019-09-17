@@ -22,7 +22,7 @@ app.post = {
 			data	: JSON.stringify(data)
 		};
 
-		console.log("Retry count" + retry_count);
+		// console.log("Retry count" + retry_count);
 
 		if (app.current_user()) req_data.user = app.current_user().get('data');
 
@@ -61,6 +61,7 @@ app.post = {
 	},
 
 	fetch2: function (data, cb, retry_count) {
+	
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();
@@ -72,10 +73,8 @@ app.post = {
 			var req_data = {
 			data	: JSON.stringify(data)
 		};
-
-		if (app.current_user()) {
-		req_data.user = app.current_user().get('data');
-		}
+            //  console.log('FETCH2 reg_data' + "" + JSON.stringify(req_data));
+		// if (app.current_user()) req_data = app.current_user().get('data');
 		var auth_token = app.session.get('auth_token');
 		//  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
 				 var obj = {

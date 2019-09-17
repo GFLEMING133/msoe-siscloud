@@ -49,7 +49,7 @@ app.model.track = {
 				created_by_id		: 'false',
 				email				: 'false', //community
 				created_by_name		: 'false', //community
-				is_public			: 'false', //community 
+				is_public			: 'false', //community
 
 				original_file_type  : 'false', 	// thr|svg
 				has_verts_file		: 'false',
@@ -925,29 +925,12 @@ app.model.track = {
 			lastR: this.get('data.lastR'),
 			reversible: this.get('data.reversible')
 		};
-		debugger;
 		return return_obj;
 	},
 	playlist_cancel: function () {
 		this.set('is_adding', 'false');
 		return this;
 	},
-	// playlist_add: function () {
-	// 	debugger;
-	// 	this.get_not_playlists();
-	// 	this.set('is_adding', 'true');
-	// },
-	// playlist_add_finish: function (playlist_id) {
-	// 	var playlist = app.collection.get(playlist_id);
-	// 	playlist.add_nx('data.tracks', this.playlist_obj());
-	// 	playlist.add_nx('data.sorted_tracks', playlist.get('data.tracks').length-1); // add last index of tracks
-	// 	this.remove('playlist_not_ids', playlist_id);
-	// 	this.add('playlist_ids', playlist_id);
-
-	// 	playlist.save();
-
-	// 	this.playlist_cancel();
-	// },
 	goBackFromHero: function() {
 		var active = app.session.get('active');
 		console.log("I made it to Hero");
@@ -957,9 +940,6 @@ app.model.track = {
 		}else{
 			app.trigger('session:active', {  secondary: 'tracks' });
 		}
-
-
-
 	},
 	get_not_playlists: function() {
 		var sisbot			= app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');
@@ -1001,9 +981,9 @@ app.model.track = {
 				if (resp_num == 1){
 					return;
 				}
-				app.collection.get(playlist_id).add_track_and_save(trackID);	
-				
-			},'Outdated Firmware', ['OK']);	
+				app.collection.get(playlist_id).add_track_and_save(trackID);
+
+			},'Outdated Firmware', ['OK']);
 
 		var status = this.get('is_favorite');
 		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
@@ -1058,9 +1038,9 @@ app.model.track = {
 	},
   download_wc: function(track_id) {
 		var self = this;
-		console.log("track : download", track_id);
+		// console.log("track : download", track_id);
 		self.set('community_track_downloaded', 'true');
-
+	    
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
 		{
@@ -1071,7 +1051,7 @@ app.model.track = {
 			};
 
 		}
-		else if (self.get('data.original_file_type') == 'svg') 
+		else if (self.get('data.original_file_type') == 'svg')
 		{
 			var req_obj = {
 				_url	: app.config.get_webcenter_url(),
@@ -1081,57 +1061,41 @@ app.model.track = {
 		}
 		else {
 			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
-	
+
 		}
+	function cb(obj) {
+		if (obj.err) {
+			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
+		} else {
+			// console.log('track : download response = ', obj.resp);
 
-
-
-		function cb(obj) {
-			if (obj.err) {
-				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
-			} else {
-				console.log('track : download response = ', obj.resp);
-
-				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
-				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
-				else {
-					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
-					self.set('community_track_downloaded', 'false');
-					return;
-				}
-
-				self.set('data.verts', obj.resp);	
-				app.trigger('manager:download_track', self.id);
-				app.trigger('sisbot:track_add', self);
-				app.trigger('session:active', { secondary: 'community-tracks', primary: 'community' });
-				return app.plugins.n.notification.confirm("Track is now in your Library!", 
-				function(resp_num) {
-					if (resp_num == 1){
-						return;
-					}	
-					
-				},'Track Added!', ['OK']);	
+			if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
+			else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+			else {
+				app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
+				self.set('community_track_downloaded', 'false');
+				return;
 			}
+
+			self.set('data.verts', obj.resp);
+			app.trigger('manager:download_track', self.id);
+			app.trigger('sisbot:track_add', self);
+
+			let track_id = JSON.stringify(self.id); //pulling id 
+			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
+
+
+			app.trigger('modal:open', { 'track_id' : track_id });
+
+			app.trigger('session:active', { secondary: 'false', primary: 'community' });
+			
+		
 		}
+		
+	}
 
 		app.post.fetch2(req_obj, cb, 0);
 	},
 
-	publish_upload: function() {
-		var self = this;
-
-		app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
-			self.set('data.verts', verts);
-			self.set('data.is_published', 'true');
-			self.upload_track_to_cloud();
-		});
-		return this;
-	},
-	publish: function () {
-		this.set('data.is_published', 'true').save();
-	},
-	unpublish: function () {
-		this.set('data.is_published', 'false').save();
-	},
 	
 };
