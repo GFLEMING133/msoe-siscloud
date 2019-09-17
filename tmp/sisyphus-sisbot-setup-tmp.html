@@ -35,7 +35,7 @@
                     </div>
 
                     <h4 class="pt10 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
-                    <div class="flex pb20 vertical-align">
+                    <div class="pb20 flex vertical-align">
                         <div class="w24-2">
                             <i class="fas fa-sun" aria-hidden="true"></i>
                         </div>
@@ -50,9 +50,11 @@
                             <i class="fas fa-sun f-large" aria-hidden="true"></i>
                         </div>
                     </div>
-                    <div class="h__k" data-if="{{= model.default_settings.is_autodim }} == undefined">
+                    <div class="h__k" data-if="{{= model.default_settings.is_autodim }} == true">
                         <div class="pt20 pb20 vertical h__k"
-                            data-on-click="model.set_autodim_default">
+                            data-on-click="model.set_autodim_default"
+                            data-if="{{= model.default_settings.is_autodim }} !== undefined"
+                        >
                             <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
                             <span class="h__k black f-large bg-white fas fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
                             <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
