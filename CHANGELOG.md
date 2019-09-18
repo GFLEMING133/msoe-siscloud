@@ -1,3 +1,8 @@
+#2019-09-18 1.8.52-56
+  - Autodim removed if table does not support. 
+  - Community back open in 1.8.56
+  - Demo added to Lights drop down
+  - 1.8.55 is on production.
 
 #2019-09-12 1.8.50 & 51
  - Added Add to playlist to the Community when downloading tracks. 

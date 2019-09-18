@@ -1,5 +1,5 @@
 var config = {
-    version		: '1.8.53', // merged beta in and then merged into master after regression testing. Added a call to _update_pattern_colors() so edit{} was not empty on start
+    version		: '1.8.56', //Community back open.
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
