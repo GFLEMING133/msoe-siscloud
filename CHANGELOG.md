@@ -1,9 +1,14 @@
-
+#2019-09-19 1.8.54
+ - CSON selection in Advanced Table Settings
+ - Homing Offset in Advanced Table Settings
+ - Save Advanced Table Settings before installing Python from button
+ - CSON RGBW Offset
+ - Back button fix from Adding Custom Tracks 
 #2019-09-12 1.8.50 & 51
- - Added Add to playlist to the Community when downloading tracks. 
+ - Added Add to playlist to the Community when downloading tracks.
  - Moved sing_in /sign_up functionality to model.session
  - Added eye icons to show password instead of wording and checkbox.
- - Remember now stores email and password to session and auto log_in when coming back to Coommunity after closing app. 
+ - Remember now stores email and password to session and auto log_in when coming back to Coommunity after closing app.
  - Removed back arrow from Track Search and Night Mode
 #2019-09-12 1.8.49
  - Install Python added to Advanced Table Settings

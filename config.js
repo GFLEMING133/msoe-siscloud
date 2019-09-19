@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.53', // Fixed Color Picker not appearing
+  version				: '1.8.54', // Advanced Table Settings fixes
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
