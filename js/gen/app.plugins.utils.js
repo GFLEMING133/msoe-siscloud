@@ -416,3 +416,9 @@ app.plugins.is_ipaddress = function(ipaddress) {
 	}
 	return false;
 }
+
+app.plugins.toFixed = function(value, decimals) {
+	if (!value) return 0;
+	
+	return +value.toFixed(decimals);
+}

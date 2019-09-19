@@ -935,7 +935,7 @@ app.model.track = {
 		var active = app.session.get('active');
 		console.log("I made it to Hero");
 		console.log('goBack =', active.goBack);
-		if(active.goBack == 'playlist'){
+		if (active.goBack == 'playlist'){
 			app.trigger('session:active', {  secondary: 'playlist' });
 		}else{
 			app.trigger('session:active', {  secondary: 'tracks' });
@@ -1040,7 +1040,7 @@ app.model.track = {
 		var self = this;
 		// console.log("track : download", track_id);
 		self.set('community_track_downloaded', 'true');
-	    
+
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
 		{
@@ -1081,21 +1081,21 @@ app.model.track = {
 			app.trigger('manager:download_track', self.id);
 			app.trigger('sisbot:track_add', self);
 
-			let track_id = JSON.stringify(self.id); //pulling id 
+			let track_id = JSON.stringify(self.id); //pulling id
 			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
 
 			app.trigger('modal:open', { 'track_id' : track_id });
 
 			app.trigger('session:active', { secondary: 'false', primary: 'community' });
-			
-		
+
+
 		}
-		
+
 	}
 
 		app.post.fetch2(req_obj, cb, 0);
 	},
 
-	
+
 };
