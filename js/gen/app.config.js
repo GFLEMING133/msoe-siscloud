@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.54', // Advanced Table Settings fixes
+	version				: '1.8.55', // Save after White slider change, led offset change, disable Homing offset for servo, disable autobrightness in onboarding page
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app

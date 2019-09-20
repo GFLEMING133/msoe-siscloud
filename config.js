@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.54', // Advanced Table Settings fixes
+  version				: '1.8.55', // Save after White slider change, led offset change, disable Homing offset for servo, disable autobrightness in onboarding page
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {

@@ -45,7 +45,7 @@
             data-field="model.edit.table_settings.max_speed"
             value="{{= model.data.table_settings.max_speed }}" />
       </div>
-      <div class="p20 bb">
+      <div class="p20 bb h__k" data-if="{{= model.data.is_servo }} == false">
         <div class="w100 vertical clickable h__k"
             data-on-click="toggle"
             data-field="model.edit.table_settings.useJimmyHoming">

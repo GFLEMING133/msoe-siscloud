@@ -1397,7 +1397,9 @@ app.model.sisbot = {
 			// this.set('wait_for_send','true');
 			var remember_level = +level;
 			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
-				// do nothing
+				// save value
+				self.save_to_sisbot(self.get('edit'), null);
+
 				// var end = +new Date();
 				// console.log("Brightness Response (millis):", end-start);
 
@@ -1673,6 +1675,7 @@ app.model.sisbot = {
 
 		// init homingOffset for slider
 		if (this.get('edit.table_settings.homingOffset') == undefined) this.set('edit.table_settings.homingOffset', 0);
+		if (this.get('edit.is_servo') == 'true') this.set('edit.table_settings.homingOffset', 0);
 
 		if (this.get('csons') == 'false') { // only bother loading once
 			this._update_sisbot('get_csons', {}, function(cbb) {
