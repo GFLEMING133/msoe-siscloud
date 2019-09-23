@@ -60,8 +60,10 @@ app.model.sisbot = {
 			default_settings				: {},
 			default_settings_error			: 'false',
 
-			log_date						: moment().format('MM/DD/YYYY'),
-			log_type						: 'sisbot',		// sisbot|plotter|proxy
+			// log_date						: moment().format('MM/DD/YYYY'),
+			// log_type						: 'sisbot',		// sisbot|plotter|proxy
+			log_file						: 'false', // currently selected for download
+			log_files						: [],
 			uploading_track			: 'false',
 
 			wait_for_send				: 'false', // don't send request before hearing response
@@ -1022,12 +1024,28 @@ app.model.sisbot = {
 			}
 		});
 	},
+	load_log_files: function() {
+		console.log("Load Log Files");
+		var self = this;
+
+		// load log files from sisbot
+		this._update_sisbot('get_log_filenames', {}, function(obj) {
+			if (obj.err) return console.log("Error loading log files", obj.err);
+
+			if (obj.resp && _.isArray(obj.resp)) {
+				self.set('log_files', obj.resp);
+				if (obj.resp.indexOf('proxy.log') >= 0) self.set('log_file', 'proxy.log');
+				else if (obj.resp.length > 0) self.set('log_file', obj.resp[0]);
+			}
+		});
+	},
 	get_log_file: function() {
 		// { filename: 'YYYYMMDD_sisbot|plotter|proxy', }
 
-		var date 		= this.get('log_date').split('/');
-		var type 		= this.get('log_type');
-		var file 		= date[2] + date[0] + date[1] + '_' + type;
+		// var date 		= this.get('log_date').split('/');
+		// var type 		= this.get('log_type');
+		// var file 		= date[2] + date[0] + date[1] + '_' + type;
+		var file 			= this.get('log_file');
 		var file_url 	= 'http://' + this.get('data.local_ip') + '/sisbot/download_log_file/' + file;
 
 		app.plugins.file_download(file_url);
@@ -1276,9 +1294,6 @@ app.model.sisbot = {
 
 		if (new_pattern != 'false' && this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
-
-			// update Colors
-			this._update_pattern_colors();
 
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);

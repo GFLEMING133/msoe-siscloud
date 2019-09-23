@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.55', // Save after White slider change, led offset change, disable Homing offset for servo, disable autobrightness in onboarding page
+  version				: '1.8.56', // Log files page loads list from sisbot
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
