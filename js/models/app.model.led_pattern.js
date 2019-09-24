@@ -18,7 +18,7 @@ app.model.led_pattern = {
         name          			: '',
 
 				is_white						: 'false', // for white color balance
-				white_value					: 0.5, // 0.0-1.0
+				white_value					: 0.5, // Cool 0.0-1.0 Warm
 				is_primary_color		: 'false', // uses primary color
 				led_primary_color		: '#00000000', // #RRGGBBWW
 				is_secondary_color	: 'false', // uses secondary color
