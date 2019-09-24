@@ -1,4 +1,6 @@
 #2019-09-24 1.8.57
+ - Regerssion tested for push
+ - Alert "Track Added to Library" removed.
  - Save after White slider change
  - Save after led offset change
  - Disable Jimmy & Homing offset for servo
