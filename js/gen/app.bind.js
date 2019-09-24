@@ -459,18 +459,20 @@ var Binding = Backbone.View.extend({
 
         if (app.mouse_is_down)
             if (this.data.onMouseMove)        throttleMove(this);
-
     },
     onMouseUp: function (e) {
-        if (this.data.onMouseUp !== 'true')
-            this._call(this.data.onMouseUp, this.get_value(this.data.msg));
+      if (this.data.onMouseUp !== 'true')
+        this._call(this.data.onMouseUp, this.get_value(this.data.msg));
 
-        app.mouse_is_down = false;
+      app.mouse_is_down = false;
     },
     on_remove: function () {
-        if (this.data.datepicker && this.data.datepicker.remove) {
-            this.data.datepicker.remove();
-        }
+      if (this.data.datepicker && this.data.datepicker.remove) {
+        this.data.datepicker.remove();
+      }
+      if (this.data.iro && this._iro) {
+        delete this._iro;
+      }
     },
     /***************************** CLASSES ************************************/
     classToggle: function (e) {

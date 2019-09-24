@@ -1,10 +1,11 @@
-#2019-09-24 1.8.57
+#2019-09-24 1.8.58
  - Save after White slider change
  - Save after led offset change
  - Disable Jimmy & Homing offset for servo
  - Disable auto-brightness in onboarding page
  - Log files page loads list from sisbot
  - Paint pattern added
+ - Color picker bugfixes
 #2019-09-19 1.8.54
  - CSON selection in Advanced Table Settings
  - Homing Offset in Advanced Table Settings

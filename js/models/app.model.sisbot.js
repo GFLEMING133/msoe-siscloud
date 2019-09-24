@@ -1298,9 +1298,41 @@ app.model.sisbot = {
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
 			if (pattern) {
-				console.log("Update Pattern", JSON.stringify(pattern.get('data')));
+				console.log("Update LED Pattern", pattern.get('data'));
 				self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-					// nothing
+					if (obj.err) return console.error(err);
+
+					// fix possible incorrect return value
+					if (_.isObject(obj.resp.led_primary_color)) {
+						var colors = obj.resp.led_primary_color;
+						var red = colors.red.toString(16);
+						if (red.length < 2) red = '0'+red;
+						var green = colors.green.toString(16);
+						if (green.length < 2) green = '0'+green;
+						var blue = colors.blue.toString(16);
+						if (blue.length < 2) blue = '0'+blue;
+						var white = colors.white.toString(16);
+						if (white.length < 2) white = '0'+white;
+						obj.resp.led_primary_color = '0x'+red+green+blue+white;
+						console.log("Fix Primary", JSON.stringify(colors), obj.resp.led_primary_color);
+					}
+					if (_.isObject(obj.resp.led_secondary_color)) {
+						var colors = obj.resp.led_secondary_color;
+						var red = colors.red.toString(16);
+						if (red.length < 2) red = '0'+red;
+						var green = colors.green.toString(16);
+						if (green.length < 2) green = '0'+green;
+						var blue = colors.blue.toString(16);
+						if (blue.length < 2) blue = '0'+blue;
+						var white = colors.white.toString(16);
+						if (white.length < 2) white = '0'+white;
+						obj.resp.led_secondary_color = '0x'+red+green+blue+white;
+						console.log("Fix Secondary", JSON.stringify(colors), obj.resp.led_secondary_color);
+					}
+
+					// intake data
+					app.manager.intake_data(obj.resp);
+					console.log("Set LED Pattern return", obj);
 				});
 			}
 		}
@@ -1330,7 +1362,7 @@ app.model.sisbot = {
 		return do_save;
 	},
 	remember_colors: function(data) {
-		// console.log("Remember LED_Colors", data);
+		console.log("Remember LED_Colors", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 
 		this.set('rem_primary_color', this.get('data.led_primary_color'));
 		this.set('rem_secondary_color', this.get('data.led_secondary_color'));
