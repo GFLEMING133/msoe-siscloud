@@ -1297,10 +1297,12 @@ app.model.sisbot = {
 
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
-			console.log("Update Pattern", JSON.stringify(pattern.get('data')));
-			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-				// nothing
-			});
+			if (pattern) {
+				console.log("Update Pattern", JSON.stringify(pattern.get('data')));
+				self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
+					// nothing
+				});
+			}
 		}
 	},
 	_update_pattern_colors: function() {
