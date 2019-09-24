@@ -3,7 +3,8 @@ app.data = [
 		id: 'white',
 		type: 'led_pattern',
 		name: 'White',
-		is_white: 'true'
+		is_white: 'true',
+		white_value: 0.5
 	},
 	{
 		id: 'solid',
