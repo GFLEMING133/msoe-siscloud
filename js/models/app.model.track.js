@@ -1049,7 +1049,7 @@ app.model.track = {
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
-
+		
 		}
 		else if (self.get('data.original_file_type') == 'svg')
 		{
@@ -1058,11 +1058,13 @@ app.model.track = {
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
+		
 		}
 		else {
 			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
 
 		}
+
 	function cb(obj) {
 		if (obj.err) {
 			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
