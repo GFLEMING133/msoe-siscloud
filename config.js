@@ -1,5 +1,5 @@
 var config = {
-  version				: '1.8.56', // Log files page loads list from sisbot
+  version				: '1.8.57', // Add paint to default patterns, remove RGBW toggle (CSON does it now), remove Chosen library from network selection
     debug     : true,
     env       : process.env.NODE_ENV,
     matt_dev: {
