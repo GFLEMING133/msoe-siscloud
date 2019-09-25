@@ -69,8 +69,9 @@ app.model.sisbot = {
 			wait_for_send				: 'false', // don't send request before hearing response
 
 			rem_pattern					: 'false',
-			rem_primary_color			: '0xFFFFFFFF',
-			rem_secondary_color			: '0x00FFFFFF',
+			rem_primary_color		: '0xFFFFFFFF',
+			rem_secondary_color	: '0x00FFFFFF',
+			show_picker					: 'true',
 
 			edit		: {},
 			data		: {
@@ -1375,6 +1376,15 @@ app.model.sisbot = {
 
 		app.trigger('session:active', { 'secondary': 'false' });
 	},
+	toggle_picker: function(data) {
+		console.log("Toggle Picker", this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+
+		this.set('show_picker', 'false');
+
+		this.led_color(null);
+
+		this.set('show_picker', 'true');
+	},
 	led_color: function(data) {
 		// console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		var self = this;
@@ -1384,7 +1394,16 @@ app.model.sisbot = {
 
 		// check for primary change
 		var edit_primary = this.get('edit.led_primary_color');
-		if (edit_primary && edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
+
+		// fix possible errors
+		if (edit_primary) {
+			if (edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
+			if (!edit_primary.match(/^#[0-9a-f]{8}/i)) {
+				edit_primary = this.get('data.led_primary_color');
+				this.set('edit.led_primary_color', edit_primary);
+			}
+		}
+
 		// console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
 		if (this.get('data.led_primary_color') != edit_primary) {
 			this.set('data.led_primary_color', edit_primary);
@@ -1399,7 +1418,16 @@ app.model.sisbot = {
 
 		// check for secondary change
 		var edit_secondary = this.get('edit.led_secondary_color');
-		if (edit_secondary && edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
+
+		// fix possible errors
+		if (edit_secondary) {
+			if (edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
+			if (!edit_secondary.match(/^#[0-9a-f]{8}/i)) {
+				edit_secondary = this.get('data.led_secondary_color');
+				this.set('edit.led_secondary_color', edit_secondary);
+			}
+		}
+
 		// console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
 		if (this.get('data.led_secondary_color') != edit_secondary) {
 			this.set('data.led_secondary_color', edit_secondary);

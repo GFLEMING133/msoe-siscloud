@@ -1584,7 +1584,6 @@ select:focus {
 .pl250									{	padding-left			: 250px !important;						}
 .pr250									{	padding-right			: 250px !important;						}
 
-.pbox 									{	padding					: 30px 0px !important;					}
 /**************************** CSS CHECKBOXES **********************************/
 
 input.cmn-toggle-round + label {
