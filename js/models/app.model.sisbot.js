@@ -1398,7 +1398,7 @@ app.model.sisbot = {
 		// fix possible errors
 		if (edit_primary) {
 			if (edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
-			if (!edit_primary.match(/^#[0-9a-f]{8}/i)) {
+			if (!edit_primary.match(/^#[0-9a-f]{8}$/i)) {
 				edit_primary = this.get('data.led_primary_color');
 				this.set('edit.led_primary_color', edit_primary);
 			}
@@ -1422,7 +1422,7 @@ app.model.sisbot = {
 		// fix possible errors
 		if (edit_secondary) {
 			if (edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
-			if (!edit_secondary.match(/^#[0-9a-f]{8}/i)) {
+			if (!edit_secondary.match(/^#[0-9a-f]{8}$/i)) {
 				edit_secondary = this.get('data.led_secondary_color');
 				this.set('edit.led_secondary_color', edit_secondary);
 			}
