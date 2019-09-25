@@ -7,6 +7,8 @@
  - Log files page loads list from sisbot
  - Paint pattern added
  - Color picker bugfixes
+ - Color picker input field
+ - Primary/Secondary buttons incorporate white value
 #2019-09-19 1.8.54
  - CSON selection in Advanced Table Settings
  - Homing Offset in Advanced Table Settings
