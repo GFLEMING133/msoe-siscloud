@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.57', // Color Picker bugfixes, added hex input field, removed color picker padding for scroll issues on smaller phones
+	  version				: '1.8.58', // Color Picker Input field, Primary/Secondary Buttons incorporate white value
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
