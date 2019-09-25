@@ -150,6 +150,7 @@ input {
 .color_input {
 	background-color			: inherit !important;
 	border						: 2px solid #fff;
+	width						: 135px;
 
 }
 .color_input, textarea {
@@ -686,6 +687,9 @@ li:hover {
 }
 
 /**************************** Flex ********************************************/
+.iro__wheel {
+	margin-bottom: 25px;
+}
 .iro__slider{
     display: flex!important;
     border-left: 1px solid #2b2b2b;
