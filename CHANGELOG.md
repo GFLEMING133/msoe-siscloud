@@ -1,3 +1,6 @@
+#2019-09-25 1.8.58
+ - Color Picker Input field, 
+ - Primary/Secondary Buttons incorporate white value
 #2019-09-24 1.8.57
  - Alert "Track Added to Library" removed.
  - Save after White slider change
