@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.58', // Color Picker Input field, Primary/Secondary Buttons incorporate white value
+	  version				: '1.8.59', // Error handeling for duplicate username
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
