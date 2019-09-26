@@ -349,7 +349,7 @@ app.model.session = {
                 errors.push('Username cannot be blank');
 
             }
-            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_data.email)){
+            if (!app.plugins.valid_email(user_data.email)){
                 errors.push("The email you entered is invalid, please enter a valid email");
 
             }
