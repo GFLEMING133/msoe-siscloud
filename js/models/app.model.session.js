@@ -250,7 +250,7 @@ app.model.session = {
         function cb(obj) {
 			console.log('sign_up self._process_registration OBJ RESP',obj.resp, obj.err );
             if (obj.err){
-                self.set('signing_up', 'false').set('errors', ['- ' + obj.err]);
+                self.set('signing_up', 'false').set('errors', [ obj.err ]);
                 element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
                 return;
             }
@@ -301,9 +301,9 @@ app.model.session = {
         function cb(obj) {
             if (obj.err){
                 if(obj.err == 'Unauthorized') {
-                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['- ' + 'Email or Password is incorrect.']);
+                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['Email or Password is incorrect.']);
                 }else {
-                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['- ' + obj.err]);
+                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', [ obj.err ]);
                 }
             }
             self.set('errors', []);
@@ -358,7 +358,7 @@ app.model.session = {
 
             }
             if (user_data.password !== user_data.password_confirmation){
-                errors.push('Password Verification Does Not Match');
+                errors.push('Password verification does not match');
 
             }
         }
@@ -395,7 +395,7 @@ app.model.session = {
 
     forgot_password: function(user_data) {
         var errors = [];
-        if (!user_data || user_data == '') errors.push('- Email cannot be blank');
+        if (!user_data || user_data == '') errors.push('Email cannot be blank');
         var self = this;
 
         user_email = this.get('forgot_email'); //this is the object

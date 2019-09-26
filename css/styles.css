@@ -1254,7 +1254,13 @@ select:focus {
 .bg-linear {
 	background-image: radial-gradient(circle, #fff, #11b2fb, #000, #000 ) ;
 }
-
+.red_triangle::before {
+	font-family: 'Font Awesome\ 5 Free'!important;
+	content: "\f071" " " !important;
+	font-weight: 900;
+	color: #990033
+	
+}
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
 .c-info 								{	color		: #134550 !important;					}

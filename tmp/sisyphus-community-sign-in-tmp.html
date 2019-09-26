@@ -26,9 +26,9 @@
                 data-model="{{= session.id }}"
                 data-run="model.clear_errors"
             >
-                <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+                <div class="bg-ll-red p10 corner-5px sign_up_errors h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
                     <div class="h__k" data-foreach="model.errors">
-                        <div class="h__k red">{{= scope.value }}</div>
+                        <div class="h__k h__k warmRed strong red_triangle p5">{{= scope.value }}</div>
                     </div>
                 </div>
             <form class="pb100">
