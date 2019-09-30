@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.59', // Error handeling for duplicate username
+	  version				: '1.8.59', // Error handeling for username, adjusted stroke_width on track creation, added time for track creation
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

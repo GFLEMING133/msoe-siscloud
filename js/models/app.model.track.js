@@ -21,7 +21,7 @@ app.model.track = {
 				stroke				: '#797977', // #797977, #948252
 				stroke_width		: 3,
 				stroke_edge			: '#fdfaf3', // #fdfaf3, #f6ebcd
-				stroke_edge_width	: 7,
+				stroke_edge_width	: 6,
 				points				: [],
 				steps				: 0,
 				r_max_dist			: 0.1,
@@ -141,7 +141,7 @@ app.model.track = {
 			var post_data = {
 				_url	: 'http://' + address + '/',
 				_type	: 'POST',
-				_timeout: 60000,
+				_timeout: 90000,
 				endpoint: 'sisbot/thumbnail_preview_generate',
 				data	: data
 			};

@@ -339,14 +339,18 @@ app.model.session = {
           this.set('errors', []);
     },
     get_errors: function(user_data) {
-        var errors = [];
-
+		var errors = [];
+		
         if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
         if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
          //__________________SignUp Errors________________________ //
          if (this.get('signing_up') == 'true'){
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
+
+			} 
+			if (app.plugins.valid_email(user_data.username)){
+                errors.push('Username cannot be an email');
 
             }
             if (!app.plugins.valid_email(user_data.email)){
@@ -357,7 +361,7 @@ app.model.session = {
                 errors.push('Password must be 7 or more characters');
 
             }
-            if (user_data.password !== user_data.password_confirmation){
+            if (user_data.password != user_data.password_confirmation){
                 errors.push('Password verification does not match');
 
             }
