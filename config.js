@@ -1,11 +1,11 @@
 var config = {
-    version		: '1.8.56', //Community back open.
-    debug     : true,
-    env       : process.env.NODE_ENV,
+	  version				: '1.8.59', // Error handeling for username, adjusted stroke_width on track creation, added time for track creation
+    debug         : true,
+    env           : process.env.NODE_ENV,
     matt_dev: {
-      base_dir	: '/Users/mattfox12/Documents/Sodo/Ease/app',
-      port			: 3001,
-      base_url  : 'http://app.dev.withease.io:3000/'
+      base_dir	  : '/Users/mattfox12/Documents/Sodo/Ease/app',
+      port			  : 3001,
+      base_url    : 'http://app.dev.withease.io:3000/'
     }
 };
 

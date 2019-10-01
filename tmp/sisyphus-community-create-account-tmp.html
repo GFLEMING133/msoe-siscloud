@@ -28,9 +28,9 @@
                 >
                     <h3 class="center fs18 fl12 less_strong">Enter the info below to set up<br/> your Sisyphus account.</h3>
 
-                    <div class="bg-ll-red p20 sign_up_errors h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-                            <div class="h__k" data-foreach="model.errors">
-                                <div class="h__k red">{{= scope.value }}</div>
+                    <div class="bg-ll-red p10 sign_up_errors corner-5px h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
+                            <div class="h__k " data-foreach="model.errors">
+                                <div class="h__k warmRed strong red_triangle p5">{{= scope.value }}</div>
                             </div>
                     </div>
                     
@@ -71,7 +71,7 @@
                             data-on-click="model.sign_up" 
                         
                     >SIGN UP</h2>
-                    <h2 class="btn bg-green w100 m0 p20 corner-5px uppercase fs17 strong h__k"
+                    <h2 class="btn bg-green w100 m0 p10 corner-5px uppercase fs17 strong i h__k"
                             data-if="{{= model.signing_up }} == true"
                     >Processing <i class="fas fa-spinner spin" aria-hidden="true"></i></h2>
 

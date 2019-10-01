@@ -147,7 +147,16 @@ input {
 	border						: 2px solid #838383;
 	border-radius				: 5px;
 }
+.color_input {
+	background-color			: inherit !important;
+	border						: 2px solid #fff;
+	width						: 135px;
 
+}
+.color_input, textarea {
+    padding                     : 5px 0px;
+    line-height                 : 1.2em;
+}
 input:focus {
     outline						: none;
 }
@@ -670,8 +679,15 @@ li:hover {
 }
 
 /**************************** Flex ********************************************/
-#secondary, #primary{
-	background: #111;
+.iro__wheel {
+	margin-bottom: 25px;
+}
+.iro__slider{
+    display: flex!important;
+    border-left: 1px solid #2b2b2b;
+    border-radius: 15px;
+    height: 100%;
+    width: 305px !important;
 }
 .flex {
 	display					: -webkit-box;
@@ -978,6 +994,7 @@ li:hover {
 .inline-block							{	display					: inline-block;				}
 .left									{ 	text-align				: left;						}
 .center 								{	text-align				: center; 					}
+.webkit-center 							{	text-align				: -webkit-center; 			}
 .right									{ 	text-align				: right;					}
 .i 										{	font-style				: italic; 					}
 .strikethrough							{	text-decoration			: line-through;				}
@@ -1229,7 +1246,13 @@ select:focus {
 .bg-linear {
 	background-image: radial-gradient(circle, #fff, #11b2fb, #000, #000 ) ;
 }
-
+.red_triangle::before {
+	font-family: 'Font Awesome\ 5 Free'!important;
+	content: "\f071" " " !important;
+	font-weight: 900;
+	color: #990033
+	
+}
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
 .c-info 								{	color		: #134550 !important;					}
@@ -1563,7 +1586,6 @@ select:focus {
 .pl250									{	padding-left			: 250px !important;						}
 .pr250									{	padding-right			: 250px !important;						}
 
-.pbox 									{	padding					: 10px 30px !important;					}
 /**************************** CSS CHECKBOXES **********************************/
 
 input.cmn-toggle-round + label {

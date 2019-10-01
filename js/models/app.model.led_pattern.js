@@ -18,11 +18,11 @@ app.model.led_pattern = {
         name          			: '',
 
 				is_white						: 'false', // for white color balance
-				white_value					: 0, // 0.0-1.0
+				white_value					: 0.5, // Cool 0.0-1.0 Warm
 				is_primary_color		: 'false', // uses primary color
-				led_primary_color		: 'false', // #RRGGBBWW
+				led_primary_color		: '#00000000', // #RRGGBBWW
 				is_secondary_color	: 'false', // uses secondary color
-				led_secondary_color	: 'false', // #RRGGBBWW
+				led_secondary_color	: '#00000000', // #RRGGBBWW
 			}
 		};
 
@@ -43,13 +43,29 @@ app.model.led_pattern = {
 			var red = parseInt(color_data.substr(1, 2), 16);
 			var green = parseInt(color_data.substr(3, 2), 16);
 			var blue = parseInt(color_data.substr(5, 2), 16);
-			// var white = parseInt(color_data.substr(7, 2), 16);
 
+			var white = Math.round(parseInt(color_data.substr(7, 2), 16) * 0.95);// adjust to not be full white
+
+			// adjust r/g/b based on white
+			red += white;
+			if (red > 255) red = 255;
+			green += white;
+			if (green > 255) green = 255;
+			blue += white;
+			if (blue > 255) blue = 255;
+
+			// adjust text color if light
 			var average = (red + green + blue)/3;
 			if (average > 208) this.set('primary_text_color', 'black');
 			else this.set('primary_text_color', 'white');
 
-			this.set('display_primary_color', color_data.substr(0,7));
+			var red = red.toString(16);
+			if (red.length < 2) red = '0'+red;
+			var green = green.toString(16);
+			if (green.length < 2) green = '0'+green;
+			var blue = blue.toString(16);
+			if (blue.length < 2) blue = '0'+blue;
+			this.set('display_primary_color', '#'+red+green+blue);
 
 			console.log("Primary colors:", this.get('data.name'), red, green, blue, average, this.get('display_primary_color'));
 		}
@@ -61,13 +77,29 @@ app.model.led_pattern = {
 			var red = parseInt(color_data.substr(1, 2), 16);
 			var green = parseInt(color_data.substr(3, 2), 16);
 			var blue = parseInt(color_data.substr(5, 2), 16);
-			// var white = parseInt(color_data.substr(7, 2), 16);
 
+			var white = Math.round(parseInt(color_data.substr(7, 2), 16) * 0.95);// adjust to not be full white
+
+			// adjust r/g/b based on white
+			red += white;
+			if (red > 255) red = 255;
+			green += white;
+			if (green > 255) green = 255;
+			blue += white;
+			if (blue > 255) blue = 255;
+
+			// adjust text color if light
 			var average = (red + green + blue)/3;
 			if (average > 208) this.set('secondary_text_color', 'black');
 			else this.set('secondary_text_color', 'white');
 
-			this.set('display_secondary_color', color_data.substr(0,7));
+			var red = red.toString(16);
+			if (red.length < 2) red = '0'+red;
+			var green = green.toString(16);
+			if (green.length < 2) green = '0'+green;
+			var blue = blue.toString(16);
+			if (blue.length < 2) blue = '0'+blue;
+			this.set('display_secondary_color', '#'+red+green+blue);
 
 			console.log("Secondary colors:", this.get('data.name'), red, green, blue, average, this.get('display_secondary_color'));
 		}
