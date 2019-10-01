@@ -234,7 +234,6 @@ app.model.session = {
         else this.set('signing_up', 'true');
         var self = this;
         var user_data = this.get('registration');
-
         var element = $('.sign_up_errors')[0];
         var errors = this.get_errors(user_data);
         self.set('errors', errors);
@@ -244,8 +243,6 @@ app.model.session = {
              element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
              return;
         }
-
-
 
         function cb(obj) {
 			console.log('sign_up self._process_registration OBJ RESP',obj.resp, obj.err );
@@ -264,7 +261,6 @@ app.model.session = {
 			// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above.
 
         };
-
 
         var post_obj = {
             _url: app.config.get_webcenter_url(),
@@ -347,29 +343,23 @@ app.model.session = {
          if (this.get('signing_up') == 'true'){
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
-
 			} 
 			if (app.plugins.valid_email(user_data.username)){
                 errors.push('Username cannot be an email');
-
             }
             if (!app.plugins.valid_email(user_data.email)){
                 errors.push("The email you entered is invalid, please enter a valid email");
-
             }
             if (user_data.password.length < 6 || user_data.password_confirmation.length < 6){
                 errors.push('Password must be 7 or more characters');
-
             }
             if (user_data.password != user_data.password_confirmation){
                 errors.push('Password verification does not match');
-
             }
         }
         return errors;
     },
     _process_registration: function(user, data_arr) {
-
         var session_data = {
             email: user.email,
             password: user.password,
@@ -392,7 +382,7 @@ app.model.session = {
 
 
         // setup user info here
-        this.set('user_id', session_data.user_id);
+        if(session_data.user_id && session_data.user_id !== 'false')this.set('user_id', session_data.user_id);
 
     },
 
