@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.59', // Error handeling for username, adjusted stroke_width on track creation, added time for track creation
+	version				: '1.8.60', // if(session_data.user_id && session_data.user_id !== 'false')this.set('user_id', session_data.user_id);
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app

@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.59', // Error handeling for username, adjusted stroke_width on track creation, added time for track creation
+	version	      : '1.8.60', //if(session_data.user_id && session_data.user_id !== 'false')this.set('user_id', session_data.user_id);
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
