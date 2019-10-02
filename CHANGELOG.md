@@ -1,3 +1,9 @@
+#2019-10-2 1.8.60
+ - Added conditional for _processing_registration() to fix re-signup error.
+ - Spinner added when downloading tracks in Community.
+ - Error handeling for email and username in Community updated.
+ - Adjusted thumbnail generation timeout to 9000
+ - Changed stroke_width to 7 in gen_thumbnails.js and model.track
 #2019-09-25 1.8.58
  - Color Picker Input field, 
  - Primary/Secondary Buttons incorporate white value
