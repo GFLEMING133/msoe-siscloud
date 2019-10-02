@@ -12,6 +12,7 @@ app.model.track = {
 			sisbot_upload				: 'false',
 			community_track_downloaded	: 'false',
 			generating_thumbnails		: 'false',
+			downloading_community_track : 'false',
 
 			is_favorite					: 'false',
 
@@ -1037,9 +1038,11 @@ app.model.track = {
 		app.post.fetch(req_obj, cb, 0);
 	},
   download_wc: function(track_id) {
+
 		var self = this;
 		// console.log("track : download", track_id);
 		self.set('community_track_downloaded', 'true');
+		self.set('downloading_community_track', 'true');
 
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
@@ -1076,6 +1079,7 @@ app.model.track = {
 			else {
 				app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
 				self.set('community_track_downloaded', 'false');
+				self.set('downloading_community_track', 'false');
 				return;
 			}
 
@@ -1086,11 +1090,11 @@ app.model.track = {
 			let track_id = JSON.stringify(self.id); //pulling id
 			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
-
+			self.set('downloading_community_track', 'false');
 			app.trigger('modal:open', { 'track_id' : track_id });
 
 			app.trigger('session:active', { secondary: 'false', primary: 'community' });
-
+			
 
 		}
 

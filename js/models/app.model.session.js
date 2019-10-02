@@ -245,7 +245,7 @@ app.model.session = {
         }
 
         function cb(obj) {
-			console.log('sign_up self._process_registration OBJ RESP',obj.resp, obj.err );
+			console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
             if (obj.err){
                 self.set('signing_up', 'false').set('errors', [ obj.err ]);
                 element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
@@ -361,6 +361,7 @@ app.model.session = {
     },
     _process_registration: function(user, data_arr) {
         var session_data = {
+			username: user.username,
             email: user.email,
             password: user.password,
             password_confirmation: user.password_confirmation,
@@ -495,7 +496,7 @@ app.model.session = {
 			if (saveJSON.remember_me == 'false') delete saveJSON.registration;
 
 			window.localStorage.setItem('session', JSON.stringify(saveJSON));
-			console.log("Session JSON", this.toJSON());
+			console.log("Session JSON", JSON.stringify(this.toJSON()));
 
 			var curr_sisbots = this.get_sisbots();
 			var sess_sisbots = this.get('sisbot_hostnames');
