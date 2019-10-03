@@ -17,10 +17,13 @@
                     <div class="fs13  warmGrey pt10 h__k">by {{= model.data.created_by_name }}</div>
                     <div class="fs13  warmGrey pt5 h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
                 </div>
-                <div class="w20 pt10 pb10 h100 vertical right">
-                        <i class="grey pt20 pb20 pr20" aria-hidden="true">
-                            <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
-                        </i>
+            
+                <div class="w20 pt40 vertical center h__k"
+                    data-field="model.track_checked"    
+                    data-on-click="toggle" 
+                    >
+                        <span class="h__k black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
+                        <span class="h__k black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
                 </div>
         </div>
         <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">  

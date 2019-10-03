@@ -100,8 +100,8 @@ app.model.sisbot = {
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
 				is_network_separate : 'false',
-        wifi_network        : '',
-        wifi_password       : '',
+				wifi_network        : '',
+				wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget			: 'false',
 
@@ -252,7 +252,11 @@ app.model.sisbot = {
 		console.log("_update_sisbot()", endpoint, data);
 		if (!_timeout) _timeout = 5000;
 
-		if (app.config.env == 'alpha') return this;
+		if (app.config.env == 'alpha') { 
+			console.log('ALPHA is_internet_connected ==', this.get('data.is_internet_connected'));
+			this.set('data.is_internet_connected', 'true'); //setting to true for Apple to test Community
+			return this;
+		}
 
 		var self	= this;
 		var address	= this.get('data.local_ip');
@@ -421,7 +425,8 @@ app.model.sisbot = {
 
 		if (app.config.env == 'alpha') {
 			// FOR APPLE TESTING...
-			app.manager.set('is_sisbot_available', 'true')
+			app.manager.set('is_sisbot_available', 'true');
+			this.set('data.is_internet_conected', 'true');
 		}
 
 		if (this.get('is_master_branch') == 'false') console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));

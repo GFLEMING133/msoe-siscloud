@@ -44,6 +44,7 @@ app.model.sisyphus_manager = {
       community_page: 'tracks',
       community_playlist_ids: [],
       community_track_ids: [],
+      download_cloud: 'false',
 
 
       is_ble_enabled: 'false',

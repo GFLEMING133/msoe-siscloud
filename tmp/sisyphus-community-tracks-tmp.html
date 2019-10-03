@@ -43,6 +43,13 @@
                         <a class="sortBy-item" >ARTIST</a></li>
                 </ul>
         </div>
+        <div class="w20 w10 clickable vertical center h__k"
+            data-if="{{= model.download_cloud }} == true"
+            data-on-click="model.download_wc" 
+            data-msg="{{= model.data.track_id }}">
+            
+            <img src="img/download_white.png" alt="Download Cloud" class="white pt15">
+        </div>
     </div>
 </div>
 

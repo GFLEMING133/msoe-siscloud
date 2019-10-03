@@ -13,6 +13,8 @@ app.model.track = {
 			community_track_downloaded	: 'false',
 			generating_thumbnails		: 'false',
 			downloading_community_track : 'false',
+			download_cloud				: 'false',
+			track_checked				: 'false',
 
 			is_favorite					: 'false',
 
@@ -1037,8 +1039,15 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-  download_wc: function(track_id) {
-
+	check_track: function(track_id) {
+	console.log('in check_track()', track_id);
+	var self = this;
+	 self.set('track_checked', 'true');
+	 self.set('download_cloud', 'true');
+	},
+  	download_wc: function(track_id) {
+		var track_list = app.collection.get_cluster({type:'track', track_checked:'true'})
+		console.log('track_checked', track_list);
 		var self = this;
 		// console.log("track : download", track_id);
 		self.set('community_track_downloaded', 'true');
