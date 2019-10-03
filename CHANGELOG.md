@@ -1,4 +1,6 @@
-#2019-10-2 1.8.60
+#2019-10-2 1.8.60 & 61
+ - set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing. 
+ - Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/
  - Added conditional for _processing_registration() to fix re-signup error.
  - Spinner added when downloading tracks in Community.
  - Error handeling for email and username in Community updated.

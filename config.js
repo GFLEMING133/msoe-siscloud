@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.60', //if(session_data.user_id && session_data.user_id !== 'false')added to _processing_signup and added spinner for download community tracks
+	version	      : '1.8.61', //set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing. Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/, changing config #s
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
