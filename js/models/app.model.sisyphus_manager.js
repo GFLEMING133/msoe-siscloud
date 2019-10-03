@@ -569,6 +569,7 @@ app.model.sisyphus_manager = {
     console.log("_apple_counter()", this._apple_counts);
     if (this._apple_counts > 5) {
       app.config.env = 'alpha';
+      this.set('sisbot_registration', 'find');
     }
   },
   find_sisbots: function() {
