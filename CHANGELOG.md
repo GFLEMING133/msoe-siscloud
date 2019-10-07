@@ -1,13 +1,13 @@
 #2019-10-2 1.8.60 & 61
- - set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing. 
+ - set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing.
  - Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/
  - Added conditional for _processing_registration() to fix re-signup error.
  - Spinner added when downloading tracks in Community.
- - Error handeling for email and username in Community updated.
- - Adjusted thumbnail generation timeout to 9000
- - Changed stroke_width to 7 in gen_thumbnails.js and model.track
+ - Error handling for email and username in Community updated.
+ - Adjusted thumbnail generation timeout to 90000
+ - Changed stroke_width to 6 in gen_thumbnails.js and model.track
 #2019-09-25 1.8.58
- - Color Picker Input field, 
+ - Color Picker Input field,
  - Primary/Secondary Buttons incorporate white value
 #2019-09-24 1.8.57
  - Alert "Track Added to Library" removed.
