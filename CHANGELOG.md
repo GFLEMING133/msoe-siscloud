@@ -1,3 +1,31 @@
+#2019-10-2 1.8.60 & 61
+ - set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing.
+ - Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/
+ - Added conditional for _processing_registration() to fix re-signup error.
+ - Spinner added when downloading tracks in Community.
+ - Error handling for email and username in Community updated.
+ - Adjusted thumbnail generation timeout to 90000
+ - Changed stroke_width to 6 in gen_thumbnails.js and model.track
+#2019-09-25 1.8.58
+ - Color Picker Input field,
+ - Primary/Secondary Buttons incorporate white value
+#2019-09-24 1.8.57
+ - Alert "Track Added to Library" removed.
+ - Save after White slider change
+ - Save after led offset change
+ - Disable Jimmy & Homing offset for servo
+ - Disable auto-brightness in onboarding page
+ - Log files page loads list from sisbot
+ - Paint pattern added
+ - Color picker bugfixes
+ - Color picker input field
+ - Primary/Secondary buttons incorporate white value
+#2019-09-19 1.8.54
+ - CSON selection in Advanced Table Settings
+ - Homing Offset in Advanced Table Settings
+ - Save Advanced Table Settings before installing Python from button
+ - CSON RGBW Offset
+ - Back button fix from Adding Custom Tracks
 #2019-09-12 1.8.50 & 51
  - Added Add to playlist to the Community when downloading tracks.
  - Moved sing_in /sign_up functionality to model.session

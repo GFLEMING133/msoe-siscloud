@@ -12,6 +12,7 @@ app.model.track = {
 			sisbot_upload				: 'false',
 			community_track_downloaded	: 'false',
 			generating_thumbnails		: 'false',
+			downloading_community_track : 'false',
 
 			is_favorite					: 'false',
 
@@ -21,7 +22,7 @@ app.model.track = {
 				stroke				: '#797977', // #797977, #948252
 				stroke_width		: 3,
 				stroke_edge			: '#fdfaf3', // #fdfaf3, #f6ebcd
-				stroke_edge_width	: 7,
+				stroke_edge_width	: 6,
 				points				: [],
 				steps				: 0,
 				r_max_dist			: 0.1,
@@ -141,7 +142,7 @@ app.model.track = {
 			var post_data = {
 				_url	: 'http://' + address + '/',
 				_type	: 'POST',
-				_timeout: 60000,
+				_timeout: 90000,
 				endpoint: 'sisbot/thumbnail_preview_generate',
 				data	: data
 			};
@@ -935,7 +936,7 @@ app.model.track = {
 		var active = app.session.get('active');
 		console.log("I made it to Hero");
 		console.log('goBack =', active.goBack);
-		if(active.goBack == 'playlist'){
+		if (active.goBack == 'playlist'){
 			app.trigger('session:active', {  secondary: 'playlist' });
 		}else{
 			app.trigger('session:active', {  secondary: 'tracks' });
@@ -1037,10 +1038,12 @@ app.model.track = {
 		app.post.fetch(req_obj, cb, 0);
 	},
   download_wc: function(track_id) {
+
 		var self = this;
 		// console.log("track : download", track_id);
 		self.set('community_track_downloaded', 'true');
-	    
+		self.set('downloading_community_track', 'true');
+
 		var req_obj;
 		if (self.get('data.original_file_type') == 'thr')
 		{
@@ -1049,7 +1052,7 @@ app.model.track = {
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
-
+		
 		}
 		else if (self.get('data.original_file_type') == 'svg')
 		{
@@ -1058,11 +1061,13 @@ app.model.track = {
 				_type	: 'GET',
 				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
 			};
+		
 		}
 		else {
 			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
 
 		}
+
 	function cb(obj) {
 		if (obj.err) {
 			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
@@ -1074,6 +1079,7 @@ app.model.track = {
 			else {
 				app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
 				self.set('community_track_downloaded', 'false');
+				self.set('downloading_community_track', 'false');
 				return;
 			}
 
@@ -1081,21 +1087,21 @@ app.model.track = {
 			app.trigger('manager:download_track', self.id);
 			app.trigger('sisbot:track_add', self);
 
-			let track_id = JSON.stringify(self.id); //pulling id 
+			let track_id = JSON.stringify(self.id); //pulling id
 			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
-
+			self.set('downloading_community_track', 'false');
 			app.trigger('modal:open', { 'track_id' : track_id });
 
 			app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			
-		
+
 		}
-		
+
 	}
 
 		app.post.fetch2(req_obj, cb, 0);
 	},
 
-	
+
 };

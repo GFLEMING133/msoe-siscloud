@@ -1,20 +1,20 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.53', // Demo Pattern added to main list
+	version				: '1.8.61', // set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing. Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/, changing config #s
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
 			base_url	: 'http://app.dev.withease.io:3001/', // local
-			api_url		: 'https://api.sisyphus.withease.io/',
-			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url		: 'https://webcenter.sisyphus-industries.com/',
+			web_url		: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url  : 'http://api.dev.withease.io:3000/', //talking to sisbot
 			port		: 3001,
 		},
 		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3001/', //local url
-			api_url		: 'https://webcenter.sisyphus-industries.com/', // add entry in your computers /etc/hosts mapped to your bot's IP address
+			api_url		: 'http://localhost:3000/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url		: 'http://localhost:3000/', //web_center url	***Change to this for Rails web_center= http://localhost:3000/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.1.3:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.5:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
 		sisbot: {

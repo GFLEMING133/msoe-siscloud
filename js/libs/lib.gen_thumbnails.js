@@ -18,7 +18,7 @@ $(document).ready(function() {
         stroke              : '#797977', // #797977, #948252
         stroke_width        : 3,
         stroke_edge         : '#fdfaf3', // #fdfaf3, #f6ebcd
-        stroke_edge_width   : 7,
+        stroke_edge_width   : 6,
         points              :	[],
         steps               : 0,
         r_max_dist          : 0.1,

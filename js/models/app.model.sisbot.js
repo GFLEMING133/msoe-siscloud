@@ -39,6 +39,8 @@ app.model.sisbot = {
 				sisbot	: '-',
 			},
 
+			csons	: 'false', // available cson files
+
 			has_software_update				: 'false',
 			is_connected					: false,
 			is_socket_connected				: 'false',
@@ -58,15 +60,18 @@ app.model.sisbot = {
 			default_settings				: {},
 			default_settings_error			: 'false',
 
-			log_date						: moment().format('MM/DD/YYYY'),
-			log_type						: 'sisbot',		// sisbot|plotter|proxy
+			// log_date						: moment().format('MM/DD/YYYY'),
+			// log_type						: 'sisbot',		// sisbot|plotter|proxy
+			log_file						: 'false', // currently selected for download
+			log_files						: [],
 			uploading_track			: 'false',
 
 			wait_for_send				: 'false', // don't send request before hearing response
 
 			rem_pattern					: 'false',
-			rem_primary_color			: '0xFFFFFFFF',
-			rem_secondary_color			: '0x00FFFFFF',
+			rem_primary_color		: '0xFFFFFFFF',
+			rem_secondary_color	: '0x00FFFFFF',
+			show_picker					: 'true',
 
 			edit		: {},
 			data		: {
@@ -138,7 +143,7 @@ app.model.sisbot = {
 				table_settings: {}, // Advanced table settings, overrides CSON on reboot
 
 				led_enabled: 'false',
-				led_pattern_ids: ['white','solid','fade','spread','comet','rainbow','demo'],
+				led_pattern_ids: ['white','solid','fade','spread','comet','rainbow','paint','demo'],
 				led_pattern: 'white',
 				led_offset : 0,
 				led_primary_color: '0xFFFFFFFF', // Hex
@@ -247,7 +252,11 @@ app.model.sisbot = {
 		console.log("_update_sisbot()", endpoint, data);
 		if (!_timeout) _timeout = 5000;
 
-		if (app.config.env == 'alpha') return this;
+		if (app.config.env == 'alpha') { 
+			console.log('ALPHA is_internet_connected ==', this.get('data.is_internet_connected'));
+			this.set('data.is_internet_connected', 'true'); //setting to true for Apple to test Community
+			return this;
+		}
 
 		var self	= this;
 		var address	= this.get('data.local_ip');
@@ -1020,12 +1029,28 @@ app.model.sisbot = {
 			}
 		});
 	},
+	load_log_files: function() {
+		console.log("Load Log Files");
+		var self = this;
+
+		// load log files from sisbot
+		this._update_sisbot('get_log_filenames', {}, function(obj) {
+			if (obj.err) return console.log("Error loading log files", obj.err);
+
+			if (obj.resp && _.isArray(obj.resp)) {
+				self.set('log_files', obj.resp);
+				if (obj.resp.indexOf('proxy.log') >= 0) self.set('log_file', 'proxy.log');
+				else if (obj.resp.length > 0) self.set('log_file', obj.resp[0]);
+			}
+		});
+	},
 	get_log_file: function() {
 		// { filename: 'YYYYMMDD_sisbot|plotter|proxy', }
 
-		var date 		= this.get('log_date').split('/');
-		var type 		= this.get('log_type');
-		var file 		= date[2] + date[0] + date[1] + '_' + type;
+		// var date 		= this.get('log_date').split('/');
+		// var type 		= this.get('log_type');
+		// var file 		= date[2] + date[0] + date[1] + '_' + type;
+		var file 			= this.get('log_file');
 		var file_url 	= 'http://' + this.get('data.local_ip') + '/sisbot/download_log_file/' + file;
 
 		app.plugins.file_download(file_url);
@@ -1271,20 +1296,50 @@ app.model.sisbot = {
 		var self = this;
 
 		var new_pattern = this.get('edit.led_pattern');
-		console.log("Change Pattern", new_pattern);
 
 		if (new_pattern != 'false' && this.get('data.led_pattern') != new_pattern) {
 			this.set('data.led_pattern', new_pattern);
 
-			// update Colors
-			this._update_pattern_colors();
-
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
-			console.log("Update Pattern", JSON.stringify(pattern.get('data')));
-			self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-				// nothing
-			});
+			if (pattern) {
+				console.log("Update LED Pattern", pattern.get('data'));
+				self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
+					if (obj.err) return console.error(err);
+
+					// fix possible incorrect return value
+					if (_.isObject(obj.resp.led_primary_color)) {
+						var colors = obj.resp.led_primary_color;
+						var red = colors.red.toString(16);
+						if (red.length < 2) red = '0'+red;
+						var green = colors.green.toString(16);
+						if (green.length < 2) green = '0'+green;
+						var blue = colors.blue.toString(16);
+						if (blue.length < 2) blue = '0'+blue;
+						var white = colors.white.toString(16);
+						if (white.length < 2) white = '0'+white;
+						obj.resp.led_primary_color = '0x'+red+green+blue+white;
+						console.log("Fix Primary", JSON.stringify(colors), obj.resp.led_primary_color);
+					}
+					if (_.isObject(obj.resp.led_secondary_color)) {
+						var colors = obj.resp.led_secondary_color;
+						var red = colors.red.toString(16);
+						if (red.length < 2) red = '0'+red;
+						var green = colors.green.toString(16);
+						if (green.length < 2) green = '0'+green;
+						var blue = colors.blue.toString(16);
+						if (blue.length < 2) blue = '0'+blue;
+						var white = colors.white.toString(16);
+						if (white.length < 2) white = '0'+white;
+						obj.resp.led_secondary_color = '0x'+red+green+blue+white;
+						console.log("Fix Secondary", JSON.stringify(colors), obj.resp.led_secondary_color);
+					}
+
+					// intake data
+					app.manager.intake_data(obj.resp);
+					console.log("Set LED Pattern return", obj);
+				});
+			}
 		}
 	},
 	_update_pattern_colors: function() {
@@ -1292,14 +1347,14 @@ app.model.sisbot = {
 
 		// load last used color from this pattern
 		var pattern = app.collection.get(this.get('data.led_pattern'));
-		console.log("Update Pattern Colors", pattern.get('data'));
+		// console.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		if (pattern) {
 			if (pattern.get('data.is_white') == 'true') {
-				console.log("Update white from led_pattern", pattern.get('data'));
+				// console.log("Update white from led_pattern", pattern.get('data'));
 				this.set('edit.led_primary_color', pattern.get_white_color());
 				this.led_color();
 			} else if (pattern.get('data.is_primary_color') == 'true' || pattern.get('data.is_secondary_color') == 'true') {
-				console.log("Update colors from led_pattern", pattern.get('data'));
+				// console.log("Update colors from led_pattern", pattern.get('data'));
 				if (pattern.get('data.is_primary_color') == 'true' && pattern.get('data.led_primary_color') != 'false') this.set('edit.led_primary_color', pattern.get('data.led_primary_color'));
 				if (pattern.get('data.is_secondary_color') == 'true' && pattern.get('data.led_secondary_color') != 'false') this.set('edit.led_secondary_color', pattern.get('data.led_secondary_color'));
 				this.led_color();
@@ -1312,7 +1367,7 @@ app.model.sisbot = {
 		return do_save;
 	},
 	remember_colors: function(data) {
-		console.log("Remember LED_Colors", data);
+		console.log("Remember LED_Colors", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 
 		this.set('rem_primary_color', this.get('data.led_primary_color'));
 		this.set('rem_secondary_color', this.get('data.led_secondary_color'));
@@ -1325,8 +1380,17 @@ app.model.sisbot = {
 
 		app.trigger('session:active', { 'secondary': 'false' });
 	},
+	toggle_picker: function(data) {
+		console.log("Toggle Picker", this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+
+		this.set('show_picker', 'false');
+
+		this.led_color(null);
+
+		this.set('show_picker', 'true');
+	},
 	led_color: function(data) {
-		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		// console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		var self = this;
 		var color_data = {};
 
@@ -1334,8 +1398,17 @@ app.model.sisbot = {
 
 		// check for primary change
 		var edit_primary = this.get('edit.led_primary_color');
-		if (edit_primary && edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
-		console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
+
+		// fix possible errors
+		if (edit_primary) {
+			if (edit_primary.match(/^0x/)) edit_primary = edit_primary.replace(/^0x/, '#');
+			if (!edit_primary.match(/^#[0-9a-f]{8}$/i)) {
+				edit_primary = this.get('data.led_primary_color');
+				this.set('edit.led_primary_color', edit_primary);
+			}
+		}
+
+		// console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
 		if (this.get('data.led_primary_color') != edit_primary) {
 			this.set('data.led_primary_color', edit_primary);
 
@@ -1349,8 +1422,17 @@ app.model.sisbot = {
 
 		// check for secondary change
 		var edit_secondary = this.get('edit.led_secondary_color');
-		if (edit_secondary && edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
-		console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
+
+		// fix possible errors
+		if (edit_secondary) {
+			if (edit_secondary.match(/^0x/)) edit_secondary = edit_secondary.replace(/^0x/, '#');
+			if (!edit_secondary.match(/^#[0-9a-f]{8}$/i)) {
+				edit_secondary = this.get('data.led_secondary_color');
+				this.set('edit.led_secondary_color', edit_secondary);
+			}
+		}
+
+		// console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
 		if (this.get('data.led_secondary_color') != edit_secondary) {
 			this.set('data.led_secondary_color', edit_secondary);
 
@@ -1367,6 +1449,7 @@ app.model.sisbot = {
 			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 			var save_data = [this.get('data')];
 			if (led_pattern) save_data.push(led_pattern.get('data'));
+			console.log("Save data", save_data);
 			this.save_to_sisbot(save_data);
 
 			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
@@ -1395,7 +1478,9 @@ app.model.sisbot = {
 			// this.set('wait_for_send','true');
 			var remember_level = +level;
 			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
-				// do nothing
+				// save value
+				self.save_to_sisbot(self.get('edit'), null);
+
 				// var end = +new Date();
 				// console.log("Brightness Response (millis):", end-start);
 
@@ -1423,16 +1508,36 @@ app.model.sisbot = {
 			// install_python
 			console.log("Install Python!", resp_num);
 
-			self._update_sisbot('install_python', {}, function(obj) {
-				if (obj.err) {
-					self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
-				} else if (obj.resp) {
-					app.manager.intake_data(obj.resp);
-				}
+			self.save_to_sisbot(self.get('edit'), function(obj) {
+				if (obj.err) return console.log("Save error", obj.err);
+
+				self._update_sisbot('install_python', {}, function(obj) {
+					if (obj.err) {
+						self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
+					} else if (obj.resp) {
+						app.manager.intake_data(obj.resp);
+					}
+				});
 			});
 
 			return this;
 		}, 'Install Python?', ['Cancel', 'OK']);
+	},
+	homing_offset: function(level) {
+		console.log("Homing Offset: ", level);
+		this.set('edit.table_settings.homingOffset',+level);
+	},
+	homing_offset_up: function () {
+		var level = +this.get('edit.table_settings.homingOffset');
+		level += 0.01;
+		if (level > 0.12) level = 0.12;
+		this.set('edit.table_settings.homingOffset',level);
+	},
+	homing_offset_down: function () {
+		var level = +this.get('edit.table_settings.homingOffset');
+		level -= 0.01;
+		if (level < -0.12) level = -0.12;
+		this.set('edit.table_settings.homingOffset',level);
 	},
 	disconnect: function () {
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect from the Sisyphus?', function(resp_num) {
@@ -1642,6 +1747,25 @@ app.model.sisbot = {
 			}, 'Confirm', ['Cancel','Save']);
 	},
 	/******************** VERSIONING ******************************************/
+	check_for_csons: function() {
+		var self = this;
+
+		// update table_settings value
+		this.set('edit.table_settings.cson', this.get('data.cson'));
+		this.set('data.table_settings.cson', this.get('data.cson'));
+
+		// init homingOffset for slider
+		if (this.get('edit.table_settings.homingOffset') == undefined) this.set('edit.table_settings.homingOffset', 0);
+		if (this.get('edit.is_servo') == 'true') this.set('edit.table_settings.homingOffset', 0);
+
+		if (this.get('csons') == 'false') { // only bother loading once
+			this._update_sisbot('get_csons', {}, function(cbb) {
+				console.log("CSONs", cbb.err, cbb.resp);
+
+				self.set('csons', cbb.resp);
+			});
+		}
+	},
 	check_for_version_update: function () {
 		var self	= this;
 		var cbs		= 2;

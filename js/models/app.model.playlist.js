@@ -242,13 +242,6 @@ app.model.playlist = {
 		sorted_tracks.push(index);
 		});
 		this.set("data.sorted_tracks", sorted_tracks);
-		app.plugins.n.notification.confirm("Track is now in your Library!",
-		function(resp_num) {
-			if (resp_num == 1){
-				return;
-			}
-
-		},'Track Added!', ['OK']);
 
 		this.save();
 	},

@@ -459,18 +459,20 @@ var Binding = Backbone.View.extend({
 
         if (app.mouse_is_down)
             if (this.data.onMouseMove)        throttleMove(this);
-
     },
     onMouseUp: function (e) {
-        if (this.data.onMouseUp !== 'true')
-            this._call(this.data.onMouseUp, this.get_value(this.data.msg));
+      if (this.data.onMouseUp !== 'true')
+        this._call(this.data.onMouseUp, this.get_value(this.data.msg));
 
-        app.mouse_is_down = false;
+      app.mouse_is_down = false;
     },
     on_remove: function () {
-        if (this.data.datepicker && this.data.datepicker.remove) {
-            this.data.datepicker.remove();
-        }
+      if (this.data.datepicker && this.data.datepicker.remove) {
+        this.data.datepicker.remove();
+      }
+      if (this.data.iro && this._iro) {
+        delete this._iro;
+      }
     },
     /***************************** CLASSES ************************************/
     classToggle: function (e) {
@@ -1452,13 +1454,13 @@ var Binding = Backbone.View.extend({
             color: self.get_value(self.data.value),
             transparency: true
         });
-        function onColorChange(color, changes) {
+        function onInputChange(color, changes) {
           // print the color's new hex value to the developer console
-          console.log("Color Change:", color.hex8String);
+          console.log("Color Change via Input:", color.hex8String);
           self.ctx.set(self.data.field,  color.hex8String);
           if (self.data.onUpdate)     self._call(self.data.onUpdate);
         }
-        if (self.data.onUpdate) self._iro.on('input:end', onColorChange);
+        if (self.data.onUpdate) self._iro.on('input:end', onInputChange);
       }
       // }, 50);
       // });
