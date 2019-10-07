@@ -42,7 +42,7 @@ var app = {
 		Backbone.history.start();
 		this.setup_fastclick();
 
-    	if (app.config.env == 'alpha')			app.current_session().set('debug_mode', 'true');
+    if (app.config.env == 'alpha')			app.current_session().set('debug_mode', 'true');
 	},
 	setup_fastclick: function () {
 		FastClick.attach(document.body);

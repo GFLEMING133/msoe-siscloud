@@ -73,6 +73,12 @@ app.model.sisbot = {
 			rem_secondary_color	: '0x00FFFFFF',
 			show_picker					: 'true',
 
+			// TESTING: Siri integration
+			siri		: { // have these endpoints been added?
+				'play': false,
+				'pause': false
+			},
+
 			edit		: {},
 			data		: {
 				id					: data.id,
@@ -1333,6 +1339,27 @@ app.model.sisbot = {
 
 					// intake data
 					app.manager.intake_data(obj.resp);
+
+					// TESTING: Siri shortcut
+					// if (app.is_app && app.platform == 'iOS') {
+					// 	if (!self.get('siri.sisyphus_pattern_'+new_pattern)) {
+					// 		cordova.plugins.SiriShortcuts.donate({
+					// 			persistentIdentifier: 'sisyphus_pattern_'+new_pattern,
+					// 			title: new_pattern+' Light Pattern',
+					// 			suggestedInvocationPhrase: 'Sisyphus '+new_pattern+' Light Pattern',
+					// 			userInfo: {
+					// 				model: self.id,
+					// 				action: 'set',
+					// 				msg: {'edit.led_pattern':new_pattern}
+					// 			}
+					// 		}, function(data) {
+					// 			console.log("Successful Presented Siri Shortcut", data);
+					// 			self.set('siri.sisyphus_pattern_'+new_pattern, true);
+					// 		}, function(err) {
+					// 			console.log("Siri Presented Shortcut Error", err);
+					// 		});
+					// 	}
+					// }
 					console.log("Set LED Pattern return", obj);
 				});
 			}
@@ -1657,8 +1684,27 @@ app.model.sisbot = {
 		this.set('data.state', 'playing');
 
 		this._update_sisbot('play', {}, function (obj) {
-
 			if (obj.resp) app.manager.intake_data(obj.resp);
+
+			// TESTING: Siri shortcut
+			// if (app.is_app && app.platform == 'iOS') {
+			// 	if (!self.get('siri.play')) {
+			// 		cordova.plugins.SiriShortcuts.donate({
+			// 			persistentIdentifier: 'sisyphus_play',
+			// 			title: 'Play Sisyphus',
+			// 			suggestedInvocationPhrase: 'Play Sisyphus',
+			// 			userInfo: {
+			// 				model: self.id,
+			// 				action: 'play'
+			// 			}
+			// 		}, function(data) {
+			// 			console.log("Successful Presented Siri Shortcut", data);
+			// 			self.set('siri.play', true);
+			// 		}, function(err) {
+			// 			console.log("Siri Presented Shortcut Error", err);
+			// 		});
+			// 	}
+			// }
 		});
 	},
 	pause: function () {
@@ -1666,6 +1712,26 @@ app.model.sisbot = {
 		this.set('data.state', 'paused');
 		this._update_sisbot('pause', {}, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
+
+			// TESTING: Siri shortcut
+			// if (app.is_app && app.platform == 'iOS') {
+			// 	if (!self.get('siri.pause')) {
+			// 		cordova.plugins.SiriShortcuts.donate({
+			// 			persistentIdentifier: 'sisyphus_pause',
+			// 			title: 'Pause Sisyphus',
+			// 			suggestedInvocationPhrase: 'Pause Sisyphus',
+			// 			userInfo: {
+			// 				model: self.id,
+			// 				action: 'pause'
+			// 			}
+			// 		}, function(data) {
+			// 			console.log("Successful Presented Siri Shortcut", data);
+			// 			self.set('siri.pause', true);
+			// 		}, function(err) {
+			// 			console.log("Siri Presented Shortcut Error", err);
+			// 		});
+			// 	}
+			// }
 		});
 	},
 	home: function () {
