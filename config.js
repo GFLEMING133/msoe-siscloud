@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.60', //if(session_data.user_id && session_data.user_id !== 'false')added to _processing_signup and added spinner for download community tracks
+	version	      : '1.8.62', // multiple download added to communtiy, added community model.
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
