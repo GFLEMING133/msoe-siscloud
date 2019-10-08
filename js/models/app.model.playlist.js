@@ -185,8 +185,9 @@ app.model.playlist = {
 		this.set("data.sorted_tracks", sorted_tracks);
 
 		this.save();
+        
+		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
 
-		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {
@@ -208,6 +209,7 @@ app.model.playlist = {
 			lastR	: track.get('data.lastR')
 		};
 		this.add('active_tracks', track_obj);
+
 		this.trigger('change:active_tracks');
 	},
 	remove_track: function (track_index) {
@@ -226,7 +228,9 @@ app.model.playlist = {
 		// this.trigger('change:' + field);
 	},
 	add_track_and_save: function(track_id) {
+		console.log(track_id);
 		var track = app.collection.get(track_id);
+		console.log(track);
 		var track_obj = {
 			id		: track_id,
 			vel		: track.get('data.default_vel'),
@@ -262,46 +266,5 @@ app.model.playlist = {
 			.set("data.sorted_tracks", sorted_tracks)
 			.save();
 	},
-	/**************************** COMMUNITY ***********************************/
-	// check_publish: function () {
-	// 	if (this.get('data.is_published') == 'true')	this.publish()
-	// 	else 											this.unpublish();
-	// },
-	// publish: function () {
-	// 	this._save();
-	// 	this._publish_tracks();
-	// },
-	// unpublish: function () {
-	// 	this._save();
-	// },
-	// _save: function () {
-	// 	var playlist_data = this.get('data');
 
-	// 	playlist_data._url		= app.config.get_webcenter_url();
-	// 	playlist_data._type		= 'POST';
-	// 	playlist_data.endpoint	= 'set';
-
-	// 	app.post.fetch(playlist_data, function cb(obj) {
-	// 		if (obj.err) app.plugins.n.notification.alert('Error saving playlist to cloud');
-	// 	}, 0);
-	// },
-	// _publish_tracks: function () {
-	// 	_.each(this.get('data.tracks'), function(track_obj) {
-	// 		app.collection.get(track_obj.id).publish_upload();
-	// 	});
-	// },
-	// download: function () {
-	// 	var self				= this;
-	// 	var curr_track_ids		= app.manager.get_model('sisbot_id').get('data.track_ids');
-	// 	var track_ids			= _.pluck(this.get('data.tracks'), 'id');
-	// 	var tracks_to_download	= _.difference(track_ids, curr_track_ids);
-
-	// 	app.trigger('sisbot:playlist_add', this);
-	// 	app.trigger('manager:download_playlist', this.id);
-
-	// 	_.each(tracks_to_download, function (track_id) {
-	// 		var track_model = app.collection.add({ id: track_id, type: 'track' });
-	// 		track_model.fetch_then_download();
-	// 	});
-	// }
 };

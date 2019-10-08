@@ -18,11 +18,11 @@ app.model.led_pattern = {
         name          			: '',
 
 				is_white						: 'false', // for white color balance
-				white_value					: 0, // 0.0-1.0
+				white_value					: 0.5, // Cool 0.0-1.0 Warm
 				is_primary_color		: 'false', // uses primary color
-				led_primary_color		: 'false', // #RRGGBBWW
+				led_primary_color		: '#00000000', // #RRGGBBWW
 				is_secondary_color	: 'false', // uses secondary color
-				led_secondary_color	: 'false', // #RRGGBBWW
+				led_secondary_color	: '#00000000', // #RRGGBBWW
 			}
 		};
 
@@ -36,11 +36,6 @@ app.model.led_pattern = {
 		this.on('change:data.led_primary_color', 				this.update_primary_color);
 		this.on('change:data.led_secondary_color', 			this.update_secondary_color);
 	},
-	setup_colors: function() {
-		console.log(this.get('data.name'), 'Setup colors');
-		var sisbot = app.manager.get_model('sisbot_id');
-		if (sisbot) sisbot._update_pattern_colors();
-	},
 	update_primary_color: function() {
 		var color_data = this.get('data.led_primary_color');
 		if (color_data != 'false') {
@@ -48,13 +43,29 @@ app.model.led_pattern = {
 			var red = parseInt(color_data.substr(1, 2), 16);
 			var green = parseInt(color_data.substr(3, 2), 16);
 			var blue = parseInt(color_data.substr(5, 2), 16);
-			// var white = parseInt(color_data.substr(7, 2), 16);
 
+			var white = Math.round(parseInt(color_data.substr(7, 2), 16) * 0.95);// adjust to not be full white
+
+			// adjust r/g/b based on white
+			red += white;
+			if (red > 255) red = 255;
+			green += white;
+			if (green > 255) green = 255;
+			blue += white;
+			if (blue > 255) blue = 255;
+
+			// adjust text color if light
 			var average = (red + green + blue)/3;
 			if (average > 208) this.set('primary_text_color', 'black');
 			else this.set('primary_text_color', 'white');
 
-			this.set('display_primary_color', color_data.substr(0,7));
+			var red = red.toString(16);
+			if (red.length < 2) red = '0'+red;
+			var green = green.toString(16);
+			if (green.length < 2) green = '0'+green;
+			var blue = blue.toString(16);
+			if (blue.length < 2) blue = '0'+blue;
+			this.set('display_primary_color', '#'+red+green+blue);
 
 			console.log("Primary colors:", this.get('data.name'), red, green, blue, average, this.get('display_primary_color'));
 		}
@@ -66,13 +77,29 @@ app.model.led_pattern = {
 			var red = parseInt(color_data.substr(1, 2), 16);
 			var green = parseInt(color_data.substr(3, 2), 16);
 			var blue = parseInt(color_data.substr(5, 2), 16);
-			// var white = parseInt(color_data.substr(7, 2), 16);
 
+			var white = Math.round(parseInt(color_data.substr(7, 2), 16) * 0.95);// adjust to not be full white
+
+			// adjust r/g/b based on white
+			red += white;
+			if (red > 255) red = 255;
+			green += white;
+			if (green > 255) green = 255;
+			blue += white;
+			if (blue > 255) blue = 255;
+
+			// adjust text color if light
 			var average = (red + green + blue)/3;
 			if (average > 208) this.set('secondary_text_color', 'black');
 			else this.set('secondary_text_color', 'white');
 
-			this.set('display_secondary_color', color_data.substr(0,7));
+			var red = red.toString(16);
+			if (red.length < 2) red = '0'+red;
+			var green = green.toString(16);
+			if (green.length < 2) green = '0'+green;
+			var blue = blue.toString(16);
+			if (blue.length < 2) blue = '0'+blue;
+			this.set('display_secondary_color', '#'+red+green+blue);
 
 			console.log("Secondary colors:", this.get('data.name'), red, green, blue, average, this.get('display_secondary_color'));
 		}
@@ -101,8 +128,7 @@ app.model.led_pattern = {
 
 			returnValue = '#'+red.toString(16)+green.toString(16)+blue.toString(16)+'FF';
 		} else if (value > 0.5) {
-			// orange: max 255, 147, 41
-			// new: 255, 98, 0, 89 : FF620059
+			// orange: 255, 98, 0, 89 : FF620059
 			var scale = 1.0-(value-0.5)*2;
 
 			var red = 255; // doesn't change
@@ -128,7 +154,7 @@ app.model.led_pattern = {
 	set_white: function (level) {
 		var self = this;
 
-		// console.log("White:", level, this.get('data.white_value'));
+		console.log("White:", level, this.get('data.white_value'));
 		this.set('data.white_value', +level).set('edit.white_value', +level);
 		var white_color = this.get_white_color();
 		// console.log("White:", white_color);

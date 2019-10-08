@@ -3,7 +3,8 @@ app.data = [
 		id: 'white',
 		type: 'led_pattern',
 		name: 'White',
-		is_white: 'true'
+		is_white: 'true',
+		white_value: 0.5
 	},
 	{
 		id: 'solid',
@@ -48,6 +49,14 @@ app.data = [
 		id: 'rainbow',
 		type: 'led_pattern',
 		name: 'Rainbow',
+		is_white: 'false',
+		is_primary_color: 'false',
+		is_secondary_color: 'false'
+	},
+	{
+		id: 'paint',
+		type: 'led_pattern',
+		name: 'Paint',
 		is_white: 'false',
 		is_primary_color: 'false',
 		is_secondary_color: 'false'

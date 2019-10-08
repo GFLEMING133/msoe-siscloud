@@ -1,59 +1,39 @@
 <div class="h100">
   <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-    <div class="w30 left pl20 clickable active"
-        data-model="{{= model.sisbot_id }}"
-        data-on-click="model.save_log_sharing"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="w30 left pl20 clickable active h__k" data-model="{{= model.sisbot_id }}" data-on-click="model.save_log_sharing"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w40">
-      <h1 class="no-stuffing fs18 lh24 capitalize truncate">Log Files</h1>
+      <h1 class="h__k no-stuffing fs18 lh24 capitalize truncate">Log Files</h1>
     </div>
     <div class="w30">&nbsp;</div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar">
-    <div class="p20 bg-white black" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
+    <div class="h__k p20 bg-white black h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
       <p class="p0 m0 fs18 center">
         Automatically share your log files to help us improve the firmware of your Sisyphus Table.
       </p>
-      <div class="pt20 pb20 w100 vertical"
-          data-on-click="toggle"
-          data-field="model.edit.share_log_files"
-          data-if="{{= model.edit.share_log_files }} !== undefined">
-        <input class="hidden"
-            type="checkbox"
-            data-field="model.edit.save_log_sharing"
-            data-checked="{{= model.edit.share_log_files }}" />
-        <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.edit.share_log_files }} == true"></span>
-        <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.share_log_files }} !== true"></span>
+
+      <div class="pt20 pb20 w100 vertical h__k" data-on-click="toggle" data-field="model.edit.share_log_files" data-if="{{= model.edit.share_log_files }} !== undefined">
+        <input class="hidden h__k" type="checkbox" data-field="model.edit.save_log_sharing" data-checked="{{= model.edit.share_log_files }}" />
+        <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.edit.share_log_files }} == true"></span>
+        <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.edit.share_log_files }} !== true"></span>
         <p class="no-stuffing pl10 w100 fs18">Share Log Files</p>
       </div>
-      <div data-if="{{= app.is_app }} == false">
-        <div class="pb20">
-          <!-- TODO: change to lib-datePickr -->
-          <input class="fs18 w100"
-              type="text"
-              placeholder="{{= model.log_date }}"
-              autocomplete="off"
-              autocorrect="off"
-              autocapitalize="off"
-              spellcheck="false"
-              data-field="model.log_date"
-              data-date="{{= model.log_date }}"
-              data-date-format="mm/dd/yyyy"
-            value="{{= model.log_date }}" />
-        </div>
-        <div class="select-box block mb50 relative">
-          <div class="absolute z20">
-            <select class="w100 corner-5px fs18 lh18 p10" data-field="model.log_type">
-              <option class="pt5 pb5" value="sisbot">Sisbot</option>
-              <option class="pt5 pb5" value="plotter">Plotter</option>
-              <option class="pt5 pb5" value="proxy">Proxy</option>
+
+      <div class="h__k" data-if="{{= app.is_app }} == false">
+        <div class="h__k" data-run="model.load_log_files"></div>
+
+        <div class="h__k" data-if="{{= _.size(model.log_files) }} > 0">
+          <h3 class="no-stuffing pb10 fs18 lh18 strong">Log Files</h3>
+          <div class="pb10">
+            <select class="w100 corner-5px h__k fs18 lh20 p10 pt7 pb7" data-field="model.log_file" data-selected="{{= model.log_file }}" data-foreach="model.log_files" data-foreach-add="foreach_reset" data-foreach-change="foreach_reset">
+              <option class="h__k" value="{{= scope.value }}">{{= scope.value }}</option>
             </select>
           </div>
-          <div class="absolute z10">
-            <p class="no-stuffing fas fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt15 relative z10" style="padding-bottom: 12px !important;" aria-hidden="true"></p>
-          </div>
+
+          <h2 class="btn bg-blue w100 mt20 corner-5px uppercase fs18 strong p15 mb20 h__k" data-on-click="model.get_log_file">Download Log File</h2>
         </div>
-        <h2 class="btn bg-blue w100 mt20 corner-5px uppercase fs18 strong p15 mb20" data-on-click="model.get_log_file">Download Log File</h2>
       </div>
+
       <div class="hh150">&nbsp;</div>
     </div>
   </div>

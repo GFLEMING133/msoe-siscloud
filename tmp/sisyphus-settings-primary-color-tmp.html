@@ -11,18 +11,26 @@
     <div class="w15">&nbsp;</div>
   </div>
   <div class="body-header pb150 h100 scroll hide-scrollbar bg-black">
-    <div class="m0 flex-center-column">
-      <!-- <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Primary Color</h3> -->
-      <div class="mt20 mb50 pbox corner-20px"
-          id="primary"
-          data-iro="#primary"
-          data-field="model.edit.led_primary_color"
-          data-value="{{= model.edit.led_primary_color }}"
-          data-on-update="model.led_color"></div>
-      <!-- <div class="bb-10p w100 mt10"></div> -->
-      <div class="flex-center-row w100 pb50">
-        <div class="p10 flex ">
-          <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong"
+    <div class="flex-center-column">
+      <div class="white strong fs19 h__k">
+        <input class="white color_input center h__k"
+            data-field="model.edit.led_primary_color"
+            placeholder="{{= model.edit.led_primary_color }}"
+            value="{{= model.edit.led_primary_color }}"
+            data-on-update="model.toggle_picker" />
+      </div>
+      <div class="h__k"
+          data-if="{{= model.show_picker }} == true">
+        <div class="h__k w100 mb10 pt20 webkit-center"
+            id="primary"
+            data-iro="#primary"
+            data-field="model.edit.led_primary_color"
+            data-value="{{= model.edit.led_primary_color }}"
+            data-on-update="model.led_color"></div>
+      </div>
+      <div class="flex-center-row w100 pt25 pb50">
+        <div class="p10 flex">
+          <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong h__k"
               data-on-click="model.cancel_color">
             Cancel
           </div>
