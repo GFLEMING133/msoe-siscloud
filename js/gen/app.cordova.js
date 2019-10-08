@@ -51,12 +51,20 @@ function setup_cordova() {
 	});
 }
 
+function on_active() {
+	console.log("App Active", app.platform);
+	check_siri();
+}
+
 function on_resume() {
 	console.log("App Resumed", app.platform);
+	check_siri();
+}
 
+function check_siri() {
+	console.log("Check for Siri Shortcut");
 	// TESTING: Siri shortcuts
 	if (app.is_app && app.platform == 'iOS') {
-		console.log("Check for Siri Shortcut");
 		// cordova.plugins.SiriShortcuts.getActivatedShortcut({clear:false}, function(data) {
 		// 	console.log("Get Siri Shortcut", JSON.stringify(data));
 		// 	if (data && data.userInfo) {
@@ -78,3 +86,4 @@ function on_resume() {
 
 document.addEventListener("deviceready", setup_cordova, false);
 document.addEventListener("resume", on_resume, false);
+document.addEventListener("active", on_active, false);
