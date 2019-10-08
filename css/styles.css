@@ -564,7 +564,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .sortBy-drop-actions {
 	position: relative;
-	margin-left: 5px;
+	margin-left: 15px;
 	display: inline-block;
 	width: 210px;
 	height: 35px;
@@ -574,7 +574,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .sortBy-SORT-style {
 	font-size: 13.5px;
-	padding-left: 8px;
+	padding-left: 25px;
 	font-weight: 600;
 	margin-top: 9px;
 	color: #fff;
@@ -621,7 +621,7 @@ li:hover {
 		z-index: 1;
 		cursor: pointer;
 		padding-left: 10px;
-		left: 80px;
+		left: 91px;
 		display: flex;
 		top: 50px;
 		position: absolute;
@@ -638,11 +638,12 @@ li:hover {
  font-weight: 600;
 }
 .dl_cloud {
-	    position: absolute;
-    height: 25px;
-    width: 30px;
-    right: 25px;
-    top: 18px;
+	position: absolute;
+	height: 35px;
+	width: 40px;
+	right: 18px;
+	top: 12px;
+	padding: 5px;
 }
 
 .hover, .hover > * 								{	color				: #efefef;	}

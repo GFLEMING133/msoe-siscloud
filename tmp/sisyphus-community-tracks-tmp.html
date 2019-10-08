@@ -9,7 +9,7 @@
                 <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
         </div>
         <div class="absolutely bg-black w100">
-            <div class="h__k pl15 pb15 bg-black absolutely w100">
+            <div class="h__k pl15 pr15 pb15 bg-black absolutely w100">
                 <div class="community-sortBy-header"><span class="sortBy-text">Sort By</span></div>
                 <div class="sortBy-drop-actions h__k" data-on-click="model.openSort">
                     <div class="sortBy-SORT-style uppercase h__k">
@@ -41,6 +41,12 @@
                             data-on-click="model.sort_function"
                             data-on-click="model.sort_function"
                             data-on-click="publish"  
+                            data-msg="most popular">
+                            <a class="sortBy-item">MOST POPULAR</a></li>
+                        <li class="clickable h__k" 
+                            data-on-click="model.sort_function"
+                            data-on-click="model.sort_function"
+                            data-on-click="publish"  
                             data-msg="name">
                             <a class="sortBy-item">NAME</a></li>
                         <li class="clickable h__k" 
@@ -56,7 +62,8 @@
 
     <div class="h__k body-header h100 scroll hide-scrollbar pb200 " data-run="model.fetch_community_tracks">
         <div class="h__k pt150" data-if="{{= model.fetching_community_tracks }} == true">
-            <div class="p20 center blue-l i h__k">Fetching tracks...</div>
+            <div class="p20 center f15 blue-l i h__k">Fetching tracks...</div>
+            <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
         </div>
         <div class="h__k pt65 pb100" data-if="{{= model.fetching_community_tracks }} == false">
             <div class="h__k"
