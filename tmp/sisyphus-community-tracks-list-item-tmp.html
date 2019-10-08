@@ -1,21 +1,24 @@
 <div class="h__k h100" data-run="model.collapse">
     <div class="h__k" data-if="{{= model.downloading_community_track }} == false">
-        <div class="flex clickable active pb10 bb h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
-            data-on-click="publish"
-            data-publish="session:toggle"
-            data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
+        <div class="flex clickable active pb10 bb h__k {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
         >
-                <div class="w20 pt10 pb10 pl20 center vertical">
+                <div class="w20 pt10 pb10 pl20 center vertical h__k "
+                data-on-click="publish"
+                data-publish="session:toggle"
+                data-msg="{'key':'expanded','val':'{{= model.id }}'}">
                     <div class="w80p hh80 pt10">
                         <img src="" class="w100 center img-rounded h__k" alt="{{= model.data.name }}"
                             data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
                         />
                     </div>
                 </div>
-                <div class="w60 pt25  pl20">
+                <div class="w60 pt25  pl20 h__k"
+                data-on-click="publish"
+                data-publish="session:toggle"
+                data-msg="{'key':'expanded','val':'{{= model.id }}'}">
                     <div class="fs18 black strong lh20 h__k">{{= model.data.name }}</div>
-                    <div class="fs13  warmGrey pt10 h__k">by {{= model.data.created_by_name }}</div>
-                    <div class="fs13  warmGrey pt5 h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
+                    <div class="fs13 warmGrey pt10 h__k">by {{= model.data.created_by_name }}</div>
+                    <div class="fs13 warmGrey pt5 h__k {{= (model.data.is_public == false) ? 'private_italic' : '' }}" >{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
                 </div>
             
                 <div class="w20 pt40 vertical center h__k"
@@ -26,7 +29,7 @@
                         <span class="h__k black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
                 </div>
         </div>
-        <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">  
+        <div class="bg-grey-l flex h__k" data-if="{{= session.toggle.expanded }} == {{= model.id }}">  
             <div class="w20 w10 clickable vertical center h__k"
                 data-if="{{= model.community_track_downloaded }} == false"
                 data-on-click="model.download_wc" 

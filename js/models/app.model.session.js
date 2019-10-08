@@ -125,6 +125,10 @@ app.model.session = {
 		this.set('active.primary', 'current')
 			.set('active.secondary', 'false');
 		this.set('sisyphus_manager_id', m.id);
+
+		var c = app.collection.add({ type: 'community' });
+		this.set('community_id', c.id);
+
 	},
 	siscloud_mode: function () {
 		var m = app.collection.add({ type: 'siscloud_manager' });
@@ -496,7 +500,7 @@ app.model.session = {
 			if (saveJSON.remember_me == 'false') delete saveJSON.registration;
 
 			window.localStorage.setItem('session', JSON.stringify(saveJSON));
-			console.log("Session JSON", JSON.stringify(this.toJSON()));
+			// console.log("Session JSON", JSON.stringify(this.toJSON()));
 
 			var curr_sisbots = this.get_sisbots();
 			var sess_sisbots = this.get('sisbot_hostnames');

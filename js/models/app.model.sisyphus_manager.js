@@ -7,7 +7,7 @@ app.model.sisyphus_manager = {
 
       user_id: 'false',
 
-      track_sort: 'newest designs',
+     
       sisbot_id: 'false',
       is_sisbot_available: 'false',
       sisbot_registration: 'find', // find|none|hotspot|multiple
@@ -44,7 +44,6 @@ app.model.sisyphus_manager = {
       community_page: 'tracks',
       community_playlist_ids: [],
       community_track_ids: [],
-      download_cloud: 'false',
 
 
       is_ble_enabled: 'false',
@@ -75,8 +74,6 @@ app.model.sisyphus_manager = {
 
     app.plugins.n.initialize();
 
-    this.listenTo(app, 'manager:download_playlist', this.download_playlist);
-    this.listenTo(app, 'manager:download_track', this.download_track);
     this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
     this.listenTo(app, 'sisbot:wifi_connected', this.should_show_setup_page);
     this.listenTo(app, 'navigate:back', this.navigate_home);
@@ -910,7 +907,6 @@ app.model.sisyphus_manager = {
   },
   /**************************** PLAYLISTS ***********************************/
   playlist_create: function(msg) {
-    // msg.track_id
     var playlist = app.collection.add({
       type: 'playlist',
       'name': ''
@@ -922,8 +918,14 @@ app.model.sisyphus_manager = {
     });
     playlist.setup_edit();
 
-    if (msg && msg.track_id) {
-      playlist.add_track(msg.track_id);
+    if (msg) {
+      if(msg.track_id) {
+        playlist.add_track(msg.track_id);
+      } else if(msg.track_ids) {
+        _.each(msg.track_ids, function(track_id){
+          playlist.add_track(track_id);
+        });
+      }
     }
   },
 
@@ -1079,108 +1081,6 @@ app.model.sisyphus_manager = {
       });
     }
   },
-
-
-  /**************************** COMMUNITY ***********************************/
-
-
-  fetch_community_tracks: function() {
-    if (this.get('fetched_community_tracks') == 'true')
-      return this;
-
-    var self = this;
-    this.set('fetching_community_tracks', 'true');
-
-    var tracks = {
-      _url: app.config.get_webcenter_url(),
-      _type: 'GET',
-      endpoint: 'tracks.json',
-      data: {}
-    };
-
-    function cb(obj) {
-      setTimeout(function() {
-        self.set('fetching_community_tracks', 'false');
-      }, 1000);
-      if (obj.err) return self;
-      app.collection.add(obj.resp);
-
-      var resp_track_ids = _.pluck(obj.resp, 'id');
-      var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
-      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
-
-      self.set('community_track_ids', new_track_ids);
-      self.set('fetched_community_tracks', 'true');
-      // console.log('new_track_ids', obj.resp);
-    }
-
-    app.post.fetch2(tracks, cb, 0);
-
-    return this;
-  },
-  sort_function: function(sort_params) {
-    var self = this;
-
-    this.set('track_sort', sort_params)
-    var tracks = {
-      _url: app.config.get_webcenter_url(),
-      _type: 'GET',
-      endpoint: 'tracks.json?sort=' + sort_params,
-      data: {}
-    };
-    //  console.log('sortorder',sort_params); console.log('tracks',tracks)
-
-
-    function cb(obj) {
-      setTimeout(function() {
-        self.set('fetching_community_tracks', 'false');
-      }, 1000);
-
-      if (obj.err) return self;
-
-      app.collection.add(obj.resp);
-
-      var resp_track_ids = _.pluck(obj.resp, 'id');
-      var sisbot_track_ids = self.get_model('sisbot_id').get('data.track_ids');
-      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
-
-      self.openSort();
-      self.set('community_track_ids', new_track_ids);
-      self.set('fetched_community_tracks', 'true');
-      // console.log('new_track_ids', obj.resp);
-
-    }
-
-    this.fetch_community_tracks();
-    app.post.fetch2(tracks, cb, 0);
-
-    return this;
-  },
-  //Actions drop down menu
-  openSort: function() {
-    var drop = document.getElementsByClassName("sortBy-container-contents");
-    var dAction = document.getElementsByClassName("sortBy-drop-actions");
-    if (!drop[0].style.visibility || drop[0].style.visibility === 'hidden') {
-      drop[0].style.visibility = 'visible';
-      drop[0].style.opacity = '1';
-
-    } else {
-      drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
-      drop[0].style.visibility = 'hidden';
-      drop[0].style.opacity = '0';
-    }
-  },
-
-  download_playlist: function(playlist_id) {
-    this.remove('community_playlist_ids', playlist_id);
-  },
-  download_track: function(track_id) {
-
-    // console.log("download_track" + track_id);
-    this.remove('community_track_ids', track_id);
-  },
-
-
 
   /**************************** DEMO ****************************************/
   setup_as_sisbot: function() {

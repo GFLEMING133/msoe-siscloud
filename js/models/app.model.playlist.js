@@ -185,8 +185,9 @@ app.model.playlist = {
 		this.set("data.sorted_tracks", sorted_tracks);
 
 		this.save();
+        
+		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
 
-		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {
@@ -208,6 +209,7 @@ app.model.playlist = {
 			lastR	: track.get('data.lastR')
 		};
 		this.add('active_tracks', track_obj);
+
 		this.trigger('change:active_tracks');
 	},
 	remove_track: function (track_index) {

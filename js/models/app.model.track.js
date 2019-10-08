@@ -72,6 +72,10 @@ app.model.track = {
 		return obj;
 	},
 	current_version: 1,
+
+	on_init: function() { 
+		this.on('change:track_checked', this.get_track_checked);
+	},
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });
 	},
@@ -83,6 +87,11 @@ app.model.track = {
 		this.unset('edit.file_data');
 
 		return this;
+	},
+	get_track_checked: function () {
+		if(this.get('track_checked') == 'true') {
+			app.trigger('community:select_track', this);
+		}else app.trigger('community:deselect_track', this);
 	},
 	/**************************** D3 RENDERING ***********************************/
 	load_d3_data: function() {
@@ -1004,7 +1013,7 @@ app.model.track = {
 		var req_obj = {
 			_url	: app.config.get_webcenter_url(),
 			_type	: 'POST',
-			endpoint: 'get',
+			endpoint: 'tracks/get_track_header.json',
 			id		: this.id
 		};
 
@@ -1039,45 +1048,23 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-	check_track: function(track_id) {
-	console.log('in check_track()', track_id);
-	var self = this;
-	 self.set('track_checked', 'true');
-	 self.set('download_cloud', 'true');
-	},
-  	download_wc: function(track_id) {
-		var track_list = app.collection.get_cluster({type:'track', track_checked:'true'})
-		console.log('track_checked', track_list);
+	download_wc: function( skip_playlist_add) {
+        var track_id = this.get('data.track_id')
 		var self = this;
-		// console.log("track : download", track_id);
+
 		self.set('community_track_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
+		self.set('download_cloud',  'true');
 
-		var req_obj;
-		if (self.get('data.original_file_type') == 'thr')
-		{
-			var req_obj = {
-				_url	: app.config.get_webcenter_url(),
-				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
-			};
-		
-		}
-		else if (self.get('data.original_file_type') == 'svg')
-		{
-			var req_obj = {
-				_url	: app.config.get_webcenter_url(),
-				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
-			};
-		
-		}
-		else {
-			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
-
-		}
+		var req_obj = {
+			_url	: app.config.get_webcenter_url(),
+			_type	: 'GET',
+			endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
+			_timeout: 90000
+		};
 
 	function cb(obj) {
+
 		if (obj.err) {
 			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 		} else {
@@ -1091,25 +1078,25 @@ app.model.track = {
 				self.set('downloading_community_track', 'false');
 				return;
 			}
-
 			self.set('data.verts', obj.resp);
-			app.trigger('manager:download_track', self.id);
+			app.trigger('community:downloaded_track', self.id);
 			app.trigger('sisbot:track_add', self);
 
 			let track_id = JSON.stringify(self.id); //pulling id
 			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
 			self.set('downloading_community_track', 'false');
-			app.trigger('modal:open', { 'track_id' : track_id });
+			
+			if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : track_id });
 
 			app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			
 
 		}
-
+       
 	}
 
-		app.post.fetch2(req_obj, cb, 0);
+	app.post.fetch2(req_obj, cb, 0);
 	},
 
 
