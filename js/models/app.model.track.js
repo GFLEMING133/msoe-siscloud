@@ -73,7 +73,7 @@ app.model.track = {
 	},
 	current_version: 1,
 
-	on_init: function() { 
+	on_init: function() {
 		this.on('change:track_checked', this.get_track_checked);
 	},
 	after_export: function () {
@@ -194,8 +194,11 @@ app.model.track = {
 	delete: function () {
 		app.manager.get_model('sisbot_id').track_remove(this);
 	},
-	on_file_upload: function (file) {
-		this.upload_verts_to_cloud(file.data);
+	on_file_upload: function (data, file, field) {
+		console.log("On File Upload:", data, file, field);
+    if ( /\.(svg|thr)$/i.test(file.name)) { // regex for allowed filetypes
+			this.upload_verts_to_cloud(data);
+		}
 		return this;
 	},
 	upload_track_to_cloud: function () {
@@ -1086,14 +1089,14 @@ app.model.track = {
 			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
 			self.set('downloading_community_track', 'false');
-			
+
 			if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : track_id });
 
 			app.trigger('session:active', { secondary: 'false', primary: 'community' });
-			
+
 
 		}
-       
+
 	}
 
 	app.post.fetch2(req_obj, cb, 0);

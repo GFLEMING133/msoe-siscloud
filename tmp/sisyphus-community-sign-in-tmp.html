@@ -18,7 +18,7 @@
         you can successfully create an account. Click here to connect</div>
     </div>
     <div class="pb150" data-if="{{= model.data.is_internet_connected }} == true">
-      <div class="bg-white pt20 black" data-model="{{= app.manager.id }}" data-run="model.clear_errors">
+      <div class="bg-white pt20 black" data-model="{{= session.id }}" data-run="model.clear_errors">
         <div class="bg-ll-red p20" data-if="{{= app.plugins.length(model.errors) }} > 0">
           <div data-foreach="model.errors">
             <div class="red">{{= scope.value }}</div>

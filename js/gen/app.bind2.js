@@ -106,6 +106,7 @@ var Binding = Backbone.View.extend({
     data-checked :: is checkbox checked (true|false)
     data-placeholder :: input placeholder text
     data-replace :: for img elements, if the src fails to load, show this template instead. Use with data-on-error="replace".
+    data-debug :: console.log info about the element during runtime
   data-on:
     data-on-click :: triggers event on element click, calling function (i.e. set, back, forward)
     data-on-key-enter :: triggers event on Enter key being pressed, while this element is active
@@ -117,6 +118,7 @@ var Binding = Backbone.View.extend({
     lib-dragula :: drag/drop
     lib-chart :: pie/bar chart
     lib-flatpickr :: date/time picker
+    lib-sortable :: drag/drop ordering
 */
 function Element(el, parent, _scope) {
   this._scope = null;
@@ -832,9 +834,11 @@ function Element(el, parent, _scope) {
         // add listeners
         _.each(changes, function(change) {
           var trigger_str = listen_model.id+'|'+change;
-          // console.log("Listen to", self.$el, val, trigger_str);
+          if (self.data.debug) console.log("Listen to", self.$el, self.el_id, val, trigger_str);
           self.triggers[trigger_str] = function () {
             var is_change = false;
+
+            if (self.data.debug) console.log("Listener triggered", self.el_id, trigger_str);
 
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
@@ -869,6 +873,7 @@ function Element(el, parent, _scope) {
             // check if text, mark changed
             if (self.el_text) is_change = true;
 
+            if (self.data.debug) console.log("Listener is change:", self.el_id, is_change, trigger_str);
             if (is_change) {
               self.is_changed = true;
 
@@ -1194,6 +1199,11 @@ function Element(el, parent, _scope) {
 
       // change the attributes
       _.each(this.el, function(value, key) {
+        // update value via jquery
+        if (self.el_type == 'INPUT' && key == 'value') {
+          $el.val(self.get_value(value));
+        }
+
         if (key.indexOf('data-') == 0) {
           if (self.show_data) $el.attr(key, value);
         } else if (key.indexOf('lib-') == 0) {
@@ -1209,8 +1219,9 @@ function Element(el, parent, _scope) {
           else classes += value;
 
           if (classes != '')  $el.attr(key, classes.trim());
-        } else if (self.is_h__k) $el.attr(key, self.get_value(value));
-        else $el.attr(key, value);
+        } else if (self.is_h__k) {
+          $el.attr(key, self.get_value(value));
+        } else $el.attr(key, value);
       });
 
       var children = this.render_children();
@@ -1479,7 +1490,27 @@ function Element(el, parent, _scope) {
 
     // console.log("Toggle", model, field, val);
     model.set(field, val).trigger('change:' + field);
-  },
+  };
+  this.file_reader = function (e) {
+    var self    = this;
+    console.log("File Reader:", e.target.files.length);
+    _.each(e.target.files, function(file) {
+      // var file    = e.target.files[0];
+      var reader  = new FileReader();
+
+      if (!file) return app.trigger('notifications:notify', 'Failed to load the file');
+
+      reader.onload = function (file_read) {
+        var file_data = file_read.target.result;
+        if (self.model && self.model.on_file_upload) self.model.on_file_upload(file_data, file, self.data.field);
+      }
+
+      if (self.data.fileReader == 'dataurl')  reader.readAsDataURL(file);
+      else                                    reader.readAsText(file);
+    });
+
+    return this;
+  };
   /************************** ADDITIONAL LIBRARIES ****************************/
   this.dragula = function () {
     if (this.libraries.dragula) return console.log("Dragula already loaded");

@@ -934,17 +934,17 @@ app.model.sisyphus_manager = {
     var sisbot = this.get_model('sisbot_id');
     sisbot.set('uploading_track', 'false'); // for UI spinner
   },
-  on_file_upload: function(track_file) {
-    console.log("On File Upload", track_file.name);
+  on_file_upload: function(data, file, field) {
+    console.log("On File Upload", data, file, field);
 
-    var file_name = track_file.name.substr(0, track_file.name.lastIndexOf('.'));
+    var file_name = file.name.substr(0, file.name.lastIndexOf('.'));
     var regex = /.(svg|thr)$/;
-    var file_type = track_file.name.match(regex)[1];
+    var file_type = file.name.match(regex)[1];
     var track_obj = {
       type: 'track',
       name: file_name,
       original_file_type: file_type,
-      file_data: track_file.data
+      file_data: data
     };
 
     this.add('tracks_to_upload', track_obj);

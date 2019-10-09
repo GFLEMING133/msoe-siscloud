@@ -268,10 +268,10 @@ app.model.sisbot = {
 		// 192.168.42.1 | iOS | state
 
 		var obj = {
-			// _url	: 'http://' + address + '/',
+			_url	: 'http://' + address + '/',
 			_type	: 'POST',
 			_timeout: _timeout,
-			endpoint: endpoint, // 'sisbot/' + endpoint,
+			endpoint: 'sisbot/' + endpoint,
 			data	: data
 		};
 		app.post.fetch(obj, function(resp) {
@@ -1168,7 +1168,7 @@ app.model.sisbot = {
 	brightness: function (level) {
 		var self = this;
 
-		// console.log("Brightness:", level, this.get('data.brightness'));
+		console.log("Brightness:", level, this.get('data.brightness'));
 		this.set('data.brightness', +level).set('edit.brightness', +level);
 
 		if (this.get('wait_for_send') == 'false') {

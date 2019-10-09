@@ -16,7 +16,7 @@
     <form>
       <div class="mt40 mb100 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
         <div class="bg-white black" data-model="{{= session.id }}" data-run="model.clear_errors">
-          <h3 class="center fs18 fl12 less_strong">Enter the info below to set up<br /> your Sisyphus account.</h3>
+          <h3 class="center fs18 fl12 less_strong">Enter the info below to set up your Sisyphus account.</h3>
 
           <div class="bg-ll-red p10 sign_up_errors corner-5px" data-if="{{= app.plugins.length(model.errors) }} > 0">
             <div  data-foreach="model.errors">
