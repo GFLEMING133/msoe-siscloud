@@ -27,7 +27,7 @@
 #2019-09-19 1.8.54
  - CSON selection in Advanced Table Settings
  - Homing Offset in Advanced Table Settings
- - Save Advanced Table Settings before installing Python from button
+ - Save Advanced Table Settings beforcd ..e installing Python from button
  - CSON RGBW Offset
  - Back button fix from Adding Custom Tracks
 #2019-09-12 1.8.50 & 51
