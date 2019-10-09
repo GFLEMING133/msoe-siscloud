@@ -7,15 +7,10 @@ app.model.session = {
 			mode			: 'app',
 			auth_token		: '',
 			active: {
-				new_type			: 'false',
-				new_form_instance	: 'false',
-				curtis_sort			: '',
 				primary				: 'false',
 				secondary			: 'false',
 				tertiary			: 'false',
 				user_id				: 'false',
-				form_id				: 'false',
-				form_instance_id	: 'false',
 				playlist_id			: 'false',
 				track_id			: 'false',
 				sisbot_id			: 'false'
@@ -340,14 +335,14 @@ app.model.session = {
     },
     get_errors: function(user_data) {
 		var errors = [];
-		
+
         if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
         if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
          //__________________SignUp Errors________________________ //
          if (this.get('signing_up') == 'true'){
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
-			} 
+			}
 			if (app.plugins.valid_email(user_data.username)){
                 errors.push('Username cannot be an email');
             }
@@ -422,7 +417,7 @@ app.model.session = {
 		},'Email Sent', ['OK']);
 
 		app.trigger('session:active', {'primary':'community','secondary':'false'});
-        
+
     },
     _process_email: function(user, data_arr) {
         var session_data = {

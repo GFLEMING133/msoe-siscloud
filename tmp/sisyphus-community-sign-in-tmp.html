@@ -11,12 +11,9 @@
       <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar pl40 pr40" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar pl40 pr40" data-model="{{= manager.sisbot_id }}">
     <div data-if="{{= model.data.is_internet_connected }} == false">
-      <div class="i center shadow bg-grey-ll p30 m10 clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'primary':'settings','secondary':'wifi'}">
+      <div class="i center shadow bg-grey-ll p30 m10 clickable active" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'settings','secondary':'wifi'}">
         Your Sisyphus must be connected to the internet via WiFi before
         you can successfully create an account. Click here to connect</div>
     </div>
@@ -39,78 +36,49 @@
               data-field="model.registration.email"
               value="{{= model.registration.email }}" />
         </div>
-        <div class="h__k pb150" data-if="{{= model.data.is_internet_connected }} == true">
-            <div class="bg-white pt20 black h__k"
-                data-model="{{= session.id }}"
-                data-run="model.clear_errors"
-            >
-                <div class="bg-ll-red p10 corner-5px sign_up_errors h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-                    <div class="h__k" data-foreach="model.errors">
-                        <div class="h__k h__k warmRed strong red_triangle p5">{{= scope.value }}</div>
-                    </div>
-                </div>
-            <form class="pb100">
-                    <label class=" pt20 pb10 no-stuffing fs18 less_strong">Email</label>
-                    <div class=" pb10">
-                        <input class="h__k w100" type="email" placeholder="your_email@address.com"
-                            autocomplete="on" autocorrect="off" autocapitalize="off"  spellcheck="false"
-                            data-field="model.registration.email"
-                            value="{{= model.registration.email }}"
-                        />
-                    </div>
-                    <label class="pt10  inline no-stuffing fs18 less_strong">Password</label>
-                        <a class="pt10 pb5 inline-right right blue-l clickable h__k"
-                        data-on-click="publish"
-                        data-publish="session:active"
-                        data-msg="{'primary':'community','secondary':'forget_password'}">Forget your password?
-                        </a>
+        <label class="pt10  inline no-stuffing fs18 less_strong">Password</label>
+        <a class="pt10 pb5 inline-right right blue-l clickable"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'community','secondary':'forget_password'}">Forget your password?
+        </a>
 
-                    <div class=" pb10">
-                        <input class="h__k w100" type="{{= (model.show_password == 'true') ? 'text' : 'password'}}" placeholder="password"
-                            autocomplete="on" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.registration.password"
-                            value="{{= model.registration.password }}"
-                        />
-                    </div>
-
-                    <div class="h__k pt10 pull-left"
-                        data-field="model.remember_me"
-                        data-on-click="toggle">
-                        <input id="rememberMe" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.remember_me"   />
-                        <label for="rememberMe">Remember Me</label>
-                    </div>
-
-                    <div class="h__k pt10 pull-right"
-                        data-field="model.show_password"
-                        data-if="{{= model.show_password }} == true"
-                        data-on-click="toggle">
-                        <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.show_password" hidden />
-                        <label class="h__k clickable" for="showPassword"><i class="fas fa-eye blue"></i></label>
-                    </div>
-                    <div class="h__k pt10 pull-right"
-                        data-field="model.show_password"
-                        data-if="{{= model.show_password }} == false"
-                        data-on-click="toggle">
-                        <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}"  data-field="model.show_password" hidden />
-                        <label class="h__k clickable" for="showPassword" data-if="{{= model.show_password }} == false"><i class="fas fa-eye-slash"></i></label>
-                    </div>
-
-                    <br clear="both">
-                    <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
-                                data-on-click="model.sign_in"
-
-                    >SIGN IN</div>
-
-                    <div class="h__k pt30 fs18 lh24 mt50 clickable active center"
-                                data-on-click="publish"
-                                data-publish="session:active"
-                                data-msg="{'secondary':'create_account'}"
-                    >Don't have an account? </br> <a class="blue-l pr5">Sign Up</a></div>
-                </div>
-            </form>
+        <div class=" pb10">
+          <input class="w100"
+              type="{{= (model.show_password == 'true') ? 'text' : 'password'}}"
+              placeholder="password"
+              autocomplete="on"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-field="model.registration.password"
+              value="{{= model.registration.password }}" />
         </div>
+
+        <div class="pt10 pull-left" data-field="model.remember_me" data-on-click="toggle">
+          <input id="rememberMe" type="checkbox" data-checked="{{= 'true' }}" data-field="model.remember_me" />
+          <label for="rememberMe">Remember Me</label>
+        </div>
+
+        <div class="pt10 pull-right"
+            data-field="model.show_password"
+            data-if="{{= model.show_password }} == true"
+            data-on-click="toggle">
+          <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}" data-field="model.show_password" hidden />
+          <label class="clickable" for="showPassword"><i class="fas fa-eye blue"></i></label>
+        </div>
+        <div class="pt10 pull-right"
+            data-field="model.show_password"
+            data-if="{{= model.show_password }} == false"
+            data-on-click="toggle">
+          <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}" data-field="model.show_password" hidden />
+          <label class="clickable" for="showPassword" data-if="{{= model.show_password }} == false"><i class="fas fa-eye-slash"></i></label>
+        </div>
+
         <br clear="both">
-        <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong" data-on-click="model.sign_in">SIGN IN</div>
+        <br clear="both">
+        <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
+            data-on-click="model.sign_in">SIGN IN</div>
         <div class="pt30 fs18 lh24 mt50 clickable active center"
             data-on-click="publish"
             data-publish="session:active"

@@ -12,16 +12,16 @@
   </div>
   <div class="body-header pb150 h100 scroll hide-scrollbar bg-black">
     <div class="flex-center-column">
-      <div class="white strong fs19 h__k">
-        <input class="white center color_input h__k"
+      <div class="white strong fs19">
+        <input class="white center color_input"
             data-field="model.edit.led_secondary_color"
             placeholder="{{= model.edit.led_secondary_color }}"
             value="{{= model.edit.led_secondary_color }}"
             data-on-update="model.toggle_picker" />
       </div>
-      <div class="h__k"
+      <div 
           data-if="{{= model.show_picker }} == true">
-        <div class="h__k w100 mb10 pt20 webkit-center"
+        <div class="w100 mb10 pt20 webkit-center"
             id="secondary"
             data-iro="#secondary"
             data-field="model.edit.led_secondary_color"

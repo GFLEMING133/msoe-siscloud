@@ -1,16 +1,16 @@
 <div class="h100">
   <div class="pull-top white hh50 w100 vertical vertical-align bg-black no-stuffing">
-    <div class="w30 left pl20  h__k"
+    <div class="w30 left pl20 "
         data-if="{{= session.active.secondary }} == track"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'track_id':'false','secondary':'false'}">
       <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 clickable pt15 pb15" />
     </div>
-    <div class="h__k" data-template="sisyphus-playing-active-tmp"></div>
-    <div class="h__k clickable active" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
-      <div class="h__k" data-if="{{= model.data.active_playlist_id }} !== false">
-        <div class="pull-right pl20 pr20 h__k"
+    <div  data-template="sisyphus-playing-active-tmp"></div>
+    <div class="clickable active" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
+      <div  data-if="{{= model.data.active_playlist_id }} !== false">
+        <div class="pull-right pl20 pr20"
             data-model="{{= model.data.active_playlist_id }}"
             data-on-click="publish"
             data-publish="session:active"

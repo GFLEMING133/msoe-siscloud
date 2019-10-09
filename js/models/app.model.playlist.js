@@ -100,15 +100,8 @@ app.model.playlist = {
 	add_tracks_done: function () {
 		var self = this;
 
-		/*
-		this.set('active_tracks', []);
-
-		_.each(this.get('add_playlist_tracks'), function(bool, track_id) {
-			if (bool == 'true')	self.add_track(track_id);
-		});
-		*/
-
-		app.trigger('session:active', { 'secondary': 'playlist-new' });
+		if (this.get('data.is_saved') == 'true') app.trigger('session:active', { 'secondary': 'playlist-edit' });
+		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
@@ -185,7 +178,7 @@ app.model.playlist = {
 		this.set("data.sorted_tracks", sorted_tracks);
 
 		this.save();
-        
+
 		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
 
 	},
