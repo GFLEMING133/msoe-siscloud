@@ -13,7 +13,8 @@ app.model.community = {
         community_playlist_ids: [],
         community_track_ids: [],
 
-        track_sort: 'newest designs',
+        track_sort:     'newest designs',
+        sorting:        'false',
         download_cloud: 'false',
         selected_tracks: [],
         downloaded_tracks: [],
@@ -78,6 +79,7 @@ app.model.community = {
 
       self.set('community_track_ids', new_track_ids);
       self.set('fetched_community_tracks', 'true');
+      self.set('sorting', 'false');
     }
 
     app.post.fetch2(tracks, cb, 0);
@@ -86,7 +88,7 @@ app.model.community = {
   },
   sort_function: function(sort_params) {
     var self = this;
-
+    this.set('sorting', 'true');
     this.set('track_sort', sort_params)
     var tracks = {
       _url: app.config.get_webcenter_url(),
@@ -100,6 +102,7 @@ app.model.community = {
     function cb(obj) {
       setTimeout(function() {
         self.set('fetching_community_tracks', 'false');
+        self.set('sorting', 'false');
       }, 1000);
 
       if (obj.err) return self;
