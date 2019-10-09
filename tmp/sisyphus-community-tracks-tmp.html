@@ -34,6 +34,9 @@
             <a class="sortBy-item">NAME</a></li>
           <li class="clickable" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="artist">
             <a class="sortBy-item">ARTIST</a></li>
+          <div data-if="{{= model.sorting }} == true">
+            <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
+          </div>
         </ul>
       </div>
     </div>
@@ -41,6 +44,7 @@
   <div class="body-header h100 scroll hide-scrollbar pb200 " data-run="model.fetch_community_tracks">
     <div class="pt150" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center blue-l i">Fetching tracks...</div>
+      <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
     <div class="pt65 pb100" data-if="{{= model.fetching_community_tracks }} == false">
       <div  data-if="{{= app.plugins.length(model.community_track_ids) }} > 0" data-foreach="model.community_track_ids" data-foreach-change="foreach_reset" data-foreach-map="true">
