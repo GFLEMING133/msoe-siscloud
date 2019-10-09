@@ -17,7 +17,8 @@
           data-msg="{'key':'expanded','val':'{{= model.id }}'}">
         <div class="fs18 black strong lh20">{{= model.data.name }}</div>
         <div class="fs13 warmGrey pt10">by {{= model.data.created_by_name }}</div>
-        <div class="fs13 warmGrey pt5 {{= (model.data.is_public == false) ? 'private_italic' : '' }}">{{= (model.data.is_public == true) ? 'public' : 'private' }}</div>
+        <div class="fs13 warmRed pt5 private_italic"
+            data-if="{{= model.data.is_public }} == false">Private</div>
       </div>
 
       <div class="w20 pt40 vertical center" data-field="model.track_checked" data-on-click="toggle">

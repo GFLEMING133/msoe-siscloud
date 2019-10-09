@@ -137,7 +137,7 @@ function Element(el, parent, _scope) {
   this.libraries = {};
 
   this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = true; // show/hide data-____ values in html
+  this.show_data = false; // show/hide data-____ values in html
   this.show_lib = false;
   this.show_tg = false;
 
