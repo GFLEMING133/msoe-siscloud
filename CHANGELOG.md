@@ -1,7 +1,9 @@
-#2019-10-2 1.8.62
+#2019-10-2 1.8.62 & 63
  - Added multipl download to community and add to playlist. 
  - Added community model
  - reworked download_wc()
+ - Sort by download_count (Most Popular) added. 
+ - Spinner added to fetching community tracks
 #2019-10-2 1.8.60
  - Added conditional for _processing_registration() to fix re-signup error.
  - Spinner added when downloading tracks in Community.
