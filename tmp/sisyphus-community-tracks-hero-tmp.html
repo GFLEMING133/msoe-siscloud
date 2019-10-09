@@ -33,11 +33,13 @@
           <img src="img/download_grey.png" alt="Download Cloud" />
         </div>
       </div>
-      <div class="active clickable" data-if="{{= model.community_track_downloaded}} == true">
-        <img src="img/checkCircle.png" alt="Checked Circle" class="pt50">
+      <div class="p20" data-if="{{= model.community_track_downloaded}} == true">
+        <img src="img/checkCircle.png" alt="Checked Circle" />
       </div>
     </div>
-    <div class="p20 center pb100 i" data-if="{{= model.downloading_community_track }} == true">
+  </div>
+  <div class="flex" data-if="{{= model.downloading_community_track }} == true">
+    <div class="w100 p20 center pb100 i">
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       <div class="fs18 lh18">
         Downloading track...
