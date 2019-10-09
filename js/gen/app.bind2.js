@@ -529,7 +529,7 @@ function Element(el, parent, _scope) {
       console.log('get_subvalue: err', val);
     }
   };
-  this.get_value = function(val) {
+  this.get_value = function(val, plain_text) {
     var self    = this;
     var err_out = false;
     // console.log("Get Value", val);
@@ -545,7 +545,7 @@ function Element(el, parent, _scope) {
         var tmp   = app.templates.create(val, self);
         var json  = this.get_json();
         val       = tmp(json);
-        // if (self.data.debug) console.log("Template", _start_val, val);
+        if (self.data.debug) console.log("Template", _start_val, val);
       } catch (err) {
         err_out = true;
         console.log('get_value: template err ', self.$el, _start_val, val, json, err);
@@ -553,7 +553,7 @@ function Element(el, parent, _scope) {
     }
 
     // is object, parse and strip of single quotes
-    if (err_out == false && val.indexOf('{') > -1) {
+    if (!plain_text && err_out == false && val.indexOf('{') > -1) {
       try {
         val = JSON.parse(val.replace(/\'/gi, '"'));
       } catch(err) {
@@ -1199,11 +1199,6 @@ function Element(el, parent, _scope) {
 
       // change the attributes
       _.each(this.el, function(value, key) {
-        // update value via jquery
-        if (self.el_type == 'INPUT' && key == 'value') {
-          $el.val(self.get_value(value));
-        }
-
         if (key.indexOf('data-') == 0) {
           if (self.show_data) $el.attr(key, value);
         } else if (key.indexOf('lib-') == 0) {
@@ -1222,6 +1217,9 @@ function Element(el, parent, _scope) {
         } else if (self.is_h__k) {
           $el.attr(key, self.get_value(value));
         } else $el.attr(key, value);
+
+        // update value via jquery
+        if (self.el_type == 'INPUT' && key == 'value') $el.val(self.get_value(value));
       });
 
       var children = this.render_children();
@@ -1246,7 +1244,8 @@ function Element(el, parent, _scope) {
     }
     // show immediately if text
     if (this.el_text) {
-      if (this.parent_element && this.parent_element.is_h__k) return this.get_value(this.el_text);
+      if (this.parent_element.data.debug) console.log("HTML: El Text", this.get_value(this.el_text, true));
+      if (this.parent_element && this.parent_element.is_h__k) return this.get_value(this.el_text, true); // return as plain text (if object)
       else return this.el_text;
     }
 
