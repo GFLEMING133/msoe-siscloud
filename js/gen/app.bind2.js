@@ -94,10 +94,10 @@ var Binding = Backbone.View.extend({
     data-defaults :: sets the values in the model's data variable
     data-if :: comparison of if the element and children should be shown
     data-foreach :: loops through the values given, using the first child as the repeated element OR cluster to loop through given cluster
+    data-foreach-map :: assigns children the model of the current iteree (assumes array is an array of model ids)
     data-cluster :: object with values that all models must have to be included in loop
     data-cluster-comparator :: sorts the cluster, {key:'data.name','ord':'asc'}
     data-cluster-search :: search through given models for matching values, expects model reference or object with value: { search_keys: [], value:"string" }
-    data-foreach-map :: assigns children the model of the current iteree (assumes array is an array of model ids)
     data-template :: sets child element to the html of the given filename (no .html necessary)
     data-fallback :: sets the child element to the html of the given filename if the data-template is not found
     data-publish :: trigger key when data-on-click is set to publish (i.e. data-publish="session:active" == app.trigger('session:active') )
