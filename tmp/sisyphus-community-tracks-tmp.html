@@ -38,18 +38,6 @@
       </div>
     </div>
   </div>
-  <div class="sortBy-container-contents">
-    <ul class="sortBy-list">
-      <!-- TODO: Fix these li. What are they supposed to do? -->
-      <li class="clickable" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="newest designs">
-        <a class="sortBy-item">NEWEST DESIGNS</a></li>
-      <li class="clickable" data-on-click="model.sort_function" data-on-click="publish" data-msg="name">
-        <a class="sortBy-item">NAME</a></li>
-      <li class="clickable" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="artist">
-        <a class="sortBy-item">ARTIST</a></li>
-    </ul>
-  </div>
-
   <div class="body-header h100 scroll hide-scrollbar pb200 " data-run="model.fetch_community_tracks">
     <div class="pt150" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center blue-l i">Fetching tracks...</div>
