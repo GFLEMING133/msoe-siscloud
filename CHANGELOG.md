@@ -1,7 +1,9 @@
-#2019-10-2 1.8.62
+#2019-10-2 1.8.62 & 63
  - Added multipl download to community and add to playlist. 
  - Added community model
  - reworked download_wc()
+ - Sort by download_count (Most Popular) added. 
+ - Spinner added to fetching community tracks
 #2019-10-2 1.8.60
  - Added conditional for _processing_registration() to fix re-signup error.
  - Spinner added when downloading tracks in Community.
@@ -25,7 +27,7 @@
 #2019-09-19 1.8.54
  - CSON selection in Advanced Table Settings
  - Homing Offset in Advanced Table Settings
- - Save Advanced Table Settings before installing Python from button
+ - Save Advanced Table Settings beforcd installing Python from button
  - CSON RGBW Offset
  - Back button fix from Adding Custom Tracks
 #2019-09-12 1.8.50 & 51

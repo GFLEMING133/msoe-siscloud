@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.62', // multiple download added to communtiy, added community model.
+	version	      : '1.8.63', // multiple download added to communtiy,sort by download_count added to drop down , wording change on modal added community model.
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

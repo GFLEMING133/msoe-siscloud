@@ -87,8 +87,8 @@ app.model.community = {
     return this;
   },
   sort_function: function(sort_params) {
-    var self = this;
     this.set('sorting', 'true');
+    var self = this;
     this.set('track_sort', sort_params)
     var tracks = {
       _url: app.config.get_webcenter_url(),
