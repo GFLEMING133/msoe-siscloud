@@ -19,12 +19,13 @@
             value="{{= model.edit.led_secondary_color }}"
             data-on-update="model.toggle_picker" />
       </div>
-      <div data-if="{{= model.show_picker }} == true">
-        <div class="w100 mb10 pt20 webkit-center"
-            id="secondary"
-            data-iro="#secondary"
+      <div
+          data-if="{{= model.show_picker }} == true">
+        <div class="w100 mb10 pt20 webkit-center secondary-picker"
+            lib-iro=".secondary-picker"
             data-field="model.edit.led_secondary_color"
             data-value="{{= model.edit.led_secondary_color }}"
+            data-maintain-children="true"
             data-on-update="model.led_color"></div>
       </div>
       <div class="flex-center-row w100 pt25 pb50">

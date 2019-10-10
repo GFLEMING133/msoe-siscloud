@@ -106,6 +106,7 @@ var Binding = Backbone.View.extend({
     data-checked :: is checkbox checked (true|false)
     data-placeholder :: input placeholder text
     data-replace :: for img elements, if the src fails to load, show this template instead. Use with data-on-error="replace".
+    data-maintain-children :: when an element changes, don't rerender its children. Needed for plugins that control html of children.
     data-debug :: console.log info about the element during runtime
   data-on:
     data-on-click :: triggers event on element click, calling function (i.e. set, back, forward)
@@ -137,7 +138,7 @@ function Element(el, parent, _scope) {
   this.libraries = {};
 
   this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = false; // show/hide data-____ values in html
+  this.show_data = true; // show/hide data-____ values in html
   this.show_lib = false;
   this.show_tg = false;
 
@@ -200,6 +201,9 @@ function Element(el, parent, _scope) {
           if (self.el[key].indexOf('{{') > -1) self.is_h__k = true;
         });
 
+        // setup events if file input
+        if (this.el_type == 'INPUT' && this.el.type && this.el.type == 'file') this.is_h__k = true;
+
         // do not run functions/replacements if data-is-plain;
         if (this.el['data-is-plain']) {
           this.is_h__k = false;
@@ -214,6 +218,11 @@ function Element(el, parent, _scope) {
 
           // listen for change on inputs
           if (['SELECT', 'INPUT', 'TEXTAREA'].indexOf(this.el_type) > -1) this.is_event = true;
+
+          // run data-checked if input && checkbox or radio
+          if (this.el_type == 'INPUT' && this.el.type && (this.el.type == 'checkbox' || this.el.type == 'radio') && !this.data.checked) {
+            this.data.checked = 'true';
+          }
         }
       } else {
         // text element
@@ -332,12 +341,20 @@ function Element(el, parent, _scope) {
   };
   this.checked = function () {
       if (!this.data.field) return console.log("No field to match with checkbox, add data-field.");
+      var is_checked = false;
 
       var model       = this.get_model(this.data.field);
       var field       = this.get_field(this.data.field);
       var ref         = model.get(field);
-      var value       = this.get_value(this.data.checked);
-      var is_checked  = (_.isArray(ref)) ? _.contains(ref, value) : ('' + ref) == ('' + value);
+      if (_.isArray(ref)) {
+        var value       = this.get_value(this.data.checked);
+        is_checked = _.contains(ref, value);
+      } else {
+        var value       = this.get_value(this.data.checked);
+        is_checked = (ref == value);
+      }
+
+      if (this.data.debug) console.log("Checked", this.data.field, is_checked);
 
       var $el = $('.'+this.el_id);
       if ($el) $el.prop('checked', is_checked);
@@ -723,7 +740,7 @@ function Element(el, parent, _scope) {
 
     // attribute listeners
     _.each(this.el, function(attr, key) {
-      var list = self._get_listeners(attr);
+      var list = self._get_listeners(attr, key);
       // if (self.data.debug) console.log("Attr", key, attr, list);
 
       var r_key = attr;
@@ -873,7 +890,10 @@ function Element(el, parent, _scope) {
             // check if text, mark changed
             if (self.el_text) is_change = true;
 
-            if (self.data.debug) console.log("Listener is change:", self.el_id, is_change, trigger_str);
+            // check if checkbox, mark changed
+            if (self.el_type == 'INPUT' && self.el.type && (self.el.type == 'checkbox' || self.el.type == 'radio')) is_change = true;
+
+            if (self.data.debug) console.log("Change triggered", is_change);
             if (is_change) {
               self.is_changed = true;
 
@@ -883,7 +903,7 @@ function Element(el, parent, _scope) {
               // make sure to refresh parent if text element
               if (self.el_text) self.parent_element.is_changed = true;
 
-              app.trigger('bind:render'); // render since new templates got added
+              app.trigger('bind:render', self.el_id); // render since new templates got added
             }
           }
 
@@ -894,7 +914,7 @@ function Element(el, parent, _scope) {
 
     this.listenTo(app, 'bind:after_render', this.after_render);
   };
-  this._get_listeners = function(string) {
+  this._get_listeners = function(string, key) {
     var list = [];
 
     if (string.trim() == '') return list;
@@ -930,6 +950,14 @@ function Element(el, parent, _scope) {
         .value();
 
       list = list.concat(tmp_list);
+    }
+
+    // if field
+    if (key && key == 'data-field') {
+      var listeners = string.match(/(session|manager|scope|model|cluster|parents?|grandparent|g_grandparent|g_g_grandparent|g_g_g_grandparent)[a-zA-Z.0-9:_\[\]\-']+/gi);
+      listeners = _.map(listeners, function(l) { return l.replace(/\['/gi, ".").replace(/'\]/gi, ""); });
+      if (this.data.debug) console.log("Data-field", listeners);
+      list = list.concat(listeners);
     }
 
     return list;
@@ -1189,10 +1217,10 @@ function Element(el, parent, _scope) {
   };
   /***************************** RENDERING ********************************/
   this.render = function() {
+    var self = this;
+
     // render self if subview changed
     if (this.is_changed && this.el_id) {
-      var self = this;
-
       var $el = $('.'+this.el_id);
 
       this.prerender();
@@ -1214,19 +1242,22 @@ function Element(el, parent, _scope) {
           else classes += value;
 
           if (classes != '')  $el.attr(key, classes.trim());
-        } else if (self.is_h__k) {
-          $el.attr(key, self.get_value(value));
-        } else $el.attr(key, value);
+        } else if (key == 'value') $el.val(self.get_value(value));
+        else if (self.is_h__k) $el.attr(key, self.get_value(value));
+        else $el.attr(key, value);
 
         // update value via jquery
-        if (self.el_type == 'INPUT' && key == 'value') $el.val(self.get_value(value));
+        // if (self.el_type == 'INPUT' && key == 'value') $el.val(self.get_value(value));
       });
 
-      var children = this.render_children();
-      return $el.empty().append(children);
+      if (self.data.maintainChildren) return $el;
+      else {
+        var children = this.render_children();
+        return $el.empty().append(children);
+      }
     } else {
       // render only changed subviews
-      _.each(this.subviews, function(child_el) {
+      _.each(self.subviews, function(child_el) {
         if (child_el) child_el.render();
       });
     }
@@ -1244,7 +1275,6 @@ function Element(el, parent, _scope) {
     }
     // show immediately if text
     if (this.el_text) {
-      if (this.parent_element.data.debug) console.log("HTML: El Text", this.get_value(this.el_text, true));
       if (this.parent_element && this.parent_element.is_h__k) return this.get_value(this.el_text, true); // return as plain text (if object)
       else return this.el_text;
     }
@@ -1343,7 +1373,8 @@ function Element(el, parent, _scope) {
     if (self.data.onUpdate) self.on_update(e);
   };
   this.on_update = function(e) {
-    console.log("On Update", e);
+    // console.log("On Update", e);
+    if (this.data && this.data.onUpdate) this._call(this.data.onUpdate);
   };
   this.on_input = function(e) {
     var self = e.data.el;
@@ -1466,7 +1497,8 @@ function Element(el, parent, _scope) {
     app.trigger(this.get_value(this.data.publish), this.get_value(this.data.msg));
   };
   this.set = function (value) {
-    var val = (this.data.value) ? this.data.value : value;
+    // var val = (this.data.value) ? this.data.value : value;
+    var val = (value) ? value : this.data.value;
 
     if (this.data.field) {
       var model = this.get_model(this.data.field);
@@ -1488,7 +1520,7 @@ function Element(el, parent, _scope) {
     if (!val) val = 'false';
 
     // console.log("Toggle", model, field, val);
-    model.set(field, val).trigger('change:' + field);
+    model.set(field, val);
   };
   this.file_reader = function (e) {
     var self    = this;
@@ -1680,6 +1712,42 @@ function Element(el, parent, _scope) {
   this.sortable_remove = function () {
     console.log("Sortable destroy", self.el_id);
     if (this.libraries.sortable && _.isFunction(this.libraries.sortable.destroy)) this.libraries.sortable.destroy();
+  };
+  this.iro = function (e) {
+    if (this.libraries.iro) return console.log("iro already loaded");
+
+    var self = this;
+    console.log("Iro Colorpicker", self.el['lib-iro'], this.get_value(this.data.value));
+
+    // preloaded, don't need to fetch
+
+    if (!this.libraries.iro) {
+      iro.use(iroWhitePlugin);
+
+      var data        = self.get_value(self.el['lib-iro']);
+      // console.log("Iro Colorpicker", self.el['lib-iro'], data);
+
+      this.libraries.iro = iro.ColorPicker(data, {
+          // Set the size of the color picker
+          width: 300,
+          // Set the initial color to pure red
+          color: self.get_value(self.data.value),
+          transparency: true
+      });
+      function onInputChange(color, changes) {
+        // print the color's new hex value to the developer console
+        // console.log("Color Change via Input:", color.hex8String);
+        self.set(color.hex8String);
+        if (self.data.onUpdate) {
+          self._call(self.data.onUpdate);
+        }
+      }
+      if (self.data.onUpdate) this.libraries.iro.on('input:end', onInputChange);
+    }
+  };
+  this.iro_remove = function () {
+    console.log("Iro destroy", self.el_id);
+    if (this.libraries.iro)  delete this.libraries.iro;
   };
   //
   _.extend(this.initialize(el, parent, _scope), Backbone.Events);
