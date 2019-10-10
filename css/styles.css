@@ -548,11 +548,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 /* -----------SORT BY DROP DOWN----------------------------  */
 
-.sortBy-text {
-	font-size: 13px;
-	font-weight: 600;
-	text-transform: uppercase;
-}
+
 .sortBy-dropdown-container {
 	padding-top: 5px;
     padding-left: 15px;
@@ -563,14 +559,12 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 }
 .sortBy-drop-actions {
-	position: relative;
-	margin-left: 25px;
-	display: inline-block;
-	width: 175px;
-	height: 35px;
 	border: 2px solid #fff;
 	border-radius: 6px;
 	cursor: pointer;
+	right: 75px;
+	flex: 2;
+
 }
 .sortBy-SORT-style {
 	font-size: 13.5px;
@@ -587,25 +581,24 @@ li:hover {
 	color: #00b1fa;
 }
 .upDown-arrows {
-	padding-left: 40px;
-	display: relative;
+	display: flex;
+	position: relative;
 }
 
 .SortUp {
 	font-size: 1.3em;
 	position: absolute;
-	top: 6px;
-	right: 10px;
-	pointer-events: auto;
-	color: #fff;
+    pointer-events: auto;
+    color: #fff;
+	bottom: 1px;
+
 }
 .SortDown{
 	font-size: 1.3em;
 	position: absolute;
-	top: 6px;
-	right: 10px;
-	pointer-events: auto;
-	color: #fff;
+    pointer-events: auto;
+    color: #fff;
+
 
 }
 .sortBy-container-contents {
@@ -616,13 +609,12 @@ li:hover {
 		border: 1.2px solid #999999;
 		border-radius: 6px;
 		background-color: #000;
-		width: 175px;
+		width: 48%;
 		box-shadow: 25px 8px 16px 5px #8888;
 		z-index: 1;
 		cursor: pointer;
-		left: 100px;
-		display: flex;
-		top: 50px;
+		left: 26%;
+		top: 92%;
 		position: absolute;
 }
 
@@ -637,11 +629,8 @@ li:hover {
  font-weight: 600;
 }
 .dl_cloud {
-	    position: absolute;
-    height: 25px;
-    width: 30px;
-    right: 25px;
-    top: 18px;
+	text-align: center;
+	margin-left: 30px;
 }
 
 .hover, .hover > * 								{	color				: #efefef;	}
@@ -720,12 +709,15 @@ li:hover {
 	display: flex;
 	flex: 1;
 	justify-content: center;
+	align-self: center;
 
 }
 .flex-row {
+	display: flex;
 	flex-direction: row;
 }
-.flex-column {
+.flex-column { 
+	display: flex;
 	flex-direction: column;
 }
 .flex1end {
@@ -740,7 +732,8 @@ li:hover {
 .word-break {
 	word-break: break-word;
 }
-
+.flex01 						{ flex: .01;										}.flex07 						{	position:relative;   margin: 7px ;	flex: .7;	} 
+.flex1 							{   flex:1;                                         }
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
 .flex .w7-5 					{	flex-basis: 7.5%;		width: 7.5%;			}

@@ -44,7 +44,7 @@ app.config = {
 				base_url	: window.location.href,
 				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
 				web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
-				sisbot_url  : window.location.href, //talking to sisbot
+				sisbot_url  : 'http://192.168.1.6:3002', //talking to sisbot
 				port		: 3001,
 		}
 	},
