@@ -1396,7 +1396,7 @@ app.model.sisbot = {
 		this.set('show_picker', 'true');
 	},
 	led_color: function(data) {
-		// console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		var self = this;
 		var color_data = {};
 
