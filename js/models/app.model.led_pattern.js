@@ -10,19 +10,19 @@ app.model.led_pattern = {
 			display_secondary_color: '0xFFFFFF',
 			secondary_text_color	: 'white', // white|black
 
-			data				: {
-				id									: data.id,
-				type    						: 'led_pattern',
-				version							: this.current_version,
+			data: {
+				id						: data.id,
+				type    				: 'led_pattern',
+				version					: this.current_version,
 
-        name          			: '',
+        		name          			: '',
 
-				is_white						: 'false', // for white color balance
-				white_value					: 0.5, // Cool 0.0-1.0 Warm
+				is_white				: 'false', // for white color balance
+				white_value				: 0.5, // Cool 0.0-1.0 Warm
 				is_primary_color		: 'false', // uses primary color
 				led_primary_color		: '#00000000', // #RRGGBBWW
-				is_secondary_color	: 'false', // uses secondary color
-				led_secondary_color	: '#00000000', // #RRGGBBWW
+				is_secondary_color		: 'false', // uses secondary color
+				led_secondary_color		: '#00000000', // #RRGGBBWW
 			}
 		};
 
