@@ -1,5 +1,5 @@
 var Binding = Backbone.View.extend({
-  debug: false, // debug for Rendering
+  debug: true, // debug for Rendering
   render_wait: 25,
   is_rendering: false,
   render_start: null,
@@ -113,6 +113,11 @@ var Binding = Backbone.View.extend({
     data-on-key-enter :: triggers event on Enter key being pressed, while this element is active
     data-on-mouse-over :: triggers event on mouseOver of element
     data-on-mouse-out :: triggers event on mouseOut of element
+    data-on-mouse-down :: triggers event on mouseDown of element
+    data-on-mouse-up :: triggers event on mouseUp of element
+    data-on-touch-start :: triggers event on touchStart of element
+    data-on-touch-move :: triggers event on touchMove of element
+    data-on-touch-end :: triggers event on touchEnd of element
     data-on-error :: calls function on current model when img src fails to load, used in conjunction with data-replace
   lib:
     lib-chosen :: select elements
@@ -309,6 +314,26 @@ function Element(el, parent, _scope) {
       if (this.data.onMouseOut) {
         this.events.push('mouseout');
         $el.on('mouseout', {el:this}, this.on_mouse_out);
+      }
+      if (this.data.onMouseDown) {
+        this.events.push('mousedown');
+        $el.on('mousedown', {el:this}, this.on_mouse_down);
+      }
+      if (this.data.onMouseUp) {
+        this.events.push('mouseup');
+        $el.on('mouseup', {el:this}, this.on_mouse_up);
+      }
+      if (this.data.onTouchStart) {
+        this.events.push('touchstart');
+        $el.on('touchstart', {el:this}, this.on_touch_start);
+      }
+      if (this.data.onTouchMove) {
+        this.events.push('touchmove');
+        $el.on('touchmove', {el:this}, this.on_touch_move);
+      }
+      if (this.data.onTouchEnd) {
+        this.events.push('touchend');
+        $el.on('touchend', {el:this}, this.on_touch_end);
       }
       if (this.data.onError) {
         this.events.push('error');
@@ -1068,9 +1093,9 @@ function Element(el, parent, _scope) {
     });
 
     // <select> default values
-    if (this.el_type == 'SELECT') {
+    if (this.el_type == 'SELECT' && this.data.foreachDefault) {
       var defaultValue    = this.get_value('' + this.data.foreachDefaultValue) || 'false';
-      var defaultLabel    = this.get_value(this.data.foreachDefault) || '';
+      var defaultLabel    = this.get_value(this.data.foreachDefault);
       self.subviews.push(new Element($('<option value="' + defaultValue + '">' + defaultLabel + '</option>'), self));
     }
 
@@ -1439,7 +1464,7 @@ function Element(el, parent, _scope) {
   this.on_mouse_out = function (e) {
     var self = e.data.el;
 
-    if (self.data.onMouseOut)        {
+    if (self.data.onMouseOut) {
       if (!self.data.msg) {
         var $el = e.originalEvent.target;
         var pos = $el.position();
@@ -1459,6 +1484,63 @@ function Element(el, parent, _scope) {
       // console.log("onMouseOut", this.data.msg);
       self._call(self.data.onMouseOut, self.get_value(self.data.msg));
     }
+  };
+  this.on_mouse_down = function (e) {
+    var self = e.data.el;
+
+    if (self.data.onMouseDown) {
+      if (!self.data.msg) {
+        var $el = e.originalEvent.target;
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          mouse_x : e.originalEvent.clientX,
+          mouse_y : e.originalEvent.clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        self.data.msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onMouseDown", this.data.msg);
+      self._call(self.data.onMouseDown, self.get_value(self.data.msg));
+    }
+  };
+  this.on_mouse_up = function (e) {
+    var self = e.data.el;
+
+    if (self.data.onMouseUp) {
+      if (!self.data.msg) {
+        var $el = e.originalEvent.target;
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          mouse_x : e.originalEvent.clientX,
+          mouse_y : e.originalEvent.clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        self.data.msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onMouseUp", this.data.msg);
+      self._call(self.data.onMouseUp, self.get_value(self.data.msg));
+    }
+  };
+  this.on_touch_start = function (e) {
+      if (this.data.onTouchStart)   this._call(this.data.onTouchStart, this.get_value(this.data.msg));
+  };
+  this.on_touch_move = function (e) {
+      if (this.data.onTouchMove)    this._call(this.data.onTouchMove, this.get_value(this.data.msg));
+  };
+  this.on_touch_end = function (e) {
+      if (this.data.onTouchEnd)   this._call(this.data.onTouchEnd, this.get_value(this.data.msg));
   };
   this.on_error = function(e) {
     var self = e.data.el;

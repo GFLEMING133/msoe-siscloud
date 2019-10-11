@@ -11,33 +11,36 @@
         <div class="w15">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
-        <div class="bb hh50 p20 fs17 mt40 flex vertical-align"><p class="i red">* This is advanced functionality, your table may loose position or malfunction.</p></div>
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active" data-on-click="model.home">Home</div>
+        <div class="bb hh50 p20 fs17 mt40 flex vertical-align">
+          <p class="i red">* This is advanced functionality, your table may loose position or malfunction.</p>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-click="model.home">Home</div>
 
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogThetaLeft') ? 'bg-grey-ll' : '' }}"
-            data-touch-start="model.jog_start"
-            data-touch-end="model.jog_end"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaLeft"
         >Jog Theta Left</div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogThetaRight') ? 'bg-grey-ll' : '' }}"
-            data-touch-start="model.jog_start"
-            data-touch-end="model.jog_end"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaRight"
         >Jog Theta Right</div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogRhoOutward') ? 'bg-grey-ll' : '' }}"
-            data-touch-start="model.jog_start"
-            data-touch-end="model.jog_end"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogRhoOutward"
         >Jog Rho Outward</div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogRhoInward') ? 'bg-grey-ll' : '' }}"
-            data-touch-start="model.jog_start"
-            data-touch-end="model.jog_end"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogRhoInward"

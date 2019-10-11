@@ -15,7 +15,7 @@ app.model.led_pattern = {
 				type    				: 'led_pattern',
 				version					: this.current_version,
 
-        		name          			: '',
+    		name          	: '',
 
 				is_white				: 'false', // for white color balance
 				white_value				: 0.5, // Cool 0.0-1.0 Warm

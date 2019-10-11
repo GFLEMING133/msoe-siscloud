@@ -153,6 +153,19 @@
         </span>
       </div>
     </div>
+    <div data-if="{{= app.is_app }} == true">
+      <div data-if="{{= app.platform }} == iOS">
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'siri'}">
+          <span class="strong montserrat_semi_bold">Siri Shortcuts</span>
+          <span class="pull-right">
+            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+          </span>
+        </div>
+      </div>
+    </div>
     <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
             data-on-click="publish"

@@ -9,7 +9,7 @@
     </div>
     <div class="flex p10 bg-black w100">
       <div class="flex1center white strong uppercase">Sort By</div>
-       
+
         <div class="sortBy-drop-actions" data-on-click="model.openSort">
           <div class="p10 flex strong white uppercase">
             <div class="flex1center">{{= model.track_sort}}</div>
@@ -27,20 +27,38 @@
     </div>
       <div class="sortBy-container-contents">
         <ul class="flex-column p10 fs14">
-          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="newest designs">
+          <li class="clickable mb10"
+              data-on-click="model.sort_function"
+              data-on-click="model.sort_function"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="newest designs">
             <a class="white strong">NEWEST DESIGNS</a></li>
-          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="most popular">
+          <li class="clickable mb10"
+              data-on-click="model.sort_function"
+              data-on-click="model.sort_function"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="most popular">
             <a class="white strong">MOST POPULAR</a></li>
-          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-msg="name">
+          <li class="clickable mb10"
+              data-on-click="model.sort_function"
+              data-on-click="model.sort_function"
+              data-on-click="publish"
+              data-msg="name">
             <a class="white strong">NAME</a></li>
-          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="artist">
+          <li class="clickable mb10"
+              data-on-click="model.sort_function"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="artist">
             <a class="white strong">ARTIST</a></li>
           <div data-if="{{= model.sorting }} == true">
             <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
           </div>
         </ul>
       </div>
-    
+
   </div>
   <div class="body-header h100 scroll hide-scrollbar pb200 " data-run="model.fetch_community_tracks">
     <div class="pt150" data-if="{{= model.fetching_community_tracks }} == true">
@@ -48,11 +66,13 @@
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
     <div class="pt65 pb100" data-if="{{= model.fetching_community_tracks }} == false">
-      <div  data-if="{{= app.plugins.length(model.community_track_ids) }} > 0" data-foreach="model.community_track_ids" data-foreach-change="foreach_reset" data-foreach-map="true">
-        <div  data-template="sisyphus-community-tracks-list-item-tmp"></div>
+      <div data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
+          data-foreach="model.community_track_ids"
+          data-foreach-map="true">
+        <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
-      <div class="p20 center fs18 blue w100 pt200 i" data-if="{{= app.plugins.length(model.community_track_ids) }} == 0">There are no new tracks to download.
-      </div>
+      <div class="p20 center fs18 blue w100 pt200 i"
+          data-if="{{= app.plugins.length(model.community_track_ids) }} == 0">There are no new tracks to download.</div>
     </div>
   </div>
 </div>

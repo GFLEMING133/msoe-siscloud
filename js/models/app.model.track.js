@@ -163,7 +163,7 @@ app.model.track = {
 				self.set('generating_thumbnails', 'false');
 				console.log(obj);
 				if (obj.err) {
-					alert(obj.err)
+					app.plugins.n.notification.alert(obj.err)
 				} else {
 					console.log('Thumbnail generated');
 				}
@@ -1067,7 +1067,6 @@ app.model.track = {
 		};
 
 	function cb(obj) {
-
 		if (obj.err) {
 			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 		} else {

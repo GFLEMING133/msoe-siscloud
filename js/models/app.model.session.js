@@ -27,7 +27,6 @@ app.model.session = {
 			sisyphus_manager_id		: 'false',
 			modal_id				: 'false',
 
-
 			user_registration: 'false', // false|sign_up|sign_in|hostname
 
       signing_up: 'false',

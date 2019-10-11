@@ -900,7 +900,7 @@ app.model.sisyphus_manager = {
       console.log('In the WifiWizard2 =' + ssid)
       self.set('current_ssid', ssid);
     }, function on_error(err) {
-      alert(err);
+      app.plugins.n.notification.alert(err);
     });
   },
   /**************************** PLAYLISTS ***********************************/
