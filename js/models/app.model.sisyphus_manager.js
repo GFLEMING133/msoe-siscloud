@@ -891,8 +891,7 @@ app.model.sisyphus_manager = {
   },
   get_current_ssid: function() {
     console.log("get_current_ssid()");
-    if (!app.is_app)
-      return this;
+    if (!app.is_app) return this;
 
     var self = this;
 
