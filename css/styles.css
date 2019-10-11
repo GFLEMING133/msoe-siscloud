@@ -709,6 +709,11 @@ li:hover {
 	align-self: center;
 
 }
+.flex-justify-center {
+	display: flex;
+	justify-content: center;
+
+}
 .flex-row {
 	display: flex;
 	flex-direction: row;
@@ -725,6 +730,9 @@ li:hover {
 }
 .align-start {
 	align-self: flex-start;
+}
+.align-center {
+	align-self: flex-center;
 }
 .word-break {
 	word-break: break-word;

@@ -158,7 +158,7 @@ app.model.community = {
  
     if(numberOfTracks > 0){
       this.set('download_cloud', 'false');
-      var track_model = app.collection.get(track_list[0]);
+      var track_model = app.collection.get(track_list[numberOfTracks - 1]);
       if(track_model) {
         track_model.download_wc(true);
 
