@@ -13,7 +13,7 @@
         <div class="sortBy-drop-actions" data-on-click="model.openSort">
           <div class="p10 flex strong white uppercase">
             <div class="flex1center">{{= model.track_sort}}</div>
-            <div class="relative flex01 pr10">
+            <div class="relative">
                 <i class="SortUp fas fa-sort-up fa-2x"></i>
                 <i class="SortDown fas fa-sort-down fa-2x"></i>
             </div>
@@ -27,14 +27,14 @@
     </div>
       <div class="sortBy-container-contents">
         <ul class="flex-column p10 fs14">
-          <li class="clickable" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="newest designs">
-            <a class="white strong p5">NEWEST DESIGNS</a></li>
-          <li class="clickable" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="most popular">
-            <a class="white strong p5">MOST POPULAR</a></li>
-          <li class="clickable" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-msg="name">
-            <a class="white strong p5">NAME</a></li>
-          <li class="clickable" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="artist">
-            <a class="white strong p5">ARTIST</a></li>
+          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="newest designs">
+            <a class="white strong">NEWEST DESIGNS</a></li>
+          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="most popular">
+            <a class="white strong">MOST POPULAR</a></li>
+          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="model.sort_function" data-on-click="publish" data-msg="name">
+            <a class="white strong">NAME</a></li>
+          <li class="clickable mb10" data-on-click="model.sort_function" data-on-click="publish" data-publish="session:active" data-msg="artist">
+            <a class="white strong">ARTIST</a></li>
           <div data-if="{{= model.sorting }} == true">
             <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
           </div>
