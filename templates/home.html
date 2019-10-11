@@ -4,7 +4,7 @@
             data-template="sisyphus-header-default-tmp"
         ></div>
         <div class="bg-white black pl40 pr40" data-model="{{= model.sisbot_id }}">
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == false">
+            <div data-if="{{= model.data.reason_unavailable }} == false">
             <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></p>
                 <h3 class="m0 pt30 pb20 center justify fs24 lh24">
                     Connection Lost!
@@ -25,14 +25,14 @@
                         data-on-click="model._poll_then_reset"
                     >Retry Connecting</p>
                     <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
-                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18 i">
+                        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+                        <div class="fs18 lh18 i">
                             Reconnecting...
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == resetting">
+            <div data-if="{{= model.data.reason_unavailable }} == resetting">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Connection Lost!
                 </h3>
@@ -51,14 +51,14 @@
                         data-on-click="model._poll_then_reset"
                     >Retry Connecting</p>
                     <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
-                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18 i">
+                        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+                        <div class="fs18 lh18 i">
                             Reconnecting...
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == rebooting">
+            <div data-if="{{= model.data.reason_unavailable }} == rebooting">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
 
                 </h3>
@@ -77,14 +77,14 @@
                         data-on-click="model._poll_then_reset"
                     >Retry Connecting</p>
                     <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
-                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18">
+                        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+                        <div class="fs18 lh18">
                             Reconnecting...
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == restarting">
+            <div data-if="{{= model.data.reason_unavailable }} == restarting">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
 
                 </h3>
@@ -102,14 +102,14 @@
                         data-on-click="model._poll_then_reset"
                     >Retry Connecting</p>
                     <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
-                        <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                        <div class="h__k fs18 lh18">
+                        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+                        <div class="fs18 lh18">
                             Reconnecting...
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
+            <div data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
                 <h3 class="m0 pt110 pb20 center justify fs24 lh24">
                     Changing Wifi Network
                 </h3>
@@ -131,13 +131,13 @@
                     >Attempt Reconnect</p>
                 </div>
                 <div class="p20 center i white pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
-                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
-                    <div class="h__k black">
+                    <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class="black">
                       Connecting...
                     </div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == disconnect_from_wifi">
+            <div data-if="{{= model.data.reason_unavailable }} == disconnect_from_wifi">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Sisyphus Disconnected from WiFi
                 </h3>
@@ -159,11 +159,11 @@
                     >Reconnect to Sisyphus</p>
                 </div>
                 <div class="p20 center i black" data-if="{{= parent.sisbot_reconnecting }} == true">
-                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class=" mb20 black" data-template="spinner-bounce-tmp"></div>
                     <div class="black">Connecting...</div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
+            <div data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Sisyphus Disconnected from WiFi
                 </h3>
@@ -185,11 +185,11 @@
                     >Reconnect to Sisyphus</p>
                 </div>
                 <div class="p20 center i black" data-if="{{= parent.sisbot_reconnecting }} == true">
-                    <div class="h__k mb20 black" data-template="spinner-bounce-tmp"></div>
+                    <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
                     <div class="black">Connecting...</div>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == servo_th_fault">
+            <div data-if="{{= model.data.reason_unavailable }} == servo_th_fault">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Servo Th Failed!
                 </h3>
@@ -203,7 +203,7 @@
                     >Learn How To Fix</p>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == servo_rho_fault">
+            <div data-if="{{= model.data.reason_unavailable }} == servo_rho_fault">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Servo Rho Failed!
                 </h3>
@@ -217,7 +217,7 @@
                     >Learn How To Fix</p>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.reason_unavailable }} == servo_th_rho_fault">
+            <div data-if="{{= model.data.reason_unavailable }} == servo_th_rho_fault">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
                     Servo Th and Rho Failed!
                 </h3>
