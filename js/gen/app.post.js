@@ -6,10 +6,11 @@ app.post = {
 		// if retry_count is not defined......which will be the case for all callers of app.plugins.fetch
 		if (typeof retry_count == 'undefined') retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
+
 		var url		= data._url || app.config.get_sisbot_url();
 		var timeout = 30000;
 
-		if (data.endpoint)		url		+= data.endpoint;
+		if (data.endpoint) url	+= data.endpoint;
 		if (data._timeout)		timeout = data._timeout;
 
 		var type = data._type || 'POST';
@@ -21,8 +22,6 @@ app.post = {
 		var req_data = {
 			data	: JSON.stringify(data)
 		};
-
-		// console.log("Retry count" + retry_count);
 
 		if (app.current_user()) req_data.user = app.current_user().get('data');
 
@@ -61,7 +60,7 @@ app.post = {
 	},
 
 	fetch2: function (data, cb, retry_count) {
-	
+
 		if (retry_count !== 0) retry_count = 5;
 		var _data	= JSON.parse(JSON.stringify(data));
 		var url		= data._url || app.config.get_sisbot_url();

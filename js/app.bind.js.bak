@@ -569,14 +569,14 @@ var Binding = Backbone.View.extend({
         this.$el.attr('src', this.get_value(this.data.src));
     },
     toggle: function (e) {
-	    var opp     = { 'true': 'false', 'false': 'true' };
+	  var opp     = { 'true': 'false', 'false': 'true' };
       var field   = this.get_value(this.data.field);
       var val     = opp[this.ctx.get(field)];
 
       if (!val) val = 'true'; // change to true if previously undefined
       this.ctx.set(field, val)
-        .trigger('change:' + field)
-        .trigger('change:' + field.replace(/\'/gi, ''));
+        // .trigger('change:' + field)
+        // .trigger('change:' + field.replace(/\'/gi, ''));
 	},
     file_reader: function (e) {
         var self            = this;

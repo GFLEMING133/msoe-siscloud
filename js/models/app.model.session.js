@@ -7,15 +7,10 @@ app.model.session = {
 			mode			: 'app',
 			auth_token		: '',
 			active: {
-				new_type			: 'false',
-				new_form_instance	: 'false',
-				curtis_sort			: '',
 				primary				: 'false',
 				secondary			: 'false',
 				tertiary			: 'false',
 				user_id				: 'false',
-				form_id				: 'false',
-				form_instance_id	: 'false',
 				playlist_id			: 'false',
 				track_id			: 'false',
 				sisbot_id			: 'false'
@@ -31,7 +26,6 @@ app.model.session = {
 			sign_in_id				: '',
 			sisyphus_manager_id		: 'false',
 			modal_id				: 'false',
-
 
 			user_registration: 'false', // false|sign_up|sign_in|hostname
 
@@ -125,6 +119,10 @@ app.model.session = {
 		this.set('active.primary', 'current')
 			.set('active.secondary', 'false');
 		this.set('sisyphus_manager_id', m.id);
+
+		var c = app.collection.add({ type: 'community' });
+		this.set('community_id', c.id);
+
 	},
 	siscloud_mode: function () {
 		var m = app.collection.add({ type: 'siscloud_manager' });
@@ -245,7 +243,7 @@ app.model.session = {
         }
 
         function cb(obj) {
-			console.log('sign_up self._process_registration OBJ RESP',obj.resp, obj.err );
+			console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
             if (obj.err){
                 self.set('signing_up', 'false').set('errors', [ obj.err ]);
                 element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
@@ -336,14 +334,14 @@ app.model.session = {
     },
     get_errors: function(user_data) {
 		var errors = [];
-		
+
         if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
         if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
          //__________________SignUp Errors________________________ //
          if (this.get('signing_up') == 'true'){
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
-			} 
+			}
 			if (app.plugins.valid_email(user_data.username)){
                 errors.push('Username cannot be an email');
             }
@@ -361,6 +359,7 @@ app.model.session = {
     },
     _process_registration: function(user, data_arr) {
         var session_data = {
+			username: user.username,
             email: user.email,
             password: user.password,
             password_confirmation: user.password_confirmation,
@@ -417,7 +416,7 @@ app.model.session = {
 		},'Email Sent', ['OK']);
 
 		app.trigger('session:active', {'primary':'community','secondary':'false'});
-        
+
     },
     _process_email: function(user, data_arr) {
         var session_data = {
@@ -495,7 +494,7 @@ app.model.session = {
 			if (saveJSON.remember_me == 'false') delete saveJSON.registration;
 
 			window.localStorage.setItem('session', JSON.stringify(saveJSON));
-			console.log("Session JSON", this.toJSON());
+			// console.log("Session JSON", JSON.stringify(this.toJSON()));
 
 			var curr_sisbots = this.get_sisbots();
 			var sess_sisbots = this.get('sisbot_hostnames');

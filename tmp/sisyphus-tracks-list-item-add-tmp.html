@@ -1,38 +1,27 @@
-<div class="flex1start p10 bt h__k">
-	<div class="flex1start">
-       
-            <img src="" class="flex w80p h__k" alt="{{= model.data.name }}"
-				data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
-			/>
-       
-	</div>
-	<div class="flex1start flex-column">
-        <div class="align-start fs18 lh20 black word-break strong h__k">{{= model.data.name }}</div>
-        <div class="align-start fs12 lh20 grey word-break hidden h__k">by {{= model.data.created_by_name }}</div>
-
-        <div class="fs12 lh20 align-start warmGrey h__k"
-            data-if="{{= grandparent.add_playlist_tracks }} !== undefined"
-        >   
-            <div class="h__k montserrat_semi_bold">count= {{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div>
-        </div>
-	</div>
-    <div class="h100 flex1center ">
-            <div class="h__k flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0" >
-                <div class="add_tracks_circle mr10 h__k"
-                    data-on-click="grandparent.add_tracks_add"
-                    data-msg="{{= model.id }}"></div>
-            </div> 
-            
-            <div class="h__k flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0" >
-                <i class="fa fa-minus-circle f-large clickable active warmGrey mr15 h__k" 
-                    data-on-click="grandparent.minus_tracks_minus"
-                    data-msg="{{= model.id}}"
-                    aria-hidden="true"></i>
-
-                <i class="fa fa-plus-circle mr10 f-large clickable active green h__k"
-                    data-on-click="grandparent.add_tracks_add"
-                    data-msg="{{= model.id }}" 
-                    aria-hidden="true"></i>
-            </div>
+<div class="flex1start p10 bt">
+  <div class="flex1start">
+    <img class="flex w80p"
+        alt="{{= model.data.name }}"
+        src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+  </div>
+  <div class="flex1start flex-column">
+    <div class="align-start fs18 lh20 black word-break strong">{{= model.data.name }}</div>
+    <div class="align-start fs12 lh20 grey word-break hidden">by {{= model.data.created_by_name }}</div>
+    <div class="fs12 lh20 align-start warmGrey" data-if="{{= grandparent.add_playlist_tracks }} !== undefined">
+      <div class="montserrat_semi_bold">count= {{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div>
     </div>
+  </div>
+  <div class="h100 flex1center ">
+    <div class="flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
+      <div class="add_tracks_circle mr10" data-on-click="grandparent.add_tracks_add" data-msg="{{= model.id }}"></div>
+    </div>
+    <div class="flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0">
+      <i class="fa fa-minus-circle f-large clickable active warmGrey mr15"
+          data-on-click="grandparent.minus_tracks_minus"
+          data-msg="{{= model.id}}" aria-hidden="true"></i>
+      <i class="fa fa-plus-circle mr10 f-large clickable active green"
+          data-on-click="grandparent.add_tracks_add"
+          data-msg="{{= model.id }}" aria-hidden="true"></i>
+    </div>
+  </div>
 </div>

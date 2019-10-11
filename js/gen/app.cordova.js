@@ -65,22 +65,24 @@ function check_siri() {
 	console.log("Check for Siri Shortcut");
 	// TESTING: Siri shortcuts
 	if (app.is_app && app.platform == 'iOS') {
-		// cordova.plugins.SiriShortcuts.getActivatedShortcut({clear:false}, function(data) {
-		// 	console.log("Get Siri Shortcut", JSON.stringify(data));
-		// 	if (data && data.userInfo) {
-		// 		var shortcut_data = data.userInfo;
-		// 		if (shortcut_data.model && shortcut_data.action) {
-		// 			var model = app.collection.get(shortcut_data.model);
-		// 			if (_.isFunction(model[shortcut_data.action])) {
-		// 				console.log("Siri Call Action:", shortcut_data.model, shortcut_data.action, shortcut_data.msg)
-		// 				if (shortcut_data.msg) model[shortcut_data.action](shortcut_data.msg);
-		// 				else model[shortcut_data.action]();
-		// 			}
-		// 		}
-		// 	}
-		// }, function(err) {
-		// 	console.log("Get Siri Shortcut Error", JSON.stringify(err));
-		// });
+		cordova.plugins.SiriShortcuts.getActivatedShortcut({clear:false}, function(data) {
+			console.log("Siri Shortcut:", JSON.stringify(data));
+			if (data && data.userInfo) {
+				var shortcut_data = data.userInfo;
+				if (shortcut_data.model && shortcut_data.action) {
+					var model = app.collection.get(shortcut_data.model);
+					if (model && _.isFunction(model[shortcut_data.action])) {
+						console.log("Siri Call Action:", shortcut_data.model, shortcut_data.action, shortcut_data.msg);
+						if (shortcut_data.msg) model[shortcut_data.action](shortcut_data.msg);
+						else model[shortcut_data.action]();
+					} else {
+						console.log("Siri Shortcut Error: "+shortcut_data.model+" not found");
+					}
+				}
+			}
+		}, function(err) {
+			console.log("Get Siri Shortcut Error", JSON.stringify(err));
+		});
 	}
 }
 

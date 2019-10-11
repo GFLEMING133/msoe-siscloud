@@ -1,3 +1,13 @@
+#2019-10-2 1.8.62
+ - Added multipl download to community and add to playlist. 
+ - Added community model
+ - reworked download_wc()
+#2019-10-2 1.8.60
+ - Added conditional for _processing_registration() to fix re-signup error.
+ - Spinner added when downloading tracks in Community.
+ - Error handeling for email and username in Community updated.
+ - Adjusted thumbnail generation timeout to 9000
+ - Changed stroke_width to 7 in gen_thumbnails.js and model.track
 #2019-09-25 1.8.58
  - Color Picker Input field, 
  - Primary/Secondary Buttons incorporate white value
@@ -108,7 +118,7 @@
 #2019-7-15 1.8.23
  - Fixed fonts to be sourced in properly through css.
  - added Show Password to Community sign-in page
- - public / private to display in Community track list as well as private being italisized.
+ - public / private to display in Community track list as well as private being italicized.
  - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
  - changed padding on pause/play button to help with sizing  
 #2019-7-10, 1.8.21

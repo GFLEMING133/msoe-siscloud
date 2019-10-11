@@ -73,12 +73,6 @@ app.model.sisbot = {
 			rem_secondary_color	: '0x00FFFFFF',
 			show_picker					: 'true',
 
-			// TESTING: Siri integration
-			siri		: { // have these endpoints been added?
-				'play': false,
-				'pause': false
-			},
-
 			edit		: {},
 			data		: {
 				id					: data.id,
@@ -95,9 +89,9 @@ app.model.sisbot = {
 
 				reason_unavailable	: 'false',				// connect_to_wifi|reset_to_hotspot|resetting|restarting|rebooting
 				installing_updates	: 'false',
-				factory_resetting	: 'false',
+				factory_resetting		: 'false',
 
-				pi_id				: '',
+				pi_id							: '',
 				firmware_version	: '0.5.1',
 
 				is_hotspot			: 'true',
@@ -106,20 +100,20 @@ app.model.sisbot = {
 				is_internet_connected: 'false',
 				is_network_connected: 'false',
 				is_network_separate : 'false',
-        wifi_network        : '',
-        wifi_password       : '',
+				wifi_network        : '',
+				wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget			: 'false',
 
 
-				playlist_ids		: [],
-				default_playlist_id	: 'false',
-				favorite_playlist_id: 'false',
-				track_ids			: [],
+				playlist_ids					: [],
+				default_playlist_id		: 'false',
+				favorite_playlist_id	: 'false',
+				track_ids							: [],
 
 				active_playlist_id	: 'false',
-				active_track_id		: 'false',
-				active_track		: 'false',
+				active_track_id			: 'false',
+				active_track				: 'false',
 
 				current_time		: 0,					// seconds
 
@@ -206,6 +200,9 @@ app.model.sisbot = {
 		if (this.get('data.is_sleeping') == 'true')
 			this.nightmode_sleep_change();
 
+		if (this.get('data.sleep_time') == 'false') // fix is_sleep_enabled toggle
+			this.set('data.is_sleep_enabled', 'false');
+
 		if (this.get('data.led_pattern') != 'false') {
 			this.setup_edit();
 			this._update_pattern_colors();
@@ -231,7 +228,7 @@ app.model.sisbot = {
 		console.log("_fetch_log()");
 		var data = this.get('data');
 		var obj = {
-			_url	:  app.config.get_sisbot_url(),
+			// _url	:  app.config.get_sisbot_url(),
 			_type	: 'POST',
 			_timeout: 60000,
 			endpoint: 'get_log',
@@ -254,11 +251,80 @@ app.model.sisbot = {
 		this.get('data.is_network_connected'));
 
 	},
+	present_siri: function(data) {
+		var self = this;
+
+		// TESTING: Siri shortcut
+		if (data && app.is_app && app.platform == 'iOS') {
+
+			if (!cordova) return; // exit for testing
+			if (!data.action) return console.log("Siri: Missing Action");
+			if (!data.phrase) return console.log("Siri: Missing Phrase");
+
+			var info_obj = {
+				model: self.id,
+				action: data.action
+			};
+			if (data.msg) info_obj.msg = data.msg;
+			var identifier = self.id+'_'+data.action;
+			if (data.identifier) identifier = self.id+'_'+data.identifier;
+
+			var present_data = {
+				persistentIdentifier: identifier,
+				title: data.phrase,
+				suggestedInvocationPhrase: self.get('data.name')+' '+data.phrase,
+				userInfo: info_obj
+			};
+
+			console.log("Siri: Present", JSON.stringify(present_data));
+			cordova.plugins.SiriShortcuts.present(present_data, function(resp) {
+				console.log("Siri: Successful Presented Shortcut", resp);
+			}, function(err) {
+				console.log("Siri: Presented Shortcut Error", err);
+			});
+		}
+	},
+	_donate_siri: function(data) {
+		var self = this;
+
+		// TESTING: Siri shortcut
+		if (data && app.is_app && app.platform == 'iOS') {
+
+			if (!data.action) return console.log("Siri: Missing Action");
+			if (!data.phrase) return console.log("Siri: Missing Phrase");
+
+			var info_obj = {
+				model: self.id,
+				action: data.action
+			};
+			if (data.msg) info_obj.msg = data.msg;
+			var identifier = self.id+'_'+data.action;
+			if (data.identifier) identifier = self.id+'_'+data.identifier;
+
+			var donate_data = {
+				persistentIdentifier: identifier,
+				title: data.phrase,
+				suggestedInvocationPhrase: self.get('data.name')+' '+data.phrase,
+				userInfo: info_obj
+			};
+
+			console.log("Siri: Donate", JSON.stringify(donate_data));
+			cordova.plugins.SiriShortcuts.donate(donate_data, function(resp) {
+				console.log("Siri: Successful Donated Shortcut", resp);
+			}, function(err) {
+				console.log("Siri: Donated Shortcut Error", err);
+			});
+		}
+	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
 		console.log("_update_sisbot()", endpoint, data);
 		if (!_timeout) _timeout = 5000;
 
-		if (app.config.env == 'alpha') return this;
+		if (app.config.env == 'alpha') {
+			console.log('ALPHA is_internet_connected ==', this.get('data.is_internet_connected'));
+			this.set('data.is_internet_connected', 'true'); //setting to true for Apple to test Community
+			return this;
+		}
 
 		var self	= this;
 		var address	= this.get('data.local_ip');
@@ -281,7 +347,7 @@ app.model.sisbot = {
 				if (resp.err == null) self.check_for_unavailable();
 
 				if (resp.err) {
-					alert(resp.err);
+					app.plugins.n.notification.alert(resp.err);
 					console.log(address, endpoint, resp);
 					return;
 				}
@@ -319,7 +385,6 @@ app.model.sisbot = {
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
-		// console.log("_socket_connect()");
 		var self = this;
 
 		// console.log("Sisbot: Socket Connect");
@@ -333,11 +398,11 @@ app.model.sisbot = {
 
 		this.wifi_connected();
 
-		setTimeout(function() {
-			self._update_sisbot('state', {}, function (obj) {
-				if (obj.resp) app.manager.intake_data(obj.resp);
-			});
-		}, 10000);
+		// setTimeout(function() {
+		// 	self._update_sisbot('state', {}, function (obj) {
+		// 		if (obj.resp) app.manager.intake_data(obj.resp);
+		// 	});
+		// }, 10000);
 	},
 	_socket_disconnect: function() {
 		// console.log("_socket_disconnect()");
@@ -427,7 +492,8 @@ app.model.sisbot = {
 
 		if (app.config.env == 'alpha') {
 			// FOR APPLE TESTING...
-			app.manager.set('is_sisbot_available', 'true')
+			app.manager.set('is_sisbot_available', 'true');
+			this.set('data.is_internet_conected', 'true');
 		}
 
 		if (this.get('is_master_branch') == 'false') console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
@@ -474,6 +540,7 @@ app.model.sisbot = {
 			name					: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
+			is_sleep_enabled	: 'true',
 			sleep_time				: '10:00 PM',
 			wake_time				: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
@@ -584,7 +651,7 @@ app.model.sisbot = {
 		this.set('wifi_connecting','false');
 		this.set('data.wifi_password', 'false');
   },
-  	connect_to_wifi: function () {
+	connect_to_wifi: function () {
 		console.log("connect_to_wifi()");
 		this.set('wifi_error', 'false')
 			.set('wifi_connecting', 'false');
@@ -607,7 +674,7 @@ app.model.sisbot = {
 		}else {
 			this._connect_to_wifi();
 		}
-	  },
+  },
 	_connect_to_wifi: function () {
 
 		var self= this;
@@ -828,34 +895,37 @@ app.model.sisbot = {
 		if (status == 'false') {
 			this.set('default_settings.sleep_time', '10:00 PM')
 				.set('default_settings.wake_time', '8:00 AM')
-				.set('default_settings.is_nightlight', 'false');
+				.set('default_settings.is_nightlight', 'false')
+				.set('default_settings.is_sleep_enabled', 'true');
 		} else {
 			this.set('default_settings.sleep_time', 'false')
-				.set('default_settings.wake_time', 'false');
+				.set('default_settings.wake_time', 'false')
+				.set('default_settings.is_sleep_enabled', 'false');
 		}
 
 		return this;
 	},
 	nightmode_disable_toggle: function () {
-		var status = this.get('edit.sleep_time');
+		var status = this.get('edit.is_sleep_enabled');
 
 		if (status == 'false') {
 			this.set('edit.sleep_time', '10:00 PM')
 				.set('edit.wake_time', '8:00 AM')
-				.set('edit.is_nightlight', 'false');
+				.set('edit.is_nightlight', 'false')
+				.set('edit.is_sleep_enabled', 'true');
 		} else {
 			this.set('edit.sleep_time', 'false')
-				.set('edit.wake_time', 'false');
+				.set('edit.wake_time', 'false')
+				.set('edit.is_sleep_enabled', 'false');
 		}
 
 		return this;
 	},
 	update_nightmode: function () {
-		if (app.config.env == 'alpha')
-			return app.trigger('session:active', { secondary: 'false' });
+		if (app.config.env == 'alpha') return app.trigger('session:active', { secondary: 'false' });
 
 		var self		= this;
-		var edit		= _.pick(this.get('edit'), 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
+		var edit		= _.pick(this.get('edit'), 'is_sleep_enabled', 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
 		var errors 		= [];
 
 		this.set('errors', []);
@@ -874,8 +944,7 @@ app.model.sisbot = {
 		});
 	},
 	nightmode_sleep_change: function () {
-		if (this.is_legacy())
-			return this;
+		if (this.is_legacy()) return this;
 
 		var status = this.get('data.is_sleeping');
 
@@ -895,14 +964,18 @@ app.model.sisbot = {
 
 		this.set('data.is_sleeping', 'false')
 
-		if (app.config.env == 'alpha')
-			return this;
+		if (app.config.env == 'alpha') return this;
 
 		this._update_sisbot('wake_sisbot', {}, function(obj) {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+				// TESTING: Siri shortcut
+				self._donate_siri({
+					action:'wake_up',
+					phrase:'Wake up'
+				});
 			}
 		});
 	},
@@ -920,13 +993,11 @@ app.model.sisbot = {
 	sleep: function () {
 		var self	= this;
 
-		if (this.is_legacy())
-			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
+		if (this.is_legacy()) return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 
 		this.set('data.is_sleeping', 'true')
 
-		if (app.config.env == 'alpha')
-			return this;
+		if (app.config.env == 'alpha') return this;
 
 		this._update_sisbot('sleep_sisbot', {}, function(obj) {
 			if (obj.err) {
@@ -934,6 +1005,12 @@ app.model.sisbot = {
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 				self.nightmode_sleep_change();
+
+				// TESTING: Siri shortcut
+				self._donate_siri({
+					action:'sleep',
+					phrase:'Sleep'
+				});
 			}
 		});
 	},
@@ -1076,11 +1153,38 @@ app.model.sisbot = {
 		});
 	},
 	/**************************** PLAYBACK ************************************/
+	play_playlist: function(data) {
+		console.log("Siri: play playlist", JSON.stringify(data));
+
+		var playlist = app.collection.get(data.id);
+		if (playlist) {
+			if (data.is_shuffle) playlist.play_shuffled();
+			else playlist.play();
+		}
+	},
 	update_playlist: function (playlist_data) {
+		var self = this;
+
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			//get back playlist obj
 			if (obj.resp.id !== 'false') {
 				app.manager.intake_data(obj.resp);
+
+				// TESTING: Siri shortcut
+				var siri_obj = {
+					action: 'play_playlist',
+					phrase: 'Play '+playlist_data.name+' Playlist',
+					identifier: 'play_'+playlist_data.id,
+					msg:{
+						id: playlist_data.id,
+						is_shuffle: playlist_data.is_shuffle
+					}
+				};
+				if (playlist_data.is_shuffle == 'true') {
+					siri_obj.identifier = 'shuffle_'+playlist_data.id;
+					siri_obj.phrase = 'Shuffle '+playlist_data.name+' Playlist';
+				}
+				self._donate_siri(siri_obj);
 			}
 		});
 
@@ -1090,10 +1194,26 @@ app.model.sisbot = {
 		this.set('data.active_track_id',	playlist_data.active_track_id);
 		this.set('data.state', 'playing');
 	},
-	set_track: function (data) {
-		this._update_sisbot('set_track', data, function (obj) {
+	play_track: function(data) {
+		console.log("Siri: play track", JSON.stringify(data));
 
+		var track = app.collection.get(data.id);
+		if (track) track.play(); // call on model, in case model needs to make adjustments
+	},
+	set_track: function (data) {
+		var self = this;
+
+		this._update_sisbot('set_track', data, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
+
+			// TESTING: Siri shortcut
+			self._donate_siri({
+				action: 'play_track',
+				phrase: 'Play '+data.name+' Track',
+				identifier:'play_'+data.id,
+				msg:{ id: data.id }
+			});
+
 			app.trigger('session:active', { secondary: 'false', primary: 'current' });
 		});
 
@@ -1164,7 +1284,7 @@ app.model.sisbot = {
 	brightness: function (level) {
 		var self = this;
 
-		// console.log("Brightness:", level, this.get('data.brightness'));
+		console.log("Brightness:", level, this.get('data.brightness'));
 		this.set('data.brightness', +level).set('edit.brightness', +level);
 
 		if (this.get('wait_for_send') == 'false') {
@@ -1341,25 +1461,12 @@ app.model.sisbot = {
 					app.manager.intake_data(obj.resp);
 
 					// TESTING: Siri shortcut
-					// if (app.is_app && app.platform == 'iOS') {
-					// 	if (!self.get('siri.sisyphus_pattern_'+new_pattern)) {
-					// 		cordova.plugins.SiriShortcuts.donate({
-					// 			persistentIdentifier: 'sisyphus_pattern_'+new_pattern,
-					// 			title: new_pattern+' Light Pattern',
-					// 			suggestedInvocationPhrase: 'Sisyphus '+new_pattern+' Light Pattern',
-					// 			userInfo: {
-					// 				model: self.id,
-					// 				action: 'set',
-					// 				msg: {'edit.led_pattern':new_pattern}
-					// 			}
-					// 		}, function(data) {
-					// 			console.log("Successful Presented Siri Shortcut", data);
-					// 			self.set('siri.sisyphus_pattern_'+new_pattern, true);
-					// 		}, function(err) {
-					// 			console.log("Siri Presented Shortcut Error", err);
-					// 		});
-					// 	}
-					// }
+					self._donate_siri({
+						action: 'set',
+						identifier: 'pattern_'+new_pattern,
+						phrase: pattern.get('data.name')+' Light Pattern',
+						msg: { 'edit.led_pattern': new_pattern }
+					});
 					console.log("Set LED Pattern return", obj);
 				});
 			}
@@ -1413,7 +1520,7 @@ app.model.sisbot = {
 		this.set('show_picker', 'true');
 	},
 	led_color: function(data) {
-		// console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		var self = this;
 		var color_data = {};
 
@@ -1520,32 +1627,32 @@ app.model.sisbot = {
 			// console.log("New Offset", level);
 		}
 	},
-	python_install: function() {
-		var self = this;
-
-		if (this.get('data.installing_updates') == 'true') return this;
-
-		app.plugins.n.notification.confirm('If your RGBW lights are already working, you do not need this step. Continue?', function(resp_num) {
-			if (resp_num == 1) return self;
-
-			// install_python
-			console.log("Install Python!", resp_num);
-
-			self.save_to_sisbot(self.get('edit'), function(obj) {
-				if (obj.err) return console.log("Save error", obj.err);
-
-				self._update_sisbot('install_python', {}, function(obj) {
-					if (obj.err) {
-						self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
-					} else if (obj.resp) {
-						app.manager.intake_data(obj.resp);
-					}
-				});
-			});
-
-			return this;
-		}, 'Install Python?', ['Cancel', 'OK']);
-	},
+	// python_install: function() {
+	// 	var self = this;
+	//
+	// 	if (this.get('data.installing_updates') == 'true') return this;
+	//
+	// 	app.plugins.n.notification.confirm('If your RGBW lights are already working, you do not need this step. Continue?', function(resp_num) {
+	// 		if (resp_num == 1) return self;
+	//
+	// 		// install_python
+	// 		console.log("Install Python!", resp_num);
+	//
+	// 		self.save_to_sisbot(self.get('edit'), function(obj) {
+	// 			if (obj.err) return console.log("Save error", obj.err);
+	//
+	// 			self._update_sisbot('install_python', {}, function(obj) {
+	// 				if (obj.err) {
+	// 					self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
+	// 				} else if (obj.resp) {
+	// 					app.manager.intake_data(obj.resp);
+	// 				}
+	// 			});
+	// 		});
+	//
+	// 		return this;
+	// 	}, 'Install Python?', ['Cancel', 'OK']);
+	// },
 	homing_offset: function(level) {
 		console.log("Homing Offset: ", level);
 		this.set('edit.table_settings.homingOffset',+level);
@@ -1687,24 +1794,10 @@ app.model.sisbot = {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 
 			// TESTING: Siri shortcut
-			if (app.is_app && app.platform == 'iOS') {
-				if (!self.get('siri.play')) {
-					cordova.plugins.SiriShortcuts.donate({
-						persistentIdentifier: 'sisyphus_play',
-						title: 'Play Sisyphus',
-						suggestedInvocationPhrase: 'Play Sisyphus',
-						userInfo: {
-							model: self.id,
-							action: 'play'
-						}
-					}, function(data) {
-						console.log("Successful Presented Siri Shortcut", data);
-						self.set('siri.play', true);
-					}, function(err) {
-						console.log("Siri Presented Shortcut Error", err);
-					});
-				}
-			}
+			self._donate_siri({
+				action:'play',
+				phrase:'Play'
+			});
 		});
 	},
 	pause: function () {
@@ -1714,24 +1807,10 @@ app.model.sisbot = {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 
 			// TESTING: Siri shortcut
-			if (app.is_app && app.platform == 'iOS') {
-				if (!self.get('siri.pause')) {
-					cordova.plugins.SiriShortcuts.donate({
-						persistentIdentifier: 'sisyphus_pause',
-						title: 'Pause Sisyphus',
-						suggestedInvocationPhrase: 'Pause Sisyphus',
-						userInfo: {
-							model: self.id,
-							action: 'pause'
-						}
-					}, function(data) {
-						console.log("Successful Presented Siri Shortcut", data);
-						self.set('siri.pause', true);
-					}, function(err) {
-						console.log("Siri Presented Shortcut Error", err);
-					});
-				}
-			}
+			self._donate_siri({
+				action:'pause',
+				phrase:'Pause'
+			});
 		});
 	},
 	home: function () {

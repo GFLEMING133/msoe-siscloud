@@ -1,52 +1,57 @@
-<div class="flex mt10 pb25 bb">
+<div>
+  <div class="flex mt10 pb25 bb">
     <div class="w20">&nbsp;</div>
     <div class="w60 hvw40 center vertical active">
-        <div class="h__k" data-if="{{= model.generating_thumbnails }} == false">
-            <img src="" class="w100 center h__k" alt="slow"
-                data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
-            />
-        </div>
-        <div class="h__k" data-if="{{= model.generating_thumbnails }} == true">
-            <img src="" class="w100 center h__k" alt="slow"
-                data-src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png"
-            />
-        </div>
+      <div data-if="{{= model.generating_thumbnails }} == false">
+        <img class="w100 center" alt="slow" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+      </div>
+      <div data-if="{{= model.generating_thumbnails }} == true">
+        <img class="w100 center" alt="slow" src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />
+      </div>
     </div>
     <div class="w20">&nbsp;</div>
-</div>
-<div class="flex pt20 pr20 pl20 pb20 h__k">
+  </div>
+  <div class="flex pt20 pr20 pl20 pb20">
     <div class="w100">
-        <div class="fs18 lh20 black block strong h__k">{{= model.data.name }}</div>
-        <!-- <div class="fs12 lh20 grey block h__k" data-if="{{= model.data.created_by_name }} == false">
-             by Sisyphus Industries
-        </div>
-        <div class="fs12 lh20 grey block h__k" data-if="{{= model.data.created_by_name }} !== false">
-             by {{= model.data.created_by_name }}
-        </div>  -->
+      <div class="pull-right" data-if="{{= app.is_app }} == true">
+        <div class="p10 clickable"
+            data-model="{{= parent.sisbot_id }}"
+            data-on-click="model.present_siri"
+            data-msg="{'action':'play_track','phrase':'Play {{= parent.data.name }} Track','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
+            data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
+      </div>
+      <div class="fs18 lh20 black block strong">{{= model.data.name }}</div>
+      <div class="fs12 lh20 grey block" data-if="{{= model.data.created_by_name }} == false">
+        by Sisyphus Industries
+      </div>
+      <div class="fs12 lh20 grey block" data-if="{{= model.data.created_by_name }} !== false">
+        by {{= model.data.created_by_name }}
+      </div>
     </div>
-</div>
-<div class="bg-grey-l flex">
-    <div class="w25 pt15 pb15 clickable active center h__k"
-        data-on-click="model.play"
-    ><img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" /></div>
-    <div class="w25 pt15 pb15 clickable active center h__k"
+  </div>
+  <div class="bg-grey-l flex">
+    <div class="w25 pt15 pb15 clickable active center"
+        data-on-click="model.play"><img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" /></div>
+    <div class="w25 pt15 pb15 clickable active center"
         data-run="model.is_playlist_favorite"
-        data-on-click="model.favorite_toggle"
-    >
-        <img src="img/icon_2x_trackdropdown_openheart.png" alt="Favorite" class="hh20 h__k"
-            data-if="{{= model.is_favorite }} == false"
-         />
-         <img src="img/icon_2x_trackdropdown_closedheart.png" alt="Unfavorite" class="hh20 h__k"
-            data-if="{{= model.is_favorite }} == true"
-         />
+        data-on-click="model.favorite_toggle">
+      <img src="img/icon_2x_trackdropdown_openheart.png"
+          alt="Favorite"
+          class="hh20"
+          data-if="{{= model.is_favorite }} == false" />
+      <img src="img/icon_2x_trackdropdown_closedheart.png"
+          alt="Unfavorite"
+          class="hh20"
+          data-if="{{= model.is_favorite }} == true" />
     </div>
-    <div class="w25 pt15 pb15 clickable active center h__k"
+    <div class="w25 pt15 pb15 clickable active center"
         data-on-click="publish"
         data-publish="modal:open"
-        data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
-    ><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
-    <div class="w25 pt15 pb15 white blue-hover clickable active center h__k"
-		data-on-click="model.delete"
-	><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh20" /></div>
+        data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"><img src="img/icon_2x_trackdropdown_plus.png"
+          alt="Add to Playlist"
+          class="hh20" /></div>
+    <div class="w25 pt15 pb15 white blue-hover clickable active center"
+        data-on-click="model.delete"><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh20" /></div>
+  </div>
+  <div class="hh250">&nbsp;</div>
 </div>
-<div class="hh250">&nbsp;</div>

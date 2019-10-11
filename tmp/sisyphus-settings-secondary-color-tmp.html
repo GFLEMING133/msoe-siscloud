@@ -1,42 +1,42 @@
-<div class="h100 h__k" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
-  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align h__k" data-run="model.remember_colors">
-    <div class="w15 left pl20 clickable active h__k"
+<div class="h100" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align" data-run="model.remember_colors">
+    <div class="w15 left pl20 clickable active"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'false'}"
     ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w70">
-        <h1 class="h__k no-stuffing fs18 lh18 capitalize">Secondary Color</h1>
+        <h1 class="no-stuffing fs18 lh18 capitalize">Secondary Color</h1>
     </div>
     <div class="w15">&nbsp;</div>
   </div>
   <div class="body-header pb150 h100 scroll hide-scrollbar bg-black">
     <div class="flex-center-column">
-      <div class="white strong fs19 h__k">
-        <input class="white center color_input h__k"
+      <div class="white strong fs19">
+        <input class="white center color_input"
             data-field="model.edit.led_secondary_color"
             placeholder="{{= model.edit.led_secondary_color }}"
             value="{{= model.edit.led_secondary_color }}"
             data-on-update="model.toggle_picker" />
       </div>
-      <div class="h__k"
+      <div
           data-if="{{= model.show_picker }} == true">
-        <div class="h__k w100 mb10 pt20 webkit-center"
-            id="secondary"
-            data-iro="#secondary"
+        <div class="w100 mb10 pt20 webkit-center secondary-picker"
+            lib-iro=".secondary-picker"
             data-field="model.edit.led_secondary_color"
             data-value="{{= model.edit.led_secondary_color }}"
+            data-maintain-children="true"
             data-on-update="model.led_color"></div>
       </div>
       <div class="flex-center-row w100 pt25 pb50">
         <div class="p10 flex">
-          <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong h__k"
+          <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong"
               data-on-click="model.cancel_color">
             Cancel
           </div>
         </div>
         <div class="p10 flex">
-          <div class="w100 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong h__k"
+          <div class="w100 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong"
               data-on-click="publish"
               data-publish="session:active"
               data-msg="{'secondary':'false'}">

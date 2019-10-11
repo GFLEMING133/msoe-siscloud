@@ -498,14 +498,6 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	max-height			: 500px;
 	overflow-y			: scroll;
 }
-
-/* .trackBox {
-	min-height: 0;
-
-	height: 42vh;
-	max-height: 48vh;
-} */
-
 .web .scrollDown {
 	/* border: 6px solid green; */
 	max-height: calc(90vh - 310px);
@@ -572,9 +564,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .sortBy-drop-actions {
 	position: relative;
-	margin-left: 5px;
+	margin-left: 25px;
 	display: inline-block;
-	width: 270px;
+	width: 175px;
 	height: 35px;
 	border: 2px solid #fff;
 	border-radius: 6px;
@@ -624,12 +616,11 @@ li:hover {
 		border: 1.2px solid #999999;
 		border-radius: 6px;
 		background-color: #000;
-		width: 210px;
+		width: 175px;
 		box-shadow: 25px 8px 16px 5px #8888;
 		z-index: 1;
 		cursor: pointer;
-		padding-left: 10px;
-		left: 80px;
+		left: 100px;
 		display: flex;
 		top: 50px;
 		position: absolute;
@@ -645,11 +636,13 @@ li:hover {
  color: #fff;
  font-weight: 600;
 }
-/* .cloud {
-	padding-left: 163px;
-	height: 160px;
-	padding-top: 30px;
-} */
+.dl_cloud {
+	    position: absolute;
+    height: 25px;
+    width: 30px;
+    right: 25px;
+    top: 18px;
+}
 
 .hover, .hover > * 								{	color				: #efefef;	}
 .hover:hover, .hover:hover > * 					{	color				: #333;		}
@@ -1700,7 +1693,6 @@ input[type="range"]::-ms-fill-upper {
 
 /******************MEDIA QUERIES*******************/
 
-
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen
 and (min-width: 360px)
@@ -1731,7 +1723,6 @@ and (orientation : portrait)
 
 }
 /* *********iPhone 7 aka my testing device ************** */
-
 @media only screen
 	and (min-device-width: 375px)
 	and (max-device-height: 667px)
@@ -1742,7 +1733,6 @@ and (orientation : portrait)
 			max-height: calc(100vh - 320px);
 
 		}
-
 
 }
 /**************iPhone X /XS MArlo/Micah*******************/
@@ -1781,7 +1771,6 @@ and (orientation : portrait)
 
 }
 
-
 /*************iPhone XS Max & XR COLINS PHONE**************/
 @media only screen
     and (device-width : 414px)
@@ -1793,7 +1782,6 @@ and (orientation : portrait)
 		}
 		.app .app-container {
 			margin-top: 25px !important;
-
 		}
 		.footer_Xphone {
 			margin-bottom: constant(safe-area-inset-bottom);
@@ -1808,7 +1796,6 @@ and (orientation : portrait)
 		.app .scrollDown {
 			/* background-color: #00b1fa; */
 			max-height: calc(100vh - 360px);
-
 		}
 
 	}

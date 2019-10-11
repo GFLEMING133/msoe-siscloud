@@ -1,17 +1,17 @@
 <div class="h100">
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w15 center clickable active blue-hover h__k" data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        <div class="w15 center clickable active blue-hover" data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w70">
             <h1 class="no-stuffing capitalize fs18 lh24 truncate">Firmware Update</h1>
         </div>
         <div class="w15 center f-large">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 h__k" data-model="{{= model.sisbot_id }}">
-        <div class="h__k auto-scroll hide-scrollbar" data-if="{{= model.data }} !== undefined">
-            <div class="h__k" data-run="model.check_for_version_update"></div>
-            <div class="h__k" data-if="{{= model.data.is_network_connected }} == false">
+    <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40" data-model="{{= model.sisbot_id }}">
+        <div class="auto-scroll hide-scrollbar" data-if="{{= model.data }} !== undefined">
+            <div data-run="model.check_for_version_update"></div>
+            <div data-if="{{= model.data.is_network_connected }} == false">
                 <!--------------------------- NOT NETWORK CONNECTED --------------------------->
-                <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                <div data-if="{{= model.data.installing_updates }} == false">
                     <p class="no-stuffing center w100 mt40" aria-hidden="true">
                         <img src="img/icon_2x_wifi.png" alt="Wifi" class="hh30" />
                     </p>
@@ -22,13 +22,13 @@
                         Your table cannot detect if there is a firmware update available. Please connect your table to WiFi to check for an update.
                     </p>
 
-                    <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k" data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'wifi'}">Connect to WiFi</h2>
+                    <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong" data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'wifi'}">Connect to WiFi</h2>
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.is_network_connected }} == true">
-                    <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
+            <div data-if="{{= model.data.is_network_connected }} == true">
+                    <div data-if="{{= model.data.is_internet_connected }} == false">
                 <!--------------------------- NOT INTERNET CONNECTED --------------------------->
-                <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                <div data-if="{{= model.data.installing_updates }} == false">
                     <p class="no-stuffing center w100 mt40" aria-hidden="true">
                         <img src="img/icon_2x_wifi.png" alt="Wifi" class="hh30" />
                     </p>
@@ -42,10 +42,10 @@
 
                 </div>
             </div>
-            <div class="h__k" data-if="{{= model.data.is_internet_connected }} == true">
-                <div class="h__k" data-if="{{= model.has_software_update }} == true">
+            <div data-if="{{= model.data.is_internet_connected }} == true">
+                <div data-if="{{= model.has_software_update }} == true">
                     <!--------------------------- UPDATE AVAILABLE ------------------------>
-                    <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                    <div data-if="{{= model.data.installing_updates }} == false">
                         <p class="no-stuffing center w100 mt40" aria-hidden="true">
                             <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
                         </p>
@@ -56,10 +56,10 @@
                             Sisyphus is constantly improving, and there is a new update available. Click the button below to start the update process.
                         </p>
 
-                        <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k" data-if="{{= model.data.installing_updates }} == false" data-on-click="model.install_update_alert">Start Update</h2>
+                        <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong" data-if="{{= model.data.installing_updates }} == false" data-on-click="model.install_update_alert">Start Update</h2>
                     </div>
                     <!--------------------------- UPDATE AVAILABLE ------------------------>
-                    <div class="h__k" data-if="{{= model.data.installing_updates }} == true">
+                    <div data-if="{{= model.data.installing_updates }} == true">
                         <p class="no-stuffing center w100 mt40" aria-hidden="true">
                             <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
                         </p>
@@ -70,15 +70,15 @@
                             Firmware updates are being installed for your Sisyphus...
                         </p>
 
-                        <div class="h__k mt100 bg-white center black">
-                            <div class="h__k mb20" data-template="spinner-bounce-tmp"></div>
+                        <div class="mt100 bg-white center black">
+                            <div class="mb20" data-template="spinner-bounce-tmp"></div>
                             <div class="fs18 lh18 pb50">
                                 Installing Updates...
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="h__k" data-if="{{= model.has_software_update }} == complete">
+                <div data-if="{{= model.has_software_update }} == complete">
                     <!--------------------------- UPDATE COMPLETE --------------------->
                     <p class="no-stuffing center w100 mt40" aria-hidden="true">
                         <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
@@ -90,9 +90,9 @@
                         Your table now has the latest and greatest firmware installed. We will let you know when there is another new update available.
                     </p>
                 </div>
-                <div class="h__k" data-if="{{= model.has_software_update }} == false">
+                <div data-if="{{= model.has_software_update }} == false">
                     <!--------------------------- NO UPDATE --------------------------->
-                    <div class="h__k" data-if="{{= model.data.installing_updates }} == false">
+                    <div data-if="{{= model.data.installing_updates }} == false">
                         <p class="no-stuffing center w100 mt40" aria-hidden="true">
                             <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
                         </p>

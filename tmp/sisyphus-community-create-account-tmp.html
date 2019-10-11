@@ -1,90 +1,55 @@
 <div class="h100">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex">
-            <div class="w15 center clickable active blue-hover h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'primary':'community','secondary':'false'}"
-            ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />&nbsp;</div>
-            <div class="w70">
-                <h1 class="h__k no-stuffing pt10 pb10 mt5 fs18 capitalize strong truncate">Sign Up</h1>
-            </div>
-            <div class="w15 pt20 center f-large">&nbsp;</div>
-        </div>
+  <div class="pull-top bg-white w100">
+    <div class="white bg-black w100 center no-stuffing flex">
+      <div class="w15 center clickable active blue-hover" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'community','secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />&nbsp;</div>
+      <div class="w70">
+        <h1 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong truncate">Sign Up</h1>
+      </div>
+      <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
-        <div class="h__k" data-if="{{= model.data.is_internet_connected }} == false">
-            <div class="i center shadow bg-grey-ll p30 m10 clickable active h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'primary':'settings','secondary':'wifi'}"
-            >Your Sisyphus must be connected to the internet via WiFi before you can successfully create an account. Click here to connect</div>
-        </div>
-        <form>
-            <div class="h__k mt40 mb100 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
-                <div class="bg-white black h__k" 
-                    data-model="{{= session.id }}"
-                    data-run="model.clear_errors"
-                >
-                    <h3 class="center fs18 fl12 less_strong">Enter the info below to set up<br/> your Sisyphus account.</h3>
-
-                    <div class="bg-ll-red p10 sign_up_errors corner-5px h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-                            <div class="h__k " data-foreach="model.errors">
-                                <div class="h__k warmRed strong red_triangle p5">{{= scope.value }}</div>
-                            </div>
-                    </div>
-                    
-                    <h4 class="pt10 pb10 no-stuffing strong">User Name</h4>
-                    <div class="pb10">
-                            <input class="h__k w100" type="text" placeholder="user name"
-                                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                                data-field="model.registration.username"
-                                value="{{= model.registration.username }}"
-                            />
-                    </div>
-                    <h4 class="pt10 pb10 no-stuffing strong">Email</h4>
-                    <div class="pb10">
-                        <input class="h__k w100" type="text" placeholder="your_email@address.com"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.registration.email"
-                            value="{{= model.registration.email }}"
-                        />
-                    </div>
-                    <h4 class="pt10 pb10 no-stuffing strong">Password</h4>
-                    <div class="pb10">
-                        <input class="h__k w100" type="password" placeholder="password"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.registration.password"
-                            value="{{= model.registration.password }}"
-                        />
-                    </div>
-                    <h4 class="pt10 pb10 no-stuffing strong">Verify Password</h4>
-                    <div class="pb10">
-                        <input class="h__k w100" type="password" placeholder="verify-password"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            data-field="model.registration.password_confirmation"
-                            value="{{= model.registration.password_confirmation }}"
-                        />
-                    </div>
-                
-                    <h2 class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k" 
-                            data-on-click="model.sign_up" 
-                        
-                    >SIGN UP</h2>
-                    <h2 class="btn bg-green w100 m0 p10 corner-5px uppercase fs17 strong i h__k"
-                            data-if="{{= model.signing_up }} == true"
-                    >Processing <i class="fas fa-spinner spin" aria-hidden="true"></i></h2>
-
-                    <br clear="both">
-                
-                    <div class="h__k pt30 pb100 fs18 lh24 clickable active center"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'primary':'community','secondary':'sign_in'}"
-                    >Already have an account? </br> <a class="blue-l pr5">Sign In</a>
-                    </div>
-                </div>
-            </div>
-        </form>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+    <div data-if="{{= model.data.is_internet_connected }} == false">
+      <div class="i center shadow bg-grey-ll p30 m10 clickable active" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'settings','secondary':'wifi'}">Your Sisyphus must be connected to the internet via WiFi before you can
+        successfully create an account. Click here to connect</div>
     </div>
+    <form>
+      <div class="mt40 mb100 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
+        <div class="bg-white black" data-model="{{= session.id }}" data-run="model.clear_errors">
+          <h3 class="center fs18 fl12 less_strong">Enter the info below to set up your Sisyphus account.</h3>
+
+          <div class="bg-ll-red p10 sign_up_errors corner-5px" data-if="{{= app.plugins.length(model.errors) }} > 0">
+            <div  data-foreach="model.errors">
+              <div class="warmRed strong red_triangle p5">{{= scope.value }}</div>
+            </div>
+          </div>
+
+          <h4 class="pt10 pb10 no-stuffing strong">User Name</h4>
+          <div class="pb10">
+            <input class="w100" type="text" placeholder="user name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.username" value="{{= model.registration.username }}" />
+          </div>
+          <h4 class="pt10 pb10 no-stuffing strong">Email</h4>
+          <div class="pb10">
+            <input class="w100" type="text" placeholder="your_email@address.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.email" value="{{= model.registration.email }}" />
+          </div>
+          <h4 class="pt10 pb10 no-stuffing strong">Password</h4>
+          <div class="pb10">
+            <input class="w100" type="password" placeholder="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.password" value="{{= model.registration.password }}" />
+          </div>
+          <h4 class="pt10 pb10 no-stuffing strong">Verify Password</h4>
+          <div class="pb10">
+            <input class="w100" type="password" placeholder="verify-password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.password_confirmation" value="{{= model.registration.password_confirmation }}" />
+          </div>
+
+          <h2 class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong" data-on-click="model.sign_up">SIGN UP</h2>
+          <h2 class="btn bg-green w100 m0 p10 corner-5px uppercase fs17 strong i" data-if="{{= model.signing_up }} == true">Processing <i class="fas fa-spinner spin" aria-hidden="true"></i></h2>
+
+          <br clear="both">
+
+          <div class="pt30 pb100 fs18 lh24 clickable active center" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'community','secondary':'sign_in'}">Already have an account? <br /> <a class="blue-l pr5">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

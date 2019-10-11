@@ -1,12 +1,12 @@
 var http            = require("http");
 var express         = require("express");
-var bodyParser		= require('body-parser');
+var bodyParser			= require('body-parser');
 var _               = require('underscore');
 var fs              = require('fs');
-var cleanCSS		= require('clean-css');
+var cleanCSS				= require('clean-css');
 var local_config    = require('./config.js');
-var cleanCSS		= require('clean-css');
-var cors			= require("cors");
+var cleanCSS				= require('clean-css');
+var cors						= require("cors");
 
 var exp             = express();
 var app_service     = new express();
@@ -24,7 +24,7 @@ var app = function(given_config,ansible) {
 	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
-	if (config.env.indexOf('dev') > -1 || config.env.indexOf('sisbot') == -1) { 
+	if (config.env.indexOf('dev') > -1 || config.env.indexOf('sisbot') == -1) {
 		fs.watch(config.dir + '/templates', regenerate_index_page);
 		fs.watch(config.dir + '/tmp', regenerate_index_page);
 		fs.watch(config.dir + '/js/gen', regenerate_index_page);
@@ -109,7 +109,7 @@ function regenerate_index_page() {
 	var files	   = [
 		"css/bootstrap.min.css",
 		"css/fontawesome.min.css",
-		"css/timepicker.min.css",
+		"css/flatpickr.min.css",
 		"css/chosen.css",
 		"css/styles.css",
 	];

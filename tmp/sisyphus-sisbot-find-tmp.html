@@ -1,16 +1,16 @@
-<div class="p20 bg-black mh-480 h__k" data-run="model.find_sisbots">
+<div class="p20 bg-black mh-480" data-run="model.find_sisbots">
     <img src="img/sisyphus-cardlogo.png" class="center w100 pt50" />
 
     <div class="bg-black center i white pull-bottom">
-        <div class="h__k bg-black white" data-if="{{= model.sisbots_scanning }} == true">
-            <div class="h__k mb20 bg-black white" data-template="spinner-bounce-tmp"></div>
-            <div class="fs18 lh18 pb50 bg-black white h__k">
+        <div class="bg-black white" data-if="{{= model.sisbots_scanning }} == true">
+            <div class="mb20 bg-black white" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 pb50 bg-black white">
                 Scanning for nearby tables...
             </div>
         </div>
-        <div class="h__k bg-black" data-if="{{= model.sisbot_connecting }} == true">
-            <div class="h__k mb20 bg-black white" data-template="spinner-bounce-tmp"></div>
-            <div class="fs18 lh18 pb50 bg-black white h__k">
+        <div class="bg-black" data-if="{{= model.sisbot_connecting }} == true">
+            <div class="mb20 bg-black white" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 pb50 bg-black white">
                 Connecting...
             </div>
         </div>
