@@ -194,7 +194,23 @@ label {
 	bottom					: 0px;
 	z-index					: 10000;
 }
+.overlay {
+	position: fixed; /* Sit on top of the page content */
+	display: none; /* Hidden by default */
+	width: 100%; /* Full width (cover the whole page) */
+	height: 100%; /* Full height (cover the whole page) */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+	z-index: 200;/* Specify a stack order in case you're using a different order for other elements */
+	cursor: pointer; /* Add a pointer on hover */
+}
+.overlay_margin {
+    margin-bottom: 450px;
 
+}
 .body-header {
 	margin-top				: 50px;
 }
@@ -574,12 +590,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	color: #fff;
 }
 
-a:hover {
-	color: #00b1fa;
-}
-li:hover {
-	color: #00b1fa;
-}
+
 .upDown-arrows {
 	display: flex;
 	position: relative;
@@ -630,12 +641,19 @@ li:hover {
 	margin-left: 30px;
 }
 
+
 .hover, .hover > * 								{	color				: #efefef;	}
 .hover:hover, .hover:hover > * 					{	color				: #333;		}
 
 .hover-dark, .hover-dark > * 					{	color				: #888;		}
 .hover-dark:hover, .hover-dark:hover > *		{	color				: #fff;		}
 
+a.blue-hover:hover {
+	color: #00b1fa;
+}
+li.blue-hover:hover {
+	color: #00b1fa;
+}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -1040,6 +1058,9 @@ li:hover {
 .black .spinner-bounce > div {
 	background-color: black;
 }
+.blue .spinner-bounce > div {
+	background-color: #00b1fa;
+}
 
 .spinner-bounce > div {
   width: 10px;
@@ -1201,6 +1222,7 @@ select:focus {
 .black 									{	color		: #333    !important;					}
 .blue-l 								{	color		: #22AEFF !important;					}
 .blue, .blue-hover:hover 				{	color		: #11b2fb !important;					}
+.bluer									{	color		: #11b2fb !important;					}
 .orange									{	color		: #F4AE3D !important;					}
 .green									{	color		: #32B150 !important;					}
 .red									{	color		: #d0021b !important;					}
@@ -1467,6 +1489,7 @@ select:focus {
 
 .mt50									{	margin-top				: 50px !important;			            }
 .mb50						            {   margin-bottom		    : 50px !important;			            }
+.mb400					            {   margin-bottom		    : 400px  !important;			            }
 .ml50									{	margin-left				: 50px !important;			            }
 .mr50						            {   margin-right		    : 50px !important;			            }
 .mb55						      		{   margin-bottom		    : 55px !important;			            }
