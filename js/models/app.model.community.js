@@ -148,6 +148,7 @@ app.model.community = {
     if (this.get('selected_tracks') < 1) this.set('download_cloud', 'false');
   },
   download_wc: function() {
+   
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
 
@@ -155,12 +156,15 @@ app.model.community = {
       this.set('download_cloud', 'false');
       var track_model = app.collection.get(track_list[numberOfTracks - 1]);
       if(track_model) track_model.download_wc(true);
+      app.trigger('modal:open', {
+        'template': 'modal-overlay-downloading-tmp'
+      });
     }
   },
   downloaded_track: function(track_id) {
     this.remove('selected_tracks', track_id); //removes id from checked array
     this.remove('community_track_ids', track_id); // this removes id from displayed track array (list)
-
+  
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
     this.add('downloaded_tracks', track_id);
