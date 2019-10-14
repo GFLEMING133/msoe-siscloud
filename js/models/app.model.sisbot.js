@@ -1685,6 +1685,7 @@ app.model.sisbot = {
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			console.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
+				console.log("Error in the _update_sisbot when adding to Playlist. ", obj.err);
 				return app.plugins.n.notification.alert('There was an error adding the playlist to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
@@ -1702,6 +1703,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
 			if (obj.err) {
+				console.log("Error in the _update_sisbot  to Playlist. ", obj.err);
 				return app.plugins.n.notification.alert('There was an error removing your Playlist. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);

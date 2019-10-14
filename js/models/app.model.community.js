@@ -148,7 +148,9 @@ app.model.community = {
     if (this.get('selected_tracks') < 1) this.set('download_cloud', 'false');
   },
   download_wc: function() {
-   
+    app.trigger('modal:open', {
+      'template': 'modal-overlay-downloading-tmp'
+    });
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
 
