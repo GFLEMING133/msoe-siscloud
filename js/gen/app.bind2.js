@@ -1,5 +1,5 @@
 var Binding = Backbone.View.extend({
-  debug: true, // debug for Rendering
+  debug: false, // debug for Rendering
   render_wait: 25,
   is_rendering: false,
   render_start: null,
@@ -105,6 +105,7 @@ var Binding = Backbone.View.extend({
     data-field :: associated model variable, used with form elements
     data-checked :: is checkbox checked (true|false)
     data-placeholder :: input placeholder text
+    data-src :: for img elements, replaces the src attribute after page render, for lazy loading.
     data-replace :: for img elements, if the src fails to load, show this template instead. Use with data-on-error="replace".
     data-maintain-children :: when an element changes, don't rerender its children. Needed for plugins that control html of children.
     data-debug :: console.log info about the element during runtime
@@ -143,7 +144,7 @@ function Element(el, parent, _scope) {
   this.libraries = {};
 
   this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = true; // show/hide data-____ values in html
+  this.show_data = false; // show/hide data-____ values in html
   this.show_lib = false;
   this.show_tg = false;
 
@@ -393,6 +394,14 @@ function Element(el, parent, _scope) {
 
       var $el = $('.'+this.el_id);
       if ($el) $el.val(val);
+  };
+  this.src = function() {
+    var self = this;
+
+    setTimeout(function() {
+      var $el = $('.'+self.el_id);
+      if ($el) $el.attr('src', self.get_value(self.data.src));
+    }, 500);
   };
   this.remove = function() {
     var self = this;
@@ -1352,6 +1361,9 @@ function Element(el, parent, _scope) {
 
     // Listen for events reset
     if (this.is_event) this.setup_events();
+
+    // img
+    if (this.data.src) this.src();
 
     // Listen for lib reset
     if (this.is_lib) this.setup_libs();
