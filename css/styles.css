@@ -736,7 +736,7 @@ li.blue-hover:hover {
 	display: flex;
 	flex-direction: row;
 }
-.flex-column { 
+.flex-column {
 	display: flex;
 	flex-direction: column;
 }
@@ -755,7 +755,7 @@ li.blue-hover:hover {
 .word-break {
 	word-break: break-word;
 }
-.flex01 						{ flex: .01;										}.flex07 						{	position:relative;   margin: 7px ;	flex: .7;	} 
+.flex01 						{ flex: .01;										}.flex07 						{	position:relative;   margin: 7px ;	flex: .7;	}
 .flex1 							{   flex:1;                                         }
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
@@ -1000,6 +1000,7 @@ li.blue-hover:hover {
 .w100                   				{ 	width           		: 100% !important;          }
 
 .shadow 								{	box-shadow				: 0px 1px 2px #999;		  }
+.t-shadow 								{	text-shadow				: rgba(0, 0, 0, 0.5) 0px 8px 16px;			}
 .less_strong							{	font-weight 			: 600						}
 .strong									{	font-weight				: 700;						}
 .clickable 								{	cursor					: pointer;					}
@@ -1275,7 +1276,7 @@ select:focus {
 	content: "\f071" " " !important;
 	font-weight: 900;
 	color: #990033
-	
+
 }
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
