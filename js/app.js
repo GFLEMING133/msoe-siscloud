@@ -25,12 +25,9 @@ var app = {
 		if (window.cordova)						{
 			app.is_app = true;
 			StatusBar.show();
+			$('.body').removeClass('touch-hover'); // FOR TOUCH EVENTS
 		}
 		// if (app.plugins.is_mobile() !== false)	app.is_app = true;
-
-		// FOR TOUCH EVENTS
-		if (app.is_app)
-			$('.body').removeClass('touch-hover');
 
 		_.extend(app, Backbone.Events);
 
@@ -41,7 +38,6 @@ var app = {
 		app.collection.on_init();
 
 		app.bind = new Binding({ el: $('.body') });
-		// app._base = new Binding({ el: $('.body') });
 		Backbone.history.start();
 		this.setup_fastclick();
 

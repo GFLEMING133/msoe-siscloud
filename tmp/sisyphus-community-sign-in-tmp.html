@@ -55,24 +55,17 @@
               value="{{= model.registration.password }}" />
         </div>
 
-        <div class="pt10 pull-left" data-field="model.remember_me" data-on-click="toggle">
-          <input id="rememberMe" type="checkbox" data-checked="{{= 'true' }}" data-field="model.remember_me" />
-          <label for="rememberMe">Remember Me</label>
+        <div class="pt10 pull-left clickable" data-on-click="toggle" data-field="model.remember_me">
+          <i class="fas fa-check-square" data-if="{{= model.remember_me }} == true"></i>
+          <i class="far fa-square" data-if="{{= model.remember_me }} !== true"></i>
+          Remember Me
         </div>
 
-        <div class="pt10 pull-right"
+        <div class="pt10 pull-right clickable"
             data-field="model.show_password"
-            data-if="{{= model.show_password }} == true"
             data-on-click="toggle">
-          <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}" data-field="model.show_password" hidden />
-          <label class="clickable" for="showPassword"><i class="fas fa-eye blue"></i></label>
-        </div>
-        <div class="pt10 pull-right"
-            data-field="model.show_password"
-            data-if="{{= model.show_password }} == false"
-            data-on-click="toggle">
-          <input id="showPassword" type="checkbox" data-checked="{{= 'true' }}" data-field="model.show_password" hidden />
-          <label class="clickable" for="showPassword" data-if="{{= model.show_password }} == false"><i class="fas fa-eye-slash"></i></label>
+          <i class="fas fa-eye blue" data-if="{{= model.show_password }} == true"></i>
+          <i class="fas fa-eye-slash" data-if="{{= model.show_password }} == false"></i>
         </div>
 
         <br clear="both">
