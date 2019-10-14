@@ -208,7 +208,7 @@ label {
 	cursor: pointer; /* Add a pointer on hover */
 }
 .overlay_margin {
-    margin-bottom: 450px;
+    margin-bottom: 50vh;
 
 }
 .body-header {
@@ -567,7 +567,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 .sortBy-dropdown-container {
 	padding-top: 5px;
-    padding-left: 15px;
+    padding-left: 5px;
     padding-bottom: 15px;
 	background-color: #000;
 	position: absolute;
@@ -1060,6 +1060,9 @@ li.blue-hover:hover {
 }
 .blue .spinner-bounce > div {
 	background-color: #00b1fa;
+}
+.orange .spinner-bounce > div {
+	background-color: orange;
 }
 
 .spinner-bounce > div {
