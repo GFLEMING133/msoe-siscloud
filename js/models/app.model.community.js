@@ -19,6 +19,9 @@ app.model.community = {
       selected_tracks: [],
       downloaded_tracks: [],
 
+      offset: 0,
+      limit: 25,
+
       data: {
         id: data.id,
         type: 'community',
@@ -37,17 +40,21 @@ app.model.community = {
   on_init: function() {
     console.log("on_init() in app.model.community", this.id);
 
-
     //   this.listenTo(app, 'manager:download_playlist', this.download_playlist);
     this.listenTo(app, 'community:downloaded_track', this.downloaded_track);
     this.listenTo(app, 'community:select_track', this.selectTrack);
     this.listenTo(app, 'community:deselect_track', this.deselectTrack);
+
+    this.on('change:offset', this.scrollTop);
 
     return this;
   },
   save: function() {
     // do nothing
     return this;
+  },
+  scrollTop: function() {
+    $('.body-header').scrollTop(0);
   },
   /**************************** COMMUNITY ***********************************/
   fetch_community_tracks: function() {
@@ -87,7 +94,7 @@ app.model.community = {
   sort_function: function(sort_params) {
     this.set('sorting', 'true');
     var self = this;
-    this.set('track_sort', sort_params)
+    this.set('track_sort', sort_params);
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
@@ -112,6 +119,7 @@ app.model.community = {
 
       self.openSort();
       self.set('community_track_ids', new_track_ids);
+      self.set('offset', 0);
       self.set('fetched_community_tracks', 'true');
       // console.log('new_track_ids', obj.resp);
       self.set('fetching_community_tracks', 'false');
@@ -165,14 +173,16 @@ app.model.community = {
   },
   downloaded_track: function(track_id) {
     this.remove('selected_tracks', track_id); //removes id from checked array
-    this.remove('community_track_ids', track_id); // this removes id from displayed track array (list)
-  
+    this.remove('community_track_ids', track_id, {silent:true}); // this removes id from displayed track array (list)
+
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
     this.add('downloaded_tracks', track_id);
     if (numberOfTracks > 0) {
       this.download_wc();
     } else {
+      this.trigger('change:community_track_ids'); // trigger once at end
+
       app.trigger('modal:open', {
         'template': 'modal-list-playlist-add-tmp'
       });

@@ -41,7 +41,6 @@
             <h4 class="pb5 fs18 lh18 strong no-stuffing">End</h4>
             <input class="w100 less_strong"
                 type="text"
-
                 lib-flatpickr="{'noCalendar':'true','enableTime':'true','enableSeconds':'false', 'dateFormat':'h:iK','minuteIncrement':15}" 
                 data-field="model.edit.wake_time" 
                 value="{{= (model.data.wake_time == 'false') ? moment().hour(8).minute(0).format('h:mm A') : model.data.wake_time }}" />

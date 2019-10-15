@@ -94,6 +94,8 @@ var Binding = Backbone.View.extend({
     data-defaults :: sets the values in the model's data variable
     data-if :: comparison of if the element and children should be shown
     data-foreach :: loops through the values given, using the first child as the repeated element OR cluster to loop through given cluster
+    data-foreach-limit :: renders only the number of iterees given
+    data-foreach-offset :: starts rendering loop at the number given
     data-foreach-map :: assigns children the model of the current iteree (assumes array is an array of model ids)
     data-cluster :: object with values that all models must have to be included in loop
     data-cluster-comparator :: sorts the cluster, {key:'data.name','ord':'asc'}
@@ -144,7 +146,7 @@ function Element(el, parent, _scope) {
   this.libraries = {};
 
   this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = false; // show/hide data-____ values in html
+  this.show_data = true; // show/hide data-____ values in html
   this.show_lib = false;
   this.show_tg = false;
 
@@ -1178,7 +1180,9 @@ function Element(el, parent, _scope) {
           }
         }
 
-        if (self.data.foreachLimit && index >= +self.data.foreachLimit) include = false;
+        var offset = 0;
+        if (self.data.foreachOffset) offset = +self.get_value(self.data.foreachOffset);
+        if (self.data.foreachLimit && (index < offset || index >= +self.get_value(self.data.foreachLimit) + offset)) include = false;
 
         if (include) {
           // loop through list
@@ -1216,9 +1220,11 @@ function Element(el, parent, _scope) {
 
       if (self.data.debug) console.log("Add foreach element", JSON.stringify(list));
 
+      var offset = 0;
+      if (self.data.foreachOffset) offset = +self.get_value(self.data.foreachOffset);
       // loop through list
       _.each(list, function(item, count) {
-        if (!self.data.foreachLimit || (self.data.foreachLimit && count < +self.data.foreachLimit)) {
+        if (!self.data.foreachLimit || (self.data.foreachLimit && count >= offset && count < +self.get_value(self.data.foreachLimit) + offset)) {
           var _scope = {
             index: item.index,
             count: count
@@ -1371,7 +1377,7 @@ function Element(el, parent, _scope) {
   /***************************** EVENTS **************************************/
   this.on_click = function(e) {
     var self = e.data.el;
-    // console.log("Click", e, self.data.onClick);
+    console.log("Click", e, self.data.onClick);
     self._call(self.data.onClick, self.get_value(self.data.msg));
 
     // limit propegation
