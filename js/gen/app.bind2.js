@@ -7,15 +7,57 @@ var Binding = Backbone.View.extend({
   render_timeout: null,
   render_ids: [],
   element: null,
+  lazyImageObserver: null,
+  lazy_active: false,
+  lazy_els: [],
   initialize: function (opts) {
     _.extend(this, opts);
+
+    var self = this;
 
     if (this.debug) console.log("Binding opts", opts);
     this.element = new Element($(this.$el.children()[0]));
     this.element.is_changed = true; // force redraw first time
 
+    if ("IntersectionObserver" in window) {
+      this.lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // get id out of class
+            var id = entry.target.className.match(/(e_[0-9]+)/i)[1];
+            var el = self.get(id);
+            var $el = $('.'+id);
+            if ($el) $el.attr('src', el.get_value(el.data.src));
+            self.lazyImageObserver.unobserve(entry.target);
+            console.log("Bind: Intersection Observed", entry.target);
+          }
+        });
+      });
+    }
+
     this.start_listening();
     return this;
+  },
+  lazyLoad: function(e) {
+    var self = app.bind;
+
+    if (self.lazy_els.length > 0 && self.lazy_active == false) {
+      self.lazy_active = true;
+
+      setTimeout(function() {
+        if (self.debug) console.log("Bind: Lazy Load Scroll", self.lazy_els);
+        _.each(self.lazy_els, function(id) {
+          var el = self.get(id);
+          var $el = $('.'+id);
+          if ($el && $el[0].getBoundingClientRect().top <= window.innerHeight && $el[0].getBoundingClientRect().bottom >= 0) {
+            if (el.data && el.data.src) $el.attr('src', el.get_value(el.data.src));
+            self.lazy_els = _.without(self.lazy_els, id);
+          }
+        });
+
+        self.lazy_active = false;
+      }, 200);
+    }
   },
   stop_listening: function() {
     this.stopListening(app, 'bind:stop_listening', this.stop_listening);
@@ -81,6 +123,11 @@ var Binding = Backbone.View.extend({
     this.is_rendering = false;
 
     app.trigger('bind:after_render');
+
+    // run lazyLoad if IntersectionObserver is not available, makes sure first view of scroll loads data-src images
+    if (!("IntersectionObserver" in window)) {
+      if (this.lazy_els.length > 0) this.lazyLoad();
+    }
     return this;
   }
 });
@@ -399,11 +446,14 @@ function Element(el, parent, _scope) {
   };
   this.src = function() {
     var self = this;
+    this.scroll_active = false;
 
-    setTimeout(function() {
-      var $el = $('.'+self.el_id);
-      if ($el) $el.attr('src', self.get_value(self.data.src));
-    }, 500);
+    if ("IntersectionObserver" in window) {
+      var $el = $('.'+this.el_id);
+      app.bind.lazyImageObserver.observe($el[0]);
+    } else {
+      app.bind.lazy_els.push(this.el_id); // fallback for no IntersectionObserver
+    }
   };
   this.remove = function() {
     var self = this;
@@ -421,6 +471,20 @@ function Element(el, parent, _scope) {
           delete self.libraries[key];
         }
       });
+    }
+
+    // remove lazyImageObserver
+    if ("IntersectionObserver" in window) {
+      if (this.data.src) {
+        var $el = $('.'+this.el_id);
+        app.bind.lazyImageObserver.unobserve($el[0]);
+      }
+    } else {
+      if (this.el.class.indexOf('scroll') >= 0) {
+        var $el = $('.'+this.el_id);
+        $el.off('scroll', app.bind.lazyLoad);
+      };
+      app.bind.lazy_els = _.without(app.bind.lazy_els, this.el_id);
     }
 
     this.remove_children();
@@ -474,7 +538,7 @@ function Element(el, parent, _scope) {
     if (matching) {
       switch(matching[1]) {
         case 'parent':
-          returnValue = ref.replace(/^parent/, 'parents[0]');
+          returnValue = ref.replace(/^parent(?!s\[[0-9]+\])/, 'parents[0]');
           break;
         case 'grandparent':
           returnValue = ref.replace(/^grandparent/, 'parents[1]');
@@ -1368,6 +1432,12 @@ function Element(el, parent, _scope) {
     // Listen for events reset
     if (this.is_event) this.setup_events();
 
+    // scroll
+    if (!("IntersectionObserver" in window) && this.el.class.indexOf('scroll') >= 0) {
+      var $el = $('.'+this.el_id);
+      $el.on('scroll', app.bind.lazyLoad);
+    }
+
     // img
     if (this.data.src) this.src();
 
@@ -1377,7 +1447,7 @@ function Element(el, parent, _scope) {
   /***************************** EVENTS **************************************/
   this.on_click = function(e) {
     var self = e.data.el;
-    console.log("Click", e, self.data.onClick);
+    // console.log("Click", e, self.data.onClick);
     self._call(self.data.onClick, self.get_value(self.data.msg));
 
     // limit propegation
