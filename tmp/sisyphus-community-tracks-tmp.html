@@ -62,13 +62,33 @@
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
     <div class="pt65 pb100" data-if="{{= model.fetching_community_tracks }} == false">
-      <div data-if="{{= app.plugins.length(model.community_track_ids) }} > 0"
+      <div data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
-          data-foreach-map="true">
+          data-foreach-map="true"
+          data-foreach-limit="{{= model.limit }}"
+          data-foreach-offset="{{= model.offset }}">
         <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
       <div class="p20 center fs18 blue w100 pt200 i"
-          data-if="{{= app.plugins.length(model.community_track_ids) }} == 0">There are no new tracks to download.</div>
+          data-if="{{= _.size(model.community_track_ids) }} == 0">There are no new tracks to download.</div>
+
+      <div class="mt10 flex" data-if="{{= _.size(model.community_track_ids) }} > 0">
+        <div class="w50 p10">
+          <div class="p10 btn bg-blue w100 corner-5px uppercase fs18 clickable"
+            data-if="{{= model.offset }} > 0"
+            data-on-click="set"
+            data-field="model.offset"
+            data-msg="{{= (+model.offset - +model.limit) }}">Prev</div>
+        </div>
+        <div class="w50 p10">
+          <div class="p10 btn bg-blue w100 corner-5px uppercase fs18 clickable"
+            data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
+            data-on-click="set"
+            data-field="model.offset"
+            data-msg="{{= (+model.offset + +model.limit) }}">Next</div>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>
