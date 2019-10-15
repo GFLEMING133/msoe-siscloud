@@ -34,7 +34,7 @@
             <input class="w100 less_strong"
                 type="text"
                 placeholder="10:00 PM"
-                lib-flatpickr="{'noCalendar':'true','enableTime':'true', 'enableSeconds':'false','dateFormat':'h:iK','minuteIncrement':15}" 
+                lib-flatpickr="{'noCalendar':'true','enableTime':'true', 'defaultDate':'22:00 PM', 'enableSeconds':'false','dateFormat':'h:iK','minuteIncrement':15}" 
                 data-field="model.edit.sleep_time" 
                 value="{{= (model.data.sleep_time == 'false') ? moment().hour(22).minute(0).format('h:mm A') : model.data.sleep_time }}" />
           </div>
@@ -43,7 +43,7 @@
             <input class="w100 less_strong"
                 type="text"
                 placeholder="8:00 AM"
-                lib-flatpickr="{'noCalendar':'true','enableTime':'true','enableSeconds':'false', 'dateFormat':'h:iK','minuteIncrement':15}" 
+                lib-flatpickr="{'noCalendar':'true','enableTime':'true','enableSeconds':'false','defaultDate':'08:00 AM', 'dateFormat':'h:iK','minuteIncrement':15}" 
                 data-field="model.edit.wake_time" 
                 value="{{= (model.data.wake_time == 'false') ? moment().hour(8).minute(0).format('h:mm A') : model.data.wake_time }}" />
           </div>

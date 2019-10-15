@@ -40,12 +40,13 @@
                                 data-field="model.default_settings.sleep_time"
                                 data-time="{{= model.default_settings.sleep_time }}"
                             >{{= model.default_settings.sleep_time }}</div> -->
-                        		<input class="w100"
+                        		<input class="w100 less_strong"
                         				type="text"
                         				placeholder="10:00 PM"
-                        				lib-flatpickr="{'noCalendar':'true','enableTime':'true','defaultHour':22,'dateFormat':'h:i K','minuteIncrement':15}"
+                                        lib-flatpickr="{'noCalendar':'true','enableTime':'true','enableSeconds':'false', 'defaultDate':'22:00 PM', 'dateFormat':'h:iK','minuteIncrement':15}" 
                         				data-field="model.default_settings.sleep_time"
-                        				value="{{= (model.data.sleep_time == 'false') ? moment().hour(22).minute(0).format('h:mm A') : model.data.sleep_time }}" />
+                                        value="{{= (model.data.sleep_time == 'false') ? moment().hour(22).minute(0).format('h:mm A') : model.data.sleep_time }}"
+                                        />
                         </div>
                         <div class="w50 pr20">
                             <h4 class="pb5 fs18 lh18 strong no-stuffing">End</h4>
@@ -54,10 +55,10 @@
                                 data-field="model.default_settings.wake_time"
                                 data-time="{{= model.default_settings.wake_time }}"
                             >{{= model.default_settings.wake_time }}</div> -->
-                        		<input class="w100"
+                        		<input class="w100 less_strong"
                         				type="text"
                         				placeholder="8:00 AM"
-                        				lib-flatpickr="{'noCalendar':'true','enableTime':'true','defaultHour':8,'dateFormat':'h:i K','minuteIncrement':15}"
+                                        lib-flatpickr="{'noCalendar':'true','enableTime':'true','enableSeconds':'false', 'defaultDate':'08:00 AM', 'dateFormat':'h:iK','minuteIncrement':15}" 
                         				data-field="model.default_settings.wake_time"
                         				value="{{= (model.data.wake_time == 'false') ? moment().hour(8).minute(0).format('h:mm A') : model.data.wake_time }}" />
                         </div>
