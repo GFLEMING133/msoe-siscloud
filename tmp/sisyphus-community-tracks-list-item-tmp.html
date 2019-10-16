@@ -22,7 +22,7 @@
           data-on-click="publish"
           data-publish="session:toggle"
           data-msg="{'key':'expanded','val':'{{= model.id }}'}">
-        <div class="fs18 black strong lh20">{{= model.data.name }}</div>
+        <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
         <div class="fs13 warmGrey pt10">by {{= model.data.created_by_name }}</div>
         <div class="fs13 warmRed pt5 private_italic"
             data-if="{{= model.data.is_public }} == false">Private</div>
