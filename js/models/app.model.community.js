@@ -74,10 +74,11 @@ app.model.community = {
       // setTimeout(function() {
       //   self.set('fetching_community_tracks', 'false');
       // }, 1000);
+      console.log("Community Tracks:", obj.resp);
       if (obj.err) return self;
-      app.manager.intake_data(obj.resp);
+      app.manager.intake_data(obj.resp.data);
 
-      var resp_track_ids = _.pluck(obj.resp, 'id');
+      var resp_track_ids = _.pluck(obj.resp.data, 'id');
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
@@ -98,7 +99,7 @@ app.model.community = {
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
-      endpoint: 'tracks.json?sort=' + sort_params,
+      endpoint: 'tracks.json?sort='+sort_params,
       data: {}
     };
     console.log("Sort community tracks", tracks);
