@@ -29,7 +29,7 @@ var Binding = Backbone.View.extend({
             var $el = $('.'+id);
             if ($el) $el.attr('src', el.get_value(el.data.src));
             self.lazyImageObserver.unobserve(entry.target);
-            console.log("Bind: Intersection Observed", entry.target);
+            if (self.debug) console.log("Bind: Intersection Observed", entry.target);
           }
         });
       });
@@ -484,7 +484,7 @@ function Element(el, parent, _scope) {
         var $el = $('.'+this.el_id);
         $el.off('scroll', app.bind.lazyLoad);
       };
-      app.bind.lazy_els = _.without(app.bind.lazy_els, this.el_id);
+      if (this.data.src) app.bind.lazy_els = _.without(app.bind.lazy_els, this.el_id);
     }
 
     this.remove_children();
