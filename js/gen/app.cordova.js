@@ -65,7 +65,7 @@ function check_siri() {
 	console.log("Check for Siri Shortcut");
 	// TESTING: Siri shortcuts
 	if (app.is_app && app.platform == 'iOS') {
-		cordova.plugins.SiriShortcuts.getActivatedShortcut({clear:false}, function(data) {
+		cordova.plugins.SiriShortcuts.getActivatedShortcut({clear:true}, function(data) {
 			console.log("Siri Shortcut:", JSON.stringify(data));
 			if (data && data.userInfo) {
 				var shortcut_data = data.userInfo;

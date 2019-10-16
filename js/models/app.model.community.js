@@ -71,14 +71,11 @@ app.model.community = {
     };
 
     function cb(obj) {
-      // setTimeout(function() {
-      //   self.set('fetching_community_tracks', 'false');
-      // }, 1000);
-      console.log("Community Tracks:", obj.resp);
+      // console.log("Community Tracks:", obj.resp);
       if (obj.err) return self;
-      app.manager.intake_data(obj.resp.data);
+      app.manager.intake_data(obj.resp); // obj.resp.data
 
-      var resp_track_ids = _.pluck(obj.resp.data, 'id');
+      var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
@@ -105,11 +102,6 @@ app.model.community = {
     console.log("Sort community tracks", tracks);
 
     function cb(obj) {
-      // setTimeout(function() {
-      //   self.set('fetching_community_tracks', 'false');
-      //   self.set('sorting', 'false');
-      // }, 1000);
-
       if (obj.err) return self;
 
       app.collection.add(obj.resp);
