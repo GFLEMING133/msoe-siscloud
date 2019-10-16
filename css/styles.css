@@ -683,6 +683,7 @@ li.blue-hover:hover {
 	align-items				: center;
 }
 
+
 /**************************** Flex ********************************************/
 .iro__wheel {
 	margin-bottom: 25px;
@@ -749,13 +750,17 @@ li.blue-hover:hover {
 .align-start {
 	align-self: flex-start;
 }
+.align-end {
+	align-self: end;
+}
 .align-center {
-	align-self: flex-center;
+	align-self: center;
 }
 .word-break {
 	word-break: break-word;
 }
-.flex01 						{ flex: .01;										}.flex07 						{	position:relative;   margin: 7px ;	flex: .7;	}
+.flex01 						{ flex: .01;										}
+.flex07 						{	position:relative;   margin: 7px ;	flex: .7;	}
 .flex1 							{   flex:1;                                         }
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
@@ -886,7 +891,7 @@ li.blue-hover:hover {
 .w20p							{	width		: 20px;								}
 .w25p							{	width		: 25px;								}
 .w80p							{	width		: 80px;								}
-
+.w75per							{   width       : 75%;								}
 .mh-480							{	min-height	: 480px;							}
 
 /**************************** Generic ******************************************/
@@ -1121,6 +1126,20 @@ select:focus {
 	padding-bottom: 8px;
 
 }
+.stopB::before {
+	font-size: 28px;
+	content: "\f100";
+	font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+
+}
+.stopA::before {
+	font-size: 28px;
+	content: "\f101";
+	font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+
+}
 
 /**************************** ZINDEX ******************************************/
 
@@ -1232,6 +1251,7 @@ select:focus {
 .red									{	color		: #d0021b !important;					}
 .xl-grey								{	color		: #EEE    !important;					}
 .grey-l									{	color		: #acacac !important;					}
+.grey-lt								{	color		: #dcdcdc !important;					}
 .grey-l-hover:hover						{	color		: #acacac !important;					}
 .grey									{	color		: #838383 !important;					}
 .warmGrey								{	color		: #9b9b9b !important;					}
@@ -1370,6 +1390,7 @@ select:focus {
 .fs18									{	font-size				: 18px !important;			}
 .fs19									{	font-size				: 19px !important;			}
 .fs24									{	font-size				: 24px !important;			}
+.fs30									{	font-size				: 30px !important;			}
 
 .fl10									{	line-height				: 1.0em;					}
 .fl12									{   line-height				: 1.2em;					}
@@ -1385,8 +1406,9 @@ select:focus {
 /**************************** BORDERS *****************************************/
 
 .b										{	border					: 1px solid #efefef !important;		}
+.bb-dcdc								{ 	border-bottom			: 1px solid #dcdcdc !important;				}
 .bt										{	border-top				: 1px solid #efefef !important;		}
-.bt-dcdc 								{ 	border-top				: 1px solid #dcdcdc;				}
+.bt-dcdc 								{ 	border-top				: 1px solid #dcdcdc !important;				}
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}

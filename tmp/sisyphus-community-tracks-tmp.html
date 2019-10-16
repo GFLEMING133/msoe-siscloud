@@ -61,7 +61,56 @@
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
-    <div class="pt65 pb100" data-if="{{= model.fetching_community_tracks }} == false">
+    <div class="pt65" data-if="{{= model.fetching_community_tracks }} == false" >
+      <div class="flex-row bb-dcdc pb5">
+        <div class="flex1center">
+          <div class="flex1center pt5 blue uppercase strong clickable"
+            data-if="{{= model.offset }} > 0"
+            data-on-click="set"
+            data-field="model.offset"
+            data-msg="{{= 0 }}">
+            <span class="bg-blue blue fs12 align-end">|</span><div class="stopB"></div>
+          </div>
+          <div class="flex1center blue uppercase strong clickable"
+            data-if="{{= model.offset }} > 0"
+            data-on-click="set"
+            data-field="model.offset"
+            data-msg="{{= (+model.offset - +model.limit) }}">
+            <i class="fs30 fas fa-angle-left"></i>
+          </div>
+          <div class="flex1center pt5 grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
+            <span class="bg-grey-lt fs12 align-end">|</span><div class="stopB"></div>
+          </div>
+          <div class="flex1center grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
+            <i class="fs30 fas fa-angle-left"></i>
+          </div>
+        </div>
+        <span class="hh60"></span>
+        <div class="flex1center">
+          <div class="flex1center blue uppercase strong clickable"
+            data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
+            data-on-click="set"
+            data-field="model.offset"
+            data-msg="{{= (+model.offset + +model.limit) }}">
+            <i class="fs30 fas fa-angle-right"></i>
+          </div>
+          <div class="flex1center pt5 uppercase blue strong clickable"
+            data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
+            data-on-click="set"
+            data-field="model.offset"
+            data-msg="{{= (Math.floor(_.size(model.community_track_ids)/ +model.limit) * +model.limit) }}">
+            <div class="stopA"></div><span class="blue bg-blue fs12 align-end">|</span>
+          </div>
+          <div class="flex1center grey-lt uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+            <i class="fs30 fas fa-angle-right"></i>
+          </div>
+          <div class="flex1center grey-lt pt5 uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+            <div class="stopA"></div><span class="bg-grey-lt grey-lt fs12 align-end">|</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="" data-if="{{= model.fetching_community_tracks }} == false">
       <div data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"
@@ -69,26 +118,58 @@
           data-foreach-offset="{{= model.offset }}">
         <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
-      <div class="p20 center fs18 blue w100 pt200 i"
+      <div class="p20 center fs18 blue pt200 i"
           data-if="{{= _.size(model.community_track_ids) }} == 0">There are no new tracks to download.</div>
 
-      <div class="mt10 flex" data-if="{{= _.size(model.community_track_ids) }} > 0">
-        <div class="w50 p10">
-          <div class="p10 btn bg-blue w100 corner-5px uppercase fs18 clickable"
-            data-if="{{= model.offset }} > 0"
-            data-on-click="set"
-            data-field="model.offset"
-            data-msg="{{= (+model.offset - +model.limit) }}">Prev</div>
-        </div>
-        <div class="w50 p10">
-          <div class="p10 btn bg-blue w100 corner-5px uppercase fs18 clickable"
-            data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
-            data-on-click="set"
-            data-field="model.offset"
-            data-msg="{{= (+model.offset + +model.limit) }}">Next</div>
+      <div class="pt10 pb25" data-if="{{= _.size(model.community_track_ids) }} > 0">
+        <div class="flex-row bb-dcdc pb5">
+          <div class="flex1center">
+            <div class="flex1center pt5 blue uppercase strong clickable"
+              data-if="{{= model.offset }} > 0"
+              data-on-click="set"
+              data-field="model.offset"
+              data-msg="{{= 0 }}">
+              <span class="bg-blue blue fs12 align-end">|</span><div class="stopB"></div>
+            </div>
+            <div class="flex1center blue uppercase strong clickable"
+              data-if="{{= model.offset }} > 0"
+              data-on-click="set"
+              data-field="model.offset"
+              data-msg="{{= (+model.offset - +model.limit) }}">
+              <i class="fs30 fas fa-angle-left"></i>
+            </div>
+            <div class="flex1center pt5 grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
+              <span class="bg-grey-lt fs12 align-end">|</span><div class="stopB"></div>
+            </div>
+            <div class="flex1center grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
+              <i class="fs30 fas fa-angle-left"></i>
+            </div>
+          </div>
+          <span class="hh60"></span>
+          <div class="flex1center">
+            <div class="flex1center blue uppercase strong clickable"
+              data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
+              data-on-click="set"
+              data-field="model.offset"
+              data-msg="{{= (+model.offset + +model.limit) }}">
+              <i class="fs30 fas fa-angle-right"></i>
+            </div>
+            <div class="flex1center pt5 uppercase blue strong clickable"
+              data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
+              data-on-click="set"
+              data-field="model.offset"
+              data-msg="{{= (Math.floor(_.size(model.community_track_ids)/ +model.limit) * +model.limit) }}">
+              <div class="stopA"></div><span class="blue bg-blue fs12 align-end">|</span>
+            </div>
+            <div class="flex1center grey-lt uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+              <i class="fs30 fas fa-angle-right"></i>
+            </div>
+            <div class="flex1center grey-lt pt5 uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+              <div class="stopA"></div><span class="bg-grey-lt grey-lt fs12 align-end">|</span>
+            </div>
+          </div>
         </div>
       </div>
-      
     </div>
   </div>
 </div>

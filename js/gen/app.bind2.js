@@ -1377,7 +1377,7 @@ function Element(el, parent, _scope) {
   /***************************** EVENTS **************************************/
   this.on_click = function(e) {
     var self = e.data.el;
-    console.log("Click", e, self.data.onClick);
+    // console.log("Click", e, self.data.onClick);
     self._call(self.data.onClick, self.get_value(self.data.msg));
 
     // limit propegation

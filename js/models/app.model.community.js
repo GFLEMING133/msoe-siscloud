@@ -20,7 +20,7 @@ app.model.community = {
       downloaded_tracks: [],
 
       offset: 0,
-      limit: 25,
+      limit: 40,
 
       data: {
         id: data.id,
@@ -166,9 +166,6 @@ app.model.community = {
       this.set('download_cloud', 'false');
       var track_model = app.collection.get(track_list[numberOfTracks - 1]);
       if(track_model) track_model.download_wc(true);
-      app.trigger('modal:open', {
-        'template': 'modal-overlay-downloading-tmp'
-      });
     }
   },
   downloaded_track: function(track_id) {
