@@ -110,6 +110,7 @@
         </div>
       </div>
     </div>
+
     <div class="" data-if="{{= model.fetching_community_tracks }} == false">
       <div data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
@@ -118,8 +119,10 @@
           data-foreach-offset="{{= model.offset }}">
         <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
-      <div class="p20 center fs18 blue pt200 i"
-          data-if="{{= _.size(model.community_track_ids) }} == 0">There are no new tracks to download.</div>
+      <div class="p20 center fs18 blue pt50 i"
+          data-if="{{= _.size(model.community_track_ids) }} == 0">
+          There are no new tracks to download.
+      </div>
 
       <div class="pt10 pb25" data-if="{{= _.size(model.community_track_ids) }} > 0">
         <div class="flex-row bb-dcdc pb5">
@@ -145,7 +148,9 @@
               <i class="fs30 fas fa-angle-left"></i>
             </div>
           </div>
+
           <span class="hh60"></span>
+
           <div class="flex1center">
             <div class="flex1center blue uppercase strong clickable"
               data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
