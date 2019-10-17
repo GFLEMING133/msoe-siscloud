@@ -1052,8 +1052,12 @@ app.model.track = {
 		app.post.fetch(req_obj, cb, 0);
 	},
 	download_wc: function( skip_playlist_add) {
-        var track_id = this.get('data.track_id')
+    var track_id = this.get('data.track_id')
 		var self = this;
+
+		app.trigger('modal:open', {
+			'template': 'modal-overlay-downloading-tmp'
+		});
 
 		self.set('community_track_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
@@ -1066,39 +1070,37 @@ app.model.track = {
 			_timeout: 90000
 		};
 
-	function cb(obj) {
-		if (obj.err) {
-			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
-		} else {
-			// console.log('track : download response = ', obj.resp);
+		function cb(obj) {
+			if (obj.err) {
+				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
+			} else {
+				// console.log('track : download response = ', obj.resp);
 
-			if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
-			else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
-			else {
-				app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
-				self.set('community_track_downloaded', 'false');
+				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
+				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+				else {
+					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
+					self.set('community_track_downloaded', 'false');
+					self.set('downloading_community_track', 'false');
+					return;
+				}
+				self.set('data.verts', obj.resp);
+				app.trigger('community:downloaded_track', self.id);
+				app.trigger('sisbot:track_add', self);
+
+				let track_id = JSON.stringify(self.id); //pulling id
+				track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
+
 				self.set('downloading_community_track', 'false');
-				return;
+
+				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : track_id });
+
+				app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
-			self.set('data.verts', obj.resp);
-			app.trigger('community:downloaded_track', self.id);
-			app.trigger('sisbot:track_add', self);
-
-			let track_id = JSON.stringify(self.id); //pulling id
-			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
-
-			self.set('downloading_community_track', 'false');
-
-			if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : track_id });
-
-			app.trigger('session:active', { secondary: 'false', primary: 'community' });
-
 
 		}
 
-	}
-
-	app.post.fetch2(req_obj, cb, 0);
+		app.post.fetch2(req_obj, cb, 0);
 	},
 
 

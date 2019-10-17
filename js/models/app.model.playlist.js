@@ -180,7 +180,6 @@ app.model.playlist = {
 		this.save();
 
 		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
-
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {

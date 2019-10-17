@@ -46,10 +46,11 @@ var Binding = Backbone.View.extend({
 
       setTimeout(function() {
         if (self.debug) console.log("Bind: Lazy Load Scroll", self.lazy_els);
-        _.each(self.lazy_els, function(id) {
-          var el = self.get(id);
+        var ids = JSON.parse(JSON.stringify(self.lazy_els)); // loop through cloned array
+        _.each(ids, function(id) {
           var $el = $('.'+id);
           if ($el && $el[0].getBoundingClientRect().top <= window.innerHeight && $el[0].getBoundingClientRect().bottom >= 0) {
+            var el = self.get(id);
             if (el.data && el.data.src) $el.attr('src', el.get_value(el.data.src));
             self.lazy_els = _.without(self.lazy_els, id);
           }
@@ -150,8 +151,9 @@ var Binding = Backbone.View.extend({
     data-template :: sets child element to the html of the given filename (no .html necessary)
     data-fallback :: sets the child element to the html of the given filename if the data-template is not found
     data-publish :: trigger key when data-on-click is set to publish (i.e. data-publish="session:active" == app.trigger('session:active') )
-    data-msg :: pass values to functions called via events (i.e. data-on-click)
+    data-msg :: pass values to functions called via events (i.e. data-on-click="set")
     data-field :: associated model variable, used with form elements
+    data-value :: value for inputs
     data-checked :: is checkbox checked (true|false)
     data-placeholder :: input placeholder text
     data-src :: for img elements, replaces the src attribute after page render, for lazy loading.
@@ -910,7 +912,7 @@ function Element(el, parent, _scope) {
           app.trigger('bind:render'); // render since new templates got added
         }
         this.listenTo(model, 'add:'+field,     self.triggers['_foreach']);
-        this.listenTo(model, 'change:'+field,  self.triggers['_foreach']);
+        // this.listenTo(model, 'change:'+field,  self.triggers['_foreach']);
         this.listenTo(model, 'remove:'+field,  self.triggers['_foreach']);
         this.listenTo(model, 'sort:'+field,    self.triggers['_foreach']);
       }
@@ -976,9 +978,11 @@ function Element(el, parent, _scope) {
               if (!_.isString(new_value)) new_value = JSON.stringify(new_value);
 
               if (new_value != old_value) {
+                if (self.data.debug) console.log("Triggered change?", key, new_value, old_value);
                 if (key == 'data-if' && !new_value.match(/<|>/i)) { // mark as changed if comparing < or > values
                   var old_if = !self.is_hidden;
                   var new_if = self.if(new_value);
+                  if (self.data.debug) console.log("If change?", self.is_hidden, new_if, old_if);
                   if (old_if != new_if) is_change = true;
                 } else if (key.match(/^data-(model|scope|defaults|state)$/i)) {
                   self.is_model_changed = true;
@@ -1003,6 +1007,7 @@ function Element(el, parent, _scope) {
               // make sure to refresh parent if text element
               if (self.el_text) self.parent_element.is_changed = true;
 
+              if (self.data.debug) console.log("Trigger render", self.el_id);
               app.trigger('bind:render', self.el_id); // render since new templates got added
             }
           }
@@ -1099,8 +1104,7 @@ function Element(el, parent, _scope) {
     if (this.el_type == 'comment') return; // don't bother
 
     if (this.data.foreach) {
-      // loop through and add subviews based on the first child
-      this.foreach(el);
+      this.foreach(el); // loop through and add subviews based on the first child
     } else if (this.data.template && this.data.template != 'false') { // load template
       var template_value = this.get_value(this.data.template);
 
@@ -1322,6 +1326,7 @@ function Element(el, parent, _scope) {
   /***************************** RENDERING ********************************/
   this.render = function() {
     var self = this;
+    if (this.data.debug) console.log("Render", this.el_id, this.is_changed, this.is_hidden);
 
     // render self if subview changed
     if (this.is_changed && this.el_id) {
@@ -1331,6 +1336,8 @@ function Element(el, parent, _scope) {
 
       // change the attributes
       _.each(this.el, function(value, key) {
+        if (self.data.debug) console.log("Render", key, value);
+
         if (key.indexOf('data-') == 0) {
           if (self.show_data) $el.attr(key, value);
         } else if (key.indexOf('lib-') == 0) {
@@ -1349,9 +1356,6 @@ function Element(el, parent, _scope) {
         } else if (key == 'value') $el.val(self.get_value(value));
         else if (self.is_h__k) $el.attr(key, self.get_value(value));
         else $el.attr(key, value);
-
-        // update value via jquery
-        // if (self.el_type == 'INPUT' && key == 'value') $el.val(self.get_value(value));
       });
 
       if (self.data.maintainChildren) return $el;
@@ -1368,6 +1372,8 @@ function Element(el, parent, _scope) {
   };
   this.html = function() {
     var self = this;
+
+    if (this.data.debug) console.log("HTML", this.el_id, this.is_changed, this.is_hidden);
 
     if (this.is_changed) this.prerender();
 
@@ -1667,8 +1673,10 @@ function Element(el, parent, _scope) {
     app.trigger(this.get_value(this.data.publish), this.get_value(this.data.msg));
   };
   this.set = function (value) {
-    // var val = (this.data.value) ? this.data.value : value;
-    var val = (value) ? value : this.data.value;
+    var val;
+    if (value && value != this.model) val = value; // make sure own model is not passed in
+    else if (this.data.value) val = this.data.value;
+    else return console.log("Set: needs data-msg or data-value");
 
     if (this.data.field) {
       var model = this.get_model(this.data.field);
@@ -1687,9 +1695,9 @@ function Element(el, parent, _scope) {
 
     var opp     = { 'true': 'false', 'false': 'true' };
     var val     = opp[model.get(field)];
-    if (!val) val = 'false';
+    if (!val) val = 'true';
 
-    // console.log("Toggle", model, field, val);
+    if (this.data.debug) console.log("Toggle", model, field, val);
     model.set(field, val);
   };
   this.file_reader = function (e) {
@@ -1714,7 +1722,7 @@ function Element(el, parent, _scope) {
   };
   /************************** ADDITIONAL LIBRARIES ****************************/
   this.dragula = function () {
-    if (this.libraries.dragula) return console.log("Dragula already loaded");
+    if (this.libraries.dragula) return; // console.log("Dragula already loaded");
 
     // console.log("Dragula", this.el_id);
     var self        = this;

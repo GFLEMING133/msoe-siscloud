@@ -10,6 +10,8 @@ app.post = {
     var url = data._url || app.config.get_sisbot_url();
     var timeout = 30000;
 
+    console.log("Fetch: "+url+", "+data.endpoint);
+
     if (data.endpoint) url += data.endpoint;
     if (data._timeout) timeout = data._timeout;
 

@@ -162,7 +162,7 @@ app.model.community = {
     }
   },
   downloaded_track: function(track_id) {
-    this.remove('selected_tracks', track_id); //removes id from checked array
+    this.remove('selected_tracks', track_id, {silent:true}); //removes id from checked array
     this.remove('community_track_ids', track_id, {silent:true}); // this removes id from displayed track array (list)
 
     var track_list = _.unique(this.get('selected_tracks'));
@@ -171,7 +171,7 @@ app.model.community = {
     if (numberOfTracks > 0) {
       this.download_wc();
     } else {
-      this.trigger('change:community_track_ids'); // trigger once at end
+      this.trigger('remove:community_track_ids'); // trigger once at end
 
       app.trigger('modal:open', {
         'template': 'modal-list-playlist-add-tmp'
