@@ -90,9 +90,12 @@ app.model.community = {
     return this;
   },
   sort_function: function(sort_params) {
-    this.set('sorting', 'true');
     var self = this;
-    this.set('track_sort', sort_params);
+
+    this.set('sorting', 'true')
+      .set('track_sort', sort_params)
+      .set('fetching_community_tracks', 'true');
+
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
