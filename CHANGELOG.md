@@ -1,13 +1,24 @@
+#2019-10-17 1.8.64 
+ - Added Pagination to community tracks
+ - Added lazy loading for images and pagination to speed up on-loading.
+ - Multiple download with checkboxes added to Community
+ - Overlay added when downloading tracks in community.
+ - SortBy bar is now FlexBoxed and track name area is now set at a fixed with with word-break
+ - Android was updated to sdk 29 for phones running Android Version 10
+ - iOS set NSBluetoothPeripheralUsageDescription and NSBluetoothAlwaysUsageDescription <key></key> in the info.plist
+ - Added add android:usesCleartextTraffic="true" to the AndroidManifest.xml  (more in the notes.)
+ - Updated cordova plugins.
+ - SIRI Shortcuts added
 #2019-10-2 1.8.62 & 63
- - Added multipl download to community and add to playlist. 
+ - Added multiple download to community and add to playlist. 
  - Added community model
  - reworked download_wc()
  - Sort by download_count (Most Popular) added. 
  - Spinner added to fetching community tracks
 #2019-10-2 1.8.60
- - Added conditional for _processing_registration() to fix re-signup error.
+ - Added conditional for _processing_registration() to fix re-sign-up error.
  - Spinner added when downloading tracks in Community.
- - Error handeling for email and username in Community updated.
+ - Error handling for email and username in Community updated.
  - Adjusted thumbnail generation timeout to 9000
  - Changed stroke_width to 7 in gen_thumbnails.js and model.track
 #2019-09-25 1.8.58

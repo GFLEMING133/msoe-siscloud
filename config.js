@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.63', // multiple download added to communtiy,sort by download_count added to drop down , wording change on modal added community model.
+	version	      : '1.8.64', //  styled pagination bars, added pb,pl,pr,pt35 to styles, added media queries for the pagination bar
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

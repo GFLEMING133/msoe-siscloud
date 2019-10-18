@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.63', // multiple download added to community,sort by download_count added to drop down , wording change on modal , added community model.
+	version				: '1.8.64', // styled pagination bars, added pb,pl,pr,pt35 to styles, added media queries for the pagination bar
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
