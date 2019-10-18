@@ -1,5 +1,5 @@
 <div class="h100" data-model="{{= session.community_id }}">
-  <div class="pull-top bg-black">
+  <div class="pull-top bg-black bb">
     <div class="white bg-black w100 center no-stuffing flex vertical-align bb-white">
       <div class="w15 center f-large">&nbsp;</div>
       <div class="w70">
@@ -56,13 +56,13 @@
       </ul>
     </div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar pb200 " data-run="model.fetch_community_tracks">
-    <div class="pt150" data-if="{{= model.fetching_community_tracks }} == true">
+  <div class="body-header h100 scroll hide-scrollbar pb50" data-run="model.fetch_community_tracks">
+    <div class="pt100" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
-    <div class="pt65" data-if="{{= model.fetching_community_tracks }} == false" >
-      <div class="flex-row bb-dcdc pb5">
+    <div class="" data-if="{{= model.fetching_community_tracks }} == false" >
+      <div class="flex-row bb-dcdc pt65 pb5 bg-black">
         <div class="flex1center">
           <div class="flex1center pt5 blue uppercase strong clickable"
             data-if="{{= model.offset }} > 0"
@@ -85,7 +85,6 @@
             <i class="fs30 fas fa-angle-left"></i>
           </div>
         </div>
-        <span class="hh35"></span>
         <div class="flex1center">
           <div class="flex1center blue uppercase strong clickable"
             data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
@@ -123,9 +122,8 @@
           data-if="{{= _.size(model.community_track_ids) }} == 0">
           There are no new tracks to download.
       </div>
-
-      <div class="pt10 pb25" data-if="{{= _.size(model.community_track_ids) }} > 0">
-        <div class="flex-row bb-dcdc pb5">
+      <div class="pt10 pb10 bg-black" data-if="{{= _.size(model.community_track_ids) }} > 0">
+        <div class="flex-row pb5">
           <div class="flex1center">
             <div class="flex1center pt5 blue uppercase strong clickable"
               data-if="{{= model.offset }} > 0"
@@ -149,7 +147,6 @@
             </div>
           </div>
 
-          <span class="hh35"></span>
 
           <div class="flex1center">
             <div class="flex1center blue uppercase strong clickable"
@@ -175,6 +172,7 @@
           </div>
         </div>
       </div>
+      <div class="bg-black hh60 media_hh100 media_hh150"></div>
     </div>
   </div>
 </div>
