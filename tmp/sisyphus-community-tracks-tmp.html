@@ -8,7 +8,7 @@
       <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
     </div>
     <div class="flex p10 bg-black w100">
-      <div class="flex1center white strong uppercase">Sort By</div>
+      <div class="flex1center pr10 white strong uppercase">Sort By</div>
 
         <div class="sortBy-drop-actions" data-on-click="model.openSort">
           <div class="p5 flex strong white uppercase">
@@ -62,49 +62,49 @@
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
     <div class="" data-if="{{= model.fetching_community_tracks }} == false" >
-      <div class="flex-row bb-dcdc pt65 pb5 bg-black">
+      <div class="flex-row bb-dcdc pt65 media_pt70 pb5 bg-black">
         <div class="flex1center">
-          <div class="flex1center pt5 blue uppercase strong clickable"
+          <div class="flex1center pt5 white uppercase blue-hover clickable blue-hover"
             data-if="{{= model.offset }} > 0"
             data-on-click="set"
             data-field="model.offset"
             data-msg="{{= 0 }}">
-            <span class="bg-blue blue fs12 align-end">|</span><div class="stopB"></div>
+            <span class="bg-white white fs12 align-end blue-hover">|</span><div class="stopB"></div>
           </div>
-          <div class="flex1center blue uppercase strong clickable"
+          <div class="flex1center white uppercase blue-hover clickable"
             data-if="{{= model.offset }} > 0"
             data-on-click="set"
             data-field="model.offset"
             data-msg="{{= (+model.offset - +model.limit) }}">
             <i class="fs30 fas fa-angle-left"></i>
           </div>
-          <div class="flex1center pt5 grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
-            <span class="bg-grey-lt fs12 align-end">|</span><div class="stopB"></div>
+          <div class="flex1center pt5 grey uppercase" data-if="{{= model.offset }} == 0">
+            <span class="bg-grey fs12 align-end ">|</span><div class="stopB"></div>
           </div>
-          <div class="flex1center grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
+          <div class="flex1center grey uppercase" data-if="{{= model.offset }} == 0">
             <i class="fs30 fas fa-angle-left"></i>
           </div>
         </div>
         <div class="flex1center">
-          <div class="flex1center blue uppercase strong clickable"
+          <div class="flex1center white uppercase blue-hover clickable"
             data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
             data-on-click="set"
             data-field="model.offset"
             data-msg="{{= (+model.offset + +model.limit) }}">
             <i class="fs30 fas fa-angle-right"></i>
           </div>
-          <div class="flex1center pt5 uppercase blue strong clickable"
+          <div class="flex1center pt5 uppercase white blue-hover clickable"
             data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
             data-on-click="set"
             data-field="model.offset"
             data-msg="{{= (Math.floor(_.size(model.community_track_ids)/ +model.limit) * +model.limit) }}">
-            <div class="stopA"></div><span class="blue bg-blue fs12 align-end">|</span>
+            <div class="stopA"></div><span class="white bg-white fs12 align-end blue-hover">|</span>
           </div>
-          <div class="flex1center grey-lt uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+          <div class="flex1center grey uppercase" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
             <i class="fs30 fas fa-angle-right"></i>
           </div>
-          <div class="flex1center grey-lt pt5 uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
-            <div class="stopA"></div><span class="bg-grey-lt grey-lt fs12 align-end">|</span>
+          <div class="flex1center grey pt5 uppercase" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+            <div class="stopA"></div><span class="bg-grey grey fs12 align-end">|</span>
           </div>
         </div>
       </div>
@@ -118,56 +118,56 @@
           data-foreach-offset="{{= model.offset }}">
         <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
-      <div class="p20 center fs18 blue pt50 i"
+      <div class="p20 center fs18 white pt50 i"
           data-if="{{= _.size(model.community_track_ids) }} == 0">
           There are no new tracks to download.
       </div>
       <div class="pt10 pb10 bg-black" data-if="{{= _.size(model.community_track_ids) }} > 0">
         <div class="flex-row pb5">
           <div class="flex1center">
-            <div class="flex1center pt5 blue uppercase strong clickable"
+            <div class="flex1center pt5 white uppercase blue-hover clickable"
               data-if="{{= model.offset }} > 0"
               data-on-click="set"
               data-field="model.offset"
               data-msg="{{= 0 }}">
-              <span class="bg-blue blue fs12 align-end">|</span><div class="stopB"></div>
+              <span class="bg-white white fs12 align-end blue-hover">|</span><div class="stopB"></div>
             </div>
-            <div class="flex1center blue uppercase strong clickable"
+            <div class="flex1center white uppercase blue-hover clickable"
               data-if="{{= model.offset }} > 0"
               data-on-click="set"
               data-field="model.offset"
               data-msg="{{= (+model.offset - +model.limit) }}">
               <i class="fs30 fas fa-angle-left"></i>
             </div>
-            <div class="flex1center pt5 grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
-              <span class="bg-grey-lt fs12 align-end">|</span><div class="stopB"></div>
+            <div class="flex1center pt5 grey uppercase" data-if="{{= model.offset }} == 0">
+              <span class="bg-grey fs12 align-end">|</span><div class="stopB"></div>
             </div>
-            <div class="flex1center grey-lt uppercase strong" data-if="{{= model.offset }} == 0">
+            <div class="flex1center grey uppercase" data-if="{{= model.offset }} == 0">
               <i class="fs30 fas fa-angle-left"></i>
             </div>
           </div>
 
 
           <div class="flex1center">
-            <div class="flex1center blue uppercase strong clickable"
+            <div class="flex1center white uppercase blue-hover clickable"
               data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
               data-on-click="set"
               data-field="model.offset"
               data-msg="{{= (+model.offset + +model.limit) }}">
               <i class="fs30 fas fa-angle-right"></i>
             </div>
-            <div class="flex1center pt5 uppercase blue strong clickable"
+            <div class="flex1center pt5 uppercase white blue-hover clickable"
               data-if="{{= (+model.offset + +model.limit) }} < {{= _.size(model.community_track_ids) }}"
               data-on-click="set"
               data-field="model.offset"
               data-msg="{{= (Math.floor(_.size(model.community_track_ids)/ +model.limit) * +model.limit) }}">
-              <div class="stopA"></div><span class="blue bg-blue fs12 align-end">|</span>
+              <div class="stopA"></div><span class="white bg-white fs12 align-end blue-hover">|</span>
             </div>
-            <div class="flex1center grey-lt uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+            <div class="flex1center grey uppercase" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
               <i class="fs30 fas fa-angle-right"></i>
             </div>
-            <div class="flex1center grey-lt pt5 uppercase strong" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
-              <div class="stopA"></div><span class="bg-grey-lt grey-lt fs12 align-end">|</span>
+            <div class="flex1center grey pt5 uppercase" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
+              <div class="stopA"></div><span class="bg-grey grey fs12 align-end">|</span>
             </div>
           </div>
         </div>

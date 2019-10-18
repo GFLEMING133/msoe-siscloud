@@ -579,7 +579,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	border-radius: 6px;
 	cursor: pointer;
 	right: 75px;
-	flex: 2;
+	flex: 3;
 
 }
 .sortBy-SORT-style {
@@ -638,7 +638,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 .dl_cloud {
 	text-align: center;
-	margin-left: 30px;
+	margin-left: 10px;
 }
 
 
@@ -1760,6 +1760,14 @@ and (orientation : portrait)
 	}
     .media_hh100 {
 		height: 100px;
+	}
+}
+@media screen and (device-aspect-ratio: 40/71) {
+	.media_hh150 {
+		height: 100px;
+	}
+	.media_pt70 {
+		padding-top: 70px;
 	}
 }
 
