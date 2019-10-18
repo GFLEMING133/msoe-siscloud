@@ -12,6 +12,7 @@ var exp             = express();
 var app_service     = new express();
 
 var config = {};
+var regen_timer = null;
 
 _.templateSettings = {
 	evaluate	: /\{\{\{(.+?)\}\}\}/gim,
@@ -94,12 +95,20 @@ var app = function(given_config,ansible) {
 
 	http.createServer(app_service).listen(config.port);
 
-	regenerate_index_page();
+	_regenerate_index_page();
 
 	console.log('Setup the App Server');
 };
 
-function regenerate_index_page() {
+function regenerate_index_page() { // eliminate multiple regens really close together, i.e. software_update
+	clearTimeout(regen_timer);
+
+	regen_timer = setTimeout(function() {
+		_regenerate_index_page();
+	}, 250);
+};
+
+function _regenerate_index_page() {
 	var index_page   = fs.readFileSync(config.dir + '/dev.index.html', 'utf-8');
 	var uploads_dir  = config.dir + '/prod';
 	if (!fs.existsSync(uploads_dir))
@@ -119,7 +128,7 @@ function regenerate_index_page() {
 		var minified = new cleanCSS().minify(css).styles;
 		all.push(minified)
 	});
-	
+
 	fs.writeFileSync(config.dir + '/prod/styles.css', all.join(''));
 	// 242KB
 
