@@ -86,6 +86,15 @@ function check_siri() {
 	}
 }
 
+function status_tap() {
+	console.log("Status Tapped", $('.scroll').length, $('.scroll').scrollTop(), $('.scroll')[0].scrollTop);
+  // scroll to top, but first, remove -webkit-overflow-scrolling: touch (doesn't work reliably)
+	$('.scroll').addClass('auto-scroll').removeClass('scroll').stop().animate({scrollTop: 0}, 'normal', function() {
+		$('.auto-scroll').addClass('scroll').removeClass('auto-scroll');
+	});
+}
+
 document.addEventListener("deviceready", setup_cordova, false);
 document.addEventListener("resume", on_resume, false);
 document.addEventListener("active", on_active, false);
+window.addEventListener("statusTap", status_tap);

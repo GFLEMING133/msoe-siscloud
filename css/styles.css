@@ -387,8 +387,8 @@ label {
 }
 
 .scroll {
-    overflow-y: scroll;
-    overflow-x: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
@@ -397,8 +397,10 @@ label {
 .auto-scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    height: 100vh;
+    -webkit-overflow-scrolling: auto !important;
+  	-webkit-backface-visibility: hidden;
+  	backface-visibility: hidden;
+    /* height: 100vh; */
 }
 
 .no-scroll {
