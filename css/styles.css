@@ -977,6 +977,7 @@ li.blue-hover:hover {
 .hh80									{	height					: 80px;						}
 .hh85									{	height					: 85px;						}
 .hh100									{	height					: 100px;					}
+.hh110									{	height					: 110px;					}
 .hh120									{	height					: 120px;					}
 .hh125									{	height					: 125px;					}
 .hh150									{	height					: 150px;					}
@@ -1613,7 +1614,7 @@ select:focus {
 .pb50						            {   padding-bottom	        : 50px !important;			            }
 .pl50									{	padding-left			: 50px !important;						}
 .pr50									{	padding-right			: 50px !important;						}
-
+.pb55									{	padding-bottom   		: 55px !important;						}
 .pt65						            {   padding-top             : 65px !important;			            }
 .pt70						            {   padding-top             : 70px !important;			            }
 .pt75									{	padding-top				: 75px !important;						}
@@ -1623,6 +1624,7 @@ select:focus {
 .pl100									{	padding-left			: 100px !important;						}
 .pr100									{	padding-right			: 100px !important;						}
 
+.pb110									{	padding-bottom			: 110px !important;						}
 .pl110									{	padding-left			: 110px !important;						}
 .pt110						            {   padding-top             : 110px !important;			            }
 
@@ -1760,16 +1762,19 @@ and (orientation : portrait)
 		/* background-color: #fdc539; */
 		max-height: calc(100vh - 330px);
 	}
-    .media_hh100 {
-		height: 100px;
+    .media_hh60 {
+		height: 60px;
 	}
 }
 @media screen and (device-aspect-ratio: 40/71) {
-	.media_hh150 {
-		height: 100px;
+	.media_hh60 {
+		height: 60px;
 	}
 	.media_pt70 {
 		padding-top: 70px;
+	}
+	.media_pb100 {
+		padding-bottom: 100px;
 	}
 }
 
@@ -1783,7 +1788,7 @@ and (orientation : portrait)
 		 /* background-color: #00b1fa; */
 		 max-height: calc(100vh - 320px);
 	 }
-	 .media_hh100 {
+	 .media_pb100{
 		height: 100px;
 	}
 
@@ -1799,8 +1804,8 @@ and (orientation : portrait)
 			max-height: calc(100vh - 320px);
 
 		}
-		.media_hh150 {
-			height: 150px;
+		.media_pb100 {
+			padding-bottom: 100px;
 		}
 }
 /**************iPhone X /XS MArlo/Micah*******************/
@@ -1821,8 +1826,8 @@ and (orientation : portrait)
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
 	}
-	.media_hh150 {
-		height: 150px;
+	.media_pb100 {
+		padding-bottom: 100px;
 	}
 	.app .scrollDown {
 		/* background-color: red; */
@@ -1833,9 +1838,9 @@ and (orientation : portrait)
 		margin-bottom: 70px !important;
 	}
 
-	.playback_adjustment {
+	/* .playback_adjustment {
 		height: 100px;
-	}
+	} */
 	.playback_pt_adjustment {
 		padding-top: 10px
 	}
@@ -1858,15 +1863,15 @@ and (orientation : portrait)
 			margin-bottom: constant(safe-area-inset-bottom);
 			margin-bottom: env(safe-area-inset-bottom);
 		}
-		.media_hh150 {
-			height: 150px;
+		.media_pb100 {
+			padding-bottom: 100px;
 		}
 		.controls_adjustment  {
 			margin-bottom: 70px !important;
 		}
-		.playback_adjustment  {
+		/* .playback_adjustment  {
 			height: 100px;
-		}
+		} */
 		.app .scrollDown {
 			/* background-color: #00b1fa; */
 			max-height: calc(100vh - 360px);

@@ -20,7 +20,7 @@ app.model.community = {
       downloaded_tracks: [],
 
       offset: 0,
-      limit: 40,
+      limit: 30,
 
       data: {
         id: data.id,
