@@ -87,7 +87,7 @@ function check_siri() {
 }
 
 function status_tap() {
-	console.log("Status Tapped", $('.scroll').length, $('.scroll').scrollTop(), $('.scroll')[0].scrollTop);
+	console.log("Status Tapped", $('.scroll').length);
   // scroll to top, but first, remove -webkit-overflow-scrolling: touch (doesn't work reliably)
 	$('.scroll').addClass('auto-scroll').removeClass('scroll').stop().animate({scrollTop: 0}, 'normal', function() {
 		$('.auto-scroll').addClass('scroll').removeClass('auto-scroll');

@@ -57,7 +57,7 @@
     </div>
   </div>
   
-  <div class="body-header h100  scroll hide-scrollbar" data-run="model.fetch_community_tracks">
+  <div class="body-header h100 pb160 media_pb200 scroll hide-scrollbar" data-run="model.fetch_community_tracks">
     <div class="pt100" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
@@ -113,7 +113,7 @@
       </div>
     </div>
     <div data-if="{{= model.fetching_community_tracks }} == false">
-        <div class="red">{{= _.size(model.community_track_ids) }}</div>
+        <!-- <div class="red">{{= _.indexOf(model.community_track_ids) }}</div> -->
       <div class="" data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"
@@ -175,9 +175,6 @@
           </div>
         </div>
       </div>
-      <div class="hh110" data-if="{{= _.size(model.community_track_ids) }} > {{= model.limit }}" >&nbsp;</div>
-       <div class="hh100" data-if="{{= _.size(model.community_track_ids) }} < {{= model.limit }}"></div>
     </div>
-    
   </div>
 </div>

@@ -1,3 +1,10 @@
+#2019-10-17 1.8.65
+ - lazy loading added to All Tracks page
+ - media queries added for bottom pagination bar
+ - Android SDK bumped up to 29 for Android 10 support (fixes app compatibility in Google Play when downloading app)
+ - community model.limit set to 30 (was 40)
+ - <br/> fixes
+ -  beautified files 
 #2019-10-17 1.8.64 
  - Added Pagination to community tracks
  - Added lazy loading for images and pagination to speed up on-loading.

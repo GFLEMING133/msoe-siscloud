@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.64', // styled pagination bars, added pb,pl,pr,pt35 to styles, added media queries for the pagination bar
+	version				: '1.8.65', // pushing for Android 10 update, lazyloading added for tracks page.
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app

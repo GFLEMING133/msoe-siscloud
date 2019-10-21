@@ -1617,6 +1617,7 @@ select:focus {
 .pl50									{	padding-left			: 50px !important;						}
 .pr50									{	padding-right			: 50px !important;						}
 .pb55									{	padding-bottom   		: 55px !important;						}
+.pb65						            {   padding-bottom          : 65px !important;			            }
 .pt65						            {   padding-top             : 65px !important;			            }
 .pt70						            {   padding-top             : 70px !important;			            }
 .pt75									{	padding-top				: 75px !important;						}
@@ -1634,6 +1635,8 @@ select:focus {
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
 .pr150									{	padding-right			: 150px !important;						}
+
+.pb160						            {   padding-bottom	        : 160px !important;			            }
 
 .pt200						            {   padding-top             : 200px !important;			            }
 .pb200						            {   padding-bottom	        : 200px !important;			            }
@@ -1768,16 +1771,9 @@ and (orientation : portrait)
 		height: 60px;
 	}
 }
+/**************iPhone SE Matts Phone**************/
 @media screen and (device-aspect-ratio: 40/71) {
-	.media_hh60 {
-		height: 60px;
-	}
-	.media_pt70 {
-		padding-top: 70px;
-	}
-	.media_pb100 {
-		padding-bottom: 100px;
-	}
+
 }
 
 /**************iPhone 6 & 7 PLus**************/
@@ -1785,14 +1781,12 @@ and (orientation : portrait)
 	and (min-device-width: 414px)
 	and (max-device-height: 736px)
 	and (orientation : portrait)
-	{
-     .app .scrollDown {
+{
+    .app .scrollDown {
 		 /* background-color: #00b1fa; */
 		 max-height: calc(100vh - 320px);
 	 }
-	 .media_pb100{
-		height: 100px;
-	}
+
 
 }
 /* *********iPhone 7 aka my testing device ************** */
@@ -1800,22 +1794,19 @@ and (orientation : portrait)
 	and (min-device-width: 375px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
-	{
-		.app .scrollDown {
-			/* border: 4px solid purple; */
-			max-height: calc(100vh - 320px);
+{
+	.app .scrollDown {
+		/* border: 4px solid purple; */
+		max-height: calc(100vh - 320px);
 
-		}
-		.media_pb100 {
-			padding-bottom: 100px;
-		}
+	}
 }
 /**************iPhone X /XS MArlo/Micah*******************/
 @media only screen
 	and (device-width: 375px)
 	and (device-height: 812px)
 	and (orientation : portrait)
-	{
+{
 	body {
 		padding-bottom: 25px;
 	}
@@ -1828,9 +1819,7 @@ and (orientation : portrait)
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
 	}
-	.media_pb100 {
-		padding-bottom: 100px;
-	}
+
 	.app .scrollDown {
 		/* background-color: red; */
 		max-height: calc(100vh - 360px);
@@ -1839,12 +1828,15 @@ and (orientation : portrait)
 	.controls_adjustment  {
 		margin-bottom: 70px !important;
 	}
-
-	/* .playback_adjustment {
+	.playback_adjustment {
 		height: 100px;
-	} */
+	}
 	.playback_pt_adjustment {
 		padding-top: 10px
+	}
+	/*used for pagination nav box*/
+	.media_pb200 {
+		padding-bottom: 200px !important;
 	}
 
 }
@@ -1854,29 +1846,28 @@ and (orientation : portrait)
     and (device-width : 414px)
     and (device-height : 896px)
 	and (-webkit-device-pixel-ratio : 3)
-	{
-		body {
-			padding-bottom: 25px;
-		}
-		.app .app-container {
-			margin-top: 25px !important;
-		}
-		.footer_Xphone {
-			margin-bottom: constant(safe-area-inset-bottom);
-			margin-bottom: env(safe-area-inset-bottom);
-		}
-		.media_pb100 {
-			padding-bottom: 100px;
-		}
-		.controls_adjustment  {
-			margin-bottom: 70px !important;
-		}
-		/* .playback_adjustment  {
-			height: 100px;
-		} */
-		.app .scrollDown {
-			/* background-color: #00b1fa; */
-			max-height: calc(100vh - 360px);
-		}
-
+{
+	body {
+		padding-bottom: 25px;
 	}
+	.app .app-container {
+		margin-top: 25px !important;
+	}
+	.footer_Xphone {
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+	}
+	.controls_adjustment  {
+		margin-bottom: 70px !important;
+	}
+	.playback_adjustment  {
+		height: 100px;
+	}
+	.app .scrollDown {
+		/* background-color: #00b1fa; */
+		max-height: calc(100vh - 360px);
+	}
+	.media_pb200 {
+		padding-bottom: 200px !important;
+	}
+}

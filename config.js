@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.64', //  styled pagination bars, added pb,pl,pr,pt35 to styles, added media queries for the pagination bar
+	  version	      : '1.8.65', // pushing for Android 10 update, lazyloading added for tracks page.
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
