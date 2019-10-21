@@ -1119,8 +1119,8 @@ select:focus {
 }
 .trackCount {
 	position: absolute;
-	right: 150px;
-	top: 134px;
+	right: 132px;
+	top: 35px;
 	color: #fff;
 	font-weight: 900;
 	font-size: 10px;

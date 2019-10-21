@@ -110,7 +110,9 @@
               <i class="fs18 align-end fas fa-fast-forward"></i>
             </div>
           </div>
-           <div class="i trackCount">Tracks {{= (+model.offset + 1) }} to {{= ((model.limit +  +model.offset)) }} </div>
+          <div class="relative">
+            <div class="i trackCount">Tracks {{= (+model.offset + 1) }} to {{= ((model.limit +  +model.offset)) }} </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,7 +130,7 @@
       </div>
       <div data-if="{{= _.size(model.community_track_ids) }} > {{= model.limit }}">
         <div data-if="{{= _.size(model.community_track_ids) }} > 0">
-          <div class="flex-row bg-black hh50">
+          <div class="flex-row bg-black hh60">
             <div class="flex1center">
               <div class="flex1center white uppercase blue-hover clickable"
                 data-if="{{= model.offset }} > 0"
