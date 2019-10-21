@@ -21,6 +21,7 @@ app.model.community = {
 
       offset: 0,
       limit: 30,
+      one: 1,
 
       data: {
         id: data.id,

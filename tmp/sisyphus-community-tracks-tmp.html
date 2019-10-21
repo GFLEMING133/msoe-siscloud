@@ -101,6 +101,7 @@
               data-field="model.offset"
               data-msg="{{= (Math.floor(_.size(model.community_track_ids)/ +model.limit) * +model.limit) }}">
               <i class="fs18 align-end fas fa-fast-forward"></i>
+              
             </div>
             <div class="flex1center" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
               <i class="fs26 fas fa-caret-right"></i>
@@ -109,11 +110,11 @@
               <i class="fs18 align-end fas fa-fast-forward"></i>
             </div>
           </div>
+           <div class="i trackCount">Tracks {{= (+model.offset + 1) }} to {{= ((model.limit +  +model.offset)) }} </div>
         </div>
       </div>
     </div>
     <div data-if="{{= model.fetching_community_tracks }} == false">
-        <!-- <div class="red">{{= _.indexOf(model.community_track_ids) }}</div> -->
       <div class="" data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"
