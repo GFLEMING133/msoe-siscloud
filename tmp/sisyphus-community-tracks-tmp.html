@@ -67,7 +67,7 @@
     </div>
     <!-- <div class="mt50" data-if="{{= model.fetching_community_tracks }} == false" >
       <div data-if="{{= _.size(model.community_track_ids) }} > {{= model.limit }}">
-        <div class="flex-row bb-dcdc hh50 bg-black">
+        <div class="flex-row bb-dcdc hh60 bg-black">
           <div class="flex1center">
             <div class="flex1center white blue-hover clickable blue-hover"
                 data-if="{{= model.offset }} > 0"
@@ -104,6 +104,7 @@
                 data-field="model.offset"
                 data-msg="{{= (Math.floor(_.size(model.community_track_ids)/ +model.limit) * +model.limit) }}">
               <i class="fs18 align-end fas fa-fast-forward"></i>
+
             </div>
             <div class="flex1center" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
               <i class="fs26 fas fa-caret-right"></i>
@@ -112,12 +113,14 @@
               <i class="fs18 align-end fas fa-fast-forward"></i>
             </div>
           </div>
+          <div class="relative">
+            <div class="i trackCount">Tracks <span class="blue">{{= (+model.offset + 1) }}</span> to <span class="blue">{{= ((model.limit +  +model.offset)) }}</span> </div>
+          </div>
         </div>
       </div>
-    </div> -->
-    <div class="mt50" data-if="{{= model.fetching_community_tracks }} == false">
-        <!-- <div class="red">{{= _.indexOf(model.community_track_ids) }}</div> -->
-      <div data-if="{{= _.size(model.community_track_ids) }} > 0"
+    </div>
+    <div data-if="{{= model.fetching_community_tracks }} == false">
+      <div class="" data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"
           data-foreach-limit="{{= model.limit }}"
@@ -134,7 +137,7 @@
       </div>
       <!-- <div data-if="{{= _.size(model.community_track_ids) }} > {{= model.limit }}">
         <div data-if="{{= _.size(model.community_track_ids) }} > 0">
-          <div class="flex-row bg-black hh50">
+          <div class="flex-row bg-black hh60">
             <div class="flex1center">
               <div class="flex1center white uppercase blue-hover clickable"
                   data-if="{{= model.offset }} > 0"
@@ -178,6 +181,9 @@
               <div class="flex1center" data-if="{{= (+model.offset + +model.limit) }} >= {{= _.size(model.community_track_ids) }}">
                 <i class="fs18 align-end fas fa-fast-forward"></i>
               </div>
+            </div>
+            <div class="relative">
+               <div class="i trackCount">Tracks <span class="blue">{{= (+model.offset + 1) }}</span> to <span class="blue">{{= ((model.limit +  +model.offset)) }}</span> </div>
             </div>
           </div>
         </div>

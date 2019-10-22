@@ -1117,6 +1117,17 @@ select {
 select:focus {
     outline: none;
 }
+.trackCount {
+	position: absolute;
+	right: 10px;
+	top: 44px;
+	width: 100px;
+	color:#fff;
+	font-weight: 900;
+	font-size: 12px;
+	
+	
+}
 
 .select-box .fa-chevron-down {
 	border-top-right-radius: 5px;
