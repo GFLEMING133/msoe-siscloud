@@ -21,6 +21,8 @@ app.model.community = {
 
       offset: 0,
       limit: 30,
+      limit_step: 30,
+      fetching_more: 'false',
 
       data: {
         id: data.id,
@@ -36,6 +38,8 @@ app.model.community = {
 
     return obj;
   },
+  scroll_timeout: 200, // so we aren't constantly checking while scrolling
+  scrolling: false, // in conjunction with scroll_timout, are we waiting for a timeout to finish?
   current_version: 1,
   on_init: function() {
     console.log("on_init() in app.model.community", this.id);
@@ -53,8 +57,30 @@ app.model.community = {
     // do nothing
     return this;
   },
-  scrollTop: function() {
+  reset_params: function() {
+    console.log("Community: Reset limit", this.defaults({id: this.id}).limit);
+    this.set('limit', this.defaults({id: this.id}).limit);
+  },
+  scroll_top: function() {
     $('.body-header').scrollTop(0);
+  },
+  scroll_check: function(data) {
+    if (!this.scrolling) {
+      var self = this;
+      setTimeout(function() {
+        if ($('.'+data).scrollTop() >= $('.'+data).prop('scrollHeight') - $('.'+data).outerHeight(true) - 60) {
+          var limit = +self.get('limit');
+          var limit_step = +self.get('limit_step');
+          if (_.size(self.get('community_track_ids')) > limit) {
+            console.log("Load More...", data, limit+limit_step);
+            self.set('limit', limit+limit_step);
+          }
+        }
+        self.scrolling = false;
+      }, self.scroll_timeout);
+
+      self.scrolling = true;
+    }
   },
   /**************************** COMMUNITY ***********************************/
   fetch_community_tracks: function() {

@@ -10,19 +10,31 @@
     </div>
     <div class="w30 pt30 center">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
-    <div class="center p20 i"
-        data-if="{{= app.plugins.length(model.data.track_ids) }} == 0">
-        <span>There are no tracks on this Sisyphus.</span>
-        <span class="clickable active">Visit the Community tab to download some</span>
-    </div>
-    <div data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
-      <div
-          data-foreach="model.data.track_ids"
-          data-foreach-map="true">
-        <div data-template="sisyphus-tracks-list-item-tmp"></div>
+  <div class="h100" data-model="{{= model.sisbot_id }}">
+    <div class="body-header h100 scroll hide-scrollbar"
+        data-scope="true"
+        data-state="{'total':'{{= _.size(parent.data.track_ids) }}'}"
+        data-defaults="{'type':'list'}"
+        data-on-scroll="model.scroll_check"
+        data-msg="{{= _self_.el_id }}">
+      <div class="center p20 i"
+          data-if="{{= _.size(parent.data.track_ids) }} == 0">
+          <span>There are no tracks on this Sisyphus.</span>
+          <span class="clickable active">Visit the Community tab to download some</span>
       </div>
+      <div data-if="{{= _.size(parent.data.track_ids) }} !== 0">
+        <div data-foreach="parent.data.track_ids"
+            data-foreach-limit="{{= model.limit }}"
+            data-foreach-offset="{{= model.offset }}"
+            data-foreach-map="true">
+          <div data-template="sisyphus-tracks-list-item-tmp"></div>
+        </div>
+        <div data-if="{{= _.size(parent.data.track_ids) }} > {{= model.limit }}">
+          <div class="p20 center i">Fetching tracks...</div>
+          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+        </div>
+      </div>
+      <div class="hh200">&nbsp;</div>
     </div>
-    <div class="hh200">&nbsp;</div>
   </div>
 </div>
