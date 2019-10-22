@@ -124,11 +124,6 @@ app.model.session = {
 		this.set('community_id', c.id);
 
 	},
-	siscloud_mode: function () {
-		var m = app.collection.add({ type: 'siscloud_manager' });
-		this.set('active.primary', 'current').set('active.secondary', 'false');
-		this.set('siscloud_manager_id', m.id);
-	},
 	setup_sign_in_model: function () {
 		var model	= (this.get('sign_in_id') == '') ? app.collection.add({ type: 'sign_in' }) : this.get_model('sign_in_id');
 		model.set('is_editing', 'true');

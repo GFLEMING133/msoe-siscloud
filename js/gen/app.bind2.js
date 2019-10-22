@@ -171,6 +171,7 @@ var Binding = Backbone.View.extend({
     data-on-touch-move :: triggers event on touchMove of element
     data-on-touch-end :: triggers event on touchEnd of element
     data-on-error :: calls function on current model when img src fails to load, used in conjunction with data-replace
+    data-event-stop :: stops propagation if on-event triggered
   lib:
     lib-chosen :: select elements
     lib-dragula :: drag/drop
@@ -358,6 +359,10 @@ function Element(el, parent, _scope) {
       if (this.data.onKeyEnter) {
         this.events.push('keydown');
         $el.on('keydown', {el:this}, this.on_key);
+      }
+      if (this.data.onScroll) {
+        this.events.push('scroll');
+        $el.on('scroll', {el:this}, this.on_scroll);
       }
       if (this.data.onMouseOver) {
         this.events.push('mouseover');
@@ -1456,7 +1461,7 @@ function Element(el, parent, _scope) {
     // console.log("Click", e, self.data.onClick);
     self._call(self.data.onClick, self.get_value(self.data.msg));
 
-    // limit propegation
+    // limit propagation
     if (self.data.eventStop) e.stopPropagation();
   };
   this.change = function (e) {
@@ -1529,6 +1534,14 @@ function Element(el, parent, _scope) {
       self._call($attr, self.data);
       if ($el) $el.val(self.data.value);
     }
+  };
+  this.on_scroll = function(e) {
+    var self = e.data.el;
+    // console.log("On Scroll", e, self.data.onScroll);
+    self._call(self.data.onScroll, self.get_value(self.data.msg));
+
+    // limit propagation
+    if (self.data.eventStop) e.stopPropagation();
   };
   this.on_mouse_over = function (e) {
     var self = e.data.el;
