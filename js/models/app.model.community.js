@@ -83,6 +83,14 @@ app.model.community = {
     }
   },
   /**************************** COMMUNITY ***********************************/
+  sign_out_community: function() {
+		console.log('in the sign_out_community');
+		app.session.set('auth_token', '')
+			.set( 'remember_me', 'false')
+      .set( 'signing_in', 'false')
+      .set('signed_in', 'false');
+		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
+	},
   fetch_community_tracks: function() {
     if (this.get('fetched_community_tracks') == 'true') return this;
 
