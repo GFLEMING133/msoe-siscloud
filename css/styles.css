@@ -623,7 +623,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 		box-shadow: 25px 8px 16px 5px #8888;
 		z-index: 1;
 		cursor: pointer;
-		left: 26%;
+		left: 25%;
 		top: 92%;
 		position: absolute;
 }
@@ -652,7 +652,9 @@ a.blue-hover:hover {
 li.blue-hover:hover {
 	color: #00b1fa;
 }
-
+.blue-hover:hover {
+	color: #00b1fa;
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
