@@ -1337,6 +1337,12 @@ function Element(el, parent, _scope) {
     if (this.is_changed && this.el_id) {
       var $el = $('.'+this.el_id);
 
+      // check if el_type does not match
+      if (this.data.debug) {
+        console.log("El type compare", this.el_type, $el.prop('tagName'));
+        return $el.empty().replaceWith(this.html());
+      }
+
       this.prerender();
 
       // change the attributes
@@ -1651,17 +1657,20 @@ function Element(el, parent, _scope) {
   };
   this.on_error = function(e) {
     var self = e.data.el;
-    // console.log("Image load error", e);
+    if (self.data.debug) console.log("Image load error", this.el_id);
     if (e.data.replace) {
+      // self.data.debug = true;
+      if (self.data.debug) console.log("Image replace", self.data.replace);
 
       // change type to div
       self.el_type = 'DIV';
 
       // insert replacement
-      self.data.template = e.data.replace;
+      self.data.template = self.data.replace;
 
-      // remove src
+      // remove src && data-src
       delete self.el.src;
+      delete self.data.src;
 
       self.is_changed = true;
 
