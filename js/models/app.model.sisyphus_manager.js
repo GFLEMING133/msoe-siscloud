@@ -562,10 +562,11 @@ app.model.sisyphus_manager = {
   /**************************** FIND SISBOTS ********************************/
   _apple_counts: 0,
   _apple_counter: function() {
-    this._apple_counts++;
+     this._apple_counts++;
     console.log("_apple_counter()", this._apple_counts);
     if (this._apple_counts > 5) {
       app.config.env = 'alpha';
+      this.set('sisbot_registration', 'find');
     }
   },
   find_sisbots: function() {
