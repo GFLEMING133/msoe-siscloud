@@ -1,16 +1,16 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="pull-top bg-black bb">
     <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
-      <div class="w15 center f-large">&nbsp;</div>
-      <div class="w70">
-        <h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1>
-      </div>
-     <h1 class="no-stuffing capitalize truncate fs12 lh24 pr10 pt5 w20 blue-hover clickable"
-      data-on-click="model.sign_out_community"
-      >Sign Out</h1>
+       <div class="w25 clickable blue-hover"
+           data-on-click="model.sign_out_community"
+      > 
+        <i class="fas fa-sign-out-alt"></i>
+        <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1></div>
+      <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
+      <div class="w25 center f-large">&nbsp;</div>
     </div>
-    <div class="flex p10 bg-black w100">
-      <div class="flex1center pr10 white strong uppercase">Sort By</div>
+    <div class="flex pt10 pr5 pb10 pl5 bg-black w100">
+      <div class="flex1center white strong pr5 uppercase fs12">Sort By</div>
 
         <div class="sortBy-drop-actions" data-on-click="model.openSort">
           <div class="p5 flex strong white uppercase">

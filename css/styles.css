@@ -1199,6 +1199,13 @@ select:focus {
 	width	: 25px;
 	height	: 25px;
 }
+.fa-sign-out-alt {
+	-webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
 
 /************************************TRACKS PAGE ICONS*******************************/
 .tracks_circle {
@@ -1393,7 +1400,8 @@ select:focus {
 .f-xxxxxlarge							{	font-size				: 4em;						}
 
 .ff-xlarge								{	font-size				: 48px;						}
-
+.fs10									{	font-size				: 10px !important;			}
+.fs11									{	font-size				: 11px !important;			}
 .fs12									{	font-size				: 12px !important;			}
 .fs13									{	font-size				: 13px !important;			}
 .fs14									{	font-size				: 14px !important;			}
