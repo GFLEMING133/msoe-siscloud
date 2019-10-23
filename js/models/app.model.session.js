@@ -208,45 +208,44 @@ app.model.session = {
 			.set('signed_in', 'false');
 		window.location.reload();
 	},
-	   /**************************** USER REGISTRATION ***************************/
+	/**************************** USER REGISTRATION ***************************/
 	setup_registration: function() {
-	if (this.get('user_id') == 'false')
-		this.setup_sign_up();
+		if (this.get('user_id') == 'false')
+			this.setup_sign_up();
     },
-    setup_sign_up: function() {
-        this.set('errors', []);
-        this.set('user_registration', 'sign_up');
-    },
-    setup_sign_in: function() {
-        this.set('errors', []);
-        this.set('user_registration', 'sign_in');
-    },
+  setup_sign_up: function() {
+      this.set('errors', []);
+      this.set('user_registration', 'sign_up');
+  },
+  setup_sign_in: function() {
+      this.set('errors', []);
+      this.set('user_registration', 'sign_in');
+  },
+	sign_up: function() {
+      if (this.get('signing_up') == 'true') return true;
+      else this.set('signing_up', 'true');
+      var self = this;
+      var user_data = this.get('registration');
+      var element = $('.sign_up_errors')[0];
+      var errors = this.get_errors(user_data);
+      self.set('errors', errors);
 
-    sign_up: function() {
-        if (this.get('signing_up') == 'true') return true;
-        else this.set('signing_up', 'true');
-        var self = this;
-        var user_data = this.get('registration');
-        var element = $('.sign_up_errors')[0];
-        var errors = this.get_errors(user_data);
-        self.set('errors', errors);
+      if (errors.length > 0){
+				this.set('signing_up', 'false')
+				element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+				return;
+      }
 
-        if (errors.length > 0){
-             this.set('signing_up', 'false')
-             element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-             return;
+      function cb(obj) {
+				console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
+        if (obj.err){
+          self.set('signing_up', 'false').set('errors', [ obj.err ]);
+          element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+          return;
         }
+        self.set('errors', []);
 
-        function cb(obj) {
-			console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
-            if (obj.err){
-                self.set('signing_up', 'false').set('errors', [ obj.err ]);
-                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                return;
-            }
-            self.set('errors', []);
-
-            self._process_registration(user_data, obj.resp);
+        self._process_registration(user_data, obj.resp);
 
 			self.set('signing_up', 'false');
 			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
@@ -312,23 +311,24 @@ app.model.session = {
 
   		var session_data = {
   			email			: user.email,
-        	password		: user.password,
+      	password		: user.password,
   		};
       var self = this;
   		_.each(data_arr, function (m) {
-  			if (m.type == 'user' && m.email == user.email)
-                  session_data.user_id = m.id;
-                  self.set('user_id', m.id );
+  			if (m.type == 'user' && m.email == user.email) {
+					session_data.user_id = m.id;
+        	self.set('user_id', m.id );
+				}
   		});
 
   		app.manager.intake_data(data_arr);
   		app.trigger('session:user_sign_in', session_data);
     },
     clear_errors: function(){
-          this.set('errors', []);
+      this.set('errors', []);
     },
     get_errors: function(user_data) {
-		var errors = [];
+			var errors = [];
 
         if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
         if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');

@@ -1088,16 +1088,17 @@ app.model.track = {
 				app.trigger('community:downloaded_track', self.id);
 				app.trigger('sisbot:track_add', self);
 
-				let track_id = JSON.stringify(self.id); //pulling id
-				track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
+				// let track_id = JSON.stringify(self.id); //pulling id
+				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
+
+				console.log("Downloaded ID:", self.id, self.get('data'));
 
 				self.set('downloading_community_track', 'false');
 
-				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : track_id });
+				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
 				app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
-
 		}
 
 		app.post.fetch2(req_obj, cb, 0);
