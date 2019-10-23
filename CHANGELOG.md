@@ -1,3 +1,11 @@
+#2019-10-17 1.8.66
+ - infinite scrolling added to Community and All Tracks
+ - sign_out_community() added to community.js / and sisyphus-community-tracks-tmp
+ - 5 tap sets sisbot_registration to 'find' after setting env to alpha for auto launch.
+ - added word break to all model.data.name to adjust for long track naming"
+ - cleaned up unused js models
+ - rounded img_corners
+ - env=alpha api_url & web_url now point to dev.webcenter for Apple testers
 #2019-10-17 1.8.65
  - lazy loading added to All Tracks page
  - media queries added for bottom pagination bar

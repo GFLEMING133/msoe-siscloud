@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.65', // pushing for Android 10 update, lazyloading added for tracks page.
+	version				: '1.8.66', // sign_out_community() added with icon and reworked Sort By for alignment. 5 Tap for apple now auto launches after 5th tap. Replaced pagination with infinite scrolling 
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
