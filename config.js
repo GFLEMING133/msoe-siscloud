@@ -1,5 +1,5 @@
 var config = {
-	version	      : '1.8.61', //set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing. Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/, changing config #s
+	  version				: '1.8.66', // sign_out_community() added with icon and reworked Sort By for alignment. 5 Tap for apple now auto launches after 5th tap. Replaced pagination with infinite scrolling 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

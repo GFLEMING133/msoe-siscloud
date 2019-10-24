@@ -1,11 +1,43 @@
-#2019-10-2 1.8.60 & 61
- - set is_internet_connected to true in the _update_sisbot() in the env conditional for alpha to show Community for apple testing.
- - Changed the api_url and web_url in the app.config in the alpha envs to point to https://webcenter.sisyphus-industries.com/
- - Added conditional for _processing_registration() to fix re-signup error.
+#2019-10-17 1.8.66
+ - infinite scrolling added to Community and All Tracks
+ - sign_out_community() added to community.js / and sisyphus-community-tracks-tmp
+ - 5 tap sets sisbot_registration to 'find' after setting env to alpha for auto launch.
+ - added word break to all model.data.name to adjust for long track naming"
+ - cleaned up unused js models
+ - rounded img_corners
+ - env=alpha api_url & web_url now point to dev.webcenter for Apple testers
+ - conditional added for showing Sign Out in community
+ - list-image fallback added for Alpha environment ands when img does not render.
+#2019-10-17 1.8.65
+ - lazy loading added to All Tracks page
+ - media queries added for bottom pagination bar
+ - Android SDK bumped up to 29 for Android 10 support (fixes app compatibility in Google Play when downloading app)
+ - community model.limit set to 30 (was 40)
+ - <br/> fixes
+ -  beautified files 
+#2019-10-17 1.8.64 
+ - Added Pagination to community tracks
+ - Added lazy loading for images and pagination to speed up on-loading.
+ - Multiple download with checkboxes added to Community
+ - Overlay added when downloading tracks in community.
+ - SortBy bar is now FlexBoxed and track name area is now set at a fixed with with word-break
+ - Android was updated to sdk 29 for phones running Android Version 10
+ - iOS set NSBluetoothPeripheralUsageDescription and NSBluetoothAlwaysUsageDescription <key></key> in the info.plist
+ - Added add android:usesCleartextTraffic="true" to the AndroidManifest.xml  (more in the notes.)
+ - Updated cordova plugins.
+ - SIRI Shortcuts added
+#2019-10-2 1.8.62 & 63
+ - Added multiple download to community and add to playlist. 
+ - Added community model
+ - reworked download_wc()
+ - Sort by download_count (Most Popular) added. 
+ - Spinner added to fetching community tracks
+#2019-10-2 1.8.60
+ - Added conditional for _processing_registration() to fix re-sign-up error.
  - Spinner added when downloading tracks in Community.
  - Error handling for email and username in Community updated.
- - Adjusted thumbnail generation timeout to 90000
- - Changed stroke_width to 6 in gen_thumbnails.js and model.track
+ - Adjusted thumbnail generation timeout to 9000
+ - Changed stroke_width to 7 in gen_thumbnails.js and model.track
 #2019-09-25 1.8.58
  - Color Picker Input field,
  - Primary/Secondary Buttons incorporate white value
@@ -23,7 +55,7 @@
 #2019-09-19 1.8.54
  - CSON selection in Advanced Table Settings
  - Homing Offset in Advanced Table Settings
- - Save Advanced Table Settings before installing Python from button
+ - Save Advanced Table Settings beforcd installing Python from button
  - CSON RGBW Offset
  - Back button fix from Adding Custom Tracks
 #2019-09-12 1.8.50 & 51
@@ -116,7 +148,7 @@
 #2019-7-15 1.8.23
  - Fixed fonts to be sourced in properly through css.
  - added Show Password to Community sign-in page
- - public / private to display in Community track list as well as private being italisized.
+ - public / private to display in Community track list as well as private being italicized.
  - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
  - changed padding on pause/play button to help with sizing  
 #2019-7-10, 1.8.21

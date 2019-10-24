@@ -1,28 +1,28 @@
 <div class="h100">
-	<div class="h__k" data-run="model.reset_upload_tracks"></div>
+	<div data-run="model.reset_upload_tracks"></div>
     <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 left pl20 clickable active h__k"
+        <div class="w30 left pl20 clickable active"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'advanced_settings'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
         <div class="w40">
-            <h1 class="h__k no-stuffing fs18 lh18 capitalize">Upload Track</h1>
+            <h1 class="no-stuffing fs18 lh18 capitalize">Upload Track</h1>
         </div>
         <div class="w30">&nbsp;</div>
     </div>
     <div class="body-header h100 scroll hide-scrollbar">
-        <div class="bg-ll-red p20 h__k" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div class="h__k" data-foreach="model.errors">
-                <div class="h__k pb5 red">{{= scope.value }}</div>
+        <div class="bg-ll-red p20" data-if="{{= app.plugins.length(model.errors) }} > 0">
+            <div data-foreach="model.errors">
+                <div class="pb5 red">{{= scope.value }}</div>
             </div>
         </div>
-        <div class="h__k p40 bg-white black">
+        <div class="p40 bg-white black">
             <p class="p0 m0 fs18 center">
                 Choose .thr or .svg file(s) to upload. If SVG lines are not showing correctly, you may need to convert shapes to paths.
             </p>
 
-            <input class="h__k w100 mt20 b-none h__k"
+            <input class="w100 mt20 b-none"
 					type="file"
 					data-on-mouse-down="model.reset_upload_tracks"
 					multiple />
@@ -30,11 +30,11 @@
             <br clear="both">
            
 
-            <div class="h__k" data-model="{{= model.sisbot_id }}">
-                <h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong h__k"
+            <div data-model="{{= model.sisbot_id }}">
+                <h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong"
                     data-if="{{= model.uploading_track }} == true"
                 >Processing Track(s)</h2>
-                <h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
+                <h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
                     data-if="{{= model.uploading_track }} == false"
                     data-on-click="parent.upload_tracks"
                 >Upload Track(s)</h2>

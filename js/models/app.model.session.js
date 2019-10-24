@@ -7,15 +7,10 @@ app.model.session = {
 			mode			: 'app',
 			auth_token		: '',
 			active: {
-				new_type			: 'false',
-				new_form_instance	: 'false',
-				curtis_sort			: '',
 				primary				: 'false',
 				secondary			: 'false',
 				tertiary			: 'false',
 				user_id				: 'false',
-				form_id				: 'false',
-				form_instance_id	: 'false',
 				playlist_id			: 'false',
 				track_id			: 'false',
 				sisbot_id			: 'false'
@@ -32,20 +27,19 @@ app.model.session = {
 			sisyphus_manager_id		: 'false',
 			modal_id				: 'false',
 
-
 			user_registration: 'false', // false|sign_up|sign_in|hostname
 
-      signing_up: 'false',
-      signing_in: 'false',
-      registration: {
-          username: '',
-          email: '',
-          password: '',
-          password_confirmation: '',
-      },
-      forgot_email: {
-          email: '',
-      },
+			signing_up: 'false',
+			signing_in: 'false',
+			registration: {
+				username: '',
+				email: '',
+				password: '',
+				password_confirmation: '',
+			},
+			forgot_email: {
+				email: '',
+			},
 			remember_me: 'false', //community log
 			show_password: 'false', //community log
 			sisbot_id			: 'false',
@@ -125,11 +119,10 @@ app.model.session = {
 		this.set('active.primary', 'current')
 			.set('active.secondary', 'false');
 		this.set('sisyphus_manager_id', m.id);
-	},
-	siscloud_mode: function () {
-		var m = app.collection.add({ type: 'siscloud_manager' });
-		this.set('active.primary', 'current').set('active.secondary', 'false');
-		this.set('siscloud_manager_id', m.id);
+
+		var c = app.collection.add({ type: 'community' });
+		this.set('community_id', c.id);
+
 	},
 	setup_sign_in_model: function () {
 		var model	= (this.get('sign_in_id') == '') ? app.collection.add({ type: 'sign_in' }) : this.get_model('sign_in_id');
@@ -215,45 +208,44 @@ app.model.session = {
 			.set('signed_in', 'false');
 		window.location.reload();
 	},
-	   /**************************** USER REGISTRATION ***************************/
+	/**************************** USER REGISTRATION ***************************/
 	setup_registration: function() {
-	if (this.get('user_id') == 'false')
-		this.setup_sign_up();
+		if (this.get('user_id') == 'false')
+			this.setup_sign_up();
     },
-    setup_sign_up: function() {
-        this.set('errors', []);
-        this.set('user_registration', 'sign_up');
-    },
-    setup_sign_in: function() {
-        this.set('errors', []);
-        this.set('user_registration', 'sign_in');
-    },
+	setup_sign_up: function() {
+		this.set('errors', []);
+		this.set('user_registration', 'sign_up');
+	},
+	setup_sign_in: function() {
+		this.set('errors', []);
+		this.set('user_registration', 'sign_in');
+	},
+	sign_up: function() {
+      if (this.get('signing_up') == 'true') return true;
+      else this.set('signing_up', 'true');
+      var self = this;
+      var user_data = this.get('registration');
+      var element = $('.sign_up_errors')[0];
+      var errors = this.get_errors(user_data);
+      self.set('errors', errors);
 
-    sign_up: function() {
-        if (this.get('signing_up') == 'true') return true;
-        else this.set('signing_up', 'true');
-        var self = this;
-        var user_data = this.get('registration');
-        var element = $('.sign_up_errors')[0];
-        var errors = this.get_errors(user_data);
-        self.set('errors', errors);
+      if (errors.length > 0){
+				this.set('signing_up', 'false')
+				element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+				return;
+      }
 
-        if (errors.length > 0){
-             this.set('signing_up', 'false')
-             element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-             return;
+      function cb(obj) {
+				console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
+        if (obj.err){
+          self.set('signing_up', 'false').set('errors', [ obj.err ]);
+          element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+          return;
         }
+        self.set('errors', []);
 
-        function cb(obj) {
-			console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
-            if (obj.err){
-                self.set('signing_up', 'false').set('errors', [ obj.err ]);
-                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                return;
-            }
-            self.set('errors', []);
-
-            self._process_registration(user_data, obj.resp);
+        self._process_registration(user_data, obj.resp);
 
 			self.set('signing_up', 'false');
 			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
@@ -319,31 +311,32 @@ app.model.session = {
 
   		var session_data = {
   			email			: user.email,
-        	password		: user.password,
+      	password		: user.password,
   		};
       var self = this;
   		_.each(data_arr, function (m) {
-  			if (m.type == 'user' && m.email == user.email)
-                  session_data.user_id = m.id;
-                  self.set('user_id', m.id );
+  			if (m.type == 'user' && m.email == user.email) {
+					session_data.user_id = m.id;
+        	self.set('user_id', m.id );
+				}
   		});
 
   		app.manager.intake_data(data_arr);
   		app.trigger('session:user_sign_in', session_data);
     },
     clear_errors: function(){
-          this.set('errors', []);
+      this.set('errors', []);
     },
     get_errors: function(user_data) {
-		var errors = [];
-		
+			var errors = [];
+
         if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
         if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
          //__________________SignUp Errors________________________ //
          if (this.get('signing_up') == 'true'){
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
-			} 
+			}
 			if (app.plugins.valid_email(user_data.username)){
                 errors.push('Username cannot be an email');
             }
@@ -418,7 +411,7 @@ app.model.session = {
 		},'Email Sent', ['OK']);
 
 		app.trigger('session:active', {'primary':'community','secondary':'false'});
-        
+
     },
     _process_email: function(user, data_arr) {
         var session_data = {
@@ -496,7 +489,7 @@ app.model.session = {
 			if (saveJSON.remember_me == 'false') delete saveJSON.registration;
 
 			window.localStorage.setItem('session', JSON.stringify(saveJSON));
-			console.log("Session JSON", JSON.stringify(this.toJSON()));
+			// console.log("Session JSON", JSON.stringify(this.toJSON()));
 
 			var curr_sisbots = this.get_sisbots();
 			var sess_sisbots = this.get('sisbot_hostnames');

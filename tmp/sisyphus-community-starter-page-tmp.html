@@ -1,61 +1,58 @@
-
 <div class="h100">
-    <div class="pull-top bg-white w100">
-        <div class="white bg-black w100 center no-stuffing flex vertical-align">
-            <div class="w15 center f-large">&nbsp;</div>
-            <div class="w70">
-                <h3 class="h__k no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Community</h3>
-            </div>
-            <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
-        </div>
+  <div class="pull-top bg-white w100">
+    <div class="white bg-black w100 center no-stuffing flex vertical-align">
+      <div class="w15 center f-large">&nbsp;</div>
+      <div class="w70">
+        <h3 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Community</h3>
+      </div>
+      <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar pb100 h__k" data-model="{{= model.sisbot_id }}">
-        <div class="h__k pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar pb100" data-model="{{= model.sisbot_id }}">
+    <div class="pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
 
-            <div class="i center shadow bg-grey-ll p30 clickable h__k"
-                data-on-click="publish"
-                data-publish="session:active"
-                data-msg="{'primary':'settings','secondary':'wifi'}"
-            >Your Sisyphus must be connected to the internet via WiFi. Click here to connect</div>
+      <div class="i center shadow bg-grey-ll p30 clickable"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'primary':'settings','secondary':'wifi'}">
+        Your Sisyphus must be connected to the internet via WiFi. Click here to connect
+      </div>
 
-            <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                Sisyphus Community
-            </h3>
-        </div>
-        <div class="h__k pb100" data-if="{{= model.data.is_internet_connected }} == true">
-          <div class="h__k" data-if="{{= grandparent.remember_me }} == true">
-            <div class="h__k" data-run="grandparent.sign_in"></div>
-          </div>
-          <div class="h__k" data-if="{{= grandparent.remember_me }} == false">
-            <div class="h__k pl50 pr50 pt10">
-                <p class="no-stuffing center w100 mt40" aria-hidden="true">
-                        <img src="img/globeCopy.png" alt="Community" class="hh30" />
-                </p>
-                <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                    Sisyphus Community
-                </h3>
-                <p class="pb20 center justify lh18 fs18">
-                        Sign in to your Sisyphus
-                        Community account to download
-                        new tracks designed by artists
-                        around the world. If you don't
-                        already have an account, click the
-                        sign up button below
-                </p>
-                <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong h__k"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'primary':'community','secondary':'sign_in'}"
-                >SIGN IN</div>
-
-
-                <div class="mt10 mb15 p10 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong h__k"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'primary':'community','secondary':'create_account'}"
-                >SIGN UP</div>
-            </div>
-          </div
-        </div>
+      <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+        Sisyphus Community
+      </h3>
     </div>
+    <div class="pb100" data-if="{{= model.data.is_internet_connected }} == true">
+      <div data-if="{{= grandparent.remember_me }} == true">
+        <div data-run="grandparent.sign_in"></div>
+      </div>
+      <div data-if="{{= grandparent.remember_me }} == false">
+        <div class="pl50 pr50 pt10">
+          <p class="no-stuffing center w100 mt40" aria-hidden="true">
+            <img src="img/globeCopy.png" alt="Community" class="hh30" />
+          </p>
+          <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+            Sisyphus Community
+          </h3>
+          <p class="pb20 center justify lh18 fs18">
+            Sign in to your Sisyphus
+            Community account to download
+            new tracks designed by artists
+            around the world. If you don't
+            already have an account, click the
+            sign up button below
+          </p>
+          <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'primary':'community','secondary':'sign_in'}">SIGN IN</div>
+
+          <div class="mt10 mb15 p10 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'primary':'community','secondary':'create_account'}">SIGN UP</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

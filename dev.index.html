@@ -20,17 +20,20 @@
 </head>
 
 <body class="h100 no-stuffing">
-	<div class="body h100 h__k touch-hover {{= model.mode }} {{= model.platform }}" data-model="current_session">
-		<div class="content h100">
-			<div class="h__k bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
+	<div class="body h100">
+		<div class="h100 touch-hover {{= model.mode }} {{= model.platform }}" data-model="current_session">
+			<div class="content h100">
+				<div class="bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
+			</div>
+			<div data-template="modal-tmp"></div>
 		</div>
-		<div class="h__k" data-template="modal-tmp"></div>
 	</div>
 
 	<div id="templates" class="hidden">{{{= templates }}}</div>
 
 	<script src="cordova.js"></script>
 	<script src="js/app.js"></script>
+	<script src="js/app.config.js"></script>
 	<script src="prod/libs.js"></script>
 	<script src="prod/gen.js"></script>
 	<script src="prod/models.js"></script>

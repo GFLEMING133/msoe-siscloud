@@ -1,29 +1,40 @@
 <div class="h100">
-    <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-        <div class="w30 left pl20 clickable active h__k"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'false'}"
-        ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
-        <div class="w40">
-            <h1 class="h__k no-stuffing fs18 capitalize truncate">All Tracks</h1>
-        </div>
-        <div class="w30 pt30 center">&nbsp;</div>
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+    <div class="w30 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'false'}"
+    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="w40">
+        <h1 class="no-stuffing fs18 capitalize truncate">All Tracks</h1>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar h__k" data-model="{{= model.sisbot_id }}">
-        <div class="h__k center p20 i"
-            data-if="{{= app.plugins.length(model.data.track_ids) }} == 0"
-        >
-            <span>There are no tracks on this Sisyphus.</span>
-            <span class="clickable active">Visit the Community tab to download some</span>
+    <div class="w30 pt30 center">&nbsp;</div>
+  </div>
+  <div class="h100" data-model="{{= model.sisbot_id }}">
+    <div class="body-header h100 scroll hide-scrollbar"
+        data-scope="true"
+        data-state="{'total':'{{= _.size(parent.data.track_ids) }}'}"
+        data-defaults="{'type':'list'}"
+        data-on-scroll="model.scroll_check"
+        data-msg="{{= _self_.el_id }}">
+      <div class="center p20 i"
+          data-if="{{= _.size(parent.data.track_ids) }} == 0">
+          <span>There are no tracks on this Sisyphus.</span>
+          <span class="clickable active">Visit the Community tab to download some</span>
+      </div>
+      <div data-if="{{= _.size(parent.data.track_ids) }} !== 0">
+        <div data-foreach="parent.data.track_ids"
+            data-foreach-limit="{{= model.limit }}"
+            data-foreach-offset="{{= model.offset }}"
+            data-foreach-map="true">
+          <div data-template="sisyphus-tracks-list-item-tmp"></div>
         </div>
-        <div class="h__k" data-if="{{= app.plugins.length(model.data.track_ids) }} !== 0">
-            <div class="h__k"
-                data-foreach="model.data.track_ids"
-                data-foreach-map="true"
-                data-item="sisyphus-tracks-list-item-tmp"
-            ></div>
+        <div data-if="{{= _.size(parent.data.track_ids) }} > {{= model.limit }}">
+          <div class="p20 center i">Fetching tracks...</div>
+          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
         </div>
-        <div class="hh200">&nbsp;</div>
+      </div>
+      <div class="hh200">&nbsp;</div>
     </div>
+  </div>
 </div>

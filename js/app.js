@@ -22,13 +22,12 @@ var app = {
 		}
 	},
 	setup: function () {
-		if (window.cordova)						app.is_app = true;
-		if (app.plugins.is_mobile() !== false)	app.is_app = true;
-		if (window.cordova)						StatusBar.show();
-
-		// FOR TOUCH EVENTS
-		if (app.is_app)
-			$('.body').removeClass('touch-hover');
+		if (window.cordova)						{
+			app.is_app = true;
+			StatusBar.show();
+			$('.body').removeClass('touch-hover'); // FOR TOUCH EVENTS
+		}
+		// if (app.plugins.is_mobile() !== false)	app.is_app = true;
 
 		_.extend(app, Backbone.Events);
 
@@ -38,11 +37,11 @@ var app = {
 		app.collection							= new app.base.collection(null, { model: app.model.neuron });
 		app.collection.on_init();
 
-		app._base = new Binding({ el: $('.body') });
+		app.bind = new Binding({ el: $('.body') });
 		Backbone.history.start();
 		this.setup_fastclick();
 
-    	if (app.config.env == 'alpha')			app.current_session().set('debug_mode', 'true');
+    if (app.config.env == 'alpha')			app.current_session().set('debug_mode', 'true');
 	},
 	setup_fastclick: function () {
 		FastClick.attach(document.body);
