@@ -7,7 +7,7 @@
  - rounded img_corners
  - env=alpha api_url & web_url now point to dev.webcenter for Apple testers
  - conditional added for showing Sign Out in community
- - list-image fallback added for Alphha environment ands when img does not render.
+ - list-image fallback added for Alpha environment ands when img does not render.
 #2019-10-17 1.8.65
  - lazy loading added to All Tracks page
  - media queries added for bottom pagination bar

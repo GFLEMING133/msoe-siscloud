@@ -8,13 +8,13 @@
       <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 pb200  scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
     <div data-if="{{= model.data.is_internet_connected }} == false">
       <div class="i center shadow bg-grey-ll p30 m10 clickable active" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'settings','secondary':'wifi'}">Your Sisyphus must be connected to the internet via WiFi before you can
         successfully create an account. Click here to connect</div>
     </div>
     <form>
-      <div class="mt40 mb100 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
+      <div class="mt40 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
         <div class="bg-white black" data-model="{{= session.id }}" data-run="model.clear_errors">
           <h3 class="center fs18 fl12 less_strong">Enter the info below to set up your Sisyphus account.</h3>
 
@@ -46,7 +46,7 @@
 
           <br clear="both">
 
-          <div class="pt30 pb100 fs18 lh24 clickable active center" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'community','secondary':'sign_in'}">Already have an account? <br /> <a class="blue-l pr5">Sign In</a>
+          <div class="pt30 pb50 fs18 lh24 clickable active center" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'community','secondary':'sign_in'}">Already have an account? <br /> <a class="blue-l pr5">Sign In</a>
           </div>
         </div>
       </div>
