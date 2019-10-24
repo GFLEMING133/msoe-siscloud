@@ -11,13 +11,13 @@
       <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar pl40 pr40" data-model="{{= manager.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar pl40 pr40 pb200" data-model="{{= manager.sisbot_id }}">
     <div data-if="{{= model.data.is_internet_connected }} == false">
       <div class="i center shadow bg-grey-ll p30 m10 clickable active" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'settings','secondary':'wifi'}">
         Your Sisyphus must be connected to the internet via WiFi before
         you can successfully create an account. Click here to connect</div>
     </div>
-    <div class="pb150" data-if="{{= model.data.is_internet_connected }} == true">
+    <div data-if="{{= model.data.is_internet_connected }} == true">
       <div class="bg-white pt20 black" data-model="{{= session.id }}" data-run="model.clear_errors">
         <div class="bg-ll-red p20" data-if="{{= app.plugins.length(model.errors) }} > 0">
           <div data-foreach="model.errors">
@@ -72,7 +72,7 @@
         <br clear="both">
         <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
             data-on-click="model.sign_in">SIGN IN</div>
-        <div class="pt30 fs18 lh24 mt50 clickable active center"
+        <div class="pt30 fs18 lh24 clickable active center"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'secondary':'create_account'}">Dont have an account?<br /><a class="blue-l pr5">Sign Up</a></div>
