@@ -323,7 +323,7 @@ app.model.sisbot = {
 		if (app.config.env == 'alpha') {
 			console.log('ALPHA is_internet_connected ==', this.get('data.is_internet_connected'));
 			this.set('data.is_internet_connected', 'true'); //setting to true for Apple to test Community
-			return this;
+			return cb({err:null, resp:this.get('data')});
 		}
 
 		var self	= this;
@@ -493,7 +493,8 @@ app.model.sisbot = {
 		if (app.config.env == 'alpha') {
 			// FOR APPLE TESTING...
 			app.manager.set('is_sisbot_available', 'true');
-			this.set('data.is_internet_conected', 'true');
+			this.set('data.is_internet_connected', 'true');
+			return this;
 		}
 
 		if (this.get('is_master_branch') == 'false') console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));

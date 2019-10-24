@@ -29,17 +29,17 @@ app.model.session = {
 
 			user_registration: 'false', // false|sign_up|sign_in|hostname
 
-      signing_up: 'false',
-      signing_in: 'false',
-      registration: {
-          username: '',
-          email: '',
-          password: '',
-          password_confirmation: '',
-      },
-      forgot_email: {
-          email: '',
-      },
+			signing_up: 'false',
+			signing_in: 'false',
+			registration: {
+				username: '',
+				email: '',
+				password: '',
+				password_confirmation: '',
+			},
+			forgot_email: {
+				email: '',
+			},
 			remember_me: 'false', //community log
 			show_password: 'false', //community log
 			sisbot_id			: 'false',
@@ -213,14 +213,14 @@ app.model.session = {
 		if (this.get('user_id') == 'false')
 			this.setup_sign_up();
     },
-  setup_sign_up: function() {
-      this.set('errors', []);
-      this.set('user_registration', 'sign_up');
-  },
-  setup_sign_in: function() {
-      this.set('errors', []);
-      this.set('user_registration', 'sign_in');
-  },
+	setup_sign_up: function() {
+		this.set('errors', []);
+		this.set('user_registration', 'sign_up');
+	},
+	setup_sign_in: function() {
+		this.set('errors', []);
+		this.set('user_registration', 'sign_in');
+	},
 	sign_up: function() {
       if (this.get('signing_up') == 'true') return true;
       else this.set('signing_up', 'true');

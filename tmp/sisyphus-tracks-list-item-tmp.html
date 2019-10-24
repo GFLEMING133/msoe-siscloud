@@ -8,7 +8,9 @@
 				<img class="w100 center img-rounded"
 						alt="{{= model.data.name }}"
 						src="img/tracks/_default_100.png"
-						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+						data-on-error="replace"
+						data-replace="list-image-fallback-tmp" />
 			</div>
 		</div>
 		<div class="w60 pt25 pb10 pl20">
