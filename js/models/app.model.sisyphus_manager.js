@@ -774,7 +774,7 @@ app.model.sisyphus_manager = {
     app.post.fetch({
       _url: 'http://' + hostname,
       _type: 'POST',
-      _timeout: 2000, //2500 << og timeout
+      _timeout: 2500,
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {

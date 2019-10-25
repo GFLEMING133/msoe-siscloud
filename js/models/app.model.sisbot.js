@@ -1019,15 +1019,24 @@ app.model.sisbot = {
 		let self = this;
 		let is_servo = self.get('data.is_servo');
 		if(is_servo == 'true'){
-			if (confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?"))
-				self.update_tablename();
-
-
-			} else if (is_servo == 'false') {
-				if (confirm("Your table will restart this may take a few moments. Are you sure you want to continue?"))
+			app.plugins.n.notification.confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?",
+			function(resp_num) {
+				if(resp_num !== 1){
 					self.update_tablename();
-			}else{
-
+				}else{
+					return self;
+				}
+			},['Yes','No']);
+				
+			} else if (is_servo == 'false') {
+				app.plugins.n.notification.confirm("Your table will restart this may take a few moments. Are you sure you want to continue?",
+				function(resp_num) {
+					if(resp_num !== 1) {
+						self.update_tablename();
+					}else {
+						return self;
+					}
+				},['Yes', 'No']);
 			}
 	},
 	update_tablename: function () {

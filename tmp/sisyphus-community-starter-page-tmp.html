@@ -9,18 +9,23 @@
     </div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar pb100" data-model="{{= model.sisbot_id }}">
-    <div class="pl10 pr10" data-if="{{= model.data.is_internet_connected }} == false">
+    <div class="pl20 pr20" data-if="{{= model.data.is_internet_connected }} == false">
+      <p class="no-stuffing center w100 mt40" aria-hidden="true">
+          <img src="img/icon_2x_wifi.png" alt="Wifi" class="hh30" />
+        </p>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Your Table is Not Connected to WiFi
+        </h3>
+        <p class="p0 m0 fs18 center">
+          Your cannot connect to the Sisyphus Community without a wifi connection. Please connect your table to WiFi to access the Sisyphus Community and sign-in to your account.
+        </p>
 
-      <div class="i center shadow bg-grey-ll p30 clickable"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'primary':'settings','secondary':'wifi'}">
-        Your Sisyphus must be connected to the internet via WiFi. Click here to connect
+        <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'settings','secondary':'wifi'}">
+            Connect to WiFi</h2>
       </div>
-
-      <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-        Sisyphus Community
-      </h3>
     </div>
     <div class="pb100" data-if="{{= model.data.is_internet_connected }} == true">
       <div data-if="{{= grandparent.remember_me }} == true">
