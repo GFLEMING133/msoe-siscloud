@@ -1554,7 +1554,7 @@ function Element(el, parent, _scope) {
     // console.log("Mouseover", e, self.data.onMouseOver);
 
     if (!self.data.msg) {
-      var $el = e.originalEvent.target;
+      var $el = $(e.originalEvent.target);
       var pos = $el.position();
       var off = $el.offset();
       var element_obj = {
@@ -1579,7 +1579,7 @@ function Element(el, parent, _scope) {
 
     if (self.data.onMouseOut) {
       if (!self.data.msg) {
-        var $el = e.originalEvent.target;
+        var $el = $(e.originalEvent.target);
         var pos = $el.position();
         var element_obj = {
           x : pos.left,
@@ -1603,7 +1603,7 @@ function Element(el, parent, _scope) {
 
     if (self.data.onMouseDown) {
       if (!self.data.msg) {
-        var $el = e.originalEvent.target;
+        var $el = $(e.originalEvent.target);
         var pos = $el.position();
         var element_obj = {
           x : pos.left,
@@ -1627,7 +1627,7 @@ function Element(el, parent, _scope) {
 
     if (self.data.onMouseUp) {
       if (!self.data.msg) {
-        var $el = e.originalEvent.target;
+        var $el = $(e.originalEvent.target);
         var pos = $el.position();
         var element_obj = {
           x : pos.left,
