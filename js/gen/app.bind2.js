@@ -1647,13 +1647,16 @@ function Element(el, parent, _scope) {
     }
   };
   this.on_touch_start = function (e) {
-      if (this.data.onTouchStart)   this._call(this.data.onTouchStart, this.get_value(this.data.msg));
+    var self = e.data.el;
+    if (self.data.onTouchStart)   self._call(self.data.onTouchStart, self.get_value(self.data.msg));
   };
   this.on_touch_move = function (e) {
-      if (this.data.onTouchMove)    this._call(this.data.onTouchMove, this.get_value(this.data.msg));
+    var self = e.data.el;
+    if (self.data.onTouchMove)    self._call(self.data.onTouchMove, self.get_value(self.data.msg));
   };
   this.on_touch_end = function (e) {
-      if (this.data.onTouchEnd)   this._call(this.data.onTouchEnd, this.get_value(this.data.msg));
+    var self = e.data.el;
+    if (self.data.onTouchEnd)   self._call(self.data.onTouchEnd, self.get_value(self.data.msg));
   };
   this.on_error = function(e) {
     var self = e.data.el;
