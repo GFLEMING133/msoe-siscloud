@@ -1793,7 +1793,18 @@ and (orientation : portrait)
 }
 /**************iPhone SE Matts Phone**************/
 @media screen and (device-aspect-ratio: 40/71) {
+   .media_fs14 {
+	   font-size: 14px !important;
+   }
+}
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : portrait) { 
 
+	.media_fs14 {
+		font-size: 14px !important;
+	}
 }
 
 /**************iPhone 6 & 7 PLus**************/

@@ -1018,26 +1018,29 @@ app.model.sisbot = {
 	update_tableName_alert: function () {
 		let self = this;
 		let is_servo = self.get('data.is_servo');
-		if(is_servo == 'true'){
-			app.plugins.n.notification.confirm("Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?",
+		let servo_text = "Your ball will home to the middle and the table will restart. This may take a few moments. Are you sure you want to continue?";
+		let not_servo_text = "Your table will restart this may take a few moments. Are you sure you want to continue?";
+
+		if(is_servo == 'true') {
+			if(app.plugins.n.notification.confirm( servo_text,
 			function(resp_num) {
-				if(resp_num !== 1){
-					self.update_tablename();
-				}else{
+				if(resp_num == 1) {
 					return self;
 				}
-			},['Yes','No']);
+				self.update_tablename();
+			},'Change Table Name?', ['No','Yes'])	 
+		);
 				
-			} else if (is_servo == 'false') {
-				app.plugins.n.notification.confirm("Your table will restart this may take a few moments. Are you sure you want to continue?",
+		} else if (is_servo == 'false') {
+			if(app.plugins.n.notification.confirm( not_servo_text,
 				function(resp_num) {
-					if(resp_num !== 1) {
-						self.update_tablename();
-					}else {
+					if(resp_num == 1) {
 						return self;
 					}
-				},['Yes', 'No']);
-			}
+					self.update_tablename();
+				},'Change Table Name?', ['No','Yes'])
+			);
+		}
 	},
 	update_tablename: function () {
 		if (this.is_legacy()) {
