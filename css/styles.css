@@ -1796,6 +1796,9 @@ and (orientation : portrait)
    .media_fs14 {
 	   font-size: 14px !important;
    }
+   .btn {
+	   padding: 10px !important;
+   }
 }
 @media only screen 
 and (min-device-width : 320px) 
@@ -1804,6 +1807,9 @@ and (orientation : portrait) {
 
 	.media_fs14 {
 		font-size: 14px !important;
+	}
+	.btn {
+		padding: 10px !important;
 	}
 }
 
