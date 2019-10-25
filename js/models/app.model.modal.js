@@ -19,11 +19,25 @@ app.model.modal = {
     this.listenTo(app, 'modal:close', this.close);
   },
   open: function(data) {
+    console.log('data',data);
     var template = this.get('template');
-
+    
     if (template != data.template) {
       this.set('template', data.template);
     }
+
+    if (data.track_id) {
+      this.set('track_id', data.track_id);
+    } else {
+      this.set('track_id', 'false')
+    }
+
+    if (data.playlist_id) {
+      this.set('playlist_id', data.playlist_id);
+    } else {
+      this.set('playlist_id', 'false');
+    }
+
     this.set('is_hidden', 'false');
   },
   close: function() {

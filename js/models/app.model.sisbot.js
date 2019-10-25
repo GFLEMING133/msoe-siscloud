@@ -42,11 +42,11 @@ app.model.sisbot = {
 			csons	: 'false', // available cson files
 
 			has_software_update				: 'false',
-			is_connected					: false,
+			is_connected					:  false,
 			is_socket_connected				: 'false',
-			is_polling						: 'true',
-			is_jogging						: false,
-			jog_type						: '',
+			is_polling						:  'true',
+			is_jogging						:   false,
+			jog_type						:      '',
 			updating_hostname				: 'false',
 			updating_tablename				: 'false',
 
