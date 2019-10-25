@@ -680,7 +680,6 @@ li.blue-hover:hover {
 	-ms-flex-align			: center;
 	-webkit-align-items		: center;
 	-webkit-box-align		: center;
-	align-items				: center;
 }
 
 
@@ -745,7 +744,7 @@ li.blue-hover:hover {
 	display: flex;
 	flex: 1;
 	justify-content: flex-end;
-	align-items: center
+	align-items: flex-end;
 }
 .align-start {
 	align-self: flex-start;

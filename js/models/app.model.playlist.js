@@ -82,10 +82,10 @@ app.model.playlist = {
 		this.set('add_playlist_tracks', add_playlist_tracks);
 	},
 	add_tracks_add: function (track_id) {
-		var b = this.get('add_playlist_tracks[' + track_id + ']');
-		this.set('add_playlist_tracks[' + track_id + ']', ++b);
+		var counter = this.get('add_playlist_tracks[' + track_id + ']');
+		this.set('add_playlist_tracks[' + track_id + ']', ++counter);
 		this.add_track(track_id);
-		this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
+		// this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
 	},
 	minus_tracks_minus: function (track_id) {
 		var b = this.get('add_playlist_tracks[' + track_id + ']');
@@ -162,6 +162,8 @@ app.model.playlist = {
 		this.set('active_tracks', this.get('data.tracks').slice())
 			.set('edit.name', this.get('data.name'))
 			.set('edit.description', this.get('data.description'));
+
+			app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},
 	cancel_edit: function () {
 		app.trigger('session:active', { secondary: 'playlist' });

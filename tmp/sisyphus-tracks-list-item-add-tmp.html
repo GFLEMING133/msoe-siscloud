@@ -11,17 +11,21 @@
       <div class="montserrat_semi_bold">count= {{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div>
     </div>
   </div>
-  <div class="h100 flex1center ">
-    <div class="flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
-      <div class="add_tracks_circle mr10" data-on-click="grandparent.add_tracks_add" data-msg="{{= model.id }}"></div>
+  <div class="flex1end flex-column">
+    <div class="flex1center pl15 clickable" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
+      <div class="add_tracks_circle" data-on-click="grandparent.add_tracks_add" data-msg="{{= model.id }}"></div>
     </div>
     <div class="flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0">
-      <i class="fa fa-minus-circle f-large clickable active warmGrey mr15"
-          data-on-click="grandparent.minus_tracks_minus"
-          data-msg="{{= model.id}}" aria-hidden="true"></i>
-      <i class="fa fa-plus-circle mr10 f-large clickable active green"
-          data-on-click="grandparent.add_tracks_add"
-          data-msg="{{= model.id }}" aria-hidden="true"></i>
+      <div class="flex1start p15 clickable"
+        data-on-click="grandparent.minus_tracks_minus"
+        data-msg="{{= model.id}}">   
+        <i class="fa fa-minus-circle f-large active warmGrey" aria-hidden="true"></i>
+      </div>
+      <div class="flex1end p15 clickable"
+        data-on-click="grandparent.add_tracks_add"
+        data-msg="{{= model.id }}">    
+        <i class="fa fa-plus-circle f-large active green" aria-hidden="true"></i>
+      </div>
     </div>
   </div>
 </div>

@@ -9,10 +9,8 @@
       <h1 class="fs18 lh18 pb5 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
     </div>
     <div class="w30 right p15 pr20 f-large clickable active"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'playlist-edit'}"
-    ><img src="img/icon_2x_playlist_edit.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        data-on-click="model.setup_edit"
+    ><img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
   </div>
   <div class="body-header h100" data-model="{{= parent.active.playlist_id }}">
     <div class="bg-black hh50 w100 media_query_mt0 fixed2">
