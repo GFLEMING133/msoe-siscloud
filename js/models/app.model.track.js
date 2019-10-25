@@ -13,6 +13,8 @@ app.model.track = {
 			community_track_downloaded	: 'false',
 			generating_thumbnails		: 'false',
 			downloading_community_track : 'false',
+			download_cloud				: 'false',
+			track_checked				: 'false',
 
 			is_favorite					: 'false',
 
@@ -70,6 +72,10 @@ app.model.track = {
 		return obj;
 	},
 	current_version: 1,
+
+	on_init: function() {
+		this.on('change:track_checked', this.get_track_checked);
+	},
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });
 	},
@@ -81,6 +87,11 @@ app.model.track = {
 		this.unset('edit.file_data');
 
 		return this;
+	},
+	get_track_checked: function () {
+		if(this.get('track_checked') == 'true') {
+			app.trigger('community:select_track', this);
+		}else app.trigger('community:deselect_track', this);
 	},
 	/**************************** D3 RENDERING ***********************************/
 	load_d3_data: function() {
@@ -152,7 +163,7 @@ app.model.track = {
 				self.set('generating_thumbnails', 'false');
 				console.log(obj);
 				if (obj.err) {
-					alert(obj.err)
+					app.plugins.n.notification.alert(obj.err)
 				} else {
 					console.log('Thumbnail generated');
 				}
@@ -183,8 +194,11 @@ app.model.track = {
 	delete: function () {
 		app.manager.get_model('sisbot_id').track_remove(this);
 	},
-	on_file_upload: function (file) {
-		this.upload_verts_to_cloud(file.data);
+	on_file_upload: function (data, file, field) {
+		console.log("On File Upload:", data, file, field);
+    if ( /\.(svg|thr)$/i.test(file.name)) { // regex for allowed filetypes
+			this.upload_verts_to_cloud(data);
+		}
 		return this;
 	},
 	upload_track_to_cloud: function () {
@@ -1002,7 +1016,7 @@ app.model.track = {
 		var req_obj = {
 			_url	: app.config.get_webcenter_url(),
 			_type	: 'POST',
-			endpoint: 'get',
+			endpoint: 'tracks/get_track_header.json',
 			id		: this.id
 		};
 
@@ -1037,68 +1051,55 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-  download_wc: function(track_id) {
-
+	download_wc: function( skip_playlist_add) {
+    var track_id = this.get('data.track_id')
 		var self = this;
-		// console.log("track : download", track_id);
+
+		app.trigger('modal:open', {
+			'template': 'modal-overlay-downloading-tmp'
+		});
+
 		self.set('community_track_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
+		self.set('download_cloud',  'true');
 
-		var req_obj;
-		if (self.get('data.original_file_type') == 'thr')
-		{
-			var req_obj = {
-				_url	: app.config.get_webcenter_url(),
-				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
-			};
-		
-		}
-		else if (self.get('data.original_file_type') == 'svg')
-		{
-			var req_obj = {
-				_url	: app.config.get_webcenter_url(),
-				_type	: 'GET',
-				endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
-			};
-		
-		}
-		else {
-			return app.plugins.n.notification.alert('track is missing file_type header ' + self.id);
+		var req_obj = {
+			_url	: app.config.get_webcenter_url(),
+			_type	: 'GET',
+			endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
+			_timeout: 90000
+		};
 
-		}
+		function cb(obj) {
+			if (obj.err) {
+				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
+			} else {
+				// console.log('track : download response = ', obj.resp);
 
-	function cb(obj) {
-		if (obj.err) {
-			return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
-		} else {
-			// console.log('track : download response = ', obj.resp);
+				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
+				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+				else {
+					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
+					self.set('community_track_downloaded', 'false');
+					self.set('downloading_community_track', 'false');
+					return;
+				}
+				self.set('data.verts', obj.resp);
+				app.trigger('community:downloaded_track', self.id);
+				app.trigger('sisbot:track_add', self);
 
-			if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
-			else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
-			else {
-				app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
-				self.set('community_track_downloaded', 'false');
+				// let track_id = JSON.stringify(self.id); //pulling id
+				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
+
+				console.log("Downloaded ID:", self.id, self.get('data'));
+
 				self.set('downloading_community_track', 'false');
-				return;
+
+				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
+
+				app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
-
-			self.set('data.verts', obj.resp);
-			app.trigger('manager:download_track', self.id);
-			app.trigger('sisbot:track_add', self);
-
-			let track_id = JSON.stringify(self.id); //pulling id
-			track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
-
-			self.set('downloading_community_track', 'false');
-			app.trigger('modal:open', { 'track_id' : track_id });
-
-			app.trigger('session:active', { secondary: 'false', primary: 'community' });
-			
-
 		}
-
-	}
 
 		app.post.fetch2(req_obj, cb, 0);
 	},

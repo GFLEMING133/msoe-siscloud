@@ -1,17 +1,18 @@
 var http            = require("http");
 var express         = require("express");
-var bodyParser		= require('body-parser');
+var bodyParser			= require('body-parser');
 var _               = require('underscore');
 var fs              = require('fs');
-var cleanCSS		= require('clean-css');
+var cleanCSS				= require('clean-css');
 var local_config    = require('./config.js');
-var cleanCSS		= require('clean-css');
-var cors			= require("cors");
+var cleanCSS				= require('clean-css');
+var cors						= require("cors");
 
 var exp             = express();
 var app_service     = new express();
 
 var config = {};
+var regen_timer = null;
 
 _.templateSettings = {
 	evaluate	: /\{\{\{(.+?)\}\}\}/gim,
@@ -24,7 +25,7 @@ var app = function(given_config,ansible) {
 	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
-	if (config.env.indexOf('dev') > -1 || config.env.indexOf('sisbot') == -1) { 
+	if (config.env.indexOf('dev') > -1 || config.env.indexOf('sisbot') == -1) {
 		fs.watch(config.dir + '/templates', regenerate_index_page);
 		fs.watch(config.dir + '/tmp', regenerate_index_page);
 		fs.watch(config.dir + '/js/gen', regenerate_index_page);
@@ -94,12 +95,20 @@ var app = function(given_config,ansible) {
 
 	http.createServer(app_service).listen(config.port);
 
-	regenerate_index_page();
+	_regenerate_index_page();
 
 	console.log('Setup the App Server');
 };
 
-function regenerate_index_page() {
+function regenerate_index_page() { // eliminate multiple regens really close together, i.e. software_update
+	clearTimeout(regen_timer);
+
+	regen_timer = setTimeout(function() {
+		_regenerate_index_page();
+	}, 250);
+};
+
+function _regenerate_index_page() {
 	var index_page   = fs.readFileSync(config.dir + '/dev.index.html', 'utf-8');
 	var uploads_dir  = config.dir + '/prod';
 	if (!fs.existsSync(uploads_dir))
@@ -109,7 +118,7 @@ function regenerate_index_page() {
 	var files	   = [
 		"css/bootstrap.min.css",
 		"css/fontawesome.min.css",
-		"css/timepicker.min.css",
+		"css/flatpickr.min.css",
 		"css/chosen.css",
 		"css/styles.css",
 	];
@@ -119,7 +128,7 @@ function regenerate_index_page() {
 		var minified = new cleanCSS().minify(css).styles;
 		all.push(minified)
 	});
-	
+
 	fs.writeFileSync(config.dir + '/prod/styles.css', all.join(''));
 	// 242KB
 

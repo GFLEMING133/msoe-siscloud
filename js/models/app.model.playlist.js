@@ -82,10 +82,10 @@ app.model.playlist = {
 		this.set('add_playlist_tracks', add_playlist_tracks);
 	},
 	add_tracks_add: function (track_id) {
-		var b = this.get('add_playlist_tracks[' + track_id + ']');
-		this.set('add_playlist_tracks[' + track_id + ']', ++b);
+		var counter = this.get('add_playlist_tracks[' + track_id + ']');
+		this.set('add_playlist_tracks[' + track_id + ']', ++counter);
 		this.add_track(track_id);
-		this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
+		// this.trigger('change:add_playlist_tracks[' + track_id + ']'); //!! try removing with Bind2
 	},
 	minus_tracks_minus: function (track_id) {
 		var b = this.get('add_playlist_tracks[' + track_id + ']');
@@ -100,15 +100,8 @@ app.model.playlist = {
 	add_tracks_done: function () {
 		var self = this;
 
-		/*
-		this.set('active_tracks', []);
-
-		_.each(this.get('add_playlist_tracks'), function(bool, track_id) {
-			if (bool == 'true')	self.add_track(track_id);
-		});
-		*/
-
-		app.trigger('session:active', { 'secondary': 'playlist-new' });
+		if (this.get('data.is_saved') == 'true') app.trigger('session:active', { 'secondary': 'playlist-edit' });
+		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
@@ -169,6 +162,8 @@ app.model.playlist = {
 		this.set('active_tracks', this.get('data.tracks').slice())
 			.set('edit.name', this.get('data.name'))
 			.set('edit.description', this.get('data.description'));
+
+			app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},
 	cancel_edit: function () {
 		app.trigger('session:active', { secondary: 'playlist' });
@@ -186,7 +181,7 @@ app.model.playlist = {
 
 		this.save();
 
-		app.trigger('session:active', { secondary: 'playlist' });
+		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {
@@ -208,20 +203,23 @@ app.model.playlist = {
 			lastR	: track.get('data.lastR')
 		};
 		this.add('active_tracks', track_obj);
+
 		this.trigger('change:active_tracks');
 	},
 	remove_track: function (track_index) {
 		this.remove('active_tracks['+track_index+']');
 	},
 	move_array: function (field, old_index, new_index) {
+		field = field.replace(/^(model|parents?\[[0-9]+\]?|parent|grandparent|g_grandparent|g_g_grandparent)\.?/i, '');
+		// console.log('Move Array', this.id, field, old_index, new_index);
 		var val		= this.get(field);
 		var length	= val.length;
 		var opt		= val.splice(old_index, 1);
 
 		val.splice(new_index, 0, opt[0]);
-		this.set(field, val);
+		this.set(field, val, {silent:true});
 
-		this.trigger('change:' + field);
+		// this.trigger('change:' + field);
 	},
 	add_track_and_save: function(track_id) {
 		console.log(track_id);

@@ -53,7 +53,7 @@ app.base.collection = Backbone.Collection.extend({
 	outgoing: function (action, neuron, cb) {
 		var data = neuron.export();
 		if (!data) return false;	// we dont want to export
-		data.endpoint = action;
+		data.endpoint = '/sisbot/'+action; // TESTING!!
 		app.plugins.fetch(data, cb);
 	},
 	/************************* CLUSTERS ***************************************/
@@ -68,7 +68,7 @@ app.base.collection = Backbone.Collection.extend({
 			return this.clusters[query_string];
 
 		var query					= app.plugins.json.parse(query_string);
-		var subquery				= new app.base.cluster(null, { model: app.model.neuron });
+		var subquery			= new app.base.cluster(null, { model: app.model.neuron });
 		this.clusters[query_string]	= subquery;
 		subquery.on_init({ query: query });
 

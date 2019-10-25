@@ -194,7 +194,23 @@ label {
 	bottom					: 0px;
 	z-index					: 10000;
 }
+.overlay {
+	position: fixed; /* Sit on top of the page content */
+	display: none; /* Hidden by default */
+	width: 100%; /* Full width (cover the whole page) */
+	height: 100%; /* Full height (cover the whole page) */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+	z-index: 200;/* Specify a stack order in case you're using a different order for other elements */
+	cursor: pointer; /* Add a pointer on hover */
+}
+.overlay_margin {
+    margin-bottom: 50vh;
 
+}
 .body-header {
 	margin-top				: 50px;
 }
@@ -371,8 +387,8 @@ label {
 }
 
 .scroll {
-    overflow-y: scroll;
-    overflow-x: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
@@ -381,8 +397,10 @@ label {
 .auto-scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    height: 100vh;
+    -webkit-overflow-scrolling: auto !important;
+  	-webkit-backface-visibility: hidden;
+  	backface-visibility: hidden;
+    /* height: 100vh; */
 }
 
 .no-scroll {
@@ -548,14 +566,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 /* -----------SORT BY DROP DOWN----------------------------  */
 
-.sortBy-text {
-	font-size: 13px;
-	font-weight: 600;
-	text-transform: uppercase;
-}
+
 .sortBy-dropdown-container {
 	padding-top: 5px;
-    padding-left: 15px;
+    padding-left: 5px;
     padding-bottom: 15px;
 	background-color: #000;
 	position: absolute;
@@ -563,67 +577,54 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 }
 .sortBy-drop-actions {
-	position: relative;
-	margin-left: 5px;
-	display: inline-block;
-	width: 270px;
-	height: 35px;
 	border: 2px solid #fff;
 	border-radius: 6px;
 	cursor: pointer;
+	right: 75px;
+	flex: 3;
+
 }
 .sortBy-SORT-style {
 	font-size: 13.5px;
-	padding-left: 8px;
+	padding-left: 25px;
 	font-weight: 600;
 	margin-top: 9px;
 	color: #fff;
 }
 
-a:hover {
-	color: #00b1fa;
-}
-li:hover {
-	color: #00b1fa;
-}
+
 .upDown-arrows {
-	padding-left: 40px;
-	display: relative;
+	display: flex;
+	position: relative;
 }
 
 .SortUp {
 	font-size: 1.3em;
 	position: absolute;
-	top: 6px;
-	right: 10px;
-	pointer-events: auto;
-	color: #fff;
+    pointer-events: auto;
+    color: #fff;
 }
 .SortDown{
 	font-size: 1.3em;
-	position: absolute;
-	top: 6px;
-	right: 10px;
-	pointer-events: auto;
-	color: #fff;
+    pointer-events: auto;
+    color: #fff;
+
 
 }
 .sortBy-container-contents {
 		transition: visibility 0s ease, opacity .5s ease;
 		visibility: hidden;
 		opacity: 1;
-		line-height: 2em;
+		line-height: 1.2em;
 		border: 1.2px solid #999999;
 		border-radius: 6px;
 		background-color: #000;
-		width: 210px;
+		width: 48%;
 		box-shadow: 25px 8px 16px 5px #8888;
 		z-index: 1;
 		cursor: pointer;
-		padding-left: 10px;
-		left: 80px;
-		display: flex;
-		top: 50px;
+		left: 25%;
+		top: 92%;
 		position: absolute;
 }
 
@@ -637,11 +638,7 @@ li:hover {
  color: #fff;
  font-weight: 600;
 }
-/* .cloud {
-	padding-left: 163px;
-	height: 160px;
-	padding-top: 30px;
-} */
+
 
 .hover, .hover > * 								{	color				: #efefef;	}
 .hover:hover, .hover:hover > * 					{	color				: #333;		}
@@ -649,7 +646,15 @@ li:hover {
 .hover-dark, .hover-dark > * 					{	color				: #888;		}
 .hover-dark:hover, .hover-dark:hover > *		{	color				: #fff;		}
 
-
+a.blue-hover:hover {
+	color: #00b1fa;
+}
+li.blue-hover:hover {
+	color: #00b1fa;
+}
+.blue-hover:hover {
+	color: #00b1fa;
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -675,8 +680,8 @@ li:hover {
 	-ms-flex-align			: center;
 	-webkit-align-items		: center;
 	-webkit-box-align		: center;
-	align-items				: center;
 }
+
 
 /**************************** Flex ********************************************/
 .iro__wheel {
@@ -719,27 +724,43 @@ li:hover {
 	display: flex;
 	flex: 1;
 	justify-content: center;
+	align-self: center;
+
+}
+.flex-justify-center {
+	display: flex;
+	justify-content: center;
 
 }
 .flex-row {
+	display: flex;
 	flex-direction: row;
 }
 .flex-column {
+	display: flex;
 	flex-direction: column;
 }
 .flex1end {
 	display: flex;
 	flex: 1;
 	justify-content: flex-end;
-	align-items: center
+	align-items: flex-end;
 }
 .align-start {
 	align-self: flex-start;
 }
+.align-end {
+	align-self: end;
+}
+.align-center {
+	align-self: center;
+}
 .word-break {
 	word-break: break-word;
 }
-
+.flex01 						{ flex: .01;										}
+.flex07 						{	position:relative;   margin: 7px ;	flex: .7;	}
+.flex1 							{   flex:1;                                         }
 .flex .w2-5 					{	flex-basis: 2.5%;		width: 2.5%;			}
 .flex .w5 						{	flex-basis: 5%;			width: 5%;				}
 .flex .w7-5 					{	flex-basis: 7.5%;		width: 7.5%;			}
@@ -869,7 +890,7 @@ li:hover {
 .w20p							{	width		: 20px;								}
 .w25p							{	width		: 25px;								}
 .w80p							{	width		: 80px;								}
-
+.w75per							{   width       : 75%;								}
 .mh-480							{	min-height	: 480px;							}
 
 /**************************** Generic ******************************************/
@@ -959,6 +980,7 @@ li:hover {
 .hh80									{	height					: 80px;						}
 .hh85									{	height					: 85px;						}
 .hh100									{	height					: 100px;					}
+.hh110									{	height					: 110px;					}
 .hh120									{	height					: 120px;					}
 .hh125									{	height					: 125px;					}
 .hh150									{	height					: 150px;					}
@@ -983,6 +1005,7 @@ li:hover {
 .w100                   				{ 	width           		: 100% !important;          }
 
 .shadow 								{	box-shadow				: 0px 1px 2px #999;		  }
+.t-shadow 								{	text-shadow				: rgba(0, 0, 0, 0.5) 0px 8px 16px;			}
 .less_strong							{	font-weight 			: 600						}
 .strong									{	font-weight				: 700;						}
 .clickable 								{	cursor					: pointer;					}
@@ -1041,6 +1064,12 @@ li:hover {
 .black .spinner-bounce > div {
 	background-color: black;
 }
+.blue .spinner-bounce > div {
+	background-color: #00b1fa;
+}
+.orange .spinner-bounce > div {
+	background-color: orange;
+}
 
 .spinner-bounce > div {
   width: 10px;
@@ -1089,12 +1118,37 @@ select {
 select:focus {
     outline: none;
 }
+.trackCount {
+	position: absolute;
+	right: 10px;
+	top: 44px;
+	width: 100px;
+	color:#fff;
+	font-weight: 900;
+	font-size: 12px;
+	
+	
+}
 
 .select-box .fa-chevron-down {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 	padding-top: 8px;
 	padding-bottom: 8px;
+
+}
+.stopB::before {
+	font-size: 28px;
+	content: "\f100";
+	font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+
+}
+.stopA::before {
+	font-size: 28px;
+	content: "\f101";
+	font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
 
 }
 
@@ -1143,6 +1197,13 @@ select:focus {
 .icon-xsm {
 	width	: 25px;
 	height	: 25px;
+}
+.fa-sign-out-alt {
+	-webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 /************************************TRACKS PAGE ICONS*******************************/
@@ -1202,11 +1263,13 @@ select:focus {
 .black 									{	color		: #333    !important;					}
 .blue-l 								{	color		: #22AEFF !important;					}
 .blue, .blue-hover:hover 				{	color		: #11b2fb !important;					}
+.bluer									{	color		: #11b2fb !important;					}
 .orange									{	color		: #F4AE3D !important;					}
 .green									{	color		: #32B150 !important;					}
 .red									{	color		: #d0021b !important;					}
 .xl-grey								{	color		: #EEE    !important;					}
 .grey-l									{	color		: #acacac !important;					}
+.grey-lt								{	color		: #dcdcdc !important;					}
 .grey-l-hover:hover						{	color		: #acacac !important;					}
 .grey									{	color		: #838383 !important;					}
 .warmGrey								{	color		: #9b9b9b !important;					}
@@ -1251,7 +1314,7 @@ select:focus {
 	content: "\f071" " " !important;
 	font-weight: 900;
 	color: #990033
-	
+
 }
 
 /**************************** BUSINESS LOGIC COLORS ***************************/
@@ -1336,7 +1399,8 @@ select:focus {
 .f-xxxxxlarge							{	font-size				: 4em;						}
 
 .ff-xlarge								{	font-size				: 48px;						}
-
+.fs10									{	font-size				: 10px !important;			}
+.fs11									{	font-size				: 11px !important;			}
 .fs12									{	font-size				: 12px !important;			}
 .fs13									{	font-size				: 13px !important;			}
 .fs14									{	font-size				: 14px !important;			}
@@ -1345,6 +1409,8 @@ select:focus {
 .fs18									{	font-size				: 18px !important;			}
 .fs19									{	font-size				: 19px !important;			}
 .fs24									{	font-size				: 24px !important;			}
+.fs26									{	font-size				: 26px !important;			}
+.fs30									{	font-size				: 30px !important;			}
 
 .fl10									{	line-height				: 1.0em;					}
 .fl12									{   line-height				: 1.2em;					}
@@ -1360,8 +1426,9 @@ select:focus {
 /**************************** BORDERS *****************************************/
 
 .b										{	border					: 1px solid #efefef !important;		}
+.bb-dcdc								{ 	border-bottom			: 1px solid #dcdcdc !important;				}
 .bt										{	border-top				: 1px solid #efefef !important;		}
-.bt-dcdc 								{ 	border-top				: 1px solid #dcdcdc;				}
+.bt-dcdc 								{ 	border-top				: 1px solid #dcdcdc !important;				}
 .bb										{	border-bottom			: 1px solid #efefef !important;		}
 .bl										{	border-left				: 1px solid #efefef !important;		}
 .br										{	border-right			: 1px solid #efefef !important;		}
@@ -1468,6 +1535,7 @@ select:focus {
 
 .mt50									{	margin-top				: 50px !important;			            }
 .mb50						            {   margin-bottom		    : 50px !important;			            }
+.mb400					            {   margin-bottom		    : 400px  !important;			            }
 .ml50									{	margin-left				: 50px !important;			            }
 .mr50						            {   margin-right		    : 50px !important;			            }
 .mb55						      		{   margin-bottom		    : 55px !important;			            }
@@ -1527,6 +1595,11 @@ select:focus {
 .pl10									{	padding-left			: 10px !important;						}
 .pr10									{	padding-right			: 10px !important;						}
 
+.pt12									{	padding-top				: 12px !important;						}
+.pb12									{	padding-bottom			: 12px !important;						}
+.pl12									{	padding-left			: 12px !important;						}
+.pr12									{	padding-right			: 12px !important;						}
+
 .pt15									{	padding-top				: 15px !important;						}
 .pb15									{	padding-bottom			: 15px !important;						}
 .pl15									{	padding-left			: 15px !important;						}
@@ -1547,6 +1620,11 @@ select:focus {
 .pl30									{	padding-left			: 30px !important;						}
 .pr30									{	padding-right			: 30px !important;						}
 
+.pt35									{	padding-top				: 35px !important;						}
+.pb35									{	padding-bottom			: 35px !important;						}
+.pl35									{	padding-left			: 35px !important;						}
+.pr35									{	padding-right			: 35px !important;						}
+
 .pt40									{	padding-top				: 40px !important;						}
 .pb40									{	padding-bottom			: 40px !important;						}
 .pl40									{	padding-left			: 40px !important;						}
@@ -1558,7 +1636,8 @@ select:focus {
 .pb50						            {   padding-bottom	        : 50px !important;			            }
 .pl50									{	padding-left			: 50px !important;						}
 .pr50									{	padding-right			: 50px !important;						}
-
+.pb55									{	padding-bottom   		: 55px !important;						}
+.pb65						            {   padding-bottom          : 65px !important;			            }
 .pt65						            {   padding-top             : 65px !important;			            }
 .pt70						            {   padding-top             : 70px !important;			            }
 .pt75									{	padding-top				: 75px !important;						}
@@ -1568,6 +1647,7 @@ select:focus {
 .pl100									{	padding-left			: 100px !important;						}
 .pr100									{	padding-right			: 100px !important;						}
 
+.pb110									{	padding-bottom			: 110px !important;						}
 .pl110									{	padding-left			: 110px !important;						}
 .pt110						            {   padding-top             : 110px !important;			            }
 
@@ -1575,6 +1655,8 @@ select:focus {
 .pb150						            {   padding-bottom	        : 150px !important;			            }
 .pl150									{	padding-left			: 150px !important;						}
 .pr150									{	padding-right			: 150px !important;						}
+
+.pb160						            {   padding-bottom	        : 160px !important;			            }
 
 .pt200						            {   padding-top             : 200px !important;			            }
 .pb200						            {   padding-bottom	        : 200px !important;			            }
@@ -1692,7 +1774,6 @@ input[type="range"]::-ms-fill-upper {
 
 /******************MEDIA QUERIES*******************/
 
-
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
 @media only screen
 and (min-width: 360px)
@@ -1706,7 +1787,30 @@ and (orientation : portrait)
 		/* background-color: #fdc539; */
 		max-height: calc(100vh - 330px);
 	}
+    .media_hh60 {
+		height: 60px;
+	}
+}
+/**************iPhone SE Matts Phone**************/
+@media screen and (device-aspect-ratio: 40/71) {
+   .media_fs14 {
+	   font-size: 14px !important;
+   }
+   .btn {
+	   padding: 10px !important;
+   }
+}
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : portrait) { 
 
+	.media_fs14 {
+		font-size: 14px !important;
+	}
+	.btn {
+		padding: 10px !important;
+	}
 }
 
 /**************iPhone 6 & 7 PLus**************/
@@ -1714,8 +1818,8 @@ and (orientation : portrait)
 	and (min-device-width: 414px)
 	and (max-device-height: 736px)
 	and (orientation : portrait)
-	{
-     .app .scrollDown {
+{
+    .app .scrollDown {
 		 /* background-color: #00b1fa; */
 		 max-height: calc(100vh - 320px);
 	 }
@@ -1723,26 +1827,23 @@ and (orientation : portrait)
 
 }
 /* *********iPhone 7 aka my testing device ************** */
-
 @media only screen
 	and (min-device-width: 375px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
-	{
-		.app .scrollDown {
-			/* border: 4px solid purple; */
-			max-height: calc(100vh - 320px);
+{
+	.app .scrollDown {
+		/* border: 4px solid purple; */
+		max-height: calc(100vh - 320px);
 
-		}
-
-
+	}
 }
 /**************iPhone X /XS MArlo/Micah*******************/
 @media only screen
 	and (device-width: 375px)
 	and (device-height: 812px)
 	and (orientation : portrait)
-	{
+{
 	body {
 		padding-bottom: 25px;
 	}
@@ -1755,6 +1856,7 @@ and (orientation : portrait)
 		margin-bottom: constant(safe-area-inset-bottom);
 		margin-bottom: env(safe-area-inset-bottom);
 	}
+
 	.app .scrollDown {
 		/* background-color: red; */
 		max-height: calc(100vh - 360px);
@@ -1763,44 +1865,46 @@ and (orientation : portrait)
 	.controls_adjustment  {
 		margin-bottom: 70px !important;
 	}
-
 	.playback_adjustment {
 		height: 100px;
 	}
 	.playback_pt_adjustment {
 		padding-top: 10px
 	}
+	/*used for pagination nav box*/
+	.media_pb200 {
+		padding-bottom: 200px !important;
+	}
 
 }
-
 
 /*************iPhone XS Max & XR COLINS PHONE**************/
 @media only screen
     and (device-width : 414px)
     and (device-height : 896px)
 	and (-webkit-device-pixel-ratio : 3)
-	{
-		body {
-			padding-bottom: 25px;
-		}
-		.app .app-container {
-			margin-top: 25px !important;
-
-		}
-		.footer_Xphone {
-			margin-bottom: constant(safe-area-inset-bottom);
-			margin-bottom: env(safe-area-inset-bottom);
-		}
-		.controls_adjustment  {
-			margin-bottom: 70px !important;
-		}
-		.playback_adjustment  {
-			height: 100px;
-		}
-		.app .scrollDown {
-			/* background-color: #00b1fa; */
-			max-height: calc(100vh - 360px);
-
-		}
-
+{
+	body {
+		padding-bottom: 25px;
 	}
+	.app .app-container {
+		margin-top: 25px !important;
+	}
+	.footer_Xphone {
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+	}
+	.controls_adjustment  {
+		margin-bottom: 70px !important;
+	}
+	.playback_adjustment  {
+		height: 100px;
+	}
+	.app .scrollDown {
+		/* background-color: #00b1fa; */
+		max-height: calc(100vh - 360px);
+	}
+	.media_pb200 {
+		padding-bottom: 200px !important;
+	}
+}

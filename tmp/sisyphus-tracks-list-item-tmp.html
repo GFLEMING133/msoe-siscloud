@@ -1,50 +1,53 @@
-<div class="h__k" data-run="model.collapse">
-	<div class="flex clickable active h__k {{= (session.toggle.expanded == _super_.cid) ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}"
-		data-on-click="publish"
-		data-publish="session:toggle"
-		data-msg="{'key':'expanded','val':'{{= _super_.cid }}'}"
-	>
+<div data-run="model.collapse">
+	<div class="flex clickable active {{= (session.toggle.expanded == _super_.el_id) ? 'bg-grey-ll' : 'bg-grey-ll-hover' }}"
+			data-on-click="publish"
+			data-publish="session:toggle"
+			data-msg="{'key':'expanded','val':'{{= _super_.el_id }}'}">
 		<div class="w20 pt10 pb10 pl20 center vertical">
 			<div class="w80p hh80">
-				<img src="" class="w100 center h__k" alt="{{= model.data.name }}"
-					data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
-				/>
+				<img class="w100 center img-rounded"
+						alt="{{= model.data.name }}"
+						src="img/tracks/_default_100.png"
+						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+						data-on-error="replace"
+						data-replace="list-image-fallback-tmp" />
 			</div>
 		</div>
 		<div class="w60 pt25 pb10 pl20">
-			<div class="fs18 lh18 black block strong h__k">{{= model.data.name }}</div>
-	        <div class="fs12 lh18 grey block hidden h__k">by {{= model.data.created_by_name }}</div>
+			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
+	    <div class="fs12 lh18 grey block hidden">by {{= model.data.created_by_name }}</div>
 		</div>
-	    <div class="w20 pt10 pb10 h100 vertical right">
-	        <i class="grey pt20 pb20 pr20" aria-hidden="true">
+	  <div class="w20 pt10 pb10 h100 vertical right">
+	    <i class="grey pt20 pb20 pr20" aria-hidden="true">
 				<img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
 			</i>
-	    </div>
+		</div>
 	</div>
-	<div class="bg-grey-l clickable flex h__k" data-if="{{= session.toggle.expanded }} == {{= _super_.cid }}">
-		<div class="w25 center pt15 pb15 h__k" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
+	<div class="bg-grey-l clickable flex" data-if="{{= session.toggle.expanded }} == {{= _super_.el_id }}">
+		<div class="w25 center pt15 pb15" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
 			<img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" />
 		</div>
-		<div class="w25 clickable active center pt15 pb15 h__k"
-			data-run="model.is_playlist_favorite"
-			data-on-click="model.favorite_toggle"
-		>
-			<img src="img/icon_2x_trackdropdown_openheart.png" alt="Favorite" class="hh20 h__k"
-				data-if="{{= model.is_favorite }} == false"
-			 />
-			 <img src="img/icon_2x_trackdropdown_closedheart.png" alt="Unfavorite" class="hh20 h__k"
- 				data-if="{{= model.is_favorite }} == true"
- 			 />
+		<div class="w25 clickable active center pt15 pb15"
+				data-run="model.is_playlist_favorite"
+				data-on-click="model.favorite_toggle">
+			<img class="hh20"
+					src="img/icon_2x_trackdropdown_openheart.png"
+					alt="Favorite"
+					data-if="{{= model.is_favorite }} == false"/>
+			 <img class="hh20"
+			 		src="img/icon_2x_trackdropdown_closedheart.png"
+			 		alt="Unfavorite"
+ 					data-if="{{= model.is_favorite }} == true"/>
 		</div>
-		<div class="w25 clickable active center pt15 pb15 h__k"
-			data-on-click="publish"
-			data-publish="modal:open"
-			data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
+		<div class="w25 clickable active center pt15 pb15"
+				data-on-click="publish"
+				data-publish="modal:open"
+				data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
 		><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
-		<div class="w25 clickable active center pt15 pb15 h__k"
-			data-on-click="publish"
-			data-publish="session:active"
-			data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
+		<div class="w25 clickable active center pt15 pb15"
+				data-on-click="publish"
+				data-publish="session:active"
+				data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
 		><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" /></div>
 	</div>
 </div>

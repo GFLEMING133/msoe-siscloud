@@ -230,11 +230,9 @@ app.model.neuron = Backbone.NestedModel.extend({
 
 		var data	= this.get('data');
 
-		if (this.is_diff() == false && force_save !== true)
-			return this;
+		if (this.is_diff() == false && force_save !== true) return this;
 
-		if (data.is_saved == 'false')
-			this.setup_trigger_points();
+		if (data.is_saved == 'false') this.setup_trigger_points();
 
 		if (data.history_id == 'false' ||data.history_id == null) {
 			var m = app.collection.add({
