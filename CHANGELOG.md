@@ -1,3 +1,16 @@
+#2019-10-17 1.8.67
+ - Fixed adding tracks to playlist
+ - adjusted padding and height for  + and - buttons when adding tracks to playlist for clickability
+ - added styling to No Wifi when routing to Community with no WiFi
+ - added media_query for font-size and btn-padding for iOS SE
+ - fixed Jog buttons in Bind2
+ - changed Change Table Name alert to use bind plugin
+ - changed Sign Up password length error
+ - New Playlist header centered
+ - add padding to Factory Reset page for scrolling issues
+ - changed timeout in the ping_sisbot to 2500
+ - jQuery reference fixed in bind2.js
+
 #2019-10-17 1.8.66
  - infinite scrolling added to Community and All Tracks
  - sign_out_community() added to community.js / and sisyphus-community-tracks-tmp
