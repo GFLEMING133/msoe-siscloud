@@ -247,6 +247,9 @@ function Element(el, parent, _scope) {
         // test for hidden
         if (this.el.class.match(/\s?hidden[^-_a-z0-9]\s?/i)) this.is_hidden = true;
 
+        // test for scroll (lazy loading)
+        if (this.el.class.match(/\s?scroll\s?/i)) this.is_h__k = true;
+
         // check for events, libraries
         var keys = _.keys(this.el);
         _.each(keys, function(key) {
@@ -1451,6 +1454,7 @@ function Element(el, parent, _scope) {
 
     // scroll
     if (!("IntersectionObserver" in window) && this.el.class.indexOf('scroll') >= 0) {
+      console.log("Add Lazyload Scroll Listeners", this.el_id);
       var $el = $('.'+this.el_id);
       $el.on('scroll', app.bind.lazyLoad);
     }
