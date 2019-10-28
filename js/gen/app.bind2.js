@@ -198,7 +198,7 @@ function Element(el, parent, _scope) {
   this.show_comments = false; // show/hide <!-- comments -->
   this.show_data = false; // show/hide data-____ values in html
   this.show_lib = false;
-  this.show_tg = false; //
+  // this.show_tg = false; // moved to config
 
   this.el_type = null;
   this.el_text = null;
@@ -1354,7 +1354,7 @@ function Element(el, parent, _scope) {
         } else if (key.indexOf('lib-') == 0) {
           if (self.show_lib) $el.attr(key, value);
         } else if (key.indexOf('tg-') == 0) {
-          if (self.show_tg) $el.attr(key, value);
+          if (app.config.show_tg) $el.attr(key, value);
         } else if (key == 'class') {
           var classes = '';
 
@@ -1409,7 +1409,7 @@ function Element(el, parent, _scope) {
       } else if (key.indexOf('lib-') == 0) {
         if (self.show_lib) returnValue += ' '+key+'="'+value+'"';
       } else if (key.indexOf('tg-') == 0) {
-        if (self.show_tg) returnValue += ' '+key+'="'+value+'"';
+        if (app.config.show_tg) returnValue += ' '+key+'="'+value+'"';
       } else if (key == 'class') {
         var classes = '';
 

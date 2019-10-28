@@ -37,6 +37,7 @@
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
               data-if="{{= model.data.is_waiting_between_tracks }} == false">Now Playing</div>
           <div data-model="{{= model.data.active_track.id }}"
+               tg-name="now_playing"
               data-template="sisyphus-tracks-list-item-tmp"></div>
         </div>
       </div>

@@ -3,7 +3,8 @@
     <div class="w25 pt10 clickable active {{= (grandparent.active.primary == 'current') ? 'white' : 'grey' }}"
         data-on-click="publish"
         data-publish="session:active"
-        data-msg="{'primary':'current','secondary':'false'}">
+        data-msg="{'primary':'current','secondary':'false'}"
+        tg-name="home_btn">
       <img src="img/icon_2x_bottomnav_home_active.png"
           alt="Home"
           class="hh18"
@@ -16,6 +17,7 @@
       <span class="f-small strong">Home</span>
     </div>
     <div class="w25 pt10 clickable active {{= (grandparent.active.primary == 'media') ? 'white' : 'grey' }}"
+        tg-name="media_btn"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'primary':'media','secondary':'false'}">
@@ -32,8 +34,9 @@
     </div>
 
     <div class="w25 pt10 clickable active {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
+        tg-name="community_btn"
         data-on-click="publish"
-        data-publish="session:active" 
+        data-publish="session:active"
         data-msg="{'primary':'community','secondary':'false' }">
       <img src="img/icon_2x_bottomnav_community_active.png"
           alt="Community"
@@ -47,8 +50,9 @@
       <span class="f-small strong">Community</span>
     </div>
     <div class="w25 pt10 clickable active {{= (grandparent.active.primary == 'settings') ? 'white' : 'grey' }}"
+        tg-name="settings_btn"
         data-on-click="publish"
-        data-publish="session:active" 
+        data-publish="session:active"
         data-msg="{'primary':'settings','secondary':'false'}">
       <img src="img/icon_2x_bottomnav_settings_active.png"
           alt="Settings"

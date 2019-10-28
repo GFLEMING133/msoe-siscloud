@@ -2,6 +2,7 @@ app.config = {
 	env					: 'prod',
 	version				: '1.8.66', // sign_out_community() added with icon and reworked Sort By for alignment. 5 Tap for apple now auto launches after 5th tap. Replaced pagination with infinite scrolling
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
+	show_tg				: false, // for testing
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
 			base_url	: 'http://app.dev.withease.io:3001/', // local
@@ -19,13 +20,21 @@ app.config = {
 			sisbot_url  : 'http://192.168.1.6:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
+		training: {
+			base_url	: 'http://app.dev.withease.io:3001/', //local url
+			api_url		: 'https://webcenter.sisyphus-industries.com/',
+			web_url		: 'https://webcenter.sisyphus-industries.com/',
+			sisbot_url: 'http://192.168.86.33:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			port			: 3001,
+			show_tg		: true
+		},
 		matt: {
 			base_url	: 'http://app.dev.withease.io:3001/', //local url
 			// api_url		: 'https://webcenter.sisyphus-industries.com/',
 			// web_url		: 'https://webcenter.sisyphus-industries.com/',
 			api_url		: 'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url		: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.86.216:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.86.33:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 		},
 		sisbot: {
@@ -103,15 +112,16 @@ if (window.location.href.indexOf('localhost') > -1) {
 
 		if (env != 'beta') {
 			console.log("Env:", env);
-			app.config.envs.beta.base_url = app.config.envs[env].base_url;
-			app.config.envs.beta.api_url = app.config.envs[env].api_url;
-			app.config.envs.beta.web_url = app.config.envs[env].web_url;
-			app.config.envs.beta.sisbot_url = app.config.envs[env].sisbot_url;
+			app.config.env = env;
+			// app.config.envs.beta.base_url = app.config.envs[env].base_url;
+			// app.config.envs.beta.api_url = app.config.envs[env].api_url;
+			// app.config.envs.beta.web_url = app.config.envs[env].web_url;
+			// app.config.envs.beta.sisbot_url = app.config.envs[env].sisbot_url;
 		}
 	}
 
 	// console.log("Env:", env);
-	app.config.env = 'beta';
+	if (!app.config.envs[env]) app.config.env = 'beta';
 }
 if (window.location.href.indexOf('.local') > -1)        	app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) 			app.config.env = 'sisbot';
@@ -121,6 +131,9 @@ if (window.location.href.indexOf('sisyphus.withease') > -1) app.config.env = 'pr
 if (window.location.href.indexOf('siscloud.withease') > -1) app.config.env = 'prod';
 if (window.cordova) app.config.env = 'prod';
 if (window.location.hostname == '') app.config.env = 'prod';
+
+// testing
+if (app.config.envs[env].show_tg) app.config.show_tg = app.config.envs[env].show_tg;
 
 // REMOVE this when done testing with webcenter DEV
 //app.config.env = 'wc_test';

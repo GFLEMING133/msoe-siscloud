@@ -604,8 +604,8 @@ app.model.sisyphus_manager = {
     console.log("_find_sisbots()");
     // this will find the sisbots on the local network
     var self = this;
-    // conditional for if in beta localhost mode or not to ignore error.
-    if (app.config.env != 'beta') {
+    // conditional for if in beta/training localhost mode or not to ignore error.
+    if (app.config.env != 'beta' && app.config.env != 'training') {
       if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
         setTimeout(function() {
           self._find_sisbots();
@@ -658,7 +658,7 @@ app.model.sisyphus_manager = {
 
           if (app.config.env == 'alpha') {
             self.connect_to_sisbot('192.168.42.1');
-          } else if (app.config.env == 'beta') {
+          } else if (app.config.env == 'beta' || app.config.env == 'training') {
             self.connect_to_sisbot(app.config.get_sisbot_url());
           } else if (sisbots.length == 1) {
             self.set('sisbot_registration', 'connecting');
