@@ -212,10 +212,10 @@ app.model.sisyphus_manager = {
   },
   check_ble_status: function() {
     //   console.log("check_ble_status()");
-    if (!app.is_app || app.config.env == 'alpha') { // COMMENT OUT THIS IF FOR SIMULATING IN XCODE!!
+    //if (!app.is_app || app.config.env == 'alpha') { // comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    }
+    // }     //<<<< // 
 
     var self = this;
 

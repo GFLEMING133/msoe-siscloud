@@ -1,4 +1,4 @@
-#2019-10-17 1.8.67
+#2019-10-25 1.8.67
  - Fixed adding tracks to playlist
  - adjusted padding and height for  + and - buttons when adding tracks to playlist for clickability
  - added styling to No Wifi when routing to Community with no WiFi
@@ -11,7 +11,7 @@
  - changed timeout in the ping_sisbot to 2500
  - jQuery reference fixed in bind2.js
 
-#2019-10-17 1.8.66
+#2019-10-22 1.8.66
  - infinite scrolling added to Community and All Tracks
  - sign_out_community() added to community.js / and sisyphus-community-tracks-tmp
  - 5 tap sets sisbot_registration to 'find' after setting env to alpha for auto launch.

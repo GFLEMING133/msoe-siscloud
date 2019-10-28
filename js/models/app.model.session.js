@@ -343,7 +343,7 @@ app.model.session = {
             if (!app.plugins.valid_email(user_data.email)){
                 errors.push("The email you entered is invalid, please enter a valid email");
             }
-            if (user_data.password.length <= 6 || user_data.password_confirmation.length < 6){
+            if (user_data.password.length <= 5 || user_data.password_confirmation.length <= 5){
                 errors.push('Password must be 6 or more characters');
             }
             if (user_data.password != user_data.password_confirmation){

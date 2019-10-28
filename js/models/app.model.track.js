@@ -1022,6 +1022,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
+				console.log(self.get('data.name') +" "+ track_id);
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
@@ -1072,9 +1073,11 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err) {
+				console.log(self.get('data.name') +" "+ track_id);
+				console.log('obj.err', obj.err );
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
-				// console.log('track : download response = ', obj.resp);
+				console.log('track : download response = ', obj.resp);
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
