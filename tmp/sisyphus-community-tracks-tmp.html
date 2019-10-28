@@ -65,11 +65,11 @@
       data-on-scroll="model.scroll_check"
       data-msg="{{= _self_.el_id }}"
       data-run="model.fetch_community_tracks">
-    <div class="mt50" data-if="{{= model.fetching_community_tracks }} == true">
+    <div class="mt100" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
-    <div class="mt50" data-if="{{= model.fetching_community_tracks }} == false">
+    <div class="mt100" data-if="{{= model.fetching_community_tracks }} == false">
       <div data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"
@@ -77,7 +77,7 @@
           data-foreach-offset="{{= model.offset }}">
         <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
-      <div class="p20 center fs18 white i"
+      <div class="p20 center fs18 blue i"
           data-if="{{= _.size(model.community_track_ids) }} == 0">
           There are no new tracks to download.
       </div>
