@@ -47,7 +47,9 @@
             <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
-                  <div data-foreach="model.data.sorted_tracks" data-foreach-limit="20">
+                  <div data-foreach="model.data.sorted_tracks"
+                      data-foreach-offset="{{= model.data.active_track_index }}"
+                      data-foreach-limit="20">
                     <div class="bb"
                         data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
                         data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
