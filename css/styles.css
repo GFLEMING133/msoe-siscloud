@@ -1799,6 +1799,18 @@ and (orientation : portrait)
    .btn {
 	   padding: 10px !important;
    }
+	.controls_adjustment  {
+		margin-bottom: 20px !important;
+	}
+	.mobile_p10 {
+		padding: 10px !important;
+	}
+	.mobile_pt15 {
+		padding-top: 15px;
+	}
+	.mobile_pb55 {
+		padding-bottom: 55px;
+	}
 }
 @media only screen 
 and (min-device-width : 320px) 

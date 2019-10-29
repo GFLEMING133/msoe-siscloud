@@ -1,3 +1,9 @@
+#2019-10-25 1.8.68
+ - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues 
+ - Add track circle onclick target range adjusted and centered/ count positioned in center of buttons.
+ - padding adjusted for All Tracks
+ - Splash screen has no more scrunch
+ - database fixed for community downloading issues. 
 #2019-10-25 1.8.67
  - Fixed adding tracks to playlist
  - adjusted padding and height for  + and - buttons when adding tracks to playlist for clickability
