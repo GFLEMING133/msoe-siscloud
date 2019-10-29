@@ -1727,6 +1727,7 @@ app.model.sisbot = {
 		this.remove('data.playlist_ids', playlist_model.id);
 	},
 	track_add: function (track_model) {
+		console.log('Calling track_add:', track_model);
 		var self	= this;
 		var track	= track_model.get('data');
 
