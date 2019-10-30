@@ -4,6 +4,9 @@
  - padding adjusted for All Tracks
  - Splash screen has no more scrunch
  - database fixed for community downloading issues. 
+ - Fixed race conditions when when hitting shuffle
+ - added media query for Primary and Secondary buttons for iOs 7 and older
+ - added media_query for playback-controls to target SE
 #2019-10-25 1.8.67
  - Fixed adding tracks to playlist
  - adjusted padding and height for  + and - buttons when adding tracks to playlist for clickability
