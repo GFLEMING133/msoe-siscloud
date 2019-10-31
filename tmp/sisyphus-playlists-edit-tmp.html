@@ -17,7 +17,8 @@
       Save
     </div>
   </div>
-  <div class="body-header h100" data-model="{{= parent.active.playlist_id }}">
+  <div class="body-header h100" data-model="{{= parent.active.playlist_id }}"
+        tg-name="playlist_edit_page">
     <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
     <div class="pt20 pb20 pl40 pr40">
       <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
@@ -32,7 +33,11 @@
           value="{{= model.edit.name }}" />
     </div>
     <!--------------------------- ADD TRACKS ------------------------------>
-    <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit" data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'playlist-edit-tracks'}">
+    <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit" 
+      data-on-click="publish" 
+      data-publish="session:active" 
+      data-msg="{'secondary':'playlist-edit-tracks'}"
+      tg-name="add_tracks_btn">
       <span class="strong">Add Tracks</span>
       <span class="pull-right">
         <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />

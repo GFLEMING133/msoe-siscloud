@@ -19,15 +19,16 @@ app.config = {
 			web_url		: 'https://webcenter.sisyphus-industries.com/',
 			// api_url		: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url		: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.86.33:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.0.16:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
+			show_tg		: true
 		},
 		training: {
 			base_url	: 'http://app.dev.withease.io:3001/', //local url
 			api_url		: 'https://webcenter.sisyphus-industries.com/',
 			web_url		: 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url: 'http://192.168.86.33:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
-			port			: 3001,
+			sisbot_url  : 'http://192.168.0.16:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			port		: 3001,
 			show_tg		: true
 		},
 		matt: {
@@ -122,8 +123,9 @@ if (window.location.href.indexOf('localhost') > -1) {
 		}
 	}
 
+	console.log('Second 1/2' + !app.config.envs[env])
+	if (env == 'beta' || !app.config.envs[env]) app.config.env = 'beta';
 	console.log("Env:", env);
-	if (!app.config.envs[env]) app.config.env = 'beta';
 }
 if (window.location.href.indexOf('.local') > -1)        	app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) 			app.config.env = 'sisbot';
