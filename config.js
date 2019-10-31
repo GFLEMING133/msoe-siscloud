@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.66', // sign_out_community() added with icon and reworked Sort By for alignment. 5 Tap for apple now auto launches after 5th tap. Replaced pagination with infinite scrolling 
+	  version				: '1.8.68', // read CHANGELOG.md push for roll into production with sisbot 1.9.49 /rendering issues addressed and db filename errors fixed for Community, 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

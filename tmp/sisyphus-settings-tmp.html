@@ -96,14 +96,14 @@
                 <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Color Settings</h3>
                 <div class="flex">
                   <div class="p10 pl20 {{= (model.data.is_secondary_color == 'false') ? 'w100 pr20' : 'w50' }}">
-                    <div class="w100 p10 center btn corner-5px uppercase clickable active fs18 strong {{= model.primary_text_color }}"
+                    <div class="w100 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong {{= model.primary_text_color }}"
                         style="background-color: {{= model.display_primary_color }};"
                         data-on-click="publish"
                         data-publish="session:active"
                         data-msg="{'secondary':'primary_color'}">Primary</div>
                   </div>
                   <div class="p10 pr20 w50" data-if="{{= model.data.is_secondary_color }} == true">
-                    <div class="w100 p10 center btn corner-5px uppercase clickable active fs18 strong {{= model.secondary_text_color }}"
+                    <div class="w100 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong {{= model.secondary_text_color }}"
                         style="background-color: {{= model.display_secondary_color }};"
                         data-on-click="publish"
                         data-publish="session:active"

@@ -1799,8 +1799,20 @@ and (orientation : portrait)
    .btn {
 	   padding: 10px !important;
    }
+	.controls_adjustment  {
+		margin-bottom: 20px !important;
+	}
+	.mobile_p10 {
+		padding: 10px !important;
+	}
+	.mobile_pt15 {
+		padding-top: 15px;
+	}
+	.mobile_pb55 {
+		padding-bottom: 55px;
+	}
 }
-@media only screen 
+/* @media only screen 
 and (min-device-width : 320px) 
 and (max-device-width : 568px) 
 and (orientation : portrait) { 
@@ -1811,7 +1823,7 @@ and (orientation : portrait) {
 	.btn {
 		padding: 10px !important;
 	}
-}
+} */
 
 /**************iPhone 6 & 7 PLus**************/
 @media only screen
@@ -1823,7 +1835,12 @@ and (orientation : portrait) {
 		 /* background-color: #00b1fa; */
 		 max-height: calc(100vh - 320px);
 	 }
-
+	 .media_fs14 {
+		font-size: 14px !important;
+	}
+	.btn {
+		padding: 10px !important;
+	}
 
 }
 /* *********iPhone 7 aka my testing device ************** */
@@ -1835,7 +1852,12 @@ and (orientation : portrait) {
 	.app .scrollDown {
 		/* border: 4px solid purple; */
 		max-height: calc(100vh - 320px);
-
+	}
+	.media_fs14 {
+		font-size: 14px !important;
+	}
+	.btn {
+		padding: 10px !important;
 	}
 }
 /**************iPhone X /XS MArlo/Micah*******************/

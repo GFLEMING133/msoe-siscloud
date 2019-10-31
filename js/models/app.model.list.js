@@ -38,7 +38,7 @@ app.model.list = {
     this.set('limit', this.defaults({id: this.id}).limit);
   },
   scroll_top: function() {
-    $('.body-header').scrollTop(0);
+    $('.scroll').scrollTop(0);
   },
   scroll_check: function(data) {
     if (!this.scrolling) {

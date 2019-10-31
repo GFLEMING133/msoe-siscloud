@@ -1,5 +1,6 @@
 app.socket = {
 	server_ip: null,
+	reset_socket: false,
   initialize: function() {
     var self = this;
 
@@ -29,13 +30,15 @@ app.socket = {
 		if(ip.match(/^https?:\/\//i)) ip = ip.replace(/^https?:\/\//i, "");
 		if(ip.match(/:[0-9]+\/?$/i)) ip = ip.replace(/:[0-9]+\/?$/i, "");
 
-		if (this.server_ip == ip) return console.log("Same Socket IP, skip recreate", ip);
+		if (this.reset_socket) {
+			console.log("Socket: Reset new Socket");
+		} else if (this.server_ip == ip) return console.log("Same Socket IP, skip recreate", ip);
 
 		this.server_ip = ip;
-    console.log('Socket Address', this.server_ip);
+    console.log('Socket: Address', this.server_ip);
 
 		if (self.socket) {
-			console.log("Close Socket", self.socket);
+			console.log("Socket: Close", self.socket);
 			self.socket.close();
 			delete self.socket;
 		}
@@ -53,35 +56,38 @@ app.socket = {
     self.socket.on('test', function(d) {            self.on_test(d);        });
 
     self.socket.emit('register', { id: sisbot_id });
+
+		this.reset_socket = false;
 	},
   on_connect: function(socket) {
-    console.log('socket: connect');
+    console.log('Socket: connect');
 		app.trigger("socket:connect", null);
   },
   on_reconnect: function() {
-    console.log('socket: reconnect');
+    console.log('Socket: reconnect');
 		app.trigger("socket:reconnect", null);
   },
   on_reconnect_attempt: function() {
-    console.log('socket: reconnect_attempt');
+    console.log('Socket: reconnect_attempt');
 		app.trigger("socket:reconnect_attempt", null);
   },
   on_disconnect: function() {
-    console.log('socket: disconnect');
+    console.log('Socket: disconnect');
+		this.reset_socket = true;
 		app.trigger("socket:disconnect", null);
   },
   on_error: function(err) {
-    //console.log('socket: error', err);
+    console.log('Socket: error', err);
 		app.trigger("socket:error", err);
   },
   on_set: function(data) {
 		app.manager.intake_data(data);
   },
   on_erase: function(data) {
-    console.log('socket: erase');
+    console.log('Socket: erase');
     //app.collection.remove(data.id);
   },
   on_test: function(data) {
-    console.log('socket: test', data);
+    console.log('Socket: test', data);
   },
 };

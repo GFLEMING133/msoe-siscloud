@@ -247,6 +247,9 @@ function Element(el, parent, _scope) {
         // test for hidden
         if (this.el.class.match(/\s?hidden[^-_a-z0-9]\s?/i)) this.is_hidden = true;
 
+        // test for scroll (lazy loading)
+        if (this.el.class.match(/\s?scroll\s?/i)) this.is_h__k = true;
+
         // check for events, libraries
         var keys = _.keys(this.el);
         _.each(keys, function(key) {
@@ -666,29 +669,26 @@ function Element(el, parent, _scope) {
 
     if (val.indexOf('{{') > -1) { // we have a template
       try {
+        if (self.data.debug) console.log("Val", val);
         var tmp   = app.templates.create(val, self);
         var json  = this.get_json();
         val       = tmp(json);
         if (self.data.debug) console.log("Template", _start_val, val);
       } catch (err) {
-        err_out = true;
-        console.log('get_value: template err ', self.$el, _start_val, val, json, err);
+        val = undefined;
+        if (self.data.debug) console.log('get_value: template err ', self.$el, _start_val, val, json, err);
       }
     }
 
     // is object, parse and strip of single quotes
-    if (!plain_text && err_out == false && val.indexOf('{') > -1) {
+    if (val && !plain_text && err_out == false && val.indexOf('{') > -1) {
       try {
         val = JSON.parse(val.replace(/\'/gi, '"'));
       } catch(err) {
-        err_out = true;
-        console.log('get_value: parse error', val, err)
+        val = undefined;
+        if (self.data.debug) console.log('get_value: parse error', val, err)
       }
     }
-
-    // if (err_out == false && val && val.indexOf && val.indexOf('ref::') > -1) {
-    //     val     = this._ref(val.replace('ref::',''));
-    // }
 
     if (this.data.debug) console.log("Return Value", val);
     return val;
@@ -967,6 +967,10 @@ function Element(el, parent, _scope) {
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
               var new_value = self.get_value(self.el[key]);
+              if (new_value === undefined) {
+                if (self.data.debug) console.log(self.el_id+" Skip trigger", trigger_str);
+                return;
+              }
 
               // class specific check
               if (key == 'class') {
@@ -1345,6 +1349,8 @@ function Element(el, parent, _scope) {
 
       this.prerender();
 
+      if (this.data.debug) console.log("El "+this.el_id+" model", this.model);
+
       // change the attributes
       _.each(this.el, function(value, key) {
         if (self.data.debug) console.log("Render", key, value);
@@ -1451,6 +1457,7 @@ function Element(el, parent, _scope) {
 
     // scroll
     if (!("IntersectionObserver" in window) && this.el.class.indexOf('scroll') >= 0) {
+      console.log("Add Lazyload Scroll Listeners", this.el_id);
       var $el = $('.'+this.el_id);
       $el.on('scroll', app.bind.lazyLoad);
     }

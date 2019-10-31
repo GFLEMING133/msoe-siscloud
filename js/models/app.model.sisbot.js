@@ -387,7 +387,7 @@ app.model.sisbot = {
 	_socket_connect: function() {
 		var self = this;
 
-		// console.log("Sisbot: Socket Connect");
+		console.log("Sisbot: Socket Connect");
 
 		this.set('is_socket_connected', 'true');
 		this.set('is_polling', "false");
@@ -1028,9 +1028,9 @@ app.model.sisbot = {
 					return self;
 				}
 				self.update_tablename();
-			},'Change Table Name?', ['No','Yes'])	 
+			},'Change Table Name?', ['No','Yes'])
 		);
-				
+
 		} else if (is_servo == 'false') {
 			if(app.plugins.n.notification.confirm( not_servo_text,
 				function(resp_num) {
@@ -1727,6 +1727,7 @@ app.model.sisbot = {
 		this.remove('data.playlist_ids', playlist_model.id);
 	},
 	track_add: function (track_model) {
+		console.log('Calling track_add:', track_model);
 		var self	= this;
 		var track	= track_model.get('data');
 

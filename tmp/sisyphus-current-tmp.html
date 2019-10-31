@@ -29,7 +29,7 @@
     <div data-if="{{= session.active.secondary }} == false">
       <div data-if="{{= model.data }} !== undefined">
         <div data-if="{{= model.data.active_track.id }} == false">
-          <div class="fs18 lh18 p20 no-stuffing strong">No Current Track Playing</div>
+          <div class="fs18 lh18 p20 i center blue mt100 no-stuffing strong">No Current Track Is Playing</div>
         </div>
         <div data-if="{{= model.data.active_track.id }} !== false">
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
@@ -48,7 +48,9 @@
             <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
-                  <div data-foreach="model.data.sorted_tracks">
+                  <div data-foreach="model.data.sorted_tracks"
+                      data-foreach-offset="{{= model.data.active_track_index }}"
+                      data-foreach-limit="20">
                     <div class="bb"
                         data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
                         data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
@@ -57,7 +59,7 @@
                 </div>
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-if="{{= model.data.is_loop }} !== false">
-                    <div data-foreach="model.data.next_tracks">
+                    <div data-foreach="model.data.next_tracks" data-foreach-limit="20">
                       <div data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
                         <div class="bb"
                             data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"

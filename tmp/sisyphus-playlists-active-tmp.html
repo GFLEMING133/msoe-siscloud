@@ -45,11 +45,10 @@
     <div class="h100 scroll hide-scrollbar">
       <div class="pt50 pb100"
           data-foreach="model.data.tracks"
-          data-foreach-map="true"
-      >
-          <div class="{{= (scope.index !== 0) ? 'bt' : '' }}"
-              data-template="sisyphus-tracks-list-item-tmp"
-          ></div>
+          data-foreach-map="true">
+        <div class="{{= (scope.index !== 0) ? 'bt' : '' }}"
+            data-template="sisyphus-tracks-list-item-tmp"
+        ></div>
       </div>
       <div class="hh100">&nbsp;</div>
     </div>

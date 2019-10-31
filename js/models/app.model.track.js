@@ -1022,6 +1022,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
+				console.log(self.get('data.name') +" "+ track_id);
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
@@ -1072,9 +1073,12 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err) {
+				console.log(self.get('data.name') +" "+ track_id);
+				console.log('obj.err', obj.err );
+				app.trigger('modal:close');
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
-				// console.log('track : download response = ', obj.resp);
+				console.log('track : download response = ', self.id);
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
@@ -1086,12 +1090,12 @@ app.model.track = {
 				}
 				self.set('data.verts', obj.resp);
 				app.trigger('community:downloaded_track', self.id);
-				app.trigger('sisbot:track_add', self);
 
 				// let track_id = JSON.stringify(self.id); //pulling id
 				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
 				console.log("Downloaded ID:", self.id, self.get('data'));
+				app.trigger('sisbot:track_add', self);
 
 				self.set('downloading_community_track', 'false');
 

@@ -7,25 +7,30 @@
   <div class="flex1start flex-column">
     <div class="align-start fs18 lh20 black word-break strong">{{= model.data.name }}</div>
     <div class="align-start fs12 lh20 grey word-break hidden">by {{= model.data.created_by_name }}</div>
-    <div class="fs12 lh20 align-start warmGrey" data-if="{{= grandparent.add_playlist_tracks }} !== undefined">
+    <!-- <div class="fs12 lh20 align-start warmGrey" data-if="{{= grandparent.add_playlist_tracks }} !== undefined">
       <div class="montserrat_semi_bold">count= {{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div>
-    </div>
+    </div> -->
   </div>
   <div class="flex1end flex-column">
-    <div class="flex1center pl15 clickable" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
-      <div class="add_tracks_circle" data-on-click="grandparent.add_tracks_add" data-msg="{{= model.id }}"></div>
+    <div class="flex1center clickable ml10" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
+      <div class="p15" data-on-click="grandparent.add_tracks_add" data-msg="{{= model.id }}">
+        <i class="far fa-circle f-large active warmGrey" alt="Add Track" aria-hidden="true"></i>
+      </div>
     </div>
     <div class="flex1end" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} > 0">
-      <div class="flex1start p15 clickable"
-        data-on-click="grandparent.minus_tracks_minus"
-        data-msg="{{= model.id}}">   
-        <i class="fa fa-minus-circle f-large active warmGrey" aria-hidden="true"></i>
-      </div>
-      <div class="flex1end p15 clickable"
-        data-on-click="grandparent.add_tracks_add"
-        data-msg="{{= model.id }}">    
-        <i class="fa fa-plus-circle f-large active green" aria-hidden="true"></i>
-      </div>
+      <i class="p15 clickable fa fa-minus-circle f-large active warmGrey"
+          alt="Remove Track"
+          aria-hidden="true"
+          data-on-click="grandparent.minus_tracks_minus"
+          data-msg="{{= model.id}}">
+      </i>
+      <p class="pb0 fl20 warmGrey montserrat_semi_bold">{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</p>
+      <i class="p15 clickable fa fa-plus-circle f-large active green"
+          alt="Add Track"
+          aria-hidden="true"
+          data-on-click="grandparent.add_tracks_add"
+          data-msg="{{= model.id }}">
+      </i>
     </div>
   </div>
 </div>
