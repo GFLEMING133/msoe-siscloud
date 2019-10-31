@@ -3,14 +3,17 @@
     <i class="fas fa-random f-large pt20 mobile_pt15 rounded relative clickable active {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
         data-if="{{= model.data.active_playlist_id }} !== false"
         data-on-click="model.set_shuffle"
-        aria-hidden="true"></i>
+        aria-hidden="true"
+        tg-name="home_shuffle_btn"></i>
   </div>
   <div class="w33 center">
     <div class="clickable active"
+        tg-name="home_pause_btn"
         aria-hidden="true"
         data-if="{{= model.data.state }} == paused"
         data-on-click="model.play"><img src="img/icon_2x_button_play.png" alt="Play Button" class="hh100 pb50 mobile_pb55" /></div>
     <div class="clickable active"
+        tg-name="home_play_btn"
         aria-hidden="true"
         data-if="{{= model.data.state }} == playing"
         data-on-click="model.pause"><img src="img/icon_2x_button_pause.png" alt="Play Button" class="hh100 pb50 mobile_pb55" /></div>
@@ -18,7 +21,8 @@
   <div class="w33 center">
     <i class="fa fa-retweet f-large p20 rounded clickable active {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
         data-if="{{= model.data.active_playlist_id }} !== false"
-        data-on-click="model.set_loop" 
-        aria-hidden="true"></i>
+        data-on-click="model.set_loop"
+        aria-hidden="true"
+        tg-name="home_loop_btn"></i>
   </div>
 </div>

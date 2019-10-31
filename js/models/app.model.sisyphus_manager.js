@@ -215,7 +215,7 @@ app.model.sisyphus_manager = {
     if (!app.is_app || app.config.env == 'alpha') { // comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    }     //<<<< // 
+    }     //<<<< //
 
     var self = this;
 
