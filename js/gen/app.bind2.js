@@ -1356,11 +1356,11 @@ function Element(el, parent, _scope) {
         if (self.data.debug) console.log("Render", key, value);
 
         if (key.indexOf('data-') == 0) {
-          if (self.show_data) $el.attr(key, self.get_value(value));
+          if (self.show_data) $el.attr(key, self.get_value(value, true));
         } else if (key.indexOf('lib-') == 0) {
-          if (self.show_lib) $el.attr(key, self.get_value(value));
+          if (self.show_lib) $el.attr(key, self.get_value(value, true));
         } else if (key.indexOf('tg-') == 0) {
-          if (app.config.show_tg) $el.attr(key, self.get_value(value));
+          if (app.config.show_tg) $el.attr(key, self.get_value(value, true));
         } else if (key == 'class') {
           var classes = '';
 
@@ -1411,11 +1411,11 @@ function Element(el, parent, _scope) {
     // attributes
     _.each(this.el, function(value, key) {
       if (key.indexOf('data-') == 0) {
-        if (self.show_data) returnValue += ' '+key+'="'+self.get_value(value)+'"';
+        if (self.show_data) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
       } else if (key.indexOf('lib-') == 0) {
-        if (self.show_lib) returnValue += ' '+key+'="'+self.get_value(value)+'"';
+        if (self.show_lib) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
       } else if (key.indexOf('tg-') == 0) {
-        if (app.config.show_tg) returnValue += ' '+key+'="'+self.get_value(value)+'"';
+        if (app.config.show_tg) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
       } else if (key == 'class') {
         var classes = '';
 

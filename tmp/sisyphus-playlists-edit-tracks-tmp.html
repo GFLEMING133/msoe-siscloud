@@ -5,9 +5,11 @@
       <h1 class="no-stuffing fs18 capitalize truncate">Add Tracks</h1>
     </div>
     <div class="w30 right p15 pr20 fs18 lh18 clickable active"
-        data-on-click="model.add_tracks_done">Done</div>
+        data-on-click="model.add_tracks_done"
+        tg-name="add_tracks_done_btn">Done</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= parent.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= parent.sisbot_id }}"
+        tg-name="playlist_add_tracks_page">
     <div class="center p20 i"
         data-if="{{= app.plugins.length(model.data.track_ids) }} == 0">
       <span>There are no tracks on this Sisyphus.</span>

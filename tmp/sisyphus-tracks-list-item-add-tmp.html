@@ -13,7 +13,11 @@
   </div>
   <div class="flex1end flex-column">
     <div class="flex1center clickable ml10" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
-      <div class="p15" data-on-click="grandparent.add_tracks_add" data-msg="{{= model.id }}">
+      <div class="p15" 
+          data-on-click="grandparent.add_tracks_add" 
+          data-msg="{{= model.id }}"
+          tg-name="circle_track_{{= model.id}}_btn"
+      >
         <i class="far fa-circle f-large active warmGrey" alt="Add Track" aria-hidden="true"></i>
       </div>
     </div>
@@ -22,14 +26,16 @@
           alt="Remove Track"
           aria-hidden="true"
           data-on-click="grandparent.minus_tracks_minus"
-          data-msg="{{= model.id}}">
+          data-msg="{{= model.id}}"
+          tg-name="minus_track_{{= model.id}}_btn">
       </i>
       <p class="pb0 fl20 warmGrey montserrat_semi_bold">{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</p>
       <i class="p15 clickable fa fa-plus-circle f-large active green"
           alt="Add Track"
           aria-hidden="true"
           data-on-click="grandparent.add_tracks_add"
-          data-msg="{{= model.id }}">
+          data-msg="{{= model.id }}"
+          tg-name="plus_track_{{= model.id}}_btn">
       </i>
     </div>
   </div>
