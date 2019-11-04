@@ -27,6 +27,10 @@
           <span class="strong">Sisyphus Firmware Version</span>
           <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
       </div>
+      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
+        <span class="strong">Sisyphus MAC Address</span>
+        <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+    </div>
       <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
           <div class="bb p20 fs14">
               <span class="strong">Local Sisbot Version</span>
