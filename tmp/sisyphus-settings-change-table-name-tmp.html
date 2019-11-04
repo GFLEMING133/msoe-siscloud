@@ -9,7 +9,10 @@
     </div>
     <div class="w30">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar" 
+      data-model="{{= model.sisbot_id }}"
+      tg-name="table_name_page"
+      >
     <div class="bg-white pl20 pr20 pt20 black" data-run="model.setup_edit">
       <div class="bg-ll-red p20" data-if="{{= app.plugins.length(model.errors) }} > 0">
         <div data-foreach="model.errors">
@@ -27,7 +30,9 @@
               autocapitalize="off"
               spellcheck="false"
               data-field="model.edit.name"
-              value="{{= model.edit.name }}" />
+              value="{{= model.edit.name }}" 
+              tg-name="table_name_input_field"
+              />
           <p><i>So you are aware, changing the table name will restart the table so it can update the the SSID.</i></p>
         </div>
         <h2 class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong" data-on-click="model.update_tableName_alert">Complete</h2>
