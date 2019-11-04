@@ -6,7 +6,7 @@
     </div>
     <div class="w30">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar">
+  <div class="body-header h100 scroll hide-scrollbar" tg-name="night_mode_page">
     <div class="p20 bg-white black" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
       <p class="no-stuffing center w100" aria-hidden="true">
         <img src="img/icon_2x_moon.png" alt="Settings" class="hh30" />
@@ -21,10 +21,12 @@
       <div class="pt10 mt20 w100 vertical">
         <i class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
             data-if="{{= model.edit.is_sleep_enabled }} !== false"
-            data-on-click="model.nightmode_disable_toggle"></i>
+            data-on-click="model.nightmode_disable_toggle"
+            tg-name="night_mode_uncheck_box"></i>
         <i class="p10 pl0 black f-large bg-white far fa-square clickable"
             data-if="{{= model.edit.is_sleep_enabled }} == false"
-            data-on-click="model.nightmode_disable_toggle"></i>
+            data-on-click="model.nightmode_disable_toggle"
+            tg-name="night_mode_check_box"></i>
         <p class="no-stuffing pt10 pb10 w100 fs18">Enable Night Mode</p>
       </div>
       <div data-if="{{= model.edit.is_sleep_enabled }} !== false">
@@ -50,11 +52,13 @@
           <span class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
               data-if="{{= model.edit.is_nightlight }} == true"
               data-on-click="toggle"
-              data-field="model.edit.is_nightlight"></span>
+              data-field="model.edit.is_nightlight"
+              tg-name="nightlight_uncheckbox"></span>
           <span class="p10 pl0 black f-large bg-white far fa-square clickable"
               data-if="{{= model.edit.is_nightlight }} !== true"
               data-on-click="toggle"
-              data-field="model.edit.is_nightlight"></span>
+              data-field="model.edit.is_nightlight"
+              tg-name="nightlight_checkbox"></span>
           <p class="no-stuffing pt10 pb10 w100 fs18">Enable Night Light</p>
         </div>
 
@@ -80,7 +84,8 @@
         </div>
       </div>
       <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
-          data-on-click="model.update_nightmode">Save</div>
+          data-on-click="model.update_nightmode"
+          tg-name="night_mode_save_btn">Save</div>
       <div class="hh150">&nbsp;</div>
     </div>
   </div>

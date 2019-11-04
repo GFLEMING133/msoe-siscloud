@@ -9,7 +9,9 @@
     </div>
     <div class="w15 center f-large">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40" 
+      data-model="{{= model.sisbot_id }}"
+      tg-name="firmware_update_page">
     <div data-if="{{= model.data }} !== undefined">
       <div data-run="model.check_for_version_update"></div>
       <div data-if="{{= model.data.is_network_connected }} == false">
@@ -64,7 +66,8 @@
 
               <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
                   data-if="{{= model.data.installing_updates }} == false"
-                  data-on-click="model.install_update_alert">Start Update</h2>
+                  data-on-click="model.install_update_alert"
+                  tg-name="install_update_btn">Start Update</h2>
             </div>
             <!--------------------------- UPDATE AVAILABLE ------------------------>
             <div data-if="{{= model.data.installing_updates }} == true">

@@ -7,12 +7,14 @@
       </div>
       <div class="w15 center f-large">&nbsp;</div>
     </div>
-    <div class="body-header h100 pb50 scroll hide-scrollbar">
+    <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="settings_page">
       <!------------------------- SISBOT SETTINGS ------------------------------->
       <div class="bb" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Speed</h3>
         <div class="flex vertical-align pl20 pr20">
-          <div class="w5 center clickable active pt15 pb15" data-on-click="model.speed_min">
+          <div class="w5 center clickable active pt15 pb15" 
+              data-on-click="model.speed_min"
+              tg-name="speed_slider">
             <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
           </div>
           <div class="w90 flex relative center">
@@ -26,7 +28,8 @@
         </div>
         <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable"
             data-on-click="model.pause_between_tracks"
-            data-if="{{= model.data.is_paused_between_tracks }} !== undefined">
+            data-if="{{= model.data.is_paused_between_tracks }} !== undefined"
+            tg-name="pause_between_tracks_checkbox">
           <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
           <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
           <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
@@ -34,7 +37,9 @@
 
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
         <div class="flex vertical-align pl20 pr20">
-          <div class="w5 blue-hover pt15 pb15" data-on-click="model.brightness_min">
+          <div class="w5 blue-hover pt15 pb15" 
+            data-on-click="model.brightness_min"
+            tg-name="brightness_slider">
             <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
           </div>
           <div class="w90 flex relative center">
@@ -54,7 +59,8 @@
         </div>
         <div class="pl20 pt5 pb5 pr20 pb20 w100 vertical clickable"
             data-on-click="model.autodim_toggle"
-            data-if="{{= model.data.is_autodim_allowed }} !== false">
+            data-if="{{= model.data.is_autodim_allowed }} !== false"
+            tg-name="auto_brightness_checkbox">
           <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
           <span class="black f-large bg-white far fa-square" data-if="{{= model.data.is_autodim }} == false"></span>
           <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
@@ -76,7 +82,9 @@
               <div data-if="{{= model.data.is_white }} == true">
                 <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Color Temperature</h3>
                 <div class="flex vertical-align pl20 pr20">
-                  <div class="w5 blue-hover pt15 pb15" data-on-click="model.white_cool">
+                  <div class="w5 blue-hover pt15 pb15" 
+                    data-on-click="model.white_cool"
+                    tg-name="white_cool_slider">
                     <i class="fa fa-thermometer-quarter blue center clickable active f-medium" aria-hidden="true"></i>
                   </div>
                   <div class="w90 flex relative center">
@@ -118,7 +126,8 @@
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'software-update'}">
+          data-msg="{'secondary':'software-update'}"
+          tg-name="firmware_update_tab">
         <span>
           <span class="montserrat_semi_bold">Firmware Update</span>
           <span data-model="{{= model.sisbot_id }}" data-if="{{= model.data.is_internet_connected }} == true">
@@ -134,7 +143,8 @@
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'night_mode'}">
+          data-msg="{'secondary':'night_mode'}"
+          tg-name="night_mode_tab">
         <span class="montserrat_semi_bold">Night Mode</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -143,13 +153,16 @@
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'advanced_settings'}">
+          data-msg="{'secondary':'advanced_settings'}"
+          tg-name="advanced_settings_tab">
         <span class="montserrat_semi_bold">Advanced</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" data-on-click="model.open_home_page">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" 
+          data-on-click="model.open_home_page"
+          tg-name="sisyphus_website_tab">
         <span class="montserrat_semi_bold">Visit Sisyphus Website</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -158,7 +171,8 @@
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'go-to-sleep'}">
+          data-msg="{'secondary':'go-to-sleep'}"
+          tg-name="go_to_sleep_tab">
         <span class="montserrat_semi_bold">Go to Sleep</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
