@@ -83,7 +83,7 @@ app.model.sisbot = {
 				timezone_offset		: '0',					// 0 greenwich
 				hostname			: 'false',				// sisyphus.local
 				local_ip			: '',					// 192.168.0.1:3001
-
+				mac_address			: 'false',              // set to false if no data comes from sisbot
 				do_not_remind		: 'false',				// wifi
 				hostname_prompt		: 'false',				// hostname change
 

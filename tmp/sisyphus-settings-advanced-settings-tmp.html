@@ -29,7 +29,7 @@
       </div>
       <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
         <span class="strong">Sisyphus MAC Address</span>
-        <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+        <span class="pull-right grey">{{= model.data.mac_address }}</span>
     </div>
       <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
           <div class="bb p20 fs14">
@@ -68,6 +68,7 @@
           data-on-click="publish"
           data-publish="session:active"
           data-msg="{'secondary':'change_table_name'}"
+          tg-name="table_name_tab"
       >
           <span class="strong montserrat_semi_bold">Table Name</span>
           <span class="pull-right">
@@ -93,6 +94,7 @@
               data-on-click="publish"
               data-publish="session:active"
               data-msg="{'secondary':'wifi'}"
+              tg-name="connect_to_wifi_tab"
           >
               <span class="strong montserrat_semi_bold">Connect to WiFi network</span>
               <span class="pull-right">
@@ -106,6 +108,7 @@
           data-on-click="publish"
           data-publish="session:active"
           data-msg="{'secondary':'log-files'}"
+          tg-name="log_files_tab"
       >
           <span class="strong montserrat_semi_bold">Log Files</span>
           <span class="pull-right">
@@ -117,6 +120,7 @@
           data-on-click="publish"
           data-publish="session:active"
           data-msg="{'secondary':'upload-track'}"
+          tg-name="upload_tracks_tab"
       >
           <span class="strong montserrat_semi_bold">Upload Track</span>
           <span class="pull-right">
@@ -127,6 +131,7 @@
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-if="{{= app.is_app }} == false"
         data-on-click="model.find_tracks"
+        tg-name="find_tracks_tab"
     >
         <span class="strong montserrat_semi_bold">Find More Tracks</span>
         <span class="pull-right">
@@ -139,6 +144,7 @@
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'advanced-movement'}"
+        tg-name="advanced_movement_tab"
     >
         <span class="strong montserrat_semi_bold">Advanced Movement</span>
         <span class="pull-right">
@@ -150,7 +156,8 @@
           data-on-click="publish"
           data-publish="session:active"
           data-msg="{'secondary':'advanced_lights'}"
-          data-if="{{= model.data.led_enabled }} == true">
+          data-if="{{= model.data.led_enabled }} == true"
+          tg-name="advanced_lights_tab">
         <span class="strong montserrat_semi_bold">Advanced Lights</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -162,7 +169,8 @@
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'secondary':'siri'}">
+            data-msg="{'secondary':'siri'}"
+            tg-name="siri_tab">
           <span class="strong montserrat_semi_bold">Siri Shortcuts</span>
           <span class="pull-right">
             <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -174,7 +182,8 @@
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'secondary':'advanced_table'}">
+            data-msg="{'secondary':'advanced_table'}"
+            tg-name="table_settings_tab">
             <span class="strong montserrat_semi_bold">Table Settings</span>
             <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -184,6 +193,7 @@
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-model="{{= model.sisbot_id }}"
         data-on-click="model.disconnect"
+        tg-name="logout_tab"
     >
         <span class="strong montserrat_semi_bold">Logout from Sisyphus</span>
         <span class="pull-right"></span>
@@ -192,6 +202,7 @@
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
             data-if="{{= model.data.is_network_connected }} == true"
             data-on-click="model.disconnect_wifi"
+            tg-name="disconnect_wifi_tab"
         >
             <span class="strong montserrat_semi_bold">Disconnect from WiFi network</span>
             <span class="pull-right"></span>
@@ -201,6 +212,7 @@
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'factory-reset'}"
+        tg-name="factory_reset_tab"
     >
         <span class="strong montserrat_semi_bold">Factory Reset</span>
         <span class="pull-right">
