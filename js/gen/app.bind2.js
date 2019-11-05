@@ -183,6 +183,7 @@ function Element(el, parent, _scope) {
   this._scope = null;
   this.scope = null;
   this.model = null;
+  this.model_str = '';
   this.parents =[]; // parent models, not elements,
   this.parent_element = null; // element containing this
   this.$el = null;
@@ -636,6 +637,7 @@ function Element(el, parent, _scope) {
     if (this.data.model && this.data.model != 'false') {
       var value               = this.get_value(this.data.model);
       if (this.model)         this.parents.unshift(this.model);
+      this.model_str          = value;
       this.model              = app.collection.get(value);
     }
 
@@ -1356,7 +1358,7 @@ function Element(el, parent, _scope) {
         if (self.data.debug) console.log("Render", key, value);
 
         if (key.indexOf('data-') == 0) {
-          if (self.show_data) $el.attr(key, self.get_value(value, true));
+          if (self.show_data && key != 'data-model') $el.attr(key, self.get_value(value, true));
         } else if (key.indexOf('lib-') == 0) {
           if (self.show_lib) $el.attr(key, self.get_value(value, true));
         } else if (key.indexOf('tg-') == 0) {
@@ -1411,7 +1413,10 @@ function Element(el, parent, _scope) {
     // attributes
     _.each(this.el, function(value, key) {
       if (key.indexOf('data-') == 0) {
-        if (self.show_data) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
+        if (self.show_data) {
+          if (key == 'data-model') returnValue += ' '+key+'="'+self.model_str+'"';
+          else returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
+        }
       } else if (key.indexOf('lib-') == 0) {
         if (self.show_lib) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
       } else if (key.indexOf('tg-') == 0) {
@@ -1717,6 +1722,17 @@ function Element(el, parent, _scope) {
       // console.log("Set", model, field, val);
       if (_.isObject(val)) model.set(val);
       else model.set(field, this.get_value(val));
+    } else {
+      console.log("No Field defined");
+    }
+  };
+  this.clear = function() {
+    if (this.data.field) {
+      var model = this.get_model(this.data.field);
+      var field = this.get_field(this.data.field);
+
+      // console.log("Clear", model, field);
+      if (_.isArray(model.get(field))) model.set(field, []);
     } else {
       console.log("No Field defined");
     }
