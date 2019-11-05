@@ -10,7 +10,10 @@
     </div>
     <div class="w15">&nbsp;</div>
   </div>
-  <div class="body-header h100 pb50 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
+  <div class="body-header h100 pb50 scroll hide-scrollbar" 
+      data-model="{{= model.sisbot_id }}" 
+      data-run="model.setup_edit"
+      tg-name="advanced_lights_page">
     <div data-if="{{= model.data.led_enabled }} == true">
       <div class="p30 pb10 i fs14 lh24">*Calibrating LED's is best done running the track "Sine" and using the "Calibrate Pattern" button below</div>
       <h3 class="no-stuffing p20 pb30 fs18 lh18 strong">LED Offset {{= model.edit.led_offset }}</h3>

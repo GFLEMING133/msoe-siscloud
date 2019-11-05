@@ -83,7 +83,7 @@ app.model.sisbot = {
 				timezone_offset		: '0',					// 0 greenwich
 				hostname			: 'false',				// sisyphus.local
 				local_ip			: '',					// 192.168.0.1:3001
-
+				mac_address			: 'false',              // set to false if no data comes from sisbot
 				do_not_remind		: 'false',				// wifi
 				hostname_prompt		: 'false',				// hostname change
 
@@ -934,7 +934,7 @@ app.model.sisbot = {
 		_.extend(data, edit);
 
 		data.timezone_offset = moment().format('Z');
-
+		this.set('data.is_sleep_enabled', edit.is_sleep_enabled);
 		this._update_sisbot('set_sleep_time', data, function(obj) {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
