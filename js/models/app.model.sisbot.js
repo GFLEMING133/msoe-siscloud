@@ -940,6 +940,11 @@ app.model.sisbot = {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+				if(obj.resp.sleep_time == 'false'){
+				self.set('data.is_sleep_enabled', 'false');
+				} else {
+					self.set('data.is_sleet_enabled', 'true');
+				}
 				app.trigger('session:active', { secondary: 'false' });
 			}
 		});
