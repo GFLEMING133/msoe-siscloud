@@ -1126,8 +1126,8 @@ select:focus {
 	color:#fff;
 	font-weight: 900;
 	font-size: 12px;
-	
-	
+
+
 }
 
 .select-box .fa-chevron-down {
@@ -1772,6 +1772,22 @@ input[type="range"]::-ms-fill-upper {
 }
 
 
+/***************** ANIMATIONS *********************/
+.software_update_progress {
+  animation: sw_prog 240s 1;
+  -webkit-animation: sw_prog 240s 1;
+}
+
+@-webkit-keyframes sw_prog {
+  from { flex-basis: 1%;		width: 1%; }
+  to { flex-basis: 95%;		width: 95%; }
+}
+
+@keyframes sw_prog {
+  from { flex-basis: 1%;		width: 1%; }
+  to { flex-basis: 95%;		width: 95%; }
+}
+
 /******************MEDIA QUERIES*******************/
 
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
@@ -1812,10 +1828,10 @@ and (orientation : portrait)
 		padding-bottom: 55px;
 	}
 }
-/* @media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 568px) 
-and (orientation : portrait) { 
+/* @media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : portrait) {
 
 	.media_fs14 {
 		font-size: 14px !important;
