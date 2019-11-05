@@ -934,7 +934,7 @@ app.model.sisbot = {
 		_.extend(data, edit);
 
 		data.timezone_offset = moment().format('Z');
-
+		this.set('data.is_sleep_enabled', edit.is_sleep_enabled);
 		this._update_sisbot('set_sleep_time', data, function(obj) {
 			if (obj.err) {
 				self.set('errors', [ obj.err ]);
