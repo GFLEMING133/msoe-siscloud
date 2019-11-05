@@ -89,6 +89,7 @@ app.model.sisbot = {
 
 				reason_unavailable	: 'false',				// connect_to_wifi|reset_to_hotspot|resetting|restarting|rebooting
 				installing_updates	: 'false',
+				update_status			: 'false', 			// knowing where in the software update process we are
 				factory_resetting		: 'false',
 
 				pi_id							: '',
@@ -104,7 +105,6 @@ app.model.sisbot = {
 				wifi_password       : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget			: 'false',
-
 
 				playlist_ids					: [],
 				default_playlist_id		: 'false',
