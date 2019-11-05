@@ -7,14 +7,18 @@
         </div>
         <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
             <p class="no-stuffing center w100 mt40" aria-hidden="true">
-                <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
+              <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
             </p>
             <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-                Updating Your Table
+              Updating Your Table
             </h3>
             <p class="p0 m0 fs18 pl40 pr40 center">
                 Sit tight while we update your table to the latest and greatest firmware.
                 This will take a few minutes to complete. Do not unplug your table during this time.
+            </p>
+            <p class="p0 m10 fs18 strong pl40 pr40 center"
+                data-if="{{= model.data.update_status }} !== false">
+              {{= model.data.update_status }}
             </p>
             <div class="p20 center i black mb20 pull-bottom">
                 <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
