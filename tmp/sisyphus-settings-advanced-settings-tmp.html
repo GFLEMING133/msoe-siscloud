@@ -34,7 +34,9 @@
           <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
       </div>
 
-      <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
+      <div data-model="{{= model.sisbot_id }}" 
+          data-if="{{= parent.is_admin }} == true"
+          tg-name="is_admin_list">
           <div class="bb p20 fs14">
               <span class="strong">Local Sisbot Version</span>
               <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>

@@ -31,11 +31,13 @@
               spellcheck="false"
               data-field="model.edit.name"
               value="{{= model.edit.name }}" 
-              tg-name="table_name_input_field"
+              tg-name="table_name_input"
               />
           <p><i>So you are aware, changing the table name will restart the table so it can update the the SSID.</i></p>
         </div>
-        <h2 class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong" data-on-click="model.update_tableName_alert">Complete</h2>
+        <h2 class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong" 
+          data-on-click="model.update_tableName_alert"
+          tg-name="table_name_complete"  >Complete</h2>
       </div>
     </div>
   </div>
