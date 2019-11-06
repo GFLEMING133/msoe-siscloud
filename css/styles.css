@@ -1126,8 +1126,8 @@ select:focus {
 	color:#fff;
 	font-weight: 900;
 	font-size: 12px;
-	
-	
+
+
 }
 
 .select-box .fa-chevron-down {
@@ -1773,6 +1773,152 @@ input[type="range"]::-ms-fill-upper {
 }
 
 
+/***************** ANIMATIONS *********************/
+.software_update_progress {
+  animation: sw_prog 240s forwards;
+  -webkit-animation: sw_prog 240s forwards;
+}
+
+@-webkit-keyframes sw_prog {
+  from { flex-basis: 1%;		width: 1%; }
+  to { flex-basis: 95%;		width: 95%; }
+}
+
+@keyframes sw_prog {
+  from { flex-basis: 1%;		width: 1%; }
+  to { flex-basis: 95%;		width: 95%; }
+}
+
+.software_update_progress_1 {
+  animation: sw_prog_1 4s forwards;
+  -webkit-animation: sw_prog_1 4s forwards;
+}
+@-webkit-keyframes sw_prog_1 {
+  from { flex-basis: 1%;		width: 1%; }
+  to { flex-basis: 2%;		width: 2%; }
+}
+@keyframes sw_prog_1 {
+  from { flex-basis: 1%;		width: 1%; }
+  to { flex-basis: 2%;		width: 2%; }
+}
+
+.software_update_progress_2 {
+  animation: sw_prog_2 3s forwards;
+  -webkit-animation: sw_prog_2 3s forwards;
+}
+@-webkit-keyframes sw_prog_2 {
+  from { flex-basis: 2%;		width: 2%; }
+  to { flex-basis: 3%;		width: 3%; }
+}
+@keyframes sw_prog_2 {
+  from { flex-basis: 2%;		width: 2%; }
+  to { flex-basis: 3%;		width: 3%; }
+}
+
+.software_update_progress_3 {
+  animation: sw_prog_3 1s forwards;
+  -webkit-animation: sw_prog_3 1s forwards;
+}
+@-webkit-keyframes sw_prog_3 {
+  from { flex-basis: 3%;		width: 3%; }
+  to { flex-basis: 4%;		width: 4%; }
+}
+@keyframes sw_prog_3 {
+  from { flex-basis: 3%;		width: 3%; }
+  to { flex-basis: 4%;		width: 4%; }
+}
+
+.software_update_progress_4 {
+  animation: sw_prog_4 1s forwards;
+  -webkit-animation: sw_prog_4 1s forwards;
+}
+@-webkit-keyframes sw_prog_4 {
+  from { flex-basis: 4%;		width: 4%; }
+  to { flex-basis: 5%;		width: 5%; }
+}
+@keyframes sw_prog_4 {
+  from { flex-basis: 4%;		width: 4%; }
+  to { flex-basis: 5%;		width: 5%; }
+}
+
+.software_update_progress_5 {
+  animation: sw_prog_5 1s forwards;
+  -webkit-animation: sw_prog_5 1s forwards;
+}
+@-webkit-keyframes sw_prog_5 {
+  from { flex-basis: 5%;		width: 5%; }
+  to { flex-basis: 6%;		width: 6%; }
+}
+@keyframes sw_prog_5 {
+  from { flex-basis: 5%;		width: 5%; }
+  to { flex-basis: 6%;		width: 6%; }
+}
+
+.software_update_progress_6 {
+  animation: sw_prog_6 19s forwards;
+  -webkit-animation: sw_prog_6 19s forwards;
+}
+@-webkit-keyframes sw_prog_6 {
+  from { flex-basis: 6%;		width: 6%; }
+  to { flex-basis: 14%;		width: 14%; }
+}
+@keyframes sw_prog_6 {
+  from { flex-basis: 6%;		width: 6%; }
+  to { flex-basis: 14%;		width: 14%; }
+}
+
+.software_update_progress_7 {
+  animation: sw_prog_7 180s forwards;
+  -webkit-animation: sw_prog_7 180s forwards;
+}
+@-webkit-keyframes sw_prog_7 {
+  from { flex-basis: 14%;		width: 14%; }
+  to { flex-basis: 89%;		width: 89%; }
+}
+@keyframes sw_prog_7 {
+  from { flex-basis: 14%;		width: 14%; }
+  to { flex-basis: 89%;		width: 89%; }
+}
+
+.software_update_progress_8 {
+  animation: sw_prog_8 10s forwards;
+  -webkit-animation: sw_prog_8 10s forwards;
+}
+@-webkit-keyframes sw_prog_8 {
+  from { flex-basis: 89%;		width: 89%; }
+  to { flex-basis: 93%;		width: 93%; }
+}
+@keyframes sw_prog_8 {
+  from { flex-basis: 89%;		width: 89%; }
+  to { flex-basis: 93%;		width: 93%; }
+}
+
+.software_update_progress_9 {
+  animation: sw_prog_9 2s forwards;
+  -webkit-animation: sw_prog_9 2s forwards;
+}
+@-webkit-keyframes sw_prog_9 {
+  from { flex-basis: 93%;		width: 93%; }
+  to { flex-basis: 94%;		width: 94%; }
+}
+@keyframes sw_prog_9 {
+  from { flex-basis: 93%;		width: 93%; }
+  to { flex-basis: 94%;		width: 94%; }
+}
+
+.software_update_progress_10 {
+  animation: sw_prog_10 11s forwards;
+  -webkit-animation: sw_prog_10 11s forwards;
+}
+@-webkit-keyframes sw_prog_10 {
+  from { flex-basis: 94%;		width: 94%; }
+  to { flex-basis: 98%;		width: 98%; }
+}
+@keyframes sw_prog_10 {
+  from { flex-basis: 94%;		width: 94%; }
+  to { flex-basis: 98%;		width: 98%; }
+}
+
 /******************MEDIA QUERIES*******************/
 
 /****************Galaxy S10 5G && Chrome Inspector!*****************/
@@ -1813,10 +1959,10 @@ and (orientation : portrait)
 		padding-bottom: 55px;
 	}
 }
-/* @media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 568px) 
-and (orientation : portrait) { 
+/* @media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : portrait) {
 
 	.media_fs14 {
 		font-size: 14px !important;
