@@ -14,10 +14,11 @@
         Automatically share your log files to help us improve the firmware of your Sisyphus Table.
       </p>
 
-      <div class="pt20 pb20 w100 vertical"
+      <div class="pt20 pb20 pl20 w100 vertical"
           data-on-click="toggle"
           data-field="model.edit.share_log_files"
-          data-if="{{= model.edit.share_log_files }} !== undefined">
+          data-if="{{= model.edit.share_log_files }} !== undefined"
+          tg-name="log_file_toggle_checkbox">
         <input class="hidden"
             type="checkbox"
             data-field="model.edit.save_log_sharing"
@@ -26,11 +27,15 @@
         <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.share_log_files }} !== true"></span>
         <p class="no-stuffing pl10 w100 fs18">Share Log Files</p>
       </div>
-
+      <div class="center pl20 pr20">
+      <h2 class="btn bg-blue w100 mt20 corner-5px uppercase fs18 strong p12 mb20"
+        data-on-click="model.save_log_sharing"
+        tg-name="save_log_sharing_btn">Save</h2>
+      </div>
       <div  data-if="{{= app.is_app }} == false">
         <div  data-run="model.load_log_files"></div>
 
-        <div  data-if="{{= _.size(model.log_files) }} > 0">
+        <div class="pl20 pr20" data-if="{{= _.size(model.log_files) }} > 0">
           <h3 class="no-stuffing pb10 fs18 lh18 strong">Log Files</h3>
           <div class="pb10">
             <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
