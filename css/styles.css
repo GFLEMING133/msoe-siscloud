@@ -1789,6 +1789,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 95%;		width: 95%; }
 }
 
+.software_update_preview_1 { flex-basis: 11%;		width: 11%; }
 .software_update_progress_1 {
   animation: sw_prog_1 30s forwards;
   -webkit-animation: sw_prog_1 30s forwards;
@@ -1802,6 +1803,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 10%;		width: 10%; }
 }
 
+.software_update_preview_2 { flex-basis: 21%;		width: 21%; }
 .software_update_progress_2 {
   animation: sw_prog_2 30s forwards;
   -webkit-animation: sw_prog_2 30s forwards;
@@ -1815,6 +1817,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 20%;		width: 20%; }
 }
 
+.software_update_preview_3 { flex-basis: 31%;		width: 31%; }
 .software_update_progress_3 {
   animation: sw_prog_3 30s forwards;
   -webkit-animation: sw_prog_3 30s forwards;
@@ -1828,6 +1831,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 30%;		width: 30%; }
 }
 
+.software_update_preview_4 { flex-basis: 32%;		width: 32%; }
 .software_update_progress_4 {
   animation: sw_prog_4 3s forwards;
   -webkit-animation: sw_prog_4 3s forwards;
@@ -1841,6 +1845,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 31%;		width: 31%; }
 }
 
+.software_update_preview_5 { flex-basis: 37%;		width: 37%; }
 .software_update_progress_5 {
   animation: sw_prog_5 19s forwards;
   -webkit-animation: sw_prog_5 19s forwards;
@@ -1854,6 +1859,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 36%;		width: 36%; }
 }
 
+.software_update_preview_6 { flex-basis: 92%;		width: 92%; }
 .software_update_progress_6 {
   animation: sw_prog_6 180s forwards;
   -webkit-animation: sw_prog_6 180s forwards;
@@ -1867,6 +1873,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 91%;		width: 91%; }
 }
 
+.software_update_preview_7 { flex-basis: 96%;		width: 96%; }
 .software_update_progress_7 {
   animation: sw_prog_7 12s forwards;
   -webkit-animation: sw_prog_7 12s forwards;
@@ -1880,6 +1887,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 95%;		width: 95%; }
 }
 
+.software_update_preview_8 { flex-basis: 97%;		width: 97%; }
 .software_update_progress_8 {
   animation: sw_prog_8 3s forwards;
   -webkit-animation: sw_prog_8 3s forwards;
@@ -1893,6 +1901,7 @@ input[type="range"]::-ms-fill-upper {
   to { flex-basis: 96%;		width: 96%; }
 }
 
+.software_update_preview_9 { flex-basis: 100%;		width: 100%; }
 .software_update_progress_9 {
   animation: sw_prog_9 11s forwards;
   -webkit-animation: sw_prog_9 11s forwards;
