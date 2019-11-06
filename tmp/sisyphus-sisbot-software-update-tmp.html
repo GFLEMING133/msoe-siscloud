@@ -15,9 +15,9 @@
         This will take a few minutes to complete. Do not unplug your table during this time.
       </p>
       <div class="m40" data-if="{{= model.data.update_status }} !== false">
-        <div class="mb5 f-small strong">{{= model.data.update_status }}/12</div>
+        <div class="mb5 f-small strong">{{= model.data.update_status }}/11</div>
         <div class="w100 flex b2 corner-3px">
-          <div class="bg-blue hh10 software_update_progress"></div>
+          <div class="bg-blue hh10 software_update_progress_{{= model.data.update_status }}"></div>
         </div>
       </div>
       <div class="m40" data-if="{{= model.data.update_status }} == false">
