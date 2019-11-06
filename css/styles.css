@@ -1774,8 +1774,8 @@ input[type="range"]::-ms-fill-upper {
 
 /***************** ANIMATIONS *********************/
 .software_update_progress {
-  animation: sw_prog 240s 1;
-  -webkit-animation: sw_prog 240s 1;
+  animation: sw_prog 240s forwards;
+  -webkit-animation: sw_prog 240s forwards;
 }
 
 @-webkit-keyframes sw_prog {
@@ -1789,8 +1789,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_1 {
-  animation: sw_prog_1 4s 1;
-  -webkit-animation: sw_prog_1 4s 1;
+  animation: sw_prog_1 4s forwards;
+  -webkit-animation: sw_prog_1 4s forwards;
 }
 @-webkit-keyframes sw_prog_1 {
   from { flex-basis: 1%;		width: 1%; }
@@ -1802,8 +1802,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_2 {
-  animation: sw_prog_2 3s 1;
-  -webkit-animation: sw_prog_2 3s 1;
+  animation: sw_prog_2 3s forwards;
+  -webkit-animation: sw_prog_2 3s forwards;
 }
 @-webkit-keyframes sw_prog_2 {
   from { flex-basis: 2%;		width: 2%; }
@@ -1815,8 +1815,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_3 {
-  animation: sw_prog_3 1s 1;
-  -webkit-animation: sw_prog_3 1s 1;
+  animation: sw_prog_3 1s forwards;
+  -webkit-animation: sw_prog_3 1s forwards;
 }
 @-webkit-keyframes sw_prog_3 {
   from { flex-basis: 3%;		width: 3%; }
@@ -1828,8 +1828,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_4 {
-  animation: sw_prog_4 1s 1;
-  -webkit-animation: sw_prog_4 1s 1;
+  animation: sw_prog_4 1s forwards;
+  -webkit-animation: sw_prog_4 1s forwards;
 }
 @-webkit-keyframes sw_prog_4 {
   from { flex-basis: 4%;		width: 4%; }
@@ -1841,8 +1841,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_5 {
-  animation: sw_prog_5 1s 1;
-  -webkit-animation: sw_prog_5 1s 1;
+  animation: sw_prog_5 1s forwards;
+  -webkit-animation: sw_prog_5 1s forwards;
 }
 @-webkit-keyframes sw_prog_5 {
   from { flex-basis: 5%;		width: 5%; }
@@ -1854,8 +1854,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_6 {
-  animation: sw_prog_6 19s 1;
-  -webkit-animation: sw_prog_6 19s 1;
+  animation: sw_prog_6 19s forwards;
+  -webkit-animation: sw_prog_6 19s forwards;
 }
 @-webkit-keyframes sw_prog_6 {
   from { flex-basis: 6%;		width: 6%; }
@@ -1867,8 +1867,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_7 {
-  animation: sw_prog_7 180s 1;
-  -webkit-animation: sw_prog_7 180s 1;
+  animation: sw_prog_7 180s forwards;
+  -webkit-animation: sw_prog_7 180s forwards;
 }
 @-webkit-keyframes sw_prog_7 {
   from { flex-basis: 14%;		width: 14%; }
@@ -1880,8 +1880,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_8 {
-  animation: sw_prog_8 10s 1;
-  -webkit-animation: sw_prog_8 10s 1;
+  animation: sw_prog_8 10s forwards;
+  -webkit-animation: sw_prog_8 10s forwards;
 }
 @-webkit-keyframes sw_prog_8 {
   from { flex-basis: 89%;		width: 89%; }
@@ -1893,8 +1893,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_9 {
-  animation: sw_prog_9 2s 1;
-  -webkit-animation: sw_prog_9 2s 1;
+  animation: sw_prog_9 2s forwards;
+  -webkit-animation: sw_prog_9 2s forwards;
 }
 @-webkit-keyframes sw_prog_9 {
   from { flex-basis: 93%;		width: 93%; }
@@ -1906,8 +1906,8 @@ input[type="range"]::-ms-fill-upper {
 }
 
 .software_update_progress_10 {
-  animation: sw_prog_10 11s 1;
-  -webkit-animation: sw_prog_10 11s 1;
+  animation: sw_prog_10 11s forwards;
+  -webkit-animation: sw_prog_10 11s forwards;
 }
 @-webkit-keyframes sw_prog_10 {
   from { flex-basis: 94%;		width: 94%; }
