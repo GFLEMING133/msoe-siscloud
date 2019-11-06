@@ -25,12 +25,15 @@
               data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
         </div>
         <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded mr10 clickable"
-            data-on-click="model.play" data-msg="{{= 0 }}">
+            data-on-click="model.play" 
+            data-msg="{{= 0 }}"
+            tg-name="playlists_play_btn">
           <i class="fas fa-play pr5 pl5"></i>
           Play
         </div>
         <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded ml10 clickable"
-            data-on-click="model.play_shuffled">
+            data-on-click="model.play_shuffled"
+            tg-name="playlists_shuffle_btn">
           <i class="fas fa-random pr5 pl5"></i>
           Shuffle
         </div>

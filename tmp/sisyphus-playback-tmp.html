@@ -21,7 +21,8 @@
           <div class="clickable active"
               aria-hidden="true"
               data-if="{{= model.data.state }} == playing"
-              data-on-click="model.pause"><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
+              data-on-click="model.pause"
+              tg-name="footer_pause_btn"><img src="img/icon_2x_mini_pause.png" alt="Pause Button" class="hh25" /></div>
         </div>
       </div>
       <div class="hh50 flex vertical-align" data-if="{{= model.data.state }} == paused">
@@ -30,7 +31,8 @@
           <div class="clickable active"
               aria-hidden="true" 
               data-if="{{= model.data.state }} == paused" 
-              data-on-click="model.play"><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>
+              data-on-click="model.play"
+              tg-name="footer_play_btn"><img src="img/icon_2x_mini_play.png" alt="Play Button" class="hh25" /></div>
         </div>
       </div>
       <div class="hh50 center pt10 white" data-if="{{= model.data.state }} == homing">
