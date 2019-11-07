@@ -91,6 +91,7 @@ app.model.sisbot = {
 				installing_updates	: 'false',
 				update_status			: 'false', 			// knowing where in the software update process we are
 				factory_resetting		: 'false',
+				fault_status			: 'false', // allows for navigation after Servo fault
 
 				pi_id							: '',
 				firmware_version	: '0.5.1',
@@ -1184,6 +1185,16 @@ app.model.sisbot = {
 	update_playlist: function (playlist_data) {
 		var self = this;
 
+		// check for fault
+		if (this.get('data.fault_status') != 'false') {
+			return app.plugins.n.notification.alert('Please fix fault status',
+					function(resp_num) {
+						if (resp_num == 1){
+							return;
+						}
+					},'Unable to Play Playlist', ['OK']);
+		}
+
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			//get back playlist obj
 			if (obj.resp.id !== 'false') {
@@ -1212,6 +1223,8 @@ app.model.sisbot = {
 		this.set('data.active_playlist_id',	playlist_data.id);
 		this.set('data.active_track_id',	playlist_data.active_track_id);
 		this.set('data.state', 'playing');
+
+		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	play_track: function(data) {
 		console.log("Siri: play track", JSON.stringify(data));
@@ -1221,6 +1234,16 @@ app.model.sisbot = {
 	},
 	set_track: function (data) {
 		var self = this;
+
+		// check for fault
+		if (this.get('data.fault_status') != 'false') {
+			return app.plugins.n.notification.alert('Please fix fault status',
+					function(resp_num) {
+						if (resp_num == 1){
+							return;
+						}
+					},'Unable to Play Track', ['OK']);
+		}
 
 		this._update_sisbot('set_track', data, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
@@ -1241,8 +1264,7 @@ app.model.sisbot = {
 		this.set('data.state', 'playing');
 	},
 	setup_default_playlist: function () {
-		this.set('default_playlist_id', this.get('data.default_playlist_id'))
-			.set('errors', []);
+		this.set('default_playlist_id', this.get('data.default_playlist_id')).set('errors', []);
 		return this;
 	},
 	set_default_playlist: function () {
@@ -1646,32 +1668,6 @@ app.model.sisbot = {
 			// console.log("New Offset", level);
 		}
 	},
-	// python_install: function() {
-	// 	var self = this;
-	//
-	// 	if (this.get('data.installing_updates') == 'true') return this;
-	//
-	// 	app.plugins.n.notification.confirm('If your RGBW lights are already working, you do not need this step. Continue?', function(resp_num) {
-	// 		if (resp_num == 1) return self;
-	//
-	// 		// install_python
-	// 		console.log("Install Python!", resp_num);
-	//
-	// 		self.save_to_sisbot(self.get('edit'), function(obj) {
-	// 			if (obj.err) return console.log("Save error", obj.err);
-	//
-	// 			self._update_sisbot('install_python', {}, function(obj) {
-	// 				if (obj.err) {
-	// 					self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
-	// 				} else if (obj.resp) {
-	// 					app.manager.intake_data(obj.resp);
-	// 				}
-	// 			});
-	// 		});
-	//
-	// 		return this;
-	// 	}, 'Install Python?', ['Cancel', 'OK']);
-	// },
 	homing_offset: function(level) {
 		console.log("Homing Offset: ", level);
 		this.set('edit.table_settings.homingOffset',+level);
@@ -1812,6 +1808,16 @@ app.model.sisbot = {
 		var self = this;
 		this.set('data.state', 'playing');
 
+		// check for fault
+		if (this.get('data.fault_status') != 'false') {
+			return app.plugins.n.notification.alert('Please fix fault status',
+					function(resp_num) {
+						if (resp_num == 1){
+							return;
+						}
+					},'Unable to Play', ['OK']);
+		}
+
 		this._update_sisbot('play', {}, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
 
@@ -1837,6 +1843,17 @@ app.model.sisbot = {
 	},
 	home: function () {
 		var self = this;
+
+		// check for fault
+		if (this.get('data.fault_status') != 'false') {
+			return app.plugins.n.notification.alert('Please fix fault status',
+					function(resp_num) {
+						if (resp_num == 1){
+							return;
+						}
+					},'Unable to Home', ['OK']);
+		}
+
 		this.set('data.state', 'homing');
 		this._update_sisbot('home', { clear_tracks: true }, function (obj) {
 			if (obj.resp) app.manager.intake_data(obj.resp);
@@ -1844,6 +1861,16 @@ app.model.sisbot = {
 		return this;
 	},
 	jog_start: function(jog_type) {
+		// check for fault
+		if (this.get('data.fault_status') != 'false') {
+			return app.plugins.n.notification.alert('Please fix fault status',
+					function(resp_num) {
+						if (resp_num == 1){
+							return;
+						}
+					},'Unable to Jog', ['OK']);
+		}
+
 		this.set('jog_type', jog_type).set('is_jogging', true)._jog();
 		return this;
 	},
