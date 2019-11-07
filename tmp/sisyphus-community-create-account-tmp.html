@@ -17,9 +17,9 @@
         <div class="bg-white black" data-model="{{= session.id }}" data-run="model.clear_errors">
           <h3 class="center fs18 fl12 less_strong">Enter the info below to set up your Sisyphus account.</h3>
 
-          <div class="bg-ll-red p10 sign_up_errors corner-5px" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div  data-foreach="model.errors">
-              <div class="warmRed strong red_triangle p5">{{= scope.value }}</div>
+          <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+            <div  data-foreach="model.errors" class="red_triangle center mb10">
+              <div class="red p5 montserrat_bold">{{= scope.value }}</div>
             </div>
           </div>
 
