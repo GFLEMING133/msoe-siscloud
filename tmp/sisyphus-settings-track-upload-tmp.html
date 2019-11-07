@@ -21,20 +21,22 @@
             <p class="p0 m0 fs18 center">
                 Choose .thr or .svg file(s) to upload. If SVG lines are not showing correctly, you may need to convert shapes to paths.
             </p>
-
-            <input class="w100 mt20 b-none"
-					type="file"
-					data-on-mouse-down="model.reset_upload_tracks"
-					multiple />
-
-            <br clear="both">
-           
+            <div class="center pt20">
+                <label for="file-upload" class="custom-file-upload blue-hover"
+                    data-on-mouse-down="model.reset_upload_tracks">
+                    <i class="fa fa-cloud-upload"></i> Choose Track 
+                </label>
+                <input class="w100 mt20 b-none clickable blue-hover"
+                        id="file-upload"
+                        type="file"
+                        multiple />
+            </div>
 
             <div data-model="{{= model.sisbot_id }}">
                 <h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong"
                     data-if="{{= model.uploading_track }} == true"
                 >Processing Track(s)</h2>
-                <h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
+                <h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 montserrat_bold"
                     data-if="{{= model.uploading_track }} == false"
                     data-on-click="parent.upload_tracks"
                 >Upload Track(s)</h2>

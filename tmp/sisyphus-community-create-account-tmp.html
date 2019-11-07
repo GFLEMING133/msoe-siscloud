@@ -13,14 +13,13 @@
       <div class="i center shadow bg-grey-ll p30 m10 clickable active" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'settings','secondary':'wifi'}">Your Sisyphus must be connected to the internet via WiFi before you can
         successfully create an account. Click here to connect</div>
     </div>
-    <form>
       <div class="mt40 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
         <div class="bg-white black" data-model="{{= session.id }}" data-run="model.clear_errors">
           <h3 class="center fs18 fl12 less_strong">Enter the info below to set up your Sisyphus account.</h3>
 
-          <div class="bg-ll-red p10 sign_up_errors corner-5px" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div  data-foreach="model.errors">
-              <div class="warmRed strong red_triangle p5">{{= scope.value }}</div>
+          <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+            <div  data-foreach="model.errors" class="red_triangle center mb10">
+              <div class="red p5 montserrat_bold">{{= scope.value }}</div>
             </div>
           </div>
 
@@ -50,6 +49,5 @@
           </div>
         </div>
       </div>
-    </form>
   </div>
 </div>

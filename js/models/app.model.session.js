@@ -39,9 +39,7 @@ app.model.session = {
 				password_confirmation: '',
 			},
 
-			forgot_email: {
-				email: '',
-			},
+			forgot_email: '',
 
 			remember_me			: 'false', //community log
 			show_password		: 'false', //community log
@@ -384,36 +382,39 @@ app.model.session = {
     },
 
 
-    forgot_password: function(user_data) {
-        var errors = [];
-        if (!user_data || user_data == '') errors.push('Email cannot be blank');
-        var self = this;
+    forgot_password: function() {
+			var self = this;
+			this.set('errors', []);
+			user_email = this.get('forgot_email');
 
-        user_email = this.get('forgot_email'); //this is the object
+			if (!user_email || user_email == '') return this.add('errors', 'Email cannot be blank');
+			
+			if (!app.plugins.valid_email(user_email)) return this.add('errors', 'Not a valid email.') ;
 
-        function cb(obj) {
-            if (errors.length > 0 || obj.err)
-                return self.set('forgot_email', 'false').set('errors', [errors, 'That email is not in our system']);
-            self.set('errors', []);
+			function cb(obj) {
+					if (obj.err) return self.set('forgot_email', '').set('errors', ['That email is not in our system']);
 
-            self._process_email(user_email, obj.resp);
+					self.set('errors', []);
+					self._process_email(user_email, obj.resp);
 
+					app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
+					function(resp_num) {
+						if (resp_num == 1){
+								return;
+						}
+					},'Email Sent', ['OK']);
+		
+					app.trigger('session:active', {'primary':'community','secondary':'false'});
+			};
 
-        };
-        user_email._url = app.config.get_webcenter_url(); //this adds the url to be passed into t fetch()
-        user_email.endpoint = `/users/password.json/`; //this adds the endpoint to be passed into fetch() the email is already in the object,
+			var api_obj = {
+				_url: app.config.get_webcenter_url(),
+				endpoint: '/users/password.json/',
+				email: user_email
+			}
+			app.post.fetch(api_obj, cb, 0 );
 
-        console.log('user_email ==', user_email);
-		app.post.fetch(user_email, cb, 0 );
-		app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
-        function(resp_num) {
-            if (resp_num == 1){
-                return;
-            }
-
-		},'Email Sent', ['OK']);
-
-		app.trigger('session:active', {'primary':'community','secondary':'false'});
+		
 
     },
     _process_email: function(user, data_arr) {
