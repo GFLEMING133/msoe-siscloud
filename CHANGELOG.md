@@ -1,9 +1,13 @@
+#2019-11-07 1.8.69
+ - Socket reconnect bugfix, should not hammer the table with requests after lost socket/reconnect
+ - Onboarding includes opt-in for sharing log files
+ - Progress bar added for Firmware Update. Future sisbot updates will include the current step in progress.
 #2019-10-25 1.8.68
- - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues 
+ - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues
  - Add track circle onclick target range adjusted and centered/ count positioned in center of buttons.
  - padding adjusted for All Tracks
  - Splash screen has no more scrunch
- - database fixed for community downloading issues. 
+ - database fixed for community downloading issues.
  - Fixed race conditions when when hitting shuffle
  - added media query for Primary and Secondary buttons for iOs 7 and older
  - added media_query for playback-controls to target SE
@@ -36,8 +40,8 @@
  - Android SDK bumped up to 29 for Android 10 support (fixes app compatibility in Google Play when downloading app)
  - community model.limit set to 30 (was 40)
  - <br/> fixes
- -  beautified files 
-#2019-10-17 1.8.64 
+ -  beautified files
+#2019-10-17 1.8.64
  - Added Pagination to community tracks
  - Added lazy loading for images and pagination to speed up on-loading.
  - Multiple download with checkboxes added to Community
@@ -49,10 +53,10 @@
  - Updated cordova plugins.
  - SIRI Shortcuts added
 #2019-10-2 1.8.62 & 63
- - Added multiple download to community and add to playlist. 
+ - Added multiple download to community and add to playlist.
  - Added community model
  - reworked download_wc()
- - Sort by download_count (Most Popular) added. 
+ - Sort by download_count (Most Popular) added.
  - Spinner added to fetching community tracks
 #2019-10-2 1.8.60
  - Added conditional for _processing_registration() to fix re-sign-up error.

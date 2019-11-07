@@ -537,13 +537,14 @@ app.model.sisbot = {
 
 		var defaults = {
 			do_not_remind			: 'true',
-			timezone_offset			: moment().format('Z'),
-			name					: data.name,
+			timezone_offset		: moment().format('Z'),
+			name							: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
+			share_log_files		: 'false',
 			is_sleep_enabled	: 'true',
 			sleep_time				: '10:00 PM',
-			wake_time				: '8:00 AM',
+			wake_time					: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
 			nightlight_brightness	: data.nightlight_brightness
 		}

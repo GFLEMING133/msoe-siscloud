@@ -24,7 +24,7 @@
             <input class="fs18 pl10 w100" type="text" placeholder="Sisyphus Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.default_settings.name" value="{{= model.default_settings.name }}" />
           </div>
 
-          <h4 class="pt10 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
+          <h4 class="pt30 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
           <div class="pb20 flex vertical-align">
             <div class="w24-2">
               <i class="fas fa-sun" aria-hidden="true"></i>
@@ -42,15 +42,30 @@
               <i class="fas fa-sun f-large" aria-hidden="true"></i>
             </div>
           </div>
-
-          <div class="pt20 vertical" data-on-click="model.set_autodim_default" data-if="{{= model.data.is_autodim_allowed }} !== false">
+          <div class="pt0 vertical"
+              data-on-click="model.set_autodim_default"
+              data-if="{{= model.data.is_autodim_allowed }} !== false">
             <span class=" f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
             <span class=" f-large bg-white far fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
             <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
           </div>
 
+          <h4 class="pt30 pb5 fs18 lh18 strong no-stuffing">Share Logs</h4>
+          <p class="p0 m0">
+            Automatically share log files to help us improve the firmware of your Sisyphus Table.
+          </p>
+          <div class="pt0 vertical"
+              data-on-click="toggle"
+              data-field="model.default_settings.share_log_files"
+              data-if="{{= model.default_settings.share_log_files }} !== undefined"
+              tg-name="log_file_toggle_checkbox">
+            <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.share_log_files }} == true"></span>
+            <span class="black f-large bg-white far fa-square" data-if="{{= model.default_settings.share_log_files }} !== true"></span>
+            <p class="no-stuffing pl10 w100 fs18">Share Log Files</p>
+          </div>
           <p class="p15 mt20 mb100 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong" data-on-click="parent.should_show_nightlight">Next Step</p>
         </div>
+
       </div>
     </div>
   </div>

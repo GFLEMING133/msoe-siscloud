@@ -32,7 +32,10 @@ app.socket = {
 
 		if (this.reset_socket) {
 			console.log("Socket: Reset new Socket");
-		} else if (this.server_ip == ip) return console.log("Same Socket IP, skip recreate", ip);
+		} else if (this.server_ip == ip) {
+			app.trigger("socket:reconnect", null);
+			return console.log("Same Socket IP, skip recreate", ip);
+		}
 
 		this.server_ip = ip;
     console.log('Socket: Address', this.server_ip);
