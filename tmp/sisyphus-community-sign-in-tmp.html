@@ -52,7 +52,8 @@
               autocapitalize="off"
               spellcheck="false"
               data-field="model.registration.password"
-              value="{{= model.registration.password }}" />
+              value="{{= model.registration.password }}"
+              data-on-key-enter="model.sign_in" />
         </div>
 
         <div class="pt10 pull-left clickable" data-on-click="toggle" data-field="model.remember_me">

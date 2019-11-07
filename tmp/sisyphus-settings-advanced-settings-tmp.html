@@ -14,23 +14,23 @@
   </div>
   <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="advanced_settings_page">
       <div class="bb p20 fs14 flex" data-model="{{= model.sisbot_id }}">
-          <div class="w40 strong">Sisyphus ID</div>
+          <div class="w40 strong"> ID</div>
           <div class="w60 truncate pull-right grey">{{= model.id }}</div>
       </div>
       <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
-          <span class="strong">Sisyphus URL</span>
+          <span class="strong"> URL</span>
           <span class="pull-right grey">{{= model.data.hostname }}:3001</span>
       </div>
       <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
-          <span class="strong">Sisyphus IP Address</span>
+          <span class="strong"> IP Address</span>
           <span class="pull-right grey">{{= model.data.local_ip }}</span>
       </div>
       <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
-          <span class="strong">Sisyphus MAC Address</span>
+          <span class="strong"> MAC Address</span>
           <span class="pull-right grey">{{= model.data.mac_address }}</span>
       </div>
       <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
-          <span class="strong">Sisyphus Firmware Version</span>
+          <span class="strong"> Firmware Version</span>
           <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
       </div>
 
