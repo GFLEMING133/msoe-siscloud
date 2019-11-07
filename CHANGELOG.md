@@ -9,7 +9,7 @@
  - ui changes for smaller phones /playback controls, buttons, font-size,
  - model:close if error whn downloading tracks from Community
  - added data-run=model.setup_edit for routing to Edit Playlist from Home on app load.
- - Socket reconnect bugfix, should not hammer the table with requests after lost socket/reconnect
+ - Socket reconnect bug fix, should not hammer the table with requests after lost socket/reconnect
  - Onboarding includes opt-in for sharing log files
  - Forgot_password function rewrote to handle errors. 
  - restyled errors in Community
@@ -17,6 +17,8 @@
  - Removed Sisyphus from the Advanced page in front of id, ip address....
  - Log File opt in added to onboarding. 
  - styled upload file button in the Upload Tracks page.
+ - Servo Faults in Sisbot 1.10.52+ don't block UI
+ - Share Log Files save button appears only when necessary
 #2019-10-25 1.8.68
  - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues
  - Add track circle onclick target range adjusted and centered/ count positioned in center of buttons.

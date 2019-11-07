@@ -113,7 +113,6 @@ app.model.playlist = {
 		data.is_current			= true;
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
@@ -128,7 +127,6 @@ app.model.playlist = {
 		data.next_tracks		= _.range(0, data.tracks.length);
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	play_shuffled: function () {
 		var data				= JSON.parse(JSON.stringify(this.get('data')));
@@ -139,7 +137,6 @@ app.model.playlist = {
 		delete data.is_current;
 
 		app.trigger('sisbot:update_playlist', data);
-		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	update_duration: function () {
 		var duration = 0;

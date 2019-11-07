@@ -1536,7 +1536,7 @@ function Element(el, parent, _scope) {
     var field = self.get_field(self.data.field);
     model.set(field, self.data.value, { silent: true });
 
-    if (self.data.onKeyUp) self._call(self.data.onKeyUp, self.data);
+    if (self.data.onKeyUp) self._call(self.data.onKeyUp, self.data); // TODO: fix value sent
 
     // MAP SPECIFIC KEYS
     var map = {
@@ -1549,7 +1549,7 @@ function Element(el, parent, _scope) {
     var $attr       = self.data['onKey' + $map];
 
     if ($map && $attr) {
-      self._call($attr, self.data);
+      self._call($attr, self.data); // TODO: fix value sent
       if ($el) $el.val(self.data.value);
     }
   };
