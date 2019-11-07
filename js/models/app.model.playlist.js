@@ -5,35 +5,35 @@ app.model.playlist = {
 			type			: 'playlist',
 
 			eligible_tracks	: [],
-			active_tracks	: [],
+			active_tracks		: [],
 			edit		: {
-				name		: '',
+				name				: '',
 				description	: '',
 			},
 			add_playlist_tracks: {},
 			data		: {
-				id					: data.id,
+				id						: data.id,
 				type    			: 'playlist',
 				version				: this.current_version,
 
-                name                : '',
-                description         : '',
-				duration			: '',				// mins
+        name                : '',
+        description         : '',
+				duration						: '',				// mins
 				duration_formatted	: '',				// HH:mm
 
 				is_published		: 'false',
 				is_shuffle			: 'false',			// same from sisbot
-				is_loop				: 'true',			// same from sisbot
+				is_loop					: 'true',			// same from sisbot
 
 				active_track_index	: -1,
-				active_track_id		: 'false',
+				active_track_id			: 'false',
 
-				tracks           	: [], 				// list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
+				tracks          : [], 				// list of objects { id, vel, accel, thvmax, reversed, firstR, lastR, reversible }
 				sorted_tracks		: [],				// display to users
 				next_tracks			: [],				//
 
 				created_by_id		: 'false',
-				created_by_name		: 'User Name',
+				created_by_name	: 'User Name',
 			}
 		};
 
@@ -160,8 +160,8 @@ app.model.playlist = {
 	/**************************** EDIT ****************************************/
 	setup_edit: function () {
 		this.set('active_tracks', this.get('data.tracks').slice())
-			.set('edit.name', this.get('data.name'))
-			.set('edit.description', this.get('data.description'));
+		.set('edit.name', this.get('data.name'))
+		.set('edit.description', this.get('data.description'));
 
 			app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},

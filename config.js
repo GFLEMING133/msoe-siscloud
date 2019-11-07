@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.68', // read CHANGELOG.md push for roll into production with sisbot 1.9.49 /rendering issues addressed and db filename errors fixed for Community, 
+	  version				: '1.8.69', // read CHANGELOG.md /ui fixes, progress bar for update, Night Mode fix, Bind bug fixes and tg-names added for training_grounds
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

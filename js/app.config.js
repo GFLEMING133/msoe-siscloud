@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.68', // read CHANGELOG.md push for roll into production with sisbot 1.9.49 /rendering issues addressed and db filename errors fixed for Community
+	version				: '1.8.69', // read CHANGELOG.md /ui fixes, progress bar for update, Night Mode fix, Bind bug fixes and tg-names added for training_grounds
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {

@@ -1,3 +1,15 @@
+#2019-11-6 1.8.69
+ - Fixed Night Mode save issue added conditional for tables without update. 
+ - added save for log files.
+ - Puppeteer added to project and config.env = training added to the app.config.
+ - tg-names added everywhere fro training_grounds
+ - Update Table now has progress bar
+ - added MAC address to Advanced Settings
+ - fixed bug in Bind2
+ - ui changes for smaller phones /playback controls, buttons, font-size,
+ - socket reset fix
+ - model:close if error whn downloading tracks from Community
+ - added data-run=model.setup_edit for routing to Edit Playlist from Home on app load.
 #2019-10-25 1.8.68
  - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues 
  - Add track circle onclick target range adjusted and centered/ count positioned in center of buttons.
