@@ -1715,7 +1715,19 @@ input.cmn-toggle-round + label:before {
 input.cmn-toggle-round:checked + label:before {
   background-color: #8ce196;
 }
+/**************************** INPUT TYPE=FILE /CUSTOM INPUT*************************************/
+input[type=file] { display: none;}
 
+.custom-file-upload{
+	border: 1px solid #969494;
+	border-radius: 5px;
+	background: #969494;
+	color: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	cursor: pointer;
+	font-family: 'Montserrat-Bold', sans-serif;
+}
 /**************************** INPUT RANGE *************************************/
 
 input[type=range] {
@@ -1769,6 +1781,7 @@ input[type="range"]::-ms-fill-lower {
 input[type="range"]::-ms-fill-upper {
   background-color: #efefef;
 }
+
 
 
 /***************** ANIMATIONS *********************/

@@ -18,27 +18,27 @@
     <div class="bg-black hh50 w100 media_query_mt0 fixed2">
       <div class="center pt10">
         <div class="inline-block" data-if="{{= app.is_app }} == true">
-          <div class="inline-block bg-grey-hover p5 pl10 pr10 white b-white rounded mr10 clickable"
+          <div class="inline-block p5 pl10 pr10 white b-white rounded mr10 clickable blue-hover"
               data-model="{{= parent.sisbot_id }}"
               data-on-click="model.present_siri"
               data-msg="{'action':'play_playlist','phrase':'Play {{= parent.data.name }} Playlist','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
               data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
         </div>
-        <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded mr10 clickable"
+        <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
             data-on-click="model.play" 
             data-msg="{{= 0 }}"
             tg-name="playlists_play_btn">
           <i class="fas fa-play pr5 pl5"></i>
           Play
         </div>
-        <div class="inline-block bg-grey-hover p5 pl10 pr15 white b-white rounded ml10 clickable"
+        <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
             data-on-click="model.play_shuffled"
             tg-name="playlists_shuffle_btn">
           <i class="fas fa-random pr5 pl5"></i>
           Shuffle
         </div>
         <div class="inline-block" data-if="{{= app.is_app }} == true">
-          <div class="inline-block bg-grey-hover p5 pl10 pr10 white b-white rounded ml10 clickable"
+          <div class="inline-block blue-hover p5 pl10 pr10 white b-white rounded ml10 clickable"
               data-model="{{= parent.sisbot_id }}"
               data-on-click="model.present_siri"
               data-msg="{'action':'play_playlist','phrase':'Shuffle {{= parent.data.name }} Playlist','msg':{ 'id': '{{= parent.id }}', 'is_shuffle': 'true' },'identifier':'shuffle_{{= parent.id }}' }"
