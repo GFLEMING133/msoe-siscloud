@@ -1,70 +1,70 @@
 app.model.track = {
 	defaults: function (data) {
 		var obj = {
-			id							: data.id,
-			type						: 'track',
+			id								: data.id,
+			type							: 'track',
 
 			is_adding					: 'false',
-			playlist_ids				: [],
-			playlist_not_ids			: [],
+			playlist_ids			: [],
+			playlist_not_ids	: [],
 
-			upload_status				: 'hidden',		// hidden|false|uploading|success
-			sisbot_upload				: 'false',
-			community_track_downloaded	: 'false',
-			generating_thumbnails		: 'false',
-			downloading_community_track : 'false',
-			download_cloud				: 'false',
-			track_checked				: 'false',
+			upload_status										: 'hidden',		// hidden|false|uploading|success
+			sisbot_upload										: 'false',
+			community_track_downloaded			: 'false',
+			generating_thumbnails						: 'false',
+			downloading_community_track 		: 'false',
+			download_cloud									: 'false',
+			track_checked						:'false',
 
-			is_favorite					: 'false',
+			is_favorite							:'false',
 
-			d3							: 'false',
+			d3											:'false',
 			d3_data : {
-				background			: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
-				stroke				: '#797977', // #797977, #948252
-				stroke_width		: 3,
-				stroke_edge			: '#fdfaf3', // #fdfaf3, #f6ebcd
-				stroke_edge_width	: 6,
-				points				: [],
-				steps				: 0,
-				r_max_dist			: 0.1,
-				retrace_steps		: 5,
-				loaded				: "false",
-			circle					: "true",
-				circle_stroke		: '#d6d2ca',
-				circle_stroke_width	: 2,
-				square				: "false"
+				background						: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
+				stroke								: '#797977', // #797977, #948252
+				stroke_width					: 3,
+				stroke_edge						: '#fdfaf3', // #fdfaf3, #f6ebcd
+				stroke_edge_width			: 6,
+				points								: [],
+				steps									: 0,
+				r_max_dist						: 0.1,
+				retrace_steps					: 5,
+				loaded								: "false",
+				circle								: "true",
+				circle_stroke					: '#d6d2ca',
+				circle_stroke_width		: 2,
+				square								: "false"
 			},
-		edit_steps					: 15, // for slider
-			steps					: 15, // steps between svg points to make
+			edit_steps			: 15, // for slider
+			steps						: 15, // steps between svg points to make
 			max_steps				: 30, // max steps
 
 			data		: 			{
-				id					: data.id,
-				type    			: 'track',
-				version				: this.current_version,
+				id								: data.id,
+				type    					: 'track',
+				version						: this.current_version,
 
-        		name          		: '',
-				is_published		: 'false',
+        		name          : '',
+				is_published			: 'false',
 
-				duration			: '90',		// minutes
+				duration					: '90',		// minutes
 
-				created_by_id		: 'false',
-				email				: 'false', //community
+				created_by_id			: 'false',
+				email							: 'false', //community
 				created_by_name		: 'false', //community
-				is_public			: 'false', //community
+				is_public					: 'false', //community
 
 				original_file_type  : 'false', 	// thr|svg
-				has_verts_file		: 'false',
-				verts				: '',		// temporary
+				has_verts_file			: 'false',
+				verts								: '',		// temporary
 
 				default_vel			: 1,
 				default_accel		: 0.5,
-				default_thvmax		: 1,
-				reversed			: false,
-				firstR				: -1,
-				lastR				: -1,
-				type				: 'r',
+				default_thvmax	: 1,
+				reversed				: false,
+				firstR					: -1,
+				lastR						: -1,
+				type						: 'r',
 				reversible			: false
 			}
 		};

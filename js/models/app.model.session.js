@@ -1,53 +1,56 @@
 app.model.session = {
 	defaults: function (data) {
 		var obj = {
-			id				: data.id,
-			type			: 'session',
+			id						: data.id,
+			type					: 'session',
 			signed_in   	: 'false',
-			mode			: 'app',
+			mode					: 'app',
 			auth_token		: '',
 			active: {
 				primary				: 'false',
 				secondary			: 'false',
 				tertiary			: 'false',
 				user_id				: 'false',
-				playlist_id			: 'false',
+				playlist_id		: 'false',
 				track_id			: 'false',
 				sisbot_id			: 'false'
 			},
 			toggle: {
 				expanded			: 'false',
 			},
-			debug_mode				: 'false',
+			debug_mode					: 'false',
 			sisbot_hostnames		: [],
 
-			platform				: 'app',			// app|web
-			user_id					: 'false',
-			sign_in_id				: '',
+			platform							: 'app',			// app|web
+			user_id								: 'false',
+			sign_in_id						: '',
 			sisyphus_manager_id		: 'false',
-			modal_id				: 'false',
+			modal_id							: 'false',
 
-			user_registration: 'false', // false|sign_up|sign_in|hostname
+			user_registration			: 'false', // false|sign_up|sign_in|hostname
 
 			signing_up: 'false',
 			signing_in: 'false',
+
 			registration: {
 				username: '',
 				email: '',
 				password: '',
 				password_confirmation: '',
 			},
+
 			forgot_email: {
 				email: '',
 			},
-			remember_me: 'false', //community log
-			show_password: 'false', //community log
-			sisbot_id			: 'false',
+
+			remember_me			: 'false', //community log
+			show_password		: 'false', //community log
+			sisbot_id				: 'false',
 
 			data		: {
-				id			: data.id,
+				id				: data.id,
 				type    	: 'session',
-				version     : this.current_version,
+				version   : this.current_version,
 			}
 		};
 
