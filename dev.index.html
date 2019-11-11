@@ -26,6 +26,14 @@
 				<div class="bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
 			</div>
 			<div data-template="modal-tmp"></div>
+		  <!-- Fake Mouse -->
+		  <div class="absolute z3001"
+					data-if="{{= app.config.env }} == training"
+		      style="left:{{= session.mouse_x+1 }}px; top:{{= session.mouse_y+2 }}px;">
+		    <i class="f-medium fas fa-mouse-pointer white text-shadow"
+						data-on-mouse-move="model.update_mouse"></i>
+		    <i class="fas fa-mouse-pointer black absolute" style="top:2px;left:1px;"></i>
+		  </div>
 		</div>
 	</div>
 
