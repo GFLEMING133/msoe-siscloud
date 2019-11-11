@@ -13,6 +13,7 @@
  - Onboarding includes opt-in for sharing log files
  - Servo Faults in Sisbot 1.10.52+ don't block UI
  - Share Log Files save button appears only when necessary
+ - Fix Current Playing on change
 #2019-10-25 1.8.68
  - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues
  - Add track circle onclick target range adjusted and centered/ count positioned in center of buttons.

@@ -140,6 +140,9 @@ var Binding = Backbone.View.extend({
     data-model :: set the model to an id of a model in the collection
     data-state :: sets the values outside the model's data variable
     data-defaults :: sets the values in the model's data variable
+    data-run :: run a function before rendering the element
+    data-run-after :: run a function after render complete
+    data-run-msg :: pass a value into the data-run and/or data-run-after function
     data-if :: comparison of if the element and children should be shown
     data-foreach :: loops through the values given, using the first child as the repeated element OR cluster to loop through given cluster
     data-foreach-limit :: renders only the number of iterees given
@@ -165,6 +168,7 @@ var Binding = Backbone.View.extend({
     data-on-key-enter :: triggers event on Enter key being pressed, while this element is active
     data-on-mouse-over :: triggers event on mouseOver of element
     data-on-mouse-out :: triggers event on mouseOut of element
+    data-on-mouse-move :: triggers event on mouseMove of element
     data-on-mouse-down :: triggers event on mouseDown of element
     data-on-mouse-up :: triggers event on mouseUp of element
     data-on-touch-start :: triggers event on touchStart of element
@@ -329,7 +333,7 @@ function Element(el, parent, _scope) {
           app.trigger('bind:render');
         });
       } else {
-        if (this.data.run) this._call(this.data.run, this.data.runMsg);
+        if (this.data.run) this._call(this.data.run, this.get_value(this.data.runMsg));
         if (!_.isEmpty(this.data) && this.data.if) this.if();
         this.add_subviews(this.$el);
 
@@ -375,6 +379,10 @@ function Element(el, parent, _scope) {
       if (this.data.onMouseOut) {
         this.events.push('mouseout');
         $el.on('mouseout', {el:this}, this.on_mouse_out);
+      }
+      if (this.data.onMouseMove) {
+        this.events.push('mousemove');
+        $el.on('mousemove', {el:this}, this.on_mouse_move);
       }
       if (this.data.onMouseDown) {
         this.events.push('mousedown');
@@ -661,7 +669,7 @@ function Element(el, parent, _scope) {
   this.get_value = function(val, plain_text) {
     var self    = this;
     var err_out = false;
-    // console.log("Get Value", val);
+    if (this.data.debug) console.log("Get Value", val);
     var _start_val = val;
 
     if (!val || val == true) return val;
@@ -835,6 +843,28 @@ function Element(el, parent, _scope) {
 
     this.listeners.length = 0;
   };
+  this.shift_heirarchy = function(value) {
+    var returnValue = value;
+
+    if (value.indexOf('g_g_grandparent.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+g_g_grandparent/, 'parents[4]');
+    }
+    if (value.indexOf('g_grandparent.') >= 0)  {
+      returnValue = returnValue.replace(/[\s=]+g_grandparent/, 'parents[3]');
+    }
+    if (value.indexOf('grandparent.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+grandparent/, 'parents[2]');
+    }
+    if (value.indexOf('parent.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+parent/, 'parents[1]');
+    }
+    if (value.indexOf('model.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+model/, 'parents[0]');
+    }
+
+    if (this.data.debug) console.log("Shift", value, returnValue);
+    return returnValue;
+  };
   this.setup_listeners = function() {
     var self = this;
 
@@ -968,7 +998,13 @@ function Element(el, parent, _scope) {
 
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
-              var new_value = self.get_value(self.el[key]);
+              var new_value;
+
+              if (key == 'data-model') {
+                var shifted_value = self.shift_heirarchy(self.el[key]);
+                if (self.data.debug) console.log("Model shifted: ", shifted_value);
+                new_value =  self.get_value(shifted_value);
+              } else new_value = self.get_value(self.el[key]);
               if (new_value === undefined) {
                 if (self.data.debug) console.log(self.el_id+" Skip trigger", trigger_str);
                 return;
@@ -1472,6 +1508,9 @@ function Element(el, parent, _scope) {
 
     // Listen for lib reset
     if (this.is_lib) this.setup_libs();
+
+    // run after?
+    if (this.data.runAfter) this._call(this.data.runAfter, this.get_value(this.data.runMsg));
   };
   /***************************** EVENTS **************************************/
   this.on_click = function(e) {
@@ -1531,7 +1570,7 @@ function Element(el, parent, _scope) {
 
     // console.log("On Key:", e);
 
-    self.data.value                         = $el.val().replace(/(?:\r\n|\r|\n)/gi, '');
+    self.data.value = $el.val().replace(/(?:\r\n|\r|\n)/gi, '');
     var model = self.get_model(self.data.field);
     var field = self.get_field(self.data.field);
     model.set(field, self.data.value, { silent: true });
@@ -1590,6 +1629,8 @@ function Element(el, parent, _scope) {
     var self = e.data.el;
 
     if (self.data.onMouseOut) {
+      var msg = self.data.msg;
+
       if (!self.data.msg) {
         var $el = $(e.originalEvent.target);
         var pos = $el.position();
@@ -1598,64 +1639,108 @@ function Element(el, parent, _scope) {
           y : pos.top,
           width : $el.width(),
           height : $el.height(),
+          offset_x: e.originalEvent.offsetX,
+          offset_y: e.originalEvent.offsetY,
           mouse_x : e.originalEvent.clientX,
           mouse_y : e.originalEvent.clientY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
-        self.data.msg = JSON.stringify(element_obj);
+        msg = JSON.stringify(element_obj);
       }
 
       // console.log("onMouseOut", this.data.msg);
-      self._call(self.data.onMouseOut, self.get_value(self.data.msg));
+      self._call(self.data.onMouseOut, self.get_value(msg));
+    }
+  };
+  this.on_mouse_move = function (e) {
+    var self = e.data.el;
+
+    if (self.data.onMouseMove) {
+      var msg = self.data.msg;
+
+      if (!self.data.msg) {
+        var $el = $(e.originalEvent.target);
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          offset_x: e.originalEvent.offsetX,
+          offset_y: e.originalEvent.offsetY,
+          mouse_x : e.originalEvent.clientX,
+          mouse_y : e.originalEvent.clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onMouseMove", msg);
+      self._call(self.data.onMouseMove, self.get_value(msg));
     }
   };
   this.on_mouse_down = function (e) {
     var self = e.data.el;
 
     if (self.data.onMouseDown) {
+      var msg = self.data.msg;
+
       if (!self.data.msg) {
         var $el = $(e.originalEvent.target);
         var pos = $el.position();
+
+        if (self.data.debug) console.log("Mouse Down", e);
+
         var element_obj = {
           x : pos.left,
           y : pos.top,
           width : $el.width(),
           height : $el.height(),
+          offset_x: e.originalEvent.offsetX,
+          offset_y: e.originalEvent.offsetY,
           mouse_x : e.originalEvent.clientX,
           mouse_y : e.originalEvent.clientY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
-        self.data.msg = JSON.stringify(element_obj);
+        msg = JSON.stringify(element_obj);
       }
 
       // console.log("onMouseDown", this.data.msg);
-      self._call(self.data.onMouseDown, self.get_value(self.data.msg));
+      self._call(self.data.onMouseDown, self.get_value(msg));
     }
   };
   this.on_mouse_up = function (e) {
     var self = e.data.el;
 
     if (self.data.onMouseUp) {
+      var msg = self.data.msg;
+
       if (!self.data.msg) {
         var $el = $(e.originalEvent.target);
         var pos = $el.position();
+
+        if (self.data.debug) console.log("Mouse Up", e);
+
         var element_obj = {
           x : pos.left,
           y : pos.top,
           width : $el.width(),
           height : $el.height(),
+          offset_x: e.originalEvent.offsetX,
+          offset_y: e.originalEvent.offsetY,
           mouse_x : e.originalEvent.clientX,
           mouse_y : e.originalEvent.clientY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
-        self.data.msg = JSON.stringify(element_obj);
+        msg = JSON.stringify(element_obj);
       }
 
       // console.log("onMouseUp", this.data.msg);
-      self._call(self.data.onMouseUp, self.get_value(self.data.msg));
+      self._call(self.data.onMouseUp, self.get_value(msg));
     }
   };
   this.on_touch_start = function (e) {
@@ -1974,6 +2059,22 @@ function Element(el, parent, _scope) {
   this.iro_remove = function () {
     console.log("Iro destroy", self.el_id);
     if (this.libraries.iro)  delete this.libraries.iro;
+  };
+  this.d3 = function() {
+    if (this.libraries.d3) return console.log("d3 already loaded");
+
+    var self = this;
+
+    app.scripts.fetch('js/libs/lib.d3.min.js', function () {
+      var $el = $('.'+self.el_id);
+
+      app.trigger('lib:loaded');
+
+      if (!$el) return false;
+    });
+  };
+  this.d3_remove = function () {
+    if (this.libraries.d3 && _.isFunction(this.libraries.d3.destroy)) this.libraries.d3.destroy();
   };
   //
   _.extend(this.initialize(el, parent, _scope), Backbone.Events);
