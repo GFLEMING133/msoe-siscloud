@@ -542,7 +542,7 @@ app.model.sisbot = {
 			name							: data.name,
 			brightness				: data.brightness,
 			is_autodim				: data.is_autodim,
-			share_log_files		: 'false',
+			share_log_files		: 'true',
 			is_sleep_enabled	: 'true',
 			sleep_time				: '10:00 PM',
 			wake_time					: '8:00 AM',

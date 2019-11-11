@@ -92,8 +92,10 @@ app.model.session = {
 	export_data	: function () { return this; },
 	save		: function () { return this; },
 	update_mouse: function(data) {
-		this.set('mouse_x', data.mouse_x);
-		this.set('mouse_y', data.mouse_y);
+		if(app.config.env == "training") {
+			this.set('mouse_x', data.mouse_x);
+			this.set('mouse_y', data.mouse_y);
+		}
 	},
 	/************************** SETUP MODES ***********************************/
 	valid_modes: ['sisyphus','siscloud'],
