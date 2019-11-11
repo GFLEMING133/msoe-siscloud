@@ -160,7 +160,7 @@ app.model.playlist = {
 		.set('edit.name', this.get('data.name'))
 		.set('edit.description', this.get('data.description'));
 
-			app.trigger('session:active', {'secondary':'playlist-edit'} );
+		app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},
 	cancel_edit: function () {
 		app.trigger('session:active', { secondary: 'playlist' });

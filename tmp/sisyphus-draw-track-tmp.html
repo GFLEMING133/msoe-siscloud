@@ -1,0 +1,74 @@
+<div class="h100"
+    data-scope="true"
+    data-defaults="{'type':'drawing', 'name':'My Drawing'}">
+  <div class="white bg-black pull-top w100 center no-stuffing hh50 flex vertical-align">
+    <div class="w30 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'false'}"
+    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh24 capitalize truncate">Draw</h1>
+    </div>
+    <div class="w15 pt30 center">&nbsp;</div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar"
+      data-run="model.setup_edit"
+      tg-name="drawing_page">
+    <div class="pt20 pb20 pl40 pr40">
+      <div class="fs18 lh18 no-stuffing strong">Track Name</div>
+      <input class="corner-5px mt5 w100"
+          type="text"
+          placeholder="Track Name"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-field="model.edit.name"
+          value="{{= model.edit.name }}" />
+    </div>
+    <div class="d3 bg-white w100 p10"
+        lib-d3="true"
+        data-run-after="model.draw_preview"
+        data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
+        data-on-mouse-down="model.start_drag"
+        data-on-mouse-move="model.drag"
+        data-on-mouse-up="model.stop_drag"
+        data-on-touch-down="model.start_drag"
+        data-on-touch-move="model.drag"
+        data-on-touch-up="model.stop_drag"></div>
+    <!-- <div>{{= model.drag_pos.current.x }} :: {{= model.drag_pos.current.y }}</div>
+    <div>{{= model.drag_pos.current.d }} :: {{= model.drag_pos.current.r }}</div> -->
+    <div class="pt20 pb20 pl40 pr40">
+      <div class="pull-right fs18 lh18 no-stuffing strong">
+        End at
+        <select class="w10 corner-5px fs18 lh20 p10 pt7 pb7"
+            data-field="model.edit.lastR"
+            data-selected="{{= model.edit.lastR }}">
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+      </div>
+      <div class="fs18 lh18 no-stuffing strong">
+        Start at
+        <select class="w10 corner-5px fs18 lh20 p10 pt7 pb7"
+            data-field="model.edit.firstR"
+            data-selected="{{= model.edit.firstR }}">
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex-center-row w100 pt25 pb50">
+      <div class="p10 flex">
+        <div class="w100 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong"
+            data-on-click="model.clear">Clear</div>
+      </div>
+      <div class="p10 flex">
+        <div class="w100 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong"
+            data-on-click="model.save">Save</div>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

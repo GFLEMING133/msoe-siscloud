@@ -44,7 +44,7 @@ app.model.track = {
 				type    					: 'track',
 				version						: this.current_version,
 
-        		name          : '',
+    		name          		: '',
 				is_published			: 'false',
 
 				duration					: '90',		// minutes
