@@ -15,11 +15,6 @@
           Automatically shut down your Sisyphus and optionally use it as a night light.
         </p>
 
-        <!-- <div class="pt20 mt20 mb10 pt10 pb10 w100 vertical" data-on-click="model.nightmode_disable_toggle_setup">
-                    <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_sleep_enabled }} !== false"></span>
-                    <span class="black f-large bg-white far fa-square" data-if="{{= model.default_settings.is_sleep_enabled }} == false"></span>
-                    <p class="no-stuffing pl10 w100 fs18">Enable Night Mode</p>
-                </div> -->
         <div class="pt10 mt20 w100 vertical">
           <i class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
               data-if="{{= model.default_settings.is_sleep_enabled }} !== false"
@@ -36,11 +31,6 @@
           <div class="flex">
             <div class="w50 pr20">
               <h4 class="pb5 fs18 lh18 strong no-stuffing">Start</h4>
-              <!-- <div class="corner-5px right fs18 lh18 p10 b2 bg-white w100" type="text" placeholder="10:00 PM"
-                                data-on-click="time_open"
-                                data-field="model.default_settings.sleep_time"
-                                data-time="{{= model.default_settings.sleep_time }}"
-                            >{{= model.default_settings.sleep_time }}</div> -->
               <input class="w100 less_strong"
                   type="text"
                   placeholder="10:00 PM"
@@ -50,11 +40,6 @@
             </div>
             <div class="w50 pr20">
               <h4 class="pb5 fs18 lh18 strong no-stuffing">End</h4>
-              <!-- <div class="corner-5px right fs18 lh18 p10 b2 bg-white w100" type="text" placeholder="8:00 AM"
-                                data-on-click="time_open"
-                                data-field="model.default_settings.wake_time"
-                                data-time="{{= model.default_settings.wake_time }}"
-                            >{{= model.default_settings.wake_time }}</div> -->
               <input class="w100 less_strong"
                   type="text"
                   placeholder="8:00 AM"
@@ -63,16 +48,6 @@
                   value="{{= (model.data.wake_time == 'false') ? moment().hour(8).minute(0).format('h:mm A') : model.data.wake_time }}" />
             </div>
           </div>
-
-          <!-- <div class="pt20 pb20 vertical"
-                        data-on-click="toggle"
-                        data-field="model.default_settings.is_nightlight"
-                        data-if="{{= model.default_settings.is_nightlight }} !== undefined"
-                    >
-                        <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_nightlight }} == true"></span>
-                        <span class="black f-large bg-white far fa-square" data-if="{{= model.default_settings.is_nightlight }} !== true"></span>
-                        <p class="no-stuffing pl10 w100 fs18">Enable Night Light</p>
-                    </div> -->
           <div class="pt10 mb10 w100 vertical">
             <span class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
                 data-if="{{= model.default_settings.is_nightlight }} == true"

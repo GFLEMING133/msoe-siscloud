@@ -116,10 +116,10 @@ if (window.location.href.indexOf('localhost') > -1) {
 		if (env != 'beta') {
 			console.log("Env:", env);
 			app.config.env = env;
-			// app.config.envs.beta.base_url = app.config.envs[env].base_url;
-			// app.config.envs.beta.api_url = app.config.envs[env].api_url;
-			// app.config.envs.beta.web_url = app.config.envs[env].web_url;
-			// app.config.envs.beta.sisbot_url = app.config.envs[env].sisbot_url;
+			// app.config.envs.beta.base_url 		= app.config.envs[env].base_url;
+			// app.config.envs.beta.api_url 		= app.config.envs[env].api_url;
+			// app.config.envs.beta.web_url 		= app.config.envs[env].web_url;
+			// app.config.envs.beta.sisbot_url 	= app.config.envs[env].sisbot_url;
 		}
 	}
 
