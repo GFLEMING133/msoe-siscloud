@@ -1412,6 +1412,13 @@ app.model.sisbot = {
 	speed_min: function () {
 		this.speed(0);
 	},
+	showMouse: function() {
+		var x = event.clientX;
+		var y = event.clientY;
+		var coords = "X coords: " + x + ", Y coords: " + y;
+		console.log('Coordinates are =', coords)
+
+	},
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
 
