@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.69', // read CHANGELOG.md
+	  version				: '1.8.70', // current-tmp now rendering correctly, show_log_files=true read CHANGELOG.md
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {
