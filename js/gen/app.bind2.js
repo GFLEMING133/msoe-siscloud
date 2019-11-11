@@ -201,7 +201,7 @@ function Element(el, parent, _scope) {
   this.libraries = {};
 
   this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = true; // show/hide data-____ values in html
+  this.show_data = false; // show/hide data-____ values in html
   this.show_lib = false;
   // this.show_tg = false; // moved to config
 
@@ -843,6 +843,28 @@ function Element(el, parent, _scope) {
 
     this.listeners.length = 0;
   };
+  this.shift_heirarchy = function(value) {
+    var returnValue = value;
+
+    if (value.indexOf('g_g_grandparent.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+g_g_grandparent/, 'parents[4]');
+    }
+    if (value.indexOf('g_grandparent.') >= 0)  {
+      returnValue = returnValue.replace(/[\s=]+g_grandparent/, 'parents[3]');
+    }
+    if (value.indexOf('grandparent.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+grandparent/, 'parents[2]');
+    }
+    if (value.indexOf('parent.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+parent/, 'parents[1]');
+    }
+    if (value.indexOf('model.') >= 0) {
+      returnValue = returnValue.replace(/[\s=]+model/, 'parents[0]');
+    }
+
+    if (this.data.debug) console.log("Shift", value, returnValue);
+    return returnValue;
+  };
   this.setup_listeners = function() {
     var self = this;
 
@@ -976,7 +998,13 @@ function Element(el, parent, _scope) {
 
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
-              var new_value = self.get_value(self.el[key]);
+              var new_value;
+
+              if (key == 'data-model') {
+                var shifted_value = self.shift_heirarchy(self.el[key]);
+                if (self.data.debug) console.log("Model shifted: ", shifted_value);
+                new_value =  self.get_value(shifted_value);
+              } else new_value = self.get_value(self.el[key]);
               if (new_value === undefined) {
                 if (self.data.debug) console.log(self.el_id+" Skip trigger", trigger_str);
                 return;
@@ -1649,7 +1677,7 @@ function Element(el, parent, _scope) {
         msg = JSON.stringify(element_obj);
       }
 
-      // console.log("onMouseMove", this.data.msg);
+      // console.log("onMouseMove", msg);
       self._call(self.data.onMouseMove, self.get_value(msg));
     }
   };

@@ -5,6 +5,10 @@ app.model.session = {
 			type					: 'session',
 			signed_in   	: 'false',
 			mode					: 'app',
+
+			mouse_x							: 0,
+			mouse_y							: 0,
+
 			auth_token		: '',
 			active: {
 				primary				: 'false',
@@ -81,13 +85,16 @@ app.model.session = {
 	on_reset: function () {
 		if (app.config.env == 'server') return this;
 
-		if (!app.is_app)
-			this.set('platform', 'web');
+		if (!app.is_app) this.set('platform', 'web');
 
 		this.setup_mode();
 	},
 	export_data	: function () { return this; },
 	save		: function () { return this; },
+	update_mouse: function(data) {
+		this.set('mouse_x', data.mouse_x);
+		this.set('mouse_y', data.mouse_y);
+	},
 	/************************** SETUP MODES ***********************************/
 	valid_modes: ['sisyphus','siscloud'],
 	setup_mode: function () {
@@ -388,7 +395,7 @@ app.model.session = {
 			user_email = this.get('forgot_email');
 
 			if (!user_email || user_email == '') return this.add('errors', 'Email cannot be blank');
-			
+
 			if (!app.plugins.valid_email(user_email)) return this.add('errors', 'Not a valid email.') ;
 
 			function cb(obj) {
@@ -403,7 +410,7 @@ app.model.session = {
 								return;
 						}
 					},'Email Sent', ['OK']);
-		
+
 					app.trigger('session:active', {'primary':'community','secondary':'false'});
 			};
 
@@ -414,7 +421,7 @@ app.model.session = {
 			}
 			app.post.fetch(api_obj, cb, 0 );
 
-		
+
 
     },
     _process_email: function(user, data_arr) {
