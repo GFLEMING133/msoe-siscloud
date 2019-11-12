@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.70', // current-tmp now rendering correctly, show_log_files=true
+	version				: '1.8.70', // current-tmp now rendering correctly, show_log_files=true, rhtml of undefined addressed
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {

@@ -2,7 +2,8 @@
  - Fix Current Playing on change
  - added font-awesome mouse for training grounds to the dev.index
  - share_log-files- true for onboarding. 
- - bind2 bugs
+ - bind2 bugs (html of undefined, race conditions, and rendering issues)
+ - update is quicker (sisbot repo)
 
 #2019-11-6 1.8.69
  - Fixed Night Mode save issue added conditional for tables without update.
