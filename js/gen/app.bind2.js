@@ -1483,7 +1483,7 @@ function Element(el, parent, _scope) {
   this.render_children = function() {
     var returnValue = '';
       _.each(this.subviews, function(child_el) {
-        returnValue += child_el.html();
+        if (child_el) returnValue += child_el.html();
       });
 
     return returnValue;
