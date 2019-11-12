@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.69', // read CHANGELOG.md /ui fixes, progress bar for update, Night Mode fix, Bind bug fixes and tg-names added for training_grounds
+	version				: '1.8.70', // current-tmp now rendering correctly, show_log_files=true
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {

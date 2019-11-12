@@ -1,3 +1,9 @@
+#2019-11-11 1.8.70
+ - Fix Current Playing on change
+ - added font-awesome mouse for training grounds to the dev.index
+ - share_log-files- true for onboarding. 
+ - bind2 bugs
+
 #2019-11-6 1.8.69
  - Fixed Night Mode save issue added conditional for tables without update.
  - added save button for log files.
@@ -19,7 +25,7 @@
  - styled upload file button in the Upload Tracks page.
  - Servo Faults in Sisbot 1.10.52+ don't block UI
  - Share Log Files save button appears only when necessary
- - Fix Current Playing on change
+
 #2019-10-25 1.8.68
  - data-foreach-limit added to next_tracks and sort_tracks in the sisyphus-current.html for rendering issues
  - Add track circle onclick target range adjusted and centered/ count positioned in center of buttons.

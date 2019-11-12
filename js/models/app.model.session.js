@@ -92,7 +92,7 @@ app.model.session = {
 	export_data	: function () { return this; },
 	save		: function () { return this; },
 	update_mouse: function(data) {
-		if (app.config.env == 'training') {
+		if(app.config.env == "training") {
 			this.set('mouse_x', data.mouse_x);
 			this.set('mouse_y', data.mouse_y);
 		}

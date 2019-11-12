@@ -14,15 +14,19 @@
         <div class="flex vertical-align pl20 pr20">
           <div class="w5 center clickable active pt15 pb15" 
               data-on-click="model.speed_min"
-              tg-name="speed_slider">
+              tg-name="turtle_icon">
             <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
           </div>
-          <div class="w90 flex relative center">
+          <div class="w90 flex relative center"
+              tg-name="speed_slider_div"
+              data-on-click="model.showMouse">
             <span class="w5"></span>
-            <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true" data-on-input="model.speed" value="{{= model.edit.speed }}" />
+            <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true" data-on-input="model.speed" value="{{= model.edit.speed }}" tg-name="speed_slider" />
             <span class="w5"></span>
           </div>
-          <div class="w5 center clickable active pt15 pb15" data-on-click="model.speed_max">
+          <div class="w5 center clickable active pt15 pb15" 
+              data-on-click="model.speed_max"
+              tg-name="rabbit_icon">
             <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
           </div>
         </div>

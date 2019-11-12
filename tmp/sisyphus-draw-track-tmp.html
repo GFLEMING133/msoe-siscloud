@@ -37,8 +37,19 @@
         data-on-touch-down="model.start_drag"
         data-on-touch-move="model.drag"
         data-on-touch-up="model.stop_drag"></div>
-    <div class="pt20 pb20 pl40 pr40">
-      <div class="pull-right fs18 lh18 no-stuffing strong">
+    <div class="pt10 pb10 pl40 pr40 fs18 lh18 no-stuffing strong">
+      <span class="clickable"
+          data-on-click="toggle"
+          data-field="model.edit.is_mirror">
+        <span class="black f-large bg-white fas fa-check-square"
+            data-if="{{= model.edit.is_mirror }} == true"></span>
+        <span class="black f-large bg-white far fa-square"
+            data-if="{{= model.edit.is_mirror }} == false"></span>
+        Mirror
+      </span>
+    </div>
+    <div class="pt10 pb10 pl40 pr40">
+      <div class="pull-right fs18 lh18 no-stuffing strong" data-if="{{= model.edit.is_mirror }} == false">
         End at
         <select class="w10 corner-5px fs18 lh20 p10 pt7 pb7"
             data-field="model.edit.lastR"
@@ -48,7 +59,7 @@
         </select>
       </div>
       <div class="fs18 lh18 no-stuffing strong">
-        Start at
+        Start<span data-if="{{= model.edit.is_mirror }} == true">/End</span> at
         <select class="w10 corner-5px fs18 lh20 p10 pt7 pb7"
             data-field="model.edit.firstR"
             data-selected="{{= model.edit.firstR }}">
