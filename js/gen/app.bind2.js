@@ -201,7 +201,7 @@ function Element(el, parent, _scope) {
   this.libraries = {};
 
   this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = false; // show/hide data-____ values in html
+  this.show_data = true; // show/hide data-____ values in html
   this.show_lib = false;
   // this.show_tg = false; // moved to config
 
@@ -342,7 +342,7 @@ function Element(el, parent, _scope) {
         if (this.el_text && this.parent_element.data.debug) console.log('El_text', this.get_value(this.el_text));
       }
 
-      this.is_changed = false;
+      if (!this.data || !this.data.runAfter) this.is_changed = false;
     }
   };
   this.setup_events = function() {
@@ -1510,7 +1510,12 @@ function Element(el, parent, _scope) {
     if (this.is_lib) this.setup_libs();
 
     // run after?
-    if (this.data.runAfter) this._call(this.data.runAfter, this.get_value(this.data.runMsg));
+    if (this.is_changed && this.data.runAfter) {
+      console.log("Run After", this.is_changed, this.data.runAfter);
+      this._call(this.data.runAfter, this.get_value(this.data.runMsg));
+    }
+
+    this.is_changed = false;
   };
   /***************************** EVENTS **************************************/
   this.on_click = function(e) {

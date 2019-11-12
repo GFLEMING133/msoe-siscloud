@@ -21,19 +21,20 @@
 
 <body class="h100 no-stuffing">
 	<div class="body h100">
-		<div class="h100 touch-hover {{= model.mode }} {{= model.platform }}" data-model="current_session">
+		<div class="h100 relative touch-hover {{= model.mode }} {{= model.platform }}"
+				data-model="current_session"
+				data-on-mouse-move="model.update_mouse">
 			<div class="content h100">
 				<div class="bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
 			</div>
 			<div data-template="modal-tmp"></div>
-		  <!-- Fake Mouse -->
-		  <div class="absolute z3001"
+			<!-- Fake Mouse -->
+			<div class="absolute w10p z3001"
 					data-if="{{= app.config.env }} == training"
-		      style="left:{{= session.mouse_x+1 }}px; top:{{= session.mouse_y+2 }}px;">
-		    <i class="f-medium fas fa-mouse-pointer white text-shadow"
-						data-on-mouse-move="model.update_mouse"></i>
-		    <i class="fas fa-mouse-pointer black absolute" style="top:2px;left:1px;"></i>
-		  </div>
+					style="left:{{= session.mouse_x+1 }}px; top:{{= session.mouse_y+2 }}px;">
+				<i class="f-medium fas fa-mouse-pointer white text-shadow"></i>
+				<i class="fas fa-mouse-pointer black absolute" style="top:2px;left:1px;"></i>
+			</div>
 		</div>
 	</div>
 

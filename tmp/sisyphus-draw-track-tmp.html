@@ -1,6 +1,7 @@
 <div class="h100"
     data-scope="true"
-    data-defaults="{'type':'drawing', 'name':'My Drawing'}">
+    data-defaults="{'type':'drawing', 'name':'My Drawing'}"
+    data-run="model.setup_edit">
   <div class="white bg-black pull-top w100 center no-stuffing hh50 flex vertical-align">
     <div class="w30 left pl20 clickable active"
         data-on-click="publish"
@@ -13,7 +14,6 @@
     <div class="w15 pt30 center">&nbsp;</div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar"
-      data-run="model.setup_edit"
       tg-name="drawing_page">
     <div class="pt20 pb20 pl40 pr40">
       <div class="fs18 lh18 no-stuffing strong">Track Name</div>
@@ -37,8 +37,6 @@
         data-on-touch-down="model.start_drag"
         data-on-touch-move="model.drag"
         data-on-touch-up="model.stop_drag"></div>
-    <!-- <div>{{= model.drag_pos.current.x }} :: {{= model.drag_pos.current.y }}</div>
-    <div>{{= model.drag_pos.current.d }} :: {{= model.drag_pos.current.r }}</div> -->
     <div class="pt20 pb20 pl40 pr40">
       <div class="pull-right fs18 lh18 no-stuffing strong">
         End at
