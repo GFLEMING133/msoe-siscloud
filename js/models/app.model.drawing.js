@@ -50,7 +50,7 @@ app.model.drawing = {
 				firstR		: 0,
 				lastR			: 0,
         is_mirror : 'false', // reflect the movement
-        multiply  : 2,       // repeat the movement this many times around theta
+        multiply  : 1,       // repeat the movement this many times around theta
 
         verts     : [] // polar coordinates
 			}
@@ -86,7 +86,7 @@ app.model.drawing = {
 
     if (this.get('el_id') != data.el_id) this.set('el_id', data.el_id);
 
-    var w = $el.innerWidth() - 20;
+    var w = $el.innerWidth();
     this.set('width', w, {silent: true});
     var h = w;
     this.set('height', h, {silent: true});
@@ -103,6 +103,7 @@ app.model.drawing = {
     this.on('change:edit.firstR', this._draw_preview);
     this.on('change:edit.lastR', this._draw_preview);
     this.on('change:edit.is_mirror', this._draw_preview);
+    this.on('change:edit.multiply', this._draw_preview);
   },
   _draw_preview: function(data) {
     // console.log("_Draw Preview", data);
@@ -111,7 +112,7 @@ app.model.drawing = {
     var $el = $(this.get('el_id'));
     $el.empty();
 
-    var w = $el.innerWidth() - 20;
+    var w = $el.innerWidth();
     this.set('width', w, {silent: true});
     var h = w;
     this.set('height', h, {silent: true});
@@ -131,31 +132,31 @@ app.model.drawing = {
     svg.append("circle")
       .attr("cx", w / 2)
       .attr("cy", h / 2)
-      .attr("r", w / 2 - (d3_data.circle_stroke_width / 2))
+      .attr("r", w / 2 - 10)
       .attr('stroke', d3_data.circle_stroke)
       .attr('stroke-width', d3_data.circle_stroke_width)
       .attr("fill", d3_data.background);
 
     // zero line
-    this._line(svg, {x1:mid,y1:mid,x2:mid,y2:h,stroke:d3_data.circle_stroke,stroke_width:d3_data.zero_stroke_width});
+    this._line(svg, {x1:mid,y1:mid,x2:mid,y2:h-10,stroke:d3_data.circle_stroke,stroke_width:d3_data.zero_stroke_width});
 
     // start point
     var start_point = svg.append("circle")
       .attr("r", 3)
       .attr("fill", d3_data.start_color);
     if (this.get('edit.firstR') == 0) start_point.attr("cx", w / 2).attr("cy", h / 2);
-    else start_point.attr("cx", w / 2).attr("cy", h - 2);
+    else start_point.attr("cx", w / 2).attr("cy", h - 10);
 
     var coords = this.get('coords');
 
     // fill in end line under others
     if (this.get('is_dragging') != 'true' && coords.length > 0) {
       var last_point = coords[coords.length-1];
-      var y1 = h/2 + h/2 * +this.get('edit.lastR');
+      var y1 = h/2 + h/2 * +this.get('edit.lastR') - 10 * +this.get('edit.lastR');
 
       if (is_mirror) {
         var x2 = mid - last_point[0] + mid;
-        y1 = h/2 + h/2 * +this.get('edit.firstR');
+        y1 = last_point[1]; // h/2 + h/2 * +this.get('edit.firstR');
 
         this._line(svg, {x1:mid,y1:y1,x2:x2,y2:last_point[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
       }
@@ -167,15 +168,32 @@ app.model.drawing = {
     var current_x = this.get('width') / 2;
     var current_y = this.get('height') / 2;
     if (this.get('edit.firstR') == 1) {
-      current_y = this.get('height');
+      current_y = this.get('height')-10;
     }
     _.each(coords, function(point) {
+      // mirrored trails
       if (is_mirror) {
         var mid = w/2;
         var x1 = mid - point[0] + mid;
         var x2 = mid - current_x + mid;
 
         self._line(svg, {x1:x1,y1:point[1],x2:x2,y2:current_y,stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
+
+        // multiplier trails
+        for (var i=2; i <= multiply; i++) {
+          var degrees = 360 / multiply * (i-1);
+          var new_point = self._rotate_coord([x1,point[1]], degrees);
+          var new_curr = self._rotate_coord([x2, current_y], degrees);
+          self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
+        }
+      }
+
+      // multiplier trails
+      for (var i=2; i <= multiply; i++) {
+        var degrees = 360 / multiply * (i-1);
+        var new_point = self._rotate_coord(point, degrees);
+        var new_curr = self._rotate_coord([current_x, current_y], degrees);
+        self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
       }
 
       self._line(svg, {x1:point[0],y1:point[1],x2:current_x,y2:current_y,stroke:d3_data.stroke,stroke_width:d3_data.stroke_width});
@@ -201,7 +219,7 @@ app.model.drawing = {
       .attr("height", 4)
       .attr("fill", d3_data.end_color);
     if (this.get('edit.lastR') == 0) end_point.attr("x", w / 2 - 2).attr("y", h / 2 - 2);
-    else end_point.attr("x", w / 2 - 2).attr("y", h - 4);
+    else end_point.attr("x", w / 2 - 2).attr("y", h - 12);
 
     // drawing info
     if (this.get('is_dragging') == 'true') {
@@ -216,6 +234,12 @@ app.model.drawing = {
         .attr("cx", this.get('drag_pos.offset.x'))
         .attr("cy", this.get('drag_pos.offset.y'))
         .attr("fill", d3_data.touch_color);
+    } else {
+      svg.append("circle")
+        .attr("r", 3)
+        .attr("cx", current_x)
+        .attr("cy", current_y)
+        .attr("fill", d3_data.touch_color);
     }
   },
   _line: function(svg, obj) {
@@ -228,6 +252,19 @@ app.model.drawing = {
       .attr('stroke-width', obj.stroke_width)
       .attr('stroke-linecap', 'round');
   },
+  _rotate_coord: function(point, degrees) {
+    var w = +this.get('width') / 2;
+    var h = +this.get('height') / 2;
+    var x = point[0] - w;
+    var y = point[1] - h;
+    var angle = degrees * Math.PI / 180;
+
+    // rotate point around center, by degrees
+    var x1 = Math.cos(angle) * x + Math.sin(angle) * y;
+    var y1 = Math.cos(angle) * y - Math.sin(angle) * x;
+
+    return [x1+w,y1+h];
+  },
   start_drag: function(data) {
     console.log("Start Drag", data);
     this.set('is_dragging', 'true');
@@ -238,7 +275,7 @@ app.model.drawing = {
     this.set('drag_pos.start.w', this.get('width') / 2);
     this.set('drag_pos.start.h', this.get('height') / 2);
     if (this.get('edit.firstR') == 1) {
-      this.set('drag_pos.start.h', this.get('height'));
+      this.set('drag_pos.start.h', this.get('height')-10);
     }
     this.set('drag_pos.offset.x', +data.offset_x);
     this.set('drag_pos.offset.y', +data.offset_y);
@@ -248,6 +285,9 @@ app.model.drawing = {
     if (coords.length == 0) {
       this.set('drag_pos.current.x', this.get('width') / 2);
       this.set('drag_pos.current.y', this.get('height') / 2);
+      if (this.get('edit.firstR') == 1) {
+        this.set('drag_pos.current.y', this.get('height')-10);
+      }
     } else {
       var point = coords[coords.length-1];
       console.log("Set Origin", point);
@@ -263,6 +303,9 @@ app.model.drawing = {
   },
   drag: function(data) {
     if (this.get('is_dragging') == 'true') {
+      var w = this.get('width');
+      var h = this.get('height');
+
       var offset_x = this.get('drag_pos.offset.x');
       var offset_y = this.get('drag_pos.offset.y');
 
@@ -273,12 +316,23 @@ app.model.drawing = {
         // rotation
         var dx = +data.offset_x - offset_x;
         var dy = +data.offset_y - offset_y;
-        var dist = Math.sqrt(dx*dx + dy*dy);
+        // var dist = Math.sqrt(dx*dx + dy*dy);
         var rotation = Math.atan2(dy, dx);
 
         // update current
         var new_x = this.get('drag_pos.current.x') + dx;
         var new_y = this.get('drag_pos.current.y') + dy;
+
+        // make sure rho is < 1
+        var new_dx = new_x - w/2;
+        var new_dy = new_y - h/2;
+        var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+        if (new_dist > w/2-10) {
+          var new_r = Math.atan2(new_dy, new_dx);
+          new_x = w/2 + Math.cos(new_r) * (w/2-10);
+          new_y = h/2 + Math.sin(new_r) * (w/2-10);
+        }
+
         this.set('drag_pos.current.x', new_x);
         this.set('drag_pos.current.y', new_y);
 

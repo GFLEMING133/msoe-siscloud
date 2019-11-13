@@ -3,7 +3,7 @@
     data-defaults="{'type':'drawing', 'name':'My Drawing'}"
     data-run="model.setup_edit">
   <div class="white bg-black pull-top w100 center no-stuffing hh50 flex vertical-align">
-    <div class="w30 left pl20 clickable active"
+    <div class="w15 left pl20 clickable active"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'false'}"
@@ -15,7 +15,7 @@
   </div>
   <div class="body-header h100 scroll hide-scrollbar"
       tg-name="drawing_page">
-    <div class="pt20 pb20 pl40 pr40">
+    <!-- <div class="pt20 pb20 pl40 pr40">
       <div class="fs18 lh18 no-stuffing strong">Track Name</div>
       <input class="corner-5px mt5 w100"
           type="text"
@@ -26,8 +26,9 @@
           spellcheck="false"
           data-field="model.edit.name"
           value="{{= model.edit.name }}" />
-    </div>
-    <div class="d3 bg-white w100 p10"
+    </div> -->
+
+    <div class="d3 bg-white w100"
         lib-d3="true"
         data-run-after="model.draw_preview"
         data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
@@ -37,7 +38,16 @@
         data-on-touch-down="model.start_drag"
         data-on-touch-move="model.drag"
         data-on-touch-up="model.stop_drag"></div>
+
     <div class="pt10 pb10 pl40 pr40 fs18 lh18 no-stuffing strong">
+      <div class="pull-right fs18 lh18 no-stuffing strong">
+        Multiply
+        <input class="w80p"
+            type="text"
+            placeholder="1"
+            data-field="model.edit.multiply"
+            value="{{= model.data.multiply }}" />
+      </div>
       <span class="clickable"
           data-on-click="toggle"
           data-field="model.edit.is_mirror">
