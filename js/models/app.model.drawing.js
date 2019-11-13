@@ -128,6 +128,15 @@ app.model.drawing = {
       .attr('width', w)
       .attr('height', h);
 
+    // var path = this._make_path();
+    // svg.append("path")
+    //   .attr('d', path)
+    //   .attr("fill", "none")
+    //   .attr('stroke', d3_data.stroke)
+    //   .attr('stroke-width', d3_data.stroke_width)
+    //   .attr('stroke-linecap', 'round');
+    // return;
+
     // circle border
     svg.append("circle")
       .attr("cx", w / 2)
@@ -159,9 +168,25 @@ app.model.drawing = {
         y1 = last_point[1]; // h/2 + h/2 * +this.get('edit.firstR');
 
         this._line(svg, {x1:mid,y1:y1,x2:x2,y2:last_point[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
+
+        // multiplier trails
+        for (var i=2; i <= multiply; i++) {
+          var degrees = 360 / multiply * (i-1);
+          var new_point = self._rotate_coord([mid,y1], degrees);
+          var new_curr = self._rotate_coord([x2, last_point[1]], degrees);
+          self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
+        }
       }
 
       this._line(svg, {x1:mid,y1:y1,x2:last_point[0],y2:last_point[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
+
+      // multiplier trails
+      for (var i=2; i <= multiply; i++) {
+        var degrees = 360 / multiply * (i-1);
+        var new_point = self._rotate_coord([mid,y1], degrees);
+        var new_curr = self._rotate_coord([last_point[0], last_point[1]], degrees);
+        self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
+      }
     }
     // draw lines
     // get start_point
@@ -241,6 +266,20 @@ app.model.drawing = {
         .attr("cy", current_y)
         .attr("fill", d3_data.touch_color);
     }
+  },
+  _make_path: function() {
+    var self = this;
+    var path = 'M'+(this.get('width')/2)+','+(this.get('height')/2);
+
+    var coords = this.get('coords');
+    _.each(coords, function(point) {
+      path += 'L'+point[0]+','+point[1];
+    });
+    // TODO: if lastR is 1, it should draw outwards from current pos, not direct to theta 0
+    path += 'L'+(this.get('width')/2)+','+(this.get('height')/2);
+    // console.log("Path: ", path);
+
+    return path;
   },
   _line: function(svg, obj) {
     svg.append("line")
