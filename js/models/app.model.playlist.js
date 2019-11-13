@@ -99,8 +99,8 @@ app.model.playlist = {
 	},
 	add_tracks_done: function () {
 		var self = this;
-
-		if (this.get('data.is_saved') == 'true') app.trigger('session:active', { 'secondary': 'playlist-edit' });
+		
+		if (self.get('data.is_saved') == true) app.trigger('session:active', { 'secondary': 'playlist-edit' });
 		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
