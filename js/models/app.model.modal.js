@@ -45,11 +45,12 @@ app.model.modal = {
   },
 	/******************* PLAYLIST FUNCTIONS *************************/
   add_to_playlist: function(playlist_id) {
+
     var trackList = app.collection.get(playlist_id);
     var trackID = this.get('track_id');
     var track = app.collection.get(trackID)
     var arrayOfTrackModels = trackList.get('data.tracks').filter(track => (track.id == trackID));
-    var nameLink = trackList.get(data.name);
+    var nameLink = trackList.get('data.name');
     var text = track.get('data.name') + ' is already in ' + nameLink + ' Are you sure you want to add?';
     //if statement is to verify that there are other tracks with the same id in the array. if{resp_num = 1} Always return self and else{function shit}
     if (arrayOfTrackModels.length > 0) {
