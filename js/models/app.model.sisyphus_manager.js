@@ -914,8 +914,7 @@ app.model.sisyphus_manager = {
       secondary: 'playlist-new',
       primary: 'media'
     });
-    playlist.setup_edit();
-
+    
     if (msg) {
       if(msg.track_id) {
         playlist.add_track(msg.track_id);
