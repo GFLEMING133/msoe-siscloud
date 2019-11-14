@@ -511,7 +511,7 @@ app.model.sisyphus_manager = {
     window.cordova.plugins.settings.open('wifi', function success(resp) {
       // we are attempting to reconnect to hotspot
       self.await_network_connection(function() {
-        //   console.log("Wifi: await network connection");
+        // console.log("Wifi: await network connection");
         self.find_sisbots();
         // self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
       }, 0);
@@ -546,8 +546,9 @@ app.model.sisyphus_manager = {
     this.find_sisbots();
   },
   check_reconnect_status: function() {
-    // console.log("check_reconnect_status()");
+    console.log("check_reconnect_status()  " +  this.get('sisbot_id'));
     var sisbot = this.get_model('sisbot_id');
+    if(!sisbot) return;
 
     if (this.get('sisbot_reconnecting') == 'true' && this.get('is_sisbot_available') == 'true' && sisbot.get('data.do_not_remind') == 'false') {
       // wifi failed and we needed to reconnect
@@ -670,6 +671,7 @@ app.model.sisyphus_manager = {
             self.set('sisbot_registration', 'none');
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
+            self.set('sisbot_id', 'false'); //TODO: find previous table 
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
             self.set('sisbot_registration', 'multiple');
           }

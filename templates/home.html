@@ -126,7 +126,6 @@
                 </div>
                 <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
-                        data-if="{{= app.is_app }} == false"
                         data-on-click="parent.reconnect_to_hotspot"
                     >Attempt Reconnect</p>
                 </div>
@@ -154,7 +153,6 @@
                 </div>
                 <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
-                        data-if="{{= app.is_app }} == false"
                         data-on-click="parent.reconnect_to_hotspot"
                     >Reconnect to Sisyphus</p>
                 </div>
@@ -165,7 +163,7 @@
             </div>
             <div data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
                 <h3 class="m0 pt100 pb20 center justify fs24 lh24">
-                    Sisyphus Disconnected from WiFi
+                    Sisyphus has been Disconnected from WiFi
                 </h3>
                 <p class="center fs18 lh24">
                     Your Sisyphus has become disconnected from WiFi. If you would
@@ -180,7 +178,6 @@
                 </div>
                 <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
                     <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
-                        data-if="{{= app.is_app }} == false"
                         data-on-click="parent.reconnect_to_hotspot"
                     >Reconnect to Sisyphus</p>
                 </div>
