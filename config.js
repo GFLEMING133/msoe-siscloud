@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.70', // current-tmp now rendering correctly, show_log_files=true, html of undefined addressed read CHANGELOG.md
+	  version				: '1.8.71', // Playlist add & New Playlist errors corrected read CHANGELOG.md
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

@@ -166,19 +166,30 @@ app.model.playlist = {
 		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	save_edit: function () {
+		let self = this;
+		
 		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
 
-		var sorted_tracks = [];
-		_.each(this.get('data.tracks'), function(obj,index) {
-			sorted_tracks.push(index);
-		});
-		this.set("data.sorted_tracks", sorted_tracks);
+		let playlist_name = this.get('data.name');
+			if(playlist_name == ""){
+			 app.plugins.n.notification.confirm("You did not enter a Playlist Name, are you sure you want to save?",
+			 function(resp_num) {
+				 if(resp_num == 1){
+					 return self;
+				 }else{
+							var sorted_tracks = [];
+							_.each(self.get('data.tracks'), function(obj,index) {
+								sorted_tracks.push(index);
+							});
 
-		this.save();
-
-		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
+							self.set("data.sorted_tracks", sorted_tracks);
+							self.save();
+							app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: self.id});
+				}
+			}, 'No Name?', ['Cancel','OK']);
+		}
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {

@@ -1,13 +1,13 @@
 app.config = {
 	env					: 'prod',
-	version				: '1.8.70', // current-tmp now rendering correctly, show_log_files=true, rhtml of undefined addressed
+	version				:  '1.8.71', // Playlist add & New Playlist errors corrected
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
-			base_url	: 'http://app.dev.withease.io:3001/', // local
-			api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
-			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			base_url		: 'http://app.dev.withease.io:3001/', // local
+			api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
+			web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
 			sisbot_url  : 'http://api.dev.withease.io:3000/', //talking to sisbot
 			port		: 3001,
 		},
@@ -24,9 +24,9 @@ app.config = {
 			show_tg		: true
 		},
 		training: {
-			base_url	: 'http://app.dev.withease.io:3001/', //local url
-			api_url		: 'https://webcenter.sisyphus-industries.com/',
-			web_url		: 'https://webcenter.sisyphus-industries.com/',
+			base_url		: 'http://app.dev.withease.io:3001/', //local url
+			api_url			: 'https://webcenter.sisyphus-industries.com/',
+			web_url			: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url  : 'http://192.168.1.5:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 			show_tg		: true
@@ -41,25 +41,25 @@ app.config = {
 			port		: 3001,
 		},
 		sisbot: {
-			base_url	: window.location.href,
-			api_url		: 'https://webcenter.sisyphus-industries.com/',
-			web_url		: 'https://webcenter.sisyphus-industries.com/',
+			base_url		: window.location.href,
+			api_url			: 'https://webcenter.sisyphus-industries.com/',
+			web_url			: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url  : window.location.href, //talking to sisbot
 			port		: 3001,
 		},
 		prod: { // Android & iOS
-			base_url	: 'false', // unused
-			api_url		: 'https://webcenter.sisyphus-industries.com/',
-			web_url		: 'https://webcenter.sisyphus-industries.com/',
+			base_url		: 'false', // unused
+			api_url			: 'https://webcenter.sisyphus-industries.com/',
+			web_url			: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url  : 'false', // set when we find a bot
-			base_port	: 443,
+			base_port		: 443,
 		},
 		wc_test: {
-				base_url	: window.location.href,
-				api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
-				web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+				base_url		: window.location.href,
+				api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
+				web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
 				sisbot_url  : 'http://192.168.1.6:3002', //talking to sisbot
-				port		: 3001,
+				port				: 3001,
 		}
 	},
 	get_base_url: function () {

@@ -1197,7 +1197,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			//get back playlist obj
-			if (obj.resp.id !== 'false') {
+			if (obj.resp && obj.resp.id !== 'false') {
 				app.manager.intake_data(obj.resp);
 
 				// TESTING: Siri shortcut
