@@ -99,8 +99,8 @@ app.model.playlist = {
 	},
 	add_tracks_done: function () {
 		var self = this;
-
-		if (this.get('data.is_saved') == 'true') app.trigger('session:active', { 'secondary': 'playlist-edit' });
+		
+		if (self.get('data.is_saved') == true) app.trigger('session:active', { 'secondary': 'playlist-edit' });
 		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
@@ -117,7 +117,7 @@ app.model.playlist = {
 	play: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
-		var data				= JSON.parse(JSON.stringify(this.get('data')));
+		var data= JSON.parse(JSON.stringify(this.get('data')));
 		data.active_track_index = track_index;
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 
@@ -165,20 +165,38 @@ app.model.playlist = {
 	cancel_edit: function () {
 		app.trigger('session:active', { secondary: 'playlist' });
 	},
+	save_alert: function () {
+		this.set('data.name', this.get('edit.name'));
+		let self = this;
+		let playlist_name = this.get('data.name');
+		console.log(playlist_name);
+			if(playlist_name == ""){
+			 app.plugins.n.notification.confirm("You did not enter a Playlist Name, are you sure you want to save?",
+			 function(resp_num) {
+				 if(resp_num == 1){
+					 return self;
+				 }else{
+					self.save_edit();
+				 }
+			}, 'No Name?', ['Cancel','OK']);
+		} else {
+			this.save_edit();
+		}
+	},
 	save_edit: function () {
+		let self = this;
+		
 		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
+			var sorted_tracks = [];
+			_.each(self.get('data.tracks'), function(obj,index) {
+				sorted_tracks.push(index);
+			});
 
-		var sorted_tracks = [];
-		_.each(this.get('data.tracks'), function(obj,index) {
-			sorted_tracks.push(index);
-		});
-		this.set("data.sorted_tracks", sorted_tracks);
-
-		this.save();
-
-		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: this.id});
+			self.set("data.sorted_tracks", sorted_tracks);
+			self.save();
+			app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: self.id});
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {

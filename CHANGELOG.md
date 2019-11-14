@@ -1,8 +1,17 @@
+#2019-11-13 1.8.71
+ - Add Track to New Playlist fix and routing to New Playlist page
+ - expanded with of update_1 of progress bar for border issues
+ - removed setup_edit() from create_playlist() as it is called in model-run
+ - fix add_track_to_playlist() and added data.name to alert instead of "Track"
+ - fixed adding tracks to playlist and changed conditional for 'true' to true
+ - notification for blank name when adding New Playlist
+ - adjusted app scrollDown for white at bottom of edit tracks.
 #2019-11-11 1.8.70
  - Fix Current Playing on change
  - added font-awesome mouse for training grounds to the dev.index
  - share_log-files- true for onboarding. 
- - bind2 bugs
+ - bind2 bugs (html of undefined, race conditions, and rendering issues)
+ - update is quicker (sisbot repo)
 
 #2019-11-6 1.8.69
  - Fixed Night Mode save issue added conditional for tables without update.
