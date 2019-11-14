@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				:  '1.8.71', // Playlist add & New Playlist errors corrected
+	version				:  '1.8.72', // Playlist add & New Playlist errors corrected
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {
