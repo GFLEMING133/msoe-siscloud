@@ -37,7 +37,26 @@
         data-on-mouse-up="model.stop_drag"
         data-on-touch-down="model.start_drag"
         data-on-touch-move="model.drag"
-        data-on-touch-up="model.stop_drag"></div>
+        data-on-touch-up="model.stop_drag">
+      <svg width="375" height="375" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <!-- Zero line, border -->
+        <line x1="{{= model.mid }}" y1="{{= model.mid }}" x2="{{= model.mid }}" y2="{{= (+model.height - 10) }}" stroke="{{= model.d3_data.circle_stroke }}" stroke-width="{{= model.d3_data.zero_stroke_width }}"></line>
+        <circle cx="187.5" cy="187.5" r="177.5" stroke="#d6d2ca" stroke-width="2" fill="transparent"></circle>
+
+        <g class="drawing_paths" fill="transparent" stroke="{{= model.d3_data.mirror_stroke }}" stroke-width="{{= model.d3_data.stroke_width }}"></g>
+        <g class="drawing_preview"></g>
+
+        <!-- FirstR -->
+        <circle r="3" fill="{{= model.d3_data.start_color }}" cx="{{= model.mid }}" cy="{{= model.mid }}" data-if="{{= model.edit.firstR }} == 0"></circle>
+        <circle r="3" fill="{{= model.d3_data.start_color }}" cx="{{= model.mid }}" cy="{{= (+model.height - 10) }}" data-if="{{= model.edit.firstR }} == 1"></circle>
+
+        <!-- LastR -->
+        <rect width="4" height="4" fill="{{= model.d3_data.end_color }}" x="{{= (+model.mid - 2) }}" y="{{= (+model.mid - 2) }}" data-if="{{= model.edit.lastR }} == 0"></rect>
+        <rect width="4" height="4" fill="{{= model.d3_data.end_color }}" x="{{= (+model.mid - 2) }}" y="{{= (+model.height - 12) }}" data-if="{{= model.edit.lastR }} == 1"></rect>
+
+        <circle r="3" cx="{{= model.drag_pos.current.x }}" cy="{{= model.drag_pos.current.y }}" fill="{{= model.d3_data.touch_color }}" data-if="{{= model.is_dragging }} == false"></circle>
+      </svg>
+    </div>
 
     <div class="pt10 pb10 pl40 pr40 fs18 lh18 no-stuffing strong">
       <div class="pull-right fs18 lh18 no-stuffing strong">
