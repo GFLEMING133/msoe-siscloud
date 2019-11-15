@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.72', // Playlist add & New Playlist errors corrected read CHANGELOG.md
+	  version				: '1.8.73', // wifi reconnect issues with older firmware issues addressed  read CHANGELOG.md
     debug         : true,
     env           : process.env.NODE_ENV,
     matt_dev: {

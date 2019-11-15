@@ -1,4 +1,9 @@
-#2019-11-13 1.8.71
+#2019-11-13 1.8.73
+ - added if(!sisbot) return; to the check_reconnect_status for if no sisbot_id
+ -  self.set('sisbot_id', 'false'); in _find_sisbots() to route to Table Select page after disconnect  
+ - added // TODO: find previous table when reconnecting to table after disconect. after previous for Matt 
+ - removed conditional for Attempt Reconnect and Reconnect to Sisyphus buttons to always show. and added media query to adjust font for smaller phones. 
+#2019-11-13 1.8.71 & 72
  - Add Track to New Playlist fix and routing to New Playlist page
  - expanded with of update_1 of progress bar for border issues
  - removed setup_edit() from create_playlist() as it is called in model-run
