@@ -672,9 +672,10 @@ app.model.sisyphus_manager = {
             self.set('sisbot_registration', 'none');
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
+            self.set('sisbot_id', 'false'); //TODO: find previous table
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
             self.set('sisbot_registration', 'multiple');
-            
+
           }
       }
     }
@@ -847,7 +848,6 @@ app.model.sisyphus_manager = {
         // } else {
         //   app.collection.add(data);
         // }
-
         self.intake_data(data);
 
         if (data.type == 'sisbot') {
@@ -919,7 +919,7 @@ app.model.sisyphus_manager = {
       secondary: 'playlist-new',
       primary: 'media'
     });
-    
+
     if (msg) {
       if(msg.track_id) {
         playlist.add_track(msg.track_id);
