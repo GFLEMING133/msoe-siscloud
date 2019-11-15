@@ -103,6 +103,7 @@ app.model.sisyphus_manager = {
   },
   intake_data: function(given_data) {
     // console.log("intake_data()", given_data);
+
     var self = this;
 
     if (!_.isArray(given_data)) given_data = [given_data];
@@ -212,10 +213,10 @@ app.model.sisyphus_manager = {
   },
   check_ble_status: function() {
     //   console.log("check_ble_status()");
-    if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
+    //if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    }     //<<<< 
+    // }     //<<<< 
 
     var self = this;
 
@@ -671,7 +672,6 @@ app.model.sisyphus_manager = {
             self.set('sisbot_registration', 'none');
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
-            // self.set('sisbot_id', 'false'); //TODO: find previous table 
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
             self.set('sisbot_registration', 'multiple');
             
@@ -847,7 +847,9 @@ app.model.sisyphus_manager = {
         // } else {
         //   app.collection.add(data);
         // }
-        self.intake_data(data)
+
+        self.intake_data(data);
+
         if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
           self.set('sisbot_id', data.id);
