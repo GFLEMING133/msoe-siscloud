@@ -4,43 +4,43 @@ app.model.community = {
       id: data.id,
       type: 'community',
 
-      fetching_community_playlists: 'false',
-      fetching_community_tracks: 'false',
-      fetched_community_playlists: 'false',
-      fetched_community_tracks: 'false',
+      fetching_community_playlists  : 'false',
+      fetching_community_tracks     : 'false',
+      fetched_community_playlists   : 'false',
+      fetched_community_tracks      : 'false',
 
-      community_page: 'tracks',
-      community_playlist_ids: [],
-      community_track_ids: [],
+      community_page          : 'tracks',
+      community_playlist_ids  : [],
+      community_track_ids     : [],
 
-      track_sort: 'newest designs',
-      sorting: 'false',
-      download_cloud: 'false',
-      selected_tracks: [],
-      downloaded_tracks: [],
+      track_sort        : 'most popular',
+      sorting           : 'false',
+      download_cloud    : 'false',
+      selected_tracks   : [],
+      downloaded_tracks : [],
 
-      offset: 0,
-      limit: 30,
-      limit_step: 30,
-      fetching_more: 'false',
+      offset        : 0,
+      limit         : 30,
+      limit_step    : 30,
+      fetching_more : 'false',
 
       data: {
-        id: data.id,
-        type: 'community',
-        version: this.current_version,
+        id      : data.id,
+        type    : 'community',
+        version : this.current_version,
 
-        created_by_id: 'false',
-        email: 'false', //community
-        created_by_name: 'false', //community
-        is_public: 'false', //community
+        created_by_id   : 'false',
+        email           : 'false', //community
+        created_by_name : 'false', //community
+        is_public       : 'false', //community
       }
     };
 
     return obj;
   },
-  scroll_timeout: 200, // so we aren't constantly checking while scrolling
-  scrolling: false, // in conjunction with scroll_timout, are we waiting for a timeout to finish?
-  current_version: 1,
+  scroll_timeout  : 200, // so we aren't constantly checking while scrolling
+  scrolling       : false, // in conjunction with scroll_timout, are we waiting for a timeout to finish?
+  current_version : 1,
   on_init: function() {
     console.log("on_init() in app.model.community", this.id);
 
