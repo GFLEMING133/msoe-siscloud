@@ -18,6 +18,7 @@ app.model.drawing = {
         current     : { x: 0, y: 0, r: 0, d: 0 } // current position
       },
       paths       : [], // undo states
+      path_count  : 0, // for undo states
       coords      : [], // cartesian coordinates
 
       d3_data : {
@@ -64,7 +65,12 @@ app.model.drawing = {
   min_dist        : 4,
 	current_version : 1,
   on_init: function() {
-    //
+    this.on('change:paths', this.update_path_count);
+    this.on('add:paths', this.update_path_count);
+    this.on('remove:paths', this.update_path_count);
+  },
+  update_path_count: function() {
+    this.set('path_count', _.size(this.get('paths')));
   },
   draw_preview: function(data) {
     var self = this;
@@ -102,8 +108,8 @@ app.model.drawing = {
     this._draw_preview(data);
 
     // add listeners
-    this.on('change:edit.firstR', this._draw_preview);
-    this.on('change:edit.lastR', this._draw_preview);
+    this.on('change:edit.firstR', this._draw_paths);
+    this.on('change:edit.lastR', this._draw_paths);
     this.on('change:edit.is_mirror', this._draw_paths);
     this.on('change:edit.multiply', this._draw_paths);
 
@@ -232,23 +238,67 @@ app.model.drawing = {
     var $el = $('.drawing_paths');
     $el.empty();
 
-    var svg = d3.select($el[0]);
     var paths = this.get('paths');
-    var multiply = Math.max(1, +this.get('edit.multiply'));
-    console.log("Draw Paths", paths.length, multiply);
+    if (paths.length == 0) return;
 
+    var svg = d3.select($el[0]);
+    var multiply = Math.max(1, +this.get('edit.multiply'));
+    var lastR = this.get('edit.lastR');
+    var mid = this.get('mid');
+
+    // correct start rho if changed after drawing
+    var first_y = paths[0].start.y;
+    var firstR = +this.get('edit.firstR');
+    var r_y = mid + firstR * (mid - 10);
+    if (r_y != first_y) {
+      svg.append("line")
+        .attr("x1", mid)
+        .attr("x2", mid)
+        .attr("y1", r_y)
+        .attr("y2", first_y);
+    }
+
+    console.log("Draw Paths", paths.length, multiply);
     for (var i=1; i <= multiply; i++) {
       var degrees = 360 / multiply * (i-1);
 
       _.each(paths, function(path, index) {
         svg.append("path")
-          .attr("d", path)
-          .attr('transform', 'rotate('+degrees+','+self.get('mid')+','+self.get('mid')+')');
+          .attr("d", path.d)
+          .attr('transform', 'rotate('+degrees+','+mid+','+mid+')');
 
         if (self.get('edit.is_mirror') == 'true') {
           svg.append("path")
-            .attr('d', path)
-            .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+self.get('mid')+','+self.get('mid')+')');
+            .attr('d', path.d)
+            .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+
+          if (index == paths.length - 1) { // connect mirror to regular
+            svg.append("line")
+              .attr('x1', path.end.x)
+              .attr('x2', mid - path.end.x + mid)
+              .attr('y1', path.end.y)
+              .attr('y2', path.end.y)
+              .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+          }
+        } else if (index == paths.length - 1) { // draw to end point on last path
+          var end_x = mid;
+          var end_y = mid;
+          if (lastR == 1) { // draw straight out at same angle
+            var new_dx = path.end.x - mid;
+            var new_dy = path.end.y - mid;
+            var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+            var new_r = Math.atan2(new_dy, new_dx);
+            end_x = mid + Math.cos(new_r) * (mid - 10);
+            end_y = mid + Math.sin(new_r) * (mid - 10);
+          }
+
+          // connect end to lastR
+          svg.append("line")
+            .attr('x1', path.end.x)
+            .attr('x2', end_x)
+            .attr('y1', path.end.y)
+            .attr('y2', end_y)
+            .attr('transform', 'rotate('+degrees+','+mid+','+mid+')');
         }
       });
     }
@@ -380,6 +430,7 @@ app.model.drawing = {
     console.log("Stop Drag", data);
 
     // add last point
+    var first_point = this.get('coords')[0];
     var point = [this.get('drag_pos.current.x'), this.get('drag_pos.current.y')];
     this.add('coords', point);
 
@@ -387,7 +438,7 @@ app.model.drawing = {
 
     // add coords to paths
     var path = this._make_path();
-    this.add('paths', path);
+    this.add('paths', {d: path, start: {x: first_point[0], y: first_point[1]}, end: {x: point[0], y: point[1]}});
     this.set('coords', []);
 
     if (this.get('el_id') != 'false') this._draw_preview({el_id: this.get('el_id')});
@@ -438,13 +489,31 @@ app.model.drawing = {
 
 
   },
+  undo: function() {
+    var paths = this.get('paths');
+    console.log("Undo", paths.length);
+
+    if (paths.length > 0) {
+      // pop off last path
+      var path = paths.pop();
+
+      // move start point
+      this.set('drag_pos.current.x', path.start.x);
+      this.set('drag_pos.current.y', path.start.y);
+
+      this.update_path_count();
+      this._draw_paths();
+    }
+  },
   clear: function() {
     console.log("Drawing clear");
     this.set('paths', []);
     this.set('coords', []);
     this.set('edit.verts', []);
 
-    // TODO: reset drag_pos.current_x/y
+    // reset start point
+    this.set('drag_pos.current.x', this.get('mid'));
+    this.set('drag_pos.current.y', +this.get('mid') + +this.get('edit.lastR') * (this.get('mid') - 10));
 
     if (this.get('el_id') != 'false') this._draw_preview({el_id: this.get('el_id')});
   },

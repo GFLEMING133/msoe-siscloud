@@ -11,7 +11,12 @@
     <div class="w70">
       <h1 class="no-stuffing fs18 lh24 capitalize truncate">Draw</h1>
     </div>
-    <div class="w15 pt30 center">&nbsp;</div>
+    <div class="w15 center">
+      <div data-if="{{= model.path_count }} == 0">&nbsp;</div>
+      <div data-if="{{= model.path_count }} > 0">
+        <i class="fas fa-undo-alt p10 clickable blue-hover" data-on-click="model.undo"></i>
+      </div>
+    </div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar"
       tg-name="drawing_page">
@@ -43,7 +48,7 @@
         <line x1="{{= model.mid }}" y1="{{= model.mid }}" x2="{{= model.mid }}" y2="{{= (+model.height - 10) }}" stroke="{{= model.d3_data.circle_stroke }}" stroke-width="{{= model.d3_data.zero_stroke_width }}"></line>
         <circle cx="187.5" cy="187.5" r="177.5" stroke="#d6d2ca" stroke-width="2" fill="transparent"></circle>
 
-        <g class="drawing_paths" fill="transparent" stroke="{{= model.d3_data.mirror_stroke }}" stroke-width="{{= model.d3_data.stroke_width }}"></g>
+        <g class="drawing_paths" stroke-linecap="round" fill="transparent" stroke="{{= model.d3_data.mirror_stroke }}" stroke-width="{{= model.d3_data.stroke_width }}"></g>
         <g class="drawing_preview"></g>
 
         <!-- FirstR -->
