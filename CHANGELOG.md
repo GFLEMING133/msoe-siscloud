@@ -1,7 +1,10 @@
 #2019-11-13 1.8.73
  - added if(!sisbot) return; to the check_reconnect_status for if no sisbot_id
- -  self.set('sisbot_id', 'false'); in _find_sisbots() to route to Table Select page after disconnect  
- - added // TODO: find previous table when reconnecting to table after disconect. after previous for Matt 
+ - removed /templates from server.js and moved home.html into /tmp to fix routing issues
+ - home-tmp.html is now scrollable
+ - calling clear_sisbots() and reset_socket() in disconnect_wifi() in model.sisbot to fix reconnect errors and speed up connection
+ - cleaned up model objects and unused css attributes
+ - calling intake_data(data) in the connect_to_sisbot() instead of setting data as to not reset whole data object. 
  - removed conditional for Attempt Reconnect and Reconnect to Sisyphus buttons to always show. and added media query to adjust font for smaller phones. 
 #2019-11-13 1.8.71 & 72
  - Add Track to New Playlist fix and routing to New Playlist page

@@ -213,10 +213,10 @@ app.model.sisyphus_manager = {
   },
   check_ble_status: function() {
     //   console.log("check_ble_status()");
-    //if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
+    if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    // }     //<<<< 
+    }     //<<<< 
 
     var self = this;
 
@@ -672,10 +672,9 @@ app.model.sisyphus_manager = {
             self.set('sisbot_registration', 'none');
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
-            self.set('sisbot_id', 'false'); //TODO: find previous table
+            // self.set('sisbot_id', 'false'); //TODO: find previous table
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
             self.set('sisbot_registration', 'multiple');
-
           }
       }
     }
