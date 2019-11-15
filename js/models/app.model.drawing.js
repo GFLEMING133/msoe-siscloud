@@ -104,8 +104,8 @@ app.model.drawing = {
     // add listeners
     this.on('change:edit.firstR', this._draw_preview);
     this.on('change:edit.lastR', this._draw_preview);
-    this.on('change:edit.is_mirror', this._draw_preview);
-    this.on('change:edit.multiply', this._draw_preview);
+    this.on('change:edit.is_mirror', this._draw_paths);
+    this.on('change:edit.multiply', this._draw_paths);
 
     this.on('add:paths', this._draw_paths);
     this.on('change:paths', this._draw_paths);
@@ -225,12 +225,6 @@ app.model.drawing = {
         .attr("cx", this.get('drag_pos.offset.x'))
         .attr("cy", this.get('drag_pos.offset.y'))
         .attr("fill", d3_data.touch_color);
-    } else {
-      svg.append("circle")
-        .attr("r", 3)
-        .attr("cx", current_x)
-        .attr("cy", current_y)
-        .attr("fill", d3_data.touch_color);
     }
   },
   _draw_paths: function() {
@@ -240,15 +234,25 @@ app.model.drawing = {
 
     var svg = d3.select($el[0]);
     var paths = this.get('paths');
-    console.log("Draw Paths", paths.length);
+    var multiply = Math.max(1, +this.get('edit.multiply'));
+    console.log("Draw Paths", paths.length, multiply);
 
     // TODO: multiply
-    _.each(paths, function(path) {
-      svg.append("path")
-        .attr("d", path);
+    for (var i=1; i <= multiply; i++) {
+      var degrees = 360 / multiply * (i-1);
 
-      // TODO: mirror
-    });
+      _.each(paths, function(path, index) {
+        svg.append("path")
+          .attr("d", path);
+          // .attr('transform', 'rotate('+degrees+') transform('+self.get('width')+','+self.get('height')+')');
+
+        if (self.get('edit.is_mirror') == 'true') {
+          svg.append("path")
+            .attr('d', path)
+            .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1)');
+        }
+      });
+    }
   },
   _make_path: function() {
     var self = this;
