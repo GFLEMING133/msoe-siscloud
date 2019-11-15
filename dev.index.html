@@ -21,7 +21,7 @@
 
 <body class="h100 no-stuffing">
 	<div class="body h100">
-		<div class="h100 relative touch-hover {{= model.mode }} {{= model.platform }}" 
+		<div class="h100 relative touch-hover {{= model.mode }} {{= model.platform }}"
 				data-model="current_session"
 				data-on-mouse-move="model.update_mouse">
 			<div class="content h100">
@@ -29,7 +29,7 @@
 			</div>
 			<div data-template="modal-tmp"></div>
 		  <!-- Fake Mouse -->
-		  <!-- <div class="absolute w10p z3001" 
+		  <!-- <div class="absolute w10p z3001"
 					data-if="{{= app.config.env }} == training"
 		      style="left:{{= session.mouse_x+1 }}px; top:{{= session.mouse_y+2 }}px;">
 		    <i class="f-medium fas fa-mouse-pointer white text-shadow"></i>
@@ -37,8 +37,6 @@
 		  </div> -->
 		</div>
 	</div>
-
-	<div id="templates" class="hidden">{{{= templates }}}</div>
 
 	<script src="cordova.js"></script>
 	<script src="js/app.js"></script>

@@ -26,7 +26,6 @@ var app = function(given_config,ansible) {
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
 	if (config.env.indexOf('dev') > -1 || config.env.indexOf('sisbot') == -1) {
-		fs.watch(config.dir + '/templates', regenerate_index_page);
 		fs.watch(config.dir + '/tmp', regenerate_index_page);
 		fs.watch(config.dir + '/js/gen', regenerate_index_page);
 		fs.watch(config.dir + '/js/libs', regenerate_index_page);
@@ -170,18 +169,9 @@ function _regenerate_index_page() {
 	});
 	fs.writeFileSync(config.dir + '/prod/gen.js', all.join(''));
 
-	// Concatenate Templates
-	var templates   = [];
-	var files       = fs.readdirSync(config.dir + '/templates', 'utf-8');
-	_.each(files, function (file) {
-	    file = fs.readFileSync(config.dir + '/templates/' + file, 'utf-8');
-	    templates.push(file);
-	});
-
 	var index_tmp	= _.template(index_page);
 	var new_index   = index_tmp({
 	    base_url			: config.dir,
-	    templates			: templates.join(''),
 	    all_scripts_link	: ''
 	});
 
