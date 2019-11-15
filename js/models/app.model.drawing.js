@@ -237,19 +237,18 @@ app.model.drawing = {
     var multiply = Math.max(1, +this.get('edit.multiply'));
     console.log("Draw Paths", paths.length, multiply);
 
-    // TODO: multiply
     for (var i=1; i <= multiply; i++) {
       var degrees = 360 / multiply * (i-1);
 
       _.each(paths, function(path, index) {
         svg.append("path")
-          .attr("d", path);
-          // .attr('transform', 'rotate('+degrees+') transform('+self.get('width')+','+self.get('height')+')');
+          .attr("d", path)
+          .attr('transform', 'rotate('+degrees+','+self.get('mid')+','+self.get('mid')+')');
 
         if (self.get('edit.is_mirror') == 'true') {
           svg.append("path")
             .attr('d', path)
-            .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1)');
+            .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+self.get('mid')+','+self.get('mid')+')');
         }
       });
     }
