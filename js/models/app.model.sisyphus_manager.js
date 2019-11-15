@@ -671,7 +671,7 @@ app.model.sisyphus_manager = {
             self.set('sisbot_registration', 'none');
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
-            self.set('sisbot_id', 'false'); //TODO: find previous table 
+            // self.set('sisbot_id', 'false'); //TODO: find previous table 
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
             self.set('sisbot_registration', 'multiple');
             
@@ -842,12 +842,12 @@ app.model.sisyphus_manager = {
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
-        if (app.collection.exists(data.id)) {
-          app.collection.get(data.id).set('data', data);
-        } else {
-          app.collection.add(data);
-        }
-
+        // if (app.collection.exists(data.id)) {
+        //   app.collection.get(data.id).set('data', data);
+        // } else {
+        //   app.collection.add(data);
+        // }
+        self.intake_data(data)
         if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
           self.set('sisbot_id', data.id);
