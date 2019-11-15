@@ -318,7 +318,7 @@ app.model.sisbot = {
 		}
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-		console.log("_update_sisbot()", endpoint, data);
+		console.log("_update_sisbot()", endpoint, JSON.stringify(data));
 		if (!_timeout) _timeout = 5000;
 
 		if (app.config.env == 'alpha') {
@@ -329,6 +329,8 @@ app.model.sisbot = {
 
 		var self	= this;
 		var address	= this.get('data.local_ip');
+
+		console.log("_update_sisbot()", address);
 
 		// if (app.platform == 'iOS')	address = this.get('data.hostname');
 		// 192.168.42.1 | iOS | state
@@ -739,7 +741,9 @@ app.model.sisbot = {
 					.set('data.local_ip', '192.168.42.1'); // change right away
 
 				app.manager.set('sisbot_reconnecting', 'false');
+				app.session.clear_sisbots(); // forget sisbots in session
 				app.config.set_sisbot_url('192.168.42.1'); // change right away
+				app.socket.reset_socket = true; // force recreating socket
 				self.check_for_unavailable();
 			});
 		}

@@ -1,7 +1,7 @@
 <div class="h100" data-model="{{= model.sisyphus_manager_id }}">
   <div class="h100" data-if="{{= model.sisbot_id }} !== false">
     <div class="h100" data-run="model.should_show_onboarding">
-      <div class="h100" data-if="{{= model.is_sisbot_available }} == false" data-template="sisyphus-unavailable-tmp"></div>
+      <div class="h100" data-if="{{= model.is_sisbot_available }} == false" data-template="home-tmp"></div>
       <div class="h100" data-if="{{= model.is_sisbot_available }} !== false">
         <div class="h100" data-if="{{= model.is_ble_enabled }} == false" data-template="sisyphus-sisbot-ble-enabled-tmp"></div>
         <div class="h100" data-if="{{= model.is_ble_enabled }} !== false">

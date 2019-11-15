@@ -1,9 +1,9 @@
 var config = {
-	  version				: '1.8.72', // Playlist add & New Playlist errors corrected read CHANGELOG.md
+	  version				: '1.8.73', // wifi reconnect issues with older firmware issues addressed  read CHANGELOG.md
     debug         : true,
     env           : process.env.NODE_ENV,
-    matt_dev: {
-      base_dir	  : '/Users/mattfox12/Documents/Sodo/Ease/app',
+    matt: {
+      base_dir	  : '/Users/mattfox12/Documents/Sodo/Ease/Sisyphus/cloud',
       port			  : 3001,
       base_url    : 'http://app.dev.withease.io:3000/'
     }

@@ -103,6 +103,7 @@ app.model.sisyphus_manager = {
   },
   intake_data: function(given_data) {
     // console.log("intake_data()", given_data);
+
     var self = this;
 
     if (!_.isArray(given_data)) given_data = [given_data];
@@ -212,10 +213,10 @@ app.model.sisyphus_manager = {
   },
   check_ble_status: function() {
     //   console.log("check_ble_status()");
-    if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
+    //if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    }     //<<<< 
+    // }     //<<<< 
 
     var self = this;
 
@@ -511,7 +512,7 @@ app.model.sisyphus_manager = {
     window.cordova.plugins.settings.open('wifi', function success(resp) {
       // we are attempting to reconnect to hotspot
       self.await_network_connection(function() {
-        //   console.log("Wifi: await network connection");
+        // console.log("Wifi: await network connection");
         self.find_sisbots();
         // self.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
       }, 0);
@@ -546,8 +547,9 @@ app.model.sisyphus_manager = {
     this.find_sisbots();
   },
   check_reconnect_status: function() {
-    // console.log("check_reconnect_status()");
+    console.log("check_reconnect_status()  " +  this.get('sisbot_id'));
     var sisbot = this.get_model('sisbot_id');
+    if(!sisbot) return;
 
     if (this.get('sisbot_reconnecting') == 'true' && this.get('is_sisbot_available') == 'true' && sisbot.get('data.do_not_remind') == 'false') {
       // wifi failed and we needed to reconnect
@@ -670,8 +672,10 @@ app.model.sisyphus_manager = {
             self.set('sisbot_registration', 'none');
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
+            self.set('sisbot_id', 'false'); //TODO: find previous table
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
             self.set('sisbot_registration', 'multiple');
+
           }
       }
     }
@@ -839,11 +843,12 @@ app.model.sisyphus_manager = {
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
-        if (app.collection.exists(data.id)) {
-          app.collection.get(data.id).set('data', data);
-        } else {
-          app.collection.add(data);
-        }
+        // if (app.collection.exists(data.id)) {
+        //   app.collection.get(data.id).set('data', data);
+        // } else {
+        //   app.collection.add(data);
+        // }
+        self.intake_data(data);
 
         if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
@@ -914,7 +919,7 @@ app.model.sisyphus_manager = {
       secondary: 'playlist-new',
       primary: 'media'
     });
-    
+
     if (msg) {
       if(msg.track_id) {
         playlist.add_track(msg.track_id);

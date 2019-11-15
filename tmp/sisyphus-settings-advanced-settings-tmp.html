@@ -25,7 +25,7 @@
           <span class="strong"> IP Address</span>
           <span class="pull-right grey">{{= model.data.local_ip }}</span>
       </div>
-      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
+      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.mac_address }} !== false">
           <span class="strong"> MAC Address</span>
           <span class="pull-right grey">{{= model.data.mac_address }}</span>
       </div>
