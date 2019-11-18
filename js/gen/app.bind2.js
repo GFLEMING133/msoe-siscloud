@@ -169,6 +169,7 @@ var Binding = Backbone.View.extend({
     data-on-mouse-over :: triggers event on mouseOver of element
     data-on-mouse-out :: triggers event on mouseOut of element
     data-on-mouse-move :: triggers event on mouseMove of element
+    data-on-mouse-leave :: triggers event on mouseLeave of element
     data-on-mouse-down :: triggers event on mouseDown of element
     data-on-mouse-up :: triggers event on mouseUp of element
     data-on-touch-start :: triggers event on touchStart of element
@@ -403,6 +404,10 @@ function Element(el, parent, _scope) {
       if (this.data.onTouchEnd) {
         this.events.push('touchend');
         $el.on('touchend', {el:this}, this.on_touch_end);
+      }
+      if (this.data.onMouseLeave) {
+        this.events.push('mouseleave');
+        $el.on('mouseleave', {el:this}, this.on_mouse_leave);
       }
       if (this.data.onError) {
         this.events.push('error');
@@ -1746,6 +1751,34 @@ function Element(el, parent, _scope) {
 
       // console.log("onMouseUp", this.data.msg);
       self._call(self.data.onMouseUp, self.get_value(msg));
+    }
+  };
+  this.on_mouse_leave = function (e) {
+    var self = e.data.el;
+
+    if (self.data.onMouseLeave) {
+      var msg = self.data.msg;
+
+      if (!self.data.msg) {
+        var $el = $(e.originalEvent.target);
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          offset_x: e.originalEvent.offsetX,
+          offset_y: e.originalEvent.offsetY,
+          mouse_x : e.originalEvent.clientX,
+          mouse_y : e.originalEvent.clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onMouseLeave", msg);
+      self._call(self.data.onMouseLeave, self.get_value(msg));
     }
   };
   this.on_touch_start = function (e) {

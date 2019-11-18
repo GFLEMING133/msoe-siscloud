@@ -42,7 +42,8 @@
         data-on-mouse-up="model.stop_drag"
         data-on-touch-down="model.start_drag"
         data-on-touch-move="model.drag"
-        data-on-touch-up="model.stop_drag">
+        data-on-touch-up="model.stop_drag"
+        data-on-mouse-leave="model.stop_drag">
       <svg width="375" height="375" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Zero line, border -->
         <line x1="{{= model.mid }}" y1="{{= model.mid }}" x2="{{= model.mid }}" y2="{{= (+model.height - 10) }}" stroke="{{= model.d3_data.circle_stroke }}" stroke-width="{{= model.d3_data.zero_stroke_width }}"></line>
@@ -109,7 +110,10 @@
       </div>
       <div class="p10 flex">
         <div class="w100 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong"
-            data-on-click="model.save">Save</div>
+            data-on-click="model.save"
+            data-if="{{= model.path_count }} > 0">Save</div>
+        <div class="w100 p10 center btn bg-grey-ll corner-5px uppercase active fs18 strong"
+            data-if="{{= model.path_count }} <= 0">Save</div>
       </div>
     </div>
     <div class="hh150">&nbsp;</div>

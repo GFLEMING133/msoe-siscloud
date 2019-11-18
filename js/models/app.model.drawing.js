@@ -29,7 +29,6 @@ app.model.drawing = {
           stroke_edge         : '#fdfaf3', // #fdfaf3, #f6ebcd
           stroke_edge_width   : 6,
           zero_stroke_width   : 1,
-          points              :	[],
           steps               : 0,
           r_max_dist          : 0.1,
           retrace_steps       : 5,
@@ -54,6 +53,7 @@ app.model.drawing = {
 				lastR			: 0,
         is_mirror : 'false', // reflect the movement
         multiply  : 1,       // repeat the movement this many times around theta
+        divisor   : 2,       // when drawing on table, skip around pattern by 1/this
 
         verts     : [] // polar coordinates
 			}
@@ -136,37 +136,6 @@ app.model.drawing = {
     var svg = d3.select($el[0]);
 
     var coords = this.get('coords');
-
-    // fill in end line under others
-    // if (this.get('is_dragging') != 'true' && coords.length > 0) {
-    //   var last_point = coords[coords.length-1];
-    //   var y1 = h/2 + h/2 * +this.get('edit.lastR') - 10 * +this.get('edit.lastR');
-    //
-    //   if (is_mirror) {
-    //     var x2 = mid - last_point[0] + mid;
-    //     y1 = last_point[1]; // h/2 + h/2 * +this.get('edit.firstR');
-    //
-    //     this._line(svg, {x1:mid,y1:y1,x2:x2,y2:last_point[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
-    //
-    //     // multiplier trails
-    //     for (var i=2; i <= multiply; i++) {
-    //       var degrees = 360 / multiply * (i-1);
-    //       var new_point = self._rotate_coord([mid,y1], degrees);
-    //       var new_curr = self._rotate_coord([x2, last_point[1]], degrees);
-    //       self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
-    //     }
-    //   }
-    //
-    //   this._line(svg, {x1:mid,y1:y1,x2:last_point[0],y2:last_point[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
-    //
-    //   // multiplier trails
-    //   for (var i=2; i <= multiply; i++) {
-    //     var degrees = 360 / multiply * (i-1);
-    //     var new_point = self._rotate_coord([mid,y1], degrees);
-    //     var new_curr = self._rotate_coord([last_point[0], last_point[1]], degrees);
-    //     self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
-    //   }
-    // }
 
     // get start_point
     var current_x = 0; //this.get('drag_pos.current.x');
@@ -273,12 +242,14 @@ app.model.drawing = {
             .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
 
           if (index == paths.length - 1) { // connect mirror to regular
-            svg.append("line")
-              .attr('x1', path.end.x)
-              .attr('x2', mid - path.end.x + mid)
-              .attr('y1', path.end.y)
-              .attr('y2', path.end.y)
-              .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+            if (self.get('is_dragging') == 'false') {
+              svg.append("line")
+                .attr('x1', path.end.x)
+                .attr('x2', mid - path.end.x + mid)
+                .attr('y1', path.end.y)
+                .attr('y2', path.end.y)
+                .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+            }
           }
         } else if (index == paths.length - 1) { // draw to end point on last path
           var end_x = mid;
@@ -292,13 +263,15 @@ app.model.drawing = {
             end_y = mid + Math.sin(new_r) * (mid - 10);
           }
 
-          // connect end to lastR
-          svg.append("line")
-            .attr('x1', path.end.x)
-            .attr('x2', end_x)
-            .attr('y1', path.end.y)
-            .attr('y2', end_y)
-            .attr('transform', 'rotate('+degrees+','+mid+','+mid+')');
+          if (self.get('is_dragging') == 'false') {
+            // connect end to lastR
+            svg.append("line")
+              .attr('x1', path.end.x)
+              .attr('x2', end_x)
+              .attr('y1', path.end.y)
+              .attr('y2', end_y)
+              .attr('transform', 'rotate('+degrees+','+mid+','+mid+')');
+          }
         }
       });
     }
@@ -362,6 +335,7 @@ app.model.drawing = {
     this.add('coords', [this.get('drag_pos.current.x'), this.get('drag_pos.current.y')]);
 
     if (this.get('el_id') != 'false') {
+      this._draw_paths();
       this._draw_preview({el_id: this.get('el_id')});
     } else {
       console.log("Start ", this.get('el_id'));
@@ -427,21 +401,37 @@ app.model.drawing = {
     }
   },
   stop_drag: function(data) {
-    console.log("Stop Drag", data);
+    if (this.get('is_dragging') == 'true') {
+      console.log("Stop Drag", data);
 
-    // add last point
-    var first_point = this.get('coords')[0];
-    var point = [this.get('drag_pos.current.x'), this.get('drag_pos.current.y')];
-    this.add('coords', point);
+      // add last point
+      var first_point = this.get('coords')[0];
+      var point = [this.get('drag_pos.current.x'), this.get('drag_pos.current.y')];
+      this.add('coords', point);
 
-    this.set('is_dragging', 'false');
+      this.set('is_dragging', 'false');
 
-    // add coords to paths
-    var path = this._make_path();
-    this.add('paths', {d: path, start: {x: first_point[0], y: first_point[1]}, end: {x: point[0], y: point[1]}});
-    this.set('coords', []);
+      // add coords to paths
+      var path = this._make_path();
+      var obj = {
+        d: path,
+        points: this.get('coords'),
+        start: {
+          x: first_point[0],
+          y: first_point[1]
+        },
+        end: {
+          x: point[0],
+          y: point[1]
+        }
+      };
+      this.add('paths', obj);
+      this.set('coords', []);
 
-    if (this.get('el_id') != 'false') this._draw_preview({el_id: this.get('el_id')});
+      // console.log("Add path", obj);
+
+      if (this.get('el_id') != 'false') this._draw_preview({el_id: this.get('el_id')});
+    }
   },
   update_verts: function() {
     // take coords, and convert to verts
@@ -529,6 +519,110 @@ app.model.drawing = {
   },
   save: function () {
     console.log("Save Drawing", this.get('edit'));
+    var self = this;
+
+    // loop through Paths
+    var paths = self.get('paths');
+    var mid = this.get('mid');
+    var is_mirror = this.get('edit.is_mirror');
+    var lastR = this.get('edit.lastR');
+    if (is_mirror) lastR = this.get('edit.firstR');
+    var length = this.get('edit.multiply');
+    var divisor = this.get('edit.divisor');
+    var is_even = true;
+
+    var skip = length/divisor;
+    if (skip != Math.floor(skip)) {
+    	skip = Math.floor(skip);
+      is_even = false;
+    }
+
+    // SVG values
+    var svg = '<svg>';
+    var rho_max = mid - 10;
+
+    var index = 0;
+    for(var i=0; i < length; i++) {
+    	var value = index % length; // value for which multiplier around table to draw now
+      console.log("Draw:", value);
+
+      // draw path
+      _.each(paths, function(path) {
+        var points = path.points;
+        var path_d = '';
+        var point;
+
+        _.each(points, function(p, index) {
+          if (value != 0) { // rotate points
+            var degrees = 360 / length * value;
+            p = self._rotate_coord(p, degrees);
+          }
+
+          point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
+
+          if (index == 0) path_d += 'M'+point[0]+','+point[1];
+          else path_d += 'L'+point[0]+','+point[1];
+        });
+
+        if (is_mirror == 'true') {
+          var mirrored = points.reverse();
+``
+          // draw mirrored path in reverse
+          _.each(points, function(p) {
+            if (value != 0) { // rotate points
+              var degrees = 360 / length * value;
+              p = self._rotate_coord(p, degrees);
+            }
+
+            point = [(mid-p[0])/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+
+            path_d += 'L'+point[0]+','+point[1];
+          });
+        }
+
+        // TODO: bring last point to the given lastR
+        var end_x = 0;
+        var end_y = 0;
+        if (lastR == 1) { // draw straight out at same angle
+          var new_dx = point[0];
+          var new_dy = point[1];
+          var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+          var new_r = Math.atan2(new_dy, new_dx);
+          end_x = Math.cos(new_r);
+          end_y = Math.sin(new_r);
+        }
+
+        path_d += 'L'+end_x+','+end_y;
+
+        svg += '<path d="'+path_d+'"></path>';
+      });
+
+    	index += skip;
+      if (is_even && i % divisor == divisor-1) index++;
+    }
+    svg += '</svg>';
+
+    // TODO: make track model and send to upload confirm page
+    console.log("SVG", svg);
+    var track_obj = {
+      name: 'My Drawing',
+      type: 'track',
+      original_file_type: 'svg',
+      file_data: svg
+    };
+    var track = app.collection.add(track_obj);
+    track.set('svg_scaled', 'true')
+      .set('upload_status', 'false');
+
+    // TODO: change to own page?
+    app.manager.add('tracks_to_upload', track.get('data'));
+
+    app.trigger('session:active', {
+      primary: 'settings',
+      secondary: 'preview-upload',
+      track_id: track.id
+    });
+
     // do nothing
     return this;
   }

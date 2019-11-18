@@ -18,6 +18,8 @@ app.model.track = {
 
 			is_favorite							:'false',
 
+			svg_scaled							: 'false', // for drawing app to have pre-scaled values
+
 			d3											:'false',
 			d3_data : {
 				background						: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -304,7 +306,7 @@ app.model.track = {
 		}
 	},
 	process_svg: function(file_data) {
-		console.log("Process svg");
+		console.log("Process svg", file_data);
 		var self			= this;
 
 		// verts stores the file data
@@ -679,13 +681,15 @@ app.model.track = {
 		});
 
 		// center resulting verts
-		var min_max = self._min_max(verts);
-		var half_x = (min_max[2]-min_max[0]) / 2;
-		var half_y = (min_max[3]-min_max[1]) / 2;
-		_.each(verts, function(point) {
-			point[0] = point[0] - min_max[0] - half_x;
-			point[1] = point[1] - min_max[1] - half_y;
-		});
+		if (this.get('svg_scaled') != 'true') {
+			var min_max = self._min_max(verts);
+			var half_x = (min_max[2]-min_max[0]) / 2;
+			var half_y = (min_max[3]-min_max[1]) / 2;
+			_.each(verts, function(point) {
+				point[0] = point[0] - min_max[0] - half_x;
+				point[1] = point[1] - min_max[1] - half_y;
+			});
+		}
 		// console.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
 
 		// convert to polar
@@ -711,10 +715,12 @@ app.model.track = {
 		});
 
 		// normalize
-		var polar_min_max = self._min_max(verts);
-		_.each(verts, function(point, index) {
-			point[1] /= polar_min_max[3];
-		});
+		if (this.get('svg_scaled') != 'true') {
+			var polar_min_max = self._min_max(verts);
+			_.each(verts, function(point, index) {
+				point[1] /= polar_min_max[3];
+			});
+		}
 
 		// fix start point if looping track
 		var start_index = -1;
