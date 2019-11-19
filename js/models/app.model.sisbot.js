@@ -7,11 +7,11 @@ app.model.sisbot = {
 			type			: 'sisbot',
 
 			wifi_networks   : [],
-			wifi			: {
-				name			: '',
+			wifi   : {
+				name				: '',
 				password		: ''
 			},
-			wifi_error		: 'false',
+			wifi_error			: 'false',
 			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
 			show_wifi_list  : 'false',
@@ -19,46 +19,46 @@ app.model.sisbot = {
 			is_master_branch: 'false',
 			is_legacy_branch: 'false',
 
-			branch_label: 'false',
+			branch_labels		: 'false',
 			local_branches: {
-				proxy	: 'master',
-				app		: 'master',
-				api		: 'master',
+				proxy		: 'master',
+				app			: 'master',
+				api			: 'master',
 				sisbot	: 'master',
 			},
 			local_versions: {
-				proxy	: '-',
-				app		: '-',
-				api		: '-',
+				proxy		: '-',
+				app			: '-',
+				api			: '-',
 				sisbot	: '-',
 			},
 			remote_versions: {
-				proxy	: '-',
-				app		: '-',
-				api		: '-',
+				proxy		: '-',
+				app			: '-',
+				api			: '-',
 				sisbot	: '-',
 			},
 
-			csons	: 'false', // available cson files
+			csons			: 'false', // available cson files
 
-			has_software_update				: 'false',
-			is_connected					:  false,
-			is_socket_connected				: 'false',
-			is_polling						:  'true',
-			is_jogging						:   false,
-			jog_type						:      '',
-			updating_hostname				: 'false',
-			updating_tablename				: 'false',
+			has_software_update						: 'false',
+			is_connected									:  false,
+			is_socket_connected						: 'false',
+			is_polling										:  'true',
+			is_jogging										:   false,
+			jog_type											:      '',
+			updating_hostname							: 'false',
+			updating_tablename						: 'false',
 
-			timestamp						: 'false',
+			timestamp											: 'false',
 
 			is_firmware_update_available	: 'false',
-			force_onboarding				: 'false',
+			force_onboarding							: 'false',
 
-			default_playlist_id				: 'false',
+			default_playlist_id						: 'false',
 
-			default_settings				: {},
-			default_settings_error			: 'false',
+			default_settings							: {},
+			default_settings_error				: 'false',
 
 			// log_date						: moment().format('MM/DD/YYYY'),
 			// log_type						: 'sisbot',		// sisbot|plotter|proxy
@@ -75,37 +75,37 @@ app.model.sisbot = {
 
 			edit		: {},
 			data		: {
-				id					: data.id,
-				type    			: 'sisbot',
-				version				: this.current_version,
+				id								: data.id,
+				type    					: 'sisbot',
+				version						: this.current_version,
 
-				name				: 'Default Name',
+				name							: 'Default Name',
 				timezone_offset		: '0',					// 0 greenwich
-				hostname			: 'false',				// sisyphus.local
-				local_ip			: '',					// 192.168.0.1:3001
-				mac_address			: 'false',              // set to false if no data comes from sisbot
-				do_not_remind		: 'false',				// wifi
+				hostname					: 'false',				// sisyphus.local
+				local_ip					: '',					// 192.168.0.1:3001
+				mac_address				: 'false',              // set to false if no data comes from sisbot
+				do_not_remind			: 'false',				// wifi
 				hostname_prompt		: 'false',				// hostname change
 
 				reason_unavailable	: 'false',				// connect_to_wifi|reset_to_hotspot|resetting|restarting|rebooting
 				installing_updates	: 'false',
-				update_status			: 'false', 			// knowing where in the software update process we are
+				update_status				: 'false', 			// knowing where in the software update process we are
 				factory_resetting		: 'false',
-				fault_status			: 'false', // allows for navigation after Servo fault
+				fault_status				: 'false', // allows for navigation after Servo fault
 
-				pi_id							: '',
-				firmware_version	: '0.5.1',
+				pi_id								: '',
+				firmware_version		: '0.5.1',
 
-				is_hotspot			: 'true',
+				is_hotspot					: 'true',
 
-				is_network_separate: 'false',
-				is_internet_connected: 'false',
-				is_network_connected: 'false',
-				is_network_separate : 'false',
-				wifi_network        : '',
-				wifi_password       : '',
-				failed_to_connect_to_wifi: 'false',
-				wifi_forget			: 'false',
+				is_network_separate				: 'false',
+				is_internet_connected			: 'false',
+				is_network_connected			: 'false',
+				is_network_separate 			: 'false',
+				wifi_network        			: '',
+				wifi_password       			: '',
+				failed_to_connect_to_wifi	: 'false',
+				wifi_forget								: 'false',
 
 				playlist_ids					: [],
 				default_playlist_id		: 'false',
@@ -118,37 +118,37 @@ app.model.sisbot = {
 
 				current_time		: 0,					// seconds
 
-				state				: 'waiting',			// playing|homing|paused|waiting
+				state						: 'waiting',			// playing|homing|paused|waiting
 
-				is_homed			: 'false',				// Not used
-				is_serial_open		: 'true',				// Not used
-				is_servo			: 'false', 				//setting for alert()'s
+				is_homed				: 'false',				// Not used
+				is_serial_open	: 'true',				// Not used
+				is_servo				: 'false', 				//setting for alert()'s
 
-				is_shuffle			: 'true',
-				is_loop				: 'false',
-				brightness			: .5,
-				speed				: .3,
-				is_autodim_allowed	: 'true',
-				is_autodim			: 'true',
-				is_nightlight		: 'false',
-				is_sleeping			: 'false',
-				timezone_offset		: moment().format('Z'),
-				nightlight_brightness: 0.2,
-				sleep_time			: '10:00 PM',					// 10:00 PM sleep_time
-				wake_time			: '8:00 AM',					// 8:00 AM  wake_time
+				is_shuffle						: 'true',
+				is_loop								: 'false',
+				brightness						: .5,
+				speed									: .3,
+				is_autodim_allowed		: 'true',
+				is_autodim						: 'true',
+				is_nightlight					: 'false',
+				is_sleeping						: 'false',
+				timezone_offset				: moment().format('Z'),
+				nightlight_brightness : 0.2,
+				sleep_time						: '10:00 PM',					// 10:00 PM sleep_time
+				wake_time							: '8:00 AM',					// 8:00 AM  wake_time
 
-				is_paused_between_tracks: 'false',
-				is_waiting_between_tracks: 'false',
-				share_log_files		: 'false',
+				is_paused_between_tracks	: 'false',
+				is_waiting_between_tracks	: 'false',
+				share_log_files						: 'false',
 
 				table_settings: {}, // Advanced table settings, overrides CSON on reboot
 
-				led_enabled: 'false',
-				led_pattern_ids: ['white','solid','fade','spread','comet','rainbow','paint','demo'],
-				led_pattern: 'white',
-				led_offset : 0,
-				led_primary_color: '0xFFFFFFFF', // Hex
-				led_secondary_color: '0x00FFFFFF', // Hex
+				led_enabled					: 'false',
+				led_pattern_ids			: ['white','solid','fade','spread','comet','rainbow','paint','demo'],
+				led_pattern 				: 'white',
+				led_offset 					: 0,
+				led_primary_color		: '0xFFFFFFFF', // Hex
+				led_secondary_color	: '0x00FFFFFF', // Hex
 			}
 		};
 
