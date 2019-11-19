@@ -10,7 +10,9 @@
     </div>
     <div class="w30 pt30 center">&nbsp;</div>
   </div>
-  <div class="h100" data-model="{{= model.sisbot_id }}">
+  <div class="h100" 
+      data-model="{{= model.sisbot_id }}"
+      tg-name="all_tracks_page">
     <div class="body-header pb65 h100 scroll hide-scrollbar"
         data-scope="true"
         data-state="{'total':'{{= _.size(parent.data.track_ids) }}'}"
