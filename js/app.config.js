@@ -123,7 +123,7 @@ if (window.location.href.indexOf('localhost') > -1) {
 		}
 	}
 
-	console.log('Second 1/2' + !app.config.envs[env])
+	// console.log('Second 1/2' + !app.config.envs[env])
 	if (env == 'beta' || !app.config.envs[env]) app.config.env = 'beta';
 	console.log("Env:", env);
 }
