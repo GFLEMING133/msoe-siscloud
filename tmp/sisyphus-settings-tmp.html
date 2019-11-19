@@ -19,7 +19,7 @@
           </div>
           <div class="w90 flex relative center"
               tg-name="speed_slider_div"
-              data-on-click="model.showMouse">
+              data-on-click="session.showMouse">
             <span class="w5"></span>
             <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true" data-on-input="model.speed" value="{{= model.edit.speed }}" tg-name="speed_slider" />
             <span class="w5"></span>
@@ -46,7 +46,8 @@
             tg-name="brightness_slider">
             <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
           </div>
-          <div class="w90 flex relative center">
+          <div class="w90 flex relative center"
+              data-on-click="session.showMouse">
             <span class="w2-5"></span>
             <input class="w90"
                 type="range"

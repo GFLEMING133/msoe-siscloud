@@ -240,24 +240,20 @@ app.model.community = {
   },
   remove_downloaded: function() {
     var self = this;
-     let tracks = app.manager.get_model('sisbot_id').get('data.track_ids');
-    console.log('tracks', tracks);
-    console.log(tracks.length);
+     let sisbot = app.manager.get_model('sisbot_id');
      let downloaded_tracks = this.get('downloaded_tracks');
-     console.log('downloaded_tracks', downloaded_tracks);
-     _.each(tracks, function(i) {
-      console.log('i ==', i);
-      let trackId = i;
-      console.log('TRACKID++ ' + trackId);
-       if(downloaded_tracks[0] == trackId) {
-         debugger;
-         self.remove('downloaded_tracks', trackId)
-         self.set('downloaded_tracks', []);
-         self.fetch_community_tracks();
-         app.trigger('modal:close');
-         console.log(tracks.length);
-         console.log(downloaded_tracks.length)
-       }
+     _.each(downloaded_tracks, function(i) {
+        sisbot.remove('data.track_ids', i); 
+        self.add('selected_tracks', i);
      });
+     sisbot.save_to_sisbot(sisbot.get('data'));
+     this.set('fetched_community_tracks', 'false')
+         .set('downloaded_tracks', [])
+         .set('download_cloud', 'true');
+
+     this.fetch_community_tracks();
+
+     app.trigger('modal:close');
+
   }
 };

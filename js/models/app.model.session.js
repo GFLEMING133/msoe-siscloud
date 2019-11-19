@@ -97,6 +97,13 @@ app.model.session = {
 			this.set('mouse_y', data.mouse_y);
 		}
 	},
+	/************************** MOUSE COORDINATES ***********************************/
+	showMouse: function(event) {
+		var x = event.clientX;
+		var y = event.clientY;
+		var coords = "X coords: " + x + ", Y coords: " + y;
+		console.log('Coordinates are =', coords)
+	},
 	/************************** SETUP MODES ***********************************/
 	valid_modes: ['sisyphus','siscloud'],
 	setup_mode: function () {

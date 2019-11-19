@@ -14,24 +14,29 @@
 						data-replace="list-image-fallback-tmp" />
 			</div>
 		</div>
-		<div class="w60 pt25 pb10 pl20">
+		<div class="w60 pt25 pb10 pl20"
+					tg-name="track_name">
 			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
 	    <div class="fs12 lh18 grey block hidden">by {{= model.data.created_by_name }}</div>
 		</div>
 		<div class="w20 pt10 pb10 h100 vertical right"
-				tg-name="all_tracks_three_dots">
+				tg-name="trackdropdown_three_dots">
 	    <i class="grey pt20 pb20 pr20" aria-hidden="true">
 				<img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
 			</i>
 		</div>
 	</div>
 	<div class="bg-grey-l clickable flex" data-if="{{= session.toggle.expanded }} == {{= _super_.el_id }}">
-		<div class="w25 center pt15 pb15" data-on-click="model.play_logic" data-msg="{{= scope.index }}">
+		<div class="w25 center pt15 pb15" 
+				data-on-click="model.play_logic" 
+				data-msg="{{= scope.index }}"
+				tg-name="trackdropdown_play">
 			<img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" />
 		</div>
 		<div class="w25 clickable active center pt15 pb15"
 				data-run="model.is_playlist_favorite"
-				data-on-click="model.favorite_toggle">
+				data-on-click="model.favorite_toggle"
+				tg-name="trackdropdown_heart">
 			<img class="hh20"
 					src="img/icon_2x_trackdropdown_openheart.png"
 					alt="Favorite"
@@ -45,11 +50,13 @@
 				data-on-click="publish"
 				data-publish="modal:open"
 				data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
+				tg-name="trackdropdown_plus_btn"
 		><img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20" /></div>
 		<div class="w25 clickable active center pt15 pb15"
 				data-on-click="publish"
 				data-publish="session:active"
 				data-msg="{'track_id':'{{= model.id }}','secondary':'track'}"
+				tg-name="trackdropdown_expand"
 		><img src="img/icon_2x_trackdropdown_expand.png" alt="Expand" class="hh20" /></div>
 	</div>
 </div>
