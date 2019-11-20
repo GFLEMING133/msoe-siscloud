@@ -56,7 +56,7 @@ app.model.track = {
 				created_by_name		: 'false', //community
 				is_public					: 'false', //community
 
-				original_file_type  : 'false', 	// thr|svg
+				original_file_type  : 'false', 	// thr|svg|draw
 				has_verts_file			: 'false',
 				verts								: '',		// temporary
 
@@ -148,7 +148,8 @@ app.model.track = {
 			console.log("Get Thumbnail", this.get('data.name'));
 
 			var data = { id: 'preview', dimensions: 400 };
-			if (this.get('data.original_file_type') == 'svg') data.raw_coors = this.process_svg(this.get('data.file_data'));
+			var original_type = this.get('data.original_file_type');
+			if (original_type == 'svg' || original_type == 'draw') data.raw_coors = this.process_svg(this.get('data.file_data'));
 			else data.raw_coors = this.get('data.verts');
 
 			var address	= app.manager.get_model('sisbot_id').get('data.local_ip')
@@ -261,7 +262,8 @@ app.model.track = {
 		this.set('upload_status', 'uploading').set('generating_thumbnails', 'true');
 
 		// set verts to current settings if svg
-		if (this.get('data.original_file_type') == 'svg') this.set('data.verts', this.process_svg(this.get('data.file_data')));
+		var original_type = this.get('data.original_file_type');
+		if (original_type == 'svg' || original_type == 'draw') this.set('data.verts', this.process_svg(this.get('data.file_data')));
 
  		// remove data.file_data, it is now verts
 		this.unset('data.file_data');
@@ -275,6 +277,8 @@ app.model.track = {
 			this.set('data.created_by_id', app.manager.get('user_id'));
 			this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
 		}
+
+		// console.log("Track data to save:", JSON.stringify(this.get('data')));
 
 		app.collection.add(this);
 		app.trigger('sisbot:track_add', this);
@@ -306,7 +310,7 @@ app.model.track = {
 		}
 	},
 	process_svg: function(file_data) {
-		console.log("Process svg", file_data);
+		// console.log("Process svg", file_data);
 		var self			= this;
 
 		// verts stores the file data
@@ -321,7 +325,7 @@ app.model.track = {
 
 		_.each(pathElements, function(pathEl) {
 			var path = pathEl.attributes.getNamedItem("d").value;
-			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvAaZz])/); // any letter
+			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvAaZzR])/); // any letter
 			// console.log("Commands:", commands);
 
 			// save so we can loop this object (z|Z)
@@ -347,6 +351,20 @@ app.model.track = {
 				}
 
 				switch (command) {
+					case 'R':
+						// console.log("Sisyphus arc, don't subdivide", data);
+						if (data.length % 2 == 0) {
+							for (var i = 0; i < data.length; i += 2) {
+								if (is_first_point) {
+									is_first_point = false;
+									first_point = [data[0],data[1]];
+									verts.push(first_point);
+								} else {
+									verts.push([data[i],data[i+1]]);
+								}
+							}
+						} else console.log("Error, wrong number of Start points");
+						break;
 					case 'M':
 						// console.log("Move", data);
 						if (data.length % 2 == 0) {
@@ -1088,6 +1106,7 @@ app.model.track = {
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
+				else if (self.get('data.original_file_type') == 'draw') self.set('data.verts', obj.resp); // created via drawing page
 				else {
 					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
 					self.set('community_track_downloaded', 'false');

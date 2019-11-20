@@ -175,6 +175,7 @@ var Binding = Backbone.View.extend({
     data-on-touch-start :: triggers event on touchStart of element
     data-on-touch-move :: triggers event on touchMove of element
     data-on-touch-end :: triggers event on touchEnd of element
+    data-on-touch-cancel :: triggers event on touchCancel
     data-on-error :: calls function on current model when img src fails to load, used in conjunction with data-replace
     data-event-stop :: stops propagation if on-event triggered
   lib:
@@ -404,6 +405,10 @@ function Element(el, parent, _scope) {
       if (this.data.onTouchEnd) {
         this.events.push('touchend');
         $el.on('touchend', {el:this}, this.on_touch_end);
+      }
+      if (this.data.onTouchCancel) {
+        this.events.push('touchcancel');
+        $el.on('touchcancel', {el:this}, this.on_touch_cancel);
       }
       if (this.data.onMouseLeave) {
         this.events.push('mouseleave');
@@ -1783,15 +1788,118 @@ function Element(el, parent, _scope) {
   };
   this.on_touch_start = function (e) {
     var self = e.data.el;
-    if (self.data.onTouchStart)   self._call(self.data.onTouchStart, self.get_value(self.data.msg));
+
+    if (self.data.onTouchStart) {
+      e.preventDefault();
+      var msg = self.data.msg;
+
+      if (!self.data.msg) {
+        var $el = $('.'+self.el_id);
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          offset_x: e.touches[0].clientX - pos.left,
+          offset_y: e.touches[0].clientY - pos.top,
+          mouse_x : e.touches[0].clientX,
+          mouse_y : e.touches[0].clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onTouchStart", msg);
+      self._call(self.data.onTouchStart, self.get_value(msg));
+    }
   };
   this.on_touch_move = function (e) {
     var self = e.data.el;
-    if (self.data.onTouchMove)    self._call(self.data.onTouchMove, self.get_value(self.data.msg));
+
+    if (self.data.onTouchMove) {
+      e.preventDefault();
+      var msg = self.data.msg;
+
+      if (!self.data.msg) {
+        var $el = $('.'+self.el_id);
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          offset_x: e.changedTouches[0].clientX - pos.left,
+          offset_y: e.changedTouches[0].clientY - pos.top,
+          mouse_x : e.changedTouches[0].clientX,
+          mouse_y : e.changedTouches[0].clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onTouchMove", msg);
+      self._call(self.data.onTouchMove, self.get_value(msg));
+    }
   };
   this.on_touch_end = function (e) {
     var self = e.data.el;
-    if (self.data.onTouchEnd)   self._call(self.data.onTouchEnd, self.get_value(self.data.msg));
+
+    if (self.data.onTouchEnd) {
+      e.preventDefault();
+      var msg = self.data.msg;
+
+      if (!self.data.msg) {
+        var $el = $('.'+self.el_id);
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          offset_x: e.changedTouches[0].clientX - pos.left,
+          offset_y: e.changedTouches[0].clientY - pos.top,
+          mouse_x : e.changedTouches[0].clientX,
+          mouse_y : e.changedTouches[0].clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onTouchEnd", msg);
+      self._call(self.data.onTouchEnd, self.get_value(msg));
+    }
+  };
+  this.on_touch_cancel = function (e) {
+    var self = e.data.el;
+
+    if (self.data.onTouchCancel) {
+      var msg = self.data.msg;
+
+      if (!self.data.msg) {
+        var $el = $('.'+self.el_id);
+        var pos = $el.position();
+        var element_obj = {
+          x : pos.left,
+          y : pos.top,
+          width : $el.width(),
+          height : $el.height(),
+          offset_x: e.changedTouches[0].clientX - pos.left,
+          offset_y: e.changedTouches[0].clientY - pos.top,
+          mouse_x : e.changedTouches[0].clientX,
+          mouse_y : e.changedTouches[0].clientY,
+          scroll_x : $el.scrollLeft(),
+          scroll_y : $el.scrollTop()
+        };
+        msg = JSON.stringify(element_obj);
+      }
+
+      // console.log("onTouchCancel", msg);
+      self._call(self.data.onTouchCancel, self.get_value(msg));
+    }
   };
   this.on_error = function(e) {
     var self = e.data.el;
