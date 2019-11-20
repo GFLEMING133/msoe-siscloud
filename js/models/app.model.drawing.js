@@ -693,7 +693,7 @@ app.model.drawing = {
       // console.log("Draw:", value);
 
       // draw path
-      _.each(paths, function(path) {
+      _.each(paths, function(path, path_index) {
         var points = JSON.parse(JSON.stringify(path.points));
         var path_d = '';
         var point;
@@ -753,30 +753,32 @@ app.model.drawing = {
         }
 
         // TODO: bring last point to the given lastR
-        var end_x = 0;
-        var end_y = 0;
-        if (is_reversed) {
-          if (firstR == 1) { // draw straight out at same angle
-            var new_dx = point[0];
-            var new_dy = point[1];
-            var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
-            var new_r = Math.atan2(new_dy, new_dx);
-            end_x = Math.cos(new_r);
-            end_y = Math.sin(new_r);
+        if (path_index >= paths.length -1) {
+          var end_x = 0;
+          var end_y = 0;
+          if (is_reversed) {
+            if (firstR == 1) { // draw straight out at same angle
+              var new_dx = point[0];
+              var new_dy = point[1];
+              var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+              var new_r = Math.atan2(new_dy, new_dx);
+              end_x = Math.cos(new_r);
+              end_y = Math.sin(new_r);
+            }
+          } else {
+            if (lastR == 1) { // draw straight out at same angle
+              var new_dx = point[0];
+              var new_dy = point[1];
+              var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+              var new_r = Math.atan2(new_dy, new_dx);
+              end_x = Math.cos(new_r);
+              end_y = Math.sin(new_r);
+            }
           }
-        } else {
-          if (lastR == 1) { // draw straight out at same angle
-            var new_dx = point[0];
-            var new_dy = point[1];
-            var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
-            var new_r = Math.atan2(new_dy, new_dx);
-            end_x = Math.cos(new_r);
-            end_y = Math.sin(new_r);
-          }
-        }
-        // console.log("End Points", index, end_x, end_y);
+          // console.log("End Points", index, end_x, end_y);
 
-        path_d += 'L'+end_x+','+end_y;
+          path_d += 'L'+end_x+','+end_y;
+        }
 
         // console.log("Path:", path_d);
         svg += '<path d="'+path_d+'"></path>';

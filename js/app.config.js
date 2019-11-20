@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				:  '1.8.74', // Added Drawing to Media
+	version				:  '1.8.75', // Added Drawing to Media, white temp slider fix
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {

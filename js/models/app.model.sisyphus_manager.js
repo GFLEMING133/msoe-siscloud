@@ -216,7 +216,7 @@ app.model.sisyphus_manager = {
     if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    }     //<<<< 
+    }     //<<<<
 
     var self = this;
 
@@ -847,6 +847,7 @@ app.model.sisyphus_manager = {
         // } else {
         //   app.collection.add(data);
         // }
+        if (data.type == 'led_pattern') console.log("Incoming LED", data);
         self.intake_data(data);
 
         if (data.type == 'sisbot') {

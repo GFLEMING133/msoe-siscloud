@@ -1619,6 +1619,7 @@ app.model.sisbot = {
 		}
 
 		// send to sisbot
+		console.log("Save color data?", color_data);
 		if (!_.isEmpty(color_data)) {
 			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 			var save_data = [this.get('data')];

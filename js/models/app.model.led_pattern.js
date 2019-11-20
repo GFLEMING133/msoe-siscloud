@@ -36,6 +36,12 @@ app.model.led_pattern = {
 		this.on('change:data.led_primary_color', 				this.update_primary_color);
 		this.on('change:data.led_secondary_color', 			this.update_secondary_color);
 	},
+	setup_edit: function () {
+		this.set('edit', this.get('data')).set('errors', []);
+		console.log("LED edit", this.get('edit'));
+
+		return this;
+	},
 	update_primary_color: function() {
 		var color_data = this.get('data.led_primary_color');
 		if (color_data != 'false') {

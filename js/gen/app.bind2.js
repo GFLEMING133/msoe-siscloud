@@ -1128,15 +1128,20 @@ function Element(el, parent, _scope) {
   this.if = function (data) {
     // run if on given data, or this.data.if
     var compare;
-    if (data) compare = data;
-    else compare = this.get_value(this.data.if);
+    try {
+      if (data) compare = data;
+      else compare = this.get_value(this.data.if);
 
-    // split string out for comparison
-    var statement   = compare.split(/\s?(\=\=|\!\=\=|\<\=?|\>\=?)\s?/);
-    var first       = '' + statement[0];
-    var comparator  = statement[1];
-    var second      = '' + statement[2];
-    var is_true     = false;
+      // split string out for comparison
+      var statement   = compare.split(/\s?(\=\=|\!\=\=|\<\=?|\>\=?)\s?/);
+      var first       = '' + statement[0];
+      var comparator  = statement[1];
+      var second      = '' + statement[2];
+      var is_true     = false;
+
+    } catch(err) {
+      console.log("If error", err, this.el_id, this.data.if);
+    }
 
     // evaluate
     if (comparator == '==' && first == second)          is_true = true;
