@@ -929,7 +929,13 @@ app.model.sisyphus_manager = {
       }
     }
   },
-
+/************************** MOUSE COORDINATES ***********************************/
+	showMouse: function() {
+		var x = event.clientX;
+		var y = event.clientY;
+		var coords = "X coords: " + x + ", Y coords: " + y;
+		console.log('Coordinates are =', coords)
+	},
   /******************** TRACK UPLOAD ****************************************/
   reset_upload_tracks: function() {
     this.set('tracks_to_upload', []);

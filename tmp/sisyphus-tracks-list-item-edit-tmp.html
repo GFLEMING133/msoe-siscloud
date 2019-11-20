@@ -1,4 +1,4 @@
-<div>
+<div data-on-click="grandparent.showMouse">
 	<div class="flex pl20 pr20 clickable active">
 		<div class="w20 pt10 pb10 center vertical">
 			<div class="w80p hh80">
@@ -8,7 +8,6 @@
 			</div>
 		</div>
 		<div class="w60 pt25 pb10 pl10"
-				data-on-click="session.showMouse"
 				tg-name="track_name">
 	        <div class="fs18 lh18 black block word-break strong">{{= model.data.name }}</div>
 	        <div class="fs12 lh18 grey block hidden">by {{= model.data.created_by_name }}</div>

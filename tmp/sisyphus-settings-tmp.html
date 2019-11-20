@@ -18,8 +18,9 @@
             <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
           </div>
           <div class="w90 flex relative center"
+              data-on-click="parent.showMouse"
               tg-name="speed_slider_div"
-              data-on-click="session.showMouse">
+              >
             <span class="w5"></span>
             <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true" data-on-input="model.speed" value="{{= model.edit.speed }}" tg-name="speed_slider" />
             <span class="w5"></span>
@@ -47,7 +48,7 @@
             <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
           </div>
           <div class="w90 flex relative center"
-              data-on-click="session.showMouse">
+              data-on-click="parent.showMouse">
             <span class="w2-5"></span>
             <input class="w90"
                 type="range"
