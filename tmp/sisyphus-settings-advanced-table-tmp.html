@@ -6,8 +6,8 @@
     </div>
     <div class="w15">&nbsp;</div>
   </div>
-  <div class="body-header h100 pb100 scroll hide-scrollbar" 
-      data-model="{{= model.sisbot_id }}" 
+  <div class="body-header h100 pb100 scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
       data-run="model.setup_edit"
       tg-name="table_settings_page">
     <p class="p0 m0 mt20 fs18 center">
@@ -24,7 +24,7 @@
         <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
             data-field="model.edit.table_settings.cson"
             data-selected="{{= model.edit.cson }}"
-            data-foreach="model.csons" >
+            data-foreach="model.csons">
           <option  value="{{= scope.value.id }}">{{= scope.value.name }}</option>
         </select>
       </div>

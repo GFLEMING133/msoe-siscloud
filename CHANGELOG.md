@@ -1,11 +1,13 @@
+#2019-11-20 1.8.74
+ - added Drawing to Media
 #2019-11-13 1.8.73
  - added if(!sisbot) return; to the check_reconnect_status for if no sisbot_id
  - removed /templates from server.js and moved home.html into /tmp to fix routing issues
  - home-tmp.html is now scrollable
  - calling clear_sisbots() and reset_socket() in disconnect_wifi() in model.sisbot to fix reconnect errors and speed up connection
  - cleaned up model objects and unused css attributes
- - calling intake_data(data) in the connect_to_sisbot() instead of setting data as to not reset whole data object. 
- - removed conditional for Attempt Reconnect and Reconnect to Sisyphus buttons to always show. and added media query to adjust font for smaller phones. 
+ - calling intake_data(data) in the connect_to_sisbot() instead of setting data as to not reset whole data object.
+ - removed conditional for Attempt Reconnect and Reconnect to Sisyphus buttons to always show. and added media query to adjust font for smaller phones.
 #2019-11-13 1.8.71 & 72
  - Add Track to New Playlist fix and routing to New Playlist page
  - expanded with of update_1 of progress bar for border issues
@@ -17,7 +19,7 @@
 #2019-11-11 1.8.70
  - Fix Current Playing on change
  - added font-awesome mouse for training grounds to the dev.index
- - share_log-files- true for onboarding. 
+ - share_log-files- true for onboarding.
  - bind2 bugs (html of undefined, race conditions, and rendering issues)
  - update is quicker (sisbot repo)
 
@@ -34,11 +36,11 @@
  - added data-run=model.setup_edit for routing to Edit Playlist from Home on app load.
  - Socket reconnect bug fix, should not hammer the table with requests after lost socket/reconnect
  - Onboarding includes opt-in for sharing log files
- - Forgot_password function rewrote to handle errors. 
+ - Forgot_password function rewrote to handle errors.
  - restyled errors in Community
  - cleaned up css
  - Removed Sisyphus from the Advanced page in front of id, ip address....
- - Log File opt in added to onboarding. 
+ - Log File opt in added to onboarding.
  - styled upload file button in the Upload Tracks page.
  - Servo Faults in Sisbot 1.10.52+ don't block UI
  - Share Log Files save button appears only when necessary

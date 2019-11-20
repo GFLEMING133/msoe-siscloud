@@ -1290,11 +1290,9 @@ app.model.sisbot = {
 		return this;
 	},
 	setup_favorite_playlist: function () {
-		if (this.is_legacy())
-			return this;
+		if (this.is_legacy()) return this;
 
-		if (this.get('data.favorite_playlist_id') !== 'false')
-			return this;
+		if (this.get('data.favorite_playlist_id') !== 'false') return this;
 
 		var self = this;
 
@@ -1311,6 +1309,7 @@ app.model.sisbot = {
 			if (obj.err) {
 
 			} else {
+				console.log("Setup Favorite Playlist");
 				self.playlist_add(playlist);
 			}
 		});
@@ -1700,6 +1699,7 @@ app.model.sisbot = {
 	playlist_add: function (playlist_model) {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
+		console.log("Sisbot: Playlist Add", this.id);
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			console.log('Sisbot: Add playlist', obj);

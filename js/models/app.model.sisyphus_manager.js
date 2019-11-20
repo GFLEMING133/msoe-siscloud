@@ -660,7 +660,7 @@ app.model.sisyphus_manager = {
 
           if (app.config.env == 'alpha') {
             self.connect_to_sisbot('192.168.42.1');
-          } else if (app.config.env == 'beta' || app.config.env == 'training') {
+          } else if (app.config.env != 'prod') {
             self.connect_to_sisbot(app.config.get_sisbot_url());
           } else if (sisbots.length == 1) {
             self.set('sisbot_registration', 'connecting');
@@ -1069,7 +1069,7 @@ app.model.sisyphus_manager = {
     var tracks_to_upload = this.get('tracks_to_upload');
 
     // remove from tracks_to_upload, take to next preview page or this model's page
-    var track_obj = tracks_to_upload.shift();
+    var track_obj = app.collection.get(tracks_to_upload.shift());
 
     // remove from collection
     app.collection.remove(track_obj.id);
@@ -1080,6 +1080,12 @@ app.model.sisyphus_manager = {
         secondary: 'preview-upload',
         track_id: tracks_to_upload[0].id
       });
+    } else if (track_obj.get('data.original_file_type') == 'draw') {
+      app.trigger('session:active', {
+        primary: 'media',
+        secondary: 'draw',
+        track_id: 'false'
+      }); // TODO: reshow existing drawing?
     } else {
       app.trigger('session:active', {
         primary: 'settings',

@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.73', // wifi reconnect issues with older firmware issues addressed/ removed templates folder moved home.html to /tmp read CHANGELOG.md
+	  version				: '1.8.74', // Added Drawing to Media read CHANGELOG.md
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
