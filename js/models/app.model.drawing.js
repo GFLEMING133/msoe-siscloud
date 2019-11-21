@@ -70,6 +70,13 @@ app.model.drawing = {
     this.on('add:paths', this.update_path_count);
     this.on('remove:paths', this.update_path_count);
   },
+  multiply_change: function() {
+    var multiply = this.get('edit.multiply');
+    if (!_.isFinite(multiply)) this.set('edit.multiply', 1).set('data.multiply', 1);
+    else if (multiply < 1) this.set('edit.multiply', 1).set('data.multiply', 1);
+
+    this._draw_paths();
+  },
   update_path_count: function() {
     this.set('path_count', _.size(this.get('paths')));
   },
@@ -160,7 +167,7 @@ app.model.drawing = {
     this.on('change:edit.firstR', this._draw_paths);
     this.on('change:edit.lastR', this._draw_paths);
     this.on('change:edit.is_mirror', this._draw_paths);
-    this.on('change:edit.multiply', this._draw_paths);
+    this.on('change:edit.multiply', this.multiply_change);
 
     this.on('add:paths', this._draw_paths);
     this.on('change:paths', this._draw_paths);
@@ -381,7 +388,7 @@ app.model.drawing = {
   },
   start_drag: function(data) {
     // console.log("Start Drag", data);
-    this.set('is_dragging', 'true');
+    var w = this.get('width');
 
     // touch coordinates
     this.set('drag_pos.start.x', +data.offset_x);
@@ -396,6 +403,15 @@ app.model.drawing = {
 
     this.set('drag_pos.origin.x', this.get('drag_pos.current.x'));
     this.set('drag_pos.origin.y', this.get('drag_pos.current.y'));
+
+    // make sure touch is within circle
+    var new_dx = +data.offset_x - w/2;
+    var new_dy = +data.offset_y - w/2;
+    var touch_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+
+    if (touch_dist < w/2 - 10) {
+      this.set('is_dragging', 'true');
+    } else return;
 
     // disable scrolling in app
     // if (app.is_app) {

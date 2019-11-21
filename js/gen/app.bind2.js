@@ -1795,7 +1795,7 @@ function Element(el, parent, _scope) {
     var self = e.data.el;
 
     if (self.data.onTouchStart) {
-      e.preventDefault();
+      // e.preventDefault();
       var msg = self.data.msg;
 
       if (!self.data.msg) {
@@ -1824,7 +1824,7 @@ function Element(el, parent, _scope) {
     var self = e.data.el;
 
     if (self.data.onTouchMove) {
-      e.preventDefault();
+      // e.preventDefault();
       var msg = self.data.msg;
 
       if (!self.data.msg) {
@@ -1853,7 +1853,7 @@ function Element(el, parent, _scope) {
     var self = e.data.el;
 
     if (self.data.onTouchEnd) {
-      e.preventDefault();
+      // e.preventDefault();
       var msg = self.data.msg;
 
       if (!self.data.msg) {
