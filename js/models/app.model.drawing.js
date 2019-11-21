@@ -279,6 +279,7 @@ app.model.drawing = {
           if (index == paths.length - 1) { // connect mirror to regular
             if (self.get('is_dragging') == 'false') {
               svg.append("line")
+                .attr("class", "end_line")
                 .attr('x1', path.end.x)
                 .attr('x2', mid - path.end.x + mid)
                 .attr('y1', path.end.y)
