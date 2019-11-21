@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.75', // Added Drawing to Media read CHANGELOG.md
+	  version				: '1.8.74', // Added Drawing to Media read CHANGELOG.md and Cancel Downloads to Playlist modal
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

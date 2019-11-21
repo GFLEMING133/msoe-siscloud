@@ -1,6 +1,7 @@
-#2019-11-20 1.8.75
+#2019-11-20 1.8.74
  - added Drawing to Media
  - fixed white color temp slider on refresh
+ - added Cancel Download button to Playlist modal.
 #2019-11-13 1.8.73
  - added if(!sisbot) return; to the check_reconnect_status for if no sisbot_id
  - removed /templates from server.js and moved home.html into /tmp to fix routing issues
