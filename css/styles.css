@@ -309,16 +309,16 @@ label {
 .spin {
 	-webkit-animation	:spin 1s linear infinite;
 	-moz-animation		:spin 1s linear infinite;
-	animation			:spin 1s linear infinite;
+	animation					:spin 1s linear infinite;
 }
 
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@-moz-keyframes 		spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes 	spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes 					spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 .max-height {
 	max-height			: 250px;
-	border				: 1px solid #efefef;
+	border					: 1px solid #efefef;
 	overflow-y			: scroll;
 	overflow-x			: hidden;
 	margin-left			: -5px;
@@ -701,66 +701,70 @@ li.blue-hover:hover {
     width: 305px !important;
 }
 .flex {
-	display					: -webkit-box;
-	display					: -webkit-flex;
+	display							: flex;
+	width								: 100%;
+	display							: -webkit-box;
+	display							: -webkit-flex;
 	-webkit-box-pack		: justify;
-    -webkit-justify-content : space-between;
-	display					: flex;
-	width					: 100%;
+  -webkit-justify-content : space-between;
 }
 .flex-center-column {
-	display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+	display 				: flex;
+	flex-direction 	: column;
+	justify-content : flex-start;
+	align-items 		: center;
 }
 .flex-center-row {
-	display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+	display 				: flex;
+	flex-direction 	: row;
+	justify-content : center;
+	align-items 		: center;
 }
 .flex1start {
-	display: flex;
-	flex: 1;
-	justify-content: flex-start;
-	align-items: center
+	display  				: flex;
+	flex            : 1;
+	justify-content : flex-start;
+	align-items 		: center
 }
 .flex1center {
-	display: flex;
-	flex: 1;
-	justify-content: center;
-	align-self: center;
-
-}
-.flex-justify-center {
-	display: flex;
-	justify-content: center;
-
-}
-.flex-row {
-	display: flex;
-	flex-direction: row;
-}
-.flex-column {
-	display: flex;
-	flex-direction: column;
+	display         : flex;
+	flex  					: 1;
+	justify-content : center;
+	align-self 			: center;
 }
 .flex1end {
-	display: flex;
-	flex: 1;
-	justify-content: flex-end;
-	align-items: flex-end;
+	display         : flex;
+	flex 						: 1;
+	justify-content : flex-end;
+	align-items 		: flex-end;
 }
+.flex-justify-center {
+	display 				: flex;
+	justify-content : center;
+}
+.flex-evenly {
+	display 				: flex;
+	justify-content : space-evenly;
+}
+.flex-row {
+	display 				: flex;
+	flex-direction 	: row;
+}
+.flex-column {
+	display  				: flex;
+	flex-direction 	: column;
+}
+
 .align-start {
-	align-self: flex-start;
+	align-self      : flex-start;
 }
 .align-end {
-	align-self: end;
+	align-self 			: end;
 }
 .align-center {
-	align-self: center;
+	align-self 			: center;
 }
+
 .word-break {
 	word-break: break-word;
 }
@@ -895,6 +899,7 @@ li.blue-hover:hover {
 .w15p									{	width		: 15px;}
 .w20p									{	width		: 20px;}
 .w25p									{	width		: 25px;}
+.w40p									{	width		: 40px;}
 .w80p									{	width		: 80px;}
 .w75per								{	width   : 75%;}
 .mh-480								{	min-height	: 480px;}
@@ -995,6 +1000,7 @@ li.blue-hover:hover {
 .hh350								{	height					: 350px }
 .hh400								{	height					: 400px }
 
+.hvw5									{	height					: 5vw; 	}
 .hvw10								{	height					: 10vw; }
 .hvw20								{	height					: 20vw; }
 .hvw25								{	height					: 25vw; }
@@ -1007,6 +1013,32 @@ li.blue-hover:hover {
 .hvw80								{	height					: 80vw; }
 .hvw90								{	height					: 90vw; }
 .hvw100								{	height					: 100vw }
+
+.vh10									{	height					: 10vh; }
+.vh20									{	height					: 20vh; }
+.vh25									{	height					: 25vh; }
+.vh30									{	height					: 30vh; }
+.vh40									{	height					: 40vh; }
+.vh50									{	height					: 50vh; }
+.vh60									{	height					: 60vh; }
+.vh70									{	height					: 70vh; }
+.vh75									{	height					: 75vh; }
+.vh80									{	height					: 80vh; }
+.vh90									{	height					: 90vh; }
+.vh100								{	height					: 100vh }
+
+.vw10								  {	width						: 10vw; }
+.vw20								  {	width						: 20vw; }
+.vw25								  {	width						: 25vw; }
+.vw30								  {	width						: 30vw; }
+.vw40								  {	width						: 40vw; }
+.vw50								  {	width						: 50vw; }
+.vw60								  {	width						: 60vw; }
+.vw70								  {	width						: 70vw; }
+.vw75								  {	width						: 75vw; }
+.vw80								  {	width						: 80vw; }
+.vw90								  {	width						: 90vw; }
+.vw100								{	width						: 100vw }
 .w99									{ width 		  		: 99% !important;}
 .w100                 { width           : 100% !important;}
 
@@ -1021,10 +1053,11 @@ li.blue-hover:hover {
 .inline								{	float						: left;		display: inline;}
 .inline-right					{	float						: right;	display: inline;}
 .inline-block					{	display					: inline-block;		}
-.left									{ text-align			: left; }
-.center 							{	text-align			: center; 				}
+.left									{ text-align			: left; 					}
+.center 							{	text-align			: center;					}
+.last-center					{ text-align-last : center;					}
 .webkit-center 				{	text-align			: -webkit-center;	}
-.right								{ text-align			: right }
+.right								{ text-align			: right; 					}
 .i 										{	font-style			: italic; 				}
 .strikethrough				{	text-decoration	: line-through;		}
 .uppercase						{	text-transform	: uppercase;			}
@@ -1113,12 +1146,12 @@ li.blue-hover:hover {
 }
 
 select {
-    padding						: 7px 8px;
+	padding						: 7px 8px;
 	border						: 2px solid #000;
-    box-shadow					: none;
-    background					: transparent;
-    background-image			: none;
-    -webkit-appearance			: none;
+	box-shadow				: none;
+	background				: transparent;
+	background-image	: none;
+	-webkit-appearance: none;
 }
 
 select:focus {
@@ -1132,8 +1165,6 @@ select:focus {
 	color:#fff;
 	font-weight: 900;
 	font-size: 12px;
-
-
 }
 
 .select-box .fa-chevron-down {
@@ -1371,6 +1402,7 @@ select:focus {
 .bg-danger			{	color					: #c7254e;}
 .error-msg 			{	width					: 100%;}
 .error-border		{	border-color	: #de0000;}
+.black-border		{ border-color  : #000 !important}
 .error					{	color					: #de0000;}
 
 
@@ -1507,7 +1539,7 @@ select:focus {
 .mb10									{	margin-bottom			: 10px !important; }
 .ml10									{	margin-left				: 10px !important; }
 .mr10									{	margin-right			: 10px !important; }
-.mbox10 								{   margin 					: 10px 10px !important; 				}
+.mbox10 							{   margin 				  : 10px 10px !important; 				}
 .mt15									{	margin-top				: 15px !important; }
 .mb15									{	margin-bottom			: 15px !important; }
 .ml15									{	margin-left				: 15px !important; }
@@ -1647,31 +1679,31 @@ select:focus {
 .pt70						      { padding-top       : 70px !important; }
 .pt75									{	padding-top				: 75px !important; }
 
-.pt100						            { padding-top             : 100px !important; }
-.pb100						            { padding-bottom	        : 100px !important; }
-.pl100									{	padding-left			: 100px !important; }
-.pr100									{	padding-right			: 100px !important; }
+.pt100						    { padding-top       : 100px !important; }
+.pb100						    { padding-bottom	  : 100px !important; }
+.pl100								{	padding-left			: 100px !important; }
+.pr100								{	padding-right			: 100px !important; }
 
-.pb110									{	padding-bottom			: 110px !important; }
-.pl110									{	padding-left			: 110px !important; }
-.pt110						            { padding-top             : 110px !important; }
+.pb110								{	padding-bottom		: 110px !important; }
+.pl110								{	padding-left			: 110px !important; }
+.pt110						    { padding-top       : 110px !important; }
 
-.pt150						            { padding-top             : 150px !important; }
-.pb150						            { padding-bottom	        : 150px !important; }
-.pl150									{	padding-left			: 150px !important; }
-.pr150									{	padding-right			: 150px !important; }
+.pt150						    { padding-top       : 150px !important; }
+.pb150						    { padding-bottom	  : 150px !important; }
+.pl150								{	padding-left			: 150px !important; }
+.pr150								{	padding-right			: 150px !important; }
 
-.pb160						            { padding-bottom	        : 160px !important; }
+.pb160						    { padding-bottom	  : 160px !important; }
 
-.pt200						            { padding-top             : 200px !important; }
-.pb200						            { padding-bottom	        : 200px !important; }
-.pl200									{	padding-left			: 200px !important; }
-.pr200									{	padding-right			: 200px !important; }
+.pt200						    { padding-top       : 200px !important; }
+.pb200						    { padding-bottom	  : 200px !important; }
+.pl200								{	padding-left			: 200px !important; }
+.pr200								{	padding-right			: 200px !important; }
 
-.pt250						            { padding-top             : 250px !important; }
-.pb250						            { padding-bottom	        : 250px !important; }
-.pl250									{	padding-left			: 250px !important; }
-.pr250									{	padding-right			: 250px !important; }
+.pt250						    { padding-top       : 250px !important; }
+.pb250						    { padding-bottom	  : 250px !important; }
+.pl250								{	padding-left			: 250px !important; }
+.pr250							  {	padding-right			: 250px !important; }
 
 /**************************** CSS CHECKBOXES **********************************/
 
@@ -2008,6 +2040,7 @@ and (orientation : portrait) {
 	and (min-device-width: 375px)
 	and (max-device-height: 667px)
 	and (orientation : portrait)
+	
 {
 	.app .scrollDown {
 		/* border: 4px solid purple; */
@@ -2025,6 +2058,7 @@ and (orientation : portrait) {
 	and (device-width: 375px)
 	and (device-height: 812px)
 	and (orientation : portrait)
+	and (-webkit-device-pixel-ratio: 3)
 {
 	body {
 		padding-bottom: 25px;
@@ -2063,7 +2097,8 @@ and (orientation : portrait) {
 /*************iPhone XS Max & XR COLINS PHONE**************/
 @media only screen
     and (device-width : 414px)
-    and (device-height : 896px)
+		and (device-height : 896px)
+		and (orientation : portrait)
 	and (-webkit-device-pixel-ratio : 3)
 {
 	body {
@@ -2090,3 +2125,5 @@ and (orientation : portrait) {
 		padding-bottom: 200px !important;
 	}
 }
+
+
