@@ -713,7 +713,7 @@ app.model.drawing = {
         if (is_reversed) points = points.reverse();
 
         // smoothly arc around to next
-        if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_mirror))) {
+        if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_mirror) || (firstR == 1 && lastR == 1))) {
           var degrees = 360 / length * value;
 
           // arc to rho 1 start point
