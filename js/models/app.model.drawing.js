@@ -694,6 +694,8 @@ app.model.drawing = {
     var svg = '<svg>';
     var rho_max = mid - 10;
 
+    var point = [0,0];
+
     var index = 0;
     for(var i=0; i < length; i++) {
     	var value = index % length; // value for which multiplier around table to draw now
@@ -703,7 +705,6 @@ app.model.drawing = {
       _.each(paths, function(path, path_index) {
         var points = JSON.parse(JSON.stringify(path.points));
         var path_d = '';
-        var point;
 
         if (is_reversed) {
           // console.log("Reverse points", is_reversed, index);
