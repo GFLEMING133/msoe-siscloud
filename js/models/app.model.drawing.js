@@ -681,7 +681,7 @@ app.model.drawing = {
     var length = this.get('edit.multiply');
     var divisor = this.get('edit.divisor');
     var is_even = true;
-    var is_diff = (firstR != lastR);
+    var is_diff = (firstR != lastR && !is_mirror);
     var is_reversed = false;
 
     var skip = length/divisor;
@@ -696,11 +696,12 @@ app.model.drawing = {
 
     var point = [0,0];
 
+    console.log("Settings", firstR, lastR, is_mirror, is_diff);
+
     var index = 0;
     for(var i=0; i < length; i++) {
     	var value = index % length; // value for which multiplier around table to draw now
       // console.log("Draw:", value);
-      console.log("Index", value, point);
 
       if (is_diff && i > 0) paths = paths.reverse();
 
@@ -709,25 +710,23 @@ app.model.drawing = {
         var points = JSON.parse(JSON.stringify(path.points));
         var path_d = '';
 
-        if (is_reversed) {
-          points = points.reverse();
+        if (is_reversed) points = points.reverse();
 
-          // smoothly arc around to next
-          if (path_index == 0 && index > 0 && lastR == 1) {
-            var degrees = 360 / length * value;
+        // smoothly arc around to next
+        if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_mirror))) {
+          var degrees = 360 / length * value;
 
-            // arc to rho 1 start point
-            var p = self._rotate_coord([points[0][0], points[0][1]], degrees);
-            point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
-            var new_dx = point[0];
-            var new_dy = point[1];
-            var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
-            var new_r = Math.atan2(new_dy, new_dx);
-            point[0] = Math.cos(new_r);
-            point[1] = Math.sin(new_r);
+          // arc to rho 1 start point
+          var p = self._rotate_coord([points[0][0], points[0][1]], degrees);
+          point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
+          var new_dx = point[0];
+          var new_dy = point[1];
+          var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+          var new_r = Math.atan2(new_dy, new_dx);
+          point[0] = Math.cos(new_r);
+          point[1] = Math.sin(new_r);
 
-            path_d += 'R'+point[0]+','+point[1];
-          }
+          path_d += 'R'+point[0]+','+point[1];
         }
 
         _.each(points, function(p, p_index) {
@@ -747,20 +746,21 @@ app.model.drawing = {
 ``
           // draw mirrored path in reverse
           _.each(points, function(p) {
+            p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
+
             if (value != 0) { // rotate points
               var degrees = 360 / length * value;
               p = self._rotate_coord(p, degrees);
             }
 
-            point = [(mid-p[0])/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+            point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
 
             path_d += 'L'+point[0]+','+point[1];
           });
         }
 
         // bring last point to the given lastR
-        // TODO: skip on reversed?
-        if (path_index >= paths.length -1) {
+        if (path_index >= paths.length - 1) {
           var end_x = 0;
           var end_y = 0;
           if (is_reversed) {
