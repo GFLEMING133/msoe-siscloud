@@ -700,6 +700,9 @@ app.model.drawing = {
     for(var i=0; i < length; i++) {
     	var value = index % length; // value for which multiplier around table to draw now
       // console.log("Draw:", value);
+      console.log("Index", value, point);
+
+      if (is_diff && i > 0) paths = paths.reverse();
 
       // draw path
       _.each(paths, function(path, path_index) {
@@ -707,29 +710,24 @@ app.model.drawing = {
         var path_d = '';
 
         if (is_reversed) {
-          // console.log("Reverse points", is_reversed, index);
-          var end_x = 0;
-          var end_y = 0;
-          if (lastR == 1) { // draw straight out at same angle
+          points = points.reverse();
+
+          // smoothly arc around to next
+          if (path_index == 0 && index > 0 && lastR == 1) {
+            var degrees = 360 / length * value;
+
+            // arc to rho 1 start point
+            var p = self._rotate_coord([points[0][0], points[0][1]], degrees);
+            point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
             var new_dx = point[0];
             var new_dy = point[1];
             var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
             var new_r = Math.atan2(new_dy, new_dx);
-            end_x = Math.cos(new_r);
-            end_y = Math.sin(new_r);
+            point[0] = Math.cos(new_r);
+            point[1] = Math.sin(new_r);
+
+            path_d += 'R'+point[0]+','+point[1];
           }
-          // console.log("Start Points", index, end_x, end_y);
-
-          path_d += 'M'+end_x+','+end_y;
-
-          points = points.reverse();
-        } else if ((is_diff || (lastR == 1 && !is_reversed)) && index > 0) {
-          // TODO: smoothly arc around to next
-          var degrees = 360 / length * value;
-          p = self._rotate_coord([points[0][0], points[0][1]], degrees);
-          point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
-          // console.log("Arc to start", index, point);
-          path_d += 'R'+point[0]+','+point[1];
         }
 
         _.each(points, function(p, p_index) {
@@ -760,7 +758,8 @@ app.model.drawing = {
           });
         }
 
-        // TODO: bring last point to the given lastR
+        // bring last point to the given lastR
+        // TODO: skip on reversed?
         if (path_index >= paths.length -1) {
           var end_x = 0;
           var end_y = 0;
@@ -783,7 +782,8 @@ app.model.drawing = {
               end_y = Math.sin(new_r);
             }
           }
-          // console.log("End Points", index, end_x, end_y);
+          point = [end_x, end_y];
+          console.log("End Points", index, end_x, end_y, point);
 
           path_d += 'L'+end_x+','+end_y;
         }
