@@ -62,8 +62,8 @@ app.model.drawing = {
 		return obj;
 	},
   scroll_el       : null, // memory for turning on/off scrolling
-  max_r           : Math.PI/8,
-  min_dist        : 4,
+  max_r           : Math.PI/24, // how far line can rotate before adding new control point
+  min_dist        : 4, // how far line must extend before adding new control point
 	current_version : 1,
   on_init: function() {
     this.on('change:paths', this.update_path_count);
@@ -109,7 +109,8 @@ app.model.drawing = {
     var d3_data = this.get('d3_data');
     var svg = d3.select($('.drawing_area')[0]);
     svg.attr('width', w);
-    svg.attr('height', w);
+    svg.attr('height', w)
+    .attr("shape-rendering", "optimizeSpeed");
 
     // Zero line, border
     self._line(svg, {x1:mid,y1:mid,x2:mid,y2:w-10,stroke:d3_data.circle_stroke,stroke_width:d3_data.zero_stroke_width});
@@ -396,7 +397,7 @@ app.model.drawing = {
     this.set('drag_pos.origin.y', this.get('drag_pos.current.y'));
 
     // disable scrolling in app
-    if (app.is_app) {
+    // if (app.is_app) {
       if (!this.scroll_el) this.scroll_el = $('.scroll');
       // this.scroll_el.attr('style', 'overflow-y: hidden !important;');
       var offset_scroll = this.scroll_el.scrollTop();
@@ -405,7 +406,10 @@ app.model.drawing = {
       this.set('drag_pos.offset.y', this.get('drag_pos.offset.y') - offset_scroll);
       this.scroll_el.scrollTop(0);
       this.scroll_el.removeClass('scroll');
-    }
+    // }
+
+    // increase rendering speed
+    d3.select($('.drawing_area')[0]).attr("shape-rendering", "crispEdges");
 
     // add first point
     this.add('coords', [this.get('drag_pos.current.x'), this.get('drag_pos.current.y')]);
@@ -562,10 +566,13 @@ app.model.drawing = {
       this.set('coords', []);
 
       // enable scrolling in app
-      if (app.is_app) {
+      // if (app.is_app) {
         if (this.scroll_el) this.scroll_el.addClass('scroll');
         else console.log("Scroll element lost!");
-      }
+      // }
+
+      // draw smoothly
+      d3.select($('.drawing_area')[0]).attr("shape-rendering", "optimizeSpeed");
 
       // console.log("Add path", obj);
 

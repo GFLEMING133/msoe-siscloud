@@ -41,9 +41,7 @@
 								min="1"
 								max="{{= model.max_steps }}"
 								step="1"
-								data-on-input="model.set_steps"
-								data-on-mouse-up="model.get_thumbnail"
-								data-on-touch-end="model.get_thumbnail"
+								data-on-input="model.set_steps|model.get_thumbnail"
 								value="{{= model.edit_steps }}" />
 						<span class="w2-5"></span>
 					</div>
