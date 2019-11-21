@@ -696,7 +696,7 @@ app.model.drawing = {
 
     var point = [0,0];
 
-    console.log("Settings", firstR, lastR, is_mirror, is_diff);
+    // console.log("Settings", firstR, lastR, is_mirror, is_diff);
 
     var index = 0;
     for(var i=0; i < length; i++) {
@@ -705,14 +705,15 @@ app.model.drawing = {
 
       if (is_diff && i > 0) paths = paths.reverse();
 
+      var path_d = '';
+
       // draw path
       _.each(paths, function(path, path_index) {
         var points = JSON.parse(JSON.stringify(path.points));
-        var path_d = '';
 
         if (is_reversed) points = points.reverse();
 
-        // smoothly arc around to next
+        // smoothly arc around to first point
         if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_diff && !is_reversed) || (firstR == 1 && is_mirror) || (firstR == 1 && lastR == 1))) {
           var degrees = 360 / length * value;
 
@@ -726,6 +727,7 @@ app.model.drawing = {
           point[0] = Math.cos(new_r);
           point[1] = Math.sin(new_r);
 
+          console.log("Arc to next", point[0]+', '+point[1]);
           path_d += 'R'+point[0]+','+point[1];
         }
 
@@ -740,10 +742,16 @@ app.model.drawing = {
           if (p_index == 0) path_d += 'M'+point[0]+','+point[1];
           else path_d += 'L'+point[0]+','+point[1];
         });
+      });
 
-        if (is_mirror) {
+      if (is_mirror) {
+        // reverse paths
+        paths = paths.reverse();
+
+        _.each(paths, function(path, path_index) {
+          var points = JSON.parse(JSON.stringify(path.points));
           var mirrored = points.reverse();
-``
+  ``
           // draw mirrored path in reverse
           _.each(points, function(p) {
             p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
@@ -757,40 +765,40 @@ app.model.drawing = {
 
             path_d += 'L'+point[0]+','+point[1];
           });
+        });
+
+        // reverse paths back to original order
+        paths = paths.reverse();
+      }
+
+      // bring last point to the given lastR
+      var end_x = 0;
+      var end_y = 0;
+      if (is_reversed) {
+        if (firstR == 1) { // draw straight out at same angle
+          var new_dx = point[0];
+          var new_dy = point[1];
+          var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+          var new_r = Math.atan2(new_dy, new_dx);
+          end_x = Math.cos(new_r);
+          end_y = Math.sin(new_r);
         }
-
-        // bring last point to the given lastR
-        if (path_index >= paths.length - 1) {
-          var end_x = 0;
-          var end_y = 0;
-          if (is_reversed) {
-            if (firstR == 1) { // draw straight out at same angle
-              var new_dx = point[0];
-              var new_dy = point[1];
-              var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
-              var new_r = Math.atan2(new_dy, new_dx);
-              end_x = Math.cos(new_r);
-              end_y = Math.sin(new_r);
-            }
-          } else {
-            if (lastR == 1) { // draw straight out at same angle
-              var new_dx = point[0];
-              var new_dy = point[1];
-              var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
-              var new_r = Math.atan2(new_dy, new_dx);
-              end_x = Math.cos(new_r);
-              end_y = Math.sin(new_r);
-            }
-          }
-          point = [end_x, end_y];
-          console.log("End Points", index, end_x, end_y, point);
-
-          path_d += 'L'+end_x+','+end_y;
+      } else {
+        if (lastR == 1) { // draw straight out at same angle
+          var new_dx = point[0];
+          var new_dy = point[1];
+          var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
+          var new_r = Math.atan2(new_dy, new_dx);
+          end_x = Math.cos(new_r);
+          end_y = Math.sin(new_r);
         }
+      }
+      point = [end_x, end_y];
+      path_d += 'L'+end_x+','+end_y;
+      // console.log("End Points", index, end_x, end_y, point);
 
-        // console.log("Path:", path_d);
-        svg += '<path d="'+path_d+'"></path>';
-      });
+      // console.log("Path:", path_d);
+      svg += '<path d="'+path_d+'"></path>';
 
     	index += skip;
       if (is_even && i % divisor == divisor-1) index++;
