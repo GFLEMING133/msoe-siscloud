@@ -1,3 +1,7 @@
+#2019-11-20 1.8.75
+ - fixed header issue on android when selecting input fields
+ - rendering issues adjusted 
+ - restyled sisyphus-draw-track-tmp
 #2019-11-20 1.8.74
  - added Drawing to Media
  - fixed white color temp slider on refresh

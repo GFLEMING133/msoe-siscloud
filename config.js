@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.75', // Added Drawing to Media read CHANGELOG.md and Cancel Downloads to Playlist modal
+	  version				: '1.8.75', // '1.8.75', // Draw page rendering issues addressed , header on android fixed, restyled draw page
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
