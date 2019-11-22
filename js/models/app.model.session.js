@@ -17,6 +17,7 @@ app.model.session = {
 				user_id				: 'false',
 				playlist_id		: 'false',
 				track_id			: 'false',
+				drawing_id		: 'false',
 				sisbot_id			: 'false'
 			},
 			toggle: {
@@ -31,6 +32,7 @@ app.model.session = {
 			sisyphus_manager_id		: 'false',
 			modal_id							: 'false',
 
+			community_id					: 'false',
 			user_registration			: 'false', // false|sign_up|sign_in|hostname
 
 			signing_up: 'false',
@@ -64,7 +66,10 @@ app.model.session = {
 
 		var saved_session = this.get_session();
 		if (_.isObject(saved_session)) {
-			if (saved_session.active) this.set('active', saved_session.active);
+			if (saved_session.active) {
+				saved_session.active.drawing_id = 'false'; // clear the drawing_id
+				this.set('active', saved_session.active);
+			}
 			if (saved_session.remember_me) {
 				this.set('remember_me', saved_session.remember_me);
 				if (saved_session.registration) this.set('registration', saved_session.registration);
@@ -325,7 +330,6 @@ app.model.session = {
 
     },
     _process_sign_in: function (user, data_arr) {
-
   		var session_data = {
   			email			: user.email,
       	password		: user.password,

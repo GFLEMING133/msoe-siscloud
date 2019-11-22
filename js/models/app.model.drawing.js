@@ -107,10 +107,13 @@ app.model.drawing = {
     this.set('height', w);
     var mid = w/2;
     this.set('mid', mid);
-    this.set('drag_pos.current.x', mid);
-    this.set('drag_pos.current.y', mid);
-    this.set('drag_pos.origin.x', mid);
-    this.set('drag_pos.origin.y', mid);
+
+    if (this.get('path_count') < 1) {
+      this.set('drag_pos.current.x', mid);
+      this.set('drag_pos.current.y', mid);
+      this.set('drag_pos.origin.x', mid);
+      this.set('drag_pos.origin.y', mid);
+    }
 
     // Add fields
     var d3_data = this.get('d3_data');
@@ -832,12 +835,25 @@ app.model.drawing = {
       original_file_type: 'draw',
       file_data: svg
     };
+
+    // TODO: check for user, set created_by_name
+    var community = app.session.get_model('community_id');
+    if (community) {
+      console.log("User:", community.get('data'));
+    } else {
+      console.log("No Community user connected");
+    }
+
     var track = app.collection.add(track_obj);
     track.set('svg_scaled', 'true')
       .set('upload_status', 'false');
 
     // add(set) to manager upload list
     app.manager.set('tracks_to_upload', [track.get('data')]);
+
+    // save for back button
+    app.collection.add(this);
+    app.session.set('active.drawing_id', this.id);
 
     app.trigger('session:active', {
       primary: 'media',

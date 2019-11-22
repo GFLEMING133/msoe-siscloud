@@ -7,7 +7,6 @@ app.model.sisyphus_manager = {
 
       user_id: 'false',
 
-
       sisbot_id: 'false',
       is_sisbot_available: 'false',
       sisbot_registration: 'find', // find|none|hotspot|multiple
@@ -44,7 +43,6 @@ app.model.sisyphus_manager = {
       community_page: 'tracks',
       community_playlist_ids: [],
       community_track_ids: [],
-
 
       is_ble_enabled: 'false',
       local_version: 'na',
@@ -1005,6 +1003,7 @@ app.model.sisyphus_manager = {
     var tracks_to_upload = self.get('tracks_to_upload');
     var track_model = app.collection.get(tracks_to_upload[0].id);
     track_model.set('upload_status', 'uploading'); // for spinner
+    if (track_model.get('data.original_file_type') == 'draw') app.session.set('active.drawing_id', 'false'); // clear memory
 
     if (sisbot.get('data.state') == 'playing') {
       // wait for table to be paused
@@ -1082,6 +1081,7 @@ app.model.sisyphus_manager = {
         track_id: tracks_to_upload[0].id
       });
     } else if (track_obj.get('data.original_file_type') == 'draw') {
+      app.session.set('active.drawing_id', 'false'); // clear memory
       app.trigger('session:active', {
         primary: 'media',
         secondary: 'draw',
