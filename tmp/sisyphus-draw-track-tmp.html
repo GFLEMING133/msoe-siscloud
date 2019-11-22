@@ -21,7 +21,7 @@
   <div class="body-header h100 scroll hide-scrollbar pb150"
       tg-name="drawing_page">
     <div class="flex-column">
-        <div class="d3 bg-white"
+        <div class="d3 bg-white bb"
             lib-d3="true"
             data-run-after="model.draw_preview"
             data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
@@ -37,8 +37,8 @@
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
         </div>
-        <div class="block-wrapper p10">
-          <div class="flex-evenly pt10 pb10 fs14 lh18 no-stuffing strong">
+        <div class="block-wrapper pt10 pb10">
+          <div class="flex-evenly bb pt10 pb10 fs14 lh18 no-stuffing strong">
             <div class="flex-column vertical-align clickable"
                 data-on-click="toggle"
                 data-field="model.edit.is_mirror">
@@ -76,7 +76,7 @@
             <label>RHO END</label>
             </div>
           </div>
-          <div class="flex-column pt25 pb50">
+          <div class="flex-column bb pt25 pb50">
             <div class="p10 flex-justify-center">
               <div class="vw50 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong"
                   data-on-click="model.save"
