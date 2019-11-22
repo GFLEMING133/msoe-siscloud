@@ -1,0 +1,71 @@
+<div class="flex-column">
+  <div class="d3 bg-white"
+      lib-d3="true"
+      data-run-after="model.draw_preview"
+      data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
+      data-on-mouse-down="model.start_drag"
+      data-on-mouse-move="model.drag"
+      data-on-mouse-up="model.stop_drag"
+      data-on-touch-start="model.start_drag"
+      data-on-touch-move="model.drag"
+      data-on-touch-end="model.stop_drag"
+      data-on-touch-cancel="model.stop_drag"
+      data-on-mouse-leave="model.stop_drag">
+    <svg class="drawing_area"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
+  </div>
+  <div class="block-wrapper p10">
+    <div class="flex-evenly pt10 pb10 fs14 lh18 no-stuffing strong">
+      <div class="flex-column vertical-align clickable"
+          data-on-click="toggle"
+          data-field="model.edit.is_mirror">
+          <span class="pt5 black f-xlarge bg-white fas fa-check-square"
+          data-if="{{= model.edit.is_mirror }} == true"></span>
+          <span class="pt5 black f-xlarge bg-white far fa-square"
+          data-if="{{= model.edit.is_mirror }} == false"></span>
+        <label class="pt4 no-stuffing">MIRROR</label>
+      </div>
+      <div class="flex-column vertical-align fs14 lh18 no-stuffing strong">
+        <input class="vw10 center black-border"
+            type="text"
+            pattern="[0-9]*"
+            placeholder="1"
+            data-field="model.edit.multiply"
+            value="{{= model.data.multiply }}" />
+      <label class="no-stuffing">MULTIPLY</label>
+      </div>
+      <div class="flex-column vertical-align no-stuffing">
+        <select class="vw10 corner-5px fs14 last-center strong lh20 p10 pt7 pb7"
+        data-field="model.edit.firstR"
+        data-selected="{{= model.edit.firstR }}">
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+      <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.is_mirror }} == true">/END</span></p>
+      </div>
+      <div class="flex-column vertical-align fs14 lh18 no-stuffing strong" data-if="{{= model.edit.is_mirror }} == false">
+        <select class="vw10 corner-5px last-center fs14 lh20 p10 pt7 pb7"
+        data-field="model.edit.lastR"
+        data-selected="{{= model.edit.lastR }}">
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+      <label>RHO END</label>
+      </div>
+    </div>
+    <div class="flex-column pt25 pb50">
+      <div class="p10 flex-justify-center">
+        <div class="vw50 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong"
+            data-on-click="model.save"
+            data-if="{{= model.path_count }} > 0">Save</div>
+        <div class="vw50 p10 center btn bg-grey-ll corner-5px uppercase active fs18 strong"
+            data-if="{{= model.path_count }} <= 0">Save</div>
+      </div>
+      <div class="p10 flex-justify-center">
+        <div class="vw50 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong"
+            data-on-click="model.clear">Clear</div>
+      </div>
+    </div>
+  </div>
+</div>
