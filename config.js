@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.75', // '1.8.75', // Draw page rendering issues addressed , header on android fixed, restyled draw page
+	  version				: '1.8.76', // '1.8.75', // Draw page rendering issues addressed again
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

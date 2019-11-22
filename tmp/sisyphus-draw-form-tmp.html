@@ -1,5 +1,5 @@
 <div class="flex-column">
-  <div class="d3 bg-white"
+  <div class="d3 bg-white bb"
       lib-d3="true"
       data-run-after="model.draw_preview"
       data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
@@ -16,7 +16,7 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
   </div>
   <div class="block-wrapper p10">
-    <div class="flex-evenly pt10 pb10 fs14 lh18 no-stuffing strong">
+    <div class="flex-evenly bb pt10 pb10 fs14 lh18 no-stuffing strong">
       <div class="flex-column vertical-align clickable"
           data-on-click="toggle"
           data-field="model.edit.is_mirror">
@@ -36,7 +36,7 @@
       <label class="no-stuffing">MULTIPLY</label>
       </div>
       <div class="flex-column vertical-align no-stuffing">
-        <select class="w40p corner-5px fs14 center strong lh20 p10 pt7 pb7"
+        <select class="w40p corner-5px last-center fs14 center strong lh20 p10 pt7 pb7"
         data-field="model.edit.firstR"
         data-selected="{{= model.edit.firstR }}">
         <option value="0">0</option>
@@ -45,7 +45,7 @@
       <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.is_mirror }} == true">/END</span></p>
       </div>
       <div class="flex-column vertical-align fs14 lh18 no-stuffing strong" data-if="{{= model.edit.is_mirror }} == false">
-        <select class="w40p corner-5px center fs14 lh20 p10 pt7 pb7"
+        <select class="w40p corner-5px last-center center fs14 lh20 p10 pt7 pb7"
         data-field="model.edit.lastR"
         data-selected="{{= model.edit.lastR }}">
         <option value="0">0</option>

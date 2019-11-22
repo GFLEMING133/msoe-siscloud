@@ -18,7 +18,7 @@
 					<div data-run="model.get_thumbnail"></div>
 			        <div data-if="{{= model.generating_thumbnails }} == false">
 			            <img class="w100 center" alt="preview"
-			                src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png"
+									src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" data-src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png?{{= moment().format('x') }}"
 			            />
 			        </div>
 			        <div data-if="{{= model.generating_thumbnails }} == true">

@@ -3,10 +3,10 @@
     <div class="w20">&nbsp;</div>
     <div class="w60 hvw40 center vertical active">
       <div data-if="{{= model.generating_thumbnails }} == false">
-        <img class="w100 center" alt="slow" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+        <img class="w100 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
       </div>
       <div data-if="{{= model.generating_thumbnails }} == true">
-        <img class="w100 center" alt="slow" src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />
+        <img class="w100 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />
       </div>
     </div>
     <div class="w20">&nbsp;</div>

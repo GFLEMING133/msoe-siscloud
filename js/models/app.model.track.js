@@ -164,7 +164,7 @@ app.model.track = {
 			// send to sisbot
 			app.post.fetch(post_data, function exists_cb(obj) {
 				self.set('generating_thumbnails', 'false');
-				console.log(obj);
+				console.log( 'thumbnail response',obj);
 				if (obj.err) {
 					app.plugins.n.notification.alert(obj.err)
 				} else {

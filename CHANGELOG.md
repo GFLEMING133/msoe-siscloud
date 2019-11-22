@@ -1,3 +1,8 @@
+#2019-11-20 1.8.76
+ - Draw image rendering addressed for web by adding ?moment().format('x') to the end of the url
+ - fixed image showing when going back from preview
+ - removed media query for body from S10
+ - cleaned up css
 #2019-11-20 1.8.75
  - fixed header issue on android when selecting input fields
  - rendering issues adjusted 

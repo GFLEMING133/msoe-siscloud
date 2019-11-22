@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				:  '1.8.75', // Draw page rendering issues addressed , header on android fixed, restyled draw page
+	version				:  '1.8.76', // Draw page rendering issues addressed again
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {
