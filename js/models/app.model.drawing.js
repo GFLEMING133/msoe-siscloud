@@ -691,6 +691,9 @@ app.model.drawing = {
     console.log("Save Drawing", this.get('edit'));
     var self = this;
 
+    // save changes
+    this.set('data', this.get('edit'));
+
     // loop through Paths
     var paths = self.get('paths');
     var mid = this.get('mid');
