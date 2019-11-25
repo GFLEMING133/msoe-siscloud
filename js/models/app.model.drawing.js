@@ -10,6 +10,7 @@ app.model.drawing = {
       width       : 0,
       height      : 0,
       mid         : 0,
+      padding     : 10,
       is_dragging : 'false',
       drag_pos    : {
         start       : { x: 0, y: 0, w: 0, h: 0 }, // position of press
@@ -69,6 +70,18 @@ app.model.drawing = {
     this.on('add:paths', this.update_path_count);
     this.on('remove:paths', this.update_path_count);
   },
+  firstR_change: function() {
+    var mirror = (this.get('edit.is_mirror') == 'true');
+    if (mirror) this.set('edit.lastR', this.get('edit.firstR'), {silent:true});
+
+    this._draw_paths();
+  },
+  mirror_change: function() {
+    var mirror = (this.get('edit.is_mirror') == 'true');
+    if (mirror) this.set('edit.lastR', this.get('edit.firstR'), {silent:true});
+
+    this._draw_paths();
+  },
   multiply_change: function() {
     var multiply = this.get('edit.multiply');
     if (!_.isFinite(multiply)) this.set('edit.multiply', 1).set('data.multiply', 1);
@@ -106,6 +119,7 @@ app.model.drawing = {
     this.set('height', w);
     var mid = w/2;
     this.set('mid', mid);
+    var padding = this.get('padding');
 
     if (this.get('path_count') < 1) {
       this.set('drag_pos.current.x', mid);
@@ -122,9 +136,9 @@ app.model.drawing = {
     .attr("shape-rendering", "optimizeSpeed");
 
     // Zero line, border
-    self._line(svg, {x1:mid,y1:mid,x2:mid,y2:w-10,stroke:d3_data.circle_stroke,stroke_width:d3_data.zero_stroke_width});
+    self._line(svg, {x1:padding,y1:mid,x2:mid,y2:mid,stroke:d3_data.circle_stroke,stroke_width:d3_data.zero_stroke_width});
     svg.append("circle")
-      .attr("r", mid-10)
+      .attr("r", mid-padding)
       .attr("cx", mid)
       .attr("cy", mid)
       .attr('stroke', d3_data.circle_stroke)
@@ -166,9 +180,9 @@ app.model.drawing = {
     this._draw_paths();
 
     // add listeners
-    this.on('change:edit.firstR', this._draw_paths);
+    this.on('change:edit.firstR', this.firstR_change);
     this.on('change:edit.lastR', this._draw_paths);
-    this.on('change:edit.is_mirror', this._draw_paths);
+    this.on('change:edit.is_mirror', this.mirror_change);
     this.on('change:edit.multiply', this.multiply_change);
 
     this.on('add:paths', this._draw_paths);
@@ -243,12 +257,13 @@ app.model.drawing = {
     // console.log("_Draw Preview: finished");
   },
   _draw_paths: function() {
-    // console.log("Draw Paths");
     var self = this;
     var $el = $('.drawing_paths');
     $el.empty();
 
     var paths = this.get('paths');
+
+    console.log("Draw Paths", paths);
 
     var svg = d3.select($el[0]);
     var d3_data = this.get('d3_data');
@@ -256,20 +271,22 @@ app.model.drawing = {
     var firstR = this.get('edit.firstR');
     var lastR = this.get('edit.lastR');
     var mid = this.get('mid');
+    var padding = this.get('padding');
 
     // correct start rho if changed after drawing
     if (paths.length > 0) {
-      var first_y = paths[0].start.y;
-      var r_y = mid + firstR * (mid - 10);
-      if (r_y != first_y) {
+      var first_x = paths[0].start.x;
+      var r_x = mid - firstR * (mid - padding);
+      if (r_x != first_x) {
         svg.append("line")
-          .attr("x1", mid)
+          .attr("x1", r_x)
           .attr("x2", mid)
-          .attr("y1", r_y)
-          .attr("y2", first_y);
+          .attr("y1", mid)
+          .attr("y2", mid);
       }
     } else { // fix start pos
-      this.set('drag_pos.current.y', mid + firstR * (mid - 10));
+      console.log("Start at padding");
+      this.set('drag_pos.current.x',mid - (firstR * (mid - padding)));
     }
 
     for (var i=1; i <= multiply; i++) {
@@ -283,17 +300,17 @@ app.model.drawing = {
         if (self.get('edit.is_mirror') == 'true') {
           svg.append("path")
             .attr('d', path.d)
-            .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+            .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
 
           if (index == paths.length - 1) { // connect mirror to regular
             if (self.get('is_dragging') == 'false') {
               svg.append("line")
                 .attr("class", "end_line")
                 .attr('x1', path.end.x)
-                .attr('x2', mid - path.end.x + mid)
+                .attr('x2', path.end.x)
                 .attr('y1', path.end.y)
-                .attr('y2', path.end.y)
-                .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+                .attr('y2', mid - path.end.y + mid)
+                .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
             }
           }
         } else if (index == paths.length - 1) { // draw to end point on last path
@@ -304,8 +321,8 @@ app.model.drawing = {
             var new_dy = path.end.y - mid;
             var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
             var new_r = Math.atan2(new_dy, new_dx);
-            end_x = mid + Math.cos(new_r) * (mid - 10);
-            end_y = mid + Math.sin(new_r) * (mid - 10);
+            end_x = mid + Math.cos(new_r) * (mid - padding);
+            end_y = mid + Math.sin(new_r) * (mid - padding);
           }
 
           if (self.get('is_dragging') == 'false') {
@@ -326,8 +343,8 @@ app.model.drawing = {
     svg.append("circle")
       .attr("r", 3)
       .attr("fill", d3_data.start_color)
-      .attr("cx", mid)
-      .attr("cy", mid + (mid - 10)*firstR)
+      .attr("cx", mid - (mid - padding)*firstR)
+      .attr("cy", mid)
       .attr("stroke-width", 0);
 
     // lastR
@@ -335,8 +352,8 @@ app.model.drawing = {
       .attr("width", 4)
       .attr("height", 4)
       .attr("fill", d3_data.end_color)
-      .attr("x", mid-2)
-      .attr("y", mid - 2 + (mid - 10)*lastR)
+      .attr("x", mid - 2 - (mid - padding)*lastR)
+      .attr("y", mid-2)
       .attr("stroke-width", 0);
 
     // start point
@@ -391,15 +408,11 @@ app.model.drawing = {
   start_drag: function(data) {
     // console.log("Start Drag", data);
     var w = this.get('width');
+    var padding = this.get('padding');
 
     // touch coordinates
     this.set('drag_pos.start.x', +data.offset_x);
     this.set('drag_pos.start.y', +data.offset_y);
-    this.set('drag_pos.start.w', this.get('width') / 2);
-    this.set('drag_pos.start.h', this.get('height') / 2);
-    if (this.get('edit.firstR') == 1) {
-      this.set('drag_pos.start.h', this.get('height')-10);
-    }
     this.set('drag_pos.offset.x', +data.offset_x);
     this.set('drag_pos.offset.y', +data.offset_y);
 
@@ -411,18 +424,22 @@ app.model.drawing = {
     var new_dy = +data.offset_y - w/2;
     var touch_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
 
-    if (touch_dist < w/2 - 10) {
+    if (touch_dist < w/2 - padding) {
       this.set('is_dragging', 'true');
     } else return;
+
+    console.log("Coords", this.get('drag_pos.current'))
 
     // disable scrolling in app
     // if (app.is_app) {
       if (!this.scroll_el) this.scroll_el = $('.scroll');
       // this.scroll_el.attr('style', 'overflow-y: hidden !important;');
       var offset_scroll = this.scroll_el.scrollTop();
+      console.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
       // this.set('drag_pos.origin.y', this.get('drag_pos.origin.y') - offset_scroll);
       this.set('drag_pos.start.y', this.get('drag_pos.start.y') - offset_scroll);
       this.set('drag_pos.offset.y', this.get('drag_pos.offset.y') - offset_scroll);
+      console.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
       this.scroll_el.scrollTop(0);
       this.scroll_el.removeClass('scroll');
     // }
@@ -454,6 +471,7 @@ app.model.drawing = {
     if (this.get('is_dragging') == 'true') {
       var w = this.get('width');
       var h = this.get('height');
+      var padding = this.get('padding');
 
       var offset_x = this.get('drag_pos.offset.x');
       var offset_y = this.get('drag_pos.offset.y');
@@ -476,10 +494,10 @@ app.model.drawing = {
         var new_dx = new_x - w/2;
         var new_dy = new_y - h/2;
         var new_dist = Math.sqrt(new_dx*new_dx + new_dy*new_dy);
-        if (new_dist > w/2-10) {
+        if (new_dist > w/2-padding) {
           var new_r = Math.atan2(new_dy, new_dx);
-          new_x = w/2 + Math.cos(new_r) * (w/2-10);
-          new_y = h/2 + Math.sin(new_r) * (w/2-10);
+          new_x = w/2 + Math.cos(new_r) * (w/2-padding);
+          new_y = h/2 + Math.sin(new_r) * (h/2-padding);
         }
 
         this.set('drag_pos.current.x', new_x);
@@ -509,14 +527,18 @@ app.model.drawing = {
 
           if (is_mirror) {
             var mid = w/2;
-            var x1 = mid - point[0] + mid;
-            var x2 = mid - old_x + mid;
+            var y1 = mid - point[1] + mid;
+            var y2 = mid - old_y + mid;
 
             self._line(svg, {
-              x1:x1,
-              y1:point[1],
-              x2:x2,
-              y2:old_y,
+              // x1:x1,
+              // y1:point[1],
+              // x2:x2,
+              // y2:old_y,
+              x1:point[0],
+              y1:y1,
+              x2:old_x,
+              y2:y2,
               stroke:d3_data.mirror_stroke,
               stroke_width:d3_data.stroke_width
             });
@@ -668,8 +690,10 @@ app.model.drawing = {
     this.set('edit.verts', []);
 
     // reset start point
-    this.set('drag_pos.current.x', this.get('mid'));
-    this.set('drag_pos.current.y', +this.get('mid') + +this.get('edit.lastR') * (this.get('mid') - 10));
+    this.set('drag_pos.current.x', +this.get('mid') - +this.get('edit.firstR') * (this.get('mid') - this.get('padding')));
+    this.set('drag_pos.current.y', this.get('mid'));
+
+    console.log('Current', this.get('drag_pos.current'))
 
     if (this.get('el_id') != 'false') {
       this._draw_preview({el_id: this.get('el_id')});
@@ -696,9 +720,10 @@ app.model.drawing = {
     // loop through Paths
     var paths = self.get('paths');
     var mid = this.get('mid');
+    var padding = this.get('padding');
     var is_mirror = (this.get('edit.is_mirror') == 'true');
-    var firstR = this.get('edit.firstR');
-    var lastR = this.get('edit.lastR');
+    var firstR = +this.get('edit.firstR');
+    var lastR = +this.get('edit.lastR');
     if (is_mirror) lastR = firstR;
     var length = this.get('edit.multiply');
     var divisor = this.get('edit.divisor');
@@ -714,7 +739,16 @@ app.model.drawing = {
 
     // SVG values
     var svg = '<svg>';
-    var rho_max = mid - 10;
+    var rho_max = mid - padding;
+
+    // start at theta/rho of firstR
+    // var start_x = -firstR * (mid - padding);
+    // var first_point = paths[0].points[0];
+    // if (start_x != first_point[0]) {
+    //   console.log("First Point", first_point);
+    //   svg += '<path d="M'+start_x+',0L'+(first_point[0]-mid)/rho_max/2+','+(first_point[1]-mid)/rho_max/2+'L'+(first_point[0]-mid)/rho_max+','+(first_point[1]-mid)/rho_max+'"></path>';
+    //   console.log("First Path", svg);
+    // }
 
     var point = [0,0];
 
@@ -776,7 +810,7 @@ app.model.drawing = {
   ``
           // draw mirrored path in reverse
           _.each(points, function(p) {
-            p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
+            p[1] = mid-p[1]+mid; // adjust to opposite side(y) of midpoint
 
             if (value != 0) { // rotate points
               var degrees = 360 / length * value;

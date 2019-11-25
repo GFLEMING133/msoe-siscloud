@@ -100,7 +100,7 @@ app.model.community = {
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
-      endpoint: 'tracks.json',
+      endpoint: 'tracks.json?sort='+this.get('track_sort'),
       data: {}
     };
 
@@ -156,7 +156,7 @@ app.model.community = {
       self.set('sorting', 'false');
     }
 
-    this.fetch_community_tracks();
+    // this.fetch_community_tracks();
     app.post.fetch2(tracks, cb, 0);
 
     return this;
@@ -243,7 +243,7 @@ app.model.community = {
      let sisbot = app.manager.get_model('sisbot_id');
      let downloaded_tracks = this.get('downloaded_tracks');
      _.each(downloaded_tracks, function(i) {
-        sisbot.remove('data.track_ids', i); 
+        sisbot.remove('data.track_ids', i);
         self.add('selected_tracks', i);
      });
      sisbot.save_to_sisbot(sisbot.get('data'));
