@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.76', // '1.8.75', // Draw page rendering issues addressed again
+	  version				:'1.8.77', // Draw page preview now full height, Android header issue resolved.
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

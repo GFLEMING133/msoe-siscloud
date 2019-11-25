@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				:  '1.8.76', // Draw page rendering issues addressed again
+	version				:  '1.8.77', // Draw page preview now full height, Android header issue resolved.
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {
@@ -19,7 +19,7 @@ app.config = {
 			// web_url		: 'https://webcenter.sisyphus-industries.com/',
 			// api_url		: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url		: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.1.5:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.4:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 			show_tg		: true
 		},

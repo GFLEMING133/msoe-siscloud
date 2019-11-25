@@ -52,9 +52,8 @@ app.model.drawing = {
 				firstR		: 0,
 				lastR			: 0,
         is_mirror : 'false', // reflect the movement
-        multiply  : 1,       // repeat the movement this many times around theta
+        multiply  : 6,       // repeat the movement this many times around theta
         divisor   : 2,       // when drawing on table, skip around pattern by 1/this
-
         verts     : [] // polar coordinates
 			}
 		};
