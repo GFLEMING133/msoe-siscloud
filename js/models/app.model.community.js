@@ -133,7 +133,7 @@ app.model.community = {
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
-      endpoint: 'tracks.json?sort='+sort_params,
+      endpoint: 'tracks.json?sort='+download_count,
       data: {}
     };
     console.log("Sort community tracks", tracks);
@@ -156,7 +156,7 @@ app.model.community = {
       self.set('sorting', 'false');
     }
 
-    this.fetch_community_tracks();
+    // this.fetch_community_tracks();
     app.post.fetch2(tracks, cb, 0);
 
     return this;
