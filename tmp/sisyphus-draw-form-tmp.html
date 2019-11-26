@@ -24,7 +24,7 @@
           data-if="{{= model.edit.is_mirror }} == true"></span>
           <span class="pt5 black f-xlarge bg-white far fa-square"
           data-if="{{= model.edit.is_mirror }} == false"></span>
-        <label class="pt4 no-stuffing">MIRROR</label>
+        <label for="Mirror" class="pt4 no-stuffing">MIRROR</label>
       </div>
       <div class="flex-column vertical-align fs14 lh18 no-stuffing strong">
         <input class="w40p center black-border"
@@ -33,7 +33,7 @@
             placeholder="1"
             data-field="model.edit.multiply"
             value="{{= model.data.multiply }}" />
-      <label class="no-stuffing">MULTIPLY</label>
+      <label for="Multiply" class="no-stuffing">MULTIPLY</label>
       </div>
       <div class="flex-column vertical-align no-stuffing">
         <select class="w40p corner-5px last-center fs14 center strong lh20 p10 pt7 pb7"
@@ -51,7 +51,7 @@
         <option value="0">0</option>
         <option value="1">1</option>
       </select>
-      <label>RHO END</label>
+      <label for="Rho End" >RHO END</label>
       </div>
     </div>
     <div class="flex-column pt25 pb50">
@@ -68,4 +68,5 @@
       </div>
     </div>
   </div>
+  <div class="pb150">&nbsp;</div>
 </div>

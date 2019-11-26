@@ -16,7 +16,7 @@
         <div class="w15 center">
           <div data-if="{{= model.path_count }} == 0">&nbsp;</div>
           <div data-if="{{= model.path_count }} > 0">
-            <i class="fas fa-undo-alt p10 clickable blue-hover" data-on-click="model.undo"></i>
+            <i class="fas fa-undo-alt fs18 pt5 clickable blue-hover" data-on-click="model.undo"></i>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
         data-model="{{= session.active.drawing_id }}"
         data-state="{'is_ready':'false'}"
         data-run="model.setup_edit">
-      <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+      <div class="pull-top white bg-black hh50 center no-stuffing flex vertical-align">
         <div class="w15 left pl20 clickable active"
             data-on-click="publish"
             data-publish="session:active"
