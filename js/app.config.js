@@ -1,6 +1,6 @@
 app.config = {
 	env					: 'prod',
-	version				:  '1.8.77', // Draw page preview now full height, Android header issue resolved.
+	version				:  '1.8.78', // Draw page preview now full height, Android header issue resolved.Playlist height adjusted for iPhones
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {
@@ -27,7 +27,7 @@ app.config = {
 			base_url		: 'http://app.dev.withease.io:3001/', //local url
 			api_url			: 'https://webcenter.sisyphus-industries.com/',
 			web_url			: 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'http://192.168.1.5:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.4:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 			show_tg		: true
 		},

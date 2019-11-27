@@ -1,10 +1,13 @@
-#2019-11-20 1.8.77
+#2019-11-20 1.8.79
+ - 
+#2019-11-20 1.8.77-78
  - fixed header issue on android when selecting input fields (height issue and flex conflict) 
  - Draw Preview now full height when loading and spinner centered. 
  - Multiply default 6 in the Draw page
  - Rho start is @ the 9 o'clock position.
  - Most Popular is now default sort in Community
  - Start & End changed to Sleep and Wake in night-mode and nightlight html
+ - Playlist height adjusted for iPhones
 #2019-11-20 1.8.76
  - Draw image rendering addressed for web by adding ?moment().format('x') to the end of the url
  - fixed image showing when going back from preview

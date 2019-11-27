@@ -1,5 +1,5 @@
 var config = {
-	  version				:'1.8.77', // Draw page preview now full height, Android header issue resolved.
+	  version				:'1.8.78', // Draw page preview now full height, Android header issue resolved. Playlist height adjusted for iPhones
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
