@@ -920,7 +920,7 @@ li.blue-hover:hover {
 }
 
 .app .body-header {
-	margin-top: 75px;
+	margin-top: 75px !important;
 }
 
 .app .body-header > *:last-child {

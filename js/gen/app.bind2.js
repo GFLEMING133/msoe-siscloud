@@ -202,8 +202,8 @@ function Element(el, parent, _scope) {
   this.events = [];
   this.libraries = {};
 
-  this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = false; // show/hide data-____ values in html
+  this.show_comments = true; // show/hide <!-- comments -->
+  this.show_data = true; // show/hide data-____ values in html
   this.show_lib = false;
   // this.show_tg = false; // moved to config
 
