@@ -48,7 +48,7 @@
     </div>
     <!--------------------------- PLAYLIST TRACKS ---------------------------->
     <div class="h100 scroll hide-scrollbar">
-        <div class="i center pt100 " data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
+        <div class="i center pt100 " data-if="{{= model.data.sorted_tracks.length }} == 0">
           There are no tracks in this playlist
         </div>  
       <div class="pt50 pb100"
