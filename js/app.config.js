@@ -1,6 +1,6 @@
 app.config = {
-	env					: 'prod',
-	version				:  '1.8.78', // Draw page preview now full height, Android header issue resolved.Playlist height adjusted for iPhones
+	env						: 'prod',
+	version				:  '1.8.79', // wait_for_pause for ball jitter, redo added, playlist remove last track bug addressed, Rho start and finish corrected
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {

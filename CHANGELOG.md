@@ -1,5 +1,9 @@
 #2019-11-20 1.8.79
- - 
+ - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter). 
+ - Rho Start and finish now working correctly. 
+ - Redo and Undo added to draw-track-tmp
+ - check for m.id when processing sign_in to community.
+ - check for table_was_playing to make sure table is paused, sending verts can cause ball jitter
 #2019-11-20 1.8.77-78
  - fixed header issue on android when selecting input fields (height issue and flex conflict) 
  - Draw Preview now full height when loading and spinner centered. 
