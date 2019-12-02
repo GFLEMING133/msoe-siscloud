@@ -19,7 +19,9 @@ app.model.drawing = {
         current     : { x: 0, y: 0, r: 0, d: 0 } // current position
       },
       paths       : [], // undo states
+      redo_paths  : [], // redo states
       path_count  : 0, // for undo states
+      redo_count  : 0, // for redo states
       coords      : [], // cartesian coordinates
 
       d3_data : {
@@ -91,6 +93,7 @@ app.model.drawing = {
   },
   update_path_count: function() {
     this.set('path_count', _.size(this.get('paths')));
+    this.set('redo_count', _.size(this.get('redo_paths')));
   },
   draw_preview: function(data) {
     var self = this;
@@ -428,7 +431,10 @@ app.model.drawing = {
       this.set('is_dragging', 'true');
     } else return;
 
-    console.log("Coords", this.get('drag_pos.current'))
+    console.log("Coords", this.get('drag_pos.current'));
+
+    // clear redo states
+    this.set('redo_paths', []);
 
     // disable scrolling in app
     // if (app.is_app) {
@@ -546,8 +552,8 @@ app.model.drawing = {
             // multiplier trails
             for (var i=2; i <= multiply; i++) {
               var degrees = 360 / multiply * (i-1);
-              var new_point = self._rotate_coord([x1,point[1]], degrees);
-              var new_curr = self._rotate_coord([x2, old_y], degrees);
+              var new_point = self._rotate_coord([point[0], y1], degrees);
+              var new_curr = self._rotate_coord([old_x, y2], degrees);
               self._line(svg, {
                 x1:new_point[0],
                 y1:new_point[1],
@@ -678,6 +684,39 @@ app.model.drawing = {
       // move start point
       this.set('drag_pos.current.x', path.start.x);
       this.set('drag_pos.current.y', path.start.y);
+
+      // add to redo states
+      this.add('redo_paths', path);
+
+      this.update_path_count();
+      this._draw_paths();
+    }
+  },
+  redo: function() {
+    var paths = this.get('redo_paths');
+    console.log("Redo", paths.length);
+
+    if (paths.length > 0) {
+      // pop off last path
+      var path = paths.pop();
+
+      // move start point
+      this.set('drag_pos.current.x', path.end.x);
+      this.set('drag_pos.current.y', path.end.y);
+
+      // fix start_rho
+      if (this.get('path_count') == 0) {
+        var start = path.start;
+        console.log("Fix Start Rho", start);
+        if (start.x == this.get('mid') && start.y == this.get('mid')) {
+          // zero
+        } else {
+          // one
+        }
+      }
+
+      // add to redo states
+      this.add('paths', path);
 
       this.update_path_count();
       this._draw_paths();

@@ -337,11 +337,11 @@ app.model.neuron = Backbone.NestedModel.extend({
 	get_model: function (field) {
 		var field_val = this.get(field);
 
-		if (_.isString(field_val)) {
-			return app.collection.get(field_val);
-		} else {
+		if (_.isArray(field_val)) {
 			function get_model(m_id) { return app.collection.get(m_id); }
 			return _.map(field_val, get_model);
+		} else {
+			return app.collection.get(field_val);
 		}
 	},
 	/************************** DEPARTMENT CONVENIENCES ***********************/

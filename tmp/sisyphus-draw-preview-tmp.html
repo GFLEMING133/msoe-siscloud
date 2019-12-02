@@ -62,14 +62,31 @@
 								data-field="model.edit.name"
 								value="{{= model.edit.name }}" />
 					</div>
-					<!-- <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">By</h4>
-									<div class="pb20">
-											<input class="fs18 w100" type="text" placeholder="Your name"
-													autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-													data-field="model.edit.created_by_name"
-													value="{{= (model.edit.created_by_name == 'false') ? '' : model.edit.created_by_name }}"
-											/>
-					</div> -->
+					<h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">By</h4>
+					<div class="pb20" data-if="{{= session.user_id }} !== false">
+						<div data-model="{{= session.user_id }}">
+							<input class="fs18 w100"
+									type="text"
+									placeholder="Your name"
+									autocomplete="off"
+									autocorrect="off"
+									autocapitalize="off"
+									spellcheck="false"
+									data-field="parent.edit.created_by_name"
+									value="{{= (model.data.username == 'false') ? '' : model.data.username }}" />
+						</div>
+					</div>
+					<div class="pb20" data-if="{{= session.user_id }} == false">
+						<input class="fs18 w100"
+								type="text"
+								placeholder="Your name"
+								autocomplete="off"
+								autocorrect="off"
+								autocapitalize="off"
+								spellcheck="false"
+								data-field="model.edit.created_by_name"
+								value="{{= (session.registration.username == 'false') ? '' : session.registration.username }}" />
+					</div>
 				</div>
 			</div>
 			<div class="pl40 pr40 pb50">

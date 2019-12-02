@@ -338,10 +338,11 @@ app.model.session = {
   		_.each(data_arr, function (m) {
   			if (m.type == 'user' && m.email == user.email) {
 					session_data.user_id = m.id;
-        	self.set('user_id', m.id );
+        	if (m.id) self.set('user_id', m.id );
 				}
   		});
 
+			console.log("Sign in Data: ", data_arr);
   		app.manager.intake_data(data_arr);
   		app.trigger('session:user_sign_in', session_data);
     },

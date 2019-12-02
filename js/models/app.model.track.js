@@ -9,12 +9,13 @@ app.model.track = {
 			playlist_not_ids	: [],
 
 			upload_status										: 'hidden',		// hidden|false|uploading|success
+			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
 			sisbot_upload										: 'false',
 			community_track_downloaded			: 'false',
 			generating_thumbnails						: 'false',
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
-			track_checked						:'false',
+			track_checked										:'false',
 
 			is_favorite							:'false',
 
@@ -137,6 +138,7 @@ app.model.track = {
 		var sisbot = app.manager.get_model('sisbot_id');
 		if (sisbot.get('data.state') == 'playing') {
 			sisbot.pause();
+			this.set('table_was_playing', 'true');
 
 			console.log("Wait longer for pause to finish");
 			setTimeout(function() {
@@ -169,6 +171,10 @@ app.model.track = {
 					app.plugins.n.notification.alert(obj.err)
 				} else {
 					console.log('Thumbnail generated');
+					if (self.get('table_was_playing') == 'true') {
+						sisbot.play();
+						self.set('table_was_playing', 'false');
+					}
 				}
 			}, 0);
 		}
@@ -273,10 +279,14 @@ app.model.track = {
 		this.set('data.created_by_name', this.get('edit.created_by_name'));
 		this.set('data.has_verts_file', 'true');
 
-		if (app.manager.get('user_id') !== 'false') {
-			this.set('data.created_by_id', app.manager.get('user_id'));
-			this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
+		var created_by_name = this.get('edit.created_by_name');
+		if (app.session.get('registration.username') == '' && created_by_name != '' && created_by_name != 'false') {
+			app.session.set('registration.username', created_by_name);
 		}
+		// if (app.manager.get('user_id') !== 'false') {
+		// 	this.set('data.created_by_id', app.manager.get('user_id'));
+		// 	this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
+		// }
 
 		// console.log("Track data to save:", JSON.stringify(this.get('data')));
 
