@@ -8,7 +8,7 @@
       <div class="w15 pt20 center f-large">&nbsp;</div>
     </div>
   </div>
-  <div class="body-header h100 pb200  scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 pb200  scroll hide-scrollbar" data-model="{{= model.sisbot_id }}" tg-name="community_create_account_page">
     <div data-if="{{= model.data.is_internet_connected }} == false">
       <div class="i center shadow bg-grey-ll p30 m10 clickable active" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'settings','secondary':'wifi'}">Your Sisyphus must be connected to the internet via WiFi before you can
         successfully create an account. Click here to connect</div>

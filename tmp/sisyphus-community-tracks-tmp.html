@@ -3,7 +3,8 @@
     <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
        <div class="w25">
         <div class="clickable blue-hover"
-             data-on-click="model.sign_out_community">
+             data-on-click="model.sign_out_community"
+             tg-name="sign_out_community_btn">
           <i class="fas fa-sign-out-alt"></i>
           <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
         </div>
@@ -35,24 +36,28 @@
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="most popular">
+            data-msg="most popular"
+            tg-name="most_popular_sort">
             <div class="white strong blue-hover">MOST POPULAR</div></li>
             <li class="clickable mb10"
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="newest designs">
+            data-msg="newest designs"
+            tg-name="newest_design_sort">
           <div class="white strong blue-hover">NEWEST DESIGNS</div></li>
         <li class="clickable mb10"
             data-on-click="model.sort_function"
             data-on-click="publish"
-            data-msg="name">
+            data-msg="name"
+            tg-name="name_sort">
           <div class="white strong blue-hover">NAME</div></li>
         <li class="clickable"
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="artist">
+            data-msg="artist"
+            tg-name="artist_sort">
           <div class="white strong blue-hover">ARTIST</div></li>
         <div data-if="{{= model.sorting }} == true">
           <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
@@ -64,7 +69,8 @@
   <div class="body-header h100 pb160 scroll hide-scrollbar"
       data-on-scroll="model.scroll_check"
       data-msg="{{= _self_.el_id }}"
-      data-run="model.fetch_community_tracks">
+      data-run="model.fetch_community_tracks"
+      tg-name="community_tracks_page">
     <div class="mt100" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
