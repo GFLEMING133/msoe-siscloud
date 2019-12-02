@@ -189,14 +189,15 @@ app.model.playlist = {
 		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
-			var sorted_tracks = [];
-			_.each(self.get('data.tracks'), function(obj,index) {
-				sorted_tracks.push(index);
-			});
+			
+		var sorted_tracks = [];
+		_.each(self.get('data.tracks'), function(obj,index) {
+			sorted_tracks.push(index);
+		});
 
-			self.set("data.sorted_tracks", sorted_tracks);
-			self.save();
-			app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: self.id});
+		self.set("data.sorted_tracks", sorted_tracks);
+		self.save();
+		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: self.id});
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {
