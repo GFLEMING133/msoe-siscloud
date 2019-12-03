@@ -115,14 +115,17 @@ app.model.playlist = {
 		app.trigger('sisbot:update_playlist', data);
 	},
 	play: function (track_index) {
+		console.log("Play Playlist:", track_index);
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
 		var data= JSON.parse(JSON.stringify(this.get('data')));
 		data.active_track_index = track_index;
-		data.active_track_id	= this.get('data.tracks')[track_index].id;
+		if (track_index >= 0) data.active_track_id	= this.get('data.tracks')[track_index].id;
+		else data.active_track_id	= 'false';
 
 		// FORCE PLAYLIST TO BE NON-SHUFFLED WHILE ON NON-SHUFFLED PLAYLIST PAGE
 		data.is_shuffle			= 'false';
+		data.start_rho			= 0;
 		data.sorted_tracks		= _.range(0, data.tracks.length);
 		data.next_tracks		= _.range(0, data.tracks.length);
 
@@ -189,7 +192,7 @@ app.model.playlist = {
 		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
-			
+
 		var sorted_tracks = [];
 		_.each(self.get('data.tracks'), function(obj,index) {
 			sorted_tracks.push(index);
