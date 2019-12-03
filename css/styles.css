@@ -1323,7 +1323,7 @@ select:focus {
 .bg-red 									{	background-color		: #990033 !important;	}
 .bg-white 								{	background-color		: #ffffff !important;	}
 .bg-d-blue 								{	background-color		: #0F72AB !important;	}
-.bg-blue 									{	background-color		: #11b2fb !important;	}
+.bg-blue, .bg-blue-hover:hover  {	background-color		: #11b2fb !important;	}
 .bg-orange								{	background-color		: #F4AE3D !important;	}
 .bg-green									{	background-color		: #32B150 !important;	}
 .bg-dd-grey								{	background-color		: #222222 !important;	}

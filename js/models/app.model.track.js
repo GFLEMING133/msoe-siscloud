@@ -68,7 +68,7 @@ app.model.track = {
 				firstR					: -1,
 				lastR						: -1,
 				type						: 'r',
-				reversible			: false
+				reversible			: "false"
 			}
 		};
 

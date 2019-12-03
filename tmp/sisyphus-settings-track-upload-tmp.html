@@ -24,19 +24,26 @@
 			</p>
 			<div class="center pt20">
 				<label for="file-upload"
-						class="custom-file-upload blue-hover"
+						class="inline-block p10 corner-5px white bg-blue clickable montserrat_bold"
 						data-on-mouse-down="model.reset_upload_tracks">
-					<i class="fa fa-cloud-upload"></i> Choose Track
+					<i class="fa fa-cloud-upload"></i> Choose Track(s)
 				</label>
 				<input class="w100 mt20 b-none clickable blue-hover" id="file-upload" type="file" multiple />
 			</div>
 
-			<div data-model="{{= model.sisbot_id }}">
-				<h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong"
-						data-if="{{= model.uploading_track }} == true">Processing Track(s)</h2>
-				<h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 montserrat_bold"
-						data-if="{{= model.uploading_track }} == false"
-						data-on-click="parent.upload_tracks">Upload Track(s)</h2>
+			<div data-if="{{= _.size(model.tracks_to_upload) }} > 0">
+				<div class="center f-large mt20 mb10">Tracks to Upload</div>
+				<div data-foreach="model.tracks_to_upload">
+					<div class="mt5">{{= scope.value.name }}</div>
+				</div>
+
+				<div data-model="{{= model.sisbot_id }}">
+					<h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong"
+							data-if="{{= model.uploading_track }} == true">Processing Track(s)</h2>
+					<h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 montserrat_bold"
+							data-if="{{= model.uploading_track }} == false"
+							data-on-click="parent.upload_tracks">Upload Track(s)</h2>
+				</div>
 			</div>
 		</div>
 	</div>

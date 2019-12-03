@@ -1,12 +1,13 @@
 #2019-11-20 1.8.79
- - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter). 
- - Rho Start and finish now working correctly. 
+ - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
+ - Rho Start and finish now working correctly.
  - Redo and Undo added to draw-track-tmp
  - check for m.id when processing sign_in to community.
- - check for table_was_playing to make sure table is paused, sending verts can cause ball jitter
+ - resume playing track after generating preview image
+ - list files to upload on track upload page
 #2019-11-20 1.8.77-78
- - fixed header issue on android when selecting input fields (height issue and flex conflict) 
- - Draw Preview now full height when loading and spinner centered. 
+ - fixed header issue on android when selecting input fields (height issue and flex conflict)
+ - Draw Preview now full height when loading and spinner centered.
  - Multiply default 6 in the Draw page
  - Rho start is @ the 9 o'clock position.
  - Most Popular is now default sort in Community
@@ -18,7 +19,7 @@
  - removed media query for body from S10
  - cleaned up css
 #2019-11-20 1.8.75
- - rendering issues adjusted 
+ - rendering issues adjusted
  - restyled sisyphus-draw-track-tmp
 #2019-11-20 1.8.74
  - added Drawing to Media
