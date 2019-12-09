@@ -1,5 +1,5 @@
 app.model.drawing = {
-    defaults: function (data) {
+  defaults: function (data) {
 		var obj = {
 			id			: data.id,
 			type		: 'drawing',
@@ -54,7 +54,7 @@ app.model.drawing = {
 
 				firstR		: 0,
 				lastR			: 0,
-        is_mirror : 'false', // reflect the movement
+        mirror    : 'false', // false|horizontal|vertical|both
         multiply  : 6,       // repeat the movement this many times around theta
         divisor   : 2,       // when drawing on table, skip around pattern by 1/this
         verts     : [] // polar coordinates
@@ -73,14 +73,52 @@ app.model.drawing = {
     this.on('remove:paths', this.update_path_count);
   },
   firstR_change: function() {
-    var mirror = (this.get('edit.is_mirror') == 'true');
+    var mirror = (this.get('edit.mirror') != 'false');
     if (mirror) this.set('edit.lastR', this.get('edit.firstR'), {silent:true});
 
     this._draw_paths();
   },
+  step_mirror: function() {
+    var mirror = this.get('edit.mirror');
+    switch (mirror) {
+      case 'false':
+        this.set('edit.mirror', 'vertical');
+        break;
+      case 'vertical':
+        this.set('edit.mirror', 'horizontal');
+        break;
+      case 'horizontal':
+        this.set('edit.mirror', 'both');
+        break;
+      default:
+        this.set('edit.mirror', 'false');
+    }
+  },
   mirror_change: function() {
-    var mirror = (this.get('edit.is_mirror') == 'true');
+    var mirror = (this.get('edit.mirror') != 'false');
     if (mirror) this.set('edit.lastR', this.get('edit.firstR'), {silent:true});
+
+    var $h_zero_line = $('.h_zero_line');
+    var h_zero_line = d3.select($h_zero_line[0]);
+    var $v_zero_line = $('.v_zero_line');
+    var v_zero_line = d3.select($v_zero_line[0]);
+    switch (this.get('edit.mirror')) {
+      case 'horizontal':
+        h_zero_line.attr('visibility', 'visible');
+        v_zero_line.attr('visibility', 'hidden');
+        break;
+      case 'vertical':
+        h_zero_line.attr('visibility', 'hidden');
+        v_zero_line.attr('visibility', 'visible');
+        break;
+      case 'both':
+        h_zero_line.attr('visibility', 'visible');
+        v_zero_line.attr('visibility', 'visible');
+        break;
+      default:
+        h_zero_line.attr('visibility', 'hidden');
+        v_zero_line.attr('visibility', 'hidden');
+    }
 
     this._draw_paths();
   },
@@ -134,12 +172,33 @@ app.model.drawing = {
     // Add fields
     var d3_data = this.get('d3_data');
     var svg = d3.select($('.drawing_area')[0]);
-    svg.attr('width', w);
-    svg.attr('height', w)
-    .attr("shape-rendering", "optimizeSpeed");
+    svg.attr('width', w)
+      .attr('height', w)
+      .attr("shape-rendering", "optimizeSpeed");
 
-    // Zero line, border
-    self._line(svg, {x1:padding,y1:mid,x2:mid,y2:mid,stroke:d3_data.circle_stroke,stroke_width:d3_data.zero_stroke_width});
+    // Zero lines
+    svg.append("line")
+      .attr("class", "h_zero_line")
+      .attr("x1", mid)
+      .attr("y1", padding)
+      .attr("x2", mid)
+      .attr("y2", w-padding)
+      .attr("visibility", "hidden")
+      .attr('stroke', d3_data.circle_stroke)
+      .attr('stroke-width', d3_data.zero_stroke_width)
+      .attr('stroke-linecap', 'round');
+    svg.append("line")
+      .attr("class", "v_zero_line")
+      .attr("x1", padding)
+      .attr("y1", mid)
+      .attr("x2", w-padding)
+      .attr("y2", mid)
+      .attr("visibility", "hidden")
+      .attr('stroke', d3_data.circle_stroke)
+      .attr('stroke-width', d3_data.zero_stroke_width)
+      .attr('stroke-linecap', 'round');
+
+    // Circle border
     svg.append("circle")
       .attr("r", mid-padding)
       .attr("cx", mid)
@@ -185,7 +244,7 @@ app.model.drawing = {
     // add listeners
     this.on('change:edit.firstR', this.firstR_change);
     this.on('change:edit.lastR', this._draw_paths);
-    this.on('change:edit.is_mirror', this.mirror_change);
+    this.on('change:edit.mirror', this.mirror_change);
     this.on('change:edit.multiply', this.multiply_change);
 
     this.on('add:paths', this._draw_paths);
@@ -206,7 +265,7 @@ app.model.drawing = {
     var h = this.get('height');
     var mid = this.get('mid');
 
-    var is_mirror = this.get('edit.is_mirror') == 'true';
+    var mirror = this.get('edit.mirror') != 'false';
     var multiply = +this.get('edit.multiply');
 
     var d3_data = this.get('d3_data');
@@ -227,7 +286,7 @@ app.model.drawing = {
       current_x = coords[coords.length-1][0];
       current_y = coords[coords.length-1][1];
 
-      // if (is_mirror) {
+      // if (mirror) {
       //   var mid = w/2;
       //   var x1 = mid - this.get('drag_pos.current.x') + mid;
       //   var x2 = mid - current_x + mid;
@@ -266,10 +325,11 @@ app.model.drawing = {
 
     var paths = this.get('paths');
 
-    console.log("Draw Paths", paths);
+    // console.log("Draw Paths", paths);
 
     var svg = d3.select($el[0]);
     var d3_data = this.get('d3_data');
+    var mirror = this.get('edit.mirror');
     var multiply = Math.max(1, +this.get('edit.multiply'));
     var firstR = this.get('edit.firstR');
     var lastR = this.get('edit.lastR');
@@ -288,7 +348,7 @@ app.model.drawing = {
           .attr("y2", mid);
       }
     } else { // fix start pos
-      console.log("Start at padding");
+      // console.log("Start at padding");
       this.set('drag_pos.current.x',mid - (firstR * (mid - padding)));
     }
 
@@ -300,20 +360,54 @@ app.model.drawing = {
           .attr("d", path.d)
           .attr('transform', 'rotate('+degrees+','+mid+','+mid+')');
 
-        if (self.get('edit.is_mirror') == 'true') {
-          svg.append("path")
-            .attr('d', path.d)
-            .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
+        if (mirror != 'false') {
+          if (mirror == 'both' || mirror == 'vertical') {
+            svg.append("path")
+              .attr('d', path.d)
+              .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
+          }
+          if (mirror == 'both' || mirror == 'horizontal') {
+            svg.append("path")
+              .attr('d', path.d)
+              .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+          }
+          if (mirror == 'both') {
+            svg.append("path")
+              .attr('d', path.d)
+              .attr('transform', 'translate('+self.get('width')+','+self.get('height')+') scale(-1,-1) rotate('+degrees+','+mid+','+mid+')');
+          }
 
-          if (index == paths.length - 1) { // connect mirror to regular
+          if (index == paths.length - 1) {
             if (self.get('is_dragging') == 'false') {
-              svg.append("line")
-                .attr("class", "end_line")
-                .attr('x1', path.end.x)
-                .attr('x2', path.end.x)
-                .attr('y1', path.end.y)
-                .attr('y2', mid - path.end.y + mid)
-                .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
+              if (mirror == 'horizontal') { // horizonal mirror connect
+                svg.append("line")
+                  .attr("class", "end_line")
+                  .attr('x1', path.end.x)
+                  .attr('x2', mid - path.end.x + mid)
+                  .attr('y1', path.end.y)
+                  .attr('y2', path.end.y)
+                  .attr('transform', 'translate('+self.get('width')+',0) scale(-1,1) rotate('+degrees+','+mid+','+mid+')');
+              }
+
+              if (mirror == 'vertical' || mirror == 'both') { // vertical mirror connect
+                svg.append("line")
+                  .attr("class", "end_line")
+                  .attr('x1', path.end.x)
+                  .attr('x2', path.end.x)
+                  .attr('y1', path.end.y)
+                  .attr('y2', mid - path.end.y + mid)
+                  .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
+              }
+
+              if (mirror == 'both') {
+                svg.append("line")
+                  .attr("class", "end_line")
+                  .attr('x1', mid - path.end.x + mid)
+                  .attr('x2', mid - path.end.x + mid)
+                  .attr('y1', path.end.y)
+                  .attr('y2', mid - path.end.y + mid)
+                  .attr('transform', 'translate(0,'+self.get('height')+') scale(1,-1) rotate('+degrees+','+mid+','+mid+')');
+              }
             }
           }
         } else if (index == paths.length - 1) { // draw to end point on last path
@@ -527,41 +621,92 @@ app.model.drawing = {
           // add to preview
           var $el = $('.drawing_preview');
           var svg = d3.select($el[0]);
-          var is_mirror = (this.get('edit.is_mirror') == 'true');
+          var mirror = this.get('edit.mirror');
           var multiply = +this.get('edit.multiply');
           var d3_data = this.get('d3_data');
 
-          if (is_mirror) {
+          if (mirror != 'false') {
             var mid = w/2;
+            var x1 = mid - point[0] + mid;
+            var x2 = mid - old_x + mid;
             var y1 = mid - point[1] + mid;
             var y2 = mid - old_y + mid;
 
-            self._line(svg, {
-              // x1:x1,
-              // y1:point[1],
-              // x2:x2,
-              // y2:old_y,
-              x1:point[0],
-              y1:y1,
-              x2:old_x,
-              y2:y2,
-              stroke:d3_data.mirror_stroke,
-              stroke_width:d3_data.stroke_width
-            });
-
-            // multiplier trails
-            for (var i=2; i <= multiply; i++) {
-              var degrees = 360 / multiply * (i-1);
-              var new_point = self._rotate_coord([point[0], y1], degrees);
-              var new_curr = self._rotate_coord([old_x, y2], degrees);
+            if (mirror == 'vertical' || mirror == 'both') {
               self._line(svg, {
-                x1:new_point[0],
-                y1:new_point[1],
-                x2:new_curr[0],
-                y2:new_curr[1],
+                x1:point[0],
+                y1:y1,
+                x2:old_x,
+                y2:y2,
                 stroke:d3_data.mirror_stroke,
                 stroke_width:d3_data.stroke_width
               });
+
+              // multiplier trails
+              for (var i=2; i <= multiply; i++) {
+                var degrees = 360 / multiply * (i-1);
+                var new_point = self._rotate_coord([point[0], y1], degrees);
+                var new_curr = self._rotate_coord([old_x, y2], degrees);
+                self._line(svg, {
+                  x1:new_point[0],
+                  y1:new_point[1],
+                  x2:new_curr[0],
+                  y2:new_curr[1],
+                  stroke:d3_data.mirror_stroke,
+                  stroke_width:d3_data.stroke_width
+                });
+              }
+            }
+            if (mirror == 'horizontal' || mirror == 'both') {
+              self._line(svg, {
+                x1:x1,
+                y1:point[1],
+                x2:x2,
+                y2:old_y,
+                stroke:d3_data.mirror_stroke,
+                stroke_width:d3_data.stroke_width
+              });
+
+              // multiplier trails
+              for (var i=2; i <= multiply; i++) {
+                var degrees = 360 / multiply * (i-1);
+                var new_point = self._rotate_coord([x1, point[1]], degrees);
+                var new_curr = self._rotate_coord([x2, old_y], degrees);
+                self._line(svg, {
+                  x1:new_point[0],
+                  y1:new_point[1],
+                  x2:new_curr[0],
+                  y2:new_curr[1],
+                  stroke:d3_data.mirror_stroke,
+                  stroke_width:d3_data.stroke_width
+                });
+              }
+            }
+
+            if (mirror == 'both') {
+              self._line(svg, {
+                x1:x1,
+                y1:y1,
+                x2:x2,
+                y2:y2,
+                stroke:d3_data.mirror_stroke,
+                stroke_width:d3_data.stroke_width
+              });
+
+              // multiplier trails
+              for (var i=2; i <= multiply; i++) {
+                var degrees = 360 / multiply * (i-1);
+                var new_point = self._rotate_coord([x1, y1], degrees);
+                var new_curr = self._rotate_coord([x2, y2], degrees);
+                self._line(svg, {
+                  x1:new_point[0],
+                  y1:new_point[1],
+                  x2:new_curr[0],
+                  y2:new_curr[1],
+                  stroke:d3_data.mirror_stroke,
+                  stroke_width:d3_data.stroke_width
+                });
+              }
             }
           }
 
@@ -760,14 +905,14 @@ app.model.drawing = {
     var paths = self.get('paths');
     var mid = this.get('mid');
     var padding = this.get('padding');
-    var is_mirror = (this.get('edit.is_mirror') == 'true');
+    var mirror = this.get('edit.mirror');
     var firstR = +this.get('edit.firstR');
     var lastR = +this.get('edit.lastR');
-    if (is_mirror) lastR = firstR;
+    if (mirror != 'false') lastR = firstR;
     var length = this.get('edit.multiply');
     var divisor = this.get('edit.divisor');
     var is_even = true;
-    var is_diff = (firstR != lastR && !is_mirror);
+    var is_diff = (firstR != lastR && !(mirror != 'false'));
     var is_reversed = false;
 
     var skip = length/divisor;
@@ -791,7 +936,7 @@ app.model.drawing = {
 
     var point = [0,0];
 
-    // console.log("Settings", firstR, lastR, is_mirror, is_diff);
+    // console.log("Settings", firstR, lastR, mirror, is_diff);
 
     var index = 0;
     for(var i=0; i < length; i++) {
@@ -809,7 +954,7 @@ app.model.drawing = {
         if (is_reversed) points = points.reverse();
 
         // smoothly arc around to first point
-        if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_diff && !is_reversed) || (firstR == 1 && is_mirror) || (firstR == 1 && lastR == 1))) {
+        if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_diff && !is_reversed) || (firstR == 1 && mirror) || (firstR == 1 && lastR == 1))) {
           var degrees = 360 / length * value;
 
           // arc to rho 1 start point
@@ -839,28 +984,81 @@ app.model.drawing = {
         });
       });
 
-      if (is_mirror) {
+      if (mirror != 'false') {
         // reverse paths
-        paths = paths.reverse();
+        paths = paths.reverse(); // reversed
 
-        _.each(paths, function(path, path_index) {
-          var points = JSON.parse(JSON.stringify(path.points));
-          var mirrored = points.reverse();
-  ``
-          // draw mirrored path in reverse
-          _.each(points, function(p) {
-            p[1] = mid-p[1]+mid; // adjust to opposite side(y) of midpoint
+        // vertical
+        if (mirror == 'vertical' || mirror == 'both') {
+          _.each(paths, function(path, path_index) {
+            var points = JSON.parse(JSON.stringify(path.points));
+            points.reverse();
+    ``
+            // draw mirrored path in reverse
+            _.each(points, function(p) {
+              p[1] = mid-p[1]+mid; // adjust to opposite side(y) of midpoint
 
-            if (value != 0) { // rotate points
-              var degrees = 360 / length * value;
-              p = self._rotate_coord(p, degrees);
-            }
+              if (value != 0) { // rotate points
+                var degrees = 360 / length * value;
+                p = self._rotate_coord(p, degrees);
+              }
 
-            point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
 
-            path_d += 'L'+point[0]+','+point[1];
+              path_d += 'L'+point[0]+','+point[1];
+            });
           });
-        });
+        }
+
+        // fix order for both
+        if (mirror == 'both') paths = paths.reverse(); // forward
+
+        // horizontal
+        if (mirror == 'horizontal' || mirror == 'both') {
+          _.each(paths, function(path, path_index) {
+            var points = JSON.parse(JSON.stringify(path.points));
+            if (mirror != 'both') points.reverse();
+    ``
+            // draw mirrored path in reverse
+            _.each(points, function(p) {
+              p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
+
+              if (value != 0) { // rotate points
+                var degrees = 360 / length * value;
+                p = self._rotate_coord(p, degrees);
+              }
+
+              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+
+              path_d += 'L'+point[0]+','+point[1];
+            });
+          });
+        }
+
+        // both
+        if (mirror == 'both') {
+          paths = paths.reverse(); // fix order for both
+
+          _.each(paths, function(path, path_index) {
+            var points = JSON.parse(JSON.stringify(path.points));
+            points.reverse();
+    ``
+            // draw mirrored path in reverse
+            _.each(points, function(p) {
+              p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
+              p[1] = mid-p[1]+mid; // adjust to opposite side(y) of midpoint
+
+              if (value != 0) { // rotate points
+                var degrees = 360 / length * value;
+                p = self._rotate_coord(p, degrees);
+              }
+
+              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+
+              path_d += 'L'+point[0]+','+point[1];
+            });
+          });
+        }
 
         // reverse paths back to original order
         paths = paths.reverse();

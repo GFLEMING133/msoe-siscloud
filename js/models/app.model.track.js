@@ -92,9 +92,9 @@ app.model.track = {
 		return this;
 	},
 	get_track_checked: function () {
-		if(this.get('track_checked') == 'true') {
+		if (this.get('track_checked') == 'true') {
 			app.trigger('community:select_track', this);
-		}else app.trigger('community:deselect_track', this);
+		} else app.trigger('community:deselect_track', this);
 	},
 	/**************************** D3 RENDERING ***********************************/
 	load_d3_data: function() {

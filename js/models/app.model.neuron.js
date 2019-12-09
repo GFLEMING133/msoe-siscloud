@@ -336,6 +336,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 	},
 	get_model: function (field) {
 		var field_val = this.get(field);
+		if (field_val == 'false') return undefined;
 
 		if (_.isArray(field_val)) {
 			function get_model(m_id) { return app.collection.get(m_id); }

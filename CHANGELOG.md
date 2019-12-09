@@ -1,3 +1,8 @@
+#2019-12-09 1.8.80
+ - App.log() added for more control over viewing console.log data
+ - Remove user data from post.fetch calls. (This caused issues when user model not found, not necessary)
+ - Speed up preview image rendering (removed anti-aliasing)
+ - Drawing mirroring includes horizontal, vertical, both
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.

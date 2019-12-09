@@ -1,5 +1,5 @@
 var config = {
-	  version				:'1.8.79', // wait_for_pause for ball jitter, redo added, playlist remove last track bug addressed, Rho start and finish corrected
+	  version				:'1.8.80', // 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

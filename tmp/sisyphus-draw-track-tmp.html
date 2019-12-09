@@ -42,14 +42,20 @@
             data-publish="session:active"
             data-msg="{'secondary':'false'}"
         ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
-        <div class="w70">
+        <div class="w40">
           <h1 class="no-stuffing fs18 lh24 capitalize truncate">Draw</h1>
         </div>
-        <div class="w15 center">
-          <div data-if="{{= model.path_count }} == 0">&nbsp;</div>
-          <div data-if="{{= model.path_count }} > 0">
-            <i class="fas fa-undo-alt p10 clickable blue-hover" data-on-click="model.undo"></i>
-          </div>
+        <div class="w30 center">
+          <i class="fas fa-undo-alt p10 grey-d"
+              data-if="{{= model.path_count }} == 0"></i>
+          <i class="fas fa-undo-alt p10 clickable blue-hover"
+              data-on-click="model.undo"
+              data-if="{{= model.path_count }} > 0"></i>
+          <i class="fas fa-redo-alt p10 grey-d"
+              data-if="{{= model.redo_count }} == 0"></i>
+          <i class="fas fa-redo-alt p10 clickable blue-hover"
+              data-on-click="model.redo"
+              data-if="{{= model.redo_count }} > 0"></i>
         </div>
       </div>
       <div class="body-header h100 scroll hide-scrollbar pb150"

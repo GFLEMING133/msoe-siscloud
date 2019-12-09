@@ -107,7 +107,7 @@ app.model.session = {
 	// 	var x = event.clientX;
 	// 	var y = event.clientY;
 	// 	var coords = "X coords: " + x + ", Y coords: " + y;
-	// 	console.log('Coordinates are =', coords)
+	// 	app.log('Coordinates are =', coords)
 	// },
 	/************************** SETUP MODES ***********************************/
 	valid_modes: ['sisyphus','siscloud'],
@@ -220,7 +220,7 @@ app.model.session = {
 		this.set('signed_in', 'true');
 
 		this.save_session();
-		console.log('AFTER SIGN IN');
+		app.log('AFTER SIGN IN');
 	},
 	sign_out: function () {
 		this.remove_session();
@@ -259,7 +259,7 @@ app.model.session = {
       }
 
       function cb(obj) {
-				console.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
+				app.log('sign_up self._process_registration OBJ RESP', obj.data, obj.err );
         if (obj.err){
           self.set('signing_up', 'false').set('errors', [ obj.err ]);
           element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
@@ -291,7 +291,7 @@ app.model.session = {
     },
 
     sign_in: function(user_data) {
-			console.log("Session Sign In()");
+			app.log("Session Sign In()");
 
         if (this.get('signing_in') == 'true') return false;
         else this.set('signing_in', 'true');
@@ -342,7 +342,7 @@ app.model.session = {
 				}
   		});
 
-			console.log("Sign in Data: ", data_arr);
+			app.log("Sign in Data: ", data_arr);
   		app.manager.intake_data(data_arr);
   		app.trigger('session:user_sign_in', session_data);
     },
@@ -375,34 +375,29 @@ app.model.session = {
         return errors;
     },
     _process_registration: function(user, data_arr) {
-        var session_data = {
-			username: user.username,
-            email: user.email,
-            password: user.password,
-            password_confirmation: user.password_confirmation,
-        };
+      var session_data = {
+				username							: user.username,
+        email									: user.email,
+        password							: user.password,
+        password_confirmation	: user.password_confirmation,
+      };
 
-        var self = this;
-        var server_user = false;
+      var self = this;
 
-        _.each(data_arr, function(m) {
+      _.each(data_arr, function(m) {
+        if (m.type == 'user' && m.email == user.email) {
+          session_data.user_id = m.id;
+        }
+      });
 
-            if (m.type == 'user' && m.email == user.email) {
-                server_user = m;
-                session_data.user_id = m.id;
-            }
-        });
+      app.manager.intake_data(data_arr);
+      app.trigger('session:user_sign_in', session_data);
 
-        app.manager.intake_data(data_arr);
-        app.trigger('session:user_sign_in', session_data);
+			app.log("Session data", session_data);
 
-
-        // setup user info here
-        if(session_data.user_id && session_data.user_id !== 'false')this.set('user_id', session_data.user_id);
-
+      // setup user info here
+      if (session_data.user_id && session_data.user_id !== 'false') this.set('user_id', session_data.user_id);
     },
-
-
     forgot_password: function() {
 			var self = this;
 			this.set('errors', []);
@@ -434,9 +429,6 @@ app.model.session = {
 				email: user_email
 			}
 			app.post.fetch(api_obj, cb, 0 );
-
-
-
     },
     _process_email: function(user, data_arr) {
         var session_data = {
@@ -458,7 +450,6 @@ app.model.session = {
         app.collection.add(data_arr);
 		app.trigger('session:active', {'primary':'community','secondary':'sign_in'});
 	},
-
 	/************************** CHECK SESSION STORED LOCALLY ******************/
 	check_session_sign_in: function () {
 		//if (app.is_app) return false;
@@ -490,7 +481,7 @@ app.model.session = {
 		} catch (err) {}
 	},
 	get_session: function () {
-		console.log("Get Session");
+		app.log("Get Session");
 		try {
 			if (!window.localStorage) return false;
 
@@ -504,7 +495,7 @@ app.model.session = {
 		}
 	},
 	save_session: function () {
-		console.log("Save Session");
+		app.log("Save Session");
 		try {
 			if (!window.localStorage) return false;
 
@@ -514,7 +505,7 @@ app.model.session = {
 			if (saveJSON.remember_me == 'false') delete saveJSON.registration;
 
 			window.localStorage.setItem('session', JSON.stringify(saveJSON));
-			// console.log("Session JSON", JSON.stringify(this.toJSON()));
+			// app.log("Session JSON", JSON.stringify(this.toJSON()));
 
 			var curr_sisbots = this.get_sisbots();
 			var sess_sisbots = this.get('sisbot_hostnames');
@@ -524,7 +515,7 @@ app.model.session = {
 		} catch (err) {}
 	},
 	remove_session: function () {
-		console.log("Remove Session");
+		app.log("Remove Session");
 		try {
 			if (!window.localStorage)
 				return false;
