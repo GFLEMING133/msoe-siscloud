@@ -14,8 +14,6 @@ $(document).ready(function() {
     .attr('width', w)
     .attr('height', h);
 
-  if (raw_data.name == 'preview') svg.attr("shape-rendering", "crispEdges");
-
   var d3_data = {
     background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
     stroke: '#797977', // #797977, #948252
