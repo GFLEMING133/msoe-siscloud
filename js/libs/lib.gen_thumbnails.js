@@ -3,9 +3,9 @@ function draw_thumbnail(raw_data) {
   var two_ball = false;
   if (raw_data.two_ball) two_ball = raw_data.two_ball;
   var percent = 1;
-  if (raw_data.percent) percent = raw_data.percent;
+  if (raw_data.percent) percent = raw_data.percent / 100;
 
-  console.log('raw points', raw_data);
+  // console.log('raw points', raw_data);
 
   var w = +raw_data.dimensions,
     h = +raw_data.dimensions,
@@ -87,7 +87,7 @@ function draw_thumbnail(raw_data) {
       .attr("fill", d3_data.background);
   }
 
-  console.log("Background", d3_data.background);
+  // console.log("Background", d3_data.background);
 
   function convert_verts_to_d3(data) {
     var return_value = [];
@@ -111,7 +111,7 @@ function draw_thumbnail(raw_data) {
     });
 
     // reduce point count, if needed
-    console.log("Given Points: ", return_value.length);
+    // console.log("Given Points: ", return_value.length);
     if (return_value.length > max_points) {
       var total_count = return_value.length;
       var remove_every = Math.ceil(1 / (max_points / return_value.length));
@@ -132,18 +132,18 @@ function draw_thumbnail(raw_data) {
       return_value.push({y:last_point.y, x:Math.round(last_point.x)});
     }
 
-    console.log("Total Points: ", return_value.length);
+    // console.log("Total Points: ", return_value.length);
 
     return return_value;
   };
 
   var points = convert_verts_to_d3(raw_points);
 
-  console.log("Point count: ", points.length);
+  // console.log("Point count: ", points.length);
   // reduce points to the percent given
   if (percent < 1) {
     points.length = Math.ceil(points.length * percent);
-    console.log("Reduced Points: ", points.length);
+    // console.log("Reduced Points: ", points.length);
   }
 
   var interpolated_points = [];
@@ -241,9 +241,7 @@ function draw_thumbnail(raw_data) {
   });
 }
 
-$(document).ready(function() {
-  var raw_data = $('.d3').data();
-
+function show_thumbnail(raw_data) {
   if (raw_data.animate && raw_data.percent && raw_data.percent < 1) {
     var percent = raw_data.percent;
     var i = 1;
@@ -260,4 +258,20 @@ $(document).ready(function() {
   } else {
     draw_thumbnail(raw_data);
   }
+}
+
+$(document).ready(function() {
+  var raw_data = $('.d3').data();
+
+  // TODO: if it has data-id, request the file from sisbot
+  if (raw_data.id && app.plugins.is_uuid(raw_data.id)) {
+    console.log("UUID found:", raw_data.id);
+    // get_track_verts
+    app.post.fetch({_type: 'POST', endpoint:'/sisbot/get_track_verts', data: {id: raw_data.id}}, function(obj) {
+      console.log("Track verts from Pi: ", obj);
+      raw_data.coors = obj.resp;
+
+      show_thumbnail(raw_data);
+    });
+  } else if (raw_data.coors) show_thumbnail(raw_data);
 });
