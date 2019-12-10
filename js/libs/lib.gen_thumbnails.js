@@ -1,7 +1,9 @@
-$(document).ready(function() {
-  var raw_data = $('.d3').data();
-
+function draw_thumbnail(raw_data) {
   var max_points = 50000; // maximum points to render
+  var two_ball = false;
+  if (raw_data.two_ball) two_ball = raw_data.two_ball;
+  var percent = 1;
+  if (raw_data.percent) percent = raw_data.percent;
 
   console.log('raw points', raw_data);
 
@@ -9,10 +11,20 @@ $(document).ready(function() {
     h = +raw_data.dimensions,
     raw_points = raw_data.coors.replace(/\\n/gi, '\n');
 
-  var svg = d3.select($('.d3')[0])
-    .append('svg')
-    .attr('width', w)
-    .attr('height', h);
+  var base = $('.d3');
+  var base_svg = $('.svg_drawing');
+
+  var svg;
+  if (base_svg.length <= 0) {
+    svg = d3.select(base[0])
+      .append('svg')
+      .attr('class', 'svg_drawing')
+      .attr('width', w)
+      .attr('height', h);
+  } else {
+    base_svg.empty();
+    svg = d3.select(base_svg[0]);
+  }
 
   var d3_data = {
     background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -35,6 +47,18 @@ $(document).ready(function() {
   var stroke_edge_width = d3_data.stroke_edge_width * w / 400;
 
   var line = d3.radialLine()
+    .radius(function(d, i) {
+      // console.log('radius', d);
+      return d.x * (w / 2 - stroke_edge_width / 2);
+    })
+    .angle(function(d) {
+      // console.log('angle', d);
+      return d.y;
+    })
+    .curve(d3.curveMonotoneX); //curveCatmullRom
+  //.interpolate('basis')
+
+  var two_line = d3.radialLine()
     .radius(function(d, i) {
       // console.log('radius', d);
       return d.x * (w / 2 - stroke_edge_width / 2);
@@ -114,10 +138,15 @@ $(document).ready(function() {
   };
 
   var points = convert_verts_to_d3(raw_points);
+
+  console.log("Point count: ", points.length);
+  // reduce points to the percent given
+  if (percent < 1) {
+    points.length = Math.ceil(points.length * percent);
+    console.log("Reduced Points: ", points.length);
+  }
+
   var interpolated_points = [];
-
-  console.log('POINTS', points);
-
   interpolated_points.push(points[0]);
   var last_point = interpolated_points[0];
   var r_max_dist = Math.min(0.785398, d3_data.r_max_dist);
@@ -147,33 +176,88 @@ $(document).ready(function() {
   _.each(interpolated_points, function(point, index) {
     if (index < interpolated_points.length - 1) {
       // setTimeout(function() {
-      var line_array = [point, interpolated_points[index + 1]];
-      // lighter edge
-      var edge_path = svg.append('path')
-        .datum(line_array)
-        .attr('d', line)
-        .attr('stroke', d3_data.stroke_edge)
-        .attr('stroke-width', stroke_edge_width)
-        .style("stroke-linecap", "round") // stroke-linecap type
-        .attr('fill', 'transparent')
-        .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+        var line_array = [point, interpolated_points[index + 1]];
+        // lighter edge
+        var edge_path = svg.append('path')
+          .datum(line_array)
+          .attr('d', line)
+          .attr('stroke', d3_data.stroke_edge)
+          .attr('stroke-width', stroke_edge_width)
+          .style("stroke-linecap", "round") // stroke-linecap type
+          .attr('fill', 'transparent')
+          .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
 
-      var second_array = [];
-      if (last_points.length > 0) second_array = last_points.concat(line_array);
+        if (two_ball) {
+          var two_array = JSON.parse(JSON.stringify(line_array));
+          _.each(two_array, function(two_point) {
+            two_point.x -= 1.0;
+          });
 
-      // darker path
-      var path = svg.append('path')
-        .datum(second_array)
-        .attr('d', line)
-        .attr('stroke', d3_data.stroke)
-        .attr('stroke-width', stroke_width)
-        .style("stroke-linecap", "round") // stroke-linecap type
-        .attr('fill', 'transparent')
-        .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+          // lighter edge
+          var edge_path = svg.append('path')
+            .datum(two_array)
+            .attr('d', two_line)
+            .attr('stroke', d3_data.stroke_edge)
+            .attr('stroke-width', stroke_edge_width)
+            .style("stroke-linecap", "round") // stroke-linecap type
+            .attr('fill', 'transparent')
+            .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+        }
 
-      last_points.push(point);
-      if (last_points.length > point_count) last_points.shift();
-      // }, 50*index);
+        var second_array = [];
+        if (last_points.length > 0) second_array = last_points.concat(line_array);
+
+        // darker path
+        var path = svg.append('path')
+          .datum(second_array)
+          .attr('d', line)
+          .attr('stroke', d3_data.stroke)
+          .attr('stroke-width', stroke_width)
+          .style("stroke-linecap", "round") // stroke-linecap type
+          .attr('fill', 'transparent')
+          .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+
+        if (two_ball) {
+          var two_array = JSON.parse(JSON.stringify(second_array));
+          _.each(two_array, function(two_point) {
+            two_point.x -= 1.0;
+          });
+
+          // darker path
+          var path = svg.append('path')
+            .datum(two_array)
+            .attr('d', two_line)
+            .attr('stroke', d3_data.stroke)
+            .attr('stroke-width', stroke_width)
+            .style("stroke-linecap", "round") // stroke-linecap type
+            .attr('fill', 'transparent')
+            .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+        }
+
+        last_points.push(point);
+        if (last_points.length > point_count) last_points.shift();
+      // }, 100*index);
     }
   });
+}
+
+$(document).ready(function() {
+  var raw_data = $('.d3').data();
+
+  if (raw_data.animate && raw_data.percent && raw_data.percent < 1) {
+    var percent = raw_data.percent;
+    var i = 1;
+    var drawInterval = setInterval(function() {
+      raw_data.percent = percent * i;
+      if (raw_data.percent >= 1) {
+        raw_data.percent = 1;
+        clearInterval(drawInterval);
+        console.log("!! Drawing Complete");
+      }
+      draw_thumbnail(raw_data);
+      i++;
+    }, 1000);
+  } else {
+    draw_thumbnail(raw_data);
+  }
 });
