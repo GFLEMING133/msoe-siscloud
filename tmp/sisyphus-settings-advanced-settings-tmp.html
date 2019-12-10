@@ -6,7 +6,7 @@
         data-msg="{'secondary':'false'}"
     ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w70">
-        <h1 class="no-stuffing fs18 lh18 capitalize truncate" 
+        <h1 class="no-stuffing fs18 lh18 capitalize truncate"
             data-on-click="model.check_admin"
             tg-name="check_admin_btn">Advanced</h1>
     </div>
@@ -34,7 +34,7 @@
           <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
       </div>
 
-      <div data-model="{{= model.sisbot_id }}" 
+      <div data-model="{{= model.sisbot_id }}"
           data-if="{{= parent.is_admin }} == true"
           tg-name="is_admin_list">
           <div class="bb p20 fs14">
@@ -184,45 +184,53 @@
       </div>
     </div>
     <div data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == true">
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'advanced_table'}"
-            tg-name="table_settings_tab">
-            <span class="strong montserrat_semi_bold">Table Settings</span>
-            <span class="pull-right">
-                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-        </div>
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'advanced_table'}"
+          tg-name="table_settings_tab">
+        <span class="strong montserrat_semi_bold">Table Settings</span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'change_table'}"
+        data-if="{{= _.size(model.sisbots_ip_name) }} > 1"
+        tg-name="change_table_tab">
+      <span class="strong montserrat_semi_bold">Change Table</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
     </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-model="{{= model.sisbot_id }}"
         data-on-click="model.disconnect"
-        tg-name="logout_tab"
-    >
-        <span class="strong montserrat_semi_bold">Logout from Sisyphus</span>
-        <span class="pull-right"></span>
+        tg-name="logout_tab">
+      <span class="strong montserrat_semi_bold">Logout from Sisyphus</span>
+      <span class="pull-right"></span>
     </div>
     <div data-model="{{= model.sisbot_id }}">
-        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-            data-if="{{= model.data.is_network_connected }} == true"
-            data-on-click="model.disconnect_wifi"
-            tg-name="disconnect_wifi_tab"
-        >
-            <span class="strong montserrat_semi_bold">Disconnect from WiFi network</span>
-            <span class="pull-right"></span>
-        </div>
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-if="{{= model.data.is_network_connected }} == true"
+          data-on-click="model.disconnect_wifi"
+          tg-name="disconnect_wifi_tab">
+        <span class="strong montserrat_semi_bold">Disconnect from WiFi network</span>
+        <span class="pull-right"></span>
+      </div>
     </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'factory-reset'}"
-        tg-name="factory_reset_tab"
-    >
-        <span class="strong montserrat_semi_bold">Factory Reset</span>
-        <span class="pull-right">
-            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-        </span>
+        tg-name="factory_reset_tab">
+      <span class="strong montserrat_semi_bold">Factory Reset</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
     </div>
     <div class="hh150">&nbsp;</div>
   </div>

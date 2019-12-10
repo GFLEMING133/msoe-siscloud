@@ -154,9 +154,9 @@ app.model.sisyphus_manager = {
   },
   open_home_page: function() {
     if (app.is_app) {
-      cordova.InAppBrowser.open(' https://www.sisyphus-industries.com/', '_system', 'location=yes');
+      cordova.InAppBrowser.open('https://www.sisyphus-industries.com/', '_system', 'location=yes');
     } else {
-      window.location = ' https://www.sisyphus-industries.com/';
+      window.location = 'https://www.sisyphus-industries.com/';
     }
   },
   open_support_page: function() {
@@ -167,7 +167,7 @@ app.model.sisyphus_manager = {
     }
   },
   find_tracks: function() {
-    window.open(' https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
+    window.open('https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
   },
   navigate_home: function() {
     app.trigger('session:active', {
@@ -369,7 +369,6 @@ app.model.sisyphus_manager = {
       evothings.ble.close(device);
     });
   },
-
   _has_update: function(sisbot, remote) {
     console.log("_has_update()");
 
@@ -468,7 +467,6 @@ app.model.sisyphus_manager = {
     this.set('show_hostname_page', 'false');
   },
   /*********************** SISBOT FIND **************************************/
-
   open_network_settings: function() {
     //   console.log("open_network_settings()");
     var self = this;
@@ -613,6 +611,7 @@ app.model.sisyphus_manager = {
         return this;
       }
     }
+
     this.set('sisbots_networked', []);
     this.set('sisbots_ip_name', {});
     // this.set('sisbot_id', 'false'); // ?? clear ?? // causes errors on check_reconnect_status
@@ -630,7 +629,7 @@ app.model.sisyphus_manager = {
       if (self.get('sisbots_scanning') == 'false') return;
 
       // if we found sisbots already, skip rest of checks
-      if (self.get('sisbots_networked').length > 0) num_checks = 0;
+      // if (self.get('sisbots_networked').length > 0) num_checks = 0;
 
       switch (num_checks) {
         case 3:
@@ -845,11 +844,24 @@ app.model.sisyphus_manager = {
         // } else {
         //   app.collection.add(data);
         // }
-        if (data.type == 'led_pattern') console.log("Incoming LED", data);
+        // if (data.type == 'led_pattern') console.log("Incoming LED", data);
         self.intake_data(data);
 
         if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
+
+          var old_sisbot = self.get('sisbot_id');
+          if (old_sisbot != 'false' && old_sisbot != data.id) {
+            console.log("New Sisbot connected");
+            app.socket.reset_socket = true;
+
+            // change page to home
+            app.trigger('session:active', {
+              secondary: 'false',
+              primary: 'current'
+            });
+          }
+
           self.set('sisbot_id', data.id);
 
           var sisbot = app.collection.get(data.id);
@@ -873,11 +885,13 @@ app.model.sisyphus_manager = {
         secondary: 'false',
         primary: 'current'
       });
+
       // hotspot access allows not requiring user
       if (self.get_model('user_id')) {
-        self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
-        self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
-        self.get_model('user_id').save(true);
+        console.log("Add to user model");
+        // self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
+        // self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
+        // self.get_model('user_id').save(true);
       }
     }, 0);
 

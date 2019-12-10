@@ -1162,7 +1162,7 @@ function Element(el, parent, _scope) {
 
     self.remove_children();
 
-    if (this.is_hidden) return; // don't bother
+    if (this.is_hidden && this.el_type != 'OPTION') return; // don't bother (except for option)
     if (this.el_type == 'comment') return; // don't bother
 
     if (this.data.foreach) {
@@ -1488,6 +1488,8 @@ function Element(el, parent, _scope) {
     // don't add extra close tag to those that don't need it
     if (this.el_type.match(/img|input|br|hr|meta/i)) returnValue += ' />';
     else {
+      if (this.el_type == 'OPTION' && this.is_hidden) returnValue += ' disabled'; // disable option when data-if is false
+
       returnValue += '>';
       returnValue += this.render_children();
       returnValue += '</'+this.el_type+'>';
