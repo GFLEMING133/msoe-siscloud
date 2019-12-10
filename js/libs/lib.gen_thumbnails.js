@@ -242,13 +242,13 @@ function draw_thumbnail(raw_data) {
 }
 
 function show_thumbnail(raw_data) {
-  if (raw_data.animate && raw_data.percent && raw_data.percent < 1) {
+  if (raw_data.animate && raw_data.percent && raw_data.percent < 100) {
     var percent = raw_data.percent;
     var i = 1;
     var drawInterval = setInterval(function() {
       raw_data.percent = percent * i;
-      if (raw_data.percent >= 1) {
-        raw_data.percent = 1;
+      if (raw_data.percent >= 100) {
+        raw_data.percent = 100;
         clearInterval(drawInterval);
         console.log("!! Drawing Complete");
       }
