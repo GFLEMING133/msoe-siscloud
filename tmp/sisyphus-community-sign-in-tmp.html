@@ -1,15 +1,13 @@
 <div class="h100">
-  <div class="pull-top bg-white w100">
-    <div class="white bg-black w100 center no-stuffing flex">
-      <div class="w15 center clickable active blue-hover"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'primary':'community','secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />&nbsp;</div>
-      <div class="w70">
-        <h3 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Sign In</h3>
-      </div>
-      <div class="w15 pt20 center f-large">&nbsp;</div>
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+    <div class="w15 center clickable active blue-hover"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'community','secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />&nbsp;</div>
+    <div class="w70">
+      <h3 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Sign In</h3>
     </div>
+    <div class="w15 pt20 center f-large">&nbsp;</div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar pl40 pr40 pb200" data-model="{{= manager.sisbot_id }}" tg-name="community_sign_in_page">
     <div data-if="{{= model.data.is_internet_connected }} == false">
@@ -58,8 +56,8 @@
               data-on-key-enter="model.sign_in" />
         </div>
 
-        <div class="pt10 pull-left clickable" 
-          data-on-click="toggle" 
+        <div class="pt10 pull-left clickable"
+          data-on-click="toggle"
           data-field="model.remember_me"
           tg-name="remember_me_checkbox">
           <i class="fas fa-check-square" data-if="{{= model.remember_me }} == true"></i>

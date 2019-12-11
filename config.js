@@ -1,5 +1,5 @@
 var config = {
-	  version				:'1.8.80', // 
+	  version				:'1.8.82', // 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

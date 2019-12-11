@@ -198,6 +198,12 @@ app.model.sisyphus_manager = {
     }
   },
   /**************************** BLUETOOTH ***********************************/
+  ble_start_time: null,
+  ble_sisbots_found: {},
+  _ble_ip: 'false',
+  _char: false,
+  _ble_cb: false,
+  _ble_ip: false,
   force_reload: function() {
     window.location.reload();
   },
@@ -269,10 +275,11 @@ app.model.sisyphus_manager = {
     }, {});
   },
   start_ble_scan: function(device_name, cb) {
-    console.log("start_ble_scan()");
+    this.ble_start_time = Date.now();
+    console.log("start_ble_scan()", this.ble_start_time);
     var self = this;
 
-    this._ble_cb = cb;
+    if (cb) this._ble_cb = cb;
 
     evothings.ble.startScan(
       function(device) {
@@ -281,59 +288,98 @@ app.model.sisyphus_manager = {
           device.advertisementData.kCBAdvDataLocalName &&
           (device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1 || device.advertisementData.kCBAdvDataLocalName.indexOf('isyphus') > -1) // legacy
         ) {
-          self.ble_connect(device);
+          // console.log("BLE found Device", device.advertisementData.kCBAdvDataLocalName);
+
+          try {
+            self.ble_add_device(device);
+          } catch(err) {
+            console.log("BLE add device error", err);
+          }
+          // self.ble_connect(device);
         }
       },
       function(error) {
-        //alert('Start Scan Error: ' + error);
+        console.log('Ble Start Scan Error: ' + error);
         self.ble_cb();
       }
     );
 
     // give the user plenty of time to approve permissions and find sisbot
     setTimeout(function() {
-      self.ble_cb();
       self.ble_stop_scan();
-    }, 15000);
+      self.ble_cb();
+
+      console.log("BLE Sisyphus devices found:", _.size(_.keys(self.ble_sisbots_found)));
+    }, 5000); // formerly 15000
   },
-  _ble_ip: 'false',
-  _char: false,
-  _ble_cb: false,
-  _ble_ip: false,
-  ble_cb: function(value) {
-    if (this._ble_cb) {
-      this._ble_ip = value;
-      this._ble_cb(value);
-      this._ble_cb = false;
+  ble_add_device: function(device) {
+    var self = this;
+
+    var device_name = device.advertisementData.kCBAdvDataLocalName;
+    if (device_name && !self.ble_sisbots_found[device_name]) {
+      console.log("BLE found Device", device_name);
+      self.ble_sisbots_found[device_name] = device;
     }
+  },
+  ble_cb: function(value) {
+    console.log("BLE_cb: ", value);
+    var self = this;
+
+    var ble_i = 0;
+    var ble_keys = _.keys(self.ble_sisbots_found);
+
+    function cb(ip_address) {
+      if (ip_address) {
+        self.ping_sisbot(ip_address, function() {
+          next_device();
+        });
+      } else {
+        console.log("BLE connect error", ip_address);
+        next_device();
+      }
+    }
+
+    function next_device() {
+      ble_i++;
+      if (ble_i < ble_keys.length) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
+      else {
+        console.log("BLE finished", Date.now() - self.ble_start_time);
+        console.log("BLE sisbots found:", JSON.stringify(self.get('sisbots_networked')));
+        // continue with scan
+        if (self._ble_cb) {
+          self._ble_cb();
+        }
+      }
+    }
+
+    if (ble_keys.length > 0) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
+
     return this;
   },
   ble_stop_scan: function() {
     evothings.ble.stopScan();
   },
-  ble_connect: function(device, connect_retries) {
-    this.ble_stop_scan();
-
+  ble_connect: function(device, cb, connect_retries) {
+    // this.ble_stop_scan();
     var self = this;
 
     evothings.ble.connectToDevice(device, function on_connect(device) {
-
-      self.get_service_data(device);
+      self.get_service_data(device, cb);
     }, function on_disconnect(device) {
       //alert('Disconnected from Device');
-      self.ble_cb();
+      if (cb) cb();
     }, function on_error(error) {
       if (connect_retries > 5) {
         app.plugins.n.notification.alert('Bluetooth Connect Error: ' + error);
-        self.ble_cb();
+        if (cb) cb();
       } else {
         setTimeout(function() {
-          self.ble_connect(device, ++connect_retries);
+          self.ble_connect(device, cb, ++connect_retries);
         }, 500);
       }
     });
   },
-  get_service_data: function(device) {
+  get_service_data: function(device, cb) {
     var self = this;
 
     evothings.ble.readAllServiceData(device,
@@ -341,34 +387,35 @@ app.model.sisyphus_manager = {
         var dataService = evothings.ble.getService(device, "ec00");
 
         if (dataService == null) {
-          self.ble_cb();
+          if (cb) cb();
           evothings.ble.close(device);
         } else {
           self._char = evothings.ble.getCharacteristic(dataService, "ec0e")
-          self.setup_read_chars(device);
+          self.setup_read_chars(device, cb);
         }
       },
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
-        self.ble_cb();
+        if (cb) cb();
         evothings.ble.close(device);
       }
     );
   },
-  setup_read_chars: function(device) {
+  setup_read_chars: function(device, cb) {
     var self = this;
 
     evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
       var ip_address_arr = new Uint8Array(d);
       self._ble_ip = ip_address_arr.join('.');
-      self.ble_cb(self._ble_ip);
+      if (cb) cb(self._ble_ip);
       evothings.ble.close(device);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
-      self.ble_cb();
+      if (cb) cb();
       evothings.ble.close(device);
     });
   },
+  /****************************************************************************/
   _has_update: function(sisbot, remote) {
     console.log("_has_update()");
 
@@ -729,15 +776,7 @@ app.model.sisyphus_manager = {
     if (!app.is_app) return cb();
     console.log("find_bluetooth_sisbots()");
 
-    var self = this;
-    var ip_address = false;
-
-    this.start_ble_scan('sisbot', function(ip_address) {
-      if (ip_address) {
-        console.log("Bluetooth IP: ", ip_address);
-        self.ping_sisbot(ip_address, cb);
-      } else cb();
-    });
+    this.start_ble_scan('sisbot', cb);
 
     return this;
   },
@@ -756,7 +795,7 @@ app.model.sisyphus_manager = {
       var ip_base = ip_add.join('.');
       var count = 0;
 
-      _.each(_.range(0, 256), function(num) {
+      _.each(_.range(0, 255), function(num) {
         self.ping_sisbot(ip_base + '.' + num, function() {
           if (++count == 255) cb();
         });
