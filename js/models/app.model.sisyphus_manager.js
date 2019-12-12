@@ -66,6 +66,7 @@ app.model.sisyphus_manager = {
     return obj;
   },
   current_version: 1,
+  app_ip_base: null,
   on_init: function() {
     // console.log("on_init() in app.model.sisyphus_manager");
     if (window.cordova) StatusBar.show();
@@ -298,7 +299,7 @@ app.model.sisyphus_manager = {
         }
       },
       function(error) {
-        console.log('Ble Start Scan Error: ' + error);
+        console.log('BLE Start Scan Error: ' + error);
         self.ble_cb();
       }
     );
@@ -331,18 +332,25 @@ app.model.sisyphus_manager = {
       if (ip_address) {
         console.log("BLE ip found:", ip_address);
         if (ip_address == '192.168.42.1') self._ble_hotspot = true;
-        self.ping_sisbot(ip_address, function() {
+        // TODO: compare to self.app_ip_base
+        if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
+          self.ping_sisbot(ip_address, function() {
+            next_device();
+          });
+        } else {
+          console.log("BLE ip not on same network, skip ping_sisbot()", ip_address, self.app_ip_base);
           next_device();
-        });
+        }
       } else {
-        console.log("BLE connect error", ip_address);
+        console.log("BLE connect ip_address error", ip_address);
         next_device();
       }
     }
 
     function next_device() {
+      var searching = (self.get('sisbots_scanning') == 'true');
       ble_i++;
-      if (ble_i < ble_keys.length) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
+      if (searching && ble_i < ble_keys.length) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
       else {
         console.log("BLE finished", Date.now() - self.ble_start_time);
         console.log("BLE sisbots found:", JSON.stringify(self.get('sisbots_networked')));
@@ -698,7 +706,7 @@ app.model.sisyphus_manager = {
           // return this;
 
           var sisbots = _.uniq(self.get('sisbots_networked'));
-          console.log("Find CB", sisbots);
+          console.log("Found Sisbots:", sisbots);
           self.set('sisbots_networked', sisbots);
           self.set('sisbots_scanning', 'false');
 
@@ -787,17 +795,24 @@ app.model.sisyphus_manager = {
     this.get_network_ip_address(function(ip_address) {
       console.log('get_network_ip_address ==' + ip_address);
       if (!ip_address) return cb();
+
       var ip_add = ip_address.split('.');
       ip_add.pop();
 
       var ip_base = ip_add.join('.');
+      self.app_ip_base = ip_base; // remember ip_base
       var count = 0;
 
-      _.each(_.range(0, 255), function(num) {
-        self.ping_sisbot(ip_base + '.' + num, function() {
-          if (++count == 255) cb();
+      if (ip_base != '192.168.42') { // skip hotspot network search
+        _.each(_.range(0, 255), function(num) {
+          self.ping_sisbot(ip_base + '.' + num, function() {
+            if (++count == 255) cb();
+          });
         });
-      });
+      } else {
+        console.log("On Sisbot hotspot, don't bother pinging network");
+        cb();
+      }
     });
 
     return this;
@@ -815,10 +830,16 @@ app.model.sisyphus_manager = {
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {
-      if (obj.err) {
-        return cb();
-      }
+      if (obj.err) return cb();
+
       if (!obj.resp || !obj.resp.hostname) return cb();
+
+      if (self.get('sisbot_id') == obj.resp.id) {
+        console.log("Ping: found match", obj.resp.id, obj.resp.local_ip);
+        self.set('sisbots_networked', [obj.resp.local_ip]); // clear other sisbots
+        // TODO: stop other bluetooth connections
+        self.connect_to_sisbot(obj.resp.local_ip); // found our expected table. Reconnect to it.
+      }
 
       // Default select the one we are already on
       self.set('sisbot_hostname', obj.resp.local_ip);

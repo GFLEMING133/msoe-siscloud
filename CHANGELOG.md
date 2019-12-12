@@ -4,6 +4,9 @@
  - Drawing mirroring includes horizontal, vertical, both
  - Change Table page added to Advanced Settings
  - Bluetooth scanning of app scans for all available sisbots (before it always connected to just the first one)
+ - Reconnects to lost connection if same Sisbot ID found (on connect to network)
+ - Skip network scan on hotspot network (192.168.42.xxx)
+ - Skip ping from Bluetooth IP address if not on same network
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.
