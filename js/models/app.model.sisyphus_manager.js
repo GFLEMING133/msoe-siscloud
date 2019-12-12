@@ -200,10 +200,9 @@ app.model.sisyphus_manager = {
   /**************************** BLUETOOTH ***********************************/
   ble_start_time: null,
   ble_sisbots_found: {},
-  _ble_ip: 'false',
   _char: false,
   _ble_cb: false,
-  _ble_ip: false,
+  _ble_hotspot: false, // did we find a sisbot in hotspot mode?
   force_reload: function() {
     window.location.reload();
   },
@@ -275,9 +274,9 @@ app.model.sisyphus_manager = {
     }, {});
   },
   start_ble_scan: function(device_name, cb) {
-    this.ble_start_time = Date.now();
-    console.log("start_ble_scan()", this.ble_start_time);
     var self = this;
+    this.ble_start_time = Date.now();
+    console.log("start_ble_scan()", this.ble_start_time, JSON.stringify(this.get('sisbots_networked')));
 
     if (cb) this._ble_cb = cb;
 
@@ -330,6 +329,8 @@ app.model.sisyphus_manager = {
 
     function cb(ip_address) {
       if (ip_address) {
+        console.log("BLE ip found:", ip_address);
+        if (ip_address == '192.168.42.1') self._ble_hotspot = true;
         self.ping_sisbot(ip_address, function() {
           next_device();
         });
@@ -406,8 +407,8 @@ app.model.sisyphus_manager = {
 
     evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
       var ip_address_arr = new Uint8Array(d);
-      self._ble_ip = ip_address_arr.join('.');
-      if (cb) cb(self._ble_ip);
+      var _ble_ip = ip_address_arr.join('.');
+      if (cb) cb(_ble_ip);
       evothings.ble.close(device);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
@@ -700,7 +701,6 @@ app.model.sisyphus_manager = {
           console.log("Find CB", sisbots);
           self.set('sisbots_networked', sisbots);
           self.set('sisbots_scanning', 'false');
-          var curr_reg = self.get('sisbot_registration');
 
           if (app.config.env == 'alpha') {
             self.connect_to_sisbot('192.168.42.1');
@@ -709,11 +709,9 @@ app.model.sisyphus_manager = {
           } else if (sisbots.length == 1) {
             self.set('sisbot_registration', 'connecting');
             self.connect_to_sisbot(sisbots[0]);
-          } else if (curr_reg == 'hotspot') {
-            // do nothing, we're already notifying user
           } else if (sisbots.length == 0) {
-            // show screen that we found none
-            self.set('sisbot_registration', 'none');
+            if (self._ble_hotspot) self.set('sisbot_registration', 'hotspot'); // BLE found hotspot(s)
+            else self.set('sisbot_registration', 'none'); // show screen that we found none
           } else if (sisbots.length > 1) {
             // show screen to select sisbot
             // self.set('sisbot_id', 'false'); //TODO: find previous table
@@ -818,12 +816,6 @@ app.model.sisyphus_manager = {
       data: {}
     }, function(obj) {
       if (obj.err) {
-        if (hostname == '192.168.42.1') {
-          //   if (app.is_app == false || app.platform == 'iOS') {
-          if (hostname == self._ble_ip) {
-            self.set('sisbot_registration', 'hotspot');
-          }
-        }
         return cb();
       }
       if (!obj.resp || !obj.resp.hostname) return cb();
