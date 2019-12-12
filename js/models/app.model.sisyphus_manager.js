@@ -396,8 +396,8 @@ app.model.sisyphus_manager = {
         var dataService = evothings.ble.getService(device, "ec00");
 
         if (dataService == null) {
-          if (cb) cb();
           evothings.ble.close(device);
+          if (cb) cb();
         } else {
           self._char = evothings.ble.getCharacteristic(dataService, "ec0e")
           self.setup_read_chars(device, cb);
@@ -405,8 +405,8 @@ app.model.sisyphus_manager = {
       },
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
-        if (cb) cb();
         evothings.ble.close(device);
+        if (cb) cb();
       }
     );
   },
