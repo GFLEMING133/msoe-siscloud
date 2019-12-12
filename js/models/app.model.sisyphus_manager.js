@@ -416,12 +416,12 @@ app.model.sisyphus_manager = {
     evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
       var ip_address_arr = new Uint8Array(d);
       var _ble_ip = ip_address_arr.join('.');
-      if (cb) cb(_ble_ip);
       evothings.ble.close(device);
+      if (cb) cb(_ble_ip);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
-      if (cb) cb();
       evothings.ble.close(device);
+      if (cb) cb();
     });
   },
   /****************************************************************************/
