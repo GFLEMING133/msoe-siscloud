@@ -328,16 +328,21 @@ app.model.sisyphus_manager = {
     var ble_i = 0;
     var ble_keys = _.keys(self.ble_sisbots_found);
 
+    var found_bots = this.get('sisbots_networked');
+
     function cb(ip_address) {
       if (ip_address) {
         console.log("BLE ip found:", ip_address);
         if (ip_address == '192.168.42.1') self._ble_hotspot = true;
-        // TODO: compare to self.app_ip_base
-        if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
+
+        if (found_bots.indexOf(ip_address) >= 0) { // check if already in existing list of bots
+          console.log("BLE ip already in list, skip ping_sisbot()", ip_address);
+          next_device();
+        } else if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
           self.ping_sisbot(ip_address, function() {
             next_device();
           });
-        } else {
+        } else { // other network, don't ping
           console.log("BLE ip not on same network, skip ping_sisbot()", ip_address, self.app_ip_base);
           next_device();
         }
@@ -803,11 +808,17 @@ app.model.sisyphus_manager = {
       self.app_ip_base = ip_base; // remember ip_base
       var count = 0;
 
+      var found_bots = self.get('sisbots_networked');
+
       if (ip_base != '192.168.42') { // skip hotspot network search
         _.each(_.range(0, 255), function(num) {
-          self.ping_sisbot(ip_base + '.' + num, function() {
-            if (++count == 255) cb();
-          });
+          var ip = ip_base + '.' + num;
+
+          if (found_bots.indexOf(ip) < 0) { // skip bots on ip's already found
+            self.ping_sisbot(ip, function() {
+              if (++count == 255) cb();
+            });
+          } else if (++count == 255) cb();
         });
       } else {
         console.log("On Sisbot hotspot, don't bother pinging network");

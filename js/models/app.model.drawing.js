@@ -11,6 +11,7 @@ app.model.drawing = {
       height      : 0,
       mid         : 0,
       padding     : 10,
+      smooth      : 0.125,
       is_dragging : 'false',
       drag_pos    : {
         start       : { x: 0, y: 0, w: 0, h: 0 }, // position of press
@@ -64,8 +65,8 @@ app.model.drawing = {
 		return obj;
 	},
   scroll_el       : null, // memory for turning on/off scrolling
-  max_r           : Math.PI/24, // how far line can rotate before adding new control point
-  min_dist        : 4, // how far line must extend before adding new control point
+  max_r           : Math.PI/24, // how far line can rotate before adding new control point (Math.PI/24)
+  min_dist        : 8, // how far line must extend before adding new control point (4)
 	current_version : 1,
   on_init: function() {
     this.on('change:paths', this.update_path_count);
@@ -73,10 +74,22 @@ app.model.drawing = {
     this.on('remove:paths', this.update_path_count);
   },
   firstR_change: function() {
+    var firstR = this.get('edit.firstR');
+
+    if (firstR == 1) this.set('edit.firstR', 0);
+    else this.set('edit.firstR', 1);
+  },
+  _firstR_change: function() {
     var mirror = (this.get('edit.mirror') != 'false');
     if (mirror) this.set('edit.lastR', this.get('edit.firstR'), {silent:true});
 
     this._draw_paths();
+  },
+  lastR_change: function() {
+    var lastR = this.get('edit.lastR');
+
+    if (lastR == 1) this.set('edit.lastR', 0);
+    else this.set('edit.lastR', 1);
   },
   step_mirror: function() {
     var mirror = this.get('edit.mirror');
@@ -242,10 +255,11 @@ app.model.drawing = {
     this._draw_paths();
 
     // add listeners
-    this.on('change:edit.firstR', this.firstR_change);
+    this.on('change:edit.firstR', this._firstR_change);
     this.on('change:edit.lastR', this._draw_paths);
     this.on('change:edit.mirror', this.mirror_change);
     this.on('change:edit.multiply', this.multiply_change);
+    this.on('change:smooth', this._recreate_paths);
 
     this.on('add:paths', this._draw_paths);
     this.on('change:paths', this._draw_paths);
@@ -317,6 +331,18 @@ app.model.drawing = {
     }
 
     // console.log("_Draw Preview: finished");
+  },
+  _recreate_paths: function() {
+    console.log("_recreate_paths()");
+    var self = this;
+
+    // remake path.d's
+    var paths = this.get('paths');
+    _.each(paths, function(path) {
+      path.d = self._make_path(path.points);
+    });
+
+    this._draw_paths();
   },
   _draw_paths: function() {
     var self = this;
@@ -465,19 +491,65 @@ app.model.drawing = {
 
     // console.log("Draw Paths", paths.length, multiply);
   },
-  _make_path: function() {
+  _make_path: function(coords) {
     var self = this;
     var path = '';
 
-    var coords = this.get('coords');
+    var coord_count = coords.length;
     _.each(coords, function(point, index) {
-      if (index == 0) path += 'M';
-      else path += 'L';
-      path += point[0]+','+point[1];
+      // if (index == 0) path += 'M';
+      // else path += 'L';
+      if (index == 0) path += 'M'+point[0]+' '+point[1];
+      // else if (coords.length > 2) {
+      //   if (index == 1) {
+      //     var x1 = (point[0] - coords[index-1][0]) / 2 + coords[index-1][0];
+      //     var y1 = (point[1] - coords[index-1][1]) / 2 + coords[index-1][1];
+      //     path += 'Q'+x1+' '+y1+' '+point[0]+' '+point[1];
+      //   } else path += 'T'+point[0]+' '+point[1];
+      // }
+      else {
+        if (self.get('smooth') > 0) path += self._b_bezierCommand(point, index, coords);
+        else path += 'L'+point[0]+' '+point[1];
+      }
     });
-    // console.log("Path: ", path);
+    console.log("Path: ", self.get('smooth'), path);
 
     return path;
+  },
+  _b_line: function(pointA, pointB) {
+    var lengthX = pointB[0] - pointA[0];
+    var lengthY = pointB[1] - pointA[1];
+    return {
+      length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
+      angle: Math.atan2(lengthY, lengthX)
+    };
+  },
+  _b_controlPoint: function(current, previous, next, reverse) {
+    var p = previous || current;
+    var n = next || current;
+
+    // The smoothing ratio
+    var smoothing = this.get('smooth');
+
+    // Properties of the opposed-line
+    var o = this._b_line(p, n);
+
+    // If is end-control-point, add PI to the angle to go backward
+    var angle = o.angle + (reverse ? Math.PI : 0);
+    var length = o.length * smoothing;
+
+    // The control point position is relative to the current point
+    var x = current[0] + Math.cos(angle) * length;
+    var y = current[1] + Math.sin(angle) * length;
+    return [x, y];
+  },
+  _b_bezierCommand: function(point, i, a) {
+    // start control point
+    var [cpsX, cpsY] = this._b_controlPoint(a[i - 1], a[i - 2], point);
+    // end control point
+    var [cpeX, cpeY] = this._b_controlPoint(point, a[i - 1], a[i + 1], true);
+
+    return 'C '+cpsX+','+cpsY+' '+cpeX+','+cpeY+' '+point[0]+','+point[1];
   },
   _line: function(svg, obj) {
     svg.append("line")
@@ -741,7 +813,7 @@ app.model.drawing = {
       this.set('is_dragging', 'false');
 
       // add coords to paths
-      var path = this._make_path();
+      var path = this._make_path(this.get('coords'));
       var obj = {
         d: path,
         points: this.get('coords'),

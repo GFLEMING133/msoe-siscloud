@@ -1463,7 +1463,7 @@ select:focus {
 
 /**************************** BORDERS *****************************************/
 
-.b										{	border						: 1px solid #efefef !important;	}
+.b										{	border						: 1px solid #efefef;	}
 .bb-dcdc							{ border-bottom			: 1px solid #dcdcdc !important;	}
 .bt										{	border-top				: 1px solid #efefef !important;	}
 .bt-dcdc 							{ border-top				: 1px solid #dcdcdc !important;	}
@@ -1473,7 +1473,7 @@ select:focus {
 .b-none								{	border						: none;								  }
 .bb-10p								{ border-bottom			: 10px solid  #000;		}
 
-.b2										{	border						: 2px solid #838383 !important;	}
+.b2										{	border						: 2px solid #838383;	}
 
 .b-white-2px					{	border						: 2px solid #fff !important;		}
 .b-white							{	border						: 2px solid #fff !important;		}

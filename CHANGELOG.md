@@ -7,6 +7,8 @@
  - Reconnects to lost connection if same Sisbot ID found (on connect to network)
  - Skip network scan on hotspot network (192.168.42.xxx)
  - Skip ping from Bluetooth IP address if not on same network
+ - Skip ping when IP address is already in found list
+ - Drawing paths make smooth bezier curves
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.

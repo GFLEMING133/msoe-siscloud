@@ -34,12 +34,10 @@
       </div>
       <div class="flex-column vertical-align no-stuffing"
           data-if="{{= model.path_count }} == 0">
-        <select class="w40p corner-5px last-center fs14 center strong lh20 p10 pt7 pb7"
-            data-field="model.edit.firstR"
-            data-selected="{{= model.edit.firstR }}">
-          <option value="0">0</option>
-          <option value="1">1</option>
-        </select>
+        <div class="w40p b2 black-border corner-5px last-center fs14 center strong lh20 p10 pt7 pb7 clickable"
+            data-on-click="model.firstR_change">
+          {{= model.edit.firstR }}
+        </div>
         <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
       </div>
       <div class="flex-column grey vertical-align no-stuffing"
@@ -49,14 +47,24 @@
       </div>
       <div class="flex-column vertical-align fs14 lh18 no-stuffing strong"
           data-if="{{= model.edit.mirror }} == false">
-        <select class="w40p corner-5px last-center center fs14 lh20 p10 pt7 pb7"
-            data-field="model.edit.lastR"
-            data-selected="{{= model.edit.lastR }}">
-          <option value="0">0</option>
-          <option value="1">1</option>
-        </select>
+        <div class="w40p b2 black-border corner-5px last-center center fs14 lh20 p10 pt7 pb7 clickable"
+            data-on-click="model.lastR_change">
+          {{= model.edit.lastR }}
+        </div>
         <label>RHO END</label>
       </div>
+    </div>
+    <h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Smoothing</h3>
+    <div class="w90 flex relative center">
+      <span class="w2-5"></span>
+      <input class="w90"
+        type="range"
+        min="0"
+        max="0.25"
+        step="0.025"
+        data-field="model.smooth"
+        value="{{= model.smooth }}" />
+      <span class="w2-5"></span>
     </div>
     <div class="flex-column pt25 pb50">
       <div class="p10 flex-justify-center">
