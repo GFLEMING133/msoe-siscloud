@@ -31,7 +31,7 @@ function draw_thumbnail(raw_data) {
     stroke: '#797977', // #797977, #948252
     stroke_width: 3,
     stroke_edge: '#fdfaf3', // #fdfaf3, #f6ebcd
-    stroke_edge_width: 6,
+    stroke_edge_width: 5,
     points: [],
     steps: 0,
     r_max_dist: 0.1,
@@ -263,12 +263,29 @@ function show_thumbnail(raw_data) {
 $(document).ready(function() {
   var raw_data = $('.d3').data();
 
-  // TODO: if it has data-id, request the file from sisbot
+  // TODO: if the page has GET variables, split
+  var fragment = window.location.hash;
+	if (fragment.charAt(0) === '#') {
+		fragment = fragment.slice(1);
+		fragment = fragment.split('&');
+		var count		= fragment.length;
+		for (var i = 0; i < count; i++) {
+			var obj = fragment[i].split('=');
+			if (obj[0] == 'id')         raw_data.id = obj[1];
+			if (obj[0] == 'animate')    raw_data.animate = obj[1];
+      if (obj[0] == 'percent')    raw_data.percent = obj[1];
+      if (obj[0] == 'two_ball')   raw_data.two_ball = obj[1];
+      if (obj[0] == 'dimensions') raw_data.dimensions = obj[1];
+		}
+	}
+
+  // if it has data-id, request the file from sisbot
   if (raw_data.id && app.plugins.is_uuid(raw_data.id)) {
-    console.log("UUID found:", raw_data.id);
+    console.log("UUID found:", raw_data.id, app.config.get_sisbot_url()+'/sisbot/get_track_verts');
     // get_track_verts
     app.post.fetch({_type: 'POST', endpoint:'/sisbot/get_track_verts', data: {id: raw_data.id}}, function(obj) {
       console.log("Track verts from Pi: ", obj);
+      if (obj.err) return alert(obj.err);
       raw_data.coors = obj.resp;
 
       show_thumbnail(raw_data);
