@@ -277,6 +277,7 @@ app.model.sisyphus_manager = {
   start_ble_scan: function(device_name, cb) {
     var self = this;
     this.ble_start_time = Date.now();
+    this.ble_sisbots_found = {}; // reset
     console.log("start_ble_scan()", this.ble_start_time, JSON.stringify(this.get('sisbots_networked')));
 
     if (cb) this._ble_cb = cb;
@@ -306,10 +307,9 @@ app.model.sisyphus_manager = {
 
     // give the user plenty of time to approve permissions and find sisbot
     setTimeout(function() {
+      console.log("BLE Sisyphus devices found:", _.size(_.keys(self.ble_sisbots_found)));
       self.ble_stop_scan();
       self.ble_cb();
-
-      console.log("BLE Sisyphus devices found:", _.size(_.keys(self.ble_sisbots_found)));
     }, 5000); // formerly 15000
   },
   ble_add_device: function(device) {
@@ -360,24 +360,29 @@ app.model.sisyphus_manager = {
         console.log("BLE finished", Date.now() - self.ble_start_time);
         console.log("BLE sisbots found:", JSON.stringify(self.get('sisbots_networked')));
         // continue with scan
-        if (self._ble_cb) {
-          self._ble_cb();
-        }
+        if (self._ble_cb) self._ble_cb();
       }
     }
 
     if (ble_keys.length > 0) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
+    else {
+      console.log("BLE No devices found");
+      if (self._ble_cb) self._ble_cb();
+    }
 
     return this;
   },
   ble_stop_scan: function() {
+    console.log("BLE stop scan");
     evothings.ble.stopScan();
   },
   ble_connect: function(device, cb, connect_retries) {
     // this.ble_stop_scan();
     var self = this;
+    console.log("BLE connect");
 
     evothings.ble.connectToDevice(device, function on_connect(device) {
+      console.log("BLE connect to device");
       self.get_service_data(device, cb);
     }, function on_disconnect(device) {
       //alert('Disconnected from Device');
@@ -395,6 +400,7 @@ app.model.sisyphus_manager = {
   },
   get_service_data: function(device, cb) {
     var self = this;
+    console.log("BLE get_service_data");
 
     evothings.ble.readAllServiceData(device,
       function on_read(services) {
@@ -410,6 +416,7 @@ app.model.sisyphus_manager = {
       },
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
+        console.log("BLE close on error", error);
         evothings.ble.close(device);
         if (cb) cb();
       }
@@ -689,8 +696,12 @@ app.model.sisyphus_manager = {
 
       if (self.get('sisbots_scanning') == 'false') return;
 
-      // if we found sisbots already, skip rest of checks
-      // if (self.get('sisbots_networked').length > 0) num_checks = 0;
+      // if we found session sisbots already, skip rest of checks
+      if (num_checks == 3) {
+        if (self.get('sisbot_id') == 'false' && self.get('sisbots_networked').length > 0) num_checks = 0;
+        if (app.config.env == 'alpha') num_checks = 0;
+        if (num_checks == 0) console.log("Shorten Sisbot scan");
+      }
 
       switch (num_checks) {
         case 3:
@@ -698,12 +709,12 @@ app.model.sisyphus_manager = {
           self.find_hotspot(on_cb);
           break;
         case 2:
-          console.log("Find Network Sisbots");
-          self.find_network_sisbots(on_cb);
-          break;
-        case 1:
           console.log("Find Bluetooth Sisbots");
           self.find_bluetooth_sisbots(on_cb);
+          break;
+        case 1:
+          console.log("Find Network Sisbots");
+          self.find_network_sisbots(on_cb);
           break;
         default:
           // DEBUGGING CODE: COMMENT BEFORE COMMIT
@@ -726,9 +737,15 @@ app.model.sisyphus_manager = {
             if (self._ble_hotspot) self.set('sisbot_registration', 'hotspot'); // BLE found hotspot(s)
             else self.set('sisbot_registration', 'none'); // show screen that we found none
           } else if (sisbots.length > 1) {
-            // show screen to select sisbot
-            // self.set('sisbot_id', 'false'); //TODO: find previous table
+            // make sure old table is not polling
+            if (self.get('sisbot_id') != 'false') {
+              var old_sisbot = self.get_model('sisbot_id');
+              old_sisbot.set('is_polling', 'false');
+            }
+            // self.set('sisbot_id', 'false');
+
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
+            // show screen to select sisbot
             self.set('sisbot_registration', 'multiple');
           }
       }

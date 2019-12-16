@@ -362,8 +362,6 @@ app.model.sisbot = {
 			}
 		}, 0);
 	},
-
-
 	_check_serial: function () {
 		console.log("_check_serial()");
 
@@ -475,7 +473,7 @@ app.model.sisbot = {
 		}
 		this.set('is_polling', 'false');
 		app.manager.set('is_sisbot_available', 'false')
-				   .set('sisbot_reconnecting', 'false');
+			.set('sisbot_reconnecting', 'false');
 	},
 	_poll_restart: function () {
 		// console.log("_poll_restart()");
@@ -499,6 +497,9 @@ app.model.sisbot = {
 			this.set('data.is_internet_connected', 'true');
 			return this;
 		}
+
+		// skip polling if this is not the currently connected bot
+		if (app.manager.get('sisbot_id') != this.id) return this.set('is_polling','false');
 
 		if (this.get('is_master_branch') == 'false') console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
 
