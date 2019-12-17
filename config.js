@@ -1,5 +1,5 @@
 var config = {
-	  version				:'1.8.83', //
+	  version				:'1.8.83', // Skip ping_sisbots on ip's already found, bezier curve drawing paths
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

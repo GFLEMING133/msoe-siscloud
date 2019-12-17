@@ -1,4 +1,4 @@
-#2019-12-09 1.8.82
+#2019-12-09 1.8.80-83
  - App.log() added for more control over viewing console.log data
  - Remove user data from post.fetch calls. (This caused issues when user model not found, not necessary)
  - Drawing mirroring includes horizontal, vertical, both
