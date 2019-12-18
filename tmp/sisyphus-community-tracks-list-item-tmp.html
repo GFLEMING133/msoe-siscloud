@@ -24,7 +24,7 @@
             data-if="{{= model.data.is_public }} == false">Private</div>
       </div>
 
-      <div class="w20 pt30 vertical center flex-justify-center" data-field="model.track_checked" data-on-click="toggle">
+      <div class="w20 pt30 vertical center flex-justify-center" data-field="model.track_checked" data-on-click="toggle" tg-name="community_check_{{= model.id }}_box">
         <span class="black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
         <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
       </div>
@@ -33,7 +33,8 @@
       <div class="w20 w10 clickable vertical center"
           data-if="{{= model.community_track_downloaded }} == false"
           data-on-click="model.download_wc"
-          data-msg="{{= model.data.track_id }}">
+          data-msg="{{= model.data.track_id }}"
+          tg-name="download_cloud_expanded">
           <i class=" white pl20 pt12 fs26 fas fa-cloud-download-alt"></i>
       </div>
       <div  data-if="{{= model.community_track_downloaded}} == true">
@@ -43,7 +44,8 @@
       <div class="w25 clickable active center pt15 pb15"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"><img src="img/icon_2x_trackdropdown_expand.png"
+          data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
+          tg-name="community_track_hero"><img src="img/icon_2x_trackdropdown_expand.png"
             alt="Expand"
             class="hh20" /></div>
     </div>

@@ -1,5 +1,5 @@
 var config = {
-	  version				:'1.8.84', //
+	  version				:'1.8.84', // Drawing export as bezier curves
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
