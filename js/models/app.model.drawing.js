@@ -152,19 +152,19 @@ app.model.drawing = {
 
     if (!$el) return; // exit if not able to draw
     if (this.get('is_ready') == 'true') {
-      console.log("Skip draw_preview");
+      // console.log("Skip draw_preview");
       return; // already drawn
     }
 
     // delay draw if library not loaded yet
     if (!window.hasOwnProperty('d3')) {
       return setTimeout(function() {
-        console.log("Timeout Draw");
+        // console.log("Timeout Draw");
         self.draw_preview(data);
       }, 500);
     }
 
-    console.log("Draw Preview", data);
+    // console.log("Draw Preview", data);
 
     if (this.get('el_id') != data.el_id) this.set('el_id', data.el_id);
 
@@ -196,7 +196,6 @@ app.model.drawing = {
       .attr("y1", padding)
       .attr("x2", mid)
       .attr("y2", w-padding)
-      .attr("visibility", "hidden")
       .attr('stroke', d3_data.circle_stroke)
       .attr('stroke-width', d3_data.zero_stroke_width)
       .attr('stroke-linecap', 'round');
@@ -206,10 +205,10 @@ app.model.drawing = {
       .attr("y1", mid)
       .attr("x2", w-padding)
       .attr("y2", mid)
-      .attr("visibility", "hidden")
       .attr('stroke', d3_data.circle_stroke)
       .attr('stroke-width', d3_data.zero_stroke_width)
       .attr('stroke-linecap', 'round');
+    this.mirror_change();
 
     // Circle border
     svg.append("circle")
@@ -333,7 +332,7 @@ app.model.drawing = {
     // console.log("_Draw Preview: finished");
   },
   _recreate_paths: function() {
-    console.log("_recreate_paths()");
+    // console.log("_recreate_paths()");
     var self = this;
 
     // remake path.d's
@@ -497,22 +496,13 @@ app.model.drawing = {
 
     var coord_count = coords.length;
     _.each(coords, function(point, index) {
-      // if (index == 0) path += 'M';
-      // else path += 'L';
       if (index == 0) path += 'M'+point[0]+' '+point[1];
-      // else if (coords.length > 2) {
-      //   if (index == 1) {
-      //     var x1 = (point[0] - coords[index-1][0]) / 2 + coords[index-1][0];
-      //     var y1 = (point[1] - coords[index-1][1]) / 2 + coords[index-1][1];
-      //     path += 'Q'+x1+' '+y1+' '+point[0]+' '+point[1];
-      //   } else path += 'T'+point[0]+' '+point[1];
-      // }
       else {
         if (self.get('smooth') > 0) path += self._b_bezierCommand(point, index, coords);
         else path += 'L'+point[0]+' '+point[1];
       }
     });
-    console.log("Path: ", self.get('smooth'), path);
+    // console.log("Path: ", self.get('smooth'), path);
 
     return path;
   },
@@ -597,7 +587,7 @@ app.model.drawing = {
       this.set('is_dragging', 'true');
     } else return;
 
-    console.log("Coords", this.get('drag_pos.current'));
+    // console.log("Coords", this.get('drag_pos.current'));
 
     // clear redo states
     this.set('redo_paths', []);
@@ -605,13 +595,10 @@ app.model.drawing = {
     // disable scrolling in app
     // if (app.is_app) {
       if (!this.scroll_el) this.scroll_el = $('.scroll');
-      // this.scroll_el.attr('style', 'overflow-y: hidden !important;');
       var offset_scroll = this.scroll_el.scrollTop();
-      console.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
-      // this.set('drag_pos.origin.y', this.get('drag_pos.origin.y') - offset_scroll);
+      // console.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
       this.set('drag_pos.start.y', this.get('drag_pos.start.y') - offset_scroll);
       this.set('drag_pos.offset.y', this.get('drag_pos.offset.y') - offset_scroll);
-      console.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
       this.scroll_el.scrollTop(0);
       this.scroll_el.removeClass('scroll');
     // }
@@ -633,9 +620,9 @@ app.model.drawing = {
       // this._draw_paths();
       this._draw_preview({el_id: this.get('el_id')});
     } else {
-      console.log("Start ", this.get('el_id'));
+      // console.log("Start ", this.get('el_id'));
     }
-    console.log("Start Drag: finished");
+    // console.log("Start Drag: finished");
   },
   drag: function(data) {
     var self = this;
@@ -880,7 +867,7 @@ app.model.drawing = {
 
       var polar_point = [new_th + th_offset, rho];
       this.add('edit.verts', polar_point);
-      console.log("Point:", polar_point);
+      // console.log("Point:", polar_point);
 
       current_x = point[0];
       current_y = point[1];
@@ -892,7 +879,7 @@ app.model.drawing = {
   },
   undo: function() {
     var paths = this.get('paths');
-    console.log("Undo", paths.length);
+    // console.log("Undo", paths.length);
 
     if (paths.length > 0) {
       // pop off last path
@@ -911,7 +898,7 @@ app.model.drawing = {
   },
   redo: function() {
     var paths = this.get('redo_paths');
-    console.log("Redo", paths.length);
+    // console.log("Redo", paths.length);
 
     if (paths.length > 0) {
       // pop off last path
@@ -924,7 +911,7 @@ app.model.drawing = {
       // fix start_rho
       if (this.get('path_count') == 0) {
         var start = path.start;
-        console.log("Fix Start Rho", start);
+        // console.log("Fix Start Rho", start);
         if (start.x == this.get('mid') && start.y == this.get('mid')) {
           // zero
         } else {
@@ -940,7 +927,7 @@ app.model.drawing = {
     }
   },
   clear: function() {
-    console.log("Drawing clear");
+    // console.log("Drawing clear");
     this.set('paths', []);
     this.set('coords', []);
     this.set('edit.verts', []);
@@ -949,7 +936,7 @@ app.model.drawing = {
     this.set('drag_pos.current.x', +this.get('mid') - +this.get('edit.firstR') * (this.get('mid') - this.get('padding')));
     this.set('drag_pos.current.y', this.get('mid'));
 
-    console.log('Current', this.get('drag_pos.current'))
+    // console.log('Current', this.get('drag_pos.current'))
 
     if (this.get('el_id') != 'false') {
       this._draw_preview({el_id: this.get('el_id')});
@@ -958,7 +945,7 @@ app.model.drawing = {
   },
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
-		console.log("Drawing edit", this.get('edit'));
+		// console.log("Drawing edit", this.get('edit'));
 
 		return this;
 	},
@@ -967,7 +954,7 @@ app.model.drawing = {
     return this;
   },
   save: function () {
-    console.log("Save Drawing", this.get('edit'));
+    // console.log("Save Drawing", this.get('edit'));
     var self = this;
 
     // save changes
@@ -997,15 +984,6 @@ app.model.drawing = {
     var svg = '<svg>';
     var rho_max = mid - padding;
 
-    // start at theta/rho of firstR
-    // var start_x = -firstR * (mid - padding);
-    // var first_point = paths[0].points[0];
-    // if (start_x != first_point[0]) {
-    //   console.log("First Point", first_point);
-    //   svg += '<path d="M'+start_x+',0L'+(first_point[0]-mid)/rho_max/2+','+(first_point[1]-mid)/rho_max/2+'L'+(first_point[0]-mid)/rho_max+','+(first_point[1]-mid)/rho_max+'"></path>';
-    //   console.log("First Path", svg);
-    // }
-
     var point = [0,0];
 
     // console.log("Settings", firstR, lastR, mirror, is_diff);
@@ -1013,6 +991,7 @@ app.model.drawing = {
     var index = 0;
     for(var i=0; i < length; i++) {
     	var value = index % length; // value for which multiplier around table to draw now
+      var degrees = 360 / length * value;
       // console.log("Draw:", value);
 
       if (is_diff && i > 0) paths = paths.reverse();
@@ -1027,8 +1006,6 @@ app.model.drawing = {
 
         // smoothly arc around to first point
         if (path_index == 0 && index > 0 && ((lastR == 1 && is_reversed) || (firstR == 1 && is_diff && !is_reversed) || (firstR == 1 && mirror) || (firstR == 1 && lastR == 1))) {
-          var degrees = 360 / length * value;
-
           // arc to rho 1 start point
           var p = self._rotate_coord([points[0][0], points[0][1]], degrees);
           point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
@@ -1039,20 +1016,38 @@ app.model.drawing = {
           point[0] = Math.cos(new_r);
           point[1] = Math.sin(new_r);
 
-          console.log("Arc to next", point[0]+', '+point[1]);
+          // console.log("Arc to next", point[0]+', '+point[1]);
           path_d += 'R'+point[0]+','+point[1];
         }
 
+        var limited_points = [];
+
         _.each(points, function(p, p_index) {
+          var next_p = null;
+          var next_point = null;
           if (value != 0) { // rotate points
-            var degrees = 360 / length * value;
             p = self._rotate_coord(p, degrees);
-          }
+            if (p_index < points.length-1) next_p = self._rotate_coord(points[p_index+1], degrees);
+          } else if (p_index < points.length-1)  next_p = points[p_index+1];
 
+          // center points, reduce to 0-1
           point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
+          if (next_p) next_point = [(next_p[0]-mid)/rho_max, (next_p[1]-mid)/rho_max];
 
-          if (p_index == 0) path_d += 'M'+point[0]+','+point[1];
-          else path_d += 'L'+point[0]+','+point[1];
+          // add to limited_points
+          if (p_index == 0) limited_points.push(point);
+          if (next_point) limited_points.push(next_point);
+          if (limited_points.length > 4) limited_points.shift(); // keep length to no more than 4
+
+          // make curves
+          if (p_index == 0) path_d += 'M'+point[0]+' '+point[1];
+          else {
+            if (self.get('smooth') > 0) {
+              var b_index = Math.min(2,p_index);
+              if (p_index == points.length) b_index = 3;
+              path_d += self._b_bezierCommand(point, b_index, limited_points);
+            } else path_d += 'L'+point[0]+' '+point[1];
+          }
         });
       });
 
@@ -1065,19 +1060,39 @@ app.model.drawing = {
           _.each(paths, function(path, path_index) {
             var points = JSON.parse(JSON.stringify(path.points));
             points.reverse();
-    ``
+
+            var limited_points = [];
+
             // draw mirrored path in reverse
-            _.each(points, function(p) {
+            _.each(points, function(p, p_index) {
+              var next_p = null;
+              var next_point = null;
               p[1] = mid-p[1]+mid; // adjust to opposite side(y) of midpoint
+              if (p_index < points.length-1) next_p = [points[p_index+1][0], mid-points[p_index+1][1]+mid]; // (don't modify original)
 
               if (value != 0) { // rotate points
-                var degrees = 360 / length * value;
                 p = self._rotate_coord(p, degrees);
+                if (p_index < points.length-1) next_p = self._rotate_coord(next_p, degrees);
               }
 
-              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+              // center points, reduce to 0-1
+              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
+              if (next_p) next_point = [(next_p[0]-mid)/rho_max, (next_p[1]-mid)/rho_max];
 
-              path_d += 'L'+point[0]+','+point[1];
+              // add to limited_points
+              if (p_index == 0) limited_points.push(point);
+              if (next_point) limited_points.push(next_point);
+              if (limited_points.length > 4) limited_points.shift(); // keep length to no more than 4
+
+              // make curves
+              if (p_index == 0) path_d += 'L'+point[0]+' '+point[1];
+              else {
+                if (self.get('smooth') > 0) {
+                  var b_index = Math.min(2,p_index);
+                  if (p_index == points.length) b_index = 3;
+                  path_d += self._b_bezierCommand(point, b_index, limited_points);
+                } else path_d += 'L'+point[0]+' '+point[1];
+              }
             });
           });
         }
@@ -1090,19 +1105,39 @@ app.model.drawing = {
           _.each(paths, function(path, path_index) {
             var points = JSON.parse(JSON.stringify(path.points));
             if (mirror != 'both') points.reverse();
-    ``
+
+            var limited_points = [];
+
             // draw mirrored path in reverse
-            _.each(points, function(p) {
+            _.each(points, function(p, p_index) {
+              var next_p = null;
+              var next_point = null;
               p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
+              if (p_index < points.length-1) next_p = [mid-points[p_index+1][0]+mid, points[p_index+1][1]]; // (don't modify original)
 
               if (value != 0) { // rotate points
-                var degrees = 360 / length * value;
                 p = self._rotate_coord(p, degrees);
+                if (p_index < points.length-1) next_p = self._rotate_coord(next_p, degrees);
               }
 
-              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+              // center points, reduce to 0-1
+              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
+              if (next_p) next_point = [(next_p[0]-mid)/rho_max, (next_p[1]-mid)/rho_max];
 
-              path_d += 'L'+point[0]+','+point[1];
+              // add to limited_points
+              if (p_index == 0) limited_points.push(point);
+              if (next_point) limited_points.push(next_point);
+              if (limited_points.length > 4) limited_points.shift(); // keep length to no more than 4
+
+              // make curves
+              if (p_index == 0) path_d += 'L'+point[0]+' '+point[1];
+              else {
+                if (self.get('smooth') > 0) {
+                  var b_index = Math.min(2,p_index);
+                  if (p_index == points.length) b_index = 3;
+                  path_d += self._b_bezierCommand(point, b_index, limited_points);
+                } else path_d += 'L'+point[0]+' '+point[1];
+              }
             });
           });
         }
@@ -1114,20 +1149,40 @@ app.model.drawing = {
           _.each(paths, function(path, path_index) {
             var points = JSON.parse(JSON.stringify(path.points));
             points.reverse();
-    ``
+
+            var limited_points = [];
+
             // draw mirrored path in reverse
-            _.each(points, function(p) {
+            _.each(points, function(p, p_index) {
+              var next_p = null;
+              var next_point = null;
               p[0] = mid-p[0]+mid; // adjust to opposite side(x) of midpoint
               p[1] = mid-p[1]+mid; // adjust to opposite side(y) of midpoint
+              if (p_index < points.length-1) next_p = [mid-points[p_index+1][0]+mid, mid-points[p_index+1][1]+mid]; // (don't modify original)
 
               if (value != 0) { // rotate points
-                var degrees = 360 / length * value;
                 p = self._rotate_coord(p, degrees);
+                if (p_index < points.length-1) next_p = self._rotate_coord(next_p, degrees);
               }
 
-              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max]; // adjust to opposite side(x) of midpoint
+              // center points, reduce to 0-1
+              point = [(p[0]-mid)/rho_max, (p[1]-mid)/rho_max];
+              if (next_p) next_point = [(next_p[0]-mid)/rho_max, (next_p[1]-mid)/rho_max];
 
-              path_d += 'L'+point[0]+','+point[1];
+              // add to limited_points
+              if (p_index == 0) limited_points.push(point);
+              if (next_point) limited_points.push(next_point);
+              if (limited_points.length > 4) limited_points.shift(); // keep length to no more than 4
+
+              // make curves
+              if (p_index == 0) path_d += 'L'+point[0]+' '+point[1];
+              else {
+                if (self.get('smooth') > 0) {
+                  var b_index = Math.min(2,p_index);
+                  if (p_index == points.length) b_index = 3;
+                  path_d += self._b_bezierCommand(point, b_index, limited_points);
+                } else path_d += 'L'+point[0]+' '+point[1];
+              }
             });
           });
         }
@@ -1159,6 +1214,7 @@ app.model.drawing = {
         }
       }
       point = [end_x, end_y];
+      // TODO: change to curves!!
       path_d += 'L'+end_x+','+end_y;
       // console.log("End Points", index, end_x, end_y, point);
 
@@ -1184,9 +1240,9 @@ app.model.drawing = {
     // TODO: check for user, set created_by_name
     var community = app.session.get_model('community_id');
     if (community) {
-      console.log("User:", community.get('data'));
+      // console.log("User:", community.get('data'));
     } else {
-      console.log("No Community user connected");
+      // console.log("No Community user connected");
     }
 
     var track = app.collection.add(track_obj);

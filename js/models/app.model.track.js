@@ -38,8 +38,8 @@ app.model.track = {
 				circle_stroke_width		: 2,
 				square								: "false"
 			},
-			edit_steps			: 15, // for slider
-			steps						: 15, // steps between svg points to make
+			edit_steps			: 30, // for slider
+			steps						: 30, // steps between svg points to make
 			max_steps				: 30, // max steps
 
 			data		: 			{
@@ -351,7 +351,7 @@ app.model.track = {
 				var points_string = entry.substring(1).trim();
 				var data = points_string.match(/([-]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g);
 
-				// console.log("data", data);
+				// console.log(entry, command, data);
 
 				// trim extras, convert to numbers (if any)
 				if (data) {
@@ -387,6 +387,7 @@ app.model.track = {
 										var p0 = verts[verts.length-1];
 										var p1 = first_point;
 										for (var j=1; j<=steps; j++) {
+											// console.log("fM ", p0, p1);
 											var point = self._calculate_linear_point(j/steps, p0, p1);
 											verts.push(point);
 										}
@@ -395,6 +396,7 @@ app.model.track = {
 									var p0 = verts[verts.length-1];
 									var p1 = [data[i],data[i+1]];
 									for (var j=1; j<=steps; j++) {
+										// console.log("M ", p0, p1);
 										var point = self._calculate_linear_point(j/steps, p0, p1);
 										verts.push(point);
 									}

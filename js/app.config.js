@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod',
-	version				:  '1.8.83', // Skip ping_sisbots on ip's already found, bezier curve drawing paths
+	version				:  '1.8.84', // Drawing export as bezier curves
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {

@@ -1,4 +1,4 @@
-#2019-12-09 1.8.82
+#2019-12-09 1.8.84
  - App.log() added for more control over viewing console.log data
  - Remove user data from post.fetch calls. (This caused issues when user model not found, not necessary)
  - Drawing mirroring includes horizontal, vertical, both
@@ -9,6 +9,8 @@
  - Skip ping from Bluetooth IP address if not on same network
  - Skip ping when IP address is already in found list
  - Drawing paths make smooth bezier curves
+ - Remove steps slider from drawing/upload preview pages
+ - Drawing paths export using smooth bezier curves
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.
