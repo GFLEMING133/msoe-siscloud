@@ -27,6 +27,8 @@ app.model.session = {
 			sisbot_hostnames		: [],
 
 			platform							: 'app',			// app|web
+			OS        						: 'false',
+
 			user_id								: 'false',
 			sign_in_id						: '',
 			sisyphus_manager_id		: 'false',
@@ -63,6 +65,7 @@ app.model.session = {
 	current_version: 1,
 	on_init: function () {
 		app.session = this;
+		if (app.platform) this.set('OS', app.platform );
 
 		var saved_session = this.get_session();
 		if (_.isObject(saved_session)) {

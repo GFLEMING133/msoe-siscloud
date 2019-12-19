@@ -218,7 +218,7 @@ label {
 
 }
 .body-header {
-	margin-top				: 50px;
+	padding-top				: 50px;
 }
 .c-tracks-body-header {
 	padding-top: 5px;
@@ -915,12 +915,14 @@ li.blue-hover:hover {
 	background		: inherit;
 }
 
-.app .pull-top {
+.iOS .pull-top {
 	top: 25px;
 }
-
-.app .body-header {
-	margin-top: 75px !important;
+.iOS .body-header {
+	padding-top: 75px !important;
+}
+.Android .body-header {
+	padding-top: 60px !important;
 }
 
 .app .body-header > *:last-child {
