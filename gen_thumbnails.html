@@ -1,5 +1,5 @@
 <html><!DOCTYPE html>
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -8,19 +8,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google" value="notranslate">
-    <title>Ease</title>
-    <base href="http://app.dev.withease.io:3001/" />
-    <script type="text/javascript" src="node_modules/default-passive-events/dist/index.js"></script>
+    <title>Thumbnail Test</title>
+    <!-- <base href="http://app.dev.withease.io:3001/" /> -->
+    <!-- <script type="text/javascript" src="node_modules/default-passive-events/dist/index.js"></script> -->
     <script src="js/libs/lib.jquery.min.js"></script>
     <script src="js/libs/lib.underscore.min.js"></script>
     <script src="js/libs/lib.d3.min.js"></script>
+    <script>
+      var app = {
+        plugins: {}
+      };
+    </script>
+    <script src="js/gen/app.post.js"></script>
+    <script src="js/gen/app.plugins.utils.js"></script>
+    <script src="js/app.config.js"></script>
     <script src="js/libs/lib.gen_thumbnails.js"></script>
-</head>
-<body>
-    <div class="d3"
-        data-coors="0.0 0.0\n1.5708 0.25\n4.71239 0.75\n3.14159 1.0"
+  </head>
+  <body>
+    <div id="preview_image"
+        class="d3"
+        data-id="103f52ff-fc00-4c41-9098-47f2e0a7e7a1"
+        data-animate="false"
+        data-percent="100"
+        data-two_ball="false"
         data-dimensions="400"
-        style="background-color: white;"
-    ></div>
-</body>
+        style="background-color: rgb(87, 114, 14);">
+    </div>
+  </body>
 </html>

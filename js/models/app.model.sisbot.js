@@ -318,7 +318,7 @@ app.model.sisbot = {
 		}
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-		console.log("_update_sisbot()", endpoint, JSON.stringify(data));
+		// console.log("_update_sisbot()", endpoint, JSON.stringify(data));
 		if (!_timeout) _timeout = 5000;
 
 		if (app.config.env == 'alpha') {
@@ -362,8 +362,6 @@ app.model.sisbot = {
 			}
 		}, 0);
 	},
-
-
 	_check_serial: function () {
 		console.log("_check_serial()");
 
@@ -475,7 +473,7 @@ app.model.sisbot = {
 		}
 		this.set('is_polling', 'false');
 		app.manager.set('is_sisbot_available', 'false')
-				   .set('sisbot_reconnecting', 'false');
+			.set('sisbot_reconnecting', 'false');
 	},
 	_poll_restart: function () {
 		// console.log("_poll_restart()");
@@ -499,6 +497,9 @@ app.model.sisbot = {
 			this.set('data.is_internet_connected', 'true');
 			return this;
 		}
+
+		// skip polling if this is not the currently connected bot
+		if (app.manager.get('sisbot_id') != this.id) return this.set('is_polling','false');
 
 		if (this.get('is_master_branch') == 'false') console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
 
@@ -1290,11 +1291,9 @@ app.model.sisbot = {
 		return this;
 	},
 	setup_favorite_playlist: function () {
-		if (this.is_legacy())
-			return this;
+		if (this.is_legacy()) return this;
 
-		if (this.get('data.favorite_playlist_id') !== 'false')
-			return this;
+		if (this.get('data.favorite_playlist_id') !== 'false') return this;
 
 		var self = this;
 
@@ -1311,6 +1310,7 @@ app.model.sisbot = {
 			if (obj.err) {
 
 			} else {
+				console.log("Setup Favorite Playlist");
 				self.playlist_add(playlist);
 			}
 		});
@@ -1415,13 +1415,6 @@ app.model.sisbot = {
 	},
 	speed_min: function () {
 		this.speed(0);
-	},
-	showMouse: function() {
-		var x = event.clientX;
-		var y = event.clientY;
-		var coords = "X coords: " + x + ", Y coords: " + y;
-		console.log('Coordinates are =', coords)
-
 	},
 	set_shuffle: function () {
 		this.set('data.is_shuffle', app.plugins.bool_opp[this.get('data.is_shuffle')]);
@@ -1627,6 +1620,7 @@ app.model.sisbot = {
 		}
 
 		// send to sisbot
+		console.log("Save color data?", color_data);
 		if (!_.isEmpty(color_data)) {
 			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 			var save_data = [this.get('data')];
@@ -1707,6 +1701,7 @@ app.model.sisbot = {
 	playlist_add: function (playlist_model) {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
+		console.log("Sisbot: Playlist Add", this.id);
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			console.log('Sisbot: Add playlist', obj);

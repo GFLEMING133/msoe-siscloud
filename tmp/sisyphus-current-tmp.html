@@ -35,9 +35,9 @@
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
               data-if="{{= model.data.is_waiting_between_tracks }} == true">Finished Playing</div>
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
-              data-if="{{= model.data.is_waiting_between_tracks }} == false">Now Playing</div>
+              data-if="{{= model.data.is_waiting_between_tracks }} == false"
+              tg-name="now_playing">Now Playing</div>
           <div data-model="{{= model.data.active_track.id }}"
-               tg-name="now_playing"
               data-template="sisyphus-tracks-list-item-tmp"></div>
         </div>
       </div>
@@ -59,11 +59,12 @@
                 </div>
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-if="{{= model.data.is_loop }} !== false">
-                    <div data-foreach="model.data.next_tracks" data-foreach-limit="20">
+                    <div data-foreach="model.data.next_tracks"
+                        data-foreach-limit="20"
+                        data-foreach-offset="1">
                       <div data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
                         <div class="bb"
                             data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
-                            data-if="{{= scope.index }} > {{= (parent.data.is_shuffle == 'true') ? 0 : -1 }}"
                             data-template="sisyphus-tracks-list-item-tmp"></div>
                       </div>
                     </div>

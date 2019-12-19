@@ -1,12 +1,16 @@
-<div class="h100">
-  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align" data-model="{{= parent.active.playlist_id }}">
+<div class="h100" data-model="{{= parent.active.playlist_id }}">
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
     <div class="w30">&nbsp;</div>
     <div class="w40">
       <h1 class="fs18 lh18 no-stuffing capitalize">{{= (model.data.is_saved == 'true') ? model.data.name : 'New Playlist' }}</h1>
     </div>
-    <div class="w30 right p15 pr20 fs18 lh18 clickable active" data-on-click="model.save_alert">Save</div>
+    <div class="w30 right p15 pr20 fs18 lh18 clickable active"
+        data-on-click="model.save_alert"
+        tg-name="playlist_save_btn">Save</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= parent.active.playlist_id }}">
+  <div class="body-header h100 scroll hide-scrollbar"
+      data-model="{{= parent.active.playlist_id }}"
+      tg-name="playlist_new_page">
     <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
     <div class="pt20 pb20 pl40 pr40">
       <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
@@ -24,7 +28,8 @@
     <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
         data-on-click="publish"
         data-publish="session:active"
-        data-msg="{'secondary':'playlist-edit-tracks'}">
+        data-msg="{'secondary':'playlist-edit-tracks'}"
+        tg-name="add_tracks_btn">
       <span class="strong">Add Tracks</span>
       <span class="pull-right">
         <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />

@@ -18,7 +18,7 @@
 					<div data-run="model.get_thumbnail"></div>
 			        <div data-if="{{= model.generating_thumbnails }} == false">
 			            <img class="w100 center" alt="preview"
-			                src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png"
+									src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" data-src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png?{{= moment().format('x') }}"
 			            />
 			        </div>
 			        <div data-if="{{= model.generating_thumbnails }} == true">
@@ -28,7 +28,7 @@
 			    <div class="w20">&nbsp;</div>
 			</div>
 			<p class="red pl20 pb0"><em>*scroll down to edit name and save changes</em></p>
-			<div data-if="{{= model.data.original_file_type }} == svg">
+			<!-- <div data-if="{{= model.data.original_file_type }} == svg">
 				<h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Steps</h3>
 				<p class="grey pl20 pb0">(Adjusts smoothness between points)</p>
 		        <div class="flex vertical-align pl20 pr20" data-run="model.setup_steps">
@@ -48,7 +48,7 @@
 		                <i class="fas fa-plus f-large center clickable active grey" aria-hidden="true"></i>
 		            </div>
 		        </div>
-			</div>
+			</div> -->
 			<div class="flex pt0 pr20 pl20 pb20 active">
 			    <div class="w100">
 	                <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Track Name</h4>

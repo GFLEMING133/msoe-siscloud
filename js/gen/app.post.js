@@ -25,7 +25,7 @@ app.post = {
       data: JSON.stringify(data)
     };
 
-    if (app.current_user()) req_data.user = app.current_user().get('data');
+    // if (app.current_user()) req_data.user = app.current_user().get('data');
 
     var obj = {
       url: url,

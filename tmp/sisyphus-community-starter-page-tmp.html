@@ -1,16 +1,14 @@
 <div class="h100">
-  <div class="pull-top bg-white w100">
-    <div class="white bg-black w100 center no-stuffing flex vertical-align">
-      <div class="w15 center f-large">&nbsp;</div>
-      <div class="w70">
-        <h3 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Community</h3>
-      </div>
-      <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+    <div class="w15 center f-large">&nbsp;</div>
+    <div class="w70">
+      <h3 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Community</h3>
     </div>
+    <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar pb100" 
+  <div class="body-header h100 scroll hide-scrollbar pb100"
       data-model="{{= model.sisbot_id }}"
-      tg-name="community_page">
+      tg-name="community_starter_page">
     <div class="pl20 pr20" data-if="{{= model.data.is_internet_connected }} == false">
       <p class="no-stuffing center w100 mt40" aria-hidden="true">
           <img src="img/icon_2x_wifi.png" alt="Wifi" class="hh30" />
@@ -50,12 +48,14 @@
           <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
               data-on-click="publish"
               data-publish="session:active"
-              data-msg="{'primary':'community','secondary':'sign_in'}">SIGN IN</div>
+              data-msg="{'primary':'community','secondary':'sign_in'}"
+              tg-name="community_starter_page_sign_in_btn">SIGN IN</div>
 
           <div class="mt10 mb15 p10 btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong"
               data-on-click="publish"
               data-publish="session:active"
-              data-msg="{'primary':'community','secondary':'create_account'}">SIGN UP</div>
+              data-msg="{'primary':'community','secondary':'create_account'}"
+              tg-name="community_starter_page_sign_up_btn">SIGN UP</div>
         </div>
       </div>
     </div>

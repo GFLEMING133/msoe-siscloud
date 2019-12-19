@@ -1,0 +1,84 @@
+<div class="pt20">
+  <div class="d3 vertical bb"
+      lib-d3="true"
+      data-run-after="model.draw_preview"
+      data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
+      data-on-mouse-down="model.start_drag"
+      data-on-mouse-move="model.drag"
+      data-on-mouse-up="model.stop_drag"
+      data-on-touch-start="model.start_drag"
+      data-on-touch-move="model.drag"
+      data-on-touch-end="model.stop_drag"
+      data-on-touch-cancel="model.stop_drag"
+      data-on-mouse-leave="model.stop_drag">
+    <svg class="drawing_area" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
+  </div>
+  <div class="block-wrapper p10">
+    <div class="flex-evenly bb pt10 pb10 fs14 lh18 no-stuffing strong">
+      <div class="flex-column vertical-align clickable"
+          data-on-click="model.step_mirror">
+        <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt" data-if="{{= model.edit.mirror }} == both"></span>
+        <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt-v" data-if="{{= model.edit.mirror }} == vertical"></span>
+        <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt-h" data-if="{{= model.edit.mirror }} == horizontal"></span>
+        <span class="pt5 black f-xlarge bg-white far fa-square" data-if="{{= model.edit.mirror }} == false"></span>
+        <label class="pt4 no-stuffing">MIRROR</label>
+      </div>
+      <div class="flex-column vertical-align fs14 lh18 no-stuffing strong">
+        <input class="w40p center black-border"
+            type="text"
+            pattern="[0-9]*"
+            placeholder="1"
+            data-field="model.edit.multiply"
+            value="{{= model.data.multiply }}" />
+        <label class="no-stuffing">MULTIPLY</label>
+      </div>
+      <div class="flex-column vertical-align no-stuffing"
+          data-if="{{= model.path_count }} == 0">
+        <div class="w40p b2 black-border corner-5px last-center fs14 center strong lh20 p10 pt7 pb7 clickable"
+            data-on-click="model.firstR_change">
+          {{= model.edit.firstR }}
+        </div>
+        <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
+      </div>
+      <div class="flex-column grey vertical-align no-stuffing"
+          data-if="{{= model.path_count }} > 0">
+        <div class="w40p b2 corner-5px last-center fs14 center strong lh20 p10 pt7 pb7">{{= model.edit.firstR }}</div>
+        <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
+      </div>
+      <div class="flex-column vertical-align fs14 lh18 no-stuffing strong"
+          data-if="{{= model.edit.mirror }} == false">
+        <div class="w40p b2 black-border corner-5px last-center center fs14 lh20 p10 pt7 pb7 clickable"
+            data-on-click="model.lastR_change">
+          {{= model.edit.lastR }}
+        </div>
+        <label>RHO END</label>
+      </div>
+    </div>
+    <h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Smoothing</h3>
+    <div class="w90 flex relative center">
+      <span class="w2-5"></span>
+      <input class="w90"
+        type="range"
+        min="0"
+        max="0.25"
+        step="0.025"
+        data-field="model.smooth"
+        value="{{= model.smooth }}" />
+      <span class="w2-5"></span>
+    </div>
+    <div class="flex-column pt25 pb50">
+      <div class="p10 flex-justify-center">
+        <div class="vw50 p10 center btn bg-blue corner-5px uppercase clickable active fs18 strong"
+            data-on-click="model.save"
+            data-if="{{= model.path_count }} > 0">Save</div>
+        <div class="vw50 p10 center btn bg-grey-ll corner-5px uppercase active fs18 strong"
+            data-if="{{= model.path_count }} <= 0">Save</div>
+      </div>
+      <div class="p10 flex-justify-center">
+        <div class="vw50 p10 center btn bg-grey corner-5px uppercase clickable active fs18 strong"
+            data-on-click="model.clear">Clear</div>
+      </div>
+    </div>
+  </div>
+  <div class="pb150">&nbsp;</div>
+</div>

@@ -59,19 +59,14 @@ var app = {
 		return active;
 	},
 	current_user: function() {
-		if (app.config.env == 'server') {
-			return app.collection.get('current_session').get_model('server_model_id').get_model('data.created_by_id');
-		} else {
-			return app.collection.get('current_session').get_model('user_id');
-		}
+		return app.session.get_model('user_id');
 	},
-	log: function (msg) {
-		if (this && this.postMessage) {
-			console.log(msg);
-			//self.postMessage(msg);
-		} else {
-			console.log(msg);
-		}
+	log: function () {
+		// TODO: don't output any logs if production
+		if (app.is_app) {
+			// TODO: stringify object values, so app can output them
+			console.log([...arguments].join(', '));
+		} else console.log(...arguments);
 	},
 	setup_error_listener: function () {
 		if (!app.is_app)

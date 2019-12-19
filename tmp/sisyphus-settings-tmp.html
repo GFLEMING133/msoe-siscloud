@@ -12,19 +12,20 @@
       <div class="bb" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Speed</h3>
         <div class="flex vertical-align pl20 pr20">
-          <div class="w5 center clickable active pt15 pb15" 
+          <div class="w5 center clickable active pt15 pb15"
               data-on-click="model.speed_min"
               tg-name="turtle_icon">
             <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
           </div>
           <div class="w90 flex relative center"
+              data-on-click="parent.showMouse"
               tg-name="speed_slider_div"
-              data-on-click="model.showMouse">
+              >
             <span class="w5"></span>
             <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true" data-on-input="model.speed" value="{{= model.edit.speed }}" tg-name="speed_slider" />
             <span class="w5"></span>
           </div>
-          <div class="w5 center clickable active pt15 pb15" 
+          <div class="w5 center clickable active pt15 pb15"
               data-on-click="model.speed_max"
               tg-name="rabbit_icon">
             <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
@@ -41,12 +42,13 @@
 
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
         <div class="flex vertical-align pl20 pr20">
-          <div class="w5 blue-hover pt15 pb15" 
+          <div class="w5 blue-hover pt15 pb15"
             data-on-click="model.brightness_min"
             tg-name="brightness_slider">
             <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
           </div>
-          <div class="w90 flex relative center">
+          <div class="w90 flex relative center"
+              data-on-click="parent.showMouse">
             <span class="w2-5"></span>
             <input class="w90"
                 type="range"
@@ -82,18 +84,22 @@
             </select>
           </div>
           <div class="mb10" data-if="{{= model.data.led_pattern }} !== false">
-            <div data-model="{{= model.data.led_pattern }}">
+            <div data-model="{{= model.data.led_pattern }}" data-run="model.setup_edit">
               <div data-if="{{= model.data.is_white }} == true">
                 <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Color Temperature</h3>
                 <div class="flex vertical-align pl20 pr20">
-                  <div class="w5 blue-hover pt15 pb15" 
+                  <div class="w5 blue-hover pt15 pb15"
                     data-on-click="model.white_cool"
                     tg-name="white_cool_slider">
                     <i class="fa fa-thermometer-quarter blue center clickable active f-medium" aria-hidden="true"></i>
                   </div>
                   <div class="w90 flex relative center">
                     <span class="w2-5"></span>
-                    <input class="w90" type="range" min="0" max="1" step=".05"
+                    <input class="w90"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step=".05"
                         data-rangetouch="true"
                         data-on-input="model.set_white"
                         value="{{= model.edit.white_value }}" />
@@ -164,7 +170,7 @@
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" 
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
           data-on-click="model.open_home_page"
           tg-name="sisyphus_website_tab">
         <span class="montserrat_semi_bold">Visit Sisyphus Website</span>
@@ -256,10 +262,9 @@
       data-if="{{= parent.active.secondary }} == change_table_name"
       data-template="sisyphus-settings-change-table-name-tmp"></div>
   <!------------------------- CHANGE TABLE  --------------------------------->
-  <!--<div class="h100"
+  <div class="h100"
         data-if="{{= parent.active.secondary }} == change_table"
-        data-template="sisyphus-sisbot-multiple-tmp"
-    ></div> -->
+        data-template="sisyphus-sisbot-multiple-tmp"></div>
   <!------------------------- ABOUT --------------------------------------------->
   <div class="h100"
       data-if="{{= parent.active.secondary }} == about"

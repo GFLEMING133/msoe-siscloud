@@ -7,7 +7,6 @@ app.model.sisyphus_manager = {
 
       user_id: 'false',
 
-
       sisbot_id: 'false',
       is_sisbot_available: 'false',
       sisbot_registration: 'find', // find|none|hotspot|multiple
@@ -45,7 +44,6 @@ app.model.sisyphus_manager = {
       community_playlist_ids: [],
       community_track_ids: [],
 
-
       is_ble_enabled: 'false',
       local_version: 'na',
 
@@ -68,6 +66,7 @@ app.model.sisyphus_manager = {
     return obj;
   },
   current_version: 1,
+  app_ip_base: null,
   on_init: function() {
     // console.log("on_init() in app.model.sisyphus_manager");
     if (window.cordova) StatusBar.show();
@@ -156,9 +155,9 @@ app.model.sisyphus_manager = {
   },
   open_home_page: function() {
     if (app.is_app) {
-      cordova.InAppBrowser.open(' https://www.sisyphus-industries.com/', '_system', 'location=yes');
+      cordova.InAppBrowser.open('https://www.sisyphus-industries.com/', '_system', 'location=yes');
     } else {
-      window.location = ' https://www.sisyphus-industries.com/';
+      window.location = 'https://www.sisyphus-industries.com/';
     }
   },
   open_support_page: function() {
@@ -169,7 +168,7 @@ app.model.sisyphus_manager = {
     }
   },
   find_tracks: function() {
-    window.open(' https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
+    window.open('https://www.dropbox.com/sh/n2l29huvdrjalyx/AAA69jTy1aDobkR_wKog1Ewka?dl=0');
   },
   navigate_home: function() {
     app.trigger('session:active', {
@@ -200,6 +199,11 @@ app.model.sisyphus_manager = {
     }
   },
   /**************************** BLUETOOTH ***********************************/
+  ble_start_time: null,
+  ble_sisbots_found: {},
+  _char: false,
+  _ble_cb: false,
+  _ble_hotspot: false, // did we find a sisbot in hotspot mode?
   force_reload: function() {
     window.location.reload();
   },
@@ -216,7 +220,7 @@ app.model.sisyphus_manager = {
     if (!app.is_app || app.config.env == 'alpha') { //<<<< comment out for X-Code simulation
       this.set('is_ble_enabled', 'true');
       return this;
-    }     //<<<< 
+    }     //<<<<
 
     var self = this;
 
@@ -271,10 +275,12 @@ app.model.sisyphus_manager = {
     }, {});
   },
   start_ble_scan: function(device_name, cb) {
-    console.log("start_ble_scan()");
     var self = this;
+    this.ble_start_time = Date.now();
+    this.ble_sisbots_found = {}; // reset
+    console.log("start_ble_scan()", this.ble_start_time, JSON.stringify(this.get('sisbots_networked')));
 
-    this._ble_cb = cb;
+    if (cb) this._ble_cb = cb;
 
     evothings.ble.startScan(
       function(device) {
@@ -283,95 +289,154 @@ app.model.sisyphus_manager = {
           device.advertisementData.kCBAdvDataLocalName &&
           (device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1 || device.advertisementData.kCBAdvDataLocalName.indexOf('isyphus') > -1) // legacy
         ) {
-          self.ble_connect(device);
+          // console.log("BLE found Device", device.advertisementData.kCBAdvDataLocalName);
+
+          try {
+            self.ble_add_device(device);
+          } catch(err) {
+            console.log("BLE add device error", err);
+          }
+          // self.ble_connect(device);
         }
       },
       function(error) {
-        //alert('Start Scan Error: ' + error);
+        console.log('BLE Start Scan Error: ' + error);
         self.ble_cb();
       }
     );
 
     // give the user plenty of time to approve permissions and find sisbot
     setTimeout(function() {
-      self.ble_cb();
+      console.log("BLE Sisyphus devices found:", _.size(_.keys(self.ble_sisbots_found)));
       self.ble_stop_scan();
-    }, 15000);
+      self.ble_cb();
+    }, 5000); // formerly 15000
   },
-  _ble_ip: 'false',
-  _char: false,
-  _ble_cb: false,
-  _ble_ip: false,
-  ble_cb: function(value) {
-    if (this._ble_cb) {
-      this._ble_ip = value;
-      this._ble_cb(value);
-      this._ble_cb = false;
+  ble_add_device: function(device) {
+    var self = this;
+
+    var device_name = device.advertisementData.kCBAdvDataLocalName;
+    if (device_name && !self.ble_sisbots_found[device_name]) {
+      console.log("BLE found Device", device_name);
+      self.ble_sisbots_found[device_name] = device;
     }
+  },
+  ble_cb: function(value) {
+    console.log("BLE_cb: ", value);
+    var self = this;
+
+    var ble_i = 0;
+    var ble_keys = _.keys(self.ble_sisbots_found);
+
+    var found_bots = this.get('sisbots_networked');
+
+    function cb(ip_address) {
+      if (ip_address) {
+        console.log("BLE ip found:", ip_address);
+        if (ip_address == '192.168.42.1') self._ble_hotspot = true;
+
+        if (found_bots.indexOf(ip_address) >= 0) { // check if already in existing list of bots
+          console.log("BLE ip already in list, skip ping_sisbot()", ip_address);
+          next_device();
+        } else if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
+          self.ping_sisbot(ip_address, function() {
+            next_device();
+          });
+        } else { // other network, don't ping
+          console.log("BLE ip not on same network, skip ping_sisbot()", ip_address, self.app_ip_base);
+          next_device();
+        }
+      } else {
+        console.log("BLE connect ip_address error", ip_address);
+        next_device();
+      }
+    }
+
+    function next_device() {
+      var searching = (self.get('sisbots_scanning') == 'true');
+      ble_i++;
+      if (searching && ble_i < ble_keys.length) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
+      else {
+        console.log("BLE finished", Date.now() - self.ble_start_time);
+        console.log("BLE sisbots found:", JSON.stringify(self.get('sisbots_networked')));
+        // continue with scan
+        if (self._ble_cb) self._ble_cb();
+      }
+    }
+
+    if (ble_keys.length > 0) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
+    else {
+      console.log("BLE No devices found");
+      if (self._ble_cb) self._ble_cb();
+    }
+
     return this;
   },
   ble_stop_scan: function() {
+    console.log("BLE stop scan");
     evothings.ble.stopScan();
   },
-  ble_connect: function(device, connect_retries) {
-    this.ble_stop_scan();
-
+  ble_connect: function(device, cb, connect_retries) {
+    // this.ble_stop_scan();
     var self = this;
+    console.log("BLE connect");
 
     evothings.ble.connectToDevice(device, function on_connect(device) {
-
-      self.get_service_data(device);
+      console.log("BLE connect to device");
+      self.get_service_data(device, cb);
     }, function on_disconnect(device) {
       //alert('Disconnected from Device');
-      self.ble_cb();
+      if (cb) cb();
     }, function on_error(error) {
       if (connect_retries > 5) {
         app.plugins.n.notification.alert('Bluetooth Connect Error: ' + error);
-        self.ble_cb();
+        if (cb) cb();
       } else {
         setTimeout(function() {
-          self.ble_connect(device, ++connect_retries);
+          self.ble_connect(device, cb, ++connect_retries);
         }, 500);
       }
     });
   },
-  get_service_data: function(device) {
+  get_service_data: function(device, cb) {
     var self = this;
+    console.log("BLE get_service_data");
 
     evothings.ble.readAllServiceData(device,
       function on_read(services) {
         var dataService = evothings.ble.getService(device, "ec00");
 
         if (dataService == null) {
-          self.ble_cb();
           evothings.ble.close(device);
+          if (cb) cb();
         } else {
           self._char = evothings.ble.getCharacteristic(dataService, "ec0e")
-          self.setup_read_chars(device);
+          self.setup_read_chars(device, cb);
         }
       },
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
-        self.ble_cb();
+        console.log("BLE close on error", error);
         evothings.ble.close(device);
+        if (cb) cb();
       }
     );
   },
-  setup_read_chars: function(device) {
+  setup_read_chars: function(device, cb) {
     var self = this;
 
     evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
       var ip_address_arr = new Uint8Array(d);
-      self._ble_ip = ip_address_arr.join('.');
-      self.ble_cb(self._ble_ip);
+      var _ble_ip = ip_address_arr.join('.');
       evothings.ble.close(device);
+      if (cb) cb(_ble_ip);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
-      self.ble_cb();
       evothings.ble.close(device);
+      if (cb) cb();
     });
   },
-
+  /****************************************************************************/
   _has_update: function(sisbot, remote) {
     console.log("_has_update()");
 
@@ -470,7 +535,6 @@ app.model.sisyphus_manager = {
     this.set('show_hostname_page', 'false');
   },
   /*********************** SISBOT FIND **************************************/
-
   open_network_settings: function() {
     //   console.log("open_network_settings()");
     var self = this;
@@ -615,6 +679,7 @@ app.model.sisyphus_manager = {
         return this;
       }
     }
+
     this.set('sisbots_networked', []);
     this.set('sisbots_ip_name', {});
     // this.set('sisbot_id', 'false'); // ?? clear ?? // causes errors on check_reconnect_status
@@ -631,8 +696,12 @@ app.model.sisyphus_manager = {
 
       if (self.get('sisbots_scanning') == 'false') return;
 
-      // if we found sisbots already, skip rest of checks
-      if (self.get('sisbots_networked').length > 0) num_checks = 0;
+      // if we found session sisbots already, skip rest of checks
+      if (num_checks == 3) {
+        if (self.get('sisbot_id') == 'false' && self.get('sisbots_networked').length > 0) num_checks = 0;
+        if (app.config.env == 'alpha') num_checks = 0;
+        if (num_checks == 0) console.log("Shorten Sisbot scan");
+      }
 
       switch (num_checks) {
         case 3:
@@ -640,12 +709,12 @@ app.model.sisyphus_manager = {
           self.find_hotspot(on_cb);
           break;
         case 2:
-          console.log("Find Network Sisbots");
-          self.find_network_sisbots(on_cb);
-          break;
-        case 1:
           console.log("Find Bluetooth Sisbots");
           self.find_bluetooth_sisbots(on_cb);
+          break;
+        case 1:
+          console.log("Find Network Sisbots");
+          self.find_network_sisbots(on_cb);
           break;
         default:
           // DEBUGGING CODE: COMMENT BEFORE COMMIT
@@ -653,27 +722,30 @@ app.model.sisyphus_manager = {
           // return this;
 
           var sisbots = _.uniq(self.get('sisbots_networked'));
-          console.log("Find CB", sisbots);
+          console.log("Found Sisbots:", sisbots);
           self.set('sisbots_networked', sisbots);
           self.set('sisbots_scanning', 'false');
-          var curr_reg = self.get('sisbot_registration');
 
           if (app.config.env == 'alpha') {
             self.connect_to_sisbot('192.168.42.1');
-          } else if (app.config.env == 'beta' || app.config.env == 'training') {
+          } else if (app.config.env != 'prod') {
             self.connect_to_sisbot(app.config.get_sisbot_url());
           } else if (sisbots.length == 1) {
             self.set('sisbot_registration', 'connecting');
             self.connect_to_sisbot(sisbots[0]);
-          } else if (curr_reg == 'hotspot') {
-            // do nothing, we're already notifying user
           } else if (sisbots.length == 0) {
-            // show screen that we found none
-            self.set('sisbot_registration', 'none');
+            if (self._ble_hotspot) self.set('sisbot_registration', 'hotspot'); // BLE found hotspot(s)
+            else self.set('sisbot_registration', 'none'); // show screen that we found none
           } else if (sisbots.length > 1) {
-            // show screen to select sisbot
-            // self.set('sisbot_id', 'false'); //TODO: find previous table
+            // make sure old table is not polling
+            if (self.get('sisbot_id') != 'false') {
+              var old_sisbot = self.get_model('sisbot_id');
+              old_sisbot.set('is_polling', 'false');
+            }
+            // self.set('sisbot_id', 'false');
+
             self.set('sisbot_hostname', Object.keys(self.get('sisbots_ip_name'))[0].replace(/\-/gi, '.'));
+            // show screen to select sisbot
             self.set('sisbot_registration', 'multiple');
           }
       }
@@ -732,15 +804,7 @@ app.model.sisyphus_manager = {
     if (!app.is_app) return cb();
     console.log("find_bluetooth_sisbots()");
 
-    var self = this;
-    var ip_address = false;
-
-    this.start_ble_scan('sisbot', function(ip_address) {
-      if (ip_address) {
-        console.log("Bluetooth IP: ", ip_address);
-        self.ping_sisbot(ip_address, cb);
-      } else cb();
-    });
+    this.start_ble_scan('sisbot', cb);
 
     return this;
   },
@@ -753,17 +817,30 @@ app.model.sisyphus_manager = {
     this.get_network_ip_address(function(ip_address) {
       console.log('get_network_ip_address ==' + ip_address);
       if (!ip_address) return cb();
+
       var ip_add = ip_address.split('.');
       ip_add.pop();
 
       var ip_base = ip_add.join('.');
+      self.app_ip_base = ip_base; // remember ip_base
       var count = 0;
 
-      _.each(_.range(0, 256), function(num) {
-        self.ping_sisbot(ip_base + '.' + num, function() {
-          if (++count == 255) cb();
+      var found_bots = self.get('sisbots_networked');
+
+      if (ip_base != '192.168.42') { // skip hotspot network search
+        _.each(_.range(0, 255), function(num) {
+          var ip = ip_base + '.' + num;
+
+          if (found_bots.indexOf(ip) < 0) { // skip bots on ip's already found
+            self.ping_sisbot(ip, function() {
+              if (++count == 255) cb();
+            });
+          } else if (++count == 255) cb();
         });
-      });
+      } else {
+        console.log("On Sisbot hotspot, don't bother pinging network");
+        cb();
+      }
     });
 
     return this;
@@ -781,16 +858,16 @@ app.model.sisyphus_manager = {
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {
-      if (obj.err) {
-        if (hostname == '192.168.42.1') {
-          //   if (app.is_app == false || app.platform == 'iOS') {
-          if (hostname == self._ble_ip) {
-            self.set('sisbot_registration', 'hotspot');
-          }
-        }
-        return cb();
-      }
+      if (obj.err) return cb();
+
       if (!obj.resp || !obj.resp.hostname) return cb();
+
+      if (self.get('sisbot_id') == obj.resp.id) {
+        console.log("Ping: found match", obj.resp.id, obj.resp.local_ip);
+        self.set('sisbots_networked', [obj.resp.local_ip]); // clear other sisbots
+        // TODO: stop other bluetooth connections
+        self.connect_to_sisbot(obj.resp.local_ip); // found our expected table. Reconnect to it.
+      }
 
       // Default select the one we are already on
       self.set('sisbot_hostname', obj.resp.local_ip);
@@ -847,10 +924,24 @@ app.model.sisyphus_manager = {
         // } else {
         //   app.collection.add(data);
         // }
+        // if (data.type == 'led_pattern') console.log("Incoming LED", data);
         self.intake_data(data);
 
         if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
+
+          var old_sisbot = self.get('sisbot_id');
+          if (old_sisbot != 'false' && old_sisbot != data.id) {
+            console.log("New Sisbot connected");
+            app.socket.reset_socket = true;
+
+            // change page to home
+            app.trigger('session:active', {
+              secondary: 'false',
+              primary: 'current'
+            });
+          }
+
           self.set('sisbot_id', data.id);
 
           var sisbot = app.collection.get(data.id);
@@ -874,11 +965,13 @@ app.model.sisyphus_manager = {
         secondary: 'false',
         primary: 'current'
       });
+
       // hotspot access allows not requiring user
       if (self.get_model('user_id')) {
-        self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
-        self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
-        self.get_model('user_id').save(true);
+        console.log("Add to user model");
+        // self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
+        // self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
+        // self.get_model('user_id').save(true);
       }
     }, 0);
 
@@ -929,7 +1022,13 @@ app.model.sisyphus_manager = {
       }
     }
   },
-
+/************************** MOUSE COORDINATES ***********************************/
+	showMouse: function() {
+		var x = event.clientX;
+		var y = event.clientY;
+		var coords = "X coords: " + x + ", Y coords: " + y;
+		console.log('Coordinates are =', coords)
+	},
   /******************** TRACK UPLOAD ****************************************/
   reset_upload_tracks: function() {
     this.set('tracks_to_upload', []);
@@ -998,6 +1097,7 @@ app.model.sisyphus_manager = {
     var tracks_to_upload = self.get('tracks_to_upload');
     var track_model = app.collection.get(tracks_to_upload[0].id);
     track_model.set('upload_status', 'uploading'); // for spinner
+    if (track_model.get('data.original_file_type') == 'draw') app.session.set('active.drawing_id', 'false'); // clear memory
 
     if (sisbot.get('data.state') == 'playing') {
       // wait for table to be paused
@@ -1063,7 +1163,7 @@ app.model.sisyphus_manager = {
     var tracks_to_upload = this.get('tracks_to_upload');
 
     // remove from tracks_to_upload, take to next preview page or this model's page
-    var track_obj = tracks_to_upload.shift();
+    var track_obj = app.collection.get(tracks_to_upload.shift());
 
     // remove from collection
     app.collection.remove(track_obj.id);
@@ -1074,6 +1174,13 @@ app.model.sisyphus_manager = {
         secondary: 'preview-upload',
         track_id: tracks_to_upload[0].id
       });
+    } else if (track_obj.get('data.original_file_type') == 'draw') {
+      app.session.set('active.drawing_id', 'false'); // clear memory
+      app.trigger('session:active', {
+        primary: 'media',
+        secondary: 'draw',
+        track_id: 'false'
+      }); // TODO: reshow existing drawing?
     } else {
       app.trigger('session:active', {
         primary: 'settings',

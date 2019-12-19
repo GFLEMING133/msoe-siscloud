@@ -25,7 +25,7 @@
               data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
         </div>
         <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
-            data-on-click="model.play" 
+            data-on-click="model.play"
             data-msg="{{= 0 }}"
             tg-name="playlists_play_btn">
           <i class="fas fa-play pr5 pl5"></i>
@@ -48,6 +48,9 @@
     </div>
     <!--------------------------- PLAYLIST TRACKS ---------------------------->
     <div class="h100 scroll hide-scrollbar">
+        <div class="i center pt100 " data-if="{{= model.data.sorted_tracks.length }} == 0">
+          There are no tracks in this playlist
+        </div>
       <div class="pt50 pb100"
           data-foreach="model.data.tracks"
           data-foreach-map="true">
@@ -55,7 +58,7 @@
             data-template="sisyphus-tracks-list-item-tmp"
         ></div>
       </div>
-      <div class="hh100">&nbsp;</div>
+      <div class="hh150">&nbsp;</div>
     </div>
   </div>
   <div class="hh150">&nbsp;</div>

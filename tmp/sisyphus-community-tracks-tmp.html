@@ -3,7 +3,8 @@
     <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
        <div class="w25">
         <div class="clickable blue-hover"
-             data-on-click="model.sign_out_community">
+             data-on-click="model.sign_out_community"
+             tg-name="sign_out_community_btn">
           <i class="fas fa-sign-out-alt"></i>
           <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
         </div>
@@ -14,7 +15,9 @@
     <div class="flex pt10 pr5 pb10 pl5 bg-black w100">
       <div class="flex1center white strong pr5 uppercase fs12">Sort By</div>
 
-        <div class="sortBy-drop-actions" data-on-click="model.openSort">
+        <div class="sortBy-drop-actions" 
+            data-on-click="model.openSort"
+            tg-name="open_sort">
           <div class="p5 flex strong white uppercase">
             <div class="pl10 flex1start">{{= model.track_sort}}</div>
             <div class="relative">
@@ -23,7 +26,8 @@
             </div>
           </div>
         </div>
-      <div class="flex1center clickable" data-on-click="model.download_wc">
+      <div class="flex1center clickable" data-on-click="model.download_wc"
+            tg-name="download_cloud_header">
         <div class="clickable " data-if="{{= model.download_cloud }} == true">
           <i class=" white pl10 fs24 fas fa-cloud-download-alt"></i>
         </div>
@@ -35,24 +39,28 @@
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="newest designs">
+            data-msg="most popular"
+            tg-name="most_popular_sort">
+            <div class="white strong blue-hover">MOST POPULAR</div></li>
+            <li class="clickable mb10"
+            data-on-click="model.sort_function"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="newest designs"
+            tg-name="newest_design_sort">
           <div class="white strong blue-hover">NEWEST DESIGNS</div></li>
         <li class="clickable mb10"
             data-on-click="model.sort_function"
             data-on-click="publish"
-            data-publish="session:active"
-            data-msg="most popular">
-          <div class="white strong blue-hover">MOST POPULAR</div></li>
-        <li class="clickable mb10"
-            data-on-click="model.sort_function"
-            data-on-click="publish"
-            data-msg="name">
+            data-msg="name"
+            tg-name="name_sort">
           <div class="white strong blue-hover">NAME</div></li>
         <li class="clickable"
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="artist">
+            data-msg="artist"
+            tg-name="artist_sort">
           <div class="white strong blue-hover">ARTIST</div></li>
         <div data-if="{{= model.sorting }} == true">
           <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
@@ -64,7 +72,8 @@
   <div class="body-header h100 pb160 scroll hide-scrollbar"
       data-on-scroll="model.scroll_check"
       data-msg="{{= _self_.el_id }}"
-      data-run="model.fetch_community_tracks">
+      data-run="model.fetch_community_tracks"
+      tg-name="community_tracks_page">
     <div class="mt100" data-if="{{= model.fetching_community_tracks }} == true">
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>

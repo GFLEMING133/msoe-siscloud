@@ -59,6 +59,18 @@ function on_active() {
 function on_resume() {
 	console.log("App Resumed", app.platform);
 	check_siri();
+
+	// rescan for sisbots?
+	var sisbot_id = app.manager.get('sisbot_id');
+	if (sisbot_id && sisbot_id != 'false') {
+		var sisbot = app.collection.get(sisbot_id);
+		var reason_unavailable = sisbot.get('data.reason_unavailable');
+
+		if (reason_unavailable != 'false') {
+			console.log("Resume: find trigger");
+			app.manager.find_sisbots(); // trigger rescan
+		}
+	}
 }
 
 function check_siri() {

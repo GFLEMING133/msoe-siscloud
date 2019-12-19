@@ -1,5 +1,5 @@
 var config = {
-	  version				: '1.8.73', // wifi reconnect issues with older firmware issues addressed/ removed templates folder moved home.html to /tmp read CHANGELOG.md
+	  version				:'1.8.84', // Drawing export as bezier curves
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

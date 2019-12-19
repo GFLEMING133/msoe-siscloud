@@ -6,8 +6,8 @@
     </div>
     <div class="w15">&nbsp;</div>
   </div>
-  <div class="body-header h100 pb100 scroll hide-scrollbar" 
-      data-model="{{= model.sisbot_id }}" 
+  <div class="body-header h100 pb100 scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
       data-run="model.setup_edit"
       tg-name="table_settings_page">
     <p class="p0 m0 mt20 fs18 center">
@@ -24,7 +24,7 @@
         <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
             data-field="model.edit.table_settings.cson"
             data-selected="{{= model.edit.cson }}"
-            data-foreach="model.csons" >
+            data-foreach="model.csons">
           <option  value="{{= scope.value.id }}">{{= scope.value.name }}</option>
         </select>
       </div>
@@ -73,11 +73,6 @@
       <div class="p20 bb" data-if="{{= model.data.led_enabled }} == true">
         <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
         <input class="fs18 w100" type="text" placeholder="100" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.rgbwCount" value="{{= model.data.table_settings.rgbwCount }}" />
-      </div>
-      <div class="p20 w100 bb vertical clickable" data-on-click="toggle" data-field="model.edit.table_settings.twoBallEnabled">
-        <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.edit.table_settings.twoBallEnabled }} == true"></span>
-        <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.table_settings.twoBallEnabled }} !== true"></span>
-        <p class="no-stuffing pl10 w100 fs18 lh18">Two Ball Enabled</p>
       </div>
       <div class="p20">
         <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong" data-on-click="model.confirm_advanced_settings">

@@ -41,7 +41,7 @@ app.model.playlist = {
 	},
 	current_version: 1,
 	on_init: function () {
-		this.on('change:data.is_published', this.check_publish);
+		// this.on('change:data.is_published', this.check_publish);
 		return this;
 	},
 	after_export: function () {
@@ -50,14 +50,14 @@ app.model.playlist = {
 	before_save: function () {
 		if (app.current_session().get_model('sisyphus_manager_id')) {
 			var user_id = app.current_session().get_model('sisyphus_manager_id').get('user_id');
-			if (user_id !== 'false')
-				this.set('data.created_by_id', user_id);
+
+			if (user_id !== 'false') this.set('data.created_by_id', user_id);
 		}
 	},
 	after_save: function () {
+		console.log("Playlist: After save");
 		app.trigger('sisbot:playlist_add', this);
-		if (this.get('data.is_published') == 'true')
-			this.publish();
+		// if (this.get('data.is_published') == 'true') this.publish();
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account
@@ -99,7 +99,7 @@ app.model.playlist = {
 	},
 	add_tracks_done: function () {
 		var self = this;
-		
+
 		if (self.get('data.is_saved') == true) app.trigger('session:active', { 'secondary': 'playlist-edit' });
 		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
@@ -115,14 +115,17 @@ app.model.playlist = {
 		app.trigger('sisbot:update_playlist', data);
 	},
 	play: function (track_index) {
+		console.log("Play Playlist:", track_index);
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
 		var data= JSON.parse(JSON.stringify(this.get('data')));
 		data.active_track_index = track_index;
-		data.active_track_id	= this.get('data.tracks')[track_index].id;
+		if (track_index >= 0) data.active_track_id	= this.get('data.tracks')[track_index].id;
+		else data.active_track_id	= 'false';
 
 		// FORCE PLAYLIST TO BE NON-SHUFFLED WHILE ON NON-SHUFFLED PLAYLIST PAGE
 		data.is_shuffle			= 'false';
+		data.start_rho			= 0;
 		data.sorted_tracks		= _.range(0, data.tracks.length);
 		data.next_tracks		= _.range(0, data.tracks.length);
 
@@ -160,7 +163,7 @@ app.model.playlist = {
 		.set('edit.name', this.get('data.name'))
 		.set('edit.description', this.get('data.description'));
 
-			app.trigger('session:active', {'secondary':'playlist-edit'} );
+		app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},
 	cancel_edit: function () {
 		app.trigger('session:active', { secondary: 'playlist' });
@@ -185,18 +188,19 @@ app.model.playlist = {
 	},
 	save_edit: function () {
 		let self = this;
-		
+
 		this.set('data.name', this.get('edit.name'))
 			.set('data.description', this.get('edit.description'))
 			.set('data.tracks', this.get('active_tracks').slice());
-			var sorted_tracks = [];
-			_.each(self.get('data.tracks'), function(obj,index) {
-				sorted_tracks.push(index);
-			});
 
-			self.set("data.sorted_tracks", sorted_tracks);
-			self.save();
-			app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: self.id});
+		var sorted_tracks = [];
+		_.each(self.get('data.tracks'), function(obj,index) {
+			sorted_tracks.push(index);
+		});
+
+		self.set("data.sorted_tracks", sorted_tracks);
+		self.save();
+		app.trigger('session:active', { primary:'media' , secondary: 'playlist' , playlist_id: self.id});
 	},
 	/**************************** TRACKS **************************************/
 	has_track: function (track_id) {
@@ -252,7 +256,7 @@ app.model.playlist = {
 
 		var sorted_tracks = [];
 		_.each(this.get('data.tracks'), function(obj,index) {
-		sorted_tracks.push(index);
+			sorted_tracks.push(index);
 		});
 		this.set("data.sorted_tracks", sorted_tracks);
 
