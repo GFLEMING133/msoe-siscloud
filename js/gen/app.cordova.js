@@ -70,6 +70,9 @@ function on_resume() {
 			console.log("Resume: find trigger");
 			app.manager.find_sisbots(); // trigger rescan
 		}
+	} else {
+		console.log("Resume: No Sisbot find trigger");
+		app.manager.find_sisbots(); // trigger rescan
 	}
 }
 

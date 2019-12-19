@@ -29,6 +29,7 @@ app.model.sisyphus_manager = {
       sisbot_hostname: '',
       sisbot_connecting: 'false',
       sisbot_reconnecting: 'false',
+      network_status: 'wifi',
 
       merge_playlists: [],
 
@@ -667,16 +668,19 @@ app.model.sisyphus_manager = {
   _find_sisbots: function() {
     if (this.get('sisbots_scanning') == 'true') return;
 
-    console.log("_find_sisbots()");
+    console.log("_find_sisbots()",  navigator.connection.type);
     // this will find the sisbots on the local network
     var self = this;
     // conditional for if in beta/training localhost mode or not to ignore error.
     if (app.config.env != 'beta' && app.config.env != 'training') {
-      if (navigator && navigator.connection && navigator.connection.type == Connection.NONE) {
-        setTimeout(function() {
-          self._find_sisbots();
-        }, 100);
-        return this;
+      if (navigator && navigator.connection) {
+          this.set('network_status', navigator.connection.type );
+        if (navigator.connection.type == Connection.NONE) {
+          setTimeout(function() {
+            self._find_sisbots();
+          }, 100);
+          return this;
+        }
       }
     }
 

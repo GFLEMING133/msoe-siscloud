@@ -22,7 +22,7 @@
         <h4 class="no-stuffing fs18 lh18 pb5 strong">Network Name</h4>
         <div class="select-box block mb50 relative" data-if="{{= model.wifi_connecting }} == false">
           <div class="absolute z20">
-            <select class="w100 corner-5px fs18 p10" data-field="model.wifi.name" data-foreach="model.wifi_networks" data-foreach-default="WiFi Networks" data-selected="{{= model.wifi.name }}">
+            <select class="w100 corner-5px fs18 p10" data-field="model.wifi.name" data-foreach="model.wifi_networks" data-selected="{{= model.wifi.name }}">
               <option class="pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option>
             </select>
           </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="select-box block mb50 relative" data-if="{{= model.wifi_connecting }} == true">
           <div class="absolute z20">
-            <select class="w100 corner-5px fs18 p10" data-field="model.wifi.name" data-foreach="model.wifi_networks" data-foreach-default="WiFi Networks" data-selected="{{= model.wifi.name }}" lib-chosen="true" disabled>
+            <select class="w100 corner-5px fs18 p10" data-field="model.wifi.name" data-foreach="model.wifi_networks" data-selected="{{= model.wifi.name }}" lib-chosen="true" disabled>
               <option class="pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option>
             </select>
           </div>
