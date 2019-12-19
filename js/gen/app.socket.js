@@ -42,6 +42,17 @@ app.socket = {
 
 		if (self.socket) {
 			console.log("Socket: Close", self.socket);
+
+			// turn off listeners
+			self.socket.off('connect');
+			self.socket.off('reconnect');
+			self.socket.off('reconnect_attempt');
+			self.socket.off('disconnect');
+			self.socket.off('error');
+			self.socket.off('set');
+			self.socket.off('erase');
+			self.socket.off('test');
+
 			self.socket.close();
 			delete self.socket;
 		}
