@@ -217,9 +217,7 @@ label {
   margin-bottom: 50vh;
 
 }
-.body-header {
-	padding-top				: 50px;
-}
+
 .c-tracks-body-header {
 	padding-top: 5px;
 }
@@ -919,7 +917,7 @@ li.blue-hover:hover {
 	top: 25px;
 }
 .iOS .body-header {
-	padding-top: 75px !important;
+	margin-top: 75px !important;
 }
 .Android .body-header {
 	padding-top: 60px !important;
