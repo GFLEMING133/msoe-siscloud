@@ -578,15 +578,13 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	background-color: #000;
 	position 				: absolute;
 	width 					: 100%;
-
 }
 .sortBy-drop-actions {
 	border 				: 2px solid #fff;
 	border-radius : 6px;
 	cursor 				: pointer;
 	right 				: 75px;
-	flex 					: 3;
-
+	flex 					: 2.5;
 }
 .sortBy-SORT-style {
 	font-size 		: 13.5px;
@@ -595,13 +593,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	margin-top 		: 9px;
 	color 				: #fff;
 }
-
-
 .upDown-arrows {
 	display : flex;
 	position: relative;
 }
-
 .SortUp {
 	font-size 		: 1.3em;
 	position 			: absolute;
@@ -920,7 +915,7 @@ li.blue-hover:hover {
 	margin-top: 75px !important;
 }
 .Android .body-header {
-	padding-top: 60px !important;
+	padding-top: 51px !important;
 }
 
 .app .body-header > *:last-child {
