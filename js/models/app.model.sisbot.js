@@ -1969,8 +1969,7 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
-		if (this.get('is_connected'))
-			this.check_local_versions(on_cb);
+		if (this.get('is_connected')) this.check_local_versions(on_cb);
 
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status

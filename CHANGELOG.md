@@ -11,6 +11,8 @@
  - Drawing paths make smooth bezier curves
  - Remove steps slider from drawing/upload preview pages
  - Drawing paths export using smooth bezier curves
+ - Rescan button forces full rescan
+ - Multiple table page spinners/buttons cleaned up
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.
