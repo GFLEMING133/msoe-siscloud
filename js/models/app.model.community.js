@@ -170,7 +170,6 @@ app.model.community = {
       drop[0].style.opacity = '1';
 
     } else {
-      drop[0].style.transition = "visibility 1s ease, opacity 1s ease";
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';
     }

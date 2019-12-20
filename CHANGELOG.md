@@ -1,4 +1,13 @@
 #2019-12-09 1.8.84
+ - Turned off socket listeners. 
+ - added OS obj var in sessions to target Android and iOS in css to fix header issue in drawing
+ - added Waiting for Wifi spinner on app launch when waiting for wifi to connect back from disconnect
+ - added obj var network_status for above issue in the manager and changed conditional in _find_sisbots()
+ - styled buttons in Draw and Track Preview
+ - removed data-foreach-defaults in the settings-wifi-temp
+ - UI changes throughout
+ - merged beta into staging and this release is from staging. 
+#2019-12-09 1.8.83
  - App.log() added for more control over viewing console.log data
  - Remove user data from post.fetch calls. (This caused issues when user model not found, not necessary)
  - Drawing mirroring includes horizontal, vertical, both
