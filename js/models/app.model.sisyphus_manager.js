@@ -25,6 +25,7 @@ app.model.sisyphus_manager = {
       sisbots_networked: [],
       sisbots_ip_name: {},
 
+      force_rescan: 'false', // force full find_sisbots scan
       sisbots_scanning: 'false',
       sisbot_hostname: '',
       sisbot_connecting: 'false',
@@ -636,9 +637,16 @@ app.model.sisyphus_manager = {
       this.set('sisbot_registration', 'find');
     }
   },
-  find_sisbots: function() {
-    console.log("find_sisbots()", this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
+  find_sisbots: function(force_rescan) {
+    console.log("find_sisbots()", force_rescan, this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbots_scanning'));
     var self = this;
+
+    // exit out if we are already scanning, before changing force_rescan
+    if (this.get('sisbots_scanning') == 'true') return;
+
+    if (force_rescan && force_rescan != this) this.set('force_rescan', 'true');
+    else this.set('force_rescan', 'false');
+    console.log("Force rescan:", this.get('force_rescan'));
 
     if (app.is_app) {
       if (device.platform == 'Android') {
@@ -689,7 +697,7 @@ app.model.sisyphus_manager = {
     // this.set('sisbot_id', 'false'); // ?? clear ?? // causes errors on check_reconnect_status
     this.set('sisbot_registration', 'find'); // ?? maybe ??
     this.set('sisbots_scanning', 'true');
-    console.log('Find Sisbots:', this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbot_scanning'));
+    console.log('Find Sisbots:', this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbots_scanning'));
 
     var num_checks = 4;
 
@@ -700,8 +708,8 @@ app.model.sisyphus_manager = {
 
       if (self.get('sisbots_scanning') == 'false') return;
 
-      // if we found session sisbots already, skip rest of checks
-      if (num_checks == 3) {
+      // if we found session sisbots already, skip rest of checks (unless forced)
+      if (num_checks == 3 && self.get('force_rescan') == 'false') {
         if (self.get('sisbot_id') == 'false' && self.get('sisbots_networked').length > 0) num_checks = 0;
         if (app.config.env == 'alpha') num_checks = 0;
         if (num_checks == 0) console.log("Shorten Sisbot scan");
@@ -939,6 +947,9 @@ app.model.sisyphus_manager = {
             console.log("New Sisbot connected");
             app.socket.reset_socket = true;
 
+            // set old sisbot as not connected
+            app.collection.get(old_sisbot).set('is_connected', 'false');
+
             // change page to home
             app.trigger('session:active', {
               secondary: 'false',
@@ -958,6 +969,8 @@ app.model.sisyphus_manager = {
 
       // setup listeners after all objects added
       self.get_model('sisbot_id').sisbot_listeners();
+
+      console.log("Sisbot: connected", self.get_model('sisbot_id').get('is_connected'));
 
       self.get_model('sisbot_id').set('is_connected', 'true')
         .set('sisbots_scanning', 'false'); // cancel out of scanning

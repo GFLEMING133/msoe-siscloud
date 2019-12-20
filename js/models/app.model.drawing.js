@@ -931,6 +931,7 @@ app.model.drawing = {
     this.set('paths', []);
     this.set('coords', []);
     this.set('edit.verts', []);
+    this.update_path_count();
 
     // reset start point
     this.set('drag_pos.current.x', +this.get('mid') - +this.get('edit.firstR') * (this.get('mid') - this.get('padding')));
