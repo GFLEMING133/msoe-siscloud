@@ -51,6 +51,28 @@ function setup_cordova() {
 	});
 }
 
+function on_visibility() {
+  if (document.hidden) {
+    app.log('Page in background');
+		app.is_visible = false;
+  } else {
+    app.log('Page in foreground');
+		app.is_visible = true;
+
+		// if sisbot is disconnected, reconnect now
+		if (app.manager.get('sisbot_id') !== 'false') {
+			var sisbot = app.manager.get_model('sisbot_id');
+
+			if (sisbot.get('is_socket_connected') == 'false') {
+				app.log("Restart polling", sisbot.id);
+				setTimeout(function() {
+					sisbot._poll_restart();
+				}, 500);
+			}
+		}
+  }
+}
+
 function on_active() {
 	console.log("App Active", app.platform);
 	check_siri();
@@ -108,6 +130,8 @@ function status_tap() {
 		$('.auto-scroll').addClass('scroll').removeClass('auto-scroll');
 	});
 }
+
+document.addEventListener( 'visibilitychange' , on_visibility, false );
 
 document.addEventListener("deviceready", setup_cordova, false);
 document.addEventListener("resume", on_resume, false);

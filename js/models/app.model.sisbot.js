@@ -169,7 +169,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'socket:disconnect', 			this._socket_disconnect);
 		this.listenTo(app, 'socket:error', 					this._socket_error);
 
-		this.on('change:data.is_serial_open', 				this._check_serial);
+		// this.on('change:data.is_serial_open', 				this._check_serial);
 		this.on('change:data.failed_to_connect_to_wifi', 	this.wifi_failed_to_connect);
 		this.on('change:data.is_network_connected', 		this.wifi_connected);
 		this.on('change:data.wifi_forget', 					this.wifi_connected);
@@ -412,7 +412,8 @@ app.model.sisbot = {
 		var self = this;
 		// console.log("Sisbot: Socket Disconnect");
 
-		if (this.get('is_polling') == "false") {
+		// don't poll if document is in background
+		if (app.is_visible && this.get('is_polling') == "false") {
 			setTimeout(function() {
 				self.set('is_polling', "true");
 				self._poll_state();
@@ -436,19 +437,13 @@ app.model.sisbot = {
 		}
 
 		var disconnect_length = moment().diff(this._poll_timer);
-
 		this.set('disconnect_length', disconnect_length);
 
 		if (this._retry_find && disconnect_length > 20000) { // extended to catch the fallback to hotspot
-			// Try to find any tables again !!TODO: the manager should handle this
-			app.manager.find_sisbots();
-			// this._fetch_bluetooth();
-			// this._fetch_network();
-			// this._fetch_cloud();
+			app.manager.find_sisbots(); // Try to find any tables again
 
 			this._retry_find = false; // don't bother more than once
 		}
-
 
 		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') && disconnect_length > 60000) {
 			this._poll_failure_stop();
@@ -476,7 +471,7 @@ app.model.sisbot = {
 			.set('sisbot_reconnecting', 'false');
 	},
 	_poll_restart: function () {
-		// console.log("_poll_restart()");
+		app.log("_poll_restart()");
 		this._poll_timer = false;
 		this.set('is_polling', 'true');
 		this._poll_state();

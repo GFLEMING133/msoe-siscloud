@@ -5,6 +5,7 @@ var app = {
 	collection	: {},
 	view		: {},
 	tour		: {},
+	is_visible: true,
 	mouse_is_down: false,
 	count		: 0,
 	timers		: function (id1, id2, id3) {
@@ -66,11 +67,10 @@ var app = {
 		if (app.is_app) {
 			// TODO: stringify object values, so app can output them
 			console.log([...arguments].join(', '));
-		} else console.log(...arguments);
+		} else console.log(moment().format('H:mm:ss.SSS'), ...arguments);
 	},
 	setup_error_listener: function () {
-		if (!app.is_app)
-			return this;
+		if (!app.is_app) return this;
 
 		window.onerror = function(message, url, lineNumber) {
 			alert(message + ' - ' + url + ' - ' + lineNumber);

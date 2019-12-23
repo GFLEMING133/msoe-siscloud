@@ -676,9 +676,10 @@ app.model.sisyphus_manager = {
   _find_sisbots: function() {
     if (this.get('sisbots_scanning') == 'true') return;
 
-    console.log("_find_sisbots()",  navigator.connection.type);
+    console.log("_find_sisbots()");
     // this will find the sisbots on the local network
     var self = this;
+    
     // conditional for if in beta/training localhost mode or not to ignore error.
     if (app.config.env != 'beta' && app.config.env != 'training') {
       if (navigator && navigator.connection) {
