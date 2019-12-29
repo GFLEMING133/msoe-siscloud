@@ -1,3 +1,7 @@
+#2019-12-09 1.8.85
+ -  Socket won't reconnect while in background, reconnects on move to foreground
+ - Community dl modal is now scrollable. 
+ - adjusted transition of sortby dropdown
 #2019-12-09 1.8.84
  - Turned off socket listeners. 
  - added OS obj var in sessions to target Android and iOS in css to fix header issue in drawing

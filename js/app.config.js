@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod',
-	version				:  '1.8.84', // read CHANGELOG
+	version				:  '1.8.85', // Socket won't reconnect while in background, reconnects on move to foreground
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	show_tg				: false, // for testing
 	envs	: {
