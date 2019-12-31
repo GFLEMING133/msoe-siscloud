@@ -42,7 +42,7 @@ app.model.community = {
   scrolling       : false, // in conjunction with scroll_timout, are we waiting for a timeout to finish?
   current_version : 1,
   on_init: function() {
-    console.log("on_init() in app.model.community", this.id);
+    app.log("on_init() in app.model.community", this.id);
 
     //   this.listenTo(app, 'manager:download_playlist', this.download_playlist);
     this.listenTo(app, 'community:downloaded_track', this.downloaded_track);
@@ -58,7 +58,7 @@ app.model.community = {
     return this;
   },
   reset_params: function() {
-    console.log("Community: Reset limit", this.defaults({id: this.id}).limit);
+    app.log("Community: Reset limit", this.defaults({id: this.id}).limit);
     this.set('limit', this.defaults({id: this.id}).limit);
   },
   scroll_top: function() {
@@ -72,7 +72,7 @@ app.model.community = {
           var limit = +self.get('limit');
           var limit_step = +self.get('limit_step');
           if (_.size(self.get('community_track_ids')) > limit) {
-            console.log("Load More...", data, limit+limit_step);
+            app.log("Load More...", data, limit+limit_step);
             self.set('limit', limit+limit_step);
           }
         }
@@ -84,7 +84,7 @@ app.model.community = {
   },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
-		console.log('in the sign_out_community');
+		app.log('in the sign_out_community');
 		app.session.set('auth_token', '')
 			.set( 'remember_me', 'false')
       .set( 'signing_in', 'false')
@@ -105,7 +105,7 @@ app.model.community = {
     };
 
     function cb(obj) {
-      // console.log("Community Tracks:", obj.resp);
+      // app.log("Community Tracks:", obj.resp);
       if (obj.err) return self;
       app.manager.intake_data(obj.resp); // obj.resp.data
 
@@ -136,7 +136,7 @@ app.model.community = {
       endpoint: 'tracks.json?sort='+sort_params,
       data: {}
     };
-    console.log("Sort community tracks", tracks);
+    app.log("Sort community tracks", tracks);
 
     function cb(obj) {
       if (obj.err) return self;
@@ -151,7 +151,7 @@ app.model.community = {
       self.set('community_track_ids', new_track_ids);
       self.set('offset', 0);
       self.set('fetched_community_tracks', 'true');
-      // console.log('new_track_ids', obj.resp);
+      // app.log('new_track_ids', obj.resp);
       self.set('fetching_community_tracks', 'false');
       self.set('sorting', 'false');
     }

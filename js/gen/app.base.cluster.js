@@ -102,7 +102,7 @@ app.base.cluster = Backbone.Collection.extend({
 		delete obj.json.data;
 
 		if (!obj.json) {
-			//console.log('Base Cluster Exception', model);
+			//app.log('Base Cluster Exception', model);
 		} else {
 			_.each(this.query, function (val, key) {
 				obj.key = key;
@@ -131,9 +131,9 @@ app.base.cluster = Backbone.Collection.extend({
 			delete obj.json.data;
 
 			if (!obj.json) {
-				//console.log('Base Cluster Exception', model);
+				//app.log('Base Cluster Exception', model);
 			} else {
-				//console.log("Get match", obj);
+				//app.log("Get match", obj);
 				_.each(given_obj, function (val, key) {
 					obj.key = key;
 					obj.val = val;

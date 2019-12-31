@@ -226,7 +226,7 @@ app.model.sisbot = {
 		this._update_sisbot(obj.endpoint, obj.data, obj.cb);
 	},
 	_fetch_log: function (data) {
-		console.log("_fetch_log()");
+		app.log("_fetch_log()");
 		var data = this.get('data');
 		var obj = {
 			// _url	:  app.config.get_sisbot_url(),
@@ -236,7 +236,7 @@ app.model.sisbot = {
 			data	: data
 		};
 
-		console.log("Fetch log", obj);
+		app.log("Fetch log", obj);
 		// app.post.fetch(obj, function(resp) {
 		// 	// handle cloud differently
 		// }, 0);
@@ -248,7 +248,7 @@ app.model.sisbot = {
 			this.off('change:data.is_internet_connected', this.update_network);
 			this.off('change:data.is_network_separate', this.update_network);
 		}
-		console.log('in the update_network', this.get('data.is_network_separate'), this.get('data.is_internet_connected'),
+		app.log('in the update_network', this.get('data.is_network_separate'), this.get('data.is_internet_connected'),
 		this.get('data.is_network_connected'));
 
 	},
@@ -259,8 +259,8 @@ app.model.sisbot = {
 		if (data && app.is_app && app.platform == 'iOS') {
 
 			if (!cordova) return; // exit for testing
-			if (!data.action) return console.log("Siri: Missing Action");
-			if (!data.phrase) return console.log("Siri: Missing Phrase");
+			if (!data.action) return app.log("Siri: Missing Action");
+			if (!data.phrase) return app.log("Siri: Missing Phrase");
 
 			var info_obj = {
 				model: self.id,
@@ -277,11 +277,11 @@ app.model.sisbot = {
 				userInfo: info_obj
 			};
 
-			console.log("Siri: Present", JSON.stringify(present_data));
+			app.log("Siri: Present", JSON.stringify(present_data));
 			cordova.plugins.SiriShortcuts.present(present_data, function(resp) {
-				console.log("Siri: Successful Presented Shortcut", resp);
+				app.log("Siri: Successful Presented Shortcut", resp);
 			}, function(err) {
-				console.log("Siri: Presented Shortcut Error", err);
+				app.log("Siri: Presented Shortcut Error", err);
 			});
 		}
 	},
@@ -291,8 +291,8 @@ app.model.sisbot = {
 		// TESTING: Siri shortcut
 		if (data && app.is_app && app.platform == 'iOS') {
 
-			if (!data.action) return console.log("Siri: Missing Action");
-			if (!data.phrase) return console.log("Siri: Missing Phrase");
+			if (!data.action) return app.log("Siri: Missing Action");
+			if (!data.phrase) return app.log("Siri: Missing Phrase");
 
 			var info_obj = {
 				model: self.id,
@@ -309,20 +309,20 @@ app.model.sisbot = {
 				userInfo: info_obj
 			};
 
-			console.log("Siri: Donate", JSON.stringify(donate_data));
+			app.log("Siri: Donate", JSON.stringify(donate_data));
 			cordova.plugins.SiriShortcuts.donate(donate_data, function(resp) {
-				console.log("Siri: Successful Donated Shortcut", resp);
+				app.log("Siri: Successful Donated Shortcut", resp);
 			}, function(err) {
-				console.log("Siri: Donated Shortcut Error", err);
+				app.log("Siri: Donated Shortcut Error", err);
 			});
 		}
 	},
 	_update_sisbot: function (endpoint, data, cb, _timeout) {
-		// console.log("_update_sisbot()", endpoint, JSON.stringify(data));
+		// app.log("_update_sisbot()", endpoint, JSON.stringify(data));
 		if (!_timeout) _timeout = 5000;
 
 		if (app.config.env == 'alpha') {
-			console.log('ALPHA is_internet_connected ==', this.get('data.is_internet_connected'));
+			app.log('ALPHA is_internet_connected ==', this.get('data.is_internet_connected'));
 			this.set('data.is_internet_connected', 'true'); //setting to true for Apple to test Community
 			return cb({err:null, resp:this.get('data')});
 		}
@@ -330,7 +330,7 @@ app.model.sisbot = {
 		var self	= this;
 		var address	= this.get('data.local_ip');
 
-		console.log("_update_sisbot()", address);
+		app.log("_update_sisbot()", address);
 
 		// if (app.platform == 'iOS')	address = this.get('data.hostname');
 		// 192.168.42.1 | iOS | state
@@ -351,7 +351,7 @@ app.model.sisbot = {
 
 				if (resp.err) {
 					app.plugins.n.notification.alert(resp.err);
-					console.log(address, endpoint, resp);
+					app.log(address, endpoint, resp);
 					return;
 				}
 
@@ -363,7 +363,7 @@ app.model.sisbot = {
 		}, 0);
 	},
 	_check_serial: function () {
-		console.log("_check_serial()");
+		app.log("_check_serial()");
 
 		/* TODO: Fix
 		if (this.get('data.is_serial_open') == 'false') {
@@ -380,15 +380,15 @@ app.model.sisbot = {
 		*/
 	},
 	_update_timestamp: function() {
-		// console.log("_update_timestamp()");
+		// app.log("_update_timestamp()");
 		this.set('timestamp', ''+Date.now());
-		// console.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
+		// app.log("Update Timestamp", ''+Date.now(), this.get('timestamp'));
 	},
 	/**************************** sockets ********************************/
 	_socket_connect: function() {
 		var self = this;
 
-		console.log("Sisbot: Socket Connect");
+		app.log("Sisbot: Socket Connect");
 
 		this.set('is_socket_connected', 'true');
 		this.set('is_polling', "false");
@@ -406,11 +406,11 @@ app.model.sisbot = {
 		// }, 10000);
 	},
 	_socket_disconnect: function() {
-		// console.log("_socket_disconnect()");
+		// app.log("_socket_disconnect()");
 		this.set('is_socket_connected', 'false');
 
 		var self = this;
-		// console.log("Sisbot: Socket Disconnect");
+		// app.log("Sisbot: Socket Disconnect");
 
 		app.log('Sisbot: socket disconnect', this.get('data.reason_unavailable'));
 
@@ -423,7 +423,7 @@ app.model.sisbot = {
 		}
 	},
 	_socket_error: function(data) {
-		// console.log("Sisbot: Socket Error", data);
+		// app.log("Sisbot: Socket Error", data);
 		if (this.get('is_polling') == "false") {
 			this.set('is_polling', "true");
 			this._poll_state();
@@ -432,7 +432,7 @@ app.model.sisbot = {
 	/**************************** POLLING *************************************/
 	_poll_timer: false,
 	_poll_failure: function () {
-		// console.log("_poll_failure()");
+		// app.log("_poll_failure()");
 		if (this._poll_timer == false) {
 			this._poll_timer = moment();
 			this._retry_find = true;
@@ -488,12 +488,12 @@ app.model.sisbot = {
 	},
 	_poll_then_reset_bool: false,
 	_poll_then_reset: function() {
-		// console.log("_poll_then_reset()");
+		// app.log("_poll_then_reset()");
 		this._poll_then_reset_bool = true;
 		this._poll_restart();
 	},
 	_poll_state: function () {
-		// console.log("_poll_state()");
+		// app.log("_poll_state()");
 		var self = this;
 
 		if (app.config.env == 'alpha') {
@@ -506,7 +506,7 @@ app.model.sisbot = {
 		// skip polling if this is not the currently connected bot
 		if (app.manager.get('sisbot_id') != this.id) return this.set('is_polling','false');
 
-		if (this.get('is_master_branch') == 'false') console.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
+		if (this.get('is_master_branch') == 'false') app.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
 
 		this._update_sisbot('state', {}, function(obj) {
 			if (obj.resp) {
@@ -515,7 +515,7 @@ app.model.sisbot = {
 
 				app.manager.intake_data(obj.resp);
 				if (self.get('is_polling') == "true") {
-					console.log("Reconnected:", self.get('data.local_ip'));
+					app.log("Reconnected:", self.get('data.local_ip'));
 					app.config.set_sisbot_url(self.get('data.local_ip'));
 					app.socket.initialize();		// try to connect to socket
 				}
@@ -590,7 +590,7 @@ app.model.sisbot = {
 		});
 	},
 	get_networks: function () {
-		console.log("get_networks()");
+		app.log("get_networks()");
 		var self			= this;
 		var wifi_networks	= [];
 		this.set('show_wifi_list', 'false');
@@ -623,7 +623,7 @@ app.model.sisbot = {
 		}, 10000); // wait ten seconds before retrying
   },
 	wifi_failed_to_connect: function () {
-		console.log("wifi_failed_to_connect()");
+		app.log("wifi_failed_to_connect()");
 		if (this.get('data.failed_to_connect_to_wifi') == 'true') {
 			this.set('wifi_error', 'incorrect')
 				.set('wifi_connecting', 'false');
@@ -636,7 +636,7 @@ app.model.sisbot = {
 		}
 	},
 	wifi_connected: function () {
-		console.log("wifi_connected()");
+		app.log("wifi_connected()");
 		var active = app.session.get('active');
 
 		if (this.get('data.is_network_connected') == 'true' && this.get('data.wifi_forget') == 'false' && active.primary == 'settings' && active.secondary == 'wifi') {
@@ -663,7 +663,7 @@ app.model.sisbot = {
 		this.set('data.wifi_password', 'false');
   },
 	connect_to_wifi: function () {
-		console.log("connect_to_wifi()");
+		app.log("connect_to_wifi()");
 		this.set('wifi_error', 'false')
 			.set('wifi_connecting', 'false');
 
@@ -699,7 +699,7 @@ app.model.sisbot = {
 
 			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
 				if (obj.err && obj.err !== 'Could not make request') {
-					console.log('wifi err', obj.err);
+					app.log('wifi err', obj.err);
 					self.set('wifi_error', 'true')
 						.set('wifi_connecting', 'false');
 				} else if (obj.resp) {
@@ -725,7 +725,7 @@ app.model.sisbot = {
 
 	},
 	disconnect_wifi: function () {
-		console.log("disconnect_wifi()");
+		app.log("disconnect_wifi()");
 		var self = this;
 
 		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
@@ -755,7 +755,7 @@ app.model.sisbot = {
 		}
 	},
 	is_internet_connected: function () {
-		console.log("is_internet_connected()");
+		app.log("is_internet_connected()");
 		var self = this;
 
 		this._update_sisbot('is_internet_connected', {}, function(obj) {
@@ -796,7 +796,7 @@ app.model.sisbot = {
 			}
 	},
 	install_updates: function () {
-		console.log("install_updates()");
+		app.log("install_updates()");
 		if (this.get('data.installing_updates') == 'true') return this;
 
 		var self = this;
@@ -816,21 +816,21 @@ app.model.sisbot = {
 		return this;
 	},
 	install_updates_change: function () {
-		console.log("install_updates_change()");
+		app.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
 		if (status == 'false') app.manager.set('show_software_update_page', 'false');
 		else app.manager.set('show_software_update_page', 'true');
 	},
 	check_force_onboarding: function () {
-		console.log("check_force_onboarding()");
+		app.log("check_force_onboarding()");
 		if (this.get('data.installing_updates') == 'false' && this.get('force_onboarding') == 'true') {
 			app.manager.should_show_onboarding();
 			this.set('force_onboarding', 'false');
 		}
 	},
 	factory_reset: function () {
-		console.log("factory_reset()");
+		app.log("factory_reset()");
 		if (this.get('data.factory_resetting') == 'true')
 			return this;
 
@@ -852,14 +852,14 @@ app.model.sisbot = {
 		}, 'Factory Reset?', ['Cancel', 'OK']);
 	},
 	setup_update_hostname: function () {
-		console.log("setup_update_hostname()");
+		app.log("setup_update_hostname()");
 		this.set('hostname', this.get('data.hostname').replace('.local', ''))
 			.set('errors', []);
 
 		return this;
 	},
 	update_hostname: function () {
-		console.log("update_hostname()");
+		app.log("update_hostname()");
 		var self		= this;
 		var hostname	= this.get('hostname');
 		var errors 		= [];
@@ -1097,13 +1097,13 @@ app.model.sisbot = {
 		this.set('data.reason_unavailable','restarting');
 
 		this._update_sisbot('restart', {}, function(obj) {
-			console.log('RESTART');
+			app.log('RESTART');
 		});
 	},
 	save_to_sisbot: function (data, cb) {
 		var self = this;
 		if (!cb) cb = function(obj) {};
-		console.log("Save to Sisbot");
+		app.log("Save to Sisbot");
 
 		this._update_sisbot('save', data, cb);
 	},
@@ -1137,12 +1137,12 @@ app.model.sisbot = {
 		});
 	},
 	load_log_files: function() {
-		console.log("Load Log Files");
+		app.log("Load Log Files");
 		var self = this;
 
 		// load log files from sisbot
 		this._update_sisbot('get_log_filenames', {}, function(obj) {
-			if (obj.err) return console.log("Error loading log files", obj.err);
+			if (obj.err) return app.log("Error loading log files", obj.err);
 
 			if (obj.resp && _.isArray(obj.resp)) {
 				self.set('log_files', obj.resp);
@@ -1182,7 +1182,7 @@ app.model.sisbot = {
 	},
 	/**************************** PLAYBACK ************************************/
 	play_playlist: function(data) {
-		console.log("Siri: play playlist", JSON.stringify(data));
+		app.log("Siri: play playlist", JSON.stringify(data));
 
 		var playlist = app.collection.get(data.id);
 		if (playlist) {
@@ -1235,7 +1235,7 @@ app.model.sisbot = {
 		app.trigger('session:active', { 'primary': 'current', 'secondary': 'false' });
 	},
 	play_track: function(data) {
-		console.log("Siri: play track", JSON.stringify(data));
+		app.log("Siri: play track", JSON.stringify(data));
 
 		var track = app.collection.get(data.id);
 		if (track) track.play(); // call on model, in case model needs to make adjustments
@@ -1313,7 +1313,7 @@ app.model.sisbot = {
 			if (obj.err) {
 
 			} else {
-				console.log("Setup Favorite Playlist");
+				app.log("Setup Favorite Playlist");
 				self.playlist_add(playlist);
 			}
 		});
@@ -1332,7 +1332,7 @@ app.model.sisbot = {
 	brightness: function (level) {
 		var self = this;
 
-		console.log("Brightness:", level, this.get('data.brightness'));
+		app.log("Brightness:", level, this.get('data.brightness'));
 		this.set('data.brightness', +level).set('edit.brightness', +level);
 
 		if (this.get('wait_for_send') == 'false') {
@@ -1342,17 +1342,17 @@ app.model.sisbot = {
 			this._update_sisbot('set_brightness', { value: remember_level }, function (obj) {
 				// do nothing
 				// var end = +new Date();
-				// console.log("Brightness Response (millis):", end-start);
+				// app.log("Brightness Response (millis):", end-start);
 				self.set('wait_for_send','false');
 
-				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+				// app.log("Tail Brightness", remember_level, self.get('edit.brightness'));
 
 				if (self.get('edit.brightness') !== remember_level) {
 					self.brightness(self.get('edit.brightness'));
 				}
 			});
 		} else {
-			// console.log("New Brightness", level);
+			// app.log("New Brightness", level);
 		}
 	},
 	brightness_up: function () {
@@ -1397,7 +1397,7 @@ app.model.sisbot = {
 				self.set('wait_for_send','false');
 
 				if (self.get('edit.speed') !== remember_level) {
-					// console.log("Tail Speed", remember_level, self.get('edit.speed'));
+					// app.log("Tail Speed", remember_level, self.get('edit.speed'));
 					self.speed(self.get('edit.speed'));
 				}
 			});
@@ -1438,7 +1438,7 @@ app.model.sisbot = {
 		// send to sisbot
 		this._update_sisbot('set_led', { is_rgbw: 'true' }, function (obj) {
 			// set as enables
-			// console.log("LED resp", obj);
+			// app.log("LED resp", obj);
 			self.set('data.led_enabled', obj.resp.is_rgbw);
 		});
 	},
@@ -1451,13 +1451,13 @@ app.model.sisbot = {
 	calibrate_pattern: function() {
 		var self = this;
 		if (this.get('edit.led_pattern') != 'calibrate') {
-			// console.log("Switch to Calibrate, remember", this.get('data.led_pattern'));
+			// app.log("Switch to Calibrate, remember", this.get('data.led_pattern'));
 			this.set('rem_pattern', this.get('data.led_pattern'));
 
 			this.set('edit.led_pattern', 'calibrate');
 
 			this.listenToOnce(app.session, 'change:active.secondary', function() {
-				// console.log("Reset pattern to", self.get('rem_pattern'));
+				// app.log("Reset pattern to", self.get('rem_pattern'));
 				self.set('edit.led_pattern', self.get('rem_pattern'));
 			});
 		}
@@ -1473,7 +1473,7 @@ app.model.sisbot = {
 			// send to sisbot
 			var pattern = app.collection.get(new_pattern);
 			if (pattern) {
-				console.log("Update LED Pattern", pattern.get('data'));
+				app.log("Update LED Pattern", pattern.get('data'));
 				self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
 					if (obj.err) return console.error(err);
 
@@ -1489,7 +1489,7 @@ app.model.sisbot = {
 						var white = colors.white.toString(16);
 						if (white.length < 2) white = '0'+white;
 						obj.resp.led_primary_color = '0x'+red+green+blue+white;
-						console.log("Fix Primary", JSON.stringify(colors), obj.resp.led_primary_color);
+						app.log("Fix Primary", JSON.stringify(colors), obj.resp.led_primary_color);
 					}
 					if (_.isObject(obj.resp.led_secondary_color)) {
 						var colors = obj.resp.led_secondary_color;
@@ -1502,7 +1502,7 @@ app.model.sisbot = {
 						var white = colors.white.toString(16);
 						if (white.length < 2) white = '0'+white;
 						obj.resp.led_secondary_color = '0x'+red+green+blue+white;
-						console.log("Fix Secondary", JSON.stringify(colors), obj.resp.led_secondary_color);
+						app.log("Fix Secondary", JSON.stringify(colors), obj.resp.led_secondary_color);
 					}
 
 					// intake data
@@ -1515,7 +1515,7 @@ app.model.sisbot = {
 						phrase: pattern.get('data.name')+' Light Pattern',
 						msg: { 'edit.led_pattern': new_pattern }
 					});
-					console.log("Set LED Pattern return", obj);
+					app.log("Set LED Pattern return", obj);
 				});
 			}
 		}
@@ -1525,19 +1525,19 @@ app.model.sisbot = {
 
 		// load last used color from this pattern
 		var pattern = app.collection.get(this.get('data.led_pattern'));
-		// console.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		// app.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		if (pattern) {
 			if (pattern.get('data.is_white') == 'true') {
-				// console.log("Update white from led_pattern", pattern.get('data'));
+				// app.log("Update white from led_pattern", pattern.get('data'));
 				this.set('edit.led_primary_color', pattern.get_white_color());
 				this.led_color();
 			} else if (pattern.get('data.is_primary_color') == 'true' || pattern.get('data.is_secondary_color') == 'true') {
-				// console.log("Update colors from led_pattern", pattern.get('data'));
+				// app.log("Update colors from led_pattern", pattern.get('data'));
 				if (pattern.get('data.is_primary_color') == 'true' && pattern.get('data.led_primary_color') != 'false') this.set('edit.led_primary_color', pattern.get('data.led_primary_color'));
 				if (pattern.get('data.is_secondary_color') == 'true' && pattern.get('data.led_secondary_color') != 'false') this.set('edit.led_secondary_color', pattern.get('data.led_secondary_color'));
 				this.led_color();
 			} else {
-				console.log("No color update from led_pattern", pattern.get('data'));
+				app.log("No color update from led_pattern", pattern.get('data'));
 				do_save = true;
 			}
 		} else do_save = true;
@@ -1545,7 +1545,7 @@ app.model.sisbot = {
 		return do_save;
 	},
 	remember_colors: function(data) {
-		console.log("Remember LED_Colors", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
+		app.log("Remember LED_Colors", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 
 		this.set('rem_primary_color', this.get('data.led_primary_color'));
 		this.set('rem_secondary_color', this.get('data.led_secondary_color'));
@@ -1559,7 +1559,7 @@ app.model.sisbot = {
 		app.trigger('session:active', { 'secondary': 'false' });
 	},
 	toggle_picker: function(data) {
-		console.log("Toggle Picker", this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		app.log("Toggle Picker", this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 
 		this.set('show_picker', 'false');
 
@@ -1568,7 +1568,7 @@ app.model.sisbot = {
 		this.set('show_picker', 'true');
 	},
 	led_color: function(data) {
-		console.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		app.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		var self = this;
 		var color_data = {};
 
@@ -1586,11 +1586,11 @@ app.model.sisbot = {
 			}
 		}
 
-		// console.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
+		// app.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);
 		if (this.get('data.led_primary_color') != edit_primary) {
 			this.set('data.led_primary_color', edit_primary);
 
-			console.log("Update Primary Color", this.get('data.led_primary_color'));
+			app.log("Update Primary Color", this.get('data.led_primary_color'));
 
 			color_data.led_primary_color = edit_primary;
 
@@ -1610,11 +1610,11 @@ app.model.sisbot = {
 			}
 		}
 
-		// console.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
+		// app.log("Compare Secondary Color", this.get('data.led_secondary_color'), edit_secondary);
 		if (this.get('data.led_secondary_color') != edit_secondary) {
 			this.set('data.led_secondary_color', edit_secondary);
 
-			console.log("Update Secondary Color", this.get('data.led_secondary_color'));
+			app.log("Update Secondary Color", this.get('data.led_secondary_color'));
 
 			color_data.led_secondary_color = edit_secondary;
 
@@ -1623,15 +1623,15 @@ app.model.sisbot = {
 		}
 
 		// send to sisbot
-		console.log("Save color data?", color_data);
+		app.log("Save color data?", color_data);
 		if (!_.isEmpty(color_data)) {
-			console.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
+			app.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
 			var save_data = [this.get('data')];
 			if (led_pattern) save_data.push(led_pattern.get('data'));
-			console.log("Save data", save_data);
+			app.log("Save data", save_data);
 			this.save_to_sisbot(save_data);
 
-			this._update_sisbot('set_led_color', color_data, function(obj) { console.log("Color Set", obj); });
+			this._update_sisbot('set_led_color', color_data, function(obj) { app.log("Color Set", obj); });
 		}
 	},
 	led_offset_up: function () {
@@ -1649,7 +1649,7 @@ app.model.sisbot = {
 	led_offset: function (level) {
 		var self = this;
 
-		// console.log("OFFSET:", level, this.get('data.led_offset'));
+		// app.log("OFFSET:", level, this.get('data.led_offset'));
 		this.set('data.led_offset', +level).set('edit.led_offset', +level);
 
 		if (this.get('wait_for_send') == 'false') {
@@ -1661,9 +1661,9 @@ app.model.sisbot = {
 				self.save_to_sisbot(self.get('edit'), null);
 
 				// var end = +new Date();
-				// console.log("Brightness Response (millis):", end-start);
+				// app.log("Brightness Response (millis):", end-start);
 
-				// console.log("Tail Brightness", remember_level, self.get('edit.brightness'));
+				// app.log("Tail Brightness", remember_level, self.get('edit.brightness'));
 				// self.save_to_sisbot(self.get('data'), function(obj) {
 				// 	self.set('wait_for_send','false');
 				//
@@ -1673,11 +1673,11 @@ app.model.sisbot = {
 				// });
 			});
 		} else {
-			// console.log("New Offset", level);
+			// app.log("New Offset", level);
 		}
 	},
 	homing_offset: function(level) {
-		console.log("Homing Offset: ", level);
+		app.log("Homing Offset: ", level);
 		this.set('edit.table_settings.homingOffset',+level);
 	},
 	homing_offset_up: function () {
@@ -1704,12 +1704,12 @@ app.model.sisbot = {
 	playlist_add: function (playlist_model) {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
-		console.log("Sisbot: Playlist Add", this.id);
+		app.log("Sisbot: Playlist Add", this.id);
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
-			console.log('Sisbot: Add playlist', obj);
+			app.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
-				console.log("Error in the _update_sisbot when adding to Playlist. ", obj.err);
+				app.log("Error in the _update_sisbot when adding to Playlist. ", obj.err);
 				return app.plugins.n.notification.alert('There was an error adding the playlist to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
@@ -1727,7 +1727,7 @@ app.model.sisbot = {
 
 		this._update_sisbot('remove_playlist', playlist, function (obj) {
 			if (obj.err) {
-				console.log("Error in the _update_sisbot  to Playlist. ", obj.err);
+				app.log("Error in the _update_sisbot  to Playlist. ", obj.err);
 				return app.plugins.n.notification.alert('There was an error removing your Playlist. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
@@ -1738,7 +1738,7 @@ app.model.sisbot = {
 		this.remove('data.playlist_ids', playlist_model.id);
 	},
 	track_add: function (track_model) {
-		console.log('Calling track_add:', track_model);
+		app.log('Calling track_add:', track_model);
 		var self	= this;
 		var track	= track_model.get('data');
 
@@ -1800,10 +1800,10 @@ app.model.sisbot = {
 		}, 'Remove Track?', ['Cancel', 'Delete']);
 	},
 	track_get_verts: function (track_model, cb) {
-		console.log('we got verts', track_model.id);
+		app.log('we got verts', track_model.id);
 
 		this._update_sisbot('get_track_verts', { id: track_model.id }, function (obj) {
-			console.log('track get verts', obj);
+			app.log('track get verts', obj);
 
 			if (obj.err) {
 				return app.plugins.n.notification.alert('There was an error getting the tracks verts.');
@@ -1909,7 +1909,7 @@ app.model.sisbot = {
 		this.set('data.is_autodim', new_value);
 
 		this._update_sisbot('set_autodim', { value: new_value }, function(obj) {
-			console.log('autodim', obj);
+			app.log('autodim', obj);
 			if (obj.resp) app.manager.intake_data(obj.resp);
 		});
 
@@ -1920,19 +1920,19 @@ app.model.sisbot = {
 		var self = this;
 
 		// make sure a change occured
-		console.log("Advanced Update", this.get('data.table_settings'), this.get('edit.table_settings'));
+		app.log("Advanced Update", this.get('data.table_settings'), this.get('edit.table_settings'));
 		var edit_value = this.get('edit.table_settings');
 		var data_value = this.get('data.table_settings');
 		if (JSON.stringify(edit_value) == JSON.stringify(data_value)) return app.trigger('session:active', { secondary: 'advanced_settings' });
 
 		app.plugins.n.notification.confirm("Changing these settings may cause your table to not function as expected.",
 			function(resp_num) {
-				console.log("Confirm resp", resp_num);
+				app.log("Confirm resp", resp_num);
 				if (resp_num == 1) {
 					return self;
 				} else {
 					self.save_to_sisbot(self.get('edit'), function(obj) {
-						if (obj.err) return console.log("Save error", obj.err);
+						if (obj.err) return app.log("Save error", obj.err);
 
 						if (obj.resp) app.manager.intake_data(obj.resp);
 
@@ -1959,7 +1959,7 @@ app.model.sisbot = {
 
 		if (this.get('csons') == 'false') { // only bother loading once
 			this._update_sisbot('get_csons', {}, function(cbb) {
-				console.log("CSONs", cbb.err, cbb.resp);
+				app.log("CSONs", cbb.err, cbb.resp);
 
 				self.set('csons', cbb.resp);
 			});

@@ -38,7 +38,7 @@ app.model.led_pattern = {
 	},
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
-		console.log("LED edit", this.get('edit'));
+		app.log("LED edit", this.get('edit'));
 
 		return this;
 	},
@@ -73,7 +73,7 @@ app.model.led_pattern = {
 			if (blue.length < 2) blue = '0'+blue;
 			this.set('display_primary_color', '#'+red+green+blue);
 
-			console.log("Primary colors:", this.get('data.name'), red, green, blue, average, this.get('display_primary_color'));
+			app.log("Primary colors:", this.get('data.name'), red, green, blue, average, this.get('display_primary_color'));
 		}
 	},
 	update_secondary_color: function() {
@@ -107,7 +107,7 @@ app.model.led_pattern = {
 			if (blue.length < 2) blue = '0'+blue;
 			this.set('display_secondary_color', '#'+red+green+blue);
 
-			console.log("Secondary colors:", this.get('data.name'), red, green, blue, average, this.get('display_secondary_color'));
+			app.log("Secondary colors:", this.get('data.name'), red, green, blue, average, this.get('display_secondary_color'));
 		}
 	},
 	get_white_color: function() {
@@ -122,7 +122,7 @@ app.model.led_pattern = {
 			var green = Math.round(156 + (255-156) * scale);
 			var blue = 255; // doesn't change
 
-			console.log("Blue", scale, red, green, blue);
+			app.log("Blue", scale, red, green, blue);
 			red = red.toString(16);
 			if (red.length < 2) red = '0'+red;
 			green = green.toString(16);
@@ -142,7 +142,7 @@ app.model.led_pattern = {
 			var blue = Math.round(255 * scale);
 			var white = Math.round(89 + (255-89) * scale);
 
-			console.log("Orange", scale, red, green, blue, white);
+			app.log("Orange", scale, red, green, blue, white);
 			red = red.toString(16);
 			if (red.length < 2) red = '0'+red;
 			green = green.toString(16);
@@ -160,10 +160,10 @@ app.model.led_pattern = {
 	set_white: function (level) {
 		var self = this;
 
-		console.log("White:", level, this.get('data.white_value'));
+		app.log("White:", level, this.get('data.white_value'));
 		this.set('data.white_value', +level).set('edit.white_value', +level);
 		var white_color = this.get_white_color();
-		// console.log("White:", white_color);
+		// app.log("White:", white_color);
 		this.set('data.primary_color', white_color);
 		//
 

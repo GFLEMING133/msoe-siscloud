@@ -206,14 +206,14 @@ app.model.neuron = Backbone.NestedModel.extend({
 		if (!data) {
 			return false;
 		} else if (data.is_saved == 'false') {
-			//console.log('hasnt been saved')
+			//app.log('hasnt been saved')
 			return true;
 		} else if (_.isEqual(this._last_save, data)) {
-			//console.log('we are the same');
+			//app.log('we are the same');
 			return false;
 		} else {
 			this._last_save = data;
-			//console.log('we are different');
+			//app.log('we are different');
 			return true;
 		}
 	},
@@ -248,7 +248,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 		app.collection.trigger('export', this);
 
 		app.collection.outgoing('set', this, function (cbb) {
-			//console.log("Outgoing set", cbb);
+			//app.log("Outgoing set", cbb);
 		});
 
 		this.after_save();
@@ -625,7 +625,7 @@ app.model.neuron = Backbone.NestedModel.extend({
 
         if (form_id && app.collection.exists(form_id)) {
 			var form	= app.collection.get(form_id);
-			//console.log("Form Init", this.id, form_id, form.toJSON());
+			//app.log("Form Init", this.id, form_id, form.toJSON());
 
 			// get reference form, sections & instance
 			this.set('form', form.attributes, { silent: true });
@@ -712,26 +712,26 @@ app.model.neuron = Backbone.NestedModel.extend({
             function cb(section_id) {
                 var next_response = responses[current_index + 1];
 
-				//console.log('NEXT SECTION', section_id)
+				//app.log('NEXT SECTION', section_id)
 
                 if (next_response && next_response.section_id !== section_id) {
-                    //console.log('we are showing the wrong section', responses.length, current_index);
+                    //app.log('we are showing the wrong section', responses.length, current_index);
                     for (var i = (responses.length - 1); i > current_index; i--) {
                         self.remove('responses[' + i + ']');
                     }
 					self.add_section(section_id);
                 } else if (next_response && next_response.section_id == section_id) {
-                    //console.log('we have the correct section.. lets check that logic', next_response);
+                    //app.log('we have the correct section.. lets check that logic', next_response);
                     check_sections(++current_index);
                 } else if (!next_response && section_id) {
-                    //console.log('we dont have the next section and need to add it');
+                    //app.log('we dont have the next section and need to add it');
 					self.add_section(section_id);
                 } else {
-                    //console.log('logic validates as is and we dont need to do anything');
+                    //app.log('logic validates as is and we dont need to do anything');
                 }
             }
 
-			//console.log('we enable form logic', enable_form_logic)
+			//app.log('we enable form logic', enable_form_logic)
 
 			if (enable_form_logic == 'false') {
 				var curr_form_section_index = form_sections.indexOf(response.section_id);
@@ -757,22 +757,22 @@ app.model.neuron = Backbone.NestedModel.extend({
 
                 if (!statement) {
                     // we have no matching statement.. Figure out something to do
-                    //console.log('we have no matching statement');
+                    //app.log('we have no matching statement');
                     return cb(null);
                 }
 
                 var value       = response[statement.question];
                 var truthy      = self.statement_analysis(statement, value);
 
-				//console.log('STATEMENT', statement, value, truthy);
+				//app.log('STATEMENT', statement, value, truthy);
 
                 if (truthy) {
                     // we have a valid statement
-                    //console.log('valid statement', statement, value);
+                    //app.log('valid statement', statement, value);
                     var next_section = statement.section;
                     return cb(next_section);
                 } else {
-                    //console.log('invalid statement', statement.value, value);
+                    //app.log('invalid statement', statement.value, value);
                     check_statement(++index);
                 }
             }
@@ -821,6 +821,6 @@ app.neuron = function(data) {
 	try {
 		return new app.model.neuron(data, { parse: true });
 	} catch (err) {
-		console.log(data, err)
+		app.log(data, err)
 	}
 }

@@ -115,7 +115,7 @@ if (window.location.href.indexOf('localhost') > -1) {
 		}
 
 		if (env != 'beta') {
-			console.log("Env:", env);
+			app.log("Env:", env);
 			app.config.env = env;
 			// app.config.envs.beta.base_url 		= app.config.envs[env].base_url;
 			// app.config.envs.beta.api_url 		= app.config.envs[env].api_url;
@@ -124,9 +124,9 @@ if (window.location.href.indexOf('localhost') > -1) {
 		}
 	}
 
-	// console.log('Second 1/2' + !app.config.envs[env])
+	// app.log('Second 1/2' + !app.config.envs[env])
 	if (env == 'beta' || !app.config.envs[env]) app.config.env = 'beta';
-	console.log("Env:", env);
+	app.log("Env:", env);
 }
 if (window.location.href.indexOf('.local') > -1)        app.config.env = 'sisbot';
 if (window.location.href.indexOf('192.168') > -1) 			app.config.env = 'sisbot';

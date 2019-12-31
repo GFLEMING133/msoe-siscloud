@@ -152,19 +152,19 @@ app.model.drawing = {
 
     if (!$el) return; // exit if not able to draw
     if (this.get('is_ready') == 'true') {
-      // console.log("Skip draw_preview");
+      // app.log("Skip draw_preview");
       return; // already drawn
     }
 
     // delay draw if library not loaded yet
     if (!window.hasOwnProperty('d3')) {
       return setTimeout(function() {
-        // console.log("Timeout Draw");
+        // app.log("Timeout Draw");
         self.draw_preview(data);
       }, 500);
     }
 
-    // console.log("Draw Preview", data);
+    // app.log("Draw Preview", data);
 
     if (this.get('el_id') != data.el_id) this.set('el_id', data.el_id);
 
@@ -265,7 +265,7 @@ app.model.drawing = {
     this.on('remove:paths', this._draw_paths);
   },
   _draw_preview: function(data) {
-    // console.log("_Draw Preview");
+    // app.log("_Draw Preview");
 
     var self = this;
     var $el = $('.drawing_preview');
@@ -291,7 +291,7 @@ app.model.drawing = {
     var current_x = 0; //this.get('drag_pos.current.x');
     var current_y = 0; //this.get('drag_pos.current.y');
 
-    // console.log("_Draw Preview: coords");
+    // app.log("_Draw Preview: coords");
 
     // draw to drawing_lines
     if (this.get('is_dragging') == 'true') {
@@ -329,10 +329,10 @@ app.model.drawing = {
       c_touch_end.attr("visibility", "hidden");
     }
 
-    // console.log("_Draw Preview: finished");
+    // app.log("_Draw Preview: finished");
   },
   _recreate_paths: function() {
-    // console.log("_recreate_paths()");
+    // app.log("_recreate_paths()");
     var self = this;
 
     // remake path.d's
@@ -350,7 +350,7 @@ app.model.drawing = {
 
     var paths = this.get('paths');
 
-    // console.log("Draw Paths", paths);
+    // app.log("Draw Paths", paths);
 
     var svg = d3.select($el[0]);
     var d3_data = this.get('d3_data');
@@ -373,7 +373,7 @@ app.model.drawing = {
           .attr("y2", mid);
       }
     } else { // fix start pos
-      // console.log("Start at padding");
+      // app.log("Start at padding");
       this.set('drag_pos.current.x',mid - (firstR * (mid - padding)));
     }
 
@@ -488,7 +488,7 @@ app.model.drawing = {
         .attr("stroke-width", 0);
     }
 
-    // console.log("Draw Paths", paths.length, multiply);
+    // app.log("Draw Paths", paths.length, multiply);
   },
   _make_path: function(coords) {
     var self = this;
@@ -502,7 +502,7 @@ app.model.drawing = {
         else path += 'L'+point[0]+' '+point[1];
       }
     });
-    // console.log("Path: ", self.get('smooth'), path);
+    // app.log("Path: ", self.get('smooth'), path);
 
     return path;
   },
@@ -565,7 +565,7 @@ app.model.drawing = {
     return [x1+w,y1+h];
   },
   start_drag: function(data) {
-    // console.log("Start Drag", data);
+    // app.log("Start Drag", data);
     var w = this.get('width');
     var padding = this.get('padding');
 
@@ -587,7 +587,7 @@ app.model.drawing = {
       this.set('is_dragging', 'true');
     } else return;
 
-    // console.log("Coords", this.get('drag_pos.current'));
+    // app.log("Coords", this.get('drag_pos.current'));
 
     // clear redo states
     this.set('redo_paths', []);
@@ -596,7 +596,7 @@ app.model.drawing = {
     // if (app.is_app) {
       if (!this.scroll_el) this.scroll_el = $('.scroll');
       var offset_scroll = this.scroll_el.scrollTop();
-      // console.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
+      // app.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
       this.set('drag_pos.start.y', this.get('drag_pos.start.y') - offset_scroll);
       this.set('drag_pos.offset.y', this.get('drag_pos.offset.y') - offset_scroll);
       this.scroll_el.scrollTop(0);
@@ -620,13 +620,13 @@ app.model.drawing = {
       // this._draw_paths();
       this._draw_preview({el_id: this.get('el_id')});
     } else {
-      // console.log("Start ", this.get('el_id'));
+      // app.log("Start ", this.get('el_id'));
     }
-    // console.log("Start Drag: finished");
+    // app.log("Start Drag: finished");
   },
   drag: function(data) {
     var self = this;
-    // console.log("Drag");
+    // app.log("Drag");
     if (this.get('is_dragging') == 'true') {
       var w = this.get('width');
       var h = this.get('height');
@@ -670,7 +670,7 @@ app.model.drawing = {
         // add to the coords?
         var change = Math.abs(rotation - r);
         if (change > this.max_r && d > this.min_dist) {
-          // console.log("Add Coords", change, this.get('drag_pos.current.x'), this.get('drag_pos.current.y'));
+          // app.log("Add Coords", change, this.get('drag_pos.current.x'), this.get('drag_pos.current.y'));
           var point = [this.get('drag_pos.current.x'), this.get('drag_pos.current.y')];
           this.add('coords', point);
 
@@ -789,7 +789,7 @@ app.model.drawing = {
     }
   },
   stop_drag: function(data) {
-    // console.log("Stop Drag", data);
+    // app.log("Stop Drag", data);
     if (this.get('is_dragging') == 'true') {
 
       // add last point
@@ -819,16 +819,16 @@ app.model.drawing = {
       // enable scrolling in app
       // if (app.is_app) {
         if (this.scroll_el) this.scroll_el.addClass('scroll');
-        else console.log("Scroll element lost!");
+        else app.log("Scroll element lost!");
       // }
 
       // draw smoothly
       d3.select($('.drawing_area')[0]).attr("shape-rendering", "optimizeSpeed");
 
-      // console.log("Add path", obj);
+      // app.log("Add path", obj);
 
       if (this.get('el_id') != 'false') this._draw_preview({el_id: this.get('el_id')});
-      else console.log("El_id lost!");
+      else app.log("El_id lost!");
     }
   },
   update_verts: function() {
@@ -867,7 +867,7 @@ app.model.drawing = {
 
       var polar_point = [new_th + th_offset, rho];
       this.add('edit.verts', polar_point);
-      // console.log("Point:", polar_point);
+      // app.log("Point:", polar_point);
 
       current_x = point[0];
       current_y = point[1];
@@ -879,7 +879,7 @@ app.model.drawing = {
   },
   undo: function() {
     var paths = this.get('paths');
-    // console.log("Undo", paths.length);
+    // app.log("Undo", paths.length);
 
     if (paths.length > 0) {
       // pop off last path
@@ -898,7 +898,7 @@ app.model.drawing = {
   },
   redo: function() {
     var paths = this.get('redo_paths');
-    // console.log("Redo", paths.length);
+    // app.log("Redo", paths.length);
 
     if (paths.length > 0) {
       // pop off last path
@@ -911,7 +911,7 @@ app.model.drawing = {
       // fix start_rho
       if (this.get('path_count') == 0) {
         var start = path.start;
-        // console.log("Fix Start Rho", start);
+        // app.log("Fix Start Rho", start);
         if (start.x == this.get('mid') && start.y == this.get('mid')) {
           // zero
         } else {
@@ -927,7 +927,7 @@ app.model.drawing = {
     }
   },
   clear: function() {
-    // console.log("Drawing clear");
+    // app.log("Drawing clear");
     this.set('paths', []);
     this.set('coords', []);
     this.set('edit.verts', []);
@@ -937,7 +937,7 @@ app.model.drawing = {
     this.set('drag_pos.current.x', +this.get('mid') - +this.get('edit.firstR') * (this.get('mid') - this.get('padding')));
     this.set('drag_pos.current.y', this.get('mid'));
 
-    // console.log('Current', this.get('drag_pos.current'))
+    // app.log('Current', this.get('drag_pos.current'))
 
     if (this.get('el_id') != 'false') {
       this._draw_preview({el_id: this.get('el_id')});
@@ -946,7 +946,7 @@ app.model.drawing = {
   },
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
-		// console.log("Drawing edit", this.get('edit'));
+		// app.log("Drawing edit", this.get('edit'));
 
 		return this;
 	},
@@ -955,7 +955,7 @@ app.model.drawing = {
     return this;
   },
   save: function () {
-    // console.log("Save Drawing", this.get('edit'));
+    // app.log("Save Drawing", this.get('edit'));
     var self = this;
 
     // save changes
@@ -987,13 +987,13 @@ app.model.drawing = {
 
     var point = [0,0];
 
-    // console.log("Settings", firstR, lastR, mirror, is_diff);
+    // app.log("Settings", firstR, lastR, mirror, is_diff);
 
     var index = 0;
     for(var i=0; i < length; i++) {
     	var value = index % length; // value for which multiplier around table to draw now
       var degrees = 360 / length * value;
-      // console.log("Draw:", value);
+      // app.log("Draw:", value);
 
       if (is_diff && i > 0) paths = paths.reverse();
 
@@ -1017,7 +1017,7 @@ app.model.drawing = {
           point[0] = Math.cos(new_r);
           point[1] = Math.sin(new_r);
 
-          // console.log("Arc to next", point[0]+', '+point[1]);
+          // app.log("Arc to next", point[0]+', '+point[1]);
           path_d += 'R'+point[0]+','+point[1];
         }
 
@@ -1217,9 +1217,9 @@ app.model.drawing = {
       point = [end_x, end_y];
       // TODO: change to curves!!
       path_d += 'L'+end_x+','+end_y;
-      // console.log("End Points", index, end_x, end_y, point);
+      // app.log("End Points", index, end_x, end_y, point);
 
-      // console.log("Path:", path_d);
+      // app.log("Path:", path_d);
       svg += '<path d="'+path_d+'"></path>';
 
     	index += skip;
@@ -1230,7 +1230,7 @@ app.model.drawing = {
     svg += '</svg>';
 
     // make track model and send to upload confirm page
-    // console.log("SVG", svg);
+    // app.log("SVG", svg);
     var track_obj = {
       name: 'My Drawing',
       type: 'track',
@@ -1241,9 +1241,9 @@ app.model.drawing = {
     // TODO: check for user, set created_by_name
     var community = app.session.get_model('community_id');
     if (community) {
-      // console.log("User:", community.get('data'));
+      // app.log("User:", community.get('data'));
     } else {
-      // console.log("No Community user connected");
+      // app.log("No Community user connected");
     }
 
     var track = app.collection.add(track_obj);
