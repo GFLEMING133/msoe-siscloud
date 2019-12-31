@@ -1969,18 +1969,16 @@ input[type="range"]::-ms-fill-upper {
 
 /******************MEDIA QUERIES*******************/
 
-/****************Galaxy S10 5G && Chrome Inspector!*****************/
+/**************** Galaxy S10 5G *****************/
 @media only screen
 and (min-width: 360px)
 and (max-width: 767px)
 and (orientation : portrait)
 	{
-
 	.app .scrollDown {
 		/* background-color: #fdc539; */
-		max-height: calc(100vh - 330px);
+		max-height: calc(100vh - 310px);
 	}
-
 }
 /**************iPhone SE Matts Phone**************/
 @media screen and (device-aspect-ratio: 40/71) {

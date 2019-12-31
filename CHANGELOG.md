@@ -22,6 +22,8 @@
  - Rescan button forces full rescan
  - Multiple table page spinners/buttons cleaned up
  - Socket won't reconnect while page/app in background, reconnects on moving to foreground
+ - Community dl modal is now scrollable.
+ - adjusted transition of sortby dropdown
  - Extend timeout for reconnecting to rebooting Pi, to prevent auto-connecting to a different table
  - Browser will refresh after firmware update (making sure user is on most recent cloud code)
 #2019-11-20 1.8.79
