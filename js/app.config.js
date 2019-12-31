@@ -1,7 +1,8 @@
 app.config = {
 	env						: 'prod',
-	version				:  '1.8.84', // read CHANGELOG
+	version				:  '1.8.85', // read CHANGELOG
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
+	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing
 	envs	: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app

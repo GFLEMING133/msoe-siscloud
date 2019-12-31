@@ -412,6 +412,8 @@ app.model.sisbot = {
 		var self = this;
 		// console.log("Sisbot: Socket Disconnect");
 
+		app.log('Sisbot: socket disconnect', this.get('data.reason_unavailable'));
+
 		// don't poll if document is in background
 		if (app.is_visible && this.get('is_polling') == "false") {
 			setTimeout(function() {
@@ -439,30 +441,38 @@ app.model.sisbot = {
 		var disconnect_length = moment().diff(this._poll_timer);
 		this.set('disconnect_length', disconnect_length);
 
-		if (this._retry_find && disconnect_length > 20000) { // extended to catch the fallback to hotspot
+		if (this.get('data.reason_unavailable') != 'rebooting' && app.manager.get('did_update') == 'false' && this._retry_find && disconnect_length > 20000) { // extended to catch the fallback to hotspot
+			app.log("Poll Failure, find_sisbots()", disconnect_length, this.get('data.reason_unavailable'));
 			app.manager.find_sisbots(); // Try to find any tables again
 
 			this._retry_find = false; // don't bother more than once
 		}
 
-		if ((this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') && disconnect_length > 60000) {
-			this._poll_failure_stop();
-		} else if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
-			// do nothing.. We haven't timed out
-		} else if (this.is_legacy() == true && disconnect_length > 10000) {
-			this._poll_failure_stop();
-		} else if (this.is_legacy() == false && disconnect_length > app.config.disconnect_timeout_to_stop_polling) {
-			if (this.get('is_socket_connected') == 'true') {
-				// we have polling from old requests that have timed out after socket reconnected. Ignore
-			} else {
+		if (this.get('data.reason_unavailable') == 'rebooting' || this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
+			// extended stop timeout in this case
+			if (disconnect_length > app.config.extended_timeout_to_stop_polling) {
+				app.log("Extended Stop polling", disconnect_length, this.get('data.reason_unavailable'));
 				this._poll_failure_stop();
+			}
+		} else { // shorter timeout otherwise
+			if (this.get('data.installing_updates') == 'true' || this.get('data.wifi_forget') == 'true' || this.get('data.factory_resetting') == 'true') {
+				// do nothing.. We haven't timed out
+			} else if (this.is_legacy() == true && disconnect_length > 10000) {
+				this._poll_failure_stop();
+			} else if (this.is_legacy() == false && disconnect_length > app.config.disconnect_timeout_to_stop_polling) {
+				if (this.get('is_socket_connected') == 'true') {
+					// we have polling from old requests that have timed out after socket reconnected. Ignore
+				} else {
+					app.log("Stop polling", disconnect_length, this.get('data.reason_unavailable'));
+					this._poll_failure_stop();
+				}
 			}
 		}
 
 		return this;
 	},
 	_poll_failure_stop: function () {
-		// console.log("_poll_failure_stop()");
+		app.log("_poll_failure_stop()");
 		if (this._poll_then_reset_bool == true) {
 			window.location.reload();
 		}
@@ -787,8 +797,7 @@ app.model.sisbot = {
 	},
 	install_updates: function () {
 		console.log("install_updates()");
-		if (this.get('data.installing_updates') == 'true')
-			return this;
+		if (this.get('data.installing_updates') == 'true') return this;
 
 		var self = this;
 
@@ -798,6 +807,8 @@ app.model.sisbot = {
 			if (obj.err) {
 				self.set('data.installing_updates_error', 'There was an error updating your Sisbot');
 			} else if (obj.resp) {
+				app.log("Install Updates resp:", obj.resp);
+				app.manager.set('did_update', 'true');
 				app.manager.intake_data(obj.resp);
 			}
 		});
@@ -808,11 +819,8 @@ app.model.sisbot = {
 		console.log("install_updates_change()");
 		var status = this.get('data.installing_updates');
 
-		if (status == 'false') {
-			app.manager.set('show_software_update_page', 'false');
-		} else {
-			app.manager.set('show_software_update_page', 'true');
-		}
+		if (status == 'false') app.manager.set('show_software_update_page', 'false');
+		else app.manager.set('show_software_update_page', 'true');
 	},
 	check_force_onboarding: function () {
 		console.log("check_force_onboarding()");
@@ -888,7 +896,7 @@ app.model.sisbot = {
 	},
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
-		console.log("Sisbot edit", this.get('edit'));
+		app.log("Sisbot edit", this.get('edit'));
 
 		return this;
 	},

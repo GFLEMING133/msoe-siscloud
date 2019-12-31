@@ -101,6 +101,7 @@ app.socket = {
 		app.trigger("socket:error", err);
   },
   on_set: function(data) {
+		// app.log('Socket: set', data);
 		app.manager.intake_data(data);
   },
   on_erase: function(data) {
