@@ -1,7 +1,8 @@
 <div class="h100">
   <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
     <div class="w15 center clickable active blue-hover" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'community','secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />&nbsp;</div>
-    <div class="w70">
+    <div class="w70"
+        tg-name="community_sign_up_page">
       <h1 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong truncate">Sign Up</h1>
     </div>
     <div class="w15 pt20 center f-large">&nbsp;</div>
@@ -23,27 +24,35 @@
 
           <h4 class="pt10 pb10 no-stuffing strong">User Name</h4>
           <div class="pb10">
-            <input class="w100" type="text" placeholder="user name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.username" value="{{= model.registration.username }}" />
+            <input class="w100" type="text" placeholder="user name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.username" value="{{= model.registration.username }}" tg-name="community_input_username" />
           </div>
           <h4 class="pt10 pb10 no-stuffing strong">Email</h4>
           <div class="pb10">
-            <input class="w100" type="text" placeholder="your_email@address.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.email" value="{{= model.registration.email }}" />
+            <input class="w100" type="text" placeholder="your_email@address.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.email" value="{{= model.registration.email }}" tg-name="community_input_email" />
           </div>
           <h4 class="pt10 pb10 no-stuffing strong">Password<span class="fs12 i">&nbsp;(at least 6 characters long)</span></h4>
           <div class="pb10">
-            <input class="w100" type="password" placeholder="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.password" value="{{= model.registration.password }}" />
+            <input class="w100" type="password" placeholder="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.password" value="{{= model.registration.password }}" tg-name="community_input_password" />
           </div>
           <h4 class="pt10 pb10 no-stuffing strong">Verify Password</h4>
           <div class="pb10">
-            <input class="w100" type="password" placeholder="verify-password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.password_confirmation" value="{{= model.registration.password_confirmation }}" />
+            <input class="w100" type="password" placeholder="verify-password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.password_confirmation" value="{{= model.registration.password_confirmation }}" tg-name="community_input_password_confirmation" />
           </div>
 
-          <h2 class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong" data-on-click="model.sign_up">SIGN UP</h2>
+          <h2 class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong" 
+            data-on-click="model.sign_up"
+            tg-name="community_sign_up_btn">SIGN UP</h2>
           <h2 class="btn bg-green w100 m0 p10 corner-5px uppercase fs17 strong i" data-if="{{= model.signing_up }} == true">Processing <i class="fas fa-spinner spin" aria-hidden="true"></i></h2>
 
           <br clear="both">
 
-          <div class="pt30 pb50 fs18 lh24 clickable active center" data-on-click="publish" data-publish="session:active" data-msg="{'primary':'community','secondary':'sign_in'}">Already have an account? <br /> <a class="blue-l pr5">Sign In</a>
+          <div class="pt30 pb50 fs18 lh24 clickable active center" 
+              data-on-click="publish" 
+              data-publish="session:active" 
+              data-msg="{'primary':'community','secondary':'sign_in'}"
+              tg-name="already_have_an_account?">Already have an account? 
+              <br/> 
+              <a class="blue-l pr5">Sign In</a>
           </div>
         </div>
       </div>

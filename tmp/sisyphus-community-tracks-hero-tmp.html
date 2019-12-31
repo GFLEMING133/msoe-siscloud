@@ -3,7 +3,8 @@
     <div class="w15 left pl20 clickable active"
       data-on-click="publish"
       data-publish="session:active"
-      data-msg="{'secondary':'community-tracks'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+      data-msg="{'secondary':'community-tracks'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15"
+      tg-name="community_track_hero_page" /></div>
     <div class="w70">
       <h1 class="no-stuffing fs18 strong communityTrack capitalize truncate">View Track</h1>
     </div>
@@ -30,7 +31,8 @@
             data-model="{{= session.active.track_id}}"
             data-on-click="model.download_wc"
             data-msg="{{= model.data.track_id }}"
-            data-if="{{= model.community_track_downloaded}} == false">
+            data-if="{{= model.community_track_downloaded}} == false"
+            tg-name="community_hero_download_cloud">
             <i class=" grey fs26 fas fa-cloud-download-alt"></i>
         </div>
       </div>

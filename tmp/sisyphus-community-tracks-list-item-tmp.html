@@ -1,6 +1,7 @@
 <div class="h100" data-run="model.collapse">
   <div  data-if="{{= model.downloading_community_track }} == false">
-    <div class="flex clickable active pb10 bb {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}">
+    <div class="flex clickable active pb10 bb {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
+          tg-name="community_track_container_{{= model.id }}_div">
       <div class="w20 pt10 pb10 pl20 center vertical "
           data-on-click="publish"
           data-publish="session:toggle"
@@ -45,7 +46,7 @@
           data-on-click="publish"
           data-publish="session:active"
           data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
-          tg-name="community_track_hero"><img src="img/icon_2x_trackdropdown_expand.png"
+          tg-name="community_track_hero_expand"><img src="img/icon_2x_trackdropdown_expand.png"
             alt="Expand"
             class="hh20" /></div>
     </div>
