@@ -55,7 +55,7 @@ app.model.playlist = {
 		}
 	},
 	after_save: function () {
-		console.log("Playlist: After save");
+		app.log("Playlist: After save");
 		app.trigger('sisbot:playlist_add', this);
 		// if (this.get('data.is_published') == 'true') this.publish();
 	},
@@ -115,7 +115,7 @@ app.model.playlist = {
 		app.trigger('sisbot:update_playlist', data);
 	},
 	play: function (track_index) {
-		console.log("Play Playlist:", track_index);
+		app.log("Play Playlist:", track_index);
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
 		var data= JSON.parse(JSON.stringify(this.get('data')));
@@ -172,7 +172,7 @@ app.model.playlist = {
 		this.set('data.name', this.get('edit.name'));
 		let self = this;
 		let playlist_name = this.get('data.name');
-		console.log(playlist_name);
+		app.log(playlist_name);
 			if(playlist_name == ""){
 			 app.plugins.n.notification.confirm("You did not enter a Playlist Name, are you sure you want to save?",
 			 function(resp_num) {
@@ -230,7 +230,7 @@ app.model.playlist = {
 	},
 	move_array: function (field, old_index, new_index) {
 		field = field.replace(/^(model|parents?\[[0-9]+\]?|parent|grandparent|g_grandparent|g_g_grandparent)\.?/i, '');
-		// console.log('Move Array', this.id, field, old_index, new_index);
+		// app.log('Move Array', this.id, field, old_index, new_index);
 		var val		= this.get(field);
 		var length	= val.length;
 		var opt		= val.splice(old_index, 1);
@@ -241,9 +241,9 @@ app.model.playlist = {
 		// this.trigger('change:' + field);
 	},
 	add_track_and_save: function(track_id) {
-		console.log(track_id);
+		app.log(track_id);
 		var track = app.collection.get(track_id);
-		console.log(track);
+		app.log(track);
 		var track_obj = {
 			id		: track_id,
 			vel		: track.get('data.default_vel'),

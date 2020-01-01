@@ -169,6 +169,15 @@ function _regenerate_index_page() {
 	});
 	fs.writeFileSync(config.dir + '/prod/gen.js', all.join(''));
 
+	// TODO: make list of all templates (for preloading)
+	var files  = fs.readdirSync(config.dir + '/tmp', 'utf-8');
+	var templates = [];
+	_.each(files, function(filename) {
+		templates.push(filename.replace(/.html$/i, ''));
+	});
+	// console.log("Templates:", JSON.stringify(templates));
+	fs.writeFileSync(config.dir + '/prod/templates.js', 'app.tmps='+JSON.stringify(templates)+';');
+
 	var index_tmp	= _.template(index_page);
 	var new_index   = index_tmp({
 	    base_url			: config.dir,

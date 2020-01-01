@@ -19,9 +19,9 @@ app.model.modal = {
     this.listenTo(app, 'modal:close', this.close);
   },
   open: function(data) {
-    console.log('data',data);
+    app.log('data',data);
     var template = this.get('template');
-    
+
     if (template != data.template) {
       this.set('template', data.template);
     }

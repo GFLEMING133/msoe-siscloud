@@ -1,6 +1,5 @@
 var config = {
-	  version				:'1.8.85', // Socket won't reconnect while in background, reconnects on move to foreground
-
+	  version				:'1.8.85', // read CHANGELOG
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

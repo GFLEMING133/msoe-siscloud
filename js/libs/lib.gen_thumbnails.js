@@ -5,7 +5,7 @@ function draw_thumbnail(raw_data) {
   var percent = 1;
   if (raw_data.percent) percent = raw_data.percent / 100;
 
-  // console.log('raw points', raw_data);
+  // app.log('raw points', raw_data);
 
   var w = +raw_data.dimensions,
     h = +raw_data.dimensions,
@@ -48,11 +48,11 @@ function draw_thumbnail(raw_data) {
 
   var line = d3.radialLine()
     .radius(function(d, i) {
-      // console.log('radius', d);
+      // app.log('radius', d);
       return d.x * (w / 2 - stroke_edge_width / 2);
     })
     .angle(function(d) {
-      // console.log('angle', d);
+      // app.log('angle', d);
       return d.y;
     })
     .curve(d3.curveMonotoneX); //curveCatmullRom
@@ -60,11 +60,11 @@ function draw_thumbnail(raw_data) {
 
   var two_line = d3.radialLine()
     .radius(function(d, i) {
-      // console.log('radius', d);
+      // app.log('radius', d);
       return d.x * (w / 2 - stroke_edge_width / 2);
     })
     .angle(function(d) {
-      // console.log('angle', d);
+      // app.log('angle', d);
       return d.y;
     })
     .curve(d3.curveMonotoneX); //curveCatmullRom
@@ -87,7 +87,7 @@ function draw_thumbnail(raw_data) {
       .attr("fill", d3_data.background);
   }
 
-  // console.log("Background", d3_data.background);
+  // app.log("Background", d3_data.background);
 
   function convert_verts_to_d3(data) {
     var return_value = [];
@@ -111,7 +111,7 @@ function draw_thumbnail(raw_data) {
     });
 
     // reduce point count, if needed
-    // console.log("Given Points: ", return_value.length);
+    // app.log("Given Points: ", return_value.length);
     if (return_value.length > max_points) {
       var total_count = return_value.length;
       var remove_every = Math.ceil(1 / (max_points / return_value.length));
@@ -123,27 +123,27 @@ function draw_thumbnail(raw_data) {
     // force first/last rho
     var first_point = return_value[0];
     if (first_point.x != 0 && first_point.x != 1) {
-      console.log("Fix Start Point", first_point);
+      app.log("Fix Start Point", first_point);
       return_value.unshift({y:first_point.y, x: Math.round(first_point.x)});
     }
     var last_point = return_value[return_value.length-1];
     if (last_point.x != 0 && last_point.x != 1) {
-      console.log("Fix Last Point", last_point);
+      app.log("Fix Last Point", last_point);
       return_value.push({y:last_point.y, x:Math.round(last_point.x)});
     }
 
-    // console.log("Total Points: ", return_value.length);
+    // app.log("Total Points: ", return_value.length);
 
     return return_value;
   };
 
   var points = convert_verts_to_d3(raw_points);
 
-  // console.log("Point count: ", points.length);
+  // app.log("Point count: ", points.length);
   // reduce points to the percent given
   if (percent < 1) {
     points.length = Math.ceil(points.length * percent);
-    // console.log("Reduced Points: ", points.length);
+    // app.log("Reduced Points: ", points.length);
   }
 
   var interpolated_points = [];
@@ -168,7 +168,7 @@ function draw_thumbnail(raw_data) {
     }
   });
 
-  //console.log("D3 Model: ", self.model.id, interpolated_points.length, self.model.get("d3_data.stroke"), self.model.get("d3_data.stroke_width"));
+  //app.log("D3 Model: ", self.model.id, interpolated_points.length, self.model.get("d3_data.stroke"), self.model.get("d3_data.stroke_width"));
 
   var last_points = [];
   var point_count = Math.max(1, d3_data.retrace_steps);
@@ -250,7 +250,7 @@ function show_thumbnail(raw_data) {
       if (raw_data.percent >= 100) {
         raw_data.percent = 100;
         clearInterval(drawInterval);
-        console.log("!! Drawing Complete");
+        app.log("!! Drawing Complete");
       }
       draw_thumbnail(raw_data);
       i++;
@@ -281,10 +281,10 @@ $(document).ready(function() {
 
   // if it has data-id, request the file from sisbot
   if (raw_data.id && app.plugins.is_uuid(raw_data.id)) {
-    console.log("UUID found:", raw_data.id, app.config.get_sisbot_url()+'/sisbot/get_track_verts');
+    app.log("UUID found:", raw_data.id, app.config.get_sisbot_url()+'/sisbot/get_track_verts');
     // get_track_verts
     app.post.fetch({_type: 'POST', endpoint:'/sisbot/get_track_verts', data: {id: raw_data.id}}, function(obj) {
-      console.log("Track verts from Pi: ", obj);
+      app.log("Track verts from Pi: ", obj);
       if (obj.err) return alert(obj.err);
       raw_data.coors = obj.resp;
 

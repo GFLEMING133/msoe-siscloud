@@ -43,9 +43,9 @@ function setup_cordova() {
 		// TESTING: Siri shortcuts
 		if (app.is_app && app.platform == 'iOS') {
 			cordova.plugins.SiriShortcuts.getActivatedShortcut({}, function(data) {
-				console.log("Run Siri Shortcut", JSON.stringify(data));
+				app.log("Run Siri Shortcut", JSON.stringify(data));
 			}, function(err) {
-				console.log("Run Siri Shortcut Error", JSON.stringify(err));
+				app.log("Run Siri Shortcut Error", JSON.stringify(err));
 			});
 		}
 	});
@@ -74,12 +74,12 @@ function on_visibility() {
 }
 
 function on_active() {
-	console.log("App Active", app.platform);
+	app.log("App Active", app.platform);
 	check_siri();
 }
 
 function on_resume() {
-	console.log("App Resumed", app.platform);
+	app.log("App Resumed", app.platform);
 	check_siri();
 
 	// rescan for sisbots?
@@ -89,42 +89,42 @@ function on_resume() {
 		var reason_unavailable = sisbot.get('data.reason_unavailable');
 
 		if (reason_unavailable != 'false') {
-			console.log("Resume: find trigger");
+			app.log("Resume: find trigger");
 			app.manager.find_sisbots(); // trigger rescan
 		}
 	} else {
-		console.log("Resume: No Sisbot find trigger");
+		app.log("Resume: No Sisbot find trigger");
 		app.manager.find_sisbots(); // trigger rescan
 	}
 }
 
 function check_siri() {
-	console.log("Check for Siri Shortcut");
+	app.log("Check for Siri Shortcut");
 	// TESTING: Siri shortcuts
 	if (app.is_app && app.platform == 'iOS') {
 		cordova.plugins.SiriShortcuts.getActivatedShortcut({clear:true}, function(data) {
-			console.log("Siri Shortcut:", JSON.stringify(data));
+			app.log("Siri Shortcut:", JSON.stringify(data));
 			if (data && data.userInfo) {
 				var shortcut_data = data.userInfo;
 				if (shortcut_data.model && shortcut_data.action) {
 					var model = app.collection.get(shortcut_data.model);
 					if (model && _.isFunction(model[shortcut_data.action])) {
-						console.log("Siri Call Action:", shortcut_data.model, shortcut_data.action, shortcut_data.msg);
+						app.log("Siri Call Action:", shortcut_data.model, shortcut_data.action, shortcut_data.msg);
 						if (shortcut_data.msg) model[shortcut_data.action](shortcut_data.msg);
 						else model[shortcut_data.action]();
 					} else {
-						console.log("Siri Shortcut Error: "+shortcut_data.model+" not found");
+						app.log("Siri Shortcut Error: "+shortcut_data.model+" not found");
 					}
 				}
 			}
 		}, function(err) {
-			console.log("Get Siri Shortcut Error", JSON.stringify(err));
+			app.log("Get Siri Shortcut Error", JSON.stringify(err));
 		});
 	}
 }
 
 function status_tap() {
-	console.log("Status Tapped", $('.scroll').length);
+	app.log("Status Tapped", $('.scroll').length);
   // scroll to top, but first, remove -webkit-overflow-scrolling: touch (doesn't work reliably)
 	$('.scroll').addClass('auto-scroll').removeClass('scroll').stop().animate({scrollTop: 0}, 'normal', function() {
 		$('.auto-scroll').addClass('scroll').removeClass('auto-scroll');
