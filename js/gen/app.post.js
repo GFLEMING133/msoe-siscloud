@@ -10,7 +10,7 @@ app.post = {
     var url = data._url || app.config.get_sisbot_url();
     var timeout = 30000;
 
-    // console.log("Fetch: "+url+", "+data.endpoint);
+    // app.log("Fetch: "+url+", "+data.endpoint);
 
     if (data.endpoint) url += data.endpoint;
     if (data._timeout) timeout = data._timeout;
@@ -35,7 +35,7 @@ app.post = {
         withCredentials: false
       },
       success: function(data) {
-        // console.log("POST success", url, data);
+        // app.log("POST success", url, data);
         try {
           data = JSON.parse(data);
         } catch (err) {}
@@ -45,7 +45,7 @@ app.post = {
       },
       error: function(resp) {
         if (retry_count <= 0) {
-          console.log("POST Error:", url, resp.statusText);
+          app.log("POST Error:", url, resp.statusText);
           if (cb) cb({
             err: 'Could not make request',
             resp: null
@@ -77,10 +77,10 @@ app.post = {
     var req_data = {
       data: JSON.stringify(data)
     };
-    //  console.log('FETCH2 reg_data' + "" + JSON.stringify(req_data));
+    //  app.log('FETCH2 reg_data' + "" + JSON.stringify(req_data));
     // if (app.current_user()) req_data = app.current_user().get('data');
     var auth_token = app.session.get('auth_token');
-    //  console.log('Auth_TOKEN in the APP.POST.JS', auth_token);
+    //  app.log('Auth_TOKEN in the APP.POST.JS', auth_token);
     var obj = {
       url: url,
       type: type,
@@ -95,10 +95,10 @@ app.post = {
               app.session.set('auth_token', data.resp[0].auth_token);
             }
           }
-          //console.log('NEXT_TOKEN ==', xhr.getResponseHeader('NEXT-TOKEN'));
-          //console.log('TOKEN set to -', data.resp[0].auth_token)
+          //app.log('NEXT_TOKEN ==', xhr.getResponseHeader('NEXT-TOKEN'));
+          //app.log('TOKEN set to -', data.resp[0].auth_token)
         } catch (err) {
-          console.log('Error in the catch fetch2() =', err);
+          app.log('Error in the catch fetch2() =', err);
         }
 
         if (_.isFunction(cb))
@@ -107,7 +107,7 @@ app.post = {
           app.trigger(cb, data);
       },
       error: function(resp) {
-        // console.log('fetch2 resp error = ', resp.statusText);
+        // app.log('fetch2 resp error = ', resp.statusText);
         if (retry_count <= 0) {
           if (cb) cb({
             err: resp.statusText,

@@ -3,8 +3,12 @@ var app = {
 	plugins		: {},
 	model		: {},
 	collection	: {},
+	tmps		: [],
 	view		: {},
 	tour		: {},
+	is_production: false, // disallow all console logs
+	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
+	simulator_ip: '192.168.86.1', // force a specific network address in simulator
 	is_visible: true,
 	mouse_is_down: false,
 	count		: 0,
@@ -63,10 +67,31 @@ var app = {
 		return app.session.get_model('user_id');
 	},
 	log: function () {
-		// TODO: don't output any logs if production
+		if (app.is_production) return; // don't output any logs if production
+
+		// output logs in setting friendly format (with timestamp)
 		if (app.is_app) {
+			var fixed_args = [...arguments];
+
+			_.each(fixed_args, function(obj, index) {
+				if (_.isObject(obj)) {
+					if (obj.attributes != undefined && _.isObject(obj.attributes)) fixed_args[index] = JSON.stringify(obj.attributes);
+					else {
+						// make sure not cyclical
+						var keys = _.keys(obj);
+						var return_obj = {};
+						_.each(keys, function(key) {
+							if (_.isString(obj[key]) || _.isNumber(obj[key]) || _.isBoolean(obj[key] || _.isDate(obj[key]))) {
+								return_obj[key] = obj[key];
+							}
+						});
+						fixed_args[index] = JSON.stringify(return_obj);
+					}
+				}
+			});
+
 			// TODO: stringify object values, so app can output them
-			console.log([...arguments].join(', '));
+			console.log(moment().format('H:mm:ss.SSS'), fixed_args.join(', '));
 		} else console.log(moment().format('H:mm:ss.SSS'), ...arguments);
 	},
 	setup_error_listener: function () {

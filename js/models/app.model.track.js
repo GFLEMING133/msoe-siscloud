@@ -98,13 +98,13 @@ app.model.track = {
 	},
 	/**************************** D3 RENDERING ***********************************/
 	load_d3_data: function() {
-		console.log("Load D3 Data", this.id);
+		app.log("Load D3 Data", this.id);
 		var self = this;
 		self.set("d3_data.loaded", "false");
 		app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
 			var points = self._convert_verts_to_d3(verts);
 
-			// console.log("Points:", points);
+			// app.log("Points:", points);
 			self.set("d3_data.points", points);
 			self.set("d3_data.loaded", "true");
 		});
@@ -140,14 +140,14 @@ app.model.track = {
 			sisbot.pause();
 			this.set('table_was_playing', 'true');
 
-			console.log("Wait longer for pause to finish");
+			app.log("Wait longer for pause to finish");
 			setTimeout(function() {
 				self.set('generating_thumbnails', 'false');
 				self.get_thumbnail();
 			}, 4000);
 		} else {
 			// send generate message to sisbot to create thumbnail
-			console.log("Get Thumbnail", this.get('data.name'));
+			app.log("Get Thumbnail", this.get('data.name'));
 
 			var data = { id: 'preview', dimensions: 400 };
 			var original_type = this.get('data.original_file_type');
@@ -166,11 +166,11 @@ app.model.track = {
 			// send to sisbot
 			app.post.fetch(post_data, function exists_cb(obj) {
 				self.set('generating_thumbnails', 'false');
-				console.log( 'thumbnail response',obj);
+				app.log( 'thumbnail response',obj);
 				if (obj.err) {
 					app.plugins.n.notification.alert(obj.err)
 				} else {
-					console.log('Thumbnail generated');
+					app.log('Thumbnail generated');
 					if (self.get('table_was_playing') == 'true') {
 						sisbot.play();
 						self.set('table_was_playing', 'false');
@@ -204,7 +204,7 @@ app.model.track = {
 		app.manager.get_model('sisbot_id').track_remove(this);
 	},
 	on_file_upload: function (data, file, field) {
-		console.log("On File Upload:", data, file, field);
+		app.log("On File Upload:", data, file, field);
     if ( /\.(svg|thr)$/i.test(file.name)) { // regex for allowed filetypes
 			this.upload_verts_to_cloud(data);
 		}
@@ -288,7 +288,7 @@ app.model.track = {
 		// 	this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
 		// }
 
-		// console.log("Track data to save:", JSON.stringify(this.get('data')));
+		// app.log("Track data to save:", JSON.stringify(this.get('data')));
 
 		app.collection.add(this);
 		app.trigger('sisbot:track_add', this);
@@ -303,7 +303,7 @@ app.model.track = {
 	},
 	set_steps: function (value) {
 		if (value != this.get('steps')) {
-			console.log("Set steps", this.get('edit_steps'), value);
+			app.log("Set steps", this.get('edit_steps'), value);
 			this.set('steps', +value).set('edit_steps', +value);
 		}
 	},
@@ -320,7 +320,7 @@ app.model.track = {
 		}
 	},
 	process_svg: function(file_data) {
-		// console.log("Process svg", file_data);
+		// app.log("Process svg", file_data);
 		var self			= this;
 
 		// verts stores the file data
@@ -336,7 +336,7 @@ app.model.track = {
 		_.each(pathElements, function(pathEl) {
 			var path = pathEl.attributes.getNamedItem("d").value;
 			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvAaZzR])/); // any letter
-			// console.log("Commands:", commands);
+			// app.log("Commands:", commands);
 
 			// save so we can loop this object (z|Z)
 			var is_first_point = true;
@@ -351,7 +351,7 @@ app.model.track = {
 				var points_string = entry.substring(1).trim();
 				var data = points_string.match(/([-]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g);
 
-				// console.log(entry, command, data);
+				// app.log(entry, command, data);
 
 				// trim extras, convert to numbers (if any)
 				if (data) {
@@ -362,7 +362,7 @@ app.model.track = {
 
 				switch (command) {
 					case 'R':
-						// console.log("Sisyphus arc, don't subdivide", data);
+						// app.log("Sisyphus arc, don't subdivide", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
@@ -373,10 +373,10 @@ app.model.track = {
 									verts.push([data[i],data[i+1]]);
 								}
 							}
-						} else console.log("Error, wrong number of Start points");
+						} else app.log("Error, wrong number of Start points");
 						break;
 					case 'M':
-						// console.log("Move", data);
+						// app.log("Move", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
@@ -387,7 +387,7 @@ app.model.track = {
 										var p0 = verts[verts.length-1];
 										var p1 = first_point;
 										for (var j=1; j<=steps; j++) {
-											// console.log("fM ", p0, p1);
+											// app.log("fM ", p0, p1);
 											var point = self._calculate_linear_point(j/steps, p0, p1);
 											verts.push(point);
 										}
@@ -396,16 +396,16 @@ app.model.track = {
 									var p0 = verts[verts.length-1];
 									var p1 = [data[i],data[i+1]];
 									for (var j=1; j<=steps; j++) {
-										// console.log("M ", p0, p1);
+										// app.log("M ", p0, p1);
 										var point = self._calculate_linear_point(j/steps, p0, p1);
 										verts.push(point);
 									}
 								}
 							}
-						} else console.log("Error, wrong number of Start points");
+						} else app.log("Error, wrong number of Start points");
 						break;
 					case 'm':
-						// console.log("move", data);
+						// app.log("move", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
@@ -432,10 +432,10 @@ app.model.track = {
 								}
 							}
 						}
-						else console.log("Error, wrong number of start points");
+						else app.log("Error, wrong number of start points");
 						break;
 					case 'L':
-						// console.log("Line", data);
+						// app.log("Line", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
 								var p0 = verts[verts.length-1];
@@ -445,10 +445,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong number of Line points");
+						} else app.log("Error, wrong number of Line points");
 						break;
 					case 'l':
-						// console.log("line", data);
+						// app.log("line", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
 								var p0 = verts[verts.length-1];
@@ -458,10 +458,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong number of line points");
+						} else app.log("Error, wrong number of line points");
 						break;
 					case 'H':
-						// console.log("Horizontal", data);
+						// app.log("Horizontal", data);
 						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
 							var p1 = [data[i],p0[1]];
@@ -472,7 +472,7 @@ app.model.track = {
 						}
 						break;
 					case 'h':
-						// console.log("horizontal", data);
+						// app.log("horizontal", data);
 						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
 							var p1 = [p0[0]+data[i],p0[1]];
@@ -483,7 +483,7 @@ app.model.track = {
 						}
 						break;
 					case 'V':
-						// console.log("Vertical", data);
+						// app.log("Vertical", data);
 						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
 							var p1 = [p0[0],data[i]];
@@ -494,7 +494,7 @@ app.model.track = {
 						}
 						break;
 					case 'v':
-						// console.log("vertical", data);
+						// app.log("vertical", data);
 						for (var i = 0; i < data.length; i++) {
 							var p0 = verts[verts.length-1];
 							var p1 = [p0[0],p0[1]+data[i]];
@@ -505,7 +505,7 @@ app.model.track = {
 						}
 						break;
 					case 'C':
-						// console.log("Curve", data);
+						// app.log("Curve", data);
 						if (data.length % 6 == 0) {
 							for (var i = 0; i < data.length; i += 6) {
 								var p0 = verts[verts.length-1];
@@ -519,10 +519,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of Curve points", data.length, data);
+						} else app.log("Error, wrong amount of Curve points", data.length, data);
 						break;
 					case 'c':
-						// console.log("curve", data);
+						// app.log("curve", data);
 						if (data.length % 6 == 0) {
 							for (var i = 0; i < data.length; i+=6) {
 								var p0 = verts[verts.length-1];
@@ -536,10 +536,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of curve points", data.length, data);
+						} else app.log("Error, wrong amount of curve points", data.length, data);
 						break;
 					case 'S':
-						// console.log("Shortcut", data, prev_command);
+						// app.log("Shortcut", data, prev_command);
 						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length-1];
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i+=4) {
@@ -554,10 +554,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of Shortcut Curve points", data.length, data);
+						} else app.log("Error, wrong amount of Shortcut Curve points", data.length, data);
 						break;
 					case 's':
-						// console.log("shortcut", data, prev_command);
+						// app.log("shortcut", data, prev_command);
 						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length-1];
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i+=4) {
@@ -572,10 +572,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of shortcut curve points", data.length, data);
+						} else app.log("Error, wrong amount of shortcut curve points", data.length, data);
 						break;
 					case 'Q':
-						// console.log("Quadratic", data, first_point);
+						// app.log("Quadratic", data, first_point);
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i += 4) {
 								var p0 = verts[verts.length-1];
@@ -589,11 +589,11 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of Quadratic points", data.length, data);
+						} else app.log("Error, wrong amount of Quadratic points", data.length, data);
 						break;
 						break;
 					case 'q':
-						// console.log("quadratic", data, first_point);
+						// app.log("quadratic", data, first_point);
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i+=4) {
 								var p0 = verts[verts.length-1];
@@ -607,10 +607,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of quadratic points", data.length, data);
+						} else app.log("Error, wrong amount of quadratic points", data.length, data);
 						break;
 					case 'T':
-						// console.log("T", data, first_point);
+						// app.log("T", data, first_point);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i+=2) {
 								var p0 = verts[verts.length-1];
@@ -624,10 +624,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of T Curve points", data.length, data);
+						} else app.log("Error, wrong amount of T Curve points", data.length, data);
 						break;
 					case 't':
-						// console.log("t", data, first_point);
+						// app.log("t", data, first_point);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i+=2) {
 								var p0 = verts[verts.length-1];
@@ -641,10 +641,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong amount of t curve points", data.length, data);
+						} else app.log("Error, wrong amount of t curve points", data.length, data);
 						break;
 					case 'A':
-						// console.log("Arc", data);
+						// app.log("Arc", data);
 						if (data.length % 7 == 0) {
 							for (var i = 0; i < data.length; i+=7) {
 								var rx = data[i];
@@ -660,10 +660,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong number of Arc points");
+						} else app.log("Error, wrong number of Arc points");
 						break;
 					case 'a':
-						// console.log("arc", data);
+						// app.log("arc", data);
 						if (data.length % 7 == 0) {
 							for (var i = 0; i < data.length; i+=7) {
 								var rx = data[i];
@@ -679,10 +679,10 @@ app.model.track = {
 									verts.push(point);
 								}
 							}
-						} else console.log("Error, wrong number of arc points");
+						} else app.log("Error, wrong number of arc points");
 						break;
 					case 'Z':
-						// console.log("Close", data, first_point);
+						// app.log("Close", data, first_point);
 						var p0 = verts[verts.length-1];
 						var p1 = first_point;
 						for (var j=1; j<=steps; j++) {
@@ -692,7 +692,7 @@ app.model.track = {
 						is_first_point = true; // reset to true for closing
 						break;
 					case 'z':
-						// console.log("close", data, first_point);
+						// app.log("close", data, first_point);
 						var p0 = verts[verts.length-1];
 						var p1 = first_point;
 						for (var j=1; j<=steps; j++) {
@@ -702,7 +702,7 @@ app.model.track = {
 						is_first_point = true; // reset to true for closing
 						break;
 					default:
-						console.log("Unknown command", command);
+						app.log("Unknown command", command);
 						break;
 				}
 
@@ -720,7 +720,7 @@ app.model.track = {
 				point[1] = point[1] - min_max[1] - half_y;
 			});
 		}
-		// console.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
+		// app.log("Centered Verts", JSON.parse(JSON.stringify(verts)));
 
 		// convert to polar
 		var th_offset = 0;
@@ -733,10 +733,10 @@ app.model.track = {
 			// if (Math.abs(new_th) == pi) new_th = 0;
 			if (new_th - last_th > pi) {
 				th_offset -= loop_th;
-				// console.log("- Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
+				// app.log("- Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
 			} else if (new_th - last_th < -pi) {
 				th_offset += loop_th;
-				// console.log("+ Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
+				// app.log("+ Point Th", point[0], ":", new_th, "-", last_th, "=", th_offset);
 			}
 			point[0] = new_th + th_offset; // th
 			point[1] = rho; // rho
@@ -984,8 +984,8 @@ app.model.track = {
 	},
 	goBackFromHero: function() {
 		var active = app.session.get('active');
-		console.log("I made it to Hero");
-		console.log('goBack =', active.goBack);
+		app.log("I made it to Hero");
+		app.log('goBack =', active.goBack);
 		if (active.goBack == 'playlist'){
 			app.trigger('session:active', {  secondary: 'playlist' });
 		}else{
@@ -1058,7 +1058,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				console.log(self.get('data.name') +" "+ track_id);
+				app.log(self.get('data.name') +" "+ track_id);
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
@@ -1109,12 +1109,12 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err) {
-				console.log(self.get('data.name') +" "+ track_id);
-				console.log('obj.err', obj.err );
+				app.log(self.get('data.name') +" "+ track_id);
+				app.log('obj.err', obj.err );
 				app.trigger('modal:close');
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
-				console.log('track : download response = ', self.id);
+				app.log('track : download response = ', self.id);
 
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
@@ -1131,7 +1131,7 @@ app.model.track = {
 				// let track_id = JSON.stringify(self.id); //pulling id
 				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 
-				console.log("Downloaded ID:", self.id, self.get('data'));
+				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
 
 				self.set('downloading_community_track', 'false');

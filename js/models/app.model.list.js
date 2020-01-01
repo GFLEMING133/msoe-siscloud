@@ -23,7 +23,7 @@ app.model.list = {
   scrolling: false, // in conjunction with scroll_timout, are we waiting for a timeout to finish?
   current_version: 1,
   on_init: function() {
-    console.log("on_init() in app.model.list", this.id);
+    app.log("on_init() in app.model.list", this.id);
 
     this.on('change:offset', this.scrollTop);
 
@@ -34,7 +34,7 @@ app.model.list = {
     return this;
   },
   reset_params: function() {
-    console.log("List: Reset limit", this.defaults({id: this.id}).limit);
+    app.log("List: Reset limit", this.defaults({id: this.id}).limit);
     this.set('limit', this.defaults({id: this.id}).limit);
   },
   scroll_top: function() {
@@ -48,7 +48,7 @@ app.model.list = {
           var limit = +self.get('limit');
           var limit_step = +self.get('limit_step');
           if (self.get('total') > limit) {
-            console.log("List: Load More...", data, limit+limit_step);
+            app.log("List: Load More...", data, limit+limit_step);
             self.set('limit', limit+limit_step);
           }
         }

@@ -20,8 +20,7 @@ app.base.collection = Backbone.Collection.extend({
 		return (model) ? true : false;
 	},
 	add: function (models, options) {
-		if (models == null)
-			return this;
+		if (models == null) return this;
 
 		this.merge_existing(models);
 		options = _.extend({}, options, { parse: true });

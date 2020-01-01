@@ -71,13 +71,13 @@ app.socket = {
 
     self.socket.emit('register', { id: sisbot_id });
 
-		console.log("Socket: reconnection ", this.socket.io.reconnection());
+		app.log("Socket: reconnection ", this.socket.io.reconnection());
 		this.reset_socket = false;
 	},
 	set_reconnection: function(value) {
 		if (_.isBoolean(value)) this.socket.io.reconnection(value);
-		console.log("Socket: reconnection ", this.socket.io.reconnection());
-		console.log("Socket: is_connected", this.socket.connected, this.socket.disconnected);
+		app.log("Socket: reconnection ", this.socket.io.reconnection());
+		app.log("Socket: is_connected", this.socket.connected, this.socket.disconnected);
 	},
   on_connect: function(socket) {
     app.log('Socket: connect');
@@ -101,6 +101,7 @@ app.socket = {
 		app.trigger("socket:error", err);
   },
   on_set: function(data) {
+		// app.log('Socket: set', data);
 		app.manager.intake_data(data);
   },
   on_erase: function(data) {
