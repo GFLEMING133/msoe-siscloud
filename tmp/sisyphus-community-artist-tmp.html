@@ -1,63 +1,74 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="pull-top bg-black bb">
     <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
-       <div class="w25">
+      <div class="w25 left pl20 clickable active blue-hover"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'community','secondary':'false'}">
+        <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
+      </div>
+      <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist</h1></div>
+      <div class="w25 center f-large">
         <div class="clickable blue-hover"
-             data-on-click="model.sign_out_community"
-             tg-name="sign_out_community_btn">
+            data-on-click="model.sign_out_community"
+            tg-name="sign_out_community_btn">
           <i class="fas fa-sign-out-alt"></i>
           <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
         </div>
       </div>
-      <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist</h1></div>
-      <div class="w25 center f-large">&nbsp;</div>
     </div>
-
+<!-- END HEADER -->
     <div class="browse-feature bg-greyer hh185">
       <p class="p20 center white fs17 less_strong">{{= model.data.created_by_name }}</p>
       <div class="download-all-btn strong fs17 blue-hover">Download All</div>
     </div>
-    <div class="flex p20 bg-white w100">
-      <div class="strong fs18 pt5">All Tracks</div>
-      <div class="flex1end pr5" 
-            tg-name="download_cloud_header">
-        <div class="pointer-none pr10 pb2" data-if="{{= model.download_cloud }} == false">
-          <i class="pointer-none grey-lt pl10 fs24 fas fa-cloud-download-alt"></i>
+
+    <div class="flex p20 w100 bg-white">
+      <div>
+        <input type="text" placeholder=" &#xf002;" class="search-bar b-greyer">
+      </div>
+      <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
+      data-field="model.hamburger"
+      data-on-click="toggle">
+      <div class="bar1 bg-greyer"></div>
+      <div class="bar2 bg-greyer"></div>
+      <div class="bar3 bg-greyer"></div>
+      </div>
+
+      <div class="overlay" data-if="{{= model.hamburger }} == true">
+        <div class="pull-bottom overlay-container">
+          <div class="filter-container flex-column">
+            <h2 class="center white fs18">Filter</h2>
+            <ul class="flex-column">
+              <li class="pt10 pb10 fs17 white less_strong">All Tracks     <i class="fas fa-check pull-right pr10p white"></i></li>      
+              <li class="pt10 pb10 fs17 white less_strong">Downloaded     <i class="fas fa-check pull-right pr10p white"></i></li>
+              <li class="pt10 pb10 fs17 white less_strong">Not Downloaded <i class="fas fa-check pull-right pr10p white"></i></li>
+            </ul>
+          </div>
+          <div class="sort-by-container">
+            <h2 class="center white fs17">Sort By</h2>
+              <ul class="flex-column">
+                <li class="pt10 pb10 fs17 white less_strong">Most Popular     <i class="fas fa-check pull-right pr10p white"></i></li>
+                <li class="pt10 pb10 fs17 white less_strong">Newest to Oldest <i class="fas fa-check pull-right pr10p white"></i></li> 
+                <li class="pt10 pb10 fs17 white less_strong">Oldest to Newest <i class="fas fa-check pull-right pr10p white"></i></li>  
+              </ul>
+          </div>
+          <div class="center bt-white white mt50 p20 fs18 strong blue-hover"
+              data-field="model.hamburger"
+              data-on-click="toggle">
+              Close
+          </div>
         </div>
-        <div class="clickable pr10 pb2" 
+      </div>
+      <div class="flex-end-center" 
+          tg-name="download_cloud_header">
+        <div class="clickable active"  
             data-if="{{= model.download_cloud }} == true"  
             data-on-click="model.download_wc">
-          <i class=" black pl10 fs24 fas fa-cloud-download-alt"></i>
+            <i class="greyer blue-hover fs24 fas fa-cloud-download-alt"></i>
         </div>
-        <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}}" 
-            data-field="model.hamburger"
-            data-on-click="toggle">
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
-        </div>
-        <div class="overlay pt60p" data-if="{{= model.hamburger }} == true">
-            <div class="filter-container flex-column">
-              <h2 class="center white fs18">Filter</h2>
-              <ul class="flex-column">
-                <li class="pt10 pb10 fs17 white less_strong">All Tracks     <i class="fas fa-check pull-right pr10p white"></i></li>      
-                <li class="pt10 pb10 fs17 white less_strong">Downloaded     <i class="fas fa-check pull-right pr10p white"></i></li>
-                <li class="pt10 pb10 fs17 white less_strong">Not Downloaded <i class="fas fa-check pull-right pr10p white"></i></li>
-              </ul>
-            </div>
-            <div class="sort-by-container">
-              <h2 class="center white fs17">Sort By</h2>
-                <ul class="flex-column">
-                  <li class="pt10 pb10 fs17 white less_strong">Most Popular     <i class="fas fa-check pull-right pr10p white"></i></li>
-                  <li class="pt10 pb10 fs17 white less_strong">Newest to Oldest <i class="fas fa-check pull-right pr10p white"></i></li> 
-                  <li class="pt10 pb10 fs17 white less_strong">Oldest to Newest <i class="fas fa-check pull-right pr10p white"></i></li>  
-                </ul>
-            </div>
-            <div class="center bt-white white mt40p p20 fs18 strong blue-hover"
-                data-field="model.hamburger"
-                data-on-click="toggle">
-                Close
-            </div>
+        <div class="pointer-none" data-if="{{= model.download_cloud }} == false">
+          <i class="pointer-none grey-lt fs24 fas fa-cloud-download-alt"></i>
         </div>
       </div>
     </div>

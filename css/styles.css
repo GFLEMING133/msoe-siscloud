@@ -213,6 +213,10 @@ label {
 	cursor 					: pointer; /* Add a pointer on hover */
 	color: #000000;
 }
+.overlay-container {
+	max-width: 375px;
+	margin: 0 auto;
+}
 .overlay_margin {
   margin-bottom: 50vh;
 
@@ -590,22 +594,24 @@ body > .container > .row {	/* remove if you want a bottom bar */
  }
 
 .hamburger-container {
-  display: inline-block;
-  cursor: pointer;
+	padding-left: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	cursor: pointer;
 }
 
 .bar1, .bar2, .bar3 {
 	width: 25px;
 	height: 2px;
-	margin: 5px 0;
-  transition: 1s ease all;
+	margin: 3px 0;
 }
 
-.change-burger .bar1 {opacity: 0;}
+.change-burger .bar1 {opacity: 0.5;}
 
-.change-burger .bar2 {opacity: 0;}
+.change-burger .bar2 {opacity: 0.5;}
 
-.change-burger .bar3 {opacity: 0;}
+.change-burger .bar3 {opacity: 0.5;}
 
 .feature-box {
 	font-family: 'Montserrat-Medium', sans-serif;
@@ -784,6 +790,11 @@ li.blue-hover:hover {
 	flex 						: 1;
 	justify-content : flex-end;
 	align-items 		: flex-end;
+}
+.flex-end-center {
+	display         : flex;
+	justify-content : flex-end;
+	align-items 		: center;
 }
 .flex-justify-center {
 	display 				: flex;
@@ -1353,7 +1364,7 @@ select:focus {
 .black 											{	color		: #333    !important; }
 .blue-l 										{	color		: #22AEFF !important;	}
 .blue, .blue-hover:hover		{	color		: #11b2fb !important; }
-.bluer											{	color		: #11b2fb !important;	}
+.bluer											{	color		: #2c697f  !important;	}
 .orange											{	color		: #F4AE3D !important;	}
 .green											{	color		: #32B150 !important;	}
 .red									  		{	color		: #d0021b !important;	}
@@ -1362,6 +1373,7 @@ select:focus {
 .grey-lt										{	color		: #dcdcdc !important;	}
 .grey-l-hover:hover					{	color		: #acacac !important; }
 .grey									  		{	color		: #838383 !important;	}
+.greyer									  	{	color		: #888888 !important;	}
 .grey-d								  		{	color		: #292929 !important;	}
 .warmGrey										{	color		: #9b9b9b !important;	}
 .warmRed							  		{	color 	: #990033 !important;	}
@@ -1523,7 +1535,9 @@ select:focus {
 
 /**************************** BORDERS *****************************************/
 
-.b										{	border						: 1px solid #efefef;	}
+.b										{	border						: 1px solid #efefef !important;	}
+.b-bluer 							{ border 						: 1px solid #2c697f !important;	}
+.b-greyer 						{ border 						: 1px solid #888888 !important;	}
 .bb-dcdc							{ border-bottom			: 1px solid #dcdcdc !important;	}
 .bt										{	border-top				: 1px solid #efefef !important;	}
 .bt-dcdc 							{ border-top				: 1px solid #dcdcdc !important;	}
@@ -1884,6 +1898,12 @@ input[type="range"]::-ms-fill-lower {
 }
 input[type="range"]::-ms-fill-upper {
   background-color: #efefef;
+}
+input[type="text"] {
+	font-family: "Font Awesome 5 Free";
+	font-size: 1em;
+	font-weight: 900;
+	border-radius: 20px;
 }
 
 

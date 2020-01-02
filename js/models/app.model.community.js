@@ -24,7 +24,7 @@ app.model.community = {
       limit_step    : 30,
       fetching_more : 'false',
 
-      hamburger : 'false',
+      hamburger     : 'false',
 
       data: {
         id      : data.id,
