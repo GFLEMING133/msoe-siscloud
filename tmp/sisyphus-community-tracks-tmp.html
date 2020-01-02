@@ -12,10 +12,16 @@
       <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
       <div class="w25 center f-large">&nbsp;</div>
     </div>
-    <div class="flex pt10 pr5 pb10 pl5 bg-black w100">
-      <div class="flex1center white strong pr5 uppercase fs12">Sort By</div>
 
-        <div class="sortBy-drop-actions" 
+    <div class="browse-feature bg-g-blue hh185">
+      <p class="p20 center white fs17 less_strong">These are our favorite new tracks created by artists in the Sisyphus Community.</p>
+      <div class="download-all-btn strong fs17">Download All</div>
+    </div>
+
+    <div class="flex p20 bg-white w100">
+      <div class="strong fs18 pt5">All Tracks</div>
+
+        <!-- <div class="sortBy-drop-actions" 
             data-on-click="model.openSort"
             tg-name="open_sort">
           <div class="p5 flex strong white uppercase">
@@ -25,15 +31,25 @@
                 <i class="SortDown fas fa-sort-down fa-2x"></i>
             </div>
           </div>
-        </div>
-      <div class="flex1center clickable" data-on-click="model.download_wc"
+        </div> -->
+      <div class="flex1end" 
             tg-name="download_cloud_header">
-        <div class="clickable " data-if="{{= model.download_cloud }} == true">
-          <i class=" white pl10 fs24 fas fa-cloud-download-alt"></i>
+        <div class="pointer-none pr10 pb2" data-if="{{= model.download_cloud }} == false">
+          <i class="pointer-none grey-l pl10 fs24 fas fa-cloud-download-alt"></i>
+        </div>
+        <div class="clickable pr10 pb2" 
+            data-if="{{= model.download_cloud }} == true"  
+            data-on-click="model.download_wc">
+          <i class=" black pl10 fs24 fas fa-cloud-download-alt"></i>
+        </div>
+        <div class="hamburger-container" data-on-click="model.openHamburger">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
         </div>
       </div>
     </div>
-    <div class="sortBy-container-contents">
+    <!-- <div class="sortBy-container-contents">
       <ul class="flex-column p10 fs14">
         <li class="clickable mb10"
             data-on-click="model.sort_function"
@@ -66,7 +82,7 @@
           <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
         </div>
       </ul>
-    </div>
+    </div> -->
   </div>
 
   <div class="body-header h100 pb160 scroll hide-scrollbar"
@@ -78,7 +94,7 @@
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
-    <div class="mt60" data-if="{{= model.fetching_community_tracks }} == false">
+    <div class="mt65p" data-if="{{= model.fetching_community_tracks }} == false">
       <div data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"
