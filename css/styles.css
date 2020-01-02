@@ -408,7 +408,7 @@ label {
 	overflow-x 									: auto;
 	-webkit-overflow-scrolling 	: auto !important;
   min-width 									: 100%;
-	min-height 									: 200px;
+	min-height 									: 100%;
 }
 .auto-scroll {
     overflow-y 									: scroll;
@@ -623,7 +623,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	padding: 8%;
 	height: 50%;
 	margin: 0px 2%;
-	
+
 }
 /* -----------SORT BY DROP DOWN----------------------------  */
 
