@@ -24,6 +24,8 @@ app.model.community = {
       limit_step    : 30,
       fetching_more : 'false',
 
+      hamburger : 'false',
+
       data: {
         id      : data.id,
         type    : 'community',
@@ -214,7 +216,12 @@ app.model.community = {
       });
     }
   },
-
+  openHamburger: function(x) {
+    this.set('hamburger', 'true');
+    debugger;
+    console.log("X", x)
+    x.classList.toggle("change");
+  },
   new_playlist: function() {
     app.manager.playlist_create({
       track_ids: this.get('downloaded_tracks')

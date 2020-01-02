@@ -18,7 +18,7 @@
       <div class="download-all-btn strong fs17">Download All</div>
     </div>
 
-    <div class="flex p20 bg-white w100">
+    <div class="inline-block p20 bg-white w100">
       <div class="strong fs18 pt5">All Tracks</div>
 
         <!-- <div class="sortBy-drop-actions" 
@@ -42,7 +42,9 @@
             data-on-click="model.download_wc">
           <i class=" black pl10 fs24 fas fa-cloud-download-alt"></i>
         </div>
-        <div class="hamburger-container" data-on-click="model.openHamburger">
+        <div class="{{= (model.hamburger == 'true') ? 'change-burger hamburger-container' : 'hamburger-container'}}" 
+            data-field="model.hamburger"
+            data-on-click="toggle">
           <div class="bar1"></div>
           <div class="bar2"></div>
           <div class="bar3"></div>
