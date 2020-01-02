@@ -1,16 +1,21 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="pull-top bg-black bb">
     <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
-       <div class="w25">
+      <div class="w25 clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'primary':'community','secondary':'false'}">
+        <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
+      </div>
+      <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
+      <div class="w25 center f-large">
         <div class="clickable blue-hover"
-             data-on-click="model.sign_out_community"
-             tg-name="sign_out_community_btn">
+            data-on-click="model.sign_out_community"
+            tg-name="sign_out_community_btn">
           <i class="fas fa-sign-out-alt"></i>
           <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
         </div>
       </div>
-      <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
-      <div class="w25 center f-large">&nbsp;</div>
     </div>
 
     <div class="browse-feature bg-g-blue hh185">
@@ -19,18 +24,6 @@
     </div>
     <div class="flex p20 bg-white w100">
       <div class="strong fs18 pt5">All Tracks</div>
-
-        <!-- <div class="sortBy-drop-actions" 
-            data-on-click="model.openSort"
-            tg-name="open_sort">
-          <div class="p5 flex strong white uppercase">
-            <div class="pl10 flex1start">{{= model.track_sort}}</div>
-            <div class="relative">
-                <i class="SortUp fas fa-sort-up fa-2x"></i>
-                <i class="SortDown fas fa-sort-down fa-2x"></i>
-            </div>
-          </div>
-        </div> -->
       <div class="flex1end pr5" 
             tg-name="download_cloud_header">
         <div class="pointer-none pr10 pb2" data-if="{{= model.download_cloud }} == false">

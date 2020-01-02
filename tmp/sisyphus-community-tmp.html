@@ -18,20 +18,15 @@
   <div class="h100" data-if="{{= parent.signed_in }} == true">
 
     <div class="h100"
-    data-if="{{= parent.active.secondary }} == false"
-    data-template="sisyphus-community-browse-tmp"></div>
-
-    <div class="h100"
-        data-if="{{= parent.active.secondary }} == tracks"
-        data-template="sisyphus-community-tracks-tmp"></div>
-
+        data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-browse-tmp"></div>
     <div class="h100"
         data-if="{{= parent.active.secondary }} == new-favorites"
-        data-template="sisyphus-community-tracks-tmp"></div>
+        data-template="sisyphus-community-new-favorites-tmp"></div>
 
     <div class="h100"
         data-if="{{= parent.active.secondary }} == artist"
-        data-template="sisyphus-community-tracks-tmp"></div>
+        data-template="sisyphus-community-artist-tmp"></div>
 
     <div class="h100"
         data-if="{{= parent.active.secondary }} == community-tracks"

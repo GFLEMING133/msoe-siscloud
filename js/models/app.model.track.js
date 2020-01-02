@@ -1135,7 +1135,7 @@ app.model.track = {
 				app.trigger('sisbot:track_add', self);
 
 				self.set('downloading_community_track', 'false');
-
+				
 				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
 				app.trigger('session:active', { secondary: 'false', primary: 'community' });

@@ -149,13 +149,14 @@ app.model.community = {
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
-      self.openSort();
+      // self.openSort();
       self.set('community_track_ids', new_track_ids);
       self.set('offset', 0);
       self.set('fetched_community_tracks', 'true');
       // app.log('new_track_ids', obj.resp);
       self.set('fetching_community_tracks', 'false');
       self.set('sorting', 'false');
+      app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
     }
 
     // this.fetch_community_tracks();
@@ -195,6 +196,7 @@ app.model.community = {
 
     if (numberOfTracks > 0) {
       this.set('download_cloud', 'false');
+
       var track_model = app.collection.get(track_list[numberOfTracks - 1]);
       if(track_model) track_model.download_wc(true);
     }
@@ -249,6 +251,8 @@ app.model.community = {
      let sisbot = app.manager.get_model('sisbot_id');
      let downloaded_tracks = this.get('downloaded_tracks');
      _.each(downloaded_tracks, function(i) {
+       var track = app.collection.get(i);
+       track.set('community_track_downloaded', 'false')
         sisbot.remove('data.track_ids', i);
         self.add('selected_tracks', i);
      });

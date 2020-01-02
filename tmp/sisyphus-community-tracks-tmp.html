@@ -12,15 +12,9 @@
       <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
       <div class="w25 center f-large">&nbsp;</div>
     </div>
-
-    <div class="browse-feature bg-g-blue hh185">
-      <p class="p20 center white fs17 less_strong">These are our favorite new tracks created by artists in the Sisyphus Community.</p>
-      <div class="download-all-btn strong fs17 blue-hover">Download All</div>
-    </div>
-    <div class="flex p20 bg-white w100">
-      <div class="strong fs18 pt5">All Tracks</div>
-
-        <!-- <div class="sortBy-drop-actions" 
+    <div class="flex p20 w100">
+      <div class="strong  pt10 pr10 white">Sort By</div>
+       <div class="sortBy-drop-actions" 
             data-on-click="model.openSort"
             tg-name="open_sort">
           <div class="p5 flex strong white uppercase">
@@ -30,25 +24,26 @@
                 <i class="SortDown fas fa-sort-down fa-2x"></i>
             </div>
           </div>
-        </div> -->
+        </div>
       <div class="flex1end pr5" 
             tg-name="download_cloud_header">
         <div class="pointer-none pr10 pb2" data-if="{{= model.download_cloud }} == false">
-          <i class="pointer-none grey-lt pl10 fs24 fas fa-cloud-download-alt"></i>
+          <i class="pointer-none pl10 fs24 fas fa-cloud-download-alt"></i>
         </div>
         <div class="clickable pr10 pb2" 
             data-if="{{= model.download_cloud }} == true"  
             data-on-click="model.download_wc">
-          <i class=" black pl10 fs24 fas fa-cloud-download-alt"></i>
+          <i class=" white pl10 fs24 fas fa-cloud-download-alt"></i>
         </div>
         <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}}" 
             data-field="model.hamburger"
             data-on-click="toggle">
-          <div class="bar1"></div>
-          <div class="bar2"></div>
-          <div class="bar3"></div>
+          <div class="bar1 bg-white"></div>
+          <div class="bar2 bg-white"></div>
+          <div class="bar3 bg-white"></div>
         </div>
-        <div class="overlay pt60p" data-if="{{= model.hamburger }} == true">
+        <div class="overlay" data-if="{{= model.hamburger }} == true">
+          <div class="pull-bottom">
             <div class="filter-container flex-column">
               <h2 class="center white fs18">Filter</h2>
               <ul class="flex-column">
@@ -65,15 +60,16 @@
                   <li class="pt10 pb10 fs17 white less_strong">Oldest to Newest <i class="fas fa-check pull-right pr10p white"></i></li>  
                 </ul>
             </div>
-            <div class="center bt-white white mt40p p20 fs18 strong blue-hover"
+            <div class="center bt-white white mt50 p20 fs18 strong blue-hover"
                 data-field="model.hamburger"
                 data-on-click="toggle">
                 Close
             </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- <div class="sortBy-container-contents">
+    <div class="sortBy-container-contents">
       <ul class="flex-column p10 fs14">
         <li class="clickable mb10"
             data-on-click="model.sort_function"
@@ -81,32 +77,38 @@
             data-publish="session:active"
             data-msg="most popular"
             tg-name="most_popular_sort">
-            <div class="white strong blue-hover">MOST POPULAR</div></li>
+            <div class="white strong blue-hover uppercase">MOST POPULAR</div></li>
             <li class="clickable mb10"
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="newest designs"
             tg-name="newest_design_sort">
-          <div class="white strong blue-hover">NEWEST DESIGNS</div></li>
+          <div class="white strong blue-hover uppercase">NEWEST DESIGNS</div></li>
         <li class="clickable mb10"
             data-on-click="model.sort_function"
             data-on-click="publish"
             data-msg="name"
             tg-name="name_sort">
-          <div class="white strong blue-hover">NAME</div></li>
-        <li class="clickable"
-            data-on-click="model.sort_function"
+          <div class="white strong blue-hover uppercase">NAME</div></li>
+        <li class="clickable mb10"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="artist"
             tg-name="artist_sort">
-          <div class="white strong blue-hover">ARTIST</div></li>
+          <div class="white strong blue-hover uppercase">ARTIST</div></li>
+        <!-- <li class="clickable mb10"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+            tg-name="artist_sort">
+        <div class="white strong blue-hover uppercase">BROWSE</div></li> -->
+      
         <div data-if="{{= model.sorting }} == true">
           <div class="mb10 white" data-template="spinner-bounce-tmp"></div>
         </div>
       </ul>
-    </div> -->
+    </div>
   </div>
 
   <div class="body-header h100 pb160 scroll hide-scrollbar"
@@ -118,7 +120,7 @@
       <div class="p20 center i">Fetching tracks...</div>
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
-    <div class="mt65p" data-if="{{= model.fetching_community_tracks }} == false">
+    <div class="mt75" data-if="{{= model.fetching_community_tracks }} == false">
       <div data-if="{{= _.size(model.community_track_ids) }} > 0"
           data-foreach="model.community_track_ids"
           data-foreach-map="true"

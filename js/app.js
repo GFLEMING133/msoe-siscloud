@@ -8,7 +8,7 @@ var app = {
 	tour		: {},
 	is_production: false, // disallow all console logs
 	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
-	simulator_ip: '192.168.86.1', // force a specific network address in simulator
+	simulator_ip: '192.168.0.19', // force a specific network address in simulator
 	is_visible: true,
 	mouse_is_down: false,
 	count		: 0,
