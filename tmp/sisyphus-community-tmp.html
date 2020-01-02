@@ -16,8 +16,21 @@
   </div>
 
   <div class="h100" data-if="{{= parent.signed_in }} == true">
+
+    <!-- <div class="h100"
+    data-if="{{= parent.active.secondary }} == false"
+    data-template="sisyphus-community-browse"></div> -->
+
     <div class="h100"
         data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-tracks-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == new-favorites"
+        data-template="sisyphus-community-tracks-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == artist"
         data-template="sisyphus-community-tracks-tmp"></div>
 
     <div class="h100"

@@ -1367,6 +1367,7 @@ select:focus {
 .bg-d-grey								{	background-color		: #292929 !important;	}
 .bg-m-grey								{	background-color		: #555 	  !important;	}
 .bg-grey									{	background-color		: #838383 !important;	}
+.bg-greyer								{	background-color		: #888888 !important;	}
 .bg-grey-l								{	background-color		: #9b9b9b !important;	}
 .bg-grey-lt								{	background-color		: #dcdcdc !important;	}
 .bg-grey-ll								{	background-color		: #e7e7e7 !important;	}
