@@ -402,7 +402,13 @@ label {
 	max-height: 230px;
 	border-radius: 15px;
   border: 1px solid #11b2fb;
-
+}
+.scroll-boX {
+	display 										: flex;
+	overflow-x 									: auto;
+	-webkit-overflow-scrolling 	: auto !important;
+  min-width 									: 100%;
+	min-height 									: 200px;
 }
 .auto-scroll {
     overflow-y 									: scroll;
@@ -587,7 +593,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	font-weight: 600;
  }
 
- .hamburger-container {
+.hamburger-container {
   display: inline-block;
   cursor: pointer;
 }
@@ -605,6 +611,20 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .change-burger .bar2 {opacity: 0;}
 
 .change-burger .bar3 {opacity: 0;}
+
+.feature-box {
+	font-family: 'Montserrat-Medium', sans-serif;
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	display: flex;
+	border: 1px solid;
+	border-radius: 5px;
+	padding: 8%;
+	height: 50%;
+	margin: 0px 2%;
+	
+}
 /* -----------SORT BY DROP DOWN----------------------------  */
 
 
@@ -1357,10 +1377,13 @@ select:focus {
 .bg-black 								{	background-color		: #000000 !important; }
 .bg-yellow 								{	background-color		: #FDDA75 !important;	}
 .bg-red 									{	background-color		: #990033 !important;	}
+.bg-holiday								{ background-color 		: #a70a0a !important	; }
 .bg-white 								{	background-color		: #ffffff !important;	}
+.bg-bluer									{	background-color		: #11b2fb !important;	}
 .bg-d-blue 								{	background-color		: #0F72AB !important;	}
 .bg-g-blue 								{	background-color		: #2c697f !important;	}
 .bg-blue, .bg-blue-hover:hover  {	background-color		: #11b2fb !important;	}
+.bg-purple								{ background-color 		: #63338f !important;	}
 .bg-orange								{	background-color		: #F4AE3D !important;	}
 .bg-green									{	background-color		: #32B150 !important;	}
 .bg-dd-grey								{	background-color		: #222222 !important;	}
