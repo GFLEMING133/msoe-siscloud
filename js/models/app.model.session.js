@@ -323,7 +323,7 @@ app.model.session = {
 
             self._process_sign_in(user_data, obj.resp);
 
-            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
+            app.trigger('session:active', {  'primary': 'community', 'secondary': 'false' });
         };
 
         user_data.endpoint  = 'auth_user';

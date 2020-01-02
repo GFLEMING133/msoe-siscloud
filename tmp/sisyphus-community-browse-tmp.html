@@ -1,0 +1,58 @@
+<div class="h100">
+  <div class="h100" data-if="{{= parent.active.secondary }} == false">
+    <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
+      <div class="w15 center f-large">&nbsp;</div>
+      <div class="w70">
+        <h1 class="no-stuffing capitalize truncate fs18 lh24">Browse</h1>
+      </div>
+      <div class="w15 center f-large">&nbsp;</div>
+    </div>
+    <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="browse_page">
+
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'tracks'}"
+          tg-name="most_popular_tab">
+        <span>
+          <span class="montserrat_semi_bold">Most Popular</span>
+        </span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'newest'}"
+          tg-name="newest_tab">
+        <span class="montserrat_semi_bold">Newest</span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':''}"
+          tg-name="sisyphus_originals_tab">
+        <span class="montserrat_semi_bold">Sisyphus Originals</span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'new-artist'}"
+          tg-name="new_artist_tab">
+        <span class="montserrat_semi_bold">New Artist</span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+      <div class="hh150">&nbsp;</div>
+    </div>
+  </div>
+
