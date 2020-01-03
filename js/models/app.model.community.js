@@ -205,41 +205,9 @@ app.model.community = {
   sort_function: function(sort_params) {
     var self = this;
 
-    this.set('sorting', 'true')
-      .set('track_sort', sort_params)
-      .set('fetching_community_tracks', 'true');
+    this.set('track_sort', sort_params);
 
-    var tracks = {
-      _url: app.config.get_webcenter_url(),
-      _type: 'GET',
-      endpoint: 'tracks.json?sort='+sort_params,
-      data: {}
-    };
-    app.log("Sort community tracks", tracks);
-
-    function cb(obj) {
-      if (obj.err) return self;
-
-      app.collection.add(obj.resp);
-
-      var resp_track_ids = _.pluck(obj.resp, 'id');
-      var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
-      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
-
-      // self.openSort();
-      self.set('community_track_ids', new_track_ids);
-      self.set('offset', 0);
-      self.set('fetched_community_tracks', 'true');
-      // app.log('new_track_ids', obj.resp);
-      self.set('fetching_community_tracks', 'false');
-      self.set('sorting', 'false');
-      app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
-    }
-
-    // this.fetch_community_tracks();
-    app.post.fetch2(tracks, cb, 0);
-
-    return this;
+    app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
   },
   //Actions drop down menu
   openSort: function() {
