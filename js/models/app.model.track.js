@@ -16,7 +16,7 @@ app.model.track = {
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
 			track_checked										: 'false',
-			is_community_track							: 'false',
+			is_community										: 'false',
 
 			is_favorite							:'false',
 
@@ -1136,6 +1136,7 @@ app.model.track = {
 				app.trigger('sisbot:track_add', self);
 
 				self.set('downloading_community_track', 'false');
+				self.set('is_community', 'false');
 				
 				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 

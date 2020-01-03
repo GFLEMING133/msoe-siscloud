@@ -65,6 +65,7 @@ app.model.sisbot = {
 			log_file						: 'false', // currently selected for download
 			log_files						: [],
 			uploading_track			: 'false',
+			regenerating_thumbnails: 'false',
 
 			wait_for_send				: 'false', // don't send request before hearing response
 
@@ -115,6 +116,7 @@ app.model.sisbot = {
 				active_playlist_id	: 'false',
 				active_track_id			: 'false',
 				active_track				: 'false',
+				thumbnail_queue_length	: 0,	// how many thumbnails are waiting to be generated
 
 				current_time		: 0,					// seconds
 
@@ -532,7 +534,7 @@ app.model.sisbot = {
 
 		return this;
 	},
-	/**************************** AMDIN ***************************************/
+	/**************************** ADMIN ***************************************/
 	check_for_unavailable: function () {
 		if (this.get('data.reason_unavailable') !== 'false') {
 			// make sure we say the sisbot is unavailable
@@ -829,18 +831,35 @@ app.model.sisbot = {
 			this.set('force_onboarding', 'false');
 		}
 	},
+	regenerate_thumbnails: function() {
+		app.log("regenerate_thumbnails()");
+		if (this.get('regenerating_thumbnails') == 'true') return this;
+
+		var self = this;
+
+		app.plugins.n.notification.confirm('Are you sure you want to regenerate all of your Sisyphus tracks? This will take a lengthy amount of time, depending on the number of tracks.',
+		function(resp_num) {
+			if (resp_num == 1) return self;
+
+			self.set('regenerating_thumbnails', 'true');
+
+			self._update_sisbot('regenerate_thumbnails', {}, function(obj) {
+				if (obj.err) app.log("Regenerate Thumbnails err", obj.err);
+
+				self.set('regenerating_thumbnails', 'false');
+			});
+		}, 'Proceed?', ['Cancel', 'OK']);
+	},
 	factory_reset: function () {
 		app.log("factory_reset()");
-		if (this.get('data.factory_resetting') == 'true')
-			return this;
+		if (this.get('data.factory_resetting') == 'true') return this;
 
 		var self = this;
 		app.plugins.n.notification.confirm('Are you sure you want to RESET your Sisyphus table to factory settings? This cannot be undone and will take some time.',
 		function(resp_num) {
-			if (resp_num == 1)
-				return self;
+			if (resp_num == 1) return self;
 
-			self.set('data.factory_resetting', 'true')
+			self.set('data.factory_resetting', 'true');
 
 			self._update_sisbot('factory_reset', {}, function(obj) {
 				if (obj.err) {

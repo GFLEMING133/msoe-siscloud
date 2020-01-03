@@ -6,12 +6,15 @@ app.model.community = {
 
       fetching_community_playlists  : 'false',
       fetching_community_tracks     : 'false',
+      fetching_community_artists    : 'false',
       fetched_community_playlists   : 'false',
       fetched_community_tracks      : 'false',
+      fetched_community_artists      : 'false',
 
       community_page          : 'tracks',
       community_playlist_ids  : [],
       community_track_ids     : [],
+      community_artist_ids    : [],
 
       track_sort        : 'most popular',
       sorting           : 'false',
@@ -94,7 +97,7 @@ app.model.community = {
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
 	},
   fetch_community_tracks: function() {
-    if (this.get('fetched_community_tracks') == 'true') return this;
+    if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;
 
     var self = this;
     this.set('fetching_community_tracks', 'true');
@@ -102,7 +105,7 @@ app.model.community = {
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
-      endpoint: 'tracks.json?sort='+this.get('track_sort'),
+      endpoint: 'tracks.json?sort='+this.get('track_sort'), // specific user's tracks: user_id=1
       data: {}
     };
 
@@ -114,8 +117,82 @@ app.model.community = {
       var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
+      _.each(new_track_ids, function(track_id) {
+        var track = app.collection.get(track_id);
+        track.set('is_community', 'true');
+        self.add_nx('community_track_ids', track_id); // add to array if not already there
+        
+      });
+      self.set('sorting', 'false');
+      self.set('fetched_community_tracks', 'true');
+      self.set('fetching_community_tracks', 'false');
+    }
 
-      self.set('community_track_ids', new_track_ids);
+    app.post.fetch2(tracks, cb, 0);
+
+    return this;
+  },
+  fetch_community_artists: function() {
+    if (this.get('fetched_community_artists') == 'true' || this.get('fetching_community_artists') == 'true') return this;
+
+    var self = this;
+    this.set('fetching_community_artists', 'true');
+
+    var artists = {
+      _url: app.config.get_webcenter_url(),
+      _type: 'GET',
+      endpoint: 'users.json',
+      data: {}
+    };
+
+    function cb(obj) {
+      app.log("Community Artists:", obj.resp);
+      if (obj.err) return self;
+
+      // add id
+      _.each(obj.resp, function(user_obj) {
+        user_obj.id = app.plugins.uuid();
+      });
+
+      app.manager.intake_data(obj.resp); // obj.resp.data
+
+      var resp_artist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+
+      self.set('community_artist_ids', resp_artist_ids);
+      self.set('fetched_community_artists', 'true');
+      self.set('fetching_community_artists', 'false');
+    }
+
+    app.post.fetch2(artists, cb, 0);
+
+    return this;
+  },
+  fetch_artist_tracks: function(data) {
+    if (!data.user_id) return this; // must pass in user_id
+    if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;
+
+    var self = this;
+    this.set('fetching_community_tracks', 'true');
+
+    var tracks = {
+      _url: app.config.get_webcenter_url(),
+      _type: 'GET',
+      endpoint: 'users/'+data.user_id+'/tracks.json?sort='+this.get('track_sort'), // specific user's tracks: user_id=1
+      data: {}
+    };
+
+    function cb(obj) {
+      app.log("Artist Tracks:", obj.resp);
+      if (obj.err) return self;
+      app.manager.intake_data(obj.resp); // obj.resp.data
+
+      var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+      var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
+      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
+
+      _.each(new_track_ids, function(track_id) {
+        self.add_nx('community_track_ids', track_id); // add to array if not already there
+      });
       self.set('sorting', 'false');
       self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');``
@@ -212,7 +289,7 @@ app.model.community = {
       this.download_wc();
     } else {
       this.trigger('remove:community_track_ids'); // trigger once at end
-
+      
       app.trigger('modal:open', {
         'template': 'modal-list-playlist-add-tmp'
       });
@@ -252,6 +329,7 @@ app.model.community = {
      let downloaded_tracks = this.get('downloaded_tracks');
      _.each(downloaded_tracks, function(i) {
        var track = app.collection.get(i);
+       track.set('is_community', 'true')
        track.set('community_track_downloaded', 'false')
         sisbot.remove('data.track_ids', i);
         self.add('selected_tracks', i);
