@@ -22,7 +22,12 @@
       <!-- END HEADER -->
 
       <div class="flex p20 w100 bg-white">
-        <input type="text" data-field="model.data.q.value" placeholder="Search" />
+        <input
+            type="text"
+            placeholder="Search"
+            data-field="model.data.q.value"
+            value="{{= model.data.q.value }}"
+            data-on-input="model.update_q" />
         <!-- <div class="flex3">
           <input type="text" placeholder=" &#xf002;" class="b-bluer">
         </div> -->
@@ -81,15 +86,19 @@
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       </div>
       <div class="mt75" data-if="{{= parent.fetching_community_tracks }} == false">
-        <div class="w100 mt10"
-            data-if="{{= _.size(parent.community_track_ids) }} > 0"
-            data-foreach="cluster"
-            data-cluster="{{= model.data.query }}"
-            data-foreach-limit="{{= parent.limit }}"
-            data-foreach-offset="{{= parent.offset }}"
-            data-cluster-comparator="model.data.comparator"
-            data-cluster-search="model.data.q">
-          <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
+        <div class="w100"
+            data-if="{{= _.size(parent.community_track_ids) }} > 0">
+          <div class="w100 mt10"
+              data-if="{{= model.is_ready }} == true"
+              data-foreach="cluster"
+              data-cluster="{{= model.data.query }}"
+              data-foreach-limit="{{= parent.limit }}"
+              data-foreach-offset="{{= parent.offset }}"
+              data-cluster-comparator="model.data.comparator"
+              data-cluster-search-keys="model.data.q.search_keys"
+              data-cluster-search-value="model.data.q.value">
+            <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
+          </div>
         </div>
         <div class="p20 mt100 center fs18 blue i"
             data-if="{{= _.size(parent.community_track_ids) }} == 0">
