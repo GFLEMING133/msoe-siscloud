@@ -20,9 +20,22 @@
     <!-- END HEADER -->
 
     <div class="flex p20 w100 bg-white">
-      <div class="flex3">
-        <input type="text" placeholder=" &#xf002;" class="b-bluer">
+      <div data-scope="true"
+          data-defaults="{'type':'searchable_list','list_type':'track','sort':'data.created_at','order':'dsc','terms':{'is_saved':'true','is_deleted':'false'} }">
+        <input type="text" data-field="model.data.q.value" placeholder="Search" />
+        <div class="w100 mt10"
+            data-foreach="cluster"
+            data-cluster="{{= model.data.query }}"
+            data-foreach-limit="{{= parent.limit }}"
+            data-foreach-offset="{{= parent.offset }}"
+            data-cluster-comparator="model.data.comparator"
+            data-cluster-search="model.data.q">
+          <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
+        </div>
       </div>
+      <!-- <div class="flex3">
+        <input type="text" placeholder=" &#xf002;" class="b-bluer">
+      </div> -->
       <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
             data-field="model.hamburger"
             data-on-click="toggle">

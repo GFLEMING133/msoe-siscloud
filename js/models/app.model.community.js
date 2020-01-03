@@ -118,7 +118,7 @@ app.model.community = {
       self.set('community_track_ids', new_track_ids);
       self.set('sorting', 'false');
       self.set('fetched_community_tracks', 'true');
-      self.set('fetching_community_tracks', 'false');
+      self.set('fetching_community_tracks', 'false');``
     }
 
     app.post.fetch2(tracks, cb, 0);

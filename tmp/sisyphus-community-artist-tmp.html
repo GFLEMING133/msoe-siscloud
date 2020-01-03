@@ -22,7 +22,7 @@
       <p class="p20 center white fs17 less_strong">{{= model.data.created_by_name }}</p>
       <div class="download-all-btn strong fs17 blue-hover">Download All</div>
     </div>
-
+    
     <div class="flex p20 w100 bg-white">
       <div class="flex3">
         <input type="text" placeholder=" &#xf002;" class="b-greyer">
@@ -37,7 +37,7 @@
 
       <div class="overlay" data-if="{{= model.hamburger }} == true">
         <div class="pull-bottom overlay-container">
-          
+
             <h2 class="center white fs18">Filter</h2>
             <ul class="flex-column">
               <li class="pt10 pb10 fs17 white less_strong">All Tracks     <i class="fas fa-check pull-right pr10p white"></i></li>      
@@ -90,6 +90,7 @@
           data-foreach-offset="{{= model.offset }}">
         <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
       </div>
+
       <div class="p20 mt100 center fs18 blue i"
           data-if="{{= _.size(model.community_track_ids) }} == 0">
           There are no new tracks to download.

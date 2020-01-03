@@ -15,7 +15,8 @@ app.model.track = {
 			generating_thumbnails						: 'false',
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
-			track_checked										:'false',
+			track_checked										: 'false',
+			is_community_track							: 'false',
 
 			is_favorite							:'false',
 
