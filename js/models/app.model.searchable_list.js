@@ -49,7 +49,7 @@ app.model.searchable_list = {
     this.on('change:data.sort', this.reset_comparator);
     this.on('change:data.order', this.reset_comparator);
     this.on('change:data.terms', this.reset_query);
-    this.on('change:data.q.value', this.reset_query);
+    // this.on('change:data.q.value', this.reset_query);
 
     this.on('change:is_ready', this.size);
 
@@ -57,8 +57,13 @@ app.model.searchable_list = {
     this.reset_comparator();
     this.reset_query();
   },
-  clear_terms: function () {
-    this.set('data.terms', {});
+  update_q: function(data) {
+    // app.log("Update q:", data);
+    if (data == this) data = ''; // fix self reference on empty value
+
+    this.set('is_ready', 'false');
+    this.set('data.q.value', data);
+    this.set('is_ready', 'true');
   },
   reset_query: function () {
     // app.log("Reset Query");
@@ -77,7 +82,7 @@ app.model.searchable_list = {
 
     this.set('data.query', JSON.stringify(obj));
 
-    app.log("Searchable List: Reset Query", JSON.stringify(obj));
+    // app.log("Searchable List: Reset Query", JSON.stringify(obj));
 
     this.ready_timer = setTimeout(function () {
       self.set('is_ready', 'true')
@@ -126,7 +131,7 @@ app.model.searchable_list = {
     };
     this.set('data.comparator', obj);
 
-    app.log("Reset Comparator", JSON.stringify(this.get('data.comparator')));
+    // app.log("Reset Comparator", JSON.stringify(this.get('data.comparator')));
 
     this.ready_timer = setTimeout(function () {
       self.set('is_ready', 'true');
