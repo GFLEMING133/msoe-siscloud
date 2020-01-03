@@ -791,6 +791,12 @@ li.blue-hover:hover {
 	justify-content : flex-end;
 	align-items 		: flex-end;
 }
+.flex-column-end-start {
+	display         : flex;
+  flex-direction 	: column;
+	justify-content : flex-end;
+	align-items 		: flex-start;
+}
 .flex-end-center {
 	display         : flex;
 	justify-content : flex-end;
@@ -812,7 +818,12 @@ li.blue-hover:hover {
 	display  				: flex;
 	flex-direction 	: column;
 }
-
+.flex-column-end {
+	display  				: flex;
+	flex-direction 	: column;
+	justify-content : flex-end;
+	align-content 	: flex-end;
+}
 .align-start {
 	align-self      : flex-start;
 }
@@ -1585,8 +1596,8 @@ select:focus {
 .p40									{	padding					: 40px !important; }
 .p75									{	padding					: 75px !important; }
 
-.mcenter								{ 	margin-left: 15px; 		margin-right: 15px; }
-
+.mcenter							{ margin-left: 15px; 		margin-right: 15px; }
+.m-auto								{ margin 					: 0 auto !important; }
 .m0										{	margin					: 0px !important; }
 .m5										{	margin					: 5px !important; }
 .m10									{	margin					: 10px !important; }
@@ -2087,7 +2098,7 @@ and (orientation : portrait)
 		height: 350px;
 	}
 }
-/* @media only screen
+@media only screen
 and (min-device-width : 320px)
 and (max-device-width : 568px)
 and (orientation : portrait) {
@@ -2098,7 +2109,7 @@ and (orientation : portrait) {
 	.btn {
 		padding: 10px !important;
 	}
-} */
+}
 
 /**************iPhone 6 & 7 PLus**************/
 @media only screen

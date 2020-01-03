@@ -1,8 +1,8 @@
 <div class="h100" data-run="model.collapse">
   <div  data-if="{{= model.downloading_community_track }} == false">
-    <div class="flex clickable active pb10 bb {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
+    <div class="flex clickable active bb {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
           tg-name="community_track_container_{{= model.id }}_div">
-      <div class="w20 pt10 pb10 pl20 center vertical "
+      <div class="w20 pt10 pl20 center vertical "
           data-on-click="publish"
           data-publish="session:toggle"
           data-msg="{'key':'expanded','val':'{{= model.id }}'}">
@@ -30,96 +30,79 @@
         <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
       </div>
     </div>
-    <div class="bg-grey-l flex" data-if="{{= session.toggle.expanded }} == {{= model.id }}">
+    <div data-if="{{= session.toggle.expanded }} == {{= model.id }}">
       <div class="overlay">
-        <div class="app-container">
-          <div class="flex mt20p">
-            <div class="w20">&nbsp;</div>
-            <div class="hvw40 center vertical active">
-              <div>
+        <div class="overlay-container">
+          <div class="flex mt10p">
+            <div class="w5">&nbsp;</div>
+            <div class="w90 center vertical active">
                 <img class="w100 center img-rounded" alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
-              </div>
             </div>
-            <div class="w20">&nbsp;</div>
+            <div class="w5">&nbsp;</div>
           </div>
           <div class="flex-column">
-            <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
+            <div class="fs18 lh20 pt10 white strong center">{{= model.data.name }}</div>
             <div class="fs12 lh20  white strong center">by {{= model.data.created_by_name }}</div>
           </div>
-        
-          <div class="flex1start active clickable pl20">
-            <img src="img/icon_2x_trackdropdown_openheart.png"
-            alt="Favorite"
-            class="hh20"
-            data-if="{{= model.is_favorite }} == false" />
-            <img src="img/icon_2x_trackdropdown_closedheart.png"
-            alt="Unfavorite"
-            class="hh20"
-            data-if="{{= model.is_favorite }} == true" />
-            <h2 class="white fs18 strong pl10 pb10">Favorite</h2>
-          </div>
-        
-          <div class="flex1start active clickable pl20"
-              data-on-click="publish"
-              data-publish="modal:open"
-              data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"><img src="img/icon_2x_trackdropdown_plus.png"
-              alt="Add to Playlist"
-              class="hh20"/><h2 class="white fs18 strong pl10 pb10">Add to Playlist</h2>
-          </div>
-        
-          <div class="flex1start active clickable pl20">
-            <i class="far fa-user grey fs22"></i>
-            <h2 class="white fs18 strong pl10 pb10">View Artist</h2></div>
-          <div data-if="{{= model.downloading_community_track }} == false">
-            <div class="active clickable pl20 flex1start"
-                data-model="{{= session.active.track_id}}"
-                data-on-click="model.download_wc"
-                data-msg="{{= model.data.track_id }}"
-                data-if="{{= model.community_track_downloaded}} == false"
-                tg-name="community_hero_download_cloud">
-                <i class=" grey fs22 fas fa-cloud-download-alt"></i>
-                <h2 class="fs18 white pl10 pb10">Download</h2>
+        <div class="flex-column-end">  
+          <div class="flex-column-end-start">
+            <!-- FAVORITE -->
+            <div class="flex1start active clickable p10">
+              <img src="img/icon_2x_trackdropdown_openheart.png" alt="Favorite" class="hh20"
+              data-if="{{= model.is_favorite }} == false" />
+              <img src="img/icon_2x_trackdropdown_closedheart.png" alt="Unfavorite" class="hh20"
+              data-if="{{= model.is_favorite }} == true" />
+              <h2 class="white m0 media_fs14 fs18 strong pl10">Favorite</h2>
             </div>
-          </div>
-          <div class="p20" data-if="{{= model.community_track_downloaded}} == true">
-            <img src="img/checkCircle.png" alt="Checked Circle" />
-          </div>
-          <div class="flex" data-if="{{= model.downloading_community_track }} == true">
-            <div class="w100 p20 center pb100 i">
-              <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-              <div class="fs18 lh18">
-                Downloading track...
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="center bt-white white p10 mt10p fs18 strong blue-hover pull-bottom"
+            <!-- Add To Playlist -->
+            <div class="flex1start active clickable p10"
             data-on-click="publish"
-            data-publish="session:toggle"
-            data-msg="{'key':'expanded','val':'false'}">
-            <h2 class="fs18">Close</h2>
+            data-publish="modal:open"
+            data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
+            <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
+            <h2 class="white m0 media_fs14 fs17 strong pl10">Add to Playlist</h2>
+            </div>
+          <!-- View Artist -->
+            <div class="flex1start active clickable p10">
+              <i class="far fa-user grey fs22"></i>
+              <h2 class="white m0 media_fs14 fs17 strong pl10">View Artist</h2>
+            </div>
+          <!-- Download -->
+            <div class="flex1start active clickable p10" data-if="{{= model.downloading_community_track }} == false"
+              data-model="{{= session.active.track_id}}"
+              data-on-click="model.download_wc"
+              data-msg="{{= model.data.track_id }}"
+              data-if="{{= model.community_track_downloaded}} == false"
+              tg-name="community_hero_download_cloud">
+              <i class=" grey fs22 fas fa-cloud-download-alt"></i>
+              <h2 class="m0 media_fs14 fs17 white pl10">Download</h2>
+            </div>
+            <!-- Green Check -->
+            <div class="flex1start active clickable p10" data-if="{{= model.community_track_downloaded }} == true">
+              <img src="img/checkCircle.png" alt="Checked Circle" />
+            </div>
+            <!-- Spinner -->
+            <div class="flex1start active clickable p10" data-if="{{= model.downloading_community_track }} == true">
+              <div class="w100 center i">
+              <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+              <div class="m0 media_fs14 fs17 lh18">
+              Downloading track...
+            </div>
+          </div>
+            </div>
+          </div> <!--end of flex-column-end-start-->  
+        </div> <!--end of flex-column-end--> 
+        <div class="pull-bottom overlay-container">
+            <!-- Close -->
+          <div class="center bt-white white p10 strong blue-hover"
+              data-on-click="publish"
+              data-publish="session:toggle"
+              data-msg="{'key':'expanded','val':'false'}">
+              <h2 class="m0 media_fs14 fs17">Close</h2>
+          </div>
         </div>
-      </div>
+        </div> <!-- end of overlay-container -->
+      </div> <!-- end of overlay -->
     </div>
-    <!-- <div class="bg-grey-l flex" data-if="{{= session.toggle.expanded }} == {{= model.id }}">
-      <div class="w20 w10 clickable vertical center"
-          data-if="{{= model.community_track_downloaded }} == false"
-          data-on-click="model.download_wc"
-          data-msg="{{= model.data.track_id }}"
-          tg-name="download_cloud_expanded">
-          <i class=" white pl20 pt12 fs26 fas fa-cloud-download-alt"></i>
-      </div>
-      <div  data-if="{{= model.community_track_downloaded}} == true">
-        <img src="img/checkCircle.png" alt="Checked Circle" class="pt15 pl25">
-      </div>
-
-      <div class="w25 clickable active center pt15 pb15"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'track_id':'{{= model.id }}','secondary':'tracks-hero'}"
-          tg-name="community_track_hero_expand"><img src="img/icon_2x_trackdropdown_expand.png"
-            alt="Expand"
-            class="hh20" /></div>
-    </div> -->
   </div>
 </div>
