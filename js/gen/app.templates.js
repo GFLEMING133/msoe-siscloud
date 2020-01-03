@@ -9,7 +9,7 @@ app.templates = {
       if (app.tmps.length > 0) self.fetch(app.tmps.shift(), on_fetch);
       else app.log("All templates loaded");
     }
-    this.fetch(app.tmps.shift(), on_fetch);
+    if (app.is_app) this.fetch(app.tmps.shift(), on_fetch);
 
     // Removed
     // $('#templates').children().each(function (i, tmp) {
