@@ -15,6 +15,7 @@
   						data-replace="list-image-fallback-tmp" />
         </div>
       </div>
+      
       <div class="w60 pt15 pl10"
           data-on-click="publish"
           data-publish="session:toggle"
@@ -25,16 +26,17 @@
         data-if="{{= model.data.is_public }} == false">Private</div>
       </div>
       
-
       <div class="w15 vertical center flex-justify-center" data-field="model.track_checked" data-on-click="toggle" tg-name="community_check_{{= model.id }}_box">
         <span class="black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
         <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
       </div>
     </div>
+
+
     <!--OVERLAY -->
     <div data-if="{{= session.toggle.expanded }} == {{= model.id }}">
       <div class="overlay">
-        <div class="overlay-container">
+        <div class="overlay-container h100">
           <div class="flex mt10p">
             <div class="w5">&nbsp;</div>
           <div class="w90 center vertical active">
