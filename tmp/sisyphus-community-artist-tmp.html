@@ -18,14 +18,14 @@
       </div>
     </div>
 <!-- END HEADER -->
-    <div class="browse-feature bg-greyer hh185">
+    <div class="browse-feature bg-greyer hh150">
       <p class="p20 center white fs17 less_strong">{{= model.data.created_by_name }}</p>
       <div class="download-all-btn strong fs17 blue-hover">Download All</div>
     </div>
 
     <div class="flex p20 w100 bg-white">
-      <div>
-        <input type="text" placeholder=" &#xf002;" class="search-bar b-greyer">
+      <div class="flex3">
+        <input type="text" placeholder=" &#xf002;" class="b-greyer">
       </div>
       <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
       data-field="model.hamburger"

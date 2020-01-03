@@ -216,6 +216,10 @@ label {
 .overlay-container {
 	max-width: 375px;
 	margin: 0 auto;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
 }
 .overlay_margin {
   margin-bottom: 50vh;
@@ -594,10 +598,11 @@ body > .container > .row {	/* remove if you want a bottom bar */
  }
 
 .hamburger-container {
-	padding-left: 10px;
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	cursor: pointer;
 }
 
@@ -779,6 +784,15 @@ li.blue-hover:hover {
 	justify-content : flex-start;
 	align-items 		: center
 }
+.flex1 {
+	flex 						: 1;
+}
+.flex2 {
+	flex 						: 2;
+}
+.flex3 {
+	flex 						: 3;
+}
 .flex1center {
 	display         : flex;
 	flex  					: 1;
@@ -791,6 +805,7 @@ li.blue-hover:hover {
 	justify-content : flex-end;
 	align-items 		: flex-end;
 }
+
 .flex-column-end-start {
 	display         : flex;
   flex-direction 	: column;
@@ -805,9 +820,15 @@ li.blue-hover:hover {
 .flex-justify-center {
 	display 				: flex;
 	justify-content : center;
+	align-items 		: center;
 }
 .flex-evenly {
 	display 				: flex;
+	justify-content : space-evenly;
+}
+.flex-columnly {
+	display 				: flex;
+	flex-direction 	: column;
 	justify-content : space-evenly;
 }
 .flex-row {
@@ -1099,6 +1120,20 @@ li.blue-hover:hover {
 .vh80									{	height					: 80vh; }
 .vh90									{	height					: 90vh; }
 .vh100								{	height					: 100vh }
+
+.mvh10								{	max-height			: 10vh; }
+.mvh20								{	max-height			: 20vh; }
+.mvh25								{	max-height			: 25vh; }
+.mvh30								{	max-height			: 30vh; }
+.mvh35								{	max-height			: 35vh; }
+.mvh40								{	max-height			: 40vh; }
+.mvh50								{	max-height			: 50vh; }
+.mvh60								{	max-height			: 60vh; }
+.mvh70								{	max-height			: 70vh; }
+.mvh75								{	max-height			: 75vh; }
+.mvh80								{	max-height			: 80vh; }
+.mvh90								{	max-height			: 90vh; }
+.mvh100								{	max-height			: 100vh }
 
 .vw10								  {	width						: 10vw; }
 .vw20								  {	width						: 20vw; }
@@ -1662,19 +1697,20 @@ select:focus {
 
 .mt50									{	margin-top				: 50px !important; }
 .mb50						      { margin-bottom		  : 50px !important; }
-.mb400					      { margin-bottom		  : 400px !important; }
 .ml50									{	margin-left				: 50px !important; }
 .mr50						      { margin-right		  : 50px !important; }
 .mb55						      { margin-bottom		  : 55px !important; }
 .mb51						      { margin-bottom		  : 50px !important; }
 .mt60									{	margin-top				: 60px !important; }
-.mt65p								{	margin-top				: 65% !important; }
+.mt65p								{	margin-top				: 65%  !important; }
 .mt70									{	margin-top				: 70px !important; }
+.mt70p								{	margin-top				: 70%  !important; }
 .mb70						      { margin-bottom		  : 70px !important; }
-
 .mt75									{	margin-top				: 75px !important; }
 .mt100								{	margin-top				: 100px !important; }
 .mt150								{	margin-top				: 150px !important; }
+
+.mb400					      { margin-bottom		  : 400px !important; }
 
 
 .mb75						      { margin-bottom		  : 75px;	}
@@ -1915,6 +1951,7 @@ input[type="text"] {
 	font-size: 1em;
 	font-weight: 900;
 	border-radius: 20px;
+	width: 100%;
 }
 
 
