@@ -16,7 +16,14 @@ app.model.community = {
       community_track_ids     : [],
       community_artist_ids    : [],
 
-      track_sort        : 'most popular',
+      track_sort        : 'most popular', //newest designs , name, artist, (default) most popular
+      track_sort_key    : 'data.popularity',
+      track_sort_keys   : {
+                          "most popular":"data.popularity",
+                          "newest designs":"data.created_at",
+                          "name":"data.name",
+                          "artist":"data.created_by_name",
+      },
       sorting           : 'false',
       download_cloud    : 'false',
       selected_tracks   : [],
@@ -54,6 +61,7 @@ app.model.community = {
     this.listenTo(app, 'community:select_track', this.selectTrack);
     this.listenTo(app, 'community:deselect_track', this.deselectTrack);
 
+    this.on('change:track_sort', this.update_sort_key);
     this.on('change:offset', this.scrollTop);
 
     return this;
@@ -87,6 +95,10 @@ app.model.community = {
       self.scrolling = true;
     }
   },
+  update_sort_key: function(){
+    this.set('track_sort_key', this.get('track_sort_keys['+this.get('track_sort')+']'));
+    app.log( this.get('track_sort_key'));
+  },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
 		app.log('in the sign_out_community');
@@ -95,7 +107,7 @@ app.model.community = {
       .set( 'signing_in', 'false')
       .set('signed_in', 'false');
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
-	},
+  },
   fetch_community_tracks: function() {
     if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;
 

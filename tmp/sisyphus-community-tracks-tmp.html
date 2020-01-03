@@ -1,6 +1,6 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="h100" data-scope="true"
-      data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= model.track_sort }}','order':'dsc','terms':{'is_community':'true'}}">
+      data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parent.track_sort_key }}','order':'dsc','terms':{'is_community':'true'}}">
     <div class="pull-top bg-black bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
         <div class="w25 left pl20 clickable active blue-hover"
@@ -76,6 +76,7 @@
 
     <div class="body-header h100 pb160 scroll hide-scrollbar"
         data-on-scroll="parent.scroll_check"
+        data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_tracks"
         tg-name="community_tracks_page">
       <div class="mt100" data-if="{{= parent.fetching_community_tracks }} == true">
