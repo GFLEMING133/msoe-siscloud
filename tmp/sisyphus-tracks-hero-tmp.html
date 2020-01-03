@@ -27,31 +27,53 @@
       <div class="fs12 lh20 grey block" data-if="{{= model.data.created_by_name }} !== false">
         by {{= model.data.created_by_name }}
       </div>
+      <div class="mt20">Track start: {{= model.data.firstR }}, end: {{= model.data.lastR }}</div>
     </div>
   </div>
-  <div class="bg-grey-l flex">
-    <div class="w25 pt15 pb15 clickable active center"
-        data-on-click="model.play"><img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" /></div>
-    <div class="w25 pt15 pb15 clickable active center"
-        data-run="model.is_playlist_favorite"
-        data-on-click="model.favorite_toggle">
+  <div class="p10 flex bg-grey-ll-hover clickable"
+      data-on-click="model.play">
+    <div class="w10 center">
+      <img src="img/icon_2x_trackdropdown_play.png"
+          alt="Play"
+          class="hh20 invert" />
+    </div>
+    <div class="w90 lh20">Play</div>
+  </div>
+  <div class="p10 flex bg-grey-ll-hover clickable"
+      data-run="model.is_playlist_favorite"
+      data-on-click="model.favorite_toggle">
+    <div class="w10 center">
       <img src="img/icon_2x_trackdropdown_openheart.png"
           alt="Favorite"
-          class="hh20"
+          class="hh20 invert"
           data-if="{{= model.is_favorite }} == false" />
       <img src="img/icon_2x_trackdropdown_closedheart.png"
           alt="Unfavorite"
-          class="hh20"
+          class="hh20 invert"
           data-if="{{= model.is_favorite }} == true" />
     </div>
-    <div class="w25 pt15 pb15 clickable active center"
-        data-on-click="publish"
-        data-publish="modal:open"
-        data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"><img src="img/icon_2x_trackdropdown_plus.png"
-          alt="Add to Playlist"
-          class="hh20" /></div>
-    <div class="w25 pt15 pb15 white blue-hover clickable active center"
-        data-on-click="model.delete"><img src="img/icon_2x_trashcan.png" alt="Delete" class="hh20" /></div>
+    <div class="w90 lh20">
+      <span data-if="{{= model.is_favorite }} == false">Favorite</span>
+      <span data-if="{{= model.is_favorite }} == true">Unfavorite</span>
+    </div>
+  </div>
+  <div class="p10 flex bg-grey-ll-hover clickable"
+      data-on-click="toggle"
+      data-field="model.data.reversible">
+    <div class="w10 center strong fs18">
+      <i class="far fa-square" data-if="{{= model.data.reversible }} !== true"></i>
+      <i class="far fa-check-square" data-if="{{= model.data.reversible }} == true"></i>
+    </div>
+    <div class="w90 lh20">Reversible</div>
+  </div>
+  <div class="p10 flex bg-grey-ll-hover clickable"
+      data-on-click="model.delete">
+    <div class="w10 center">
+      <img src="img/icon_2x_trashcan.png"
+          alt="Delete"
+          class="hh20 invert" />
+    </div>
+    <div class="w90 lh20">Delete</div>
   </div>
   <div class="hh250">&nbsp;</div>
 </div>

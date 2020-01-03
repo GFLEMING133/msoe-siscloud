@@ -78,6 +78,14 @@ app.model.track = {
 
 	on_init: function() {
 		this.on('change:track_checked', this.get_track_checked);
+		this.on('change:data.reversible', this.save_track);
+	},
+	save_track: function() {
+		// app.log("Save Track", this.get('data'));
+		var sisbot = app.manager.get_model('sisbot_id');
+		sisbot.save_to_sisbot(this.get('data'), function(resp) {
+			app.log("Track saved", resp);
+		});
 	},
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });

@@ -361,6 +361,11 @@ label {
 	position: absolute;
 
 }
+
+.invert {
+  filter:         invert(100%);
+  -webkit-filter: invert(100%); 
+}
   /**************How to make on hover Tool Tips for icons******************/
 /* .shuffle_tooltip:hover .tooltiptext {
 	font-size: 14px;
@@ -397,7 +402,7 @@ label {
 	-webkit-backface-visibility : hidden;
 	backface-visibility 				: hidden;
 }
-.scrollable { 
+.scrollable {
 	overflow: scroll;
 	max-height: 230px;
 	border-radius: 15px;

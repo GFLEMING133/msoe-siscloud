@@ -1,5 +1,5 @@
 var config = {
-	  version				:'1.8.85', // read CHANGELOG
+	  version				:'1.8.86', // read CHANGELOG
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

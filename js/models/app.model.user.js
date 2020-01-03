@@ -1,11 +1,11 @@
-app.model.user = {
+app.model.artist = {
     defaults: function (data) {
 		var obj = {
 			id			: data.id,
-			type		: 'user',
+			type		: 'artist',
 			data		: {
 				id					: data.id,
-				type    			: 'user',
+				type    			: 'artist',
 				version				: this.current_version,
 
         user_id       : 0,

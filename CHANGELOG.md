@@ -1,4 +1,4 @@
-#2019-12-09 1.8.80-85
+#2019-12-09 1.8.80-86
  - Turned off socket listeners.
  - added OS obj var in sessions to target Android and iOS in css to fix header issue in drawing
  - added Waiting for Wifi spinner on app launch when waiting for wifi to connect back from disconnect
@@ -26,6 +26,7 @@
  - adjusted transition of sortby dropdown
  - Extend timeout for reconnecting to rebooting Pi, to prevent auto-connecting to a different table
  - Browser will refresh after firmware update (making sure user is on most recent cloud code)
+ - Track hero page layout change, allows Reversible to be toggled
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.
