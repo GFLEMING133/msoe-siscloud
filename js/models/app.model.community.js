@@ -19,10 +19,10 @@ app.model.community = {
       track_sort        : 'most popular', //newest designs , name, artist, (default) most popular
       track_sort_key    : 'data.popularity',
       track_sort_keys   : {
-                          "most popular"    :"data.popularity",
-                          "newest designs"  :"data.created_at",
-                          "name"            :"data.name",
-                          "artist"          :"data.created_by_name",
+        'most popular'  :'data.popularity',
+        'newest designs':'data.created_at',
+        'name'          :'data.name',
+        'artist'        :'data.created_by_name',
       },
       sorting           : 'false',
       download_cloud    : 'false',
@@ -61,7 +61,7 @@ app.model.community = {
     this.listenTo(app, 'community:select_track', this.selectTrack);
     this.listenTo(app, 'community:deselect_track', this.deselectTrack);
 
-    this.on('change:track_sort', this.update_sort_key;
+    this.on('change:track_sort', this.update_sort_key);
     this.on('change:offset', this.scrollTop);
 
     return this;
@@ -97,7 +97,9 @@ app.model.community = {
   },
   update_sort_key: function(){
     this.set('track_sort_key', this.get('track_sort_keys['+this.get('track_sort')+']'));
-    app.log( 'SORT KEY' ,this.get('track_sort_key'));
+    app.log( 'TRACK SORT' ,this.get('track_sort'));
+    app.log( 'TRACK SORT KEYSSS' ,this.get('track_sort_keys'));
+    app.log( 'TRACK SORT KEY' ,this.get('track_sort_key'));
   },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
