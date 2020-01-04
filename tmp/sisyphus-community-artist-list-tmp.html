@@ -1,0 +1,18 @@
+<div class="h100">
+  <div  data-if="{{= grandparent.fetching_community_artists }} == false">
+    <div class="flex clickable active bb p10">
+      <div class=" pl10">
+        <div class="red">{{= grandparent.community_artist_ids }}</div>
+        <!-- <div class="red">{{= JSON.stringify(model.data) }}</div>
+        <div class="red">{{= JSON.stringify(grandparent.data)}}</div> -->
+
+        <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
+        <div class="fs13 warmGrey pt10">since {{= model.data.date_created }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
