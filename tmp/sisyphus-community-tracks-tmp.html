@@ -1,6 +1,6 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="h100" data-scope="true"
-      data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parent.track_sort_key }}','order':'dsc','q':{'value':'','search_keys':['data.name', 'data.created_by_name']},'terms':{'is_community':'true'}}">
+      data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parent.track_sort_key }}','order':'dsc','q':{'value':'','search_keys':['data.name','data.created_by_name']},'terms':{'is_community':'true'}}">
     <div class="pull-top bg-black bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
         <div class="w25 left pl20 clickable active blue-hover"
@@ -10,14 +10,7 @@
             <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
         </div>
         <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
-        <div class="w25 center f-large">
-          <div class="clickable blue-hover"
-               data-on-click="parent.sign_out_community"
-               tg-name="sign_out_community_btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
-          </div>
-        </div>
+        <div class="w25 center f-large">&nbsp;</div>
       </div>
       <!-- END HEADER -->
 
@@ -87,8 +80,7 @@
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       </div>
       <div class="mt75" data-if="{{= parent.fetching_community_tracks }} == false">
-        <div class="w100"
-            data-if="{{= _.size(parent.community_track_ids) }} > 0">
+        <div class="w100" data-if="{{= _.size(parent.community_track_ids) }} > 0">
           <div class="w100 mt10"
               data-if="{{= model.is_ready }} == true"
               data-foreach="cluster"
@@ -98,9 +90,13 @@
               data-cluster-comparator="model.data.comparator"
               data-cluster-search-keys="model.data.q.search_keys"
               data-cluster-search-value="model.data.q.value">
-            <div data-template="sisyphus-community-artist-list-item-tmp"></div>
+            <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
           </div>
         </div>
+        <div>Ready? {{= model.is_ready }}</div>
+        <div>data Query {{= model.data.query }}</div>
+        <div>P Sort_Key {{= parent.track_sort_key}}</div>
+        <div>p Fetching C Tracks {{= parent.fetching_community_tracks }}</div>
         <div class="p20 mt100 center fs18 blue i"
             data-if="{{= _.size(parent.community_track_ids) }} == 0">
             There are no new tracks to download.

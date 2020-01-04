@@ -19,10 +19,10 @@ app.model.community = {
       track_sort        : 'most popular', //newest designs , name, artist, (default) most popular
       track_sort_key    : 'data.popularity',
       track_sort_keys   : {
-                          "most popular":"data.popularity",
-                          "newest designs":"data.created_at",
-                          "name":"data.name",
-                          "artist":"data.created_by_name",
+                          "most popular"    :"data.popularity",
+                          "newest designs"  :"data.created_at",
+                          "name"            :"data.name",
+                          "artist"          :"data.created_by_name",
       },
       sorting           : 'false',
       download_cloud    : 'false',
@@ -61,7 +61,7 @@ app.model.community = {
     this.listenTo(app, 'community:select_track', this.selectTrack);
     this.listenTo(app, 'community:deselect_track', this.deselectTrack);
 
-    this.on('change:track_sort', this.update_sort_key);
+    this.on('change:track_sort', this.update_sort_key;
     this.on('change:offset', this.scrollTop);
 
     return this;
@@ -97,7 +97,7 @@ app.model.community = {
   },
   update_sort_key: function(){
     this.set('track_sort_key', this.get('track_sort_keys['+this.get('track_sort')+']'));
-    app.log( this.get('track_sort_key'));
+    app.log( 'SORT KEY' ,this.get('track_sort_key'));
   },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
@@ -122,6 +122,7 @@ app.model.community = {
     };
 
     function cb(obj) {
+
       // app.log("Community Tracks:", obj.resp);
       if (obj.err) return self;
       app.manager.intake_data(obj.resp); // obj.resp.data
@@ -138,6 +139,7 @@ app.model.community = {
       self.set('sorting', 'false');
       self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');
+      
     }
 
     app.post.fetch2(tracks, cb, 0);
@@ -215,6 +217,7 @@ app.model.community = {
     return this;
   },
   sort_function: function(sort_params) {
+    app.log('sort_params', sort_params);
     var self = this;
 
     this.set('track_sort', sort_params);
@@ -277,7 +280,6 @@ app.model.community = {
   },
   openHamburger: function(x) {
     this.set('hamburger', 'true');
-    debugger;
     console.log("X", x)
     x.classList.toggle("change");
   },
