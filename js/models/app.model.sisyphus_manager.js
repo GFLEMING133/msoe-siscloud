@@ -346,14 +346,14 @@ app.model.sisyphus_manager = {
         if (found_bots.indexOf(ip_address) >= 0) { // check if already in existing list of bots
           app.log("BLE ip already in list, skip ping_sisbot()", ip_address);
           next_device();
-        } else if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
+        } else { //} if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
           self.ping_sisbot(ip_address, function() {
             next_device();
           });
-        } else { // other network, don't ping
-          app.log("BLE ip not on same network, skip ping_sisbot()", ip_address, self.app_ip_base);
-          next_device();
-        }
+        } //else { // other network, don't ping
+        //   app.log("BLE ip not on same network, skip ping_sisbot()", ip_address, self.app_ip_base);
+        //   next_device();
+        // }
       } else {
         app.log("BLE connect ip_address error", ip_address);
         next_device();
