@@ -1093,6 +1093,8 @@ li.blue-hover:hover {
 .hh400								{	height					: 400px }
 .hh450								{	height					: 450px }
 
+.mh50   							{ max-height 			: 50px  }
+
 .hvw5									{	height					: 5vw; 	}
 .hvw10								{	height					: 10vw; }
 .hvw20								{	height					: 20vw; }

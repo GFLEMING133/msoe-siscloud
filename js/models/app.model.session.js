@@ -18,7 +18,8 @@ app.model.session = {
 				playlist_id		: 'false',
 				track_id			: 'false',
 				drawing_id		: 'false',
-				sisbot_id			: 'false'
+				sisbot_id			: 'false',
+				artist_id			: 'false'
 			},
 			toggle: {
 				expanded			: 'false',

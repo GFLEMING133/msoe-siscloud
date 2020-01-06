@@ -185,8 +185,7 @@ app.model.community = {
   },
   fetch_artist_tracks: function(data) {
     if (!data.user_id) return this; // must pass in user_id
-    if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;
-
+    if (this.get('fetching_community_tracks') == 'true') return this;
     var self = this;
     this.set('fetching_community_tracks', 'true');
 
@@ -207,11 +206,14 @@ app.model.community = {
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
       _.each(new_track_ids, function(track_id) {
+        var track = app.collection.get(track_id);
+        track.set('is_community', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
       });
       self.set('sorting', 'false');
-      self.set('fetched_community_tracks', 'true');
-      self.set('fetching_community_tracks', 'false');``
+      // self.set('fetched_community_tracks', 'true');
+      self.set('fetching_community_tracks', 'false');
+      app.log('AFter Fetch', self.get('fetching_community_tracks'))
     }
 
     app.post.fetch2(tracks, cb, 0);

@@ -29,6 +29,14 @@
         data-template="sisyphus-community-artist-tmp"></div>
 
     <div class="h100"
+        data-if="{{= parent.active.secondary }} == artist-tracks-list"
+        data-template="sisyphus-community-artist-tracks-list-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == artist-tracks-list-item"
+        data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
+
+    <div class="h100"
         data-if="{{= parent.active.secondary }} == community-tracks"
         data-template="sisyphus-community-tracks-tmp"></div>
 
