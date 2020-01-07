@@ -58,6 +58,7 @@
     </div>
   </div>
   <div class="p10 flex bg-grey-ll-hover clickable"
+      data-if="{{= model.data.firstR }} !== {{= model.data.lastR }}"
       data-on-click="toggle"
       data-field="model.data.reversible">
     <div class="w10 center strong fs18">
