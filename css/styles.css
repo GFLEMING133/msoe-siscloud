@@ -404,9 +404,9 @@ label {
 }
 .scrollable {
 	overflow: scroll;
-	max-height: 230px;
+	max-height: 225px;
 	border-radius: 15px;
-  border: 1px solid #11b2fb;
+  border: 1px solid #acacac;
 
 }
 .auto-scroll {
