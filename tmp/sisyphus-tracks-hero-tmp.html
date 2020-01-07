@@ -57,6 +57,15 @@
       <span data-if="{{= model.is_favorite }} == true">Unfavorite</span>
     </div>
   </div>
+  <div class="p10 flex bg-grey-ll-hover clickable lh20"
+      data-on-click="publish"
+      data-publish="modal:open"
+      data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
+    <div class="w10 center">
+      <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20 invert"/>
+    </div>  
+    <div class="w90 ldiv0">Add to Playlist</div>
+  </div>
   <div class="p10 flex bg-grey-ll-hover clickable"
       data-if="{{= model.data.firstR }} !== {{= model.data.lastR }}"
       data-on-click="toggle"
