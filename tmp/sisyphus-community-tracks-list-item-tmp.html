@@ -49,9 +49,7 @@
 
         <!-- Download -->
           <div class="flex1items-center active clickable p10" data-if="{{= model.downloading_community_track }} == false"
-              data-model="{{= session.active.track_id}}"
               data-on-click="model.download_wc"
-              data-msg="{{= model.data.track_id }}"
               data-if="{{= model.community_track_downloaded}} == false"
               tg-name="community_hero_download_cloud">
             <i class=" grey fs22 fas fa-cloud-download-alt"></i>
