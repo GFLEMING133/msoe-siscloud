@@ -1,11 +1,11 @@
 <div class="h100 " data-run="model.collapse">
   <div  data-if="{{= model.downloading_community_track }} == false">
-    <div class="flex clickable active bb p10 {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
+    <div class="flex clickable active bb p10"
           tg-name="community_track_container_{{= model.id }}_div">
       <div class="w25 p10 center vertical "
           data-on-click="publish"
-          data-publish="session:toggle"
-          data-msg="{'key':'expanded','val':'{{= model.id }}'}">
+          data-publish="modal:open"
+          data-msg="{'track_id':'{{= model.id }}', 'template':'sisyphus-community-track-overlay-tmp'}">
         <div class="w80p hh80">
           <img class="w100 center img-rounded"
               alt="{{= model.data.name }}"
@@ -18,8 +18,8 @@
       
       <div class="w60 pt15 pl10"
           data-on-click="publish"
-          data-publish="session:toggle"
-          data-msg="{'key':'expanded','val':'{{= model.id }}'}">
+          data-publish="modal:open"
+          data-msg="{'track_id':'{{= model.id }}', 'template':'sisyphus-community-track-overlay-tmp'}">
         <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
         <div class="fs13 warmGrey pt10">by {{= model.data.created_by_name }}</div>
         <div class="fs13 warmRed pt5 private_italic"
@@ -32,53 +32,7 @@
       </div>
     </div>
 
-    <!--OVERLAY -->
-    <div data-if="{{= session.toggle.expanded }} == {{= model.id }}">
-      <div class="overlay">
-        <div class="overlay-container h100">
-          <div class="flex mt50">
-            <div class="w5">&nbsp;</div>
-          <div class="w90 center vertical active">
-              <img class="w100 center img-rounded" alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
-          </div>
-          <div class="w5">&nbsp;</div>
-          </div>
-          <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
-          <div class="fs12 lh20  pt10 white strong center">by {{= model.data.created_by_name }}</div>
-  
 
-        <!-- Download -->
-          <div class="flex1items-center active clickable p10" data-if="{{= model.downloading_community_track }} == false"
-              data-on-click="model.download_wc"
-              data-if="{{= model.community_track_downloaded}} == false"
-              tg-name="community_hero_download_cloud">
-            <i class=" grey fs22 fas fa-cloud-download-alt"></i>
-            <h2 class="m0 media_fs14 fs17 white pl10">Download</h2>
-          </div>
-          <!-- Green Check -->
-          <!-- <div class="flex1start mh50 active clickable p10" data-if="{{= model.community_track_downloaded }} == true">
-            <img src="img/checkCircle.png" alt="Checked Circle" />
-          </div> -->
-          <!-- Spinner -->
-          <div class="p10" data-if="{{= model.downloading_community_track }} == true">
-            <div class="w100 center i">
-              <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-              <div class="m0 media_fs14 fs17 lh18">
-              Downloading track...
-              </div>
-            </div>
-          </div>
-            <!-- Close -->
-          <div class="flex-center-row center bt-white white p20 strong blue-hover"
-              data-on-click="publish"
-              data-publish="session:toggle"
-              data-msg="{'key':'expanded','val':'false'}">
-              <h2 class="m0 media_fs14 fs17">Close</h2>
-          </div>
-        </div> <!-- end of overlay-container -->
-      </div> <!-- overlay <div> closer -->
-    </div> <!--data-if="{{= session.toggle.expanded }} == {{= model.id }}"-->
-    <!--END OF OVERLAY -->
 
   </div> <!--data-if dl=false-->
 </div> <!--data-run="model.collapse-->

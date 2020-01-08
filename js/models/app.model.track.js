@@ -1096,7 +1096,8 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-	download_wc: function( skip_playlist_add) {
+	download_wc: function() {
+
     var track_id = this.get('data.track_id')
 		var self = this;
 
@@ -1143,8 +1144,6 @@ app.model.track = {
 				app.trigger('sisbot:track_add', self);
 
 				self.set('downloading_community_track', 'false');
-
-				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
 				app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
