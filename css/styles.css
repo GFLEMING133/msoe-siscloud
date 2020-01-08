@@ -1101,7 +1101,7 @@ li.blue-hover:hover {
 }
 
 .img-rounded, .rounded									{	border-radius				: 100px;}
-
+.img-rounded, .rounded-x2								{	border-radius				: 200px;}
 .corner-2px, .corner-2px:hover					{	border-radius				: 2px;}
 .corner-3px, .corner-3px:hover					{	border-radius				: 3px;}
 .corner-4px, .corner-4px:hover					{	border-radius				: 4px;}

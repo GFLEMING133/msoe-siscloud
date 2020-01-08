@@ -27,6 +27,7 @@
  - Extend timeout for reconnecting to rebooting Pi, to prevent auto-connecting to a different table
  - Browser will refresh after firmware update (making sure user is on most recent cloud code)
  - Track hero page layout change, allows Reversible to be toggled
+ - Track hero in Community changed to an overlay
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.
