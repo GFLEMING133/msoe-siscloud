@@ -14,8 +14,8 @@ app.config = {
 		},
 		beta: {		// tests local network
 			base_url	: 'http://app.dev.withease.io:3001/', //local url
-			api_url		: 'http://dev.webcenter.sisyphus-industries.com/',
-			web_url		: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url		: 'https://webcenter.sisyphus-industries.com/',
+			web_url		: 'https://webcenter.sisyphus-industries.com/',
 			// api_url		: 'https://webcenter.sisyphus-industries.com/',
 			// web_url		: 'https://webcenter.sisyphus-industries.com/',
 			// api_url		: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
