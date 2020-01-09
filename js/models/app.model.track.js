@@ -994,7 +994,7 @@ app.model.track = {
 		var active = app.session.get('active');
 		app.log("I made it to Hero");
 		app.log('goBack =', active.goBack);
-		if (active.goBack == 'playlist'){
+		if (active.goBack == 'playlist' || active.goBack == 'false'){
 			app.trigger('session:active', {  secondary: 'playlist' });
 		}else{
 			app.trigger('session:active', {  secondary: 'tracks' });
