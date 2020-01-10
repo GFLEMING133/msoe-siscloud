@@ -110,7 +110,7 @@ app.model.sisbot = {
 
 				playlist_ids					: [],
 				default_playlist_id		: 'false',
-				favorite_playlist_id	: 'false',
+				favorites_playlist_id	: 'false',
 				track_ids							: [],
 
 				active_playlist_id	: 'false',
@@ -1315,7 +1315,7 @@ app.model.sisbot = {
 	setup_favorite_playlist: function () {
 		if (this.is_legacy()) return this;
 
-		if (this.get('data.favorite_playlist_id') !== 'false') return this;
+		if (this.get('data.favorites_playlist_id') !== 'false') return this;
 
 		var self = this;
 
@@ -1326,7 +1326,7 @@ app.model.sisbot = {
 			is_shuffle		: 'true'
 		});
 
-		this.set('data.favorite_playlist_id', playlist.id);
+		this.set('data.favorites_playlist_id', playlist.id);
 
 		this._update_sisbot('save', this.get('data'), function(obj) {
 			if (obj.err) {
