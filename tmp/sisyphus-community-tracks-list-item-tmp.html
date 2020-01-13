@@ -4,8 +4,8 @@
           tg-name="community_track_container_{{= model.id }}_div">
       <div class="w25 p10 center vertical "
           data-on-click="publish"
-          data-publish="session:toggle"
-          data-msg="{'key':'expanded','val':'{{= model.id }}'}">
+          data-publish="modal:open"
+          data-msg="{'track_id':'{{= model.id }}', 'template':'sisyphus-community-track-overlay-tmp'}">
         <div class="w80p hh80">
           <img class="w100 center img-rounded"
               alt="{{= model.data.name }}"
@@ -18,8 +18,8 @@
       
       <div class="w60 pt15 pl10"
           data-on-click="publish"
-          data-publish="session:toggle"
-          data-msg="{'key':'expanded','val':'{{= model.id }}'}">
+          data-publish="modal:open"
+          data-msg="{'track_id':'{{= model.id }}', 'template':'sisyphus-community-track-overlay-tmp'}">
         <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
         <div class="fs13 warmGrey pt10">by {{= model.data.created_by_name }}</div>
         <div class="fs13 warmRed pt5 private_italic"
