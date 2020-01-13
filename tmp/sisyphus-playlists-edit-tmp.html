@@ -5,7 +5,7 @@
           alt="Delete"
           class="hh50 pt15 pb15"
           data-model="{{= parent.sisbot_id }}"
-          data-if="{{= model.data.favorites_playlist_id }} !== {{= parent.id }}"
+          data-if="{{= model.data.favorite_playlist_id }} !== {{= parent.id }}"
           data-on-click="publish"
           data-publish="modal:open"
           data-msg="{'playlist_id':'{{= parent.id }}','template':'modal-playlist-delete-tmp'}" />
