@@ -1951,7 +1951,14 @@ input[type="text"] {
 	font-family: "Font Awesome 5 Free";
 	font-size: 1em;
 	font-weight: 900;
-	border-radius: 20px;
+	border-radius: 10px;
+	width: 100%;
+}
+input[type="password"] {
+	font-family: "Font Awesome 5 Free";
+	font-size: 1em;
+	font-weight: 900;
+	border-radius: 10px;
 	width: 100%;
 }
 

@@ -1,10 +1,17 @@
 <div class="h100">
   <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
-    <div class="w15 center f-large">&nbsp;</div>
-    <div class="w70">
+    <div class="w25" data-model="{{= session.community_id }}">
+      <div class="clickable blue-hover"
+           data-on-click="model.sign_out_community"
+           tg-name="sign_out_community_btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
+      </div>
+    </div>
+    <div class="w50">
       <h1 class="no-stuffing capitalize truncate fs18 lh24">Browse</h1>
     </div>
-    <div class="w15 center f-large">&nbsp;</div>
+    <div class="w25 center f-large">&nbsp;</div>
   </div>
 
   <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="browse_page"         
