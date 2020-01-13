@@ -1100,14 +1100,14 @@ li.blue-hover:hover {
 	text-overflow	: ellipsis;
 }
 
-.img-rounded, .rounded									{	border-radius				: 100px;}
-.img-rounded, .rounded-x2								{	border-radius				: 200px;}
-.corner-2px, .corner-2px:hover					{	border-radius				: 2px;}
-.corner-3px, .corner-3px:hover					{	border-radius				: 3px;}
-.corner-4px, .corner-4px:hover					{	border-radius				: 4px;}
-.corner-5px, .corner-5px:hover					{	border-radius				: 5px;}
-.corner-10px, .corner-10px:hover				{	border-radius				: 10px;}
-.corner-20px, .corner-20px:hover				{	border-radius				: 20px;}
+.img-rounded, .rounded									{	border-radius							: 100px;}
+.img-rounded, .rounded-x2								{	border-radius							: 200px;}
+.corner-2px, .corner-2px:hover					{	border-radius							: 2px;}
+.corner-3px, .corner-3px:hover					{	border-radius							: 3px;}
+.corner-4px, .corner-4px:hover					{	border-radius							: 4px;}
+.corner-5px, .corner-5px:hover					{	border-radius							: 5px;}
+.corner-10px, .corner-10px:hover				{	border-radius							: 10px;}
+.corner-20px, .corner-20px:hover				{	border-radius							: 20px;}
 .corner-tl-none, .corner-tl-none:hover	{	border-top-left-radius		: 0px;}
 .corner-tr-none, .corner-tr-none:hover	{	border-top-right-radius		: 0px;}
 .corner-bl-none, .corner-bl-none:hover	{	border-bottom-left-radius	: 0px;}
