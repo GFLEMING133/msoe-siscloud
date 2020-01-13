@@ -1026,7 +1026,7 @@ app.model.track = {
 		this.set('playlist_ids', playlist_ids);
 	},
 	is_playlist_favorite: function () {
-		var playlist_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
+		var playlist_model = app.manager.get_model('sisbot_id').get_model('data.favorites_playlist_id');
 
 		if (playlist_model && playlist_model.has_track) {
 			var has_track = playlist_model.has_track(this.id);
@@ -1045,7 +1045,7 @@ app.model.track = {
 			},'Outdated Firmware', ['OK']);
 
 		var status = this.get('is_favorite');
-		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
+		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorites_playlist_id');
 		if (status == 'true' && fav_model) {
 			fav_model.remove_track_and_save(this.id);
 		} else if (fav_model) {
