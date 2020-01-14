@@ -149,7 +149,7 @@ app.model.community = {
     return this;
   },
   fetch_community_artists: function() {
-    if (this.get('fetched_community_artists') == 'true' || this.get('fetching_community_artists') == 'true') return this;
+    if (this.get('fetching_community_artists') == 'true') return this;
 
     var self = this;
     this.set('fetching_community_artists', 'true');
@@ -164,11 +164,6 @@ app.model.community = {
     function cb(obj) {
       app.log("Community Artists:", obj.resp);
       if (obj.err) return self;
-
-      // add id
-      _.each(obj.resp, function(user_obj) {
-        user_obj.id = app.plugins.uuid();
-      });
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
