@@ -801,6 +801,20 @@ li.blue-hover:hover {
 	justify-content : flex-end;
 	align-items 		: flex-end;
 }
+.flex-end-center {
+	display         : flex;
+	justify-content : flex-end;
+	align-items 		: center;
+}
+.flex1 {
+	flex 						: 1;
+}
+.flex2 {
+	flex 						: 2;
+}
+.flex3 {
+	flex 						: 3;
+}
 .flex-justify-center {
 	display 				: flex;
 	justify-content : center;
