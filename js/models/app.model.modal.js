@@ -43,6 +43,11 @@ app.model.modal = {
   close: function() {
     this.set('is_hidden', 'true');
   },
+  more_from_artist: function( route_msg ) {
+
+    app.trigger('session:active', route_msg);
+    this.set('is_hidden', 'true');
+  },
 	/******************* PLAYLIST FUNCTIONS *************************/
   add_to_playlist: function(playlist_id) {
 
