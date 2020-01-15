@@ -1,48 +1,44 @@
-<div class="h100 mt50" data-model="{{= model.track_id }}">
-  <div class="flex">
+<div class="h100 flex-center-column mt50" data-model="{{= model.track_id }}">
+  <div class="flex flex1">
     <div class="w5">&nbsp;</div>
     <div class="w90 center vertical active">
         <img class="w100 center img-rounded rounded-x2 bg-white " alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
     </div>
     <div class="w5">&nbsp;</div>
   </div>
-  <div class="flex-center-column">
-    <div class="flex-center-column">
+
+    <div class="flex-center-column flex1">
       <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
       <div class="fs12 lh20  pt10 pb20 white strong center">by {{= model.data.created_by_name }}</div>
     </div>  
   <!-- Download -->
-    <div class="flex-center-column" >
-        <div class="flex-center-row active clickable p10 h50" data-if="{{= model.downloading_community_track }} == false"
-            data-on-click="model.download_wc"
-            data-if="{{= model.community_track_downloaded}} == false"
-            tg-name="community_hero_download_cloud">
-          <i class=" white fs22 fas fa-cloud-download-alt"></i>
-          <h2 class="m0 media_fs14 fs17 white pl10">Download</h2>
-        </div>
-        <div class="flex-center-row active clickable p10 hh50" data-if="{{= model.downloading_community_track }} == false"
-            data-on-click="parent.more_from_artist"
-            data-msg="{'primary':'community','secondary':'artist-tracks-list','artist_id':'{{= model.data.user_id }}'}"
-            tg-name="overlay_view_more_tracks">
-            <i class="far fa-user white fs22"></i>
-            <h2 class="white m0 media_fs14 fs17 pl10">View more tracks by {{= model.data.created_by_name}}</h2>
-        </div>
-        <!-- Spinner -->
-        <div class="p10 h50" data-if="{{= model.downloading_community_track }} == true">
-          <div class="w100 center i">
-            <div class="mb20 white" data-template="spinner-bounce-tmp"></div>
-            <div class="m0 media_fs14 fs17 lh18">
-            Downloading track...
-            </div>
-          </div>
-        </div>
+    <div class="flex-center-row flex2 active clickable p10 h50" data-if="{{= model.downloading_community_track }} == false"
+        data-on-click="model.download_wc"
+        data-if="{{= model.community_track_downloaded}} == false"
+        tg-name="community_hero_download_cloud">
+      <i class=" white fs22 fas fa-cloud-download-alt"></i>
+      <h2 class="m0 media_fs14 fs17 white pl10">Download</h2>
     </div>
-  </div>
+    <div class="flex-center-row flex2 active clickable p10 hh50" data-if="{{= model.downloading_community_track }} == false"
+        data-on-click="parent.more_from_artist"
+        data-msg="{'primary':'community','secondary':'artist-tracks-list','artist_id':'{{= model.data.user_id }}'}"
+        tg-name="overlay_view_more_tracks">
+        <i class="far fa-user white fs22"></i>
+        <h2 class="white m0 media_fs14 fs17 pl10">View more tracks by {{= model.data.created_by_name}}</h2>
+    </div>
+    <!-- Spinner -->
+    <div class="flex2 p10 h50" data-if="{{= model.downloading_community_track }} == true">
+      <div class="w100 center i">
+        <div class="mb20 white" data-template="spinner-bounce-tmp"></div>
+        <div class="m0 media_fs14 fs17 lh18">
+        Downloading track...
+        </div>
+      </div>
+    </div>
+    
     <!-- Close -->
-  <div class="pull-bottom-fixed">  
-    <div class="flex-center-row center bt-white clickable white p20 strong blue-hover"
-        data-on-click="parent.close">
-        <h2 class="m0 media_fs14 fs17">Close</h2>
-    </div>
+  <div class="flex1end w100 center bt-white clickable white p20 strong blue-hover"
+      data-on-click="parent.close">
+      <div class="m0 media_fs14 fs17">Close</div>
   </div>
 </div> 
