@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod',
-	version				:  '1.8.86', // read CHANGELOG
+	version				:  '1.8.87', // is_simulator=false pushing to test-flight
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing

@@ -1,3 +1,6 @@
+#2019-12-09 1.8.87
+ - Changed is_simulator=false
+ - remove scroll and add no-scroll class in draw.js
 #2019-12-09 1.8.80-86
  - Turned off socket listeners.
  - added OS obj var in sessions to target Android and iOS in css to fix header issue in drawing
