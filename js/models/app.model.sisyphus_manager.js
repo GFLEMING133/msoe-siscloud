@@ -843,9 +843,12 @@ app.model.sisyphus_manager = {
     var self = this;
 
     this.get_network_ip_address(function(ip_address) {
-      if (app.is_simulator) ip_address = app.simulator_ip; // testing for simulator
+      if (app.is_simulator) {
+        app.log("Switch to Simulator IP", app.simulator_ip);
+        ip_address = app.simulator_ip; // testing for simulator
+      }
 
-      app.log('get_network_ip_address ==' + ip_address);
+      app.log('get_network_ip_address ==', ip_address);
       if (!ip_address) return cb();
 
       var ip_add = ip_address.split('.');
@@ -1014,13 +1017,16 @@ app.model.sisyphus_manager = {
   /**************************** NETWORK INFO **********************************/
   get_network_ip_address: function(cb) {
     app.log("get_network_ip_address()");
-    networkinterface.getWiFiIPAddress(function on_success(ip_address) {
-      cb(ip_address.ip);
-      app.log('ip_address.ip ==' + ip_address.ip);
-
-    }, function on_error(err) {
-      cb(err);
-    });
+    //
+    networkinterface.getWiFiIPAddress(
+      function on_success(ip_address) {
+        app.log('ip_address.ip ==', ip_address.ip);
+        cb(ip_address.ip);
+      }, function on_error(err) {
+        app.log('ip_address error', err);
+        cb(err);
+      }
+    );
   },
   get_current_ssid: function() {
     app.log("get_current_ssid()");
