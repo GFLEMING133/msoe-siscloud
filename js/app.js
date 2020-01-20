@@ -1,11 +1,11 @@
 var app = {
-	base 		: {},
+	base 			: {},
 	plugins		: {},
-	model		: {},
-	collection	: {},
-	tmps		: [],
-	view		: {},
-	tour		: {},
+	model			: {},
+	collection: {},
+	tmps			: [],
+	view			: {},
+	tour			: {},
 	is_production: false, // disallow all console logs
 	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
 	simulator_ip: '192.168.0.19', // force a specific network address in simulator

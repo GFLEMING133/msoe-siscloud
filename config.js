@@ -1,4 +1,4 @@
-var config = {
+var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
 	  version				:'1.8.87', // is_simulator=false pushing to test-flight
     debug         : true,
     env           : process.env.NODE_ENV,
