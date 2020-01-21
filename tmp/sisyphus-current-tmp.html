@@ -14,13 +14,17 @@
             data-model="{{= model.data.active_playlist_id }}"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'playlist_id':'{{= parent.data.active_playlist_id }}','secondary':'playlist-edit','primary':'media'}"><img
-              src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
+            data-msg="{'playlist_id':'{{= parent.data.active_playlist_id }}','secondary':'playlist-edit','primary':'media'}"
+            tg-name="current_tmp_playlist_edit_btn">
+            <img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" />
+        </div>
       </div>
     </div>
 
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar" 
+      data-model="{{= model.sisbot_id }}"
+      tg-name=current_tmp_page>
     <!------------------------- TRACK INSET ------------------------------->
     <div data-if="{{= session.active.secondary }} == track">
       <div data-model="{{= session.active.track_id }}" data-template="sisyphus-tracks-hero-tmp"></div>

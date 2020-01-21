@@ -1320,10 +1320,10 @@ app.model.sisbot = {
 		var self = this;
 
 		var playlist = app.collection.add({
-			id				: app.plugins.uuid(),
-			type			: 'playlist',
-			name			: 'Favorites',
-			is_shuffle		: 'true'
+			id					: "favorite_playlist_id",
+			type				: 'playlist',
+			name				: 'Favorites',
+			is_shuffle	: 'true'
 		});
 
 		this.set('data.favorite_playlist_id', playlist.id);
