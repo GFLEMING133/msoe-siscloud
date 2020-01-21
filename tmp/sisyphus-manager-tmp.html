@@ -1,4 +1,5 @@
 <div class="h100" data-model="{{= model.sisyphus_manager_id }}">
+  <div class="fixed white click-through" data-if="{{= app.is_simulator }} == true">Simulator</div>
   <div class="h100" data-if="{{= model.sisbot_id }} !== false">
     <div class="h100" data-run="model.should_show_onboarding">
       <div class="h100" data-if="{{= model.is_sisbot_available }} == false" data-template="home-tmp"></div>
@@ -38,6 +39,7 @@
       <div class="app-container bg-white" data-if="{{= model.sisbot_registration }} == hotspot" data-template="sisyphus-sisbot-hotspot-tmp"></div>
       <div class="app-container bg-white" data-if="{{= model.sisbot_registration }} == multiple" data-template="sisyphus-sisbot-multiple-tmp"></div>
       <div class="app-container bg-black" data-if="{{= model.sisbot_registration }} == connecting" data-template="sisyphus-sisbot-connecting-tmp"></div>
+      <div class="app-container bg-white" data-if="{{= model.sisbot_registration }} == specify_ip" data-template="sisyphus-sisbot-specify-ip-tmp"></div>
     </div>
   </div>
 </div>

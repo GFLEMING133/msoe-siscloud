@@ -370,7 +370,7 @@ label {
 
 .invert {
   filter:         invert(100%);
-  -webkit-filter: invert(100%); 
+  -webkit-filter: invert(100%);
 }
   /**************How to make on hover Tool Tips for icons******************/
 /* .shuffle_tooltip:hover .tooltiptext {
@@ -394,6 +394,10 @@ label {
 	position: absolute;
 
 }*/
+
+.click-through {
+  pointer-events: none;
+}
 
 .loop_tooltip:hover .tooltiptext {
 	font-size 	: 14px;

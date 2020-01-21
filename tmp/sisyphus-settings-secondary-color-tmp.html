@@ -3,10 +3,9 @@
     <div class="w15 left pl20 clickable active"
         data-on-click="publish"
         data-publish="session:active"
-        data-msg="{'secondary':'false'}"
-    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+        data-msg="{'secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w70">
-        <h1 class="no-stuffing fs18 lh18 capitalize">Secondary Color</h1>
+      <h1 class="no-stuffing fs18 lh18 capitalize">Secondary Color</h1>
     </div>
     <div class="w15">&nbsp;</div>
   </div>
@@ -19,8 +18,7 @@
             value="{{= model.edit.led_secondary_color }}"
             data-on-update="model.toggle_picker" />
       </div>
-      <div
-          data-if="{{= model.show_picker }} == true">
+      <div data-if="{{= model.show_picker }} == true">
         <div class="w100 mb10 pt20 webkit-center secondary-picker"
             lib-iro=".secondary-picker"
             data-field="model.edit.led_secondary_color"

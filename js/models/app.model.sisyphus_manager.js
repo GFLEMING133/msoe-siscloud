@@ -9,7 +9,8 @@ app.model.sisyphus_manager = {
 
       sisbot_id: 'false',
       is_sisbot_available: 'false',
-      sisbot_registration: 'find', // find|none|hotspot|multiple
+      sisbot_registration: 'find', // find|none|hotspot|multiple|specify_ip
+      specify_ip: 'false',
 
       show_wifi_page: 'false',
       show_nightlight_page: 'false',
@@ -942,19 +943,21 @@ app.model.sisyphus_manager = {
       } else {
         if (obj.err) {
           // IF WE HAVE CONNECTION ERROR
-          self.connect_to_sisbot(sisbot_hostname);
-          return self.set('errors', ['- That sisbot does not appear to be on the network']);
+          app.log("Connecting Error:", obj.err);
+
+          if (self.get('sisbot_registration') == 'specify_ip') {
+            // allow changing of IP
+            self.set('sisbot_connecting', 'false');
+            return self.set('errors', ['That sisbot does not appear to be on the network']);
+          } else {
+            self.connect_to_sisbot(sisbot_hostname);
+            return self.set('errors', ['- That sisbot does not appear to be on the network']);
+          }
         }
       }
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
-        // if (app.collection.exists(data.id)) {
-        //   app.collection.get(data.id).set('data', data);
-        // } else {
-        //   app.collection.add(data);
-        // }
-        // if (data.type == 'led_pattern') app.log("Incoming LED", data);
         self.intake_data(data);
 
         if (data.type == 'sisbot') {
@@ -1000,14 +1003,6 @@ app.model.sisyphus_manager = {
         secondary: 'false',
         primary: 'current'
       });
-
-      // hotspot access allows not requiring user
-      if (self.get_model('user_id')) {
-        app.log("Add to user model");
-        // self.get_model('user_id').add_nx('data.sisbot_ids', self.get('sisbot_id'));
-        // self.get_model('user_id').add_nx('data.sisbot_hostnames', sisbot_hostname);
-        // self.get_model('user_id').save(true);
-      }
     }, 0);
 
   },
