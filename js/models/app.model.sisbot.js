@@ -15,6 +15,7 @@ app.model.sisbot = {
 			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
 			show_wifi_list  : 'false',
+			show_password		: 'false',
 
 			is_master_branch: 'false',
 			is_legacy_branch: 'false',
@@ -73,7 +74,7 @@ app.model.sisbot = {
 			rem_primary_color		: '0xFFFFFFFF',
 			rem_secondary_color	: '0x00FFFFFF',
 			show_picker					: 'true',
-			show_password				: 'false',
+			
 
 			edit		: {},
 			data		: {
