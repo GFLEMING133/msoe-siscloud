@@ -1667,6 +1667,12 @@ app.model.sisbot = {
 		if (level < -180) level = -180;
 		this.led_offset(level);
 	},
+	led_offset_zero: function() {
+		var level = +this.get('data.led_offset');
+		level = 0;
+		this.led_offset(level);
+
+	},
 	led_offset: function (level) {
 		var self = this;
 
