@@ -73,6 +73,7 @@ app.model.sisbot = {
 			rem_primary_color		: '0xFFFFFFFF',
 			rem_secondary_color	: '0x00FFFFFF',
 			show_picker					: 'true',
+			show_password				: 'false',
 
 			edit		: {},
 			data		: {
