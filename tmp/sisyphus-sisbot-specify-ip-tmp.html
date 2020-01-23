@@ -39,7 +39,7 @@
         data-field="model.specify_ip"
         value="{{= (model.specify_ip != 'false') ? model.specify_ip : '' }}" />
 
-    <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+    <div class="p10 mt10" data-if="{{= app.plugins.length(model.errors) }} > 0">
       <div  data-foreach="model.errors" class="red_triangle center mb10">
         <div class="red p5 montserrat_bold">{{= scope.value }}</div>
       </div>
