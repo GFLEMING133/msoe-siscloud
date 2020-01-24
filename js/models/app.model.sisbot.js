@@ -74,7 +74,7 @@ app.model.sisbot = {
 			rem_primary_color		: '0xFFFFFFFF',
 			rem_secondary_color	: '0x00FFFFFF',
 			show_picker					: 'true',
-			
+
 
 			edit		: {},
 			data		: {
@@ -1668,40 +1668,19 @@ app.model.sisbot = {
 		this.led_offset(level);
 	},
 	led_offset_zero: function() {
-		var level = +this.get('data.led_offset');
-		level = 0;
+		var level = 0;
 		this.led_offset(level);
-
 	},
 	led_offset: function (level) {
 		var self = this;
+		var remember_level = +level;
 
-		// app.log("OFFSET:", level, this.get('data.led_offset'));
-		this.set('data.led_offset', +level).set('edit.led_offset', +level);
+		app.log("OFFSET:", level, this.get('data.led_offset'));
+		this.set('data.led_offset', remember_level).set('edit.led_offset', remember_level);
 
-		if (this.get('wait_for_send') == 'false') {
-			// var start = +new Date();
-			// this.set('wait_for_send','true');
-			var remember_level = +level;
-			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
-				// save value
-				self.save_to_sisbot(self.get('edit'), null);
-
-				// var end = +new Date();
-				// app.log("Brightness Response (millis):", end-start);
-
-				// app.log("Tail Brightness", remember_level, self.get('edit.brightness'));
-				// self.save_to_sisbot(self.get('data'), function(obj) {
-				// 	self.set('wait_for_send','false');
-				//
-				// 	if (self.get('edit.led_offset') !== remember_level) {
-				// 		self.led_offset(self.get('edit.led_offset'));
-				// 	}
-				// });
-			});
-		} else {
-			// app.log("New Offset", level);
-		}
+		this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
+			self.save_to_sisbot(self.get('edit'), null); // save value
+		});
 	},
 	homing_offset: function(level) {
 		app.log("Homing Offset: ", level);
