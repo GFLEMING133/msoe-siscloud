@@ -18,7 +18,8 @@ app.model.session = {
 				playlist_id		: 'false',
 				track_id			: 'false',
 				drawing_id		: 'false',
-				sisbot_id			: 'false'
+				sisbot_id			: 'false',
+				artist_id			: 'false'
 			},
 			toggle: {
 				expanded			: 'false',
@@ -323,7 +324,7 @@ app.model.session = {
 
             self._process_sign_in(user_data, obj.resp);
 
-            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
+            app.trigger('session:active', {  'primary': 'community', 'secondary': 'false' });
         };
 
         user_data.endpoint  = 'auth_user';

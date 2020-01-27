@@ -890,7 +890,7 @@ function Element(el, parent, _scope) {
     // attribute listeners
     _.each(this.el, function(attr, key) {
       var list = self._get_listeners(attr, key);
-      // if (self.data.debug) app.log("Attr", key, attr, list);
+      if (self.data.debug) app.log("Listeners Attr", key, attr, list);
 
       var r_key = attr;
 
@@ -1266,28 +1266,23 @@ function Element(el, parent, _scope) {
         cluster.sort();
       }
 
-      var search_obj;
-      if (self.data.clusterSearch) {
-        search_obj = self.get_value(self.data.clusterSearch);
-
-        if (_.isString(search_obj)) {
-          var model = self.get_model(search_obj);
-          if (model) {
-            var field = self.get_field(search_obj);
-
-            search_obj = model.get(field);
-          } else app.log("No model found, for clusterSearch value", search_obj);
-        }
-      }
-
       // app.log("Cluster results", cluster);
       var index = 0;
       cluster.each(function(item) {
         var include = true;
 
-        if (self.data.clusterSearch && search_obj) {
-          if (search_obj.value && search_obj.value != "") {
-            var search_string = JSON.stringify(search_obj);
+        if (self.data.clusterSearchValue && self.data.clusterSearchKeys) {
+          var model = self.get_model(self.data.clusterSearchValue);
+          var field = self.get_field(self.data.clusterSearchValue);
+          var search_value = model.get(field);
+
+          if (search_value != "") {
+            model = self.get_model(self.data.clusterSearchKeys);
+            field = self.get_field(self.data.clusterSearchKeys);
+            var search_keys = model.get(field);
+
+            var search_string = JSON.stringify({ search_keys: search_value, value:search_keys });
+            // app.log("Search Str:", search_string);
 
             if (item.get('searches') && item.get('searches')[search_string] == true) {
               // nothing, do include
@@ -1296,9 +1291,9 @@ function Element(el, parent, _scope) {
 
               // loop through given keys looking for key/value indexOf match
               var match = false;
-              _.each(search_obj.search_keys, function(search_key) {
+              _.each(search_keys, function(search_key) {
                 var model_value = item.get(search_key);
-                if (model_value && model_value.toString().toLowerCase().indexOf(search_obj.value.toLowerCase()) >= 0) match = true;
+                if (model_value && model_value.toString().toLowerCase().indexOf(search_value.toLowerCase()) >= 0) match = true;
               });
 
               // cache results to the model

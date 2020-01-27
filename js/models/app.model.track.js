@@ -15,7 +15,8 @@ app.model.track = {
 			generating_thumbnails						: 'false',
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
-			track_checked										:'false',
+			track_checked										: 'false',
+			is_community										: 'false',
 
 			is_favorite							:'false',
 
@@ -68,7 +69,8 @@ app.model.track = {
 				firstR					: -1,
 				lastR						: -1,
 				type						: 'r',
-				reversible			: "false"
+				reversible			: "false",
+				popularity			: 0,
 			}
 		};
 
@@ -1144,6 +1146,9 @@ app.model.track = {
 				app.trigger('sisbot:track_add', self);
 
 				self.set('downloading_community_track', 'false');
+				self.set('is_community', 'false');
+				
+				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
 				app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}

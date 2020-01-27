@@ -1,0 +1,79 @@
+<div class="h100">
+  <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
+    <div class="w25" data-model="{{= session.community_id }}">
+      <div class="clickable blue-hover"
+           data-on-click="model.sign_out_community"
+           tg-name="sign_out_community_btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
+      </div>
+    </div>
+    <div class="w50">
+      <h1 class="no-stuffing capitalize truncate fs18 lh24">Browse</h1>
+    </div>
+    <div class="w25 center f-large">&nbsp;</div>
+  </div>
+
+  <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="browse_page"         
+      data-model="{{= session.community_id }}">
+    <div class="flex-column pb10">
+      <h2 class="strong fs18 center">Features</h2>
+      <div class="p10 scroll-boX hide-scrollbar">
+        <div class="feature-box bg-holiday clickable active">Holiday Designs</div>
+        <div class="feature-box bg-g-blue clickable active"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'new-favorites'}">New Favorites</div>
+        <div class="feature-box bg-purple clickable active">*insert-option*</div>
+        <div class="feature-box bg-green clickable active">*insert-option*</div>
+        <div class="feature-box bg-orange clickable active">*insert-option*</div>
+        <div class="feature-box bg-yellow clickable active">*insert-option*</div>
+        <div class="feature-box bg-bluer clickable active">*insert-option*</div>
+      </div>
+    </div>
+    <!-- END FEATURE BOX -->
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'artist'}"
+        tg-name="artist_tab">
+      <span class="montserrat_semi_bold">Artists</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div> 
+    <div class="bb bt hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="model.sort_function"
+        data-msg="most popular"
+        tg-name="most_popular_tab">
+      <span>
+        <span class="montserrat_semi_bold">Most Popular</span>
+      </span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div>
+
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="model.sort_function"
+        data-msg="newest designs"
+        tg-name="newest_tab">
+      <span class="montserrat_semi_bold">Newest</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':''}"
+        tg-name="sisyphus_originals_tab">
+      <span class="montserrat_semi_bold">Sisyphus Originals</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div>   
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>
+
