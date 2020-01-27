@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.87', // is_simulator=false pushing to test-flight
+	  version				:'1.8.88', // Fix no-scroll in app   !!!!REMEMBER TO CHANGE is_production and is_simulator!!!!!
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

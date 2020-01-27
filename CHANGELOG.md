@@ -1,4 +1,5 @@
-#2019-12-09 1.8.87
+#2019-12-09 1.8.87, 1.8.88
+ - Fixed no-scroll in app
  - Changed is_simulator=false
  - remove scroll and add no-scroll class in draw.js
 #2019-12-09 1.8.80-86
