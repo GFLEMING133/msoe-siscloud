@@ -135,6 +135,7 @@ app.model.sisbot = {
 				is_autodim_allowed		: 'true',
 				is_autodim						: 'true',
 				is_nightlight					: 'false',
+				is_play_on_wake				: 'false',
 				is_sleeping						: 'false',
 				timezone_offset				: moment().format('Z'),
 				nightlight_brightness : 0.2,
@@ -957,7 +958,7 @@ app.model.sisbot = {
 		if (app.config.env == 'alpha') return app.trigger('session:active', { secondary: 'false' });
 
 		var self		= this;
-		var edit		= _.pick(this.get('edit'), 'is_sleep_enabled', 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
+		var edit		= _.pick(this.get('edit'), 'is_sleep_enabled', 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness', 'is_play_on_wake');
 		var errors 		= [];
 
 		this.set('errors', []);

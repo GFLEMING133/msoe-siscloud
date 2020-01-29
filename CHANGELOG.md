@@ -4,6 +4,7 @@
  - "What's Hot" sort option for Community
  - Color Picker allows easier scrolling in app, touch area of circle reduced to just circle
  - Specify IP page added to Change Table page
+ - Always Play on Wake added to Night Mode
 #2019-12-09 1.8.87, 1.8.88
  - Fixed no-scroll in app
  - Changed is_simulator=false

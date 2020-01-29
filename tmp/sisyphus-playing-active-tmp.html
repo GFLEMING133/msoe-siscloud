@@ -1,11 +1,16 @@
 <div data-model="{{= manager.sisbot_id }}"
     data-if="{{= model.data }} !== undefined">
   <div class="pl20 white" data-if="{{= model.data.active_playlist_id }} !== false">
+    <h2 class="fs18 lh24 no-stuffing capitalize truncate strong"
+        data-if="{{= session.active.primary }} == current">{{= model.data.name }}</h2>
     <h3 class="fs13 lh18 no-stuffing capitalize truncate"
         data-model="{{= model.data.active_playlist_id }}">
       Playing from {{= model.data.name }}
     </h3>
-    <h2 class="fs18 lh24 pb5 no-stuffing capitalize truncate strong">{{= model.data.name }}</h2>
+    <h2 class="fs18 lh24 pb5 no-stuffing capitalize truncate strong"
+        data-if="{{= session.active.primary }} !== current">
+      <span data-model="{{= model.data.active_track.id }}">{{= model.data.name }}</span>
+    </h2>
   </div>
   <div class="white" data-if="{{= model.data.active_playlist_id }} == false">
     <div

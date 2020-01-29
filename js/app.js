@@ -1,20 +1,4 @@
 var app = {
-<<<<<<< HEAD
-	base 				: {},
-	plugins			: {},
-	model				: {},
-	collection	: {},
-	tmps				: [],
-	view				: {},
-	tour				: {},
-	is_production	: false, // disallow all console logs
-	is_simulator	: false, // are we in a simulator? Mainly for handling bluetooth
-	simulator_ip	: '192.168.0.19', // force a specific network address in simulator
-	is_visible		: true,
-	mouse_is_down	: false,
-	count					: 0,
-	timers 				: function (id1, id2, id3) {
-=======
 	base 			: {},
 	plugins		: {},
 	model			: {},
@@ -29,7 +13,6 @@ var app = {
 	mouse_is_down: false,
 	count		: 0,
 	timers		: function (id1, id2, id3) {
->>>>>>> staging
 		if (!this._timers)		this._timers = {};
 
 		if (id1 && id2 && id3) {
