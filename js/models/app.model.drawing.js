@@ -601,6 +601,7 @@ app.model.drawing = {
       this.set('drag_pos.offset.y', this.get('drag_pos.offset.y') - offset_scroll);
       this.scroll_el.scrollTop(0);
       this.scroll_el.removeClass('scroll');
+      if (!app.is_app) this.scroll_el.addClass('no-scroll');
     // }
 
     // increase rendering speed
@@ -818,7 +819,7 @@ app.model.drawing = {
 
       // enable scrolling in app
       // if (app.is_app) {
-        if (this.scroll_el) this.scroll_el.addClass('scroll');
+        if (this.scroll_el) this.scroll_el.removeClass('no-scroll').addClass('scroll');
         else app.log("Scroll element lost!");
       // }
 
