@@ -1,10 +1,14 @@
 #2019-01-27 1.10.01
  - Add table name to homepage header
  - Change css on Wifi password visibility toggle
-#2019-01-21 1.8.87
  - "What's Hot" sort option for Community
  - Color Picker allows easier scrolling in app, touch area of circle reduced to just circle
  - Specify IP page added to Change Table page
+#2019-12-09 1.8.87, 1.8.88
+ - Fixed no-scroll in app
+ - Changed is_simulator=false
+ - remove scroll and add no-scroll class in draw.js
+ - fix app.plugins.json.parse() error
 #2019-12-09 1.8.80-86
  - Turned off socket listeners.
  - added OS obj var in sessions to target Android and iOS in css to fix header issue in drawing

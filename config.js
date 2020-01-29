@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 var config = {
 	  version				:'1.9.01', // read CHANGELOG
+=======
+var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
+	  version				:'1.8.88', // Fix no-scroll in app   !!!!REMEMBER TO CHANGE is_production and is_simulator!!!!!
+>>>>>>> staging
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

@@ -94,7 +94,13 @@ app.plugins.json = {
 		return JSON.stringify(object).replace(/\"/gi, '~');
 	},
 	parse: function (string) {
-		return JSON.parse(string.replace(/\~/gi, '"'));
+		var return_value = null;
+		try {
+			return_value = JSON.parse(string.replace(/\~/gi, '"'));
+		} catch(e) {
+			console.error("Error", e, string);
+		}
+		return return_value;
 	}
 };
 
@@ -419,6 +425,6 @@ app.plugins.is_ipaddress = function(ipaddress) {
 
 app.plugins.toFixed = function(value, decimals) {
 	if (!value) return 0;
-	
+
 	return +value.toFixed(decimals);
 }
