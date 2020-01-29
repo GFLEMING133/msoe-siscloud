@@ -16,7 +16,14 @@ app.model.community = {
       community_track_ids     : [],
       community_artist_ids    : [],
 
-      track_sort        : 'most popular',
+      track_sort        : 'most popular', //newest designs , name, artist, (default) most popular
+      track_sort_key    : 'data.popularity',
+      track_sort_keys   : {
+        'most popular'  :'data.popularity',
+        'newest designs':'data.created_at',
+        'name'          :'data.name',
+        'artist'        :'data.created_by_name',
+      },
       sorting           : 'false',
       download_cloud    : 'false',
       selected_tracks   : [],
@@ -26,6 +33,8 @@ app.model.community = {
       limit         : 30,
       limit_step    : 30,
       fetching_more : 'false',
+
+      hamburger     : 'false',
 
       data: {
         id      : data.id,
@@ -52,6 +61,7 @@ app.model.community = {
     this.listenTo(app, 'community:select_track', this.selectTrack);
     this.listenTo(app, 'community:deselect_track', this.deselectTrack);
 
+    this.on('change:track_sort', this.update_sort_key);
     this.on('change:offset', this.scrollTop);
 
     return this;
@@ -85,6 +95,12 @@ app.model.community = {
       self.scrolling = true;
     }
   },
+  update_sort_key: function(){
+    this.set('track_sort_key', this.get('track_sort_keys['+this.get('track_sort')+']'));
+    app.log( 'TRACK SORT' ,this.get('track_sort'));
+    app.log( 'TRACK SORT KEYSSS' ,this.get('track_sort_keys'));
+    app.log( 'TRACK SORT KEY' ,this.get('track_sort_key'));
+  },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
 		app.log('in the sign_out_community');
@@ -93,7 +109,7 @@ app.model.community = {
       .set( 'signing_in', 'false')
       .set('signed_in', 'false');
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
-	},
+  },
   fetch_community_tracks: function() {
     if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;
 
@@ -108,6 +124,7 @@ app.model.community = {
     };
 
     function cb(obj) {
+
       // app.log("Community Tracks:", obj.resp);
       if (obj.err) return self;
       app.manager.intake_data(obj.resp); // obj.resp.data
@@ -115,13 +132,16 @@ app.model.community = {
       var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
-
       _.each(new_track_ids, function(track_id) {
+        var track = app.collection.get(track_id);
+        track.set('is_community', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
+        
       });
       self.set('sorting', 'false');
       self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');
+      
     }
 
     app.post.fetch2(tracks, cb, 0);
@@ -129,7 +149,7 @@ app.model.community = {
     return this;
   },
   fetch_community_artists: function() {
-    if (this.get('fetched_community_artists') == 'true' || this.get('fetching_community_artists') == 'true') return this;
+    if (this.get('fetching_community_artists') == 'true') return this;
 
     var self = this;
     this.set('fetching_community_artists', 'true');
@@ -144,11 +164,6 @@ app.model.community = {
     function cb(obj) {
       app.log("Community Artists:", obj.resp);
       if (obj.err) return self;
-
-      // add id
-      _.each(obj.resp, function(user_obj) {
-        user_obj.id = app.plugins.uuid();
-      });
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
@@ -165,8 +180,7 @@ app.model.community = {
   },
   fetch_artist_tracks: function(data) {
     if (!data.user_id) return this; // must pass in user_id
-    if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;
-
+    if (this.get('fetching_community_tracks') == 'true') return this;
     var self = this;
     this.set('fetching_community_tracks', 'true');
 
@@ -187,11 +201,14 @@ app.model.community = {
       var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
       _.each(new_track_ids, function(track_id) {
+        var track = app.collection.get(track_id);
+        track.set('is_community', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
       });
       self.set('sorting', 'false');
-      self.set('fetched_community_tracks', 'true');
+      // self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');
+      app.log('AFter Fetch', self.get('fetching_community_tracks'))
     }
 
     app.post.fetch2(tracks, cb, 0);
@@ -199,42 +216,12 @@ app.model.community = {
     return this;
   },
   sort_function: function(sort_params) {
+    app.log('sort_params', sort_params);
     var self = this;
 
-    this.set('sorting', 'true')
-      .set('track_sort', sort_params)
-      .set('fetching_community_tracks', 'true');
+    this.set('track_sort', sort_params);
 
-    var tracks = {
-      _url: app.config.get_webcenter_url(),
-      _type: 'GET',
-      endpoint: 'tracks.json?sort='+sort_params,
-      data: {}
-    };
-    app.log("Sort community tracks", tracks);
-
-    function cb(obj) {
-      if (obj.err) return self;
-
-      app.collection.add(obj.resp);
-
-      var resp_track_ids = _.pluck(obj.resp, 'id');
-      var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
-      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
-
-      self.openSort();
-      self.set('community_track_ids', new_track_ids);
-      self.set('offset', 0);
-      self.set('fetched_community_tracks', 'true');
-      // app.log('new_track_ids', obj.resp);
-      self.set('fetching_community_tracks', 'false');
-      self.set('sorting', 'false');
-    }
-
-    // this.fetch_community_tracks();
-    app.post.fetch2(tracks, cb, 0);
-
-    return this;
+    app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
   },
   //Actions drop down menu
   openSort: function() {
@@ -268,6 +255,7 @@ app.model.community = {
 
     if (numberOfTracks > 0) {
       this.set('download_cloud', 'false');
+
       var track_model = app.collection.get(track_list[numberOfTracks - 1]);
       if(track_model) track_model.download_wc(true);
     }
@@ -283,13 +271,17 @@ app.model.community = {
       this.download_wc();
     } else {
       this.trigger('remove:community_track_ids'); // trigger once at end
-
+      
       app.trigger('modal:open', {
         'template': 'modal-list-playlist-add-tmp'
       });
     }
   },
-
+  openHamburger: function(x) {
+    this.set('hamburger', 'true');
+    console.log("X", x)
+    x.classList.toggle("change");
+  },
   new_playlist: function() {
     app.manager.playlist_create({
       track_ids: this.get('downloaded_tracks')
@@ -317,6 +309,9 @@ app.model.community = {
      let sisbot = app.manager.get_model('sisbot_id');
      let downloaded_tracks = this.get('downloaded_tracks');
      _.each(downloaded_tracks, function(i) {
+       var track = app.collection.get(i);
+       track.set('is_community', 'true')
+       track.set('community_track_downloaded', 'false')
         sisbot.remove('data.track_ids', i);
         self.add('selected_tracks', i);
      });

@@ -43,6 +43,15 @@ app.model.modal = {
   close: function() {
     this.set('is_hidden', 'true');
   },
+  more_from_artist: function( route_msg ) {
+    if (!app.plugins.is_uuid(route_msg.artist_id)) {
+      var artists = app.collection.get_cluster({'type':'artist', 'user_id': route_msg.artist_id});
+      if (artists.size() > 0 ) route_msg.artist_id = artists.first().id; // gets id from first in collection
+    }
+
+    app.trigger('session:active', route_msg );
+    this.set('is_hidden', 'true');
+  },
 	/******************* PLAYLIST FUNCTIONS *************************/
   add_to_playlist: function(playlist_id) {
 

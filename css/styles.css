@@ -218,24 +218,20 @@ label {
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
-	/* justify-content: space-evenly; */
+	justify-content: space-evenly;
 }
 .overlay_margin {
   margin-bottom: 50vh;
 }
-
 .c-tracks-body-header {
 	padding-top: 5px;
 }
-
 .web {
 	background-color		: #222 !important;
 }
-
 .app {
 	background-color		: #000000 !important;
 }
-
 .web .body-header {
 	padding-top				: 50px;
 	margin-top				: 0px;
@@ -416,7 +412,14 @@ label {
 	overflow: scroll;
 	max-height: 225px;
 	border-radius: 15px;
-  border: 1px solid #acacac;
+  border: 1px solid #11b2fb;
+}
+.scroll-boX {
+	display 										: flex;
+	overflow-x 									: auto;
+	-webkit-overflow-scrolling 	: auto !important;
+  min-width 									: 100%;
+	min-height 									: 100%;
 }
 .auto-scroll {
     overflow-y 									: scroll;
@@ -585,9 +588,56 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .private_italic {
 	font-style: italic;
 	color 		: #F4AE3D !important;
-
  }
 
+ /* -----------Community Browse Feature---------------------------  */
+
+ .download-all-btn {
+	margin: auto;
+	width: 55%;
+	border-radius: 30px;
+	text-align: center;
+	border: 2px solid #fff;
+	cursor: pointer;
+	padding: 11px;
+	color: #fff;
+	font-weight: 600;
+ }
+
+.hamburger-container {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+	width: 25px;
+	height: 2px;
+	margin: 3px 0;
+}
+
+.change-burger .bar1 {opacity: 0.5;}
+
+.change-burger .bar2 {opacity: 0.5;}
+
+.change-burger .bar3 {opacity: 0.5;}
+
+.feature-box {
+	font-family: 'Montserrat-Medium', sans-serif;
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	display: flex;
+	border: 1px solid;
+	border-radius: 5px;
+	padding: 8%;
+	height: 50%;
+	margin: 0px 2%;
+
+}
 /* -----------SORT BY DROP DOWN----------------------------  */
 
 
@@ -657,7 +707,9 @@ body > .container > .row {	/* remove if you want a bottom bar */
  color 			: #fff;
  font-weight: 600;
 }
-
+.pointer-none {
+	pointer-events: none;
+}
 
 .hover, .hover > * 													{	color	  : #efefef;}
 .hover:hover, .hover:hover > * 							{	color		: #333;}
@@ -754,8 +806,22 @@ li.blue-hover:hover {
 .flex1end {
 	display         : flex;
 	flex 						: 1;
-	justify-content : flex-end;
+	justify-content : center;
 	align-items 		: flex-end;
+}
+.flex-end-center {
+	display         : flex;
+	justify-content : flex-end;
+	align-items 		: center;
+}
+.flex1 {
+	flex 						: 1;
+}
+.flex2 {
+	flex 						: 2;
+}
+.flex3 {
+	flex 						: 3;
 }
 .flex-justify-center {
 	display 				: flex;
@@ -1017,11 +1083,14 @@ li.blue-hover:hover {
 .hh120								{	height					: 120px }
 .hh125								{	height					: 125px }
 .hh150								{	height					: 150px }
+.hh185								{	height					: 185px }
 .hh200								{	height					: 200px }
 .hh250								{	height					: 250px }
 .hh350								{	height					: 350px }
 .hh400								{	height					: 400px }
 .hh450								{	height					: 450px }
+
+.mh50   							{ max-height 			: 50px  }
 
 .hvw5									{	height					: 5vw; 	}
 .hvw10								{	height					: 10vw; }
@@ -1049,6 +1118,20 @@ li.blue-hover:hover {
 .vh80									{	height					: 80vh; }
 .vh90									{	height					: 90vh; }
 .vh100								{	height					: 100vh }
+
+.mvh10								{	max-height			: 10vh; }
+.mvh20								{	max-height			: 20vh; }
+.mvh25								{	max-height			: 25vh; }
+.mvh30								{	max-height			: 30vh; }
+.mvh35								{	max-height			: 35vh; }
+.mvh40								{	max-height			: 40vh; }
+.mvh50								{	max-height			: 50vh; }
+.mvh60								{	max-height			: 60vh; }
+.mvh70								{	max-height			: 70vh; }
+.mvh75								{	max-height			: 75vh; }
+.mvh80								{	max-height			: 80vh; }
+.mvh90								{	max-height			: 90vh; }
+.mvh100								{	max-height			: 100vh }
 
 .vw10								  {	width						: 10vw; }
 .vw20								  {	width						: 20vw; }
@@ -1103,14 +1186,14 @@ li.blue-hover:hover {
 	text-overflow	: ellipsis;
 }
 
-.img-rounded, .rounded									{	border-radius							: 100px;}
-.img-rounded, .rounded-x2								{	border-radius							: 200px;}
-.corner-2px, .corner-2px:hover					{	border-radius							: 2px;}
-.corner-3px, .corner-3px:hover					{	border-radius							: 3px;}
-.corner-4px, .corner-4px:hover					{	border-radius							: 4px;}
-.corner-5px, .corner-5px:hover					{	border-radius							: 5px;}
-.corner-10px, .corner-10px:hover				{	border-radius							: 10px;}
-.corner-20px, .corner-20px:hover				{	border-radius							: 20px;}
+.img-rounded, .rounded									{	border-radius				: 100px;}
+.img-rounded, .rounded-x2									{	border-radius			: 200px;}
+.corner-2px, .corner-2px:hover					{	border-radius				: 2px;}
+.corner-3px, .corner-3px:hover					{	border-radius				: 3px;}
+.corner-4px, .corner-4px:hover					{	border-radius				: 4px;}
+.corner-5px, .corner-5px:hover					{	border-radius				: 5px;}
+.corner-10px, .corner-10px:hover				{	border-radius				: 10px;}
+.corner-20px, .corner-20px:hover				{	border-radius				: 20px;}
 .corner-tl-none, .corner-tl-none:hover	{	border-top-left-radius		: 0px;}
 .corner-tr-none, .corner-tr-none:hover	{	border-top-right-radius		: 0px;}
 .corner-bl-none, .corner-bl-none:hover	{	border-bottom-left-radius	: 0px;}
@@ -1314,6 +1397,7 @@ select:focus {
 	border-radius: 10px;
 }
 
+
 /**************************** COLORS ******************************************/
 
 .bl-red									{	border-left				: 3px solid #c7254e; }
@@ -1324,7 +1408,7 @@ select:focus {
 .black 											{	color		: #333    !important; }
 .blue-l 										{	color		: #22AEFF !important;	}
 .blue, .blue-hover:hover		{	color		: #11b2fb !important; }
-.bluer											{	color		: #11b2fb !important;	}
+.bluer											{	color		: #2c697f  !important;	}
 .orange											{	color		: #F4AE3D !important;	}
 .green											{	color		: #32B150 !important;	}
 .red									  		{	color		: #d0021b !important;	}
@@ -1333,6 +1417,7 @@ select:focus {
 .grey-lt										{	color		: #dcdcdc !important;	}
 .grey-l-hover:hover					{	color		: #acacac !important; }
 .grey									  		{	color		: #838383 !important;	}
+.greyer									  	{	color		: #888888 !important;	}
 .grey-d								  		{	color		: #292929 !important;	}
 .warmGrey										{	color		: #9b9b9b !important;	}
 .warmRed							  		{	color 	: #990033 !important;	}
@@ -1343,9 +1428,13 @@ select:focus {
 .bg-black 								{	background-color		: #000000 !important; }
 .bg-yellow 								{	background-color		: #FDDA75 !important;	}
 .bg-red 									{	background-color		: #990033 !important;	}
+.bg-holiday								{ background-color 		: #a70a0a !important	; }
 .bg-white 								{	background-color		: #ffffff !important;	}
+.bg-bluer									{	background-color		: #11b2fb !important;	}
 .bg-d-blue 								{	background-color		: #0F72AB !important;	}
+.bg-g-blue 								{	background-color		: #2c697f !important;	}
 .bg-blue, .bg-blue-hover:hover  {	background-color		: #11b2fb !important;	}
+.bg-purple								{ background-color 		: #63338f !important;	}
 .bg-orange								{	background-color		: #F4AE3D !important;	}
 .bg-green									{	background-color		: #32B150 !important;	}
 .bg-ds-grey								{ background-color 		: darkslategray !important; }
@@ -1353,6 +1442,7 @@ select:focus {
 .bg-d-grey								{	background-color		: #292929 !important;	}
 .bg-m-grey								{	background-color		: #555 	  !important;	}
 .bg-grey									{	background-color		: #838383 !important;	}
+.bg-greyer								{	background-color		: #888888 !important;	}
 .bg-grey-l								{	background-color		: #9b9b9b !important;	}
 .bg-grey-lt								{	background-color		: #dcdcdc !important;	}
 .bg-grey-ll								{	background-color		: #e7e7e7 !important;	}
@@ -1469,6 +1559,10 @@ select:focus {
 .fs17									{	font-size				: 17px !important;}
 .fs18									{	font-size				: 18px !important;}
 .fs19									{	font-size				: 19px !important;}
+.fs20									{	font-size				: 20px !important;}
+.fs21									{	font-size				: 21px !important;}
+.fs22									{	font-size				: 22px !important;}
+.fs23									{	font-size				: 23px !important;}
 .fs24									{	font-size				: 24px !important;}
 .fs26									{	font-size				: 26px !important;}
 .fs30									{	font-size				: 30px !important;}
@@ -1486,7 +1580,9 @@ select:focus {
 
 /**************************** BORDERS *****************************************/
 
-.b										{	border						: 1px solid #efefef;	}
+.b										{	border						: 1px solid #efefef !important;	}
+.b-bluer 							{ border 						: 1px solid #2c697f !important;	}
+.b-greyer 						{ border 						: 1px solid #888888 !important;	}
 .bb-dcdc							{ border-bottom			: 1px solid #dcdcdc !important;	}
 .bt										{	border-top				: 1px solid #efefef !important;	}
 .bt-dcdc 							{ border-top				: 1px solid #dcdcdc !important;	}
@@ -1535,9 +1631,8 @@ select:focus {
 .p50									{	padding					: 50px !important; }
 .p75									{	padding					: 75px !important; }
 
-.mcenter							{ 	margin-left: 15px; 		margin-right: 15px; }
-
-.m-auto								{ margin 					: auto 0 !important}
+.mcenter							{ margin-left: 15px; 		margin-right: 15px; }
+.m-auto								{ margin 					: 0 auto !important; }
 .m0										{	margin					: 0px !important; }
 .m5										{	margin					: 5px !important; }
 .m10									{	margin					: 10px !important; }
@@ -1562,16 +1657,18 @@ select:focus {
 .ml5									{	margin-left				: 5px !important; }
 .mr5									{	margin-right			: 5px !important; }
 
+.mt10p								{	margin-top				: 10% !important;  }
 .mt10									{	margin-top				: 10px !important; }
 .mb10									{	margin-bottom			: 10px !important; }
 .ml10									{	margin-left				: 10px !important; }
 .mr10									{	margin-right			: 10px !important; }
-.mbox10 							{   margin 				  : 10px 10px !important; 				}
+.mbox10 							{ margin 				  	: 10px 10px !important; 				}
 .mt15									{	margin-top				: 15px !important; }
 .mb15									{	margin-bottom			: 15px !important; }
 .ml15									{	margin-left				: 15px !important; }
 .mr15									{	margin-right			: 15px !important; }
 
+.mt20p								{	margin-top				: 20% !important;  }
 .mt20									{	margin-top				: 20px !important; }
 .mb20									{	margin-bottom			: 20px !important; }
 .ml20									{	margin-left				: 20px !important; }
@@ -1596,22 +1693,24 @@ select:focus {
 .mb40									{	margin-bottom			: 40px !important; }
 .ml40									{	margin-left				: 40px !important; }
 .mr40									{	margin-right			: 40px !important; }
+.mt40p 								{	margin-top				: 40%  !important; }
 
 .mt50									{	margin-top				: 50px !important; }
 .mb50						      { margin-bottom		  : 50px !important; }
-.mb400					      { margin-bottom		  : 400px  !important; }
 .ml50									{	margin-left				: 50px !important; }
 .mr50						      { margin-right		  : 50px !important; }
 .mb55						      { margin-bottom		  : 55px !important; }
 .mb51						      { margin-bottom		  : 50px !important; }
 .mt60									{	margin-top				: 60px !important; }
-
+.mt65p								{	margin-top				: 65%  !important; }
 .mt70									{	margin-top				: 70px !important; }
+.mt70p								{	margin-top				: 70%  !important; }
 .mb70						      { margin-bottom		  : 70px !important; }
-
 .mt75									{	margin-top				: 75px !important; }
 .mt100								{	margin-top				: 100px !important; }
 .mt150								{	margin-top				: 150px !important; }
+
+.mb400					      { margin-bottom		  : 400px !important; }
 
 
 .mb75						      { margin-bottom		  : 75px;	}
@@ -1658,7 +1757,7 @@ select:focus {
 .pb10									{	padding-bottom		: 10px !important; }
 .pl10									{	padding-left			: 10px !important; }
 .pr10									{	padding-right			: 10px !important; }
-
+.pr10p									{	padding-right			: 10%  !important; }
 .pt12									{	padding-top				: 12px !important; }
 .pb12									{	padding-bottom		: 12px !important; }
 .pl12									{	padding-left			: 12px !important; }
@@ -1695,12 +1794,13 @@ select:focus {
 .pr40									{	padding-right			: 40px !important; }
 
 .pb45									{	padding-bottom		: 45px !important; }
-
+.pt50p								{ padding-top 			: 50%  !important; }
 .pt50						      { padding-top     	: 50px !important; }
 .pb50						      { padding-bottom		: 50px !important; }
 .pl50									{	padding-left			: 50px !important; }
 .pr50									{	padding-right			: 50px !important; }
 .pb55									{	padding-bottom   	: 55px !important; }
+.pt60p								{ padding-top 			: 60%  !important; }
 .pb65						      { padding-bottom    : 65px !important; }
 .pt65						      { padding-top       : 65px !important; }
 .pt70						      { padding-top       : 70px !important; }
@@ -1845,6 +1945,20 @@ input[type="range"]::-ms-fill-lower {
 }
 input[type="range"]::-ms-fill-upper {
   background-color: #efefef;
+}
+input[type="text"] {
+	font-family: "Font Awesome 5 Free";
+	font-size: 1em;
+	font-weight: 900;
+	border-radius: 10px;
+	width: 100%;
+}
+input[type="password"] {
+	font-family: "Font Awesome 5 Free";
+	font-size: 1em;
+	font-weight: 900;
+	border-radius: 10px;
+	width: 100%;
 }
 
 
@@ -2028,7 +2142,7 @@ and (orientation : portrait)
 		height: 350px;
 	}
 }
-/* @media only screen
+@media only screen
 and (min-device-width : 320px)
 and (max-device-width : 568px)
 and (orientation : portrait) {
@@ -2039,7 +2153,7 @@ and (orientation : portrait) {
 	.btn {
 		padding: 10px !important;
 	}
-} */
+}
 
 /**************iPhone 6 & 7 PLus**************/
 @media only screen
