@@ -633,9 +633,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: flex;
 	border: 1px solid;
 	border-radius: 5px;
-	padding: 8%;
-	height: 50%;
-	margin: 0px 2%;
+	padding: 40px;
+	white-space: nowrap;
+	margin: auto 5px;
+
 
 }
 /* -----------SORT BY DROP DOWN----------------------------  */

@@ -1,4 +1,4 @@
-<div class="h100">
+<div class="h100" >
   <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
     <div class="w25" data-model="{{= session.community_id }}">
       <div class="clickable blue-hover"
@@ -14,24 +14,35 @@
     <div class="w25 center f-large">&nbsp;</div>
   </div>
 
-  <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="browse_page"         
-      data-model="{{= session.community_id }}">
-    <div class="flex-column pb10">
+  <div class="body-header h100 pb50 scroll hide-scrollbar" 
+      tg-name="browse_page" 
+      data-model="{{= session.community_id }}"
+      data-run="model.fetch_community_playlists">
+    <div class="mt100" data-if="{{= model.fetching_community_playlists }} == true">
+      <div class="p20 center i">Fetching Playlist...</div>
+      <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+    </div>
+
+  <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
+    <div class="h100" data-if="{{= _.size(model.community_playlist_ids) }} > 0">
+
       <h2 class="strong fs18 center">Features</h2>
-      <div class="p10 scroll-boX hide-scrollbar">
-        <div class="feature-box bg-holiday clickable active">Holiday Designs</div>
+      <div class="p10 scroll-boX hide-scrollbar"
+          data-foreach="model.community_playlist_ids"
+          data-foreach-map="true"
+          data-foreach-default="Special Playlist">
         <div class="feature-box bg-g-blue clickable active"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'secondary':'new-favorites'}">New Favorites</div>
-        <div class="feature-box bg-purple clickable active">*insert-option*</div>
-        <div class="feature-box bg-green clickable active">*insert-option*</div>
-        <div class="feature-box bg-orange clickable active">*insert-option*</div>
-        <div class="feature-box bg-yellow clickable active">*insert-option*</div>
-        <div class="feature-box bg-bluer clickable active">*insert-option*</div>
-      </div>
-    </div>
-    <!-- END FEATURE BOX -->
+            data-msg="{'secondary':'playlist-list', 'playlist_id':'{{= model.id }}' }"
+            tg-name="feature_box">
+          <div class="">{{= model.data.name}}<div>
+
+        </div>
+      </div> <!-- p10 scroll-boX hide-scrollbar -->
+    </div> <!-- END _.size(model.community_playlist_ids) -->
+  </div> <!-- END FEATURE BOX -->
+   
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"
         data-publish="session:active"

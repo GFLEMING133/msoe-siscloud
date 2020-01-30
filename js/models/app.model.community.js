@@ -9,7 +9,7 @@ app.model.community = {
       fetching_community_artists    : 'false',
       fetched_community_playlists   : 'false',
       fetched_community_tracks      : 'false',
-      fetched_community_artists      : 'false',
+      fetched_community_artists     : 'false',
 
       community_page          : 'tracks',
       community_playlist_ids  : [],
@@ -103,12 +103,42 @@ app.model.community = {
   },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
-		app.log('in the sign_out_community');
+    app.log('in the sign_out_community');
 		app.session.set('auth_token', '')
-			.set( 'remember_me', 'false')
-      .set( 'signing_in', 'false')
-      .set('signed_in', 'false');
+    .set( 'remember_me', 'false')
+    .set( 'signing_in', 'false')
+    .set('signed_in', 'false');
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
+  },
+  fetch_community_playlists: function() {
+    app.log('fetch_community_playlists function')
+    if (this.get('fetching_community_playlists') == 'true') return this;
+
+    var self = this;
+    this.set('fetching_community_playlists', 'true');
+    var playlists = {
+      _url: app.config.get_webcenter_url(),
+      _type: 'GET',
+      endpoint: 'playlists.json',
+      data: {}
+    };
+
+    function cb(obj) {
+      app.log("Community Playlists:", obj.resp);
+      if (obj.err) return self;
+
+      app.manager.intake_data(obj.resp); // obj.resp.data
+
+      var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+      
+      self.set('community_playlist_ids', resp_playlist_ids);
+      self.set('fetched_community_playlists', 'true');
+      self.set('fetching_community_playlists', 'false');
+    }
+
+    app.post.fetch2(playlists, cb, 0);
+
+    return this;
   },
   fetch_community_tracks: function() {
     if (this.get('fetched_community_tracks') == 'true' || this.get('fetching_community_tracks') == 'true') return this;

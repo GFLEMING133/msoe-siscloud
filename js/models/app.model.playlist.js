@@ -4,6 +4,9 @@ app.model.playlist = {
 			id				: data.id,
 			type			: 'playlist',
 
+			fetching_playlist: 'false',
+			fetched_playlist:  'false',
+
 			eligible_tracks	: [],
 			active_tracks		: [],
 			edit		: {
@@ -104,6 +107,11 @@ app.model.playlist = {
 		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
+	fetch_playlist: function(){
+		app.log('fetch_playlist function')
+		if(this.get('fetching_playlist') == 'true' || this.get('fetched_playlist' == 'true') ) return this;
+		
+	},
 	play_from_current: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
