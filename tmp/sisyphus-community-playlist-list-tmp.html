@@ -49,31 +49,23 @@
             data-run-msg="{{= model.data.playlist_id }}"
             tg-name="community_playlist_page">
 
-            <div class="mt100" data-if="{{= parent.fetching_playlist }} == true">
-              <div class="p20 center i">Fetching tracks...</div>
-              <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-            </div>
-        
-        <div data-if="{{= parent.fetching_playlist}} == false">  
-          <div class="w100" data-if="{{= _.size(parent.community_db_track_ids) }} > 0">
-            <div class="w100 mt10"
-                data-foreach="parent.community_db_track_ids"
-                data-foreach-map="true"
-                data-foreach-limit="{{= parent.limit }}"
-                data-foreach-offset="{{= parent.offset }}">
-              <div class="h100" data-template="sisyphus-community-playlist-list-item-tmp"></div>
-            </div>
+          <div class="mt100" data-if="{{= parent.fetching_playlist }} == true">
+            <div class="p20 center i">Fetching tracks...</div>
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
           </div>
-        </div> 
-    
+        
+          <div data-if="{{= parent.fetching_playlist}} == false">  
+            <div class="w100" data-if="{{= _.size(parent.community_db_track_ids) }} > 0">
+              <div class="w100 mt10"
+                  data-foreach="parent.community_db_track_ids"
+                  data-foreach-map="true">
+                <div class="h100" data-template="sisyphus-community-playlist-list-item-tmp"></div>
+              </div>
+            </div>
+          </div> 
           <div class="p20 mt100 center fs18 blue i"
               data-if="{{= _.size(model.data.db_tracks) }} == 0">
               There are no new tracks to download.
-          </div>
-
-          <div data-if="{{= _.size(parent.community_db_track_ids) }} > {{= parent.limit }}">
-            <div class="p20 center i">Fetching tracks...</div>
-            <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
           </div>
         </div>
         <div class="hh150">&nbsp;</div>

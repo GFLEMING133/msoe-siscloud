@@ -25,21 +25,21 @@
 
   <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
     <div class="h100" data-if="{{= _.size(model.community_playlist_ids) }} > 0">
-
-      <h2 class="strong fs18 center">Features</h2>
-      <div class="p10 scroll-boX hide-scrollbar"
-          data-foreach="model.community_playlist_ids"
-          data-foreach-map="true"
-          data-foreach-default="Special Playlist">
-        <div class="feature-box bg-g-blue clickable active"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'secondary':'playlist-list', 'playlist_id':'{{= model.id }}' }"
-            tg-name="feature_box">
-          <div class="">{{= model.data.name}}<div>
-
-        </div>
-      </div> <!-- p10 scroll-boX hide-scrollbar -->
+        <h2 class="strong fs18 center">Features</h2>
+        <div class="p10 overflow-boX hide-scrollbar"
+            data-foreach="model.community_playlist_ids"
+            data-foreach-map="true"
+            data-foreach-default="Special Playlist">
+          <div class="h100" data-if="{{= model.data.name }} !== Default Tracks">
+            <div class="feature-box bg-g-blue clickable active"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'secondary':'playlist-list', 'playlist_id':'{{= model.id }}' }"
+                tg-name="feature_box">
+              <div class="">{{= model.data.name}}<div>
+            </div>
+          </div> 
+      </div><!-- p10 overflow-boX hide-scrollbar -->
     </div> <!-- END _.size(model.community_playlist_ids) -->
   </div> <!-- END FEATURE BOX -->
    
@@ -77,7 +77,7 @@
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"
         data-publish="session:active"
-        data-msg="{'secondary':''}"
+        data-msg="{'secondary':'playlist-list', 'playlist_id':'f54f048a-0bf5-4e1c-96fa-9c2e1aeace6a' }"
         tg-name="sisyphus_originals_tab">
       <span class="montserrat_semi_bold">Sisyphus Originals</span>
       <span class="pull-right">
