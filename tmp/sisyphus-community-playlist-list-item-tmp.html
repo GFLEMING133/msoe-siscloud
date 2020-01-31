@@ -1,0 +1,33 @@
+<div data-if="{{= model.data.type}} == track">
+  <div class="flex clickable active bb"
+      tg-name="community_db_track_{{= model.track_id }}_div">
+    <div class="w25 p10 center vertical "
+        data-on-click="publish"
+        data-publish="modal:open"
+        data-msg="{'track_id':'{{= model.track_id}}', 'template':'sisyphus-community-track-overlay-tmp'}">
+      <div class="w80p hh80">
+        <img class="w100 center img-rounded"
+            alt="{{= model.name }}"
+            src="img/tracks/_default_100.png"
+            data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
+            data-on-error="replace"
+            data-replace="list-image-fallback-tmp" />
+      </div>
+    </div>
+    <div class="w60 pt15 pl10"
+        data-on-click="publish"
+        data-publish="modal:open"
+        data-msg="{'track_id':'{{= model.id }}', 'template':'sisyphus-community-track-overlay-tmp'}">
+      <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
+      <div class="fs13 warmGrey pt10">by {{= model.data.created_by_name }}</div>
+      <div class="fs13 warmRed pt5 private_italic"
+      data-if="{{= model.data.is_public }} == false">Private</div>
+    </div>
+    
+    <div class="w15 pr10 vertical center flex-justify-center" data-field="model.track_checked" data-on-click="toggle" tg-name="community_check_{{= model.id }}_box">
+      <span class="black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
+      <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
+    </div>
+  </div>
+</div>
+
