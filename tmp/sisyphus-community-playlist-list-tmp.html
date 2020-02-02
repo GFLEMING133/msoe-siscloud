@@ -41,14 +41,12 @@
         </div>
       </div>   
         <!--End of Play and Shuffle-->
-  
         <div class="body-header h100 pb160 scroll hide-scrollbar"
             data-on-scroll="parent.scroll_check"
             data-msg="{{= _self_.el_id }}"
             data-run="parent.fetch_playlist"
             data-run-msg="{{= model.data.playlist_id }}"
             tg-name="community_playlist_page">
-
           <div class="mt100" data-if="{{= parent.fetching_playlist }} == true">
             <div class="p20 center i">Fetching tracks...</div>
             <div class="mb20 black" data-template="spinner-bounce-tmp"></div>

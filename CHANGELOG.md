@@ -1,4 +1,9 @@
-#2019-01-27 1.10.01
+#2019-01-27 1.8.89
+ - Playlist now displaying 
+ - Sisyphus Originals showing all default tracks. 
+ - UI changes. 
+ - first push of new community to beta
+#2019-01-27 1.8.89
  - Add table name to homepage header
  - Change css on Wifi password visibility toggle
  - "What's Hot" sort option for Community

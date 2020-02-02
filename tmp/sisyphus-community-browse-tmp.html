@@ -1,4 +1,4 @@
-<div class="h100" >
+<div class="h100">
   <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
     <div class="w25" data-model="{{= session.community_id }}">
       <div class="clickable blue-hover"
@@ -23,25 +23,28 @@
       <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
 
-  <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
-    <div class="h100" data-if="{{= _.size(model.community_playlist_ids) }} > 0">
+      <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
         <h2 class="strong fs18 center">Features</h2>
-        <div class="p10 overflow-boX hide-scrollbar"
+        <div class="h100" 
+            data-if="{{= _.size(model.community_playlist_ids) }} > 0">
+          <div class="p10 overflow-boX hide-scrollbar"
             data-foreach="model.community_playlist_ids"
-            data-foreach-map="true"
-            data-foreach-default="Special Playlist">
-          <div class="h100" data-if="{{= model.data.name }} !== Default Tracks">
-            <div class="feature-box bg-g-blue clickable active"
+            data-foreach-map="true">
+            <div class="h100" data-if="{{= model.data.name }} !== Default Tracks">
+              <div class="feature-wrapper clickable active"
+                data-run="parent.fetch_playlist"
+                data-run-msg="{{= model.data.playlist_id}}"
                 data-on-click="publish"
                 data-publish="session:active"
-                data-msg="{'secondary':'playlist-list', 'playlist_id':'{{= model.id }}' }"
+                data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist-list'}"
                 tg-name="feature_box">
-              <div class="">{{= model.data.name}}<div>
+                <div data-template="sisyphus-community-feature-box">
+              </div>
             </div>
           </div> 
-      </div><!-- p10 overflow-boX hide-scrollbar -->
-    </div> <!-- END _.size(model.community_playlist_ids) -->
-  </div> <!-- END FEATURE BOX -->
+        </div>
+      </div>
+    </div> 
    
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"

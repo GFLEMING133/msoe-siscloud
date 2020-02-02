@@ -421,20 +421,28 @@ label {
   min-width 									: 100%;
 	min-height 									: 100%;
 }
-.feature-box {
+.feature-wrapper {
 	width: 130px;
-	height: 100px;
+	
+	margin-right: 20px;
+
+}
+.feature-box {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
+	background-color: #11b2fb;
+	border-radius: 10px;
 	flex: 0 0 auto;
 	font-family: 'Montserrat-Medium', sans-serif;
+}
+.feature-name {
+	font-size: 20px;
 	color: #fff;
-	font-weight: 600;
+	text-shadow: 2px 2px #444;
+	font-weight: 900;
+	align-self: center;
 	text-align: center;
-	border: 1px solid;
-	border-radius: 5px;
-	margin-right: 10px;
 }
 .auto-scroll {
     overflow-y 									: scroll;
@@ -444,6 +452,7 @@ label {
   	backface-visibility 				: hidden;
     /* height: 100vh; */
 }
+
 
 .no-scroll {
 	overflow-y: hidden;
