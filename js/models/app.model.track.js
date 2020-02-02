@@ -1098,7 +1098,8 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-	download_wc: function() {
+	download_wc: function(skip_playlist_add) {
+		console.log('skip_playlist_add', skip_playlist_add)
 
     var track_id = this.get('data.track_id')
 		var self = this;
@@ -1141,7 +1142,7 @@ app.model.track = {
 
 				// let track_id = JSON.stringify(self.id); //pulling id
 				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
-
+				debugger;
 				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
 
