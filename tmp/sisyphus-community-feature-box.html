@@ -1,15 +1,16 @@
-
-<div class="corner-3px {{= (model.data.playlist_id == 5) ? 'bg-holiday' : '' }}">
-    <div class="corner-3px {{= (model.data.playlist_id  == 4) ? 'bg-orange' : '' }}">
-        <div class="corner-3px {{= (model.data.playlist_id == 3) ? 'bg-bluer' : '' }}">
-            <div class="corner-3px {{= (model.data.playlist_id  == 2) ? 'bg-purple' : '' }}">
-                <div class="feature-box relative"
-                    data-model="{{= model.data.tracks[1].id }}"
-                    style="background-image:url('{{= app.config.get_api_url()}}{{= model.data.thumb}}');
-                            height: 90px;
-                            background-position: center;
-                            background-size: 130px;">
-                    <div class="absolutely feature-name">{{= parent.data.name}}</div>
+<div class="corner-3px bg-black">
+    <div class="corner-3px {{= (model.data.playlist_id == 5) ? 'bg-holiday' : '' }}">
+        <div class="corner-3px {{= (model.data.playlist_id  == 4) ? 'bg-orange' : '' }}">
+            <div class="corner-3px {{= (model.data.playlist_id == 3) ? 'bg-bluer' : '' }}">
+                <div class="corner-3px {{= (model.data.playlist_id  == 2) ? 'bg-purple' : '' }}">
+                    <div class="feature-box relative"
+                        data-model="{{= model.data.tracks[1].id }}"
+                        style="background-image:url('{{= app.config.get_api_url()}}{{= model.data.thumb}}');
+                                height: 90px;
+                                background-position: center;
+                                background-size: 130px;">
+                        <div class="absolutely feature-name">{{= parent.data.name}}</div>
+                    </div>
                 </div>
             </div>
         </div>
