@@ -427,9 +427,6 @@ label {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	background-color: #11b2fb;
-	border-radius: 10px;
-	flex: 0 0 auto;
 	font-family: 'Montserrat-Medium', sans-serif;
 }
 .feature-name {
