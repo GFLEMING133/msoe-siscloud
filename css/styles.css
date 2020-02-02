@@ -1952,14 +1952,14 @@ input[type="range"]::-ms-fill-upper {
   background-color: #efefef;
 }
 input[type="text"] {
-	font-family: "Font Awesome 5 Free";
+	font-family: "Font Awesome 5 Free", 'Montserrat', sans-serif;
 	font-size: 1em;
 	font-weight: 900;
 	border-radius: 10px;
 	width: 100%;
 }
 input[type="password"] {
-	font-family: "Font Awesome 5 Free";
+	font-family: "Font Awesome 5 Free", 'Montserrat', sans-serif;
 	font-size: 1em;
 	font-weight: 900;
 	border-radius: 10px;
