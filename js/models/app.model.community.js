@@ -22,10 +22,10 @@ app.model.community = {
       track_sort        : 'most popular', //newest designs , name, artist, (default) most popular
       track_sort_key    : 'data.popularity',
       track_sort_keys   : {
-        'most popular'  :'data.popularity',
-        'newest designs':'data.created_at',
-        'name'          :'data.name',
-        'artist'        :'data.created_by_name',
+        'most popular'    :'data.popularity',
+        'newest designs'  :'data.created_at',
+        name              :'data.name',
+        artist            :'data.created_by_name',
       },
       sorting           : 'false',
       download_cloud    : 'false',
