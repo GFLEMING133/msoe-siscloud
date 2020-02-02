@@ -418,14 +418,10 @@ label {
 	display 										: flex;
 	overflow-x 									: auto;
 	-webkit-overflow-scrolling 	: auto !important;
-  min-width 									: 100%;
-	min-height 									: 100%;
 }
 .feature-wrapper {
-	width: 130px;
-	
+	width: 120px;
 	margin-right: 20px;
-
 }
 .feature-box {
 	display: flex;

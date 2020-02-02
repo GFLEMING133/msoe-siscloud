@@ -30,7 +30,8 @@
           <div class="p10 overflow-boX hide-scrollbar"
             data-foreach="model.community_playlist_ids"
             data-foreach-map="true">
-            <div class="h100" data-if="{{= model.data.name }} !== Default Tracks">
+
+            <div class="h100" data-if="{{= model.data.playlist_id }} !== 1">
               <div class="feature-wrapper clickable active"
                 data-run="parent.fetch_playlist"
                 data-run-msg="{{= model.data.playlist_id}}"
@@ -78,6 +79,7 @@
       </span>
     </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-run="model.fetch_community_playlists"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'playlist-list', 'playlist_id':'f54f048a-0bf5-4e1c-96fa-9c2e1aeace6a' }"
