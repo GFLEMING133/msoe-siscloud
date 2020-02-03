@@ -30,39 +30,9 @@
                 data-on-input="model.update_q" />
           </div> <!--end of search-->
 
-          <div class="{{= (grandparent.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active"
-                data-field="grandparent.hamburger"
-                data-on-click="toggle">
-              <div class="bar1 bg-black"></div>
-              <div class="bar2 bg-black"></div>
-              <div class="bar3 bg-black"></div>
-          </div> <!--end of hamburger-->
-
-          <div class="overlay" data-if="{{= grandparent.hamburger }} == true">
-            <div class="pull-bottom overlay-container">
-              <div class="filter-container flex-column">
-                <h2 class="center white fs18">Filter</h2>
-                <ul class="flex-column">
-                  <li class="pt10 pb10 fs17 white less_strong">All Tracks     <i class="fas fa-check pull-right pr10p white"></i></li>
-                  <li class="pt10 pb10 fs17 white less_strong">Downloaded     <i class="fas fa-check pull-right pr10p white"></i></li>
-                  <li class="pt10 pb10 fs17 white less_strong">Not Downloaded <i class="fas fa-check pull-right pr10p white"></i></li>
-                </ul>
-              </div>
-              <div class="sort-by-container">
-                <h2 class="center white fs17">Sort By</h2>
-                  <ul class="flex-column">
-                    <li class="pt10 pb10 fs17 white less_strong">Most Popular     <i class="fas fa-check pull-right pr10p white"></i></li>
-                    <li class="pt10 pb10 fs17 white less_strong">Newest to Oldest <i class="fas fa-check pull-right pr10p white"></i></li>
-                    <li class="pt10 pb10 fs17 white less_strong">Oldest to Newest <i class="fas fa-check pull-right pr10p white"></i></li>
-                  </ul>
-              </div>
-              <div class="center bt-white white mt50 p20 fs18 strong blue-hover"
-                  data-field="grandparent.hamburger"
-                  data-on-click="toggle">
-                  Close
-              </div>
-            </div> <!--end of container-->
-          </div> <!--end of overlay-->
+          <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
+              data-template="modal-hamburger-tmp">
+          </div>
 
           <div class="flex-end-center"
               tg-name="download_cloud_header">

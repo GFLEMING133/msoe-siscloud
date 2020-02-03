@@ -1142,7 +1142,6 @@ app.model.track = {
 
 				// let track_id = JSON.stringify(self.id); //pulling id
 				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
-				debugger;
 				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
 
