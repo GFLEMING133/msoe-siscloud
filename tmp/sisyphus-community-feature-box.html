@@ -9,10 +9,9 @@
                 data-publish="session:active"
                 data-msg="{'primary':'community','secondary':'playlist-list','playlist_id':'{{= model.data.id }}'}"
                 tg-name="feature_box">
-                <div class="corner-3px bg-bluer"
-                        data-run="parent.fetch_playlist"
-                        data-run-msg="{{= model.data.playlist_id}}">
-                    <div class="feature-box relative"
+                <div class="corner-3px"
+                    style="background-color:{{= model.data.bg_color }};">
+                    <div class="feature-box relative" 
                         data-model="{{= model.data.tracks[0].id }}"
                         style="background-image:url('{{= app.config.get_api_url() }}{{= model.data.thumb}}');
                                 height: 90px;
