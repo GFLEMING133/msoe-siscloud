@@ -1,5 +1,5 @@
 <div class="h100 " data-run="model.collapse">
-  <div  data-if="{{= model.downloading_community_track }} == false">
+  <div  data-if="{{= grandparent.data.name }} == {{= model.data.created_by_name }}">
     <div class="flex clickable active bb p10 {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
           tg-name="community_track_container_{{= model.id }}_div">
       <div class="w25 p10 center vertical "

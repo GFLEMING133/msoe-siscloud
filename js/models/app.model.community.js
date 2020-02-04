@@ -15,7 +15,7 @@ app.model.community = {
 
       community_page          : 'tracks',
       community_playlist_ids  : [],
-      community_db_track_ids  : [],
+      community_playlist_track_ids  : [],
       community_track_ids     : [],
       community_artist_ids    : [],
 
@@ -145,9 +145,9 @@ app.model.community = {
   },
   fetch_playlist: function(pid) {
 
+    app.log('fetch_playlists function')
     let id = pid;
     let playlist_id =  parseInt(id);
-    app.log('fetch_playlist function');
 
     var self = this;
     this.set('fetching_playlist', 'true');    
@@ -168,7 +168,7 @@ app.model.community = {
 
       var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
 
-      self.set('community_db_track_ids', resp_playlist_ids);
+      self.set('community_playlist_track_ids', resp_playlist_ids);
       self.set('fetched_playlist', 'true');
       self.set('fetching_playlist', 'false');
     }
@@ -285,10 +285,9 @@ app.model.community = {
   sort_function: function(sort_params) {
     app.log('sort_params', sort_params);
     var self = this;
-
     this.set('track_sort', sort_params);
 
-    app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
+    app.trigger('session:active', {'secondary':'tracks'});
   },
   //Actions drop down menu
   openSort: function() {

@@ -1,11 +1,20 @@
-<div class="corner-3px bg-black">
-    <div class="corner-3px {{= (model.data.playlist_id == 5) ? 'bg-holiday' : '' }}">
-        <div class="corner-3px {{= (model.data.playlist_id  == 4) ? 'bg-orange' : '' }}">
-            <div class="corner-3px {{= (model.data.playlist_id == 3) ? 'bg-bluer' : '' }}">
-                <div class="corner-3px {{= (model.data.playlist_id  == 2) ? 'bg-purple' : '' }}">
+<div class="h100" 
+    data-if="{{= _.size(model.community_playlist_ids) }} > 0">
+    <div class="p10 overflow-boX hide-scrollbar"
+        data-foreach="model.community_playlist_ids"
+        data-foreach-map="true">
+        <div class="h100" data-if="{{= model.data.playlist_id }} !== 1">
+            <div class="feature-wrapper clickable active"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'primary':'community','secondary':'playlist-list','playlist_id':'{{= model.data.id }}'}"
+                tg-name="feature_box">
+                <div class="corner-3px bg-bluer"
+                        data-run="parent.fetch_playlist"
+                        data-run-msg="{{= model.data.playlist_id}}">
                     <div class="feature-box relative"
-                        data-model="{{= model.data.tracks[1].id }}"
-                        style="background-image:url('{{= app.config.get_api_url()}}{{= model.data.thumb}}');
+                        data-model="{{= model.data.tracks[0].id }}"
+                        style="background-image:url('{{= app.config.get_api_url() }}{{= model.data.thumb}}');
                                 height: 90px;
                                 background-position: center;
                                 background-size: 130px;">
@@ -14,6 +23,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 </div>
-

@@ -1,4 +1,5 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
+ 
   <div class="h100" data-model="{{= session.active.artist_id }}">
     <div class="h100" data-scope="true"
         data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parents[1].track_sort_key }}','order':'dsc','terms':{'is_community':'true','user_id':'{{= parent.data.user_id }}'}}">
@@ -70,7 +71,7 @@
               data-cluster-comparator="model.data.comparator"
               data-cluster-search-keys="model.data.q.search_keys"
               data-cluster-search-value="model.data.q.value">
-            <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
+            <div data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
           </div>
           <div class="p20 center fs18 blue i"
               data-if="{{= model.size }} == 0">

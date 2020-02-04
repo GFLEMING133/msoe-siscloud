@@ -1,7 +1,7 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="h100" data-model="{{= session.active.playlist_id }}">
     <div class="h100" data-scope="true"
-        data-defaults="{'type':'searchable_list','list_type':'track','order':'dsc','q':{'value':'','search_keys':['data.name','data.created_by_name']},'terms':{'is_deleted':'false'}}">
+        data-defaults="{'type':'searchable_list','list_type':'playlist_track','order':'dsc','q':{'value':'','search_keys':['data.name','data.created_by_name']},'terms':{'is_deleted':'false'}}">
       <div class="pull-top bg-black bb">
         <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
           <div class="w25 left pl20 clickable active blue-hover"
@@ -44,26 +44,29 @@
           </div>
             <!--End of Play and Shuffle-->
           <div class="body-header h100 pb160 scroll hide-scrollbar"
-              data-on-scroll="parent.scroll_check"
+              data-on-scroll="grandparent.scroll_check"
               data-msg="{{= _self_.el_id }}"
               data-run="grandparent.fetch_playlist"
               data-run-msg="{{= parent.data.playlist_id }}"
               tg-name="community_playlist_page">
+              
             <div class="mt100" data-if="{{= grandparent.fetching_playlist }} == true">
               <div class="p20 center i">Fetching tracks...</div>
               <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
             </div>
         
             <div class="mt60" data-if="{{= grandparent.fetching_playlist}} == false">  
-              <div class="w100" data-if="{{= _.size(grandparent.community_db_track_ids) }} > 0">
-                <div class="w100"
-                    data-if="{{= model.is_ready }} == true"
-                    data-foreach="cluster"
-                    data-cluster="{{= model.data.query }}"
-                    data-cluster-comparator="model.data.comparator"
-                    data-cluster-search-keys="model.data.q.search_keys"
-                    data-cluster-search-value="model.data.q.value">
-                  <div class="h100" data-template="sisyphus-community-playlist-list-item-tmp"></div>
+              <div class="w100" data-if="{{= _.size(parent.data.db_tracks) }} > 0">
+                <div data-if="{{= parent.data.type}} == web_playlist">
+                  <div class="w100"
+                      data-if="{{= model.is_ready }} == true"
+                      data-foreach="cluster"
+                      data-cluster="{{= model.data.query }}"
+                      data-cluster-comparator="model.data.comparator"
+                      data-cluster-search-keys="model.data.q.search_keys"
+                      data-cluster-search-value="model.data.q.value">
+                    <div class="h100" data-template="sisyphus-community-playlist-list-item-tmp"></div>
+                  </div>
                 </div>
               </div>
             </div> 
@@ -75,7 +78,7 @@
         <div class="hh150">&nbsp;</div>
        </div>
       </div>
-    <div class="hh150">&nbsp;</div>
+      <div class="hh150">&nbsp;</div>
     </div>
   </div>
 </div>
