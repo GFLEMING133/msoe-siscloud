@@ -9,14 +9,14 @@
                 data-publish="session:active"
                 data-msg="{'primary':'community','secondary':'playlist-list','playlist_id':'{{= model.data.id }}'}"
                 tg-name="feature_box">
-                <div class="corner-3px"
-                    style="background-color:{{= model.data.bg_color }};">
-                    <div class="feature-box relative" 
+                <div class="">
+                    <div class="feature-box relative corner-5px " 
                         data-model="{{= model.data.tracks[0].id }}"
                         style="background-image:url('{{= app.config.get_api_url() }}{{= model.data.thumb}}');
+                                background-color:{{= model.data.bg_color }};
                                 height: 90px;
                                 background-position: center;
-                                background-size: 130px;">
+                                background-size: 120px;">
                         <div class="absolutely feature-name">{{= parent.data.name}}</div>
                     </div>
                 </div>
