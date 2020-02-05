@@ -430,9 +430,10 @@ label {
 	font-family: 'Montserrat-Medium', sans-serif;
 }
 .feature-name {
-	font-size: 16px;
-	color: #fff;
-	text-shadow: 2px 2px #444;
+	width: 90px;
+	font-size: 18px;
+	color: #ededed;
+	text-shadow: 2px 2px #000;
 	font-weight: 900;
 	align-self: center;
 	text-align: center;
