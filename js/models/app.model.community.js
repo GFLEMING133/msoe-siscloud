@@ -133,7 +133,8 @@ app.model.community = {
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
-      
+      // TODO: steal code from lines 200-208
+
       self.set('community_playlist_ids', resp_playlist_ids);
       self.set('fetched_community_playlists', 'true');
       self.set('fetching_community_playlists', 'false');
@@ -150,9 +151,9 @@ app.model.community = {
     let playlist_id =  parseInt(id);
 
     var self = this;
-    this.set('fetching_playlist', 'true');    
+    this.set('fetching_playlist', 'true');
 
-   
+
     var playlist = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
@@ -168,7 +169,7 @@ app.model.community = {
 
       var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
 
-      self.set('community_playlist_track_ids', resp_playlist_ids);
+      // self.set('community_playlist_track_ids', resp_playlist_ids);
       self.set('fetched_playlist', 'true');
       self.set('fetching_playlist', 'false');
     }
@@ -203,12 +204,12 @@ app.model.community = {
         var track = app.collection.get(track_id);
         track.set('is_community', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
-        
+
       });
       self.set('sorting', 'false');
       self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');
-      
+
     }
 
     app.post.fetch2(tracks, cb, 0);
@@ -337,7 +338,7 @@ app.model.community = {
       this.download_wc();
     } else {
       this.trigger('remove:community_track_ids'); // trigger once at end
-      
+
       app.trigger('modal:open', {
         'template': 'modal-list-playlist-add-tmp'
       });

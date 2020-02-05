@@ -4,6 +4,8 @@ app.model.playlist = {
 			id				: data.id,
 			type			: 'playlist',
 
+			is_community: 'false', // is webcenter playlist (true == not yet downloaded)
+
 			eligible_tracks	: [],
 			active_tracks		: [],
 			edit		: {
