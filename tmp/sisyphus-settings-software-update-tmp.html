@@ -2,14 +2,14 @@
   <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
     <div class="w15 center clickable active blue-hover"
         data-on-click="publish"
-        data-publish="session:active" 
+        data-publish="session:active"
         data-msg="{'secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w70">
       <h1 class="no-stuffing capitalize fs18 lh24 truncate">Firmware Update</h1>
     </div>
     <div class="w15 center f-large">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 pb100" 
+  <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 pb100"
       data-model="{{= model.sisbot_id }}"
       tg-name="firmware_update_page">
     <div data-if="{{= model.data }} !== undefined">
@@ -63,6 +63,14 @@
               <p class="p0 m0 fs18 center">
                 Sisyphus is constantly improving, and there is a new update available. Click the button below to start the update process.
               </p>
+
+              <div class="p10"
+                  data-if="{{= parent.remote_versions.sisbot_notes }} !== false"
+                  data-on-click="publish"
+                  data-publish="modal:open"
+                  data-msg="{'template':'release-notes-overlay-tmp'}">
+                Release Notes
+              </div>
 
               <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
                   data-if="{{= model.data.installing_updates }} == false"

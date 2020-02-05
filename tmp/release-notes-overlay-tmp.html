@@ -1,0 +1,15 @@
+<div class="white" data-model="{{= parent.sisyphus_manager_id }}">
+  <h1 class="center">Release Notes</h1>
+  <div data-if="{{= model.remote_versions.sisbot_notes }} !== false">
+    <div data-model="{{= model.sisbot_id }}">
+      <div data-if="{{= model.local_version.sisbot }} !== {{= parent.remote_versions.sisbot }}">
+        <div>Sisbot Notes</div>
+        <div>{{= model.remote_versions.sisbot_notes }}</div>
+      </div>
+      <div data-if="{{= model.local_version.app }} !== {{= parent.remote_versions.app }}">
+        <div>Sisbot Notes</div>
+        <div>{{= model.remote_versions.sisbot_notes }}</div>
+      </div>
+    </div>
+  </div>
+</div>

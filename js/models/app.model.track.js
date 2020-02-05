@@ -68,7 +68,7 @@ app.model.track = {
 				reversed				: false,
 				firstR					: -1,
 				lastR						: -1,
-				type						: 'r',
+				r_type					: 'r', // r00|r01|r10|r11
 				reversible			: "false",
 				popularity			: 0,
 			}
@@ -1147,7 +1147,7 @@ app.model.track = {
 
 				self.set('downloading_community_track', 'false');
 				self.set('is_community', 'false');
-				
+
 				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
 				app.trigger('session:active', { secondary: 'false', primary: 'community' });
