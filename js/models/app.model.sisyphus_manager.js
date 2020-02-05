@@ -202,6 +202,7 @@ app.model.sisyphus_manager = {
       app.log("Remote Versions:", cbb.resp);
       var keys = _.keys(cbb.resp);
       _.each(keys, function(key) {
+        if (cbb.resp[key] == '') cbb.resp[key] = 'false';
         self.set('remote_versions.'+key, cbb.resp[key]);
       })
       // self.set('remote_versions', cbb.resp);
