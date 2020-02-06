@@ -1,4 +1,4 @@
-<div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
+<div class="h100" data-model="{{= session.community_id }}">
     <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
       <div class="w25" >
         <div class="clickable blue-hover"
@@ -15,9 +15,10 @@
     </div>
 
     <div class="body-header h100 pb50 scroll hide-scrollbar" 
-        tg-name="browse_page" 
-        data-model="{{= session.community_id }}"
-        data-run="model.fetch_community_playlists">
+        tg-name="browse_page">
+       <div data-if="{{= model.fetched_community_playlists }} == false">
+         <div data-run="model.fetch_community_playlists"></div>
+       </div>
         <div class="mt100" data-if="{{= model.fetching_community_playlists }} == true">
           <div class="p20 center i">Fetching Playlist...</div>
           <div class="mb20 black" data-template="spinner-bounce-tmp"></div>

@@ -133,8 +133,15 @@ app.model.community = {
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+      var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
+      var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
+      _.each(new_playlist_ids, function(playlist_id) {
+        var playlist = app.collection.get(playlist_id);
+        playlist.set('is_community', 'true');
+        self.add_nx('community_playlist_ids', playlist_id); // add to array if not already there
+        
+      });
       
-      self.set('community_playlist_ids', resp_playlist_ids);
       self.set('fetched_community_playlists', 'true');
       self.set('fetching_community_playlists', 'false');
     }
@@ -254,7 +261,7 @@ app.model.community = {
     var tracks = {
       _url: app.config.get_webcenter_url(),
       _type: 'GET',
-      endpoint: 'users/'+data.user_id+'/tracks.json?sort='+this.get('track_sort'), // specific user's tracks: user_id=1
+      endpoint: 'users/'+data.user_id+'/tracks.json?sort='+this.get('track_sort'), //fetch // specific user's tracks: user_id=1
       data: {}
     };
 
