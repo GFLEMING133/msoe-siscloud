@@ -47,7 +47,8 @@ app.model.community = {
         created_by_id   : 'false',
         email           : 'false', //community
         created_by_name : 'false', //community
-        is_public       : 'false', //community
+        is_public       : 'false', //community 
+        is_downloaded   : 'true',
       }
     };
 
@@ -99,10 +100,10 @@ app.model.community = {
     }
   },
   update_sort_key: function(){
-    this.set('track_sort_key', this.get('track_sort_keys['+this.get('track_sort')+']'));
-    app.log( 'TRACK SORT' ,this.get('track_sort'));
+    this.set('track_sort_key',    this.get('track_sort_keys['+this.get('track_sort')+']'));
+    app.log( 'TRACK SORT' ,       this.get('track_sort'));
     app.log( 'TRACK SORT KEYSSS' ,this.get('track_sort_keys'));
-    app.log( 'TRACK SORT KEY' ,this.get('track_sort_key'));
+    app.log( 'TRACK SORT KEY' ,   this.get('track_sort_key'));
   },
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
@@ -334,9 +335,9 @@ app.model.community = {
     }
   },
   downloaded_track: function(track_id) {
+   
     this.remove('selected_tracks', track_id, {silent:true}); //removes id from checked array
     this.remove('community_track_ids', track_id, {silent:true}); // this removes id from displayed track array (list)
-
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
     this.add('downloaded_tracks', track_id);
@@ -364,6 +365,7 @@ app.model.community = {
   },
 
   add_to_playlist: function(playlist_id) {
+   
     var playlist = app.collection.get(playlist_id);
     if (playlist) {
       playlist.setup_edit();
@@ -374,10 +376,14 @@ app.model.community = {
 
       playlist.save_edit();
       this.set('downloaded_tracks', []);
+      this.set('data.is_downloaded', 'true');
+      
+      
       app.trigger('modal:close');
     }
   },
   remove_downloaded: function() {
+   
     var self = this;
      let sisbot = app.manager.get_model('sisbot_id');
      let downloaded_tracks = this.get('downloaded_tracks');
@@ -385,6 +391,7 @@ app.model.community = {
        var track = app.collection.get(i);
        track.set('is_community', 'true')
        track.set('community_track_downloaded', 'false')
+       track.set('data.is_downloaded', 'false')
         sisbot.remove('data.track_ids', i);
         self.add('selected_tracks', i);
      });

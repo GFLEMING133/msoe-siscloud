@@ -8,18 +8,6 @@
     <div class="w30 pt30 center">&nbsp;</div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar">
-    <!-- <div class="bg-grey-ll bb" data-if="{{= model.is_adding }} == true">
-      <div class="p20 center i" data-if="{{= app.plugins.length(model.playlist_not_ids) }} == 0">
-        There are no playlists to add to
-      </div>
-      <div data-if="{{= app.plugins.length(model.playlist_not_ids) }} > 0"
-          data-foreach="model.playlist_not_ids"
-          data-foreach-map="true">
-        <div class="p10 bb-med clickable active bg-grey-ll-hover"
-            data-on-click="parent.playlist_add_finish"
-            data-msg="{{= model.id }}">Add to "{{= model.data.name }}"</div>
-      </div>
-    </div> -->
-    <div data-template="sisyphus-tracks-hero-tmp"></div>
+    <div class="overlay" data-template="sisyphus-tracks-hero-tmp"></div>
   </div>
 </div>

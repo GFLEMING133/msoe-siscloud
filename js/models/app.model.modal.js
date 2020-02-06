@@ -54,7 +54,7 @@ app.model.modal = {
   },
 	/******************* PLAYLIST FUNCTIONS *************************/
   add_to_playlist: function(playlist_id) {
-
+    console.log( 'add_to_playlist function in modal.js');
     var trackList = app.collection.get(playlist_id);
     var trackID = this.get('track_id');
     var track = app.collection.get(trackID)

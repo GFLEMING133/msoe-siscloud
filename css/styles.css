@@ -748,6 +748,9 @@ li.blue-hover:hover {
 	display 				: flex;
 	justify-content : space-evenly;
 }
+.space-between {
+	justify-content: space-between;
+}
 .flex-row {
 	display 				: flex;
 	flex-direction 	: row;
