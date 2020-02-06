@@ -55,9 +55,13 @@ app.model.sisyphus_manager = {
 
       remote_versions: {
         proxy: '10.0.0',
+        proxy_notes: 'false',
         app: '10.0.0',
+        app_notes: 'false',
         api: '10.0.0',
+        api_notes: 'false',
         sisbot: '10.0.0',
+        sisbot_notes: 'false',
       },
 
       is_admin: 'false',
@@ -193,7 +197,15 @@ app.model.sisyphus_manager = {
     };
 
     app.post.fetch(obj, function(cbb) {
-      self.set('remote_versions', cbb.resp);
+      if (cbb.err) return;
+
+      app.log("Remote Versions:", cbb.resp);
+      var keys = _.keys(cbb.resp);
+      _.each(keys, function(key) {
+        if (cbb.resp[key] == '') cbb.resp[key] = 'false';
+        self.set('remote_versions.'+key, cbb.resp[key]);
+      })
+      // self.set('remote_versions', cbb.resp);
     }, 0);
 
     return this;
