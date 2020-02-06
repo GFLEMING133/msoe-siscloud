@@ -1,5 +1,4 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
- <
   <div class="h100" data-model="{{= session.active.artist_id }}">
     <div class="h100" data-scope="true"
         data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parents[1].track_sort_key }}','order':'dsc','terms':{'is_community':'true','user_id':'{{= parent.data.user_id }}'}}">
@@ -16,10 +15,10 @@
         </div>
       
   <!-- END HEADER -->
-    <div class="browse-feature bg-bluer p20">
+         <div class="browse-feature bg-bluer p20">
 
-          <div class="p20 center white fs17 strong">{{= parent.data.name }}</div>
-          <div class="download-all-btn strong fs17 blue-hover">Download All</div>
+          <div class="p20 center white fs22 strong">{{= parent.data.name }}</div>
+          <div class="download-all-btn strong fs17 black-hover">Download All</div>
         </div>
         <div class="flex p20 pb10 pt10 w100 bg-white">
           <div class="flex3">
