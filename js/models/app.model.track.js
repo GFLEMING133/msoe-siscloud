@@ -83,10 +83,6 @@ app.model.track = {
 		this.on('change:track_checked', this.get_track_checked);
 		this.on('change:data.reversible', this.save_track);
 	},
-	close: function() {
-
-    this.set('is_hidden', 'true');
-  },
 	save_track: function() {
 		// app.log("Save Track", this.get('data'));
 		var sisbot = app.manager.get_model('sisbot_id');
@@ -213,10 +209,15 @@ app.model.track = {
 		}
 	},
 	play: function () {
+		debugger
 		app.trigger('sisbot:set_track', this.get('data'));
 	},
+	close: function() {
+    this.set('is_hidden', 'true');
+  },
 	delete: function () {
 		app.manager.get_model('sisbot_id').track_remove(this);
+		
 	},
 	on_file_upload: function (data, file, field) {
 		app.log("On File Upload:", data, file, field);

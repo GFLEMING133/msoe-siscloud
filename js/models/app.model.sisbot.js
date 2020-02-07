@@ -1797,10 +1797,14 @@ app.model.sisbot = {
 					var active = app.session.get('active');
 					if (active.primary == 'current') {
 						app.trigger('session:active', { track_id: 'false', secondary: 'false' });
+						app.trigger('modal:close');
 					} else {
 						app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
+						app.trigger('modal:close');
 					}
+				
 				}
+				
 			});
 
 			self.remove('data.track_ids', track.id);
