@@ -1355,6 +1355,7 @@ select:focus {
 .bg-blue, .bg-blue-hover:hover  {	background-color		: #11b2fb !important;	}
 .bg-purple								{ background-color 		: #63338f !important;	}
 .bg-orange								{	background-color		: #F4AE3D !important;	}
+.bg-d-orange							{	background-color		: darkorange !important;}
 .bg-green									{	background-color		: #32B150 !important;	}
 .bg-ds-grey								{ background-color 		: darkslategray !important; }
 .bg-dd-grey								{	background-color		: #222222 !important;	}
