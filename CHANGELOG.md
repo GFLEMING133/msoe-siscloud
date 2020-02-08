@@ -1,4 +1,6 @@
-#2019-1-29 1.8.89
+#2020-2-8 1.8.90
+ - Install Python Added Back to advanced-table-settings-tmp
+#2020-1-29 1.8.89
  - JSON.parse fix
 #2019-12-20 1.8.87, 1.8.88
  - Fixed no-scroll in app

@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod', // 
-	version				:  '1.8.89', // JSON.parse fix   !!!!REMEMBER TO CHANGE is_production and is_simulator!!!!!
+	version				:  '1.8.90', //Install Python Added Back to Advanced Settings
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing
