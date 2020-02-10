@@ -1,26 +1,21 @@
-
-    <div class="p10 overflow-boX hide-scrollbar"
-        data-foreach="model.community_playlist_ids"
-        data-foreach-map="true">
-        <div class="h100" data-if="{{= model.data.playlist_id }} !== 1">
-            <div>
-                <div class="feature-wrapper clickable active corner-5px "
-                    style="background-color:{{= model.data.bg_color }};"
-                    data-on-click="publish"
-                    data-publish="session:active"
-                    data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}'}"
-                    tg-name="feature_box">
-                    <div class="feature-box relative"
-                        style="background-image: url({{= app.config.get_api_url()}}uploads/track/thr/{{= model.data.db_tracks[0] }}/thumb_100.png );
-                                height: 90px;
-                                background-position: center;
-                                background-size: 120px;">
-                        <div class="absolutely feature-name">{{= model.data.name}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> 
-
-
-<!-- <div>{{= JSON.stringify(model.data)}}</div> -->
+<div class="p10 overflow-box hide-scrollbar"
+    data-foreach="model.community_playlist_ids"
+    data-foreach-map="true">
+  <div data-if="{{= model.data.playlist_id }} !== 1">
+    <div class="w120p mr20 clickable active corner-5px "
+        style="background-color:{{= model.data.bg_color }};"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}'}"
+        tg-name="feature_box">
+      <div class="flex-center-col montserrat_m relative center"
+          style="background-image: url({{= app.config.get_api_url()}}uploads/track/thr/{{= model.data.db_tracks[0] }}/thumb_400.png );
+                  height: 90px;
+                  background-position: center;
+                  background-size: 130px;
+                  background-repeat: no-repeat;">
+        <div class="fs18 fw900 t-shadow white">{{= model.data.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>

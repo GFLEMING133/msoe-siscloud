@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: 'Montserrat';
     src: url('../fonts/Montserrat/montserrat-regular-webfont.woff2') format('woff2'),
@@ -17,7 +16,6 @@
          url('../fonts/Montserrat/montserrat-medium-webfont.svg#montserrat_mediumregular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 @font-face {
@@ -555,41 +553,19 @@ body > .container > .row {	/* remove if you want a bottom bar */
 }
 
  /* -----------Community Styling---------------------------  */
- .overflow-boX {
+ .overflow-box {
 	display 										: flex;
 	overflow-x 									: auto;
 	-webkit-overflow-scrolling 	: auto !important;
 }
-.feature-wrapper {
-	width: 120px;
-	margin-right: 20px;
-}
-.feature-box {
+
+.flex-center-col {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	font-family: 'Montserrat-Medium', sans-serif;
-	background-position: ;
 }
-.feature-name {
-	width: 90px;
-	font-size: 18px;
-	color: #ededed;
-	text-shadow: 0px 2px 8px #000;
-	font-weight: 900;
-	align-self: center;
-	text-align: center;
-}
-.playlist-name {
-	padding: 20px;
-	text-align: center;
-	color: #fff;
-	font-size: 32px;
-	font-weight: 900;
-	text-shadow: 0px 2px 8px #333;
 
-}
- .download-all-btn {
+.download-all-btn {
 	margin: auto;
 	width: 55%;
 	border-radius: 30px;
@@ -633,15 +609,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .hover-dark, .hover-dark > * 								{	color		: #888;}
 .hover-dark:hover, .hover-dark:hover > *		{	color		: #fff;}
 
-a.blue-hover:hover {
-	color: #00b1fa;
-}
-li.blue-hover:hover {
-	color: #00b1fa;
-}
-.blue-hover:hover {
-	color: #00b1fa;
-}
+a.blue-hover:hover      { color: #00b1fa; }
+li.blue-hover:hover     { color: #00b1fa; }
+.blue-hover:hover       { color: #00b1fa; }
+
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
@@ -906,6 +877,7 @@ li.blue-hover:hover {
 .w25p									{	width		: 25px;}
 .w40p									{	width		: 40px;}
 .w80p									{	width		: 80px;}
+.w120p								{	width		: 120px;}
 .w75per								{	width   : 75%;}
 .mh-480								{	min-height	: 480px;}
 
@@ -1068,7 +1040,7 @@ li.blue-hover:hover {
 .w100                 { width           : 100% !important;}
 
 .shadow 							{	box-shadow			: 0px 1px 2px #999;}
-.t-shadow 						{	text-shadow			: rgba(0, 0, 0, 0.5) 0px 8px 16px;}
+.t-shadow 						{	text-shadow			: 0px 2px 8px #000;}
 .less_strong					{	font-weight 		: 600	 }
 .strong								{	font-family			: 'Montserrat-SemiBold', sans-serif; }
 .clickable 						{	cursor					: pointer;				}
@@ -1095,9 +1067,6 @@ li.blue-hover:hover {
 	right			: 0;
 	top				: 0;
 	bottom		: 0;
-}
-.absolutely {
-	position		: absolute;
 }
 .truncate {
 	white-space		: nowrap;
@@ -1132,7 +1101,7 @@ li.blue-hover:hover {
 	background-color: #00b1fa;
 }
 .orange .spinner-bounce > div {
-	background-color: orange;
+	background-color: #F4AE3D;
 }
 
 .spinner-bounce > div {
@@ -1486,6 +1455,9 @@ select:focus {
 .fs24									{	font-size				: 24px !important;}
 .fs26									{	font-size				: 26px !important;}
 .fs30									{	font-size				: 30px !important;}
+.fs32									{	font-size				: 32px !important;}
+
+.fw900                { font-weight: 900; }
 
 .fl10									{	line-height				: 1.0em;}
 .fl12									{ line-height				: 1.2em;}

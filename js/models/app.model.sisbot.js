@@ -1777,7 +1777,7 @@ app.model.sisbot = {
 
 		var self = this;
 
-		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone.', function(resp_num) {
+		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This will remove it from all playlists and your track list. This cannot be undone.', function(resp_num) {
 			if (resp_num == 1)
 				return self;
 
@@ -1802,9 +1802,7 @@ app.model.sisbot = {
 						app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
 						app.trigger('modal:close');
 					}
-				
 				}
-				
 			});
 
 			self.remove('data.track_ids', track.id);
