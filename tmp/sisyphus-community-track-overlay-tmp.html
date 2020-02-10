@@ -1,5 +1,5 @@
 <div class="h100 flex-center-column mt50" data-model="{{= model.track_id }}">
-  <div class="flex flex1">
+  <div class="">
     <div class="w5">&nbsp;</div>
     <div class="w90 center vertical active">
         <img class="w100 center img-rounded rounded-x2 bg-white " alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
@@ -7,10 +7,10 @@
     <div class="w5">&nbsp;</div>
   </div>
 
-    <div class="flex-center-column flex1">
+    <div class="">
       <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
       <div class="fs12 lh20  pt10 pb20 white strong center">by {{= model.data.created_by_name }}</div>
-    </div>  
+    </div>
   <!-- Download -->
     <div class="flex-center-row flex2 active clickable p10 h50" data-if="{{= model.downloading_community_track }} == false"
         data-model="{{= session.active.track_id}}"
@@ -43,10 +43,10 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Close -->
   <div class="flex1end w100 center bt-white clickable white p20 strong blue-hover"
       data-on-click="parent.close">
       <div class="m0 media_fs14 fs17">Close</div>
   </div>
-</div> 
+</div>

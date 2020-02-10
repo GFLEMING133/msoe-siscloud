@@ -217,7 +217,6 @@ app.model.track = {
   },
 	delete: function () {
 		app.manager.get_model('sisbot_id').track_remove(this);
-		
 	},
 	on_file_upload: function (data, file, field) {
 		app.log("On File Upload:", data, file, field);

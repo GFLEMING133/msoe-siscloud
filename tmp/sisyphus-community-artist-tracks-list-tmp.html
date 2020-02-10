@@ -1,87 +1,91 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
-  <div class="h100" data-model="{{= session.active.artist_id }}">
-    <div class="h100" data-scope="true"
-        data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parents[1].track_sort_key }}','order':'dsc','terms':{'is_community':'true','user_id':'{{= parent.data.user_id }}'}}">
-      <div class="pull-top bg-black bb">
-        <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
-          <div class="w25 left pl20 clickable active"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'primary':'community','secondary':'false'}">
-            <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
-          </div>
-          <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist Tracks</h1></div>
-          <div class="w25 center f-large">&nbsp;</div>
-        </div>
-      
-  <!-- END HEADER -->
-         <div class="browse-feature bg-bluer p20">
-
-          <div class="p20 center white fs22 strong">{{= parent.data.name }}</div>
-          <div class="download-all-btn strong fs17 black-hover">Download All</div>
-        </div>
-        <div class="flex p20 pb10 pt10 w100 bg-white">
-          <div class="flex3">
-            <input
-                type="text"
-                placeholder="&#xf002; Search"
-                data-field="model.data.q.value"
-                value="{{= model.data.q.value }}"
-                data-on-input="model.update_q" />
-          </div> <!--end of search-->
-
-          <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
-              data-template="modal-hamburger-tmp">
-          </div>
-
-          <div class="flex-end-center"
-              tg-name="download_cloud_header">
-            <div class="clickable active"
-                data-if="{{= grandparent.download_cloud }} == true"
-                data-on-click="grandparent.download_wc">
-              <i class="black blue-hover fs24 fas fa-cloud-download-alt"></i>
-            </div>
-            <div class="pointer-none" data-if="{{= grandparent.download_cloud }} == false">
-              <i class="pointer-none grey-lt fs24 fas fa-cloud-download-alt"></i>
-            </div>
-          </div> <!--end of download_cloud-->
-        </div> <!--end of search/hamburger/cloud flex-->
-      </div> <!--end of pull-top-->
-  <!--end of search & dl bar-->
-
-
-
-      <div class="body-header h100 scroll hide-scrollbar"
-          data-on-scroll="grandparent.scroll_check"
-          data-msg="{{= _self_.el_id }}"
-          data-run="grandparent.fetch_artist_tracks"
-          data-run-msg="{'user_id':'{{= parent.data.user_id }}'}">
-        <div class="mt100" data-if="{{= grandparent.fetching_community_tracks }} == true">
-          <div class="p20 center i">Fetching tracks...</div>
-          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-        </div>
-        <div class="pt200 pb200" data-if="{{= grandparent.fetching_community_tracks }} == false">
-          <div class="w100"
-              data-if="{{= model.is_ready }} == true"
-              data-foreach="cluster"
-              data-cluster="{{= model.data.query }}"
-              data-foreach-limit="{{= grandparent.limit }}"
-              data-foreach-offset="{{= grandparent.offset }}"
-              data-cluster-comparator="model.data.comparator"
-              data-cluster-search-keys="model.data.q.search_keys"
-              data-cluster-search-value="model.data.q.value">
-            <div data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
-          </div>
-          <div class="p20 center fs18 blue i"
-              data-if="{{= model.size }} == 0">
-              There are No Tracks for this artist.
-          </div>
-          <div data-if="{{= model.size }} > {{= grandparent.limit }}">
-            <div class="p20 center i">Fetching List of Tracks...</div>
-            <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
-          </div>
-        </div>
-      </div> <!--end of body-header-->
-    </div> <!--end of scope-->
+  <div data-if="{{= model.fetched_community_artists }} == false">
+    <div data-run="model.fetch_community_artists"></div>
   </div>
-</div> <!--end of class="h100" data-model="{{= session.community_id }}"-->  
+  <div class="h100" data-if="{{= model.fetched_community_artists }} !== false">
+    <div class="h100" data-model="{{= session.active.artist_id }}">
+      <div class="h100" data-scope="true"
+          data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parents[1].track_sort_key }}','order':'dsc','terms':{'is_community':'true','user_id':'{{= parent.data.user_id }}'}}">
+        <div class="pull-top bg-black bb">
+          <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
+            <div class="w25 left pl20 clickable active"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'primary':'community','secondary':'false'}">
+              <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
+            </div>
+            <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist Tracks</h1></div>
+            <div class="w25 center f-large">&nbsp;</div>
+          </div>
+
+    <!-- END HEADER -->
+           <div class="browse-feature bg-bluer p20">
+            <div class="p20 pt10 white center fs32 fw900">{{= parent.data.name }}</div>
+            <div class="download-all-btn strong fs17 mt10 o80 o100-hover">Download All</div>
+          </div>
+          <div class="flex p20 pb10 pt10 w100 bg-white">
+            <div class="flex3">
+              <input
+                  type="text"
+                  placeholder="&#xf002; Search"
+                  data-field="model.data.q.value"
+                  value="{{= model.data.q.value }}"
+                  data-on-input="model.update_q" />
+            </div> <!--end of search-->
+
+            <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active"
+                data-template="modal-hamburger-tmp">
+            </div>
+
+            <div class="flex-end-center"
+                tg-name="download_cloud_header">
+              <div class="clickable active"
+                  data-if="{{= grandparent.download_cloud }} == true"
+                  data-on-click="grandparent.download_wc">
+                <i class="black blue-hover fs24 fas fa-cloud-download-alt"></i>
+              </div>
+              <div class="pointer-none" data-if="{{= grandparent.download_cloud }} == false">
+                <i class="pointer-none grey-lt fs24 fas fa-cloud-download-alt"></i>
+              </div>
+            </div> <!--end of download_cloud-->
+          </div> <!--end of search/hamburger/cloud flex-->
+        </div> <!--end of pull-top-->
+    <!--end of search & dl bar-->
+
+
+
+        <div class="body-header h100 scroll hide-scrollbar"
+            data-on-scroll="grandparent.scroll_check"
+            data-msg="{{= _self_.el_id }}"
+            data-run="grandparent.fetch_artist_tracks"
+            data-run-msg="{'user_id':'{{= parent.data.user_id }}'}">
+          <div class="mt100" data-if="{{= grandparent.fetching_community_tracks }} == true">
+            <div class="p20 center i">Fetching tracks...</div>
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+          </div>
+          <div class="pt200 pb200" data-if="{{= grandparent.fetching_community_tracks }} == false">
+            <div class="w100"
+                data-if="{{= model.is_ready }} == true"
+                data-foreach="cluster"
+                data-cluster="{{= model.data.query }}"
+                data-foreach-limit="{{= grandparent.limit }}"
+                data-foreach-offset="{{= grandparent.offset }}"
+                data-cluster-comparator="model.data.comparator"
+                data-cluster-search-keys="model.data.q.search_keys"
+                data-cluster-search-value="model.data.q.value">
+              <div data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
+            </div>
+            <div class="p20 center fs18 blue i"
+                data-if="{{= model.size }} == 0">
+                There are No Tracks for this artist.
+            </div>
+            <div data-if="{{= model.size }} > {{= grandparent.limit }}">
+              <div class="p20 center i">Fetching List of Tracks...</div>
+              <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
+            </div>
+          </div>
+        </div> <!--end of body-header-->
+      </div> <!--end of scope-->
+    </div>
+  </div>
+</div> <!--end of class="h100" data-model="{{= session.community_id }}"-->
