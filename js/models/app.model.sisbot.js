@@ -605,7 +605,7 @@ app.model.sisbot = {
 			return this;
 		}
 
-		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
+		this._update_sisbot('get_wifi', { iface: 'wlan0' }, function(obj) {
 			if (obj.err) {
 				self.get_networks();
 			}
@@ -613,6 +613,8 @@ app.model.sisbot = {
 					wifi_networks.push(network_obj.ssid);
 			})
 			var uniq_wifi = _.uniq(wifi_networks.sort());
+
+			app.log("Wifi SSIDs", uniq_wifi);
 
 			var current_ssid = app.manager.get('current_ssid');
 			var current_name = self.get('wifi.name');
