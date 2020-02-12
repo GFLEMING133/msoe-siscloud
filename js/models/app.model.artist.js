@@ -32,6 +32,7 @@ app.model.artist = {
 
     var track_cluster = app.collection.get_cluster({type:'track',is_community:'true',is_downloaded:'false',user_id:this.id});
 
+    app.log("Track cluster:", {type:'track',is_community:'true',is_downloaded:'false',user_id:this.id}, track_cluster.pluck('id'));
 		// add tracks not already on table to 'selected_tracks'
 		track_cluster.each(function(track) {
 			community.add_nx('selected_tracks', track.id);

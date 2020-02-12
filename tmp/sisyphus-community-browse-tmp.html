@@ -14,7 +14,7 @@
       <div class="w25 center f-large">&nbsp;</div>
     </div>
 
-    <div class="body-header h100 pb50 scroll hide-scrollbar" 
+    <div class="body-header h100 pb50 scroll hide-scrollbar"
         tg-name="browse_page">
        <div data-if="{{= model.fetched_community_playlists }} == false">
          <div data-run="model.fetch_community_playlists"></div>
@@ -29,7 +29,7 @@
           <div data-template="sisyphus-community-feature-box"></div>
         </div>
 
-        
+
           <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
               data-on-click="publish"
               data-publish="session:active"
@@ -39,13 +39,23 @@
             <span class="pull-right">
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
-          </div> 
+          </div>
           <div data-run="model.fetch_community_tracks">
             <div class="bb bt hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
                 data-on-click="model.sort_function"
                 data-msg="{'track_sort':'most_popular','secondary':'tracks'}"
                 tg-name="most_popular_tab">
               <span class="montserrat_semi_bold">Most Popular</span>
+              <span class="pull-right">
+                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+              </span>
+            </div>
+
+            <div class="bb bt hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'hot','secondary':'tracks'}"
+                tg-name="whats_hot_tab">
+              <span class="montserrat_semi_bold">What's Hot</span>
               <span class="pull-right">
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
               </span>
@@ -60,7 +70,7 @@
                 <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
               </span>
             </div>
-          </div> 
+          </div>
           <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
               data-on-click="publish"
               data-publish="session:active"
@@ -71,8 +81,7 @@
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
           </div>
-           
+
         <div class="hh150">&nbsp;</div>
     </div>
 </div>
-

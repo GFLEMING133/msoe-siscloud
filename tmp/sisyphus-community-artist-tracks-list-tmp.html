@@ -11,7 +11,7 @@
                           'order':'dsc',
                           'terms':{
                             'is_community':'true',
-                            'user_id':'{{= parent.data.user_id }}'
+                            'user_id':'{{= parent.data.id }}'
                             {{= (parents[1].show_all == 'true') ? '' : ',\'is_downloaded\':\'false\''}}
                             }
                           }">
@@ -31,7 +31,8 @@
     <!-- END HEADER -->
            <div class="browse-feature bg-bluer p20">
             <div class="p20 pt10 white center fs32 fw900">{{= parent.data.name }}</div>
-            <div class="download-all-btn strong fs17 mt10 o80 o100-hover">Download All</div>
+            <div class="download-all-btn strong fs17 mt10 o80 o100-hover"
+                data-on-click="parent.download_wc">Download All</div>
           </div>
           <div class="flex p20 pb10 pt10 w100 bg-white">
             <div class="flex3">
@@ -62,8 +63,6 @@
         </div> <!--end of pull-top-->
     <!--end of search & dl bar-->
 
-
-
         <div class="body-header h100 scroll hide-scrollbar"
             data-on-scroll="grandparent.scroll_check"
             data-msg="{{= _self_.el_id }}"
@@ -85,9 +84,9 @@
                 data-cluster-search-value="model.data.q.value">
               <div data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
             </div>
-            <div class="p20 center fs18 blue i"
+            <div class="p20 center fs18 lh24 blue i"
                 data-if="{{= model.size }} == 0">
-                There are No Tracks for this artist.
+                You have downloaded all tracks for this artist.
             </div>
             <div data-if="{{= model.size }} > {{= grandparent.limit }}">
               <div class="p20 center i">Fetching List of Tracks...</div>
