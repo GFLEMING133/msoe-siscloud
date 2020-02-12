@@ -3,7 +3,7 @@
       data-defaults="{
         'type':'searchable_list',
         'list_type':'track',
-        'terms':{'is_community':'true', 'is_downloaded':'false'},
+        'terms':{'is_community':'true'{{= (parent.show_all == 'true') ? '' : ',\'is_downloaded\':\'false\''}}},
         'sort':'{{= parent.track_sort_key }}',
         'order':'{{= parent.track_order_key}}',
         'q':{
