@@ -10,13 +10,14 @@ app.model.track = {
 
 			upload_status										: 'hidden',		// hidden|false|uploading|success
 			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
-			sisbot_upload										: 'false',
-			community_track_downloaded			: 'false',
+			// sisbot_upload										: 'false',
 			generating_thumbnails						: 'false',
+
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
 			track_checked										: 'false',
-			is_community										: 'false',
+			is_community										: 'false', // track from webcenter
+			is_downloaded 		: 'false', // community
 
 			is_favorite							:'false',
 
@@ -54,10 +55,9 @@ app.model.track = {
 				duration					: '90',		// minutes
 
 				created_by_id			: 'false',
-				email							: 'false', //community
-				created_by_name		: 'false', //community
-				is_public					: 'false', //community
-				is_downloaded 		: 'false', //community
+				email							: 'false', // community
+				created_by_name		: 'false', // community
+				is_public					: 'false', // community
 
 				original_file_type  : 'false', 	// thr|svg|draw
 				has_verts_file			: 'false',
@@ -71,6 +71,7 @@ app.model.track = {
 				lastR						: -1,
 				r_type					: 'r', // r00|r01|r10|r11
 				reversible			: "false",
+				download_count	: 0, // webcenter downloads
 				popularity			: 0,
 			}
 		};
@@ -1104,15 +1105,14 @@ app.model.track = {
 		app.post.fetch(req_obj, cb, 0);
 	},
 	download_wc: function(skip_playlist_add) {
-
-    var track_id = this.get('data.track_id')
+    var track_id = this.get('data.track_id');
 		var self = this;
 
 		app.trigger('modal:open', {
 			'template': 'modal-overlay-downloading-tmp'
 		});
 
-		self.set('community_track_downloaded', 'true');
+		self.set('is_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
 		self.set('download_cloud',  'true');
 
@@ -1137,13 +1137,13 @@ app.model.track = {
 				else if (self.get('data.original_file_type') == 'draw') self.set('data.verts', obj.resp); // created via drawing page
 				else {
 					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
-					self.set('community_track_downloaded', 'false');
+					self.set('is_downloaded', 'false');
 					self.set('downloading_community_track', 'false');
-					self.set('data.is_downloaded', 'false')
 					return;
 				}
-				self.set('data.verts', obj.resp);
-				self.set('data.is_downloaded', 'true');
+				self.set('data.verts', obj.resp)
+					.set('is_downloaded', 'true')
+					.set('track_checked', 'false');
 				app.trigger('community:downloaded_track', self.id);
 
 				// let track_id = JSON.stringify(self.id); //pulling id
@@ -1151,11 +1151,10 @@ app.model.track = {
 				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
 				self.set('downloading_community_track', 'false');
-				self.set('is_community', 'false');
 
 				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
-				app.trigger('session:active', { secondary: 'false', primary: 'community' });
+				// app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
 		}
 

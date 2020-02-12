@@ -563,29 +563,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	font-family: 'Montserrat-Medium', sans-serif;
-	background-position: ;
 }
-.feature-name {
-	width: 90px;
-	font-size: 18px;
-	color: #ededed;
-	line-height: 20px;
-	text-shadow: 10px 2px 8px #000;
-	text-transform: uppercase;
-	font-weight: 900;
-	align-self: center;
-	text-align: center;
-}
-.playlist-name {
-	padding: 20px;
-	text-align: center;
-	line-height: 20px;
-	text-transform: uppercase;
-	color: #fff;
-	font-size: 28px;
-	font-weight: 900;
-	text-shadow: 10px 2px 8px #333;
 
 .download-all-btn {
 	margin: auto;

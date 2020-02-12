@@ -15,7 +15,7 @@
   						data-replace="list-image-fallback-tmp" />
         </div>
       </div>
-      
+
       <div class="w60 pt15 pl10"
           data-on-click="publish"
           data-publish="modal:open"
@@ -26,15 +26,15 @@
         data-if="{{= model.data.is_public }} == false">Private</div>
       </div>
 
-      <div class="w15 vertical center flex-justify-center" 
-          data-if="{{= model.data.is_downloaded }} == false"
-          data-field="model.track_checked" 
-          data-on-click="toggle" 
+      <div class="w15 vertical center flex-justify-center"
+          data-if="{{= model.is_downloaded }} == false"
+          data-field="model.track_checked"
+          data-on-click="toggle"
           tg-name="community_check_{{= model.id }}_box">
         <span class="black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
         <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
       </div>
-      <div class="flex1start mh50 active clickable p10" data-if="{{= model.community_track_downloaded }} == true">
+      <div class="flex1start mh50 active clickable p10" data-if="{{= model.is_downloaded }} == true">
         <img src="img/checkCircle.png" alt="Checked Circle" />
       </div>
     </div>
@@ -53,7 +53,7 @@
           </div>
           <div class="fs18 lh20 pt10 white strong center">{{= model.data.name }}</div>
           <div class="fs12 lh20  white strong center">by {{= model.data.created_by_name }}</div>
-  
+
           <!-- FAVORITE -->
           <div class="flex1start mh50 active clickable p10"
               data-run="model.is_playlist_favorite"
@@ -88,13 +88,13 @@
               data-model="{{= session.active.track_id}}"
               data-on-click="model.download_wc"
               data-msg="{{= model.data.track_id }}"
-              data-if="{{= model.community_track_downloaded}} == false"
+              data-if="{{= model.is_downloaded }} == false"
               tg-name="community_hero_download_cloud">
             <i class=" grey fs22 fas fa-cloud-download-alt"></i>
             <h2 class="m0 media_fs14 fs17 white pl10">Download</h2>
           </div>
           <!-- Green Check -->
-          <div class="flex1start mh50 active clickable p10" data-if="{{= model.community_track_downloaded }} == true">
+          <div class="flex1start mh50 active clickable p10" data-if="{{= model.is_downloaded }} == true">
             <img src="img/checkCircle.png" alt="Checked Circle" />
           </div>
           <!-- Spinner -->
@@ -120,4 +120,3 @@
 
   </div> <!--data-if dl=false-->
 </div> <!--data-run="model.collapse-->
- 

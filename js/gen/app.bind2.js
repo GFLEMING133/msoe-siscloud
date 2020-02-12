@@ -1130,7 +1130,7 @@ function Element(el, parent, _scope) {
     var compare;
     try {
       if (data) compare = data;
-      else compare = this.get_value(this.data.if);
+      else compare = this.get_value(this.data.if).trim();
 
       // split string out for comparison
       var statement   = compare.split(/\s?(\=\=|\!\=\=|\<\=?|\>\=?)\s?/);

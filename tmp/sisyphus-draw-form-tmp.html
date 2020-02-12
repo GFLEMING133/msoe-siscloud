@@ -32,22 +32,22 @@
             value="{{= model.data.multiply }}" />
         <label class="no-stuffing">MULTIPLY</label>
       </div>
-      <div class="flex-column vertical-align no-stuffing"
+      <div class="flex-column vertical-align no-stuffing center"
           data-if="{{= model.path_count }} == 0">
-        <div class="w40p b2 black-border corner-5px last-center fs14 center strong lh20 p10 pt7 pb7 clickable"
+        <div class="w40p b2 black-border corner-5px fs14 center strong lh20 p10 pt7 pb7 clickable"
             data-on-click="model.firstR_change">
           {{= model.edit.firstR }}
         </div>
         <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
       </div>
-      <div class="flex-column grey vertical-align no-stuffing"
+      <div class="flex-column grey vertical-align no-stuffing center"
           data-if="{{= model.path_count }} > 0">
-        <div class="w40p b2 corner-5px last-center fs14 center strong lh20 p10 pt7 pb7">{{= model.edit.firstR }}</div>
+        <div class="w40p b2 corner-5px fs14 strong lh20 p10 pt7 pb7">{{= model.edit.firstR }}</div>
         <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
       </div>
-      <div class="flex-column vertical-align fs14 lh18 no-stuffing strong"
+      <div class="flex-column vertical-align fs14 lh18 no-stuffing strong center"
           data-if="{{= model.edit.mirror }} == false">
-        <div class="w40p b2 black-border corner-5px last-center center fs14 lh20 p10 pt7 pb7 clickable"
+        <div class="w40p b2 black-border corner-5px last-center fs14 lh20 p10 pt7 pb7 clickable"
             data-on-click="model.lastR_change">
           {{= model.edit.lastR }}
         </div>

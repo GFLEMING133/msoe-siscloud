@@ -1,8 +1,9 @@
-#2019-01-27 1.8.89
- - Playlist now displaying 
- - Sisyphus Originals showing all default tracks. 
- - UI changes. 
+#2019-01-27 1.8.89-91
+ - Playlist now displaying
+ - Sisyphus Originals showing all default tracks.
+ - UI changes.
  - first push of new community to beta
+ - Placeholder Rho/RGBW values on Advanced Table Settings removed
 #2019-01-27 1.8.89
  - Add table name to homepage header
  - Change css on Wifi password visibility toggle

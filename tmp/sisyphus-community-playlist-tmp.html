@@ -17,7 +17,25 @@
       <!-- END HEADER -->
       <div class="p20 pb10" style="background-color:{{= model.data.bg_color }};">
         <div class="p20 pt10 white center fs32 fw900">{{= model.data.name }}</div>
-        <div class="download-all-btn strong fs17 mt10 o80 o100-hover">Download All</div>
+        <div class="download-all-btn strong fs17 mt10 o80 o100-hover"
+            data-if="{{= model.is_downloaded }} == false"
+            data-on-click="model.download_wc">Download All</div>
+        <div class="strong white center"
+            data-if="{{= model.is_downloaded }} == true">
+          <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
+              data-on-click="model.play"
+              data-msg="{{= 0 }}"
+              tg-name="playlists_play_btn">
+            <i class="fas fa-play pr5 pl5"></i>
+            Play
+          </div>
+          <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
+              data-on-click="model.play_shuffled"
+              tg-name="playlists_shuffle_btn">
+            <i class="fas fa-random pr5 pl5"></i>
+            Shuffle
+          </div>
+        </div>
         <div class="flex-end-center">
           <div class="clickable active"
               data-if="{{= parent.download_cloud }} == true"

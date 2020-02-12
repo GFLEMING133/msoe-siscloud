@@ -1,6 +1,6 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
   <div class="h100" data-scope="true"
-      data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parent.track_sort_key }}','order':'dsc','q':{'value':'','search_keys':['data.name','data.created_by_name']},'terms':{'is_community':'true'}}">
+      data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parent.track_sort_key }}','order':'dsc','q':{'value':'','search_keys':['data.name','data.created_by_name']},'terms':{'is_community':'true', 'is_downloaded':'false'}}">
     <div class="pull-top bg-black bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
         <div class="w25 left pl20 clickable active blue-hover"
@@ -24,10 +24,10 @@
               data-on-input="model.update_q" />
         </div>
 
-        <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
+        <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active"
             data-template="modal-hamburger-tmp">
         </div>
-        
+
         <div class="flex-end-center"
             tg-name="download_cloud_header">
           <div class="clickable active"
