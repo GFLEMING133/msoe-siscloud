@@ -38,7 +38,7 @@ app.model.community = {
         name              : 'asc',
         artist            : 'asc',
       },
-
+      show_all          : 'false',
       sorting           : 'false',
       download_cloud    : 'false',
       selected_tracks   : [],

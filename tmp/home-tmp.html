@@ -100,12 +100,12 @@
           and reconnect to the {{= model.data.name }} network.
         </p>
         <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
-          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase media_fs14"
+          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14"
               data-if="{{= app.is_app }} == true"
               data-on-click="parent.open_network_settings_from_error">Open Wifi Settings</p>
         </div>
         <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
-          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase media_fs14"
+          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14"
               data-on-click="parent.reconnect_to_hotspot">Attempt Reconnect</p>
         </div>
         <div class="p20 center i white pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
