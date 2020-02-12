@@ -15,6 +15,7 @@ app.model.sisbot = {
 			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
 			show_wifi_list  : 'false',
+			input_ssid			: 'false', // manually type ssid
 			show_password		: 'false',
 
 			is_master_branch: 'false',
@@ -625,7 +626,7 @@ app.model.sisbot = {
 			} else if (uniq_wifi.length > 0 && uniq_wifi.indexOf(current_name) < 0) {
 				self.set('wifi.name', uniq_wifi[0]);
 			}
-			
+
 			self.set('wifi_networks', uniq_wifi);
 			self.set('show_wifi_list', 'true');
 		}, 10000); // wait ten seconds before retrying
@@ -705,7 +706,7 @@ app.model.sisbot = {
 				.set('data.wifi_forget', 'true')
 				.set('wifi_connecting', 'true');
 
-			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
+			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password, is_hidden: this.get('input_ssid') }, function(obj) {
 				if (obj.err && obj.err !== 'Could not make request') {
 					app.log('wifi err', obj.err);
 					self.set('wifi_error', 'true')
