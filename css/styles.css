@@ -1140,8 +1140,8 @@ li.blue-hover:hover     { color: #00b1fa; }
 }
 
 select {
-	padding						: 7px 8px;
-	border						: 2px solid #000;
+	padding						: 5px;
+	border						: 2px solid #838383;
 	box-shadow				: none;
 	background				: transparent;
 	background-image	: none;
@@ -1468,6 +1468,7 @@ select:focus {
 .lh12									{	line-height				: 12px;	}
 .lh18									{	line-height				: 18px;	}
 .lh20									{	line-height				: 20px;	}
+.lh22									{	line-height				: 22px;	}
 .lh24									{	line-height				: 24px;	}
 
 /**************************** BORDERS *****************************************/
@@ -1841,15 +1842,15 @@ input[type="range"]::-ms-fill-upper {
 input[type="text"] {
 	font-family: "Font Awesome 5 Free", 'Montserrat', sans-serif;
 	font-size: 1em;
-	font-weight: 900;
-	border-radius: 10px;
+	font-weight: 600;
+	border-radius: 5px;
 	width: 100%;
 }
 input[type="password"] {
 	font-family: "Font Awesome 5 Free", 'Montserrat', sans-serif;
 	font-size: 1em;
 	font-weight: 900;
-	border-radius: 10px;
+	border-radius: 5px;
 	width: 100%;
 }
 

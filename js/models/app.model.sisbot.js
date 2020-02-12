@@ -105,6 +105,7 @@ app.model.sisbot = {
 				is_internet_connected			: 'false',
 				is_network_connected			: 'false',
 				is_network_separate 			: 'false',
+				input_network 						: 'false',
 				wifi_network        			: '',
 				wifi_password       			: '',
 				failed_to_connect_to_wifi	: 'false',
@@ -624,7 +625,7 @@ app.model.sisbot = {
 			} else if (uniq_wifi.length > 0 && uniq_wifi.indexOf(current_name) < 0) {
 				self.set('wifi.name', uniq_wifi[0]);
 			}
-
+			
 			self.set('wifi_networks', uniq_wifi);
 			self.set('show_wifi_list', 'true');
 		}, 10000); // wait ten seconds before retrying
