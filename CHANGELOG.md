@@ -1,6 +1,11 @@
 #2019-01-27 1.8.89-91
  - Playlist now displaying
  - Sisyphus Originals showing all default tracks.
+ - Download All tracks working in Community Artist and Playlist
+ - Option for manually entering Network Name when connecting to network 
+ - Hamburger overlay sort and filter working.
+ - Artist routing fixed
+ - Fetching all tracks reconfigured for community.
  - UI changes.
  - first push of new community to beta
  - Placeholder Rho/RGBW values on Advanced Table Settings removed
