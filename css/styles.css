@@ -586,7 +586,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	font-size: 28px;
 	font-weight: 900;
 	text-shadow: 10px 2px 8px #333;
-
+}
 .download-all-btn {
 	margin: auto;
 	width: 55%;

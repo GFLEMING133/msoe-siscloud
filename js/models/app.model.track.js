@@ -11,7 +11,7 @@ app.model.track = {
 			upload_status										: 'hidden',		// hidden|false|uploading|success
 			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
 			sisbot_upload										: 'false',
-			community_track_downloaded			: 'false',
+			is_downloaded										: 'false',
 			generating_thumbnails						: 'false',
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
@@ -82,6 +82,8 @@ app.model.track = {
 	on_init: function() {
 		this.on('change:track_checked', this.get_track_checked);
 		this.on('change:data.reversible', this.save_track);
+
+		// var playlist = app.session.get_model('active.playlist_id')
 	},
 	save_track: function() {
 		// app.log("Save Track", this.get('data'));
@@ -209,7 +211,6 @@ app.model.track = {
 		}
 	},
 	play: function () {
-		debugger
 		app.trigger('sisbot:set_track', this.get('data'));
 	},
 	close: function() {
@@ -1112,7 +1113,7 @@ app.model.track = {
 			'template': 'modal-overlay-downloading-tmp'
 		});
 
-		self.set('community_track_downloaded', 'true');
+		self.set('is_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
 		self.set('download_cloud',  'true');
 
@@ -1137,7 +1138,7 @@ app.model.track = {
 				else if (self.get('data.original_file_type') == 'draw') self.set('data.verts', obj.resp); // created via drawing page
 				else {
 					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
-					self.set('community_track_downloaded', 'false');
+					self.set('is_downloaded', 'false');
 					self.set('downloading_community_track', 'false');
 					self.set('data.is_downloaded', 'false')
 					return;

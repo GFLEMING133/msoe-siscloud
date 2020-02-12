@@ -13,26 +13,26 @@
         <ul class="flex-column">
           <li class="pt10 pb10 fs17 white less_strong">All Tracks 
             <div class="pull-right pr10p white" 
-                data-on-click="toggle"
-                data-field="model.is_checked">
-              <i class="fas fa-square" data-if="{{= model.is_checked}} !== true"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_checked}} == true"></i>
+                data-on-click="model.sort_function"
+                data-msg="most popular">
+              <i class="fas fa-square" data-if="{{= model.all_tracks}} !== true"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.all_tracks}} == true"></i>
             </div>
           </li>
           <li class="pt10 pb10 fs17 white less_strong">Downloaded 
             <div class="pull-right pr10p white" 
-                data-on-click="toggle"
-                data-field="model.is_checked">
-              <i class="fas fa-square" data-if="{{= model.is_checked}} !== true"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_checked}} == true"></i>
+                data-on-click="model.sort_function"
+                data-msg="is_downloaded">
+              <i class="fas fa-square" data-if="{{= model.is_downloaded }} !== true"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_downloaded }} == true"></i>
             </div>
           </li>
           <li class="pt10 pb10 fs17 white less_strong">Not Downloaded 
             <div class="pull-right pr10p white" 
-                data-on-click="toggle"
-                data-field="model.is_checked">
-              <i class="fas fa-square" data-if="{{= model.is_checked}} !== true"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_checked}} == true"></i>
+                data-on-click="model.sort_function"
+                data-msg="not_downloaded">
+              <i class="fas fa-square" data-if="{{= model.not_downloaded}} == true"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.not_downloaded }} !== true"></i>
             </div>
           </li>
         </ul>
@@ -42,28 +42,52 @@
           <ul class="flex-column">
             <li class="pt10 pb10 fs17 white less_strong">Most Popular
               <div class="pull-right pr10p white" 
-                  data-on-click="toggle"
-                  data-field="model.is_checked">
-                <i class="fas fa-square" data-if="{{= model.is_checked}} !== true"></i>
-                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_checked}} == true"></i>
+                  data-on-click="model.sort_function"
+                  data-msg="{'track_sort':'most_popular'}">
+                <i class="fas fa-square" data-if="{{= model.track_sort }} !== most_popular"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == most_popular"></i>
+              </div>
+            </li>
+            <li class="pt10 pb10 fs17 white less_strong">What's Hot
+              <div class="pull-right pr10p white" 
+                  data-on-click="model.sort_function"
+                  data-msg="{'track_sort':'hot'}">
+                <i class="fas fa-square" data-if="{{= model.track_sort }} !== hot"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == hot"></i>
               </div>
             </li>
             <li class="pt10 pb10 fs17 white less_strong">Newest to Oldest
               <div class="pull-right pr10p white" 
-                  data-on-click="toggle"
-                  data-field="model.is_checked">
-                <i class="fas fa-square" data-if="{{= model.is_checked}} !== true"></i>
-                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_checked}} == true"></i>
+                  data-on-click="model.sort_function"
+                  data-msg="{'track_sort':'newest_designs'}">
+                <i class="fas fa-square" data-if="{{= model.track_sort}} !== newest_designs"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort}} == newest_designs"></i>
               </div>
             </li>
             <li class="pt10 pb10 fs17 white less_strong">Oldest to Newest
               <div class="pull-right pr10p white" 
-                  data-on-click="toggle"
-                  data-field="model.is_checked">
-                <i class="fas fa-square" data-if="{{= model.is_checked}} !== true"></i>
-                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.is_checked}} == true"></i>
+                  data-on-click="model.sort_function"
+                  data-msg="{'track_sort':'oldest_designs'}">
+                <i class="fas fa-square" data-if="{{= model.track_sort }} !== oldest_designs"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == oldest_designs"></i>
               </div>
             </li>
+            <li class="pt10 pb10 fs17 white less_strong">Track Name
+              <div class="pull-right pr10p white" 
+              data-on-click="model.sort_function"
+              data-msg="{'track_sort':'name'}">
+              <i class="fas fa-square" data-if="{{= model.track_sort }} !== name"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == name"></i>
+            </div>
+          </li>
+          <li class="pt10 pb10 fs17 white less_strong">Artist
+            <div class="pull-right pr10p white" 
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'artist'}">
+              <i class="fas fa-square" data-if="{{= model.track_sort }} !== artist"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == artist"></i>
+            </div>
+          </li>
           </ul>
       </div>
       <div class="center bt-white white mt50 p20 fs18 strong blue-hover"
