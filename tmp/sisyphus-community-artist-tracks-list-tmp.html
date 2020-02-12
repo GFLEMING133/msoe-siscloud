@@ -5,7 +5,17 @@
   <div class="h100" data-if="{{= model.fetched_community_artists }} !== false">
     <div class="h100" data-model="{{= session.active.artist_id }}">
       <div class="h100" data-scope="true"
-          data-defaults="{'type':'searchable_list','list_type':'track','sort':'{{= parents[1].track_sort_key }}','order':'dsc','terms':{'is_community':'true','user_id':'{{= parent.data.user_id }}'}}">
+          data-defaults="{'type':'searchable_list',
+                          'list_type':'track',
+                          'sort':'{{= parents[1].track_sort_key }}',
+                          'order':'dsc',
+                          'terms':{
+                            'is_community':'true',
+                            'user_id':'{{= parent.data.user_id }}'
+                            {{= (parents[1].show_all == 'true') ? '' : ',\'is_downloaded\':\'false\''}}
+                            }
+                          }">
+
         <div class="pull-top bg-black bb">
           <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
             <div class="w25 left pl20 clickable active"
