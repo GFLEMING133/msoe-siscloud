@@ -13,20 +13,32 @@ app.model.community = {
       fetching_playlist             : 'false',
 			fetched_playlist              : 'false',
 
-      community_page          : 'tracks',
-      community_playlist_ids  : [],
+      community_page                : 'tracks',
+      community_playlist_ids        : [],
       community_playlist_track_ids  : [],
-      community_track_ids     : [],
-      community_artist_ids    : [],
+      community_track_ids           : [],
+      community_artist_ids          : [],
 
-      track_sort        : 'most popular', //newest designs , name, artist, (default) most popular
-      track_sort_key    : 'data.popularity',
+      track_sort        : 'most_popular', //newest designs , name, artist, (default) most popular
+      track_sort_key    : 'data.download_count',
       track_sort_keys   : {
-        'most popular'    :'data.popularity',
-        'newest designs'  :'data.created_at',
-        name              :'data.name',
-        artist            :'data.created_by_name',
+        most_popular      : 'data.download_count',
+        newest_designs    : 'data.created_at',
+        oldest_designs    : 'data.created_at',
+        name              : 'data.name',
+        artist            : 'data.created_by_name',
+        hot               : 'data.popularity'
       },
+      track_order_key    : 'dsc',
+      track_order_keys  : {
+        most_popular      : 'dsc',
+        hot               : 'dsc',
+        newest_designs    : 'dsc',
+        oldest_designs    : 'asc',
+        name              : 'asc',
+        artist            : 'asc',
+      },
+
       sorting           : 'false',
       download_cloud    : 'false',
       selected_tracks   : [],
@@ -48,8 +60,8 @@ app.model.community = {
         created_by_id   : 'false',
         email           : 'false', //community
         created_by_name : 'false', //community
+        created_at      : 'false',
         is_public       : 'false', //community
-        is_downloaded   : 'true',
       }
     };
 
@@ -102,6 +114,7 @@ app.model.community = {
   },
   update_sort_key: function(){
     this.set('track_sort_key',    this.get('track_sort_keys['+this.get('track_sort')+']'));
+    this.set('track_order_key',    this.get('track_order_keys['+this.get('track_sort')+']'));
     app.log( 'TRACK SORT' ,       this.get('track_sort'));
     app.log( 'TRACK SORT KEYSSS' ,this.get('track_sort_keys'));
     app.log( 'TRACK SORT KEY' ,   this.get('track_sort_key'));
@@ -289,12 +302,12 @@ app.model.community = {
 
     return this;
   },
-  sort_function: function(sort_params) {
-    app.log('sort_params', sort_params);
+  sort_function: function(given_data) {
     var self = this;
-    this.set('track_sort', sort_params);
+    this.set('track_sort', given_data.track_sort);
+    this.fetch_community_tracks();
+    if(given_data.secondary) app.trigger('session:active',{secondary:given_data.secondary});
 
-    app.trigger('session:active', {'secondary':'tracks'});
   },
   //Actions drop down menu
   openSort: function() {

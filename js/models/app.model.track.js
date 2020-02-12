@@ -10,7 +10,6 @@ app.model.track = {
 
 			upload_status										: 'hidden',		// hidden|false|uploading|success
 			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
-			// sisbot_upload										: 'false',
 			generating_thumbnails						: 'false',
 
 			downloading_community_track 		: 'false',
@@ -83,6 +82,8 @@ app.model.track = {
 	on_init: function() {
 		this.on('change:track_checked', this.get_track_checked);
 		this.on('change:data.reversible', this.save_track);
+
+		// var playlist = app.session.get_model('active.playlist_id')
 	},
 	save_track: function() {
 		// app.log("Save Track", this.get('data'));
@@ -210,7 +211,6 @@ app.model.track = {
 		}
 	},
 	play: function () {
-		debugger
 		app.trigger('sisbot:set_track', this.get('data'));
 	},
 	close: function() {
