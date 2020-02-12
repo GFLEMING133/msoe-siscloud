@@ -14,8 +14,8 @@
       <i class="fas fa-exclamation-triangle red f-xxlarge"></i><br />
       These settings override the factory settings for your table. Changing the values will affect table performance.
     </p>
-    <div  data-if="{{= model.csons }} == false">
-      <div  data-run="model.check_for_csons"></div>
+    <div data-if="{{= model.csons }} == false">
+      <div data-run="model.check_for_csons"></div>
       <div class="mt20 black" data-template="spinner-bounce-tmp"></div>
     </div>
     <div  data-if="{{= model.csons }} !== false">
@@ -30,7 +30,7 @@
       </div>
       <div class="p20 bb">
         <p class="no-stuffing w100 fs18 lh18 mb5">Radius <span class="f-small">(in inches)</span></p>
-        <input class="fs18 w100" type="text" placeholder="8.25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.radius" value="{{= model.data.table_settings.radius }}" />
+        <input class="fs18 w100" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.radius" value="{{= model.data.table_settings.radius }}" />
       </div>
       <div class="p20 bb">
         <p class="no-stuffing w100 fs18 lh18 mb5">Max Speed</p>
@@ -72,7 +72,7 @@
       </div>
       <div class="p20 bb" data-if="{{= model.data.led_enabled }} == true">
         <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
-        <input class="fs18 w100" type="text" placeholder="99" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.rgbwCount" value="{{= model.data.table_settings.rgbwCount }}" />
+        <input class="fs18 w100" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.rgbwCount" value="{{= model.data.table_settings.rgbwCount }}" />
       </div>
       <div class="p20 pb40">
         <div class="p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"

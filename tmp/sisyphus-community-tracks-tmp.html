@@ -3,7 +3,7 @@
       data-defaults="{
         'type':'searchable_list',
         'list_type':'track',
-        'terms':{'is_community':'true'},
+        'terms':{'is_community':'true', 'is_downloaded':'false'},
         'sort':'{{= parent.track_sort_key }}',
         'order':'{{= parent.track_order_key}}',
         'q':{
@@ -11,7 +11,6 @@
           'search_keys':['data.name','data.created_by_name']
         }
       }">
-
     <div class="pull-top bg-black bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
         <div class="w25 left pl20 clickable active blue-hover"
@@ -35,10 +34,10 @@
               data-on-input="model.update_q" />
         </div>
 
-        <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active" 
+        <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active"
             data-template="modal-hamburger-tmp">
         </div>
-        
+
         <div class="flex-end-center"
             tg-name="download_cloud_header">
           <div class="clickable active"

@@ -5,6 +5,7 @@ app.model.playlist = {
 			type			: 'playlist',
 
 			is_community: 'false', // is webcenter playlist (true == not yet downloaded)
+			is_downloaded: 'false', // playlist has been loaded to the current table
 
 			eligible_tracks	: [],
 			active_tracks		: [],
@@ -13,6 +14,7 @@ app.model.playlist = {
 				description	: '',
 			},
 			add_playlist_tracks: {},
+
 			data		: {
 				id						: data.id,
 				type    			: 'playlist',
@@ -60,6 +62,7 @@ app.model.playlist = {
 		app.log("Playlist: After save");
 		app.trigger('sisbot:playlist_add', this);
 		// if (this.get('data.is_published') == 'true') this.publish();
+		this.set('is_community', 'false');
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account
@@ -106,7 +109,6 @@ app.model.playlist = {
 		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
-
 	play_from_current: function (track_index) {
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
@@ -282,5 +284,31 @@ app.model.playlist = {
 			.set("data.sorted_tracks", sorted_tracks)
 			.save();
 	},
+	/************************ Webcenter ******************************/
+	download_wc: function() {
+		app.log("Download Webcenter Playlist", this.id);
+		var self = this;
+		var community = app.session.get_model('community_id');
+		var sisbot = app.manager.get_model('sisbot_id');
+		var sisbot_track_ids = sisbot.get('data.track_ids');
 
+		// add tracks not already on table to 'selected_tracks'
+		var track_ids =  _.uniq(_.pluck(this.get('data.tracks'), 'id'));
+		_.each(track_ids, function(id) {
+			if (sisbot_track_ids.indexOf(id) < 0) community.add_nx('selected_tracks', id);
+		});
+
+		// TODO: call community.download_wc
+		if (community.get('selected_tracks').length > 0) {
+			// save playlist to table
+			community.set('selected_playlist', this.id);
+
+			app.log("Download tracks to table", community.get('selected_tracks'));
+			community.download_wc();
+		} else if (sisbot.get('data.playlist_ids').indexOf(this.id) < 0) {
+			this.set('is_downloaded', 'true');
+			this.save();
+			app.log("All tracks downloaded, just save playlist");
+		}
+	}
 };

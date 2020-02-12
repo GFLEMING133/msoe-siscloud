@@ -38,11 +38,12 @@ app.model.community = {
         name              : 'asc',
         artist            : 'asc',
       },
- 
+
       sorting           : 'false',
       download_cloud    : 'false',
       selected_tracks   : [],
       downloaded_tracks : [],
+      selected_playlist : 'false', // for saving whole playlist
 
       offset        : 0,
       limit         : 30,
@@ -60,7 +61,7 @@ app.model.community = {
         email           : 'false', //community
         created_by_name : 'false', //community
         created_at      : 'false',
-        is_public       : 'false', //community 
+        is_public       : 'false', //community
       }
     };
 
@@ -146,16 +147,16 @@ app.model.community = {
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
-      var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+      var new_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
-      var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
+      // var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
       _.each(new_playlist_ids, function(playlist_id) {
         var playlist = app.collection.get(playlist_id);
         playlist.set('is_community', 'true');
+        if (sisbot_playlist_ids.indexOf(playlist_id) >= 0) playlist.set('is_downloaded', 'true');
         self.add_nx('community_playlist_ids', playlist_id); // add to array if not already there
-        
       });
-      
+
       self.set('fetched_community_playlists', 'true');
       self.set('fetching_community_playlists', 'false');
     }
@@ -165,7 +166,6 @@ app.model.community = {
     return this;
   },
   fetch_playlist: function(pid) {
-
     app.log('fetch_playlists function')
     let id = pid;
     let playlist_id =  parseInt(id);
@@ -188,6 +188,8 @@ app.model.community = {
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+
+      // TODO: loop through returned objects, and mark is_downloaded appropriately
 
       // self.set('community_playlist_track_ids', resp_playlist_ids);
       self.set('fetched_playlist', 'true');
@@ -212,24 +214,21 @@ app.model.community = {
     };
 
     function cb(obj) {
-
       // app.log("Community Tracks:", obj.resp);
       if (obj.err) return self;
       app.manager.intake_data(obj.resp); // obj.resp.data
 
-      var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+      var new_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
-      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
       _.each(new_track_ids, function(track_id) {
         var track = app.collection.get(track_id);
         track.set('is_community', 'true');
+        if (sisbot_track_ids.indexOf(track_id) >= 0) track.set('is_downloaded', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
-
       });
       self.set('sorting', 'false');
       self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');
-
     }
 
     app.post.fetch2(tracks, cb, 0);
@@ -341,14 +340,11 @@ app.model.community = {
     var numberOfTracks = track_list.length;
 
     if (numberOfTracks > 0) {
-      this.set('download_cloud', 'false');
-
       var track_model = app.collection.get(track_list[numberOfTracks - 1]);
-      if(track_model) track_model.download_wc(true);
+      if (track_model) track_model.download_wc(true);
     }
   },
   downloaded_track: function(track_id) {
-   
     this.remove('selected_tracks', track_id, {silent:true}); //removes id from checked array
     this.remove('community_track_ids', track_id, {silent:true}); // this removes id from displayed track array (list)
     var track_list = _.unique(this.get('selected_tracks'));
@@ -359,9 +355,25 @@ app.model.community = {
     } else {
       this.trigger('remove:community_track_ids'); // trigger once at end
 
-      app.trigger('modal:open', {
-        'template': 'modal-list-playlist-add-tmp'
-      });
+      this.set('download_cloud', 'false');
+
+      var selected_playlist = this.get('selected_playlist');
+      if (selected_playlist != 'false') {
+        // save selected_playlist, don't show modal
+        var sisbot = app.manager.get_model('sisbot_id');
+        if (sisbot.get('data.playlist_ids').indexOf(selected_playlist) < 0) {
+          // add_playlist
+          app.log("Add Playlist", selected_playlist);
+          var playlist = app.collection.get(selected_playlist);
+          playlist.set('is_downloaded', 'true');
+          playlist.save();
+        }
+        app.trigger('modal:close');
+      } else {
+        app.trigger('modal:open', {
+          'template': 'modal-list-playlist-add-tmp'
+        });
+      }
     }
   },
   openHamburger: function(x) {
@@ -376,9 +388,7 @@ app.model.community = {
     app.trigger('modal:close')
     this.set('downloaded_tracks', []);
   },
-
   add_to_playlist: function(playlist_id) {
-   
     var playlist = app.collection.get(playlist_id);
     if (playlist) {
       playlist.setup_edit();
@@ -390,32 +400,28 @@ app.model.community = {
       playlist.save_edit();
       this.set('downloaded_tracks', []);
       this.set('data.is_downloaded', 'true');
-      
-      
+
       app.trigger('modal:close');
     }
   },
   remove_downloaded: function() {
-   
     var self = this;
-     let sisbot = app.manager.get_model('sisbot_id');
-     let downloaded_tracks = this.get('downloaded_tracks');
-     _.each(downloaded_tracks, function(i) {
-       var track = app.collection.get(i);
-       track.set('is_community', 'true')
-       track.set('is_downloaded', 'false')
-       track.set('data.is_downloaded', 'false')
-        sisbot.remove('data.track_ids', i);
-        self.add('selected_tracks', i);
-     });
-     sisbot.save_to_sisbot(sisbot.get('data'));
-     this.set('fetched_community_tracks', 'false')
-         .set('downloaded_tracks', [])
-         .set('download_cloud', 'true');
+    let sisbot = app.manager.get_model('sisbot_id');
+    let downloaded_tracks = this.get('downloaded_tracks');
+    _.each(downloaded_tracks, function(i) {
+      var track = app.collection.get(i);
+      track.set('is_community', 'true')
+      track.set('is_downloaded', 'false')
+      sisbot.remove('data.track_ids', i);
+      self.add('selected_tracks', i);
+    });
+    sisbot.save_to_sisbot(sisbot.get('data'));
+    this.set('fetched_community_tracks', 'false')
+      .set('downloaded_tracks', [])
+      .set('download_cloud', 'true');
 
-     this.fetch_community_tracks();
+    this.fetch_community_tracks();
 
-     app.trigger('modal:close');
-
+    app.trigger('modal:close');
   }
 };
