@@ -368,6 +368,8 @@ app.model.community = {
           playlist.set('is_downloaded', 'true');
           playlist.save();
         }
+        
+        this.set('selected_playlist', 'false'); // forget selected playlist
         app.trigger('modal:close');
       } else {
         app.trigger('modal:open', {
