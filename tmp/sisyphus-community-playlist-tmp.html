@@ -2,7 +2,7 @@
   <!-- <div data-if="{{= model.fetched_community_artists }} == false">
     <div data-run="model.fetch_community_artists"></div>
   </div> -->
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= session.active.playlist_id }}">
+  <div class="h100" data-model="{{= session.active.playlist_id }}">
     <div class="pull-top bg-black bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
         <div class="w25 left pl20 clickable active blue-hover"
@@ -15,9 +15,9 @@
         <div class="w25 center f-large">&nbsp;</div>
       </div>
       <!-- END HEADER -->
-      <div class="p20 pb10" style="background-color:{{= model.data.bg_color }};">
-        <div class="p20 pt10 white center fs32 fw900">{{= model.data.name }}</div>
-        <div class="download-all-btn strong fs17 mt10 o80 o100-hover"
+      <div class="p20 pb10 center" style="background-color:{{= model.data.bg_color }};">
+        <div class="pb10 white fs32 lh36 fw900">{{= model.data.name }}</div>
+        <div class="download-all-btn strong fs17 o80 o100-hover"
             data-if="{{= model.is_downloaded }} == false"
             data-on-click="model.download_wc">Download All</div>
         <div class="strong white center"
@@ -49,24 +49,23 @@
       </div>
     </div> <!--end pull-top-->
 
-    <div class=""
+    <div class="body-header h100 scroll hide-scrollbar"
         data-on-scroll="parent.scroll_check"
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_playlist"
         data-run-msg="{{= model.data.playlist_id }}"
         tg-name="community_playlist_page">
 
-        <div class="mt100" data-if="{{= parent.fetching_playlist }} == true">
-          <div class="p20 center i">Fetching tracks...</div>
-          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-        </div>
+      <div class="mt100" data-if="{{= parent.fetching_playlist }} == true">
+        <div class="p20 center i">Fetching tracks...</div>
+        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+      </div>
 
-        <div class="mt150" data-if="{{= parent.fetching_playlist}} == false">
-          <div class="w100" data-if="{{= _.size(model.data.sorted_tracks) }} > 0">
-            <div class="w100"
-                data-foreach="model.data.sorted_tracks">
-              <div class="h100" data-model="{{= model.data.tracks[scope.value].id }}" data-template="sisyphus-community-playlist-list-item-tmp"></div>
-            </div>
+      <div class="mt150" data-if="{{= parent.fetching_playlist}} == false">
+        <div class="w100" data-if="{{= _.size(model.data.sorted_tracks) }} > 0">
+          <div class="w100 mb10"
+              data-foreach="model.data.sorted_tracks">
+            <div class="h100" data-model="{{= model.data.tracks[scope.value].id }}" data-template="sisyphus-community-playlist-list-item-tmp"></div>
           </div>
         </div>
 
@@ -74,7 +73,9 @@
             data-if="{{= _.size(model.data.sorted_tracks) }} == 0">
             There are no new tracks to download.
         </div>
+      </div>
+
+      <div class="hh150">&nbsp;</div>
     </div>
-    <div class="hh150">&nbsp;</div>
   </div> <!-- end session.active-->
-</div><!-- end session.community-->
+</div>

@@ -567,12 +567,13 @@ body > .container > .row {	/* remove if you want a bottom bar */
 
 .download-all-btn {
 	margin: auto;
-	width: 55%;
+  display: inline-block;
+	width: auto;
 	border-radius: 30px;
 	text-align: center;
 	border: 2px solid #fff;
 	cursor: pointer;
-	padding: 11px;
+	padding: 11px 30px;
 	color: #fff;
 	font-weight: 600;
  }
@@ -1470,6 +1471,7 @@ select:focus {
 .lh20									{	line-height				: 20px;	}
 .lh22									{	line-height				: 22px;	}
 .lh24									{	line-height				: 24px;	}
+.lh36									{	line-height				: 36px;	}
 
 /**************************** BORDERS *****************************************/
 
@@ -2096,7 +2098,6 @@ and (orientation : portrait) {
 	}
 	.app .app-container {
 		margin-top: 25px !important;
-
 	}
 	.footer_Xphone {
 		position: absolute;

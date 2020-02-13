@@ -165,14 +165,11 @@ app.model.community = {
 
     return this;
   },
-  fetch_playlist: function(pid) {
-    app.log('fetch_playlists function')
-    let id = pid;
-    let playlist_id =  parseInt(id);
+  fetch_playlist: function(playlist_id) {
+    app.log('fetch_playlists function', playlist_id);
 
     var self = this;
     this.set('fetching_playlist', 'true');
-
 
     var playlist = {
       _url: app.config.get_webcenter_url(),
@@ -182,7 +179,7 @@ app.model.community = {
     };
 
     function cb(obj) {
-      app.log("Playlist:", obj.resp);
+      app.log("Playlist Resp:", obj);
       if (obj.err) return self;
 
       app.manager.intake_data(obj.resp); // obj.resp.data
@@ -368,7 +365,7 @@ app.model.community = {
           playlist.set('is_downloaded', 'true');
           playlist.save();
         }
-        
+
         this.set('selected_playlist', 'false'); // forget selected playlist
         app.trigger('modal:close');
       } else {
