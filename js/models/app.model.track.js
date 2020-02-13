@@ -57,6 +57,7 @@ app.model.track = {
 				email							: 'false', // community
 				created_by_name		: 'false', // community
 				is_public					: 'false', // community
+				is_deletable			: 'true', // user is able to delete this track
 
 				original_file_type  : 'false', 	// thr|svg|draw
 				has_verts_file			: 'false',
