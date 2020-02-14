@@ -1072,7 +1072,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 }
 .absolutely {
 	position: absolute;
-	right: 5px;
+	right: 6px;
 	top: 20px;
 }
 .truncate {
