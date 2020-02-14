@@ -575,6 +575,7 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	padding: 11px;
 	color: #fff;
 	font-weight: 600;
+	margin-bottom: 10px;
  }
 
 .hamburger-container {
@@ -1068,6 +1069,11 @@ li.blue-hover:hover     { color: #00b1fa; }
 	top				: 0;
 	bottom		: 0;
 }
+.absolutely {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
 .truncate {
 	white-space		: nowrap;
 	overflow			: hidden;
@@ -1470,6 +1476,9 @@ select:focus {
 .lh20									{	line-height				: 20px;	}
 .lh22									{	line-height				: 22px;	}
 .lh24									{	line-height				: 24px;	}
+.lh26									{	line-height				: 26px;	}
+.lh28									{	line-height				: 28px;	}
+.lh30									{	line-height				: 30px;	}
 
 /**************************** BORDERS *****************************************/
 
