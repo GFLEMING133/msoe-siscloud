@@ -63,20 +63,15 @@
                 disabled />
           </div>
         </div>
-        <div class="mb10 w100 vertical">
-          <span class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
+        <div class="mb10 w100 pull-right">
+          <span class=" pl0 blue less_strong fs12 lh20 bg-white clickable"
               data-if="{{= model.input_ssid }} == true"
-              data-on-click="toggle"
-              data-field="model.input_ssid"></span>
-          <span class="p10 pl0 black f-large bg-white far fa-square clickable"
+              data-on-click="model.get_networks"
+              data-field="model.input_ssid">Scan For Networks</span>
+          <span class="pl0 blue less_strong fs12 bg-white clickable"
               data-if="{{= model.input_ssid }} !== true"
               data-on-click="toggle"
-              data-field="model.input_ssid"></span>
-          <p class="no-stuffing pt10 pb10 w100 fs18">
-            <span class="clickable less_strong pl5"
-                data-on-click="toggle"
-                data-field="model.input_ssid">Type Network Name</span>
-          </p>
+              data-field="model.input_ssid">Connect To Other Network</span>
         </div>
 
         <div class="select-box block mb50 relative" data-if="{{= model.wifi_connecting }} == true">
@@ -100,8 +95,8 @@
               data-field="model.show_password"
               data-on-click="toggle"
               tg-name="show_password_settings_checkbox">
-            <i class="fas fa-eye blue" data-if="{{= model.show_password }} == true"></i>
-            <i class="fas fa-eye-slash" data-if="{{= model.show_password }} == false"></i>
+            <i class="fas fa-eye blue" data-if="{{= model.show_password }} == false"></i>
+            <i class="fas fa-eye-slash" data-if="{{= model.show_password }} == true"></i>
           </span>
           Network Password
         </h4>
