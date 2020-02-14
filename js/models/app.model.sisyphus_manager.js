@@ -217,11 +217,6 @@ app.model.sisyphus_manager = {
     }
   },
   /**************************** BLUETOOTH ***********************************/
-  ble_start_time: null,
-  ble_sisbots_found: {},
-  _char: false,
-  _ble_cb: false,
-  _ble_hotspot: false, // did we find a sisbot in hotspot mode?
   force_reload: function() {
     window.location.reload();
   },
@@ -234,7 +229,7 @@ app.model.sisyphus_manager = {
     });
   },
   check_ble_status: function() {
-      app.log("check_ble_status()");
+    //   app.log("check_ble_status()");
     if (app.is_simulator || !app.is_app || app.config.env == 'alpha') { //<<<< change app.is_simulator value for testing
       this.set('is_ble_enabled', 'true');
       return this;
@@ -255,9 +250,6 @@ app.model.sisyphus_manager = {
     app.log("check_ble_permissions()");
 
     var self = this;
-
-    // exit out if in simulator
-    if (app.is_simulator) return cb();
 
     bluetoothle.initialize(function(obj) {
       if (obj.status == 'enabled') {
@@ -296,12 +288,10 @@ app.model.sisyphus_manager = {
     }, {});
   },
   start_ble_scan: function(device_name, cb) {
+    app.log("start_ble_scan()");
     var self = this;
-    this.ble_start_time = Date.now();
-    this.ble_sisbots_found = {}; // reset
-    app.log("start_ble_scan()", this.ble_start_time, JSON.stringify(this.get('sisbots_networked')));
 
-    if (cb) this._ble_cb = cb;
+    this._ble_cb = cb;
 
     evothings.ble.startScan(
       function(device) {
@@ -310,151 +300,96 @@ app.model.sisyphus_manager = {
           device.advertisementData.kCBAdvDataLocalName &&
           (device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1 || device.advertisementData.kCBAdvDataLocalName.indexOf('isyphus') > -1) // legacy
         ) {
-          // app.log("BLE found Device", device.advertisementData.kCBAdvDataLocalName);
-
-          try {
-            self.ble_add_device(device);
-          } catch(err) {
-            app.log("BLE add device error", err);
-          }
-          // self.ble_connect(device);
+          self.ble_connect(device);
         }
       },
       function(error) {
-        app.log('BLE Start Scan Error: ' + error);
+        //alert('Start Scan Error: ' + error);
         self.ble_cb();
       }
     );
 
     // give the user plenty of time to approve permissions and find sisbot
     setTimeout(function() {
-      app.log("BLE Sisyphus devices found:", _.size(_.keys(self.ble_sisbots_found)));
-      self.ble_stop_scan();
       self.ble_cb();
-    }, 5000); // formerly 15000
+      self.ble_stop_scan();
+    }, 15000);
   },
-  ble_add_device: function(device) {
-    var self = this;
-
-    var device_name = device.advertisementData.kCBAdvDataLocalName;
-    if (device_name && !self.ble_sisbots_found[device_name]) {
-      app.log("BLE found Device", device_name);
-      self.ble_sisbots_found[device_name] = device;
-    }
-  },
+  _ble_ip: 'false',
+  _char: false,
+  _ble_cb: false,
+  _ble_ip: false,
   ble_cb: function(value) {
-    app.log("BLE_cb: ", value);
     var self = this;
-
-    var ble_i = 0;
-    var ble_keys = _.keys(self.ble_sisbots_found);
-
-    var found_bots = this.get('sisbots_networked');
-
-    function cb(ip_address) {
-      if (ip_address) {
-        app.log("BLE ip found:", ip_address);
-        if (ip_address == '192.168.42.1') self._ble_hotspot = true;
-
-        if (found_bots.indexOf(ip_address) >= 0) { // check if already in existing list of bots
-          app.log("BLE ip already in list, skip ping_sisbot()", ip_address);
-          next_device();
-        } else { //} if (ip_address.indexOf(self.app_ip_base) == 0) { // check if on same network
-          self.ping_sisbot(ip_address, function() {
-            next_device();
-          });
-        } //else { // other network, don't ping
-        //   app.log("BLE ip not on same network, skip ping_sisbot()", ip_address, self.app_ip_base);
-        //   next_device();
-        // }
-      } else {
-        app.log("BLE connect ip_address error", ip_address);
-        next_device();
-      }
+    if (this._ble_cb) {
+      app.log("BLE IP:", value);
+      this._ble_ip = value;
+      self.ping_sisbot(value, function() {
+        self._ble_cb(value);
+        self._ble_cb = false;
+      });
     }
-
-    function next_device() {
-      var searching = (self.get('sisbots_scanning') == 'true');
-      ble_i++;
-      if (searching && ble_i < ble_keys.length) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
-      else {
-        app.log("BLE finished", Date.now() - self.ble_start_time);
-        app.log("BLE sisbots found:", JSON.stringify(self.get('sisbots_networked')));
-        // continue with scan
-        if (self._ble_cb) self._ble_cb();
-      }
-    }
-
-    if (ble_keys.length > 0) self.ble_connect(self.ble_sisbots_found[ble_keys[ble_i]], cb);
-    else {
-      app.log("BLE No devices found");
-      if (self._ble_cb) self._ble_cb();
-    }
-
     return this;
   },
   ble_stop_scan: function() {
-    app.log("BLE stop scan");
     evothings.ble.stopScan();
   },
-  ble_connect: function(device, cb, connect_retries) {
-    // this.ble_stop_scan();
+  ble_connect: function(device, connect_retries) {
+    this.ble_stop_scan();
+
     var self = this;
-    app.log("BLE connect");
 
     evothings.ble.connectToDevice(device, function on_connect(device) {
-      app.log("BLE connect to device");
-      self.get_service_data(device, cb);
+
+      self.get_service_data(device);
     }, function on_disconnect(device) {
       //alert('Disconnected from Device');
-      if (cb) cb();
+      self.ble_cb();
     }, function on_error(error) {
       if (connect_retries > 5) {
         app.plugins.n.notification.alert('Bluetooth Connect Error: ' + error);
-        if (cb) cb();
+        self.ble_cb();
       } else {
         setTimeout(function() {
-          self.ble_connect(device, cb, ++connect_retries);
+          self.ble_connect(device, ++connect_retries);
         }, 500);
       }
     });
   },
-  get_service_data: function(device, cb) {
+  get_service_data: function(device) {
     var self = this;
-    app.log("BLE get_service_data");
 
     evothings.ble.readAllServiceData(device,
       function on_read(services) {
         var dataService = evothings.ble.getService(device, "ec00");
 
         if (dataService == null) {
+          self.ble_cb();
           evothings.ble.close(device);
-          if (cb) cb();
         } else {
           self._char = evothings.ble.getCharacteristic(dataService, "ec0e")
-          self.setup_read_chars(device, cb);
+          self.setup_read_chars(device);
         }
       },
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
-        app.log("BLE close on error", error);
+        self.ble_cb();
         evothings.ble.close(device);
-        if (cb) cb();
       }
     );
   },
-  setup_read_chars: function(device, cb) {
+  setup_read_chars: function(device) {
     var self = this;
 
     evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
       var ip_address_arr = new Uint8Array(d);
-      var _ble_ip = ip_address_arr.join('.');
+      self._ble_ip = ip_address_arr.join('.');
+      self.ble_cb(self._ble_ip);
       evothings.ble.close(device);
-      if (cb) cb(_ble_ip);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
+      self.ble_cb();
       evothings.ble.close(device);
-      if (cb) cb();
     });
   },
   /****************************************************************************/
