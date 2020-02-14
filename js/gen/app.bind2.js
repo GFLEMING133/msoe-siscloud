@@ -1036,7 +1036,7 @@ function Element(el, parent, _scope) {
 
               if (new_value != old_value) {
                 if (self.data.debug) app.log("Triggered change?", key, new_value, old_value);
-                if (key == 'data-if' && !new_value.match(/<|>/i)) { // mark as changed if comparing < or > values
+                if (key == 'data-if' && (!new_value.match(/<|>/i) || new_value.match(/undefined\s*$/i))) { // mark as changed if comparing < or > values or to undefined
                   var old_if = !self.is_hidden;
                   var new_if = self.if(new_value);
                   if (self.data.debug) app.log("If change?", self.is_hidden, new_if, old_if);
