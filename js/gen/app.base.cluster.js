@@ -16,8 +16,8 @@ app.base.cluster = Backbone.Collection.extend({
 
 			for (var i = 0; i < this._comparator.length; i++) {
 					var cmp = this._comparator[i];
-					var a_val = item_a.get(cmp.key).toString();
-					var b_val = item_b.get(cmp.key).toString();
+					var a_val = item_a.get(cmp.key).toString().toLowerCase();
+					var b_val = item_b.get(cmp.key).toString().toLowerCase();
 
 					var compare_numbers = 0;
 					var a_num = a_val.match(/(-?[0-9.]+)/);
