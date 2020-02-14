@@ -64,7 +64,7 @@
       data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
     <div class="w10 center">
       <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
-    </div>  
+    </div>
     <div class="w90 lh20 white">Add to Playlist</div>
   </div>
   <!-- <div class="p20 flex bg-d-grey-hover clickable"
@@ -78,6 +78,7 @@
     <div class="w90 lh20 white">Reversible</div>
   </div> -->
   <div class="p20 flex bg-d-grey-hover clickable"
+      data-if="{{= model.data.is_deletable }} == true"
       data-on-click="model.delete">
     <div class="w10 center white">
       <img src="img/icon_2x_trashcan.png"
@@ -90,5 +91,5 @@
       data-on-click="parent.close">
       <h2 class="m0 media_fs14 fs17">Close</h2>
   </div>
-  
+
 </div>

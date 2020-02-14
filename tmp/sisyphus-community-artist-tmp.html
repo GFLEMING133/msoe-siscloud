@@ -9,7 +9,7 @@
           data-msg="{'primary':'community','secondary':'false'}">
           <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
         </div>
-        <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist</h1></div>
+        <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artists</h1></div>
         <div class="w25 center f-large">&nbsp;</div>
       </div>
 
@@ -26,11 +26,11 @@
             data-field="model.data.q.value"
             value="{{= model.data.q.value }}"
             data-on-input="model.update_q" />
-        </div> 
+        </div>
       </div>
     </div>
 
-    <div class="h100 pt200 scroll hide-scrollbar"
+    <div class="body-header h100 pt200 scroll hide-scrollbar"
         data-on-scroll="parent.scroll_check"
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_artists"
