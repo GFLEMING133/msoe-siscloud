@@ -601,6 +601,7 @@ app.model.sisbot = {
 		var self			= this;
 		var wifi_networks	= [];
 		this.set('show_wifi_list', 'false');
+		this.set('input_ssid', 'false');
 
 		if (app.config.env == 'alpha') {
 			this.set('wifi_networks', ['test', 'test 2', 'test 3']);
