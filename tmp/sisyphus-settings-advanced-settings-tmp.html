@@ -82,7 +82,7 @@
       </div>
       <div data-model="{{= model.sisbot_id }}">
           <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-
+              data-if="{{= model.data.is_network_connected }} == false"
               data-on-click="publish"
               data-publish="session:active"
               data-msg="{'secondary':'wifi'}"
