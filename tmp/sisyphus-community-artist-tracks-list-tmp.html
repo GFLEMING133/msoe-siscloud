@@ -8,7 +8,7 @@
           data-defaults="{'type':'searchable_list',
                           'list_type':'track',
                           'sort':'{{= parents[1].track_sort_key }}',
-                          'order':'dsc',
+                          'order':'{{= parents[1].track_order_key }}',
                           'terms':{
                             'is_community':'true',
                             'user_id':'{{= parent.data.id }}'
@@ -44,8 +44,15 @@
                   data-on-input="model.update_q" />
             </div> <!--end of search-->
 
-            <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active"
-                data-template="modal-hamburger-tmp">
+            <div class="hamburger-container clickable active">
+              <div
+                  data-on-click="publish"
+                  data-publish="modal:open"
+                  data-msg="{'template':'modal-community-sorting-tmp'}">
+                <div class="bar1 bg-black"></div>
+                <div class="bar2 bg-black"></div>
+                <div class="bar3 bg-black"></div>
+              </div>
             </div>
 
             <div class="flex-end-center"

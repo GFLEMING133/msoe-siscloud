@@ -20,13 +20,13 @@ app.base.cluster = Backbone.Collection.extend({
 					var b_val = item_b.get(cmp.key).toString().toLowerCase();
 
 					var compare_numbers = 0;
-					var a_num = a_val.match(/(-?[0-9.]+)/);
+					var a_num = a_val.match(/^(-?[0-9.]+)/);
 					if (_.isArray(a_num) && a_num.length > 1) {
 							a_val = a_val.substring(a_num[1].toString().length);
 							a_num = +a_num[1];
 							compare_numbers++;
 					}
-					var b_num = b_val.match(/(-?[0-9.]+)/);
+					var b_num = b_val.match(/^(-?[0-9.]+)/);
 					if (_.isArray(b_num) && b_num.length > 1) {
 							b_val = b_val.substring(b_num[1].toString().length);
 							b_num = +b_num[1];

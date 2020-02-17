@@ -1264,6 +1264,7 @@ function Element(el, parent, _scope) {
         // set the sorting of the cluster
         cluster._comparator = value;
         cluster.sort();
+        app.log("Sorted cluster: ", value, cluster.pluck(cluster._comparator.key));
       }
 
       // app.log("Cluster results", cluster);

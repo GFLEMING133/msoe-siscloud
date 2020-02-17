@@ -116,7 +116,7 @@ app.model.community = {
     this.set('track_sort_key',    this.get('track_sort_keys['+this.get('track_sort')+']'));
     this.set('track_order_key',    this.get('track_order_keys['+this.get('track_sort')+']'));
     app.log( 'TRACK SORT' ,       this.get('track_sort'));
-    app.log( 'TRACK SORT KEYSSS' ,this.get('track_sort_keys'));
+    app.log( 'TRACK SORT KEYS' ,this.get('track_sort_keys'));
     app.log( 'TRACK SORT KEY' ,   this.get('track_sort_key'));
   },
   /**************************** COMMUNITY ***********************************/
@@ -281,10 +281,10 @@ app.model.community = {
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
-      var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
-      var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
+      // var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
+      // var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
 
-      _.each(new_track_ids, function(track_id) {
+      _.each(resp_track_ids, function(track_id) {
         var track = app.collection.get(track_id);
         track.set('is_community', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
@@ -292,7 +292,7 @@ app.model.community = {
       self.set('sorting', 'false');
       // self.set('fetched_community_tracks', 'true');
       self.set('fetching_community_tracks', 'false');
-      app.log('AFter Fetch', self.get('fetching_community_tracks'))
+      app.log('After Fetch', self.get('fetching_community_tracks'))
     }
 
     app.post.fetch2(tracks, cb, 0);
