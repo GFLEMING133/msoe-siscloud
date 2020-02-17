@@ -1,8 +1,9 @@
-<div class="overlay-container mt50"
+<div class="h100 scroll hide-scrollbar">
+<div class="overlay-container mt20"
       data-model="{{= model.track_id }}">
-  <div class="flex mt10 pb25 bb">
+  <div class="flex bb">
     <div class="w20">&nbsp;</div>
-    <div class="w60 hvw40 center vertical active">
+    <div class="w70 hvw60 mb20 center vertical active">
       <div data-if="{{= model.generating_thumbnails }} == false">
         <img class="w100 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
       </div>
@@ -12,10 +13,10 @@
     </div>
     <div class="w20">&nbsp;</div>
   </div>
-  <div class="flex pt20 pr20 pl20 pb20">
+  <div class="hh75 pl20 pr20 flex item-center">
     <div class="w100">
       <div class="pull-right" data-if="{{= app.is_app }} == true">
-        <div class="p10 clickable white"
+        <div class="clickable white"
             data-model="{{= parent.sisbot_id }}"
             data-on-click="model.present_siri"
             data-msg="{'action':'play_track','phrase':'Play {{= parent.data.name }} Track','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
@@ -31,20 +32,20 @@
       <!-- <div class="mt20">Track start: {{= model.data.firstR }}, end: {{= model.data.lastR }}</div> -->
     </div>
   </div>
-  <div class="p20 white flex bg-d-grey-hover clickable"
+  <div class="hh75 pl20 white flex item-center bg-d-grey-hover clickable"
       data-on-click="model.play_logic"
       data-msg="{{= parent.track_index}}">
-    <div class="w10 center white">
+    <div class="center white">
       <img src="img/icon_2x_trackdropdown_play.png"
           alt="Play"
           class="hh20 white" />
     </div>
     <div class="w90 lh20 white">Play</div>
   </div>
-  <div class="p20 white flex bg-d-grey-hover clickable"
+  <div class="hh75 pl20 white flex item-center bg-d-grey-hover clickable"
       data-run="model.is_playlist_favorite"
       data-on-click="model.favorite_toggle">
-    <div class="w10 center">
+    <div class="center">
       <img src="img/icon_2x_trackdropdown_openheart.png"
           alt="UnFavorite"
           class="hh20 white"
@@ -59,38 +60,28 @@
       <span data-if="{{= model.is_favorite }} == true">Unfavorite</span>
     </div>
   </div>
-  <div class="p20 flex bg-d-grey-hover clickable lh20 white"
+  <div class="hh75 pl20 white flex item-center bg-d-grey-hover clickable"
       data-on-click="publish"
       data-publish="modal:open"
       data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
-    <div class="w10 center">
+    <div class="center">
       <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
     </div>
     <div class="w90 lh20 white">Add to Playlist</div>
   </div>
-  <!-- <div class="p20 flex bg-d-grey-hover clickable"
-      data-if="{{= model.data.firstR }} !== {{= model.data.lastR }}"
-      data-on-click="toggle"
-      data-field="model.data.reversible">
-    <div class="w10 center strong fs18">
-      <i class="far fa-square white" data-if="{{= model.data.reversible }} !== true"></i>
-      <i class="far fa-check-square white" data-if="{{= model.data.reversible }} == true"></i>
-    </div>
-    <div class="w90 lh20 white">Reversible</div>
-  </div> -->
-  <div class="p20 flex bg-d-grey-hover clickable"
+  <div class="hh75 pl20 white flex item-center bg-d-grey-hover clickable"
       data-if="{{= model.data.is_deletable }} == true"
       data-on-click="model.delete">
-    <div class="w10 center white">
+    <div class="center white">
       <img src="img/icon_2x_trashcan.png"
           alt="Delete"
           class="hh20 white" />
     </div>
     <div class="w90 lh20 white">Delete</div>
   </div>
-  <div class=" flex-center-row center bt-white clickable white p20 strong blue-hover pull-bottom"
+  <div class="flex-center-row center bt-white clickable white p10 strong blue-hover mb20"
       data-on-click="parent.close">
-      <h2 class="m0 media_fs14 fs17">Close</h2>
+      <h2 class="m0 media_fs14 fs17 p20">Close</h2>
   </div>
-
+</div>
 </div>
