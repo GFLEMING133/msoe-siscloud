@@ -28,7 +28,7 @@ app.config = {
 			base_url		: 'http://app.dev.withease.io:3001/', //local url
 			api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
 			web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'http://192.168.0.19:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.6:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 			show_tg		: true
 		},
