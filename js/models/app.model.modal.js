@@ -29,7 +29,13 @@ app.model.modal = {
     if (data.track_id) {
       this.set('track_id', data.track_id);
     } else {
-      this.set('track_id', 'false')
+      this.set('track_id', 'false');
+    }
+
+    if (data.track_index) {
+      this.set('track_index', data.track_index);
+    } else {
+      this.set('track_index', 'false');
     }
 
     if (data.playlist_id) {

@@ -110,6 +110,7 @@ app.model.playlist = {
 	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
+		app.log( "play_from_current", track_index);
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
 		var data				= JSON.parse(JSON.stringify(this.get('data')));

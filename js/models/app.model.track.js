@@ -197,6 +197,7 @@ app.model.track = {
 	},
 	/**************************** GENERAL ***********************************/
 	play_logic: function (track_index) {
+		app.log( "play_logic", track_index);
 		var active			= app.session.get('active');
 		var current_track	= app.manager.get_model('sisbot_id').get('data.active_track.id');
 		if (active.primary == 'current' && this.id == current_track) {
@@ -210,6 +211,7 @@ app.model.track = {
 		} else if (active.primary == 'media' && active.secondary == 'playlist') {
 			app.collection.get(active.playlist_id).play(track_index);
 		}
+		app.trigger('modal:close');
 	},
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
