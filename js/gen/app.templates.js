@@ -29,7 +29,7 @@ app.templates = {
       var new_str = str.replace('&lt;', '<').replace('&gt;', '>');
       return _.template(new_str)
     } catch (err) {
-      console.log('template.create: err', str, new_str, err, bind_env);
+      app.log('template.create: err', str, new_str, err, bind_env);
     }
   },
   _is_fetching: {},

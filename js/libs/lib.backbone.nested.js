@@ -332,8 +332,7 @@
             if (_.isString(attrStrOrPath)) {
                 path = (attrStrOrPath === '') ? [''] : attrStrOrPath.match(/[^\.\[\]]+/g);
 
-                if (debug)
-                    console.log('attrPath: first path', path);
+                if (debug) app.log('attrPath: first path', path);
 
                 path = _.map(path, function(val) {
                     // convert array accessors to numbers & remove extra quotes for accessors
@@ -387,8 +386,7 @@
                 }
             });
 
-            if (debug)
-                console.log('walkthenget: attributes', attributes, attrPath,result)
+            if (debug) app.log('walkthenget: attributes', attributes, attrPath,result)
 
             return result;
         }

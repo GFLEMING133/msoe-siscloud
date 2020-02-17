@@ -377,7 +377,7 @@ app.model.community = {
   },
   openHamburger: function(x) {
     this.set('hamburger', 'true');
-    console.log("X", x)
+    app.log("X", x)
     x.classList.toggle("change");
   },
   new_playlist: function() {
