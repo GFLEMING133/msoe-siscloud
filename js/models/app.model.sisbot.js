@@ -15,6 +15,8 @@ app.model.sisbot = {
 			wifi_connecting	: 'false',
 			fetching_cloud	: 'false',
 			show_wifi_list  : 'false',
+			input_ssid			: 'false', // manually type ssid
+			show_password		: 'false',
 
 			is_master_branch: 'false',
 			is_legacy_branch: 'false',
@@ -103,6 +105,7 @@ app.model.sisbot = {
 				is_internet_connected			: 'false',
 				is_network_connected			: 'false',
 				is_network_separate 			: 'false',
+				input_network 						: 'false',
 				wifi_network        			: '',
 				wifi_password       			: '',
 				failed_to_connect_to_wifi	: 'false',
@@ -133,6 +136,7 @@ app.model.sisbot = {
 				is_autodim_allowed		: 'true',
 				is_autodim						: 'true',
 				is_nightlight					: 'false',
+				is_play_on_wake				: 'false',
 				is_sleeping						: 'false',
 				timezone_offset				: moment().format('Z'),
 				nightlight_brightness : 0.2,
@@ -596,13 +600,14 @@ app.model.sisbot = {
 		var self			= this;
 		var wifi_networks	= [];
 		this.set('show_wifi_list', 'false');
+		this.set('input_ssid', 'false');
 
 		if (app.config.env == 'alpha') {
 			this.set('wifi_networks', ['test', 'test 2', 'test 3']);
 			return this;
 		}
 
-		this._update_sisbot('get_wifi', { iface: 'wlan0', show_hidden: true }, function(obj) {
+		this._update_sisbot('get_wifi', { iface: 'wlan0' }, function(obj) {
 			if (obj.err) {
 				self.get_networks();
 			}
@@ -610,6 +615,8 @@ app.model.sisbot = {
 					wifi_networks.push(network_obj.ssid);
 			})
 			var uniq_wifi = _.uniq(wifi_networks.sort());
+
+			app.log("Wifi SSIDs", uniq_wifi);
 
 			var current_ssid = app.manager.get('current_ssid');
 			var current_name = self.get('wifi.name');
@@ -699,7 +706,7 @@ app.model.sisbot = {
 				.set('data.wifi_forget', 'true')
 				.set('wifi_connecting', 'true');
 
-			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password }, function(obj) {
+			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password, is_hidden: this.get('input_ssid') }, function(obj) {
 				if (obj.err && obj.err !== 'Could not make request') {
 					app.log('wifi err', obj.err);
 					self.set('wifi_error', 'true')
@@ -955,7 +962,7 @@ app.model.sisbot = {
 		if (app.config.env == 'alpha') return app.trigger('session:active', { secondary: 'false' });
 
 		var self		= this;
-		var edit		= _.pick(this.get('edit'), 'is_sleep_enabled', 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness');
+		var edit		= _.pick(this.get('edit'), 'is_sleep_enabled', 'is_nightlight', 'sleep_time', 'wake_time', 'nightlight_brightness', 'is_play_on_wake');
 		var errors 		= [];
 
 		this.set('errors', []);
@@ -1320,10 +1327,10 @@ app.model.sisbot = {
 		var self = this;
 
 		var playlist = app.collection.add({
-			id				: app.plugins.uuid(),
-			type			: 'playlist',
-			name			: 'Favorites',
-			is_shuffle		: 'true'
+			id					: "favorite_playlist_id",
+			type				: 'playlist',
+			name				: 'Favorites',
+			is_shuffle	: 'true'
 		});
 
 		this.set('data.favorite_playlist_id', playlist.id);
@@ -1665,35 +1672,20 @@ app.model.sisbot = {
 		if (level < -180) level = -180;
 		this.led_offset(level);
 	},
+	led_offset_zero: function() {
+		var level = 0;
+		this.led_offset(level);
+	},
 	led_offset: function (level) {
 		var self = this;
+		var remember_level = +level;
 
-		// app.log("OFFSET:", level, this.get('data.led_offset'));
-		this.set('data.led_offset', +level).set('edit.led_offset', +level);
+		app.log("OFFSET:", level, this.get('data.led_offset'));
+		this.set('data.led_offset', remember_level).set('edit.led_offset', remember_level);
 
-		if (this.get('wait_for_send') == 'false') {
-			// var start = +new Date();
-			// this.set('wait_for_send','true');
-			var remember_level = +level;
 			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
-				// save value
-				self.save_to_sisbot(self.get('edit'), null);
-
-				// var end = +new Date();
-				// app.log("Brightness Response (millis):", end-start);
-
-				// app.log("Tail Brightness", remember_level, self.get('edit.brightness'));
-				// self.save_to_sisbot(self.get('data'), function(obj) {
-				// 	self.set('wait_for_send','false');
-				//
-				// 	if (self.get('edit.led_offset') !== remember_level) {
-				// 		self.led_offset(self.get('edit.led_offset'));
-				// 	}
-				// });
+			self.save_to_sisbot(self.get('edit'), null); // save value
 			});
-		} else {
-			// app.log("New Offset", level);
-		}
 	},
 	homing_offset: function(level) {
 		app.log("Homing Offset: ", level);
@@ -1789,7 +1781,7 @@ app.model.sisbot = {
 
 		var self = this;
 
-		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This cannot be undone.', function(resp_num) {
+		app.plugins.n.notification.confirm('Are you sure you want to delete this track? This will remove it from all playlists and your track list. This cannot be undone.', function(resp_num) {
 			if (resp_num == 1)
 				return self;
 

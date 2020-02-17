@@ -6,7 +6,9 @@
     </div>
     <div class="w15 center f-large">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}" data-run="model.get_networks" data-if="{{= model.data }} !== undefined">
+  <div class="body-header h100 scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
+      data-run="model.get_networks">
     <div class="bg-red white center i p20" data-if="{{= model.data.failed_to_connect_to_wifi }} == true">
       We were unable to connect your Sisyphus to your local WiFi network with the credentials you provided.
       Please double check that you entered them correctly and try again.
@@ -19,21 +21,67 @@
         </div>
       </div>
       <div data-if="{{= model.show_wifi_list }} == true" data-run="model.clear_wifi_errors">
+        <div data-if="{{= model.input_ssid }} !== true">
         <h4 class="no-stuffing fs18 lh18 pb5 strong">Network Name</h4>
-        <div class="select-box block mb50 relative" data-if="{{= model.wifi_connecting }} == false">
+          <div class="select-box block mb40 relative" data-if="{{= model.wifi_connecting }} == false">
           <div class="absolute z20">
-            <select class="w100 corner-5px fs18 p10" data-field="model.wifi.name" data-foreach="model.wifi_networks" data-selected="{{= model.wifi.name }}">
-              <option class="pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option>
+              <select class="w100 corner-5px fs18 lh22 less_strong"
+                      data-field="model.wifi.name"
+                      data-foreach="model.wifi_networks"
+                      data-selected="{{= model.wifi.name }}">
+                <option class="pt5 pb5 " value="{{= scope.value }}">{{= scope.value }}</option>
             </select>
           </div>
           <div class="absolute z10">
-            <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10" style="padding-bottom: 12px !important;" aria-hidden="true">
-              </>
+              <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
+                style="padding-bottom: 12px !important;"
+                aria-hidden="true"></p>
           </div>
         </div>
+        </div>
+        <div data-if="{{= model.input_ssid }} == true">
+          <div class="no-stuffing fs18 lh18 pb5 strong">Network Name Input</div>
+          <div data-if="{{= model.wifi_error }} == false">
+            <input class="w100 corner-5px fs18 lh20 less_strong"
+                data-if="{{= model.wifi_connecting }} == false"
+                placeholder="SSID"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                data-field="model.wifi.name"
+                value="{{= model.wifi.name }}"/>
+            <input class="w100 corner-5px fs18 lh20 less_strong"
+                data-if="{{= model.wifi_connecting }} == true"
+                placeholder="SSID"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                data-field="model.wifi.name"
+                value="{{= model.wifi.name }}"
+                disabled />
+          </div>
+        </div>
+        <div class="mt5 mb20 w100 pull-right">
+          <span class=" pl0 blue less_strong fs12 lh20 bg-white clickable"
+              data-if="{{= model.input_ssid }} == true"
+              data-on-click="model.get_networks"
+              data-field="model.input_ssid">Scan For Networks</span>
+          <span class="pl0 blue less_strong fs12 bg-white clickable"
+              data-if="{{= model.input_ssid }} !== true"
+              data-on-click="toggle"
+              data-field="model.input_ssid">Connect To Other Network</span>
+        </div>
+
         <div class="select-box block mb50 relative" data-if="{{= model.wifi_connecting }} == true">
           <div class="absolute z20">
-            <select class="w100 corner-5px fs18 p10" data-field="model.wifi.name" data-foreach="model.wifi_networks" data-selected="{{= model.wifi.name }}" lib-chosen="true" disabled>
+            <select class="w100 corner-5px fs18 p10"
+                  data-field="model.wifi.name"
+                  data-foreach="model.wifi_networks"
+                  data-selected="{{= model.wifi.name }}"
+                  lib-chosen="true"
+                  disabled>
               <option class="pt5 pb5" value="{{= scope.value }}">{{= scope.value }}</option>
             </select>
           </div>
@@ -42,10 +90,19 @@
               </>
           </div>
         </div>
-        <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Network Password</h4>
+        <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">
+          <span class="pull-right clickable"
+              data-field="model.show_password"
+              data-on-click="toggle"
+              tg-name="show_password_settings_checkbox">
+            <i class="fas fa-eye" data-if="{{= model.show_password }} == false"></i>
+            <i class="fas fa-eye-slash" data-if="{{= model.show_password }} == true"></i>
+          </span>
+          Network Password
+        </h4>
         <div data-if="{{= model.wifi_error }} == false">
           <input class="corner-5px mt5 mb5 fs18 w100"
-              type="text"
+              type="{{= (model.show_password == 'true') ? 'text' : 'password' }}"
               placeholder="password"
               autocomplete="off"
               autocorrect="off"
@@ -54,9 +111,10 @@
               data-field="model.wifi.password"
               value="{{= model.wifi.password }}"
               data-value="{{= model.wifi.password }}"
-              data-if="{{= model.wifi_connecting }} == false" />
+              data-if="{{= model.wifi_connecting }} == false"
+              data-on-key-enter="model.connect_to_wifi"/>
           <input class="corner-5px mt5 mb5 fs18 w100"
-              type="text"
+              type="{{= (model.show_password == 'true') ? 'text' : 'password' }}"
               placeholder="password"
               autocomplete="off"
               autocorrect="off"
@@ -69,16 +127,35 @@
               disabled />
         </div>
         <div data-if="{{= model.wifi_error }} == true" class="red_triangle center">
-          <input class="fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.wifi.password" value="{{= model.wifi.wifi_password }}" />
+          <input class="fs18 error-border corner-5px mt5 mb5 w100"
+              type="text"
+              placeholder="password"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-field="model.wifi.password"
+              value="{{= model.wifi.wifi_password }}" />
           <div class="pull-right error f-small">Wi-Fi password cannot be less than 8 characters</div>
         </div>
         <div data-if="{{= model.wifi_error }} == incorrect" class="red_triangle center">
-          <input class="fs18 error-border corner-5px mt5 mb5 w100" type="text" placeholder="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.wifi.password" value="{{= model.wifi.wifi_password }}" />
+          <input class="fs18 error-border corner-5px mt5 mb5 w100"
+              type="text"
+              placeholder="password"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-field="model.wifi.password"
+              value="{{= model.wifi.wifi_password }}" />
           <div class="pull-right error f-small">Incorrect Wi-Fi Password</div>
         </div>
 
-        <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active" data-if="{{= model.data.is_hotspot }} == true" data-on-click="model.connect_to_wifi">Connect</p>
-        <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase" data-if="{{= model.data.wifi_forget }} == true">Connect</p>
+        <p class="btn bg-blue w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase clickable active"
+            data-if="{{= model.data.is_hotspot }} == true"
+            data-on-click="model.connect_to_wifi">Connect</p>
+        <p class="btn bg-grey-ll w100 m0 mt20 p15 fs18 lh18 corner-5px strong uppercase"
+            data-if="{{= model.data.wifi_forget }} == true">Connect</p>
       </div>
 
       <span class="block hh20">&nbsp;</span>

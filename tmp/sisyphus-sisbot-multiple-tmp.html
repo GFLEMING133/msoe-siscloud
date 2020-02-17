@@ -76,8 +76,25 @@
       <h2 class="mt20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong">Re-Scan</h2>
     </div>
 
+    <div class="mt10 center black" data-if="{{= model.sisbots_scanning }} == false">
+      <div class="p20" data-if="{{= model.sisbot_connecting }} == false">
+        <div data-if="{{= model.sisbot_id }} == false"
+            data-on-click="set"
+            data-field="model.sisbot_registration"
+            data-msg="specify_ip">
+          Don't see your table?<br/>Enter an IP Address
+        </div>
+        <div data-if="{{= model.sisbot_id }} !== false"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'specify_ip'}">
+          Don't see your table?<br/>Enter an IP Address
+        </div>
+      </div>
+    </div>
+
     <div class="p20 center i black" data-if="{{= model.sisbots_scanning }} == false">
-      <div class="p20 center i black" data-if="{{= model.sisbot_connecting }} == true">
+      <div data-if="{{= model.sisbot_connecting }} == true">
         <div class="mb20" data-template="spinner-bounce-tmp"></div>
         <div>Connecting...</div>
       </div>

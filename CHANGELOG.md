@@ -1,5 +1,7 @@
 #2020-2-8 1.8.90
- - Install Python Added Back to advanced-table-settings-tmp
+ - BLE scan reverted back to old method (stops scan on first Sisyphus found)
+ - Manual SSID entry
+ - Manual IP address connect entry
 #2020-1-29 1.8.89
  - JSON.parse fix
 #2019-12-20 1.8.87, 1.8.88
