@@ -62,7 +62,7 @@ app.model.playlist = {
 		app.log("Playlist: After save");
 		app.trigger('sisbot:playlist_add', this);
 		// if (this.get('data.is_published') == 'true') this.publish();
-		this.set('is_community', 'false');
+		// this.set('is_community', 'false');
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account
