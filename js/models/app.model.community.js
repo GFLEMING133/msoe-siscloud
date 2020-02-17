@@ -116,7 +116,7 @@ app.model.community = {
     this.set('track_sort_key',    this.get('track_sort_keys['+this.get('track_sort')+']'));
     this.set('track_order_key',    this.get('track_order_keys['+this.get('track_sort')+']'));
     app.log( 'TRACK SORT' ,       this.get('track_sort'));
-    app.log( 'TRACK SORT KEYSSS' ,this.get('track_sort_keys'));
+    app.log( 'TRACK SORT KEYS' ,this.get('track_sort_keys'));
     app.log( 'TRACK SORT KEY' ,   this.get('track_sort_key'));
   },
   /**************************** COMMUNITY ***********************************/

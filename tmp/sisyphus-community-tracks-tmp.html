@@ -34,8 +34,15 @@
               data-on-input="model.update_q" />
         </div>
 
-        <div class="{{= (model.hamburger == 'true') ? 'change-burger' : 'hamburger-container'}} clickable active"
-            data-template="modal-hamburger-tmp">
+        <div class="hamburger-container clickable active">
+          <div
+              data-on-click="publish"
+              data-publish="modal:open"
+              data-msg="{'template':'modal-hamburger-tmp'}">
+            <div class="bar1 bg-black"></div>
+            <div class="bar2 bg-black"></div>
+            <div class="bar3 bg-black"></div>
+          </div>
         </div>
 
         <div class="flex-end-center"
