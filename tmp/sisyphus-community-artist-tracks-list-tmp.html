@@ -22,7 +22,7 @@
                 data-on-click="publish"
                 data-publish="session:active"
                 data-msg="{'primary':'community','secondary':'false'}">
-              <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
+              <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15"/>
             </div>
             <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist Tracks</h1></div>
             <div class="w25 center f-large">&nbsp;</div>
@@ -75,7 +75,7 @@
             data-msg="{{= _self_.el_id }}"
             data-run="grandparent.fetch_artist_tracks"
             data-run-msg="{'user_id':'{{= parent.data.user_id }}'}">
-          <div class="mt100" data-if="{{= grandparent.fetching_community_tracks }} == true">
+          <div class="mt250" data-if="{{= grandparent.fetching_community_tracks }} == true">
             <div class="p20 center i">Fetching tracks...</div>
             <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
           </div>
@@ -95,7 +95,7 @@
                 data-if="{{= model.size }} == 0">
                 You have downloaded all tracks for this artist.
             </div>
-            <div data-if="{{= model.size }} > {{= grandparent.limit }}">
+            <div class="mt50">
               <div class="p20 center i">Fetching List of Tracks...</div>
               <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
             </div>
