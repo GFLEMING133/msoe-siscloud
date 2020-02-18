@@ -661,15 +661,10 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .hover-dark, .hover-dark > * 								{	color		: #888;}
 .hover-dark:hover, .hover-dark:hover > *		{	color		: #fff;}
 
-a.blue-hover:hover {
-	color: #00b1fa;
-}
-li.blue-hover:hover {
-	color: #00b1fa;
-}
-.blue-hover:hover {
-	color: #00b1fa;
-}
+a.blue-hover:hover      { color: #00b1fa; }
+li.blue-hover:hover     { color: #00b1fa; }
+.blue-hover:hover       { color: #00b1fa; }
+
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
@@ -1062,7 +1057,7 @@ li.blue-hover:hover {
 .w100                 { width           : 100% !important;}
 
 .shadow 							{	box-shadow			: 0px 1px 2px #999;}
-.t-shadow 						{	text-shadow			: rgba(0, 0, 0, 0.5) 0px 8px 16px;}
+.t-shadow 						{	text-shadow			: 0px 2px 8px #000;}
 .less_strong					{	font-weight 		: 600	 }
 .strong								{	font-family			: 'Montserrat-SemiBold', sans-serif; }
 .clickable 						{	cursor					: pointer;				}
@@ -1165,8 +1160,8 @@ li.blue-hover:hover {
 }
 
 select {
-	padding						: 7px 8px;
-	border						: 2px solid #000;
+	padding						: 5px;
+	border						: 2px solid #838383;
 	box-shadow				: none;
 	background				: transparent;
 	background-image	: none;

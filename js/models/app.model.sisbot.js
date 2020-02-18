@@ -873,6 +873,10 @@ app.model.sisbot = {
 					self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
 				} else if (obj.resp) {
 					app.manager.intake_data(obj.resp);
+
+					// reset IP to hotspot
+					self.set('data.local_ip', '192.168.42.1'); // change right away
+					app.config.set_sisbot_url('192.168.42.1'); // change right away
 				}
 			});
 		}, 'Factory Reset?', ['Cancel', 'OK']);
