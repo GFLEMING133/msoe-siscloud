@@ -193,6 +193,7 @@ app.model.track = {
 	play_logic: function (track_index) {
 		var active			= app.session.get('active');
 		var current_track	= app.manager.get_model('sisbot_id').get('data.active_track.id');
+		app.log("Play Logic: active ", active, ", index "+track_index, ", current "+current_track, ", new "+this.id);
 		if (active.primary == 'current' && this.id == current_track) {
 			// do nothing, we're currently playing
 		} else if (active.primary == 'current') {
