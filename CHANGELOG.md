@@ -1,3 +1,8 @@
+#2020-2-8 1.8.92
+ - BLE, SSID and IP changes. 
+ - on_init listeners now calling once to address track play
+ - SSID Input added to on-boarding and wifi reconnect
+ - UI changes
 #2020-2-8 1.8.90
  - BLE scan reverted back to old method (stops scan on first Sisyphus found)
  - Manual SSID entry
