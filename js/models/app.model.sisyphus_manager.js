@@ -301,7 +301,7 @@ app.model.sisyphus_manager = {
           (device.advertisementData.kCBAdvDataLocalName.indexOf(device_name) > -1 || device.advertisementData.kCBAdvDataLocalName.indexOf('isyphus') > -1) // legacy
         ) {
           self.ble_connect(device);
-        }
+          }
       },
       function(error) {
         //alert('Start Scan Error: ' + error);
@@ -325,10 +325,10 @@ app.model.sisyphus_manager = {
       app.log("BLE IP:", value);
       this._ble_ip = value;
       self.ping_sisbot(value, function() {
-        self._ble_cb(value);
-        self._ble_cb = false;
-      });
-    }
+          self._ble_cb(value);
+          self._ble_cb = false;
+        });
+      }
     return this;
   },
   ble_stop_scan: function() {

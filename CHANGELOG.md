@@ -1,3 +1,14 @@
+#2020-2-8 1.8.92
+ - BLE, SSID and IP changes. 
+ - on_init listeners now calling once to address track play
+ - SSID Input added to on-boarding and wifi reconnect
+ - UI changes
+ #2020-2-8 1.8.90
+ - BLE scan reverted back to old method (stops scan on first Sisyphus found)
+ - Manual SSID entry
+ - Manual IP address connect entry
+#2020-1-29 1.8.89
+ - JSON.parse fix
 #2019-01-27 1.8.89-91
  - Playlist now displaying
  - Sisyphus Originals showing all default tracks.
@@ -17,7 +28,7 @@
  - Color Picker allows easier scrolling in app, touch area of circle reduced to just circle
  - Specify IP page added to Change Table page
  - Always Play on Wake added to Night Mode
-#2019-12-09 1.8.87, 1.8.88
+#2019-12-20 1.8.87, 1.8.88
  - Fixed no-scroll in app
  - Changed is_simulator=false
  - remove scroll and add no-scroll class in draw.js

@@ -1,5 +1,5 @@
-var config = {
-	  version				:'1.8.91', // read CHANGELOG
+var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
+	  version				:'1.8.92', 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

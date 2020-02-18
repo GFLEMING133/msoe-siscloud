@@ -1,6 +1,7 @@
 app.model.sisbot = {
 	polling_timeout: null,
 	_retry_find: false,
+	_listeners_set: false, // are the listeners active?
 	defaults: function (data) {
 		var obj = {
 			id				: data.id,
@@ -163,6 +164,8 @@ app.model.sisbot = {
 	},
 	current_version: 1,
 	sisbot_listeners: function () {
+		if (this._listeners_set) return; // don't set more than once
+
 		this.listenTo(app, 'sisbot:update_playlist', 		this.update_playlist);
 		this.listenTo(app, 'sisbot:set_track', 				this.set_track);
 		this.listenTo(app, 'sisbot:save', 					this.save_to_sisbot);
@@ -217,6 +220,8 @@ app.model.sisbot = {
 		}
 
 		this._poll_state();
+		
+		this._listeners_set = true;
 	},
 	update_network: function() {
 		if (this.get('data.is_network_separate') == 'false') {
@@ -874,6 +879,10 @@ app.model.sisbot = {
 					self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
 				} else if (obj.resp) {
 					app.manager.intake_data(obj.resp);
+
+					// reset IP to hotspot
+					self.set('data.local_ip', '192.168.42.1'); // change right away
+					app.config.set_sisbot_url('192.168.42.1'); // change right away
 				}
 			});
 		}, 'Factory Reset?', ['Cancel', 'OK']);
@@ -1230,6 +1239,7 @@ app.model.sisbot = {
 					},'Unable to Play Playlist', ['OK']);
 		}
 
+		app.log("Update Playlist", playlist_data);
 		this._update_sisbot('set_playlist', playlist_data, function(obj) {
 			//get back playlist obj
 			if (obj.resp && obj.resp.id !== 'false') {
@@ -1684,9 +1694,9 @@ app.model.sisbot = {
 		app.log("OFFSET:", level, this.get('data.led_offset'));
 		this.set('data.led_offset', remember_level).set('edit.led_offset', remember_level);
 
-		this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
+			this._update_sisbot('set_led_offset', { offset: remember_level }, function (obj) {
 			self.save_to_sisbot(self.get('edit'), null); // save value
-		});
+			});
 	},
 	homing_offset: function(level) {
 		app.log("Homing Offset: ", level);

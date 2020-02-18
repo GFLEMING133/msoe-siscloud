@@ -22,27 +22,27 @@
       </div>
       <div data-if="{{= model.show_wifi_list }} == true" data-run="model.clear_wifi_errors">
         <div data-if="{{= model.input_ssid }} !== true">
-          <h4 class="no-stuffing fs18 lh18 pb5 strong">Network Name</h4>
-          <div class="select-box block mb40 relative" data-if="{{= model.wifi_connecting }} == false">
+          <h4 class="no-stuffing fs18 lh18 pb5 strong">Select Network Name</h4>
+          <div class="select-box block hh40 relative" data-if="{{= model.wifi_connecting }} == false">
             <div class="absolute z20">
-              <select class="w100 corner-5px fs18 lh22 less_strong"
-                      data-field="model.wifi.name"
-                      data-foreach="model.wifi_networks"
-                      data-selected="{{= model.wifi.name }}">
+              <select class="w100 corner-5px fs18 lh22 hh40 less_strong"
+                  data-field="model.wifi.name"
+                  data-foreach="model.wifi_networks"
+                  data-selected="{{= model.wifi.name }}">
                 <option class="pt5 pb5 " value="{{= scope.value }}">{{= scope.value }}</option>
               </select>
             </div>
             <div class="absolute z10">
-              <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt10 relative z10"
-                style="padding-bottom: 12px !important;"
-                aria-hidden="true"></p>
+                <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt12 hh40 relative z10"
+                  style="padding-bottom: 12px !important;"
+                  aria-hidden="true"></p>
             </div>
           </div>
         </div>
         <div data-if="{{= model.input_ssid }} == true">
-          <div class="no-stuffing fs18 lh18 pb5 strong">Network Name Input</div>
+          <div class="no-stuffing fs18 lh18 pb5 strong">Input Network Name</div>
           <div data-if="{{= model.wifi_error }} == false">
-            <input class="w100 corner-5px fs18 lh20 less_strong"
+            <input class="w100 corner-5px fs18 lh20 hh40 less_strong"
                 data-if="{{= model.wifi_connecting }} == false"
                 placeholder="SSID"
                 autocomplete="off"
@@ -51,7 +51,7 @@
                 spellcheck="false"
                 data-field="model.wifi.name"
                 value="{{= model.wifi.name }}"/>
-            <input class="w100 corner-5px fs18 lh20 less_strong"
+            <input class="w100 corner-5px fs18 lh20 hh40 less_strong"
                 data-if="{{= model.wifi_connecting }} == true"
                 placeholder="SSID"
                 autocomplete="off"
@@ -64,11 +64,11 @@
           </div>
         </div>
         <div class="mt5 mb20 w100 pull-right">
-          <span class=" pl0 blue less_strong fs12 lh20 bg-white clickable"
+          <span class="pl0 blue less_strong fs12 lh20 bg-white clickable"
               data-if="{{= model.input_ssid }} == true"
               data-on-click="model.get_networks"
               data-field="model.input_ssid">Scan For Networks</span>
-          <span class="pl0 blue less_strong fs12 bg-white clickable"
+          <span class="pl0 blue less_strong fs12 lh20 bg-white clickable"
               data-if="{{= model.input_ssid }} !== true"
               data-on-click="toggle"
               data-field="model.input_ssid">Connect To Other Network</span>
