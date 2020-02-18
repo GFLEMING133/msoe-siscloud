@@ -112,6 +112,7 @@ app.model.playlist = {
 		data.active_track_id	= this.get('data.tracks')[track_index].id;
 		data.is_current			= true;
 
+		app.log("Play from current", data);
 		app.trigger('sisbot:update_playlist', data);
 	},
 	play: function (track_index) {
