@@ -2029,7 +2029,9 @@ and (orientation : portrait)
 	}
 }
 /**************iPhone SE Matts Phone**************/
-@media screen and (device-aspect-ratio: 40/71) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) 
+and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71) 
+{
    .media_fs14 {
 	   font-size: 14px !important;
    }
@@ -2050,18 +2052,6 @@ and (orientation : portrait)
 	}
 	.se350 {
 		height: 350px;
-	}
-}
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 568px)
-and (orientation : portrait) {
-
-	.media_fs14 {
-		font-size: 14px !important;
-	}
-	.btn {
-		padding: 10px !important;
 	}
 }
 
@@ -2101,7 +2091,7 @@ and (orientation : portrait) {
 		padding: 10px !important;
 	}
 }
-/**************iPhone X /XS MArlo/Micah*******************/
+/**************iPhone X /XS Marlo/Micah*******************/
 @media only screen
 	and (device-width: 375px)
 	and (device-height: 812px)
