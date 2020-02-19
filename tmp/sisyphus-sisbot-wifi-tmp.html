@@ -4,15 +4,15 @@
       <div class="hh50 w100 bg-black no-stuffing"
           data-template="sisyphus-header-default-tmp"></div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar flex" data-model="{{= model.sisbot_id }}">
-      <div class="pl24-2 w24-24 pr24-2">
+    <div class="body-header h100p scroll hide-scrollbar flex" data-model="{{= model.sisbot_id }}">
+      <div class="h100p pl24-2 w24-24 pr24-2">
         <p class="no-stuffing center w100 mt40" aria-hidden="true">
           <img src="img/icon_2x_wifi.png" alt="WiFi" class="hh30" />
         </p>
         <h3 class="m0 pt20 pb20 center justify fs24 lh24">
           Connect Sisyphus to your home network
         </h3>
-        <div class="mt20 pb20" data-run="model.get_networks">
+        <div class="h100 mt20 pb20" data-run="model.get_networks">
           <div class="p20 center i" data-if="{{= model.show_wifi_list }} == false">
             <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
             <div class="fs18 lh18">

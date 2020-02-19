@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod', //
-	version				:  '1.8.93', // self._ble_cb fix, eye change, scrollIntoView() fix, wifi password
+	version				:  '1.8.94', // onboard wifi scrollable, wifi input/select changes for consistency ,omit password in object
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing

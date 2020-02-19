@@ -1,4 +1,7 @@
-#2020-2-8 1.8.93
+#2020-2-8 1.8.93/94
+ - Onboarding scrollable
+ - Added  "'+self.get('data.name')+' to the notification error.
+ - _.omit password from state obj on resp
  - Wifi clearing password fix
  - self._ble_cb fix
  - eye, eye-slash fix
