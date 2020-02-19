@@ -15,13 +15,13 @@
       <div class="mt40 pl40 pr40" data-if="{{= model.data.is_internet_connected }} == true">
         <div class="bg-white black" data-model="{{= session.id }}" data-run="model.clear_errors">
           <h3 class="center fs18 fl12 less_strong">Enter the info below to set up your Sisyphus account.</h3>
-
-          <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div  data-foreach="model.errors" class="red_triangle center mb10">
-              <div class="red p5 montserrat_bold">{{= scope.value }}</div>
+          <div class="sign_up_errors">
+            <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+              <div  data-foreach="model.errors" class="red_triangle center mb10">
+                <div class="red p5 montserrat_bold">{{= scope.value }}</div>
+              </div>
             </div>
           </div>
-
           <h4 class="pt10 pb10 no-stuffing strong">User Name</h4>
           <div class="pb10">
             <input class="w100" type="text" placeholder="user name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.registration.username" value="{{= model.registration.username }}" tg-name="community_input_username" />

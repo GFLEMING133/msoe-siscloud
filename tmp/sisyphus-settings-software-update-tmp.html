@@ -12,7 +12,7 @@
   <div class="body-header h100 scroll hide-scrollbar bg-white black pl40 pr40 pb100" 
       data-model="{{= model.sisbot_id }}"
       tg-name="firmware_update_page">
-    <div data-if="{{= model.data }} !== undefined">
+    <div class="h100" data-if="{{= model.data }} !== undefined">
       <div data-run="model.check_for_version_update"></div>
       <div data-if="{{= model.data.is_network_connected }} == false">
         <!--------------------------- NOT NETWORK CONNECTED --------------------------->
@@ -33,7 +33,7 @@
               data-msg="{'secondary':'wifi'}">Connect to WiFi</h2>
         </div>
       </div>
-      <div data-if="{{= model.data.is_network_connected }} == true">
+      <div class="h100" data-if="{{= model.data.is_network_connected }} == true">
         <div data-if="{{= model.data.is_internet_connected }} == false">
           <!--------------------------- NOT INTERNET CONNECTED --------------------------->
           <div data-if="{{= model.data.installing_updates }} == false">
@@ -50,7 +50,7 @@
 
           </div>
         </div>
-        <div data-if="{{= model.data.is_internet_connected }} == true">
+        <div class="h100" data-if="{{= model.data.is_internet_connected }} == true">
           <div data-if="{{= model.has_software_update }} == true">
             <!--------------------------- UPDATE AVAILABLE ------------------------>
             <div data-if="{{= model.data.installing_updates }} == false">
@@ -89,7 +89,7 @@
               </div>
             </div>
           </div>
-          <div data-if="{{= model.has_software_update }} == complete">
+          <div class="h100" data-if="{{= model.has_software_update }} == complete">
             <!--------------------------- UPDATE COMPLETE --------------------->
             <p class="no-stuffing center w100 mt40" aria-hidden="true">
               <img src="img/icon_2x_check.png" alt="Settings" class="hh30" />
