@@ -219,7 +219,7 @@ app.model.sisbot = {
 		}
 
 		this._poll_state();
-		
+
 		this._listeners_set = true;
 	},
 	update_network: function() {
@@ -751,6 +751,7 @@ app.model.sisbot = {
 			self._update_sisbot('disconnect_wifi', {}, function(obj) {
 				// do nothing
 				self.set('is_polling', 'false')
+					.set('wifi.password', '')
 					.set('data.is_internet_connected', 'false')
 					.set('data.is_network_connected', 'false')
 					.set('data.is_hotspot',	'true')
