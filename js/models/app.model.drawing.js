@@ -594,7 +594,7 @@ app.model.drawing = {
 
     // disable scrolling in app
     // if (app.is_app) {
-      if (!this.scroll_el) this.scroll_el = $('.scroll');
+      this.scroll_el = $('.scroll');
       var offset_scroll = this.scroll_el.scrollTop();
       // app.log("Offset scroll", offset_scroll, this.get('drag_pos.start.y'));
       this.set('drag_pos.start.y', this.get('drag_pos.start.y') - offset_scroll);
@@ -819,8 +819,8 @@ app.model.drawing = {
 
       // enable scrolling in app
       // if (app.is_app) {
-        if (this.scroll_el) this.scroll_el.removeClass('no-scroll').addClass('scroll');
-        else app.log("Scroll element lost!");
+      if (this.scroll_el) this.scroll_el.removeClass('no-scroll').addClass('scroll');
+      else app.log("Scroll element lost!");
       // }
 
       // draw smoothly
