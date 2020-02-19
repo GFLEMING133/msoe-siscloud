@@ -1,3 +1,8 @@
+#2020-2-8 1.8.93
+ - Wifi clearing password fix
+ - self._ble_cb fix
+ - eye, eye-slash fix
+ - scrollIntoView() fix
 #2020-2-8 1.8.92
  - BLE, SSID and IP changes. 
  - on_init listeners now calling once to address track play

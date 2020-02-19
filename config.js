@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.92', 
+	  version				:'1.8.93', // self._ble_cb fix, eye change, scrollIntoView() fix, wifi password  
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
