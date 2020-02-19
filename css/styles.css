@@ -395,6 +395,10 @@ label {
 
 }*/
 
+.click-through {
+  pointer-events: none;
+}
+
 .loop_tooltip:hover .tooltiptext {
 	font-size 	: 14px;
 	font-family : "Montserrat-Black", "Roboto", sans-serif;
@@ -961,7 +965,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .clear-left 	{ clear	: left; }
 .clear-right 	{ clear	: right;}
 
-.fixed		{
+.fixed {
 	position: fixed;
 	left		: 0px;
 	right		: 0px;
@@ -969,7 +973,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 	bottom	: 0px;
 	z-index	: 1000;
 }
-.fixed2{
+.fixed2 {
 	position: fixed;
 	left		: 0px;
 	right		: 0px;
@@ -986,9 +990,9 @@ li.blue-hover:hover     { color: #00b1fa; }
 	display	: block;
 }
 
-.hv100								{	height				: 100vh;}
-.h100									{	height				: 100%;	}
-.va-top								{	vertical-align: top;  }
+.hv100								{	height				: 100vh;	}
+.h100									{	height				: 100%;		}
+.va-top								{	vertical-align: top;  	}
 
 .hh5									{	height					: 5px; 	}
 .hh10									{	height					: 10px; }
