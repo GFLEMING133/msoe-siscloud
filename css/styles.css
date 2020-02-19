@@ -124,9 +124,9 @@ p {
 
 input, textarea {
     box-shadow                  : none !important;
-    padding                     : 7px 5px;
+    padding                     : 5px;
     font-size                   : inherit;
-    line-height                 : 1.4em;
+    line-height                 : 25px;
 }
 
 textarea {
@@ -1002,6 +1002,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .hh25									{	height					: 25px; }
 .hh30									{	height					: 30px; }
 .hh40									{	height					: 40px; }
+.hh45									{	height					: 45px; }
 .hh50									{	height					: 50px; }
 .hh60									{	height					: 60px; }
 .hh75									{	height					: 75px; }

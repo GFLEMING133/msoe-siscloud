@@ -22,10 +22,10 @@
       </div>
       <div data-if="{{= model.show_wifi_list }} == true" data-run="model.clear_wifi_errors">
         <div data-if="{{= model.input_ssid }} !== true">
-          <h4 class="no-stuffing fs18 lh18 pb5 strong">Select Network Name</h4>
-          <div class="select-box block hh40 relative" data-if="{{= model.wifi_connecting }} == false">
+          <h4 class="no-stuffing fs18 lh18 pb5 strong mb5">Select Network Name</h4>
+          <div class="select-box block hh45 relative" data-if="{{= model.wifi_connecting }} == false">
             <div class="absolute z20">
-              <select class="w100 corner-5px fs18 lh22 hh40 less_strong"
+              <select class="w100 corner-5px fs17 lh24 less_strong"
                   data-field="model.wifi.name"
                   data-foreach="model.wifi_networks"
                   data-selected="{{= model.wifi.name }}">
@@ -33,8 +33,7 @@
               </select>
             </div>
             <div class="absolute z10">
-                <p class="no-stuffing fa fa-chevron-down pull-right bg-grey f-med white pl10 pr10 pt12 hh40 relative z10"
-                  style="padding-bottom: 12px !important;"
+                <p class="fa fa-chevron-down pull-right bg-grey f-med white p12 relative z10"
                   aria-hidden="true"></p>
             </div>
           </div>
@@ -42,7 +41,7 @@
         <div data-if="{{= model.input_ssid }} == true">
           <div class="no-stuffing fs18 lh18 pb5 strong">Input Network Name</div>
           <div data-if="{{= model.wifi_error }} == false">
-            <input class="w100 corner-5px fs18 lh20 hh40 less_strong"
+            <input class="w100 corner-5px fs17 lh20 hh40 less_strong"
                 data-if="{{= model.wifi_connecting }} == false"
                 placeholder="SSID"
                 autocomplete="off"
@@ -51,7 +50,7 @@
                 spellcheck="false"
                 data-field="model.wifi.name"
                 value="{{= model.wifi.name }}"/>
-            <input class="w100 corner-5px fs18 lh20 hh40 less_strong"
+            <input class="w100 corner-5px fs17 lh20 hh40 less_strong"
                 data-if="{{= model.wifi_connecting }} == true"
                 placeholder="SSID"
                 autocomplete="off"
@@ -76,7 +75,7 @@
 
         <div class="select-box block mb50 relative" data-if="{{= model.wifi_connecting }} == true">
           <div class="absolute z20">
-            <select class="w100 corner-5px fs18 p10"
+            <select class="w100 corner-5px fs17 p10"
                   data-field="model.wifi.name"
                   data-foreach="model.wifi_networks"
                   data-selected="{{= model.wifi.name }}"
@@ -90,7 +89,7 @@
               </>
           </div>
         </div>
-        <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">
+        <h4 class="no-stuffing pt20 fs17 lh18 pb5 strong">
           <span class="pull-right clickable"
               data-field="model.show_password"
               data-on-click="toggle"
@@ -101,7 +100,7 @@
           Network Password
         </h4>
         <div data-if="{{= model.wifi_error }} == false">
-          <input class="corner-5px mt5 mb5 fs18 w100"
+          <input class="corner-5px mt5 mb5 fs17 w100"
               type="{{= (model.show_password == 'true') ? 'text' : 'password' }}"
               placeholder="password"
               autocomplete="off"
@@ -113,7 +112,7 @@
               data-value="{{= model.wifi.password }}"
               data-if="{{= model.wifi_connecting }} == false"
               data-on-key-enter="model.connect_to_wifi"/>
-          <input class="corner-5px mt5 mb5 fs18 w100"
+          <input class="corner-5px mt5 mb5 fs17 w100"
               type="{{= (model.show_password == 'true') ? 'text' : 'password' }}"
               placeholder="password"
               autocomplete="off"
@@ -127,7 +126,7 @@
               disabled />
         </div>
         <div data-if="{{= model.wifi_error }} == true" class="red_triangle center">
-          <input class="fs18 error-border corner-5px mt5 mb5 w100"
+          <input class="fs17 error-border corner-5px mt5 mb5 w100"
               type="text"
               placeholder="password"
               autocomplete="off"
@@ -139,7 +138,7 @@
           <div class="pull-right error f-small">Wi-Fi password cannot be less than 8 characters</div>
         </div>
         <div data-if="{{= model.wifi_error }} == incorrect" class="red_triangle center">
-          <input class="fs18 error-border corner-5px mt5 mb5 w100"
+          <input class="fs17 error-border corner-5px mt5 mb5 w100"
               type="text"
               placeholder="password"
               autocomplete="off"
