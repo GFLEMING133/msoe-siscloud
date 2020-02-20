@@ -778,7 +778,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .flex .w90 						{	flex-basis: 90%;		width: 90%;				}
 .flex .w95 						{	flex-basis: 95%;		width: 95%;				}
 .flex .w100 					{	flex-basis: 100%;		width: 100%;			}
-.flex .h100						{	height: auto;			align-items: stretch;}
+/* .flex .h100						{	height: auto;			align-items: stretch;} */
 
 .flex .w24-1 					{	flex-basis: 4.165%;		width: 4.165%;	}
 .flex .w24-2 					{	flex-basis: 8.33%;		width: 8.33%;		}
@@ -1035,6 +1035,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .vw25								  {	width						: 25vw; }
 .vw30								  {	width						: 30vw; }
 .vw40								  {	width						: 40vw; }
+.vw45								  {	width						: 45vw; }
 .vw50								  {	width						: 50vw; }
 .vw60								  {	width						: 60vw; }
 .vw70								  {	width						: 70vw; }
@@ -1042,6 +1043,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .vw80								  {	width						: 80vw; }
 .vw90								  {	width						: 90vw; }
 .vw100								{	width						: 100vw }
+.w90 									{ width 					: 90%;  }
 .w99									{ width 		  		: 99% !important;}
 .w100                 { width           : 100% !important;}
 

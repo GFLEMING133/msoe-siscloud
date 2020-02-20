@@ -126,6 +126,8 @@ app.model.community = {
     .set('remember_me', 'false')
     .set('signing_in', 'false')
     .set('signed_in', 'false');
+    var private_tracks = app.collection.get_cluster({type:'track',is_community:'true',is_downloaded:'false',is_public:'false'});
+    app.collection.remove(private_tracks.pluck('id')); //removing private tracks 
 
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
   },

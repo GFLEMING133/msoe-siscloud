@@ -143,7 +143,7 @@ app.model.session = {
 
 		var m = app.collection.add({ type: 'sisyphus_manager' });
 		this.set('active.primary', 'current')
-			.set('active.secondary', 'false');
+				.set('active.secondary', 'false');
 		this.set('sisyphus_manager_id', m.id);
 
 		var c = app.collection.add({ type: 'community' });
@@ -281,13 +281,13 @@ app.model.session = {
         };
 
         var post_obj = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'POST',
-            _timeout: 60000,
-            endpoint: 'register_user.json',
-            username                : user_data.username,
-        	email					: user_data.email,
-        	password				: user_data.password,
+          _url 									: app.config.get_webcenter_url(),
+          _type 								: 'POST',
+          _timeout 							: 60000,
+          endpoint 							: 'register_user.json',
+          username              : user_data.username,
+        	email									: user_data.email,
+        	password							: user_data.password,
         	password_confirmation	: user_data.password_confirmation
         };
 
@@ -336,13 +336,14 @@ app.model.session = {
     _process_sign_in: function (user, data_arr) {
   		var session_data = {
   			email			: user.email,
-      	password		: user.password,
+      	password	: user.password,
   		};
       var self = this;
   		_.each(data_arr, function (m) {
   			if (m.type == 'user' && m.email == user.email) {
 					session_data.user_id = m.id;
-        	if (m.id) self.set('user_id', m.id );
+					if (m.id) self.set('user_id', m.id );
+					
 				}
   		});
 
