@@ -71,8 +71,10 @@ app.model.track = {
 				lastR						: -1,
 				r_type					: 'r', // r00|r01|r10|r11
 				reversible			: "false",
+
 				download_count	: 0, // webcenter downloads
-				popularity			: 0,
+				popularity			: 0, // webcenter popularity rating
+				is_approved			: 'true' // webcenter approval (could be false, if your own track)
 			}
 		};
 

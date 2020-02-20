@@ -19,8 +19,11 @@
       data-msg="{'track_id':'{{= model.id }}', 'template':'sisyphus-community-track-overlay-tmp'}">
     <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
     <div class="fs13 warmGrey pt10">by {{= model.data.created_by_name }}</div>
-    <div class="fs13 warmRed pt5 private_italic"
-    data-if="{{= model.data.is_public }} == false">Private</div>
+    <div class="fs13 pt5 private_italic"><span class="orange pr5" data-if="{{= model.data.is_approved }} == false">
+        In Review
+      </span><span class="warmRed" data-if="{{= model.data.is_public }} == false">
+        Private
+      </span></div>
   </div>
 
   <div class="w15 pr10 vertical center flex-justify-center"
