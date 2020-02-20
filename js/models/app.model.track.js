@@ -8,7 +8,7 @@ app.model.track = {
 			playlist_ids			: [],
 			playlist_not_ids	: [],
 
-			upload_status										: 'hidden',		// hidden|false|uploading|success
+			upload_status										: 'hidden', // hidden|false|uploading|success
 			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
 			generating_thumbnails						: 'false',
 
@@ -16,13 +16,13 @@ app.model.track = {
 			download_cloud									: 'false',
 			track_checked										: 'false',
 			is_community										: 'false', // track from webcenter
-			is_downloaded 		: 'false', // community
+			is_downloaded 									: 'false', // community
 
-			is_favorite							:'false',
+			is_favorite											:'false',
 
-			svg_scaled							: 'false', // for drawing app to have pre-scaled values
+			svg_scaled											: 'false', // for drawing app to have pre-scaled values
 
-			d3											:'false',
+			d3															:'false',
 			d3_data : {
 				background						: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
 				stroke								: '#797977', // #797977, #948252
@@ -56,7 +56,7 @@ app.model.track = {
 				created_by_id			: 'false',
 				email							: 'false', // community
 				created_by_name		: 'false', // community
-				is_public					: 'false', // community
+				is_public					: 'true', // community
 				is_deletable			: 'true', // user is able to delete this track
 
 				original_file_type  : 'false', 	// thr|svg|draw

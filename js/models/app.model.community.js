@@ -123,9 +123,10 @@ app.model.community = {
   sign_out_community: function() {
     app.log('in the sign_out_community');
 		app.session.set('auth_token', '')
-    .set( 'remember_me', 'false')
-    .set( 'signing_in', 'false')
+    .set('remember_me', 'false')
+    .set('signing_in', 'false')
     .set('signed_in', 'false');
+
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
   },
   fetch_community_playlists: function() {
