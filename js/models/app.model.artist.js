@@ -9,7 +9,9 @@ app.model.artist = {
 				version				: this.current_version,
 
         user_id       : 0, // the database primary key
-        username      : 'false'
+        username      : 'false',
+
+        track_count   : 0
 			}
 		};
 
