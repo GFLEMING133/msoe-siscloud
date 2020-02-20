@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.92', 
+	  version				:'1.8.94', // onboard wifi scrollable, wifi input/select changes for consistency ,omit password in object 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

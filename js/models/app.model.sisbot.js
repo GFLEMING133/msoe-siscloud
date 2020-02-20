@@ -220,7 +220,7 @@ app.model.sisbot = {
 		}
 
 		this._poll_state();
-		
+
 		this._listeners_set = true;
 	},
 	update_network: function() {
@@ -752,6 +752,7 @@ app.model.sisbot = {
 			self._update_sisbot('disconnect_wifi', {}, function(obj) {
 				// do nothing
 				self.set('is_polling', 'false')
+					.set('wifi.password', '')
 					.set('data.is_internet_connected', 'false')
 					.set('data.is_network_connected', 'false')
 					.set('data.is_hotspot',	'true')
@@ -1732,7 +1733,7 @@ app.model.sisbot = {
 			app.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
 				app.log("Error in the _update_sisbot when adding to Playlist. ", obj.err);
-				return app.plugins.n.notification.alert('There was an error adding the playlist to your Sisyphus. Please try again later.');
+				return app.plugins.n.notification.alert('There was an error adding the playlist"'+self.get('data.name')+'" to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
