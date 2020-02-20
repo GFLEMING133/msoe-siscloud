@@ -569,11 +569,11 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	margin: auto;
   display: inline-block;
 	width: auto;
-	border-radius: 30px;
+	border-radius: 20px;
 	text-align: center;
 	border: 2px solid #fff;
 	cursor: pointer;
-	padding: 11px 30px;
+	padding: 10px 15px;
 	color: #fff;
 	font-weight: 600;
 	margin-bottom: 10px;
