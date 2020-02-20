@@ -1733,7 +1733,7 @@ app.model.sisbot = {
 			app.log('Sisbot: Add playlist', obj);
 			if (obj.err) {
 				app.log("Error in the _update_sisbot when adding to Playlist. ", obj.err);
-				return app.plugins.n.notification.alert('There was an error adding the playlist"'+self.get('data.name')+'" to your Sisyphus. Please try again later.');
+				return app.plugins.n.notification.alert('There was an error adding the playlist "'+self.get('data.name')+'" to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 			}
