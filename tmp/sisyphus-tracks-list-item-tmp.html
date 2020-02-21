@@ -8,7 +8,6 @@
 			<div class="w80p hh80">
 				<img class="w100 center img-rounded"
 						alt="{{= model.data.name }}"
-						src="img/tracks/_default_100.png"
 						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
 						data-on-error="replace"
 						data-replace="list-image-fallback-tmp" />
@@ -27,8 +26,8 @@
 		</div>
 	</div>
 	<!-- <div class="bg-grey-l clickable flex" data-if="{{= session.toggle.expanded }} == {{= _super_.el_id }}">
-		<div class="w25 center pt15 pb15" 
-				data-on-click="model.play_logic" 
+		<div class="w25 center pt15 pb15"
+				data-on-click="model.play_logic"
 				data-msg="{{= scope.index }}"
 				tg-name="trackdropdown_play">
 			<img src="img/icon_2x_trackdropdown_play.png" alt="Play" class="hh20" />

@@ -1391,8 +1391,8 @@ function Element(el, parent, _scope) {
       var $el = $('.'+this.el_id);
 
       // check if el_type does not match
-      if (this.data.debug) {
-        app.log("El type compare", this.el_type, $el.prop('tagName'));
+      if (this.el_type != $el.prop('tagName')) {
+        if (this.data.debug) app.log("El type compare", this.el_type, $el.prop('tagName'));
         return $el.empty().replaceWith(this.html());
       }
 
@@ -1906,10 +1906,10 @@ function Element(el, parent, _scope) {
   };
   this.on_error = function(e) {
     var self = e.data.el;
-    if (self.data.debug) app.log("Image load error", this.el_id);
+    app.log("Image load error", self.el_id);
     if (e.data.replace) {
       // self.data.debug = true;
-      if (self.data.debug) app.log("Image replace", self.data.replace);
+      app.log("Image replace", self.data.replace);
 
       // change type to div
       self.el_type = 'DIV';
@@ -1934,7 +1934,8 @@ function Element(el, parent, _scope) {
         });
       }
 
-      app.trigger('bind:render');
+      // app.trigger('bind:render');
+      app.trigger('bind:render', self.el_id); // render since new templates got added
     } else {
       self._call(self.data.onError, self.get_value(self.data.msg));
     }
