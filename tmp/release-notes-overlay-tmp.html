@@ -5,10 +5,10 @@
       data-publish="modal:close">
     <h1 class="center mb20">Release Notes</h1>
     <div data-model="{{= model.sisbot_id }}">
-      <div data-if="{{= model.remote_versions.sisbot_notes }} !== false">
+      <div>
         <div class="mb20" data-if="{{= model.local_versions.sisbot }} !== {{= parent.remote_versions.sisbot }}">
           <div class="f15 fl18 mb10 strong">Sisbot Notes</div>
-          <div>{{= model.remote_versions.sisbot_notes }}</div>
+          <div >{{= model.remote_versions.sisbot_notes }}</div>
         </div>
       </div>
       <div data-if="{{= model.remote_versions.app_notes }} !== false">

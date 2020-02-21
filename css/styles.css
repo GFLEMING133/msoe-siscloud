@@ -140,11 +140,15 @@ ul.horizontal li {
     width                       : auto;
 
 }
+ol, ul {
+	padding-inline-start: 20px;
 
-li {
+}
+
+/* li {
     display                     : block;
     float                       : left;
-}
+} */
 
 input {
   background-color	: inherit !important;

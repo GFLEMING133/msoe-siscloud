@@ -1,84 +1,84 @@
-<div class="h100 scroll hide-scrollbar">
-<div class="overlay-container mt20"
-      data-model="{{= model.track_id }}">
-  <div class="bb ">
-    <div class="w100 mb20 center vertical active">
-      <div data-if="{{= model.generating_thumbnails }} == false">
-        <img class="w90 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+<div class="h100">
+  <div class="h100 overlay-container scroll hide-scrollbar"
+        data-model="{{= model.track_id }}">
+    <div class="bb mt20">
+      <div class="w100 mb20 center vertical active">
+        <div data-if="{{= model.generating_thumbnails }} == false">
+          <img class="w90 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+        </div>
+        <div data-if="{{= model.generating_thumbnails }} == true">
+          <img class="w90 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />
+        </div>
       </div>
-      <div data-if="{{= model.generating_thumbnails }} == true">
-        <img class="w90 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />
+    </div>
+    <div class="p20 flex item-center">
+      <div class="w100">
+        <div class="pull-right" data-if="{{= app.is_app }} == true">
+          <div class="clickable white less_strong"
+              data-model="{{= parent.sisbot_id }}"
+              data-on-click="model.present_siri"
+              data-msg="{'action':'play_track','phrase':'Play {{= parent.data.name }} Track','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
+              data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
+        </div>
+        <div class="fs18 lh20 white block strong">{{= model.data.name }}</div>
+        <div class="fs12 lh20 grey block strong" data-if="{{= model.data.created_by_name }} == false">
+          by Sisyphus Industries
+        </div>
+        <div class="fs12 lh20 grey block strong" data-if="{{= model.data.created_by_name }} !== false">
+          by {{= model.data.created_by_name }}
+        </div>
+        <!-- <div class="mt20">Track start: {{= model.data.firstR }}, end: {{= model.data.lastR }}</div> -->
       </div>
     </div>
-  </div>
-  <div class="p20 flex item-center">
-    <div class="w100">
-      <div class="pull-right" data-if="{{= app.is_app }} == true">
-        <div class="clickable white less_strong"
-            data-model="{{= parent.sisbot_id }}"
-            data-on-click="model.present_siri"
-            data-msg="{'action':'play_track','phrase':'Play {{= parent.data.name }} Track','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
-            data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
+    <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
+        data-on-click="model.play_logic"
+        data-msg="{{= parent.track_index}}">
+      <div class="center white">
+        <img src="img/icon_2x_trackdropdown_play.png"
+            alt="Play"
+            class="hh20 white" />
       </div>
-      <div class="fs18 lh20 white block strong">{{= model.data.name }}</div>
-      <div class="fs12 lh20 grey block strong" data-if="{{= model.data.created_by_name }} == false">
-        by Sisyphus Industries
+      <div class="w90 lh20 white less_strong">Play</div>
+    </div>
+    <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
+        data-run="model.is_playlist_favorite"
+        data-on-click="model.favorite_toggle">
+      <div class="center">
+        <img src="img/icon_2x_trackdropdown_openheart.png"
+            alt="UnFavorite"
+            class="hh20 white"
+            data-if="{{= model.is_favorite }} == false" />
+        <img src="img/icon_2x_trackdropdown_closedheart.png"
+            alt="Favorite"
+            class="hh20 white"
+            data-if="{{= model.is_favorite }} == true" />
       </div>
-      <div class="fs12 lh20 grey block strong" data-if="{{= model.data.created_by_name }} !== false">
-        by {{= model.data.created_by_name }}
+      <div class="w90 lh20 white">
+        <span data-if="{{= model.is_favorite }} == false">Favorite</span>
+        <span data-if="{{= model.is_favorite }} == true">Unfavorite</span>
       </div>
-      <!-- <div class="mt20">Track start: {{= model.data.firstR }}, end: {{= model.data.lastR }}</div> -->
     </div>
+    <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
+        data-on-click="publish"
+        data-publish="modal:open"
+        data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
+      <div class="center">
+        <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
+      </div>
+      <div class="w90 lh20 white">Add to Playlist</div>
+    </div>
+    <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
+        data-if="{{= model.data.is_deletable }} == true"
+        data-on-click="model.delete">
+      <div class="center white">
+        <img src="img/icon_2x_trashcan.png"
+            alt="Delete"
+            class="hh20 white" />
+      </div>
+      <div class="w90 lh20 white">Delete</div>
+    </div>
+    <div class="hh150">&nbsp;</div>
   </div>
-  <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
-      data-on-click="model.play_logic"
-      data-msg="{{= parent.track_index}}">
-    <div class="center white">
-      <img src="img/icon_2x_trackdropdown_play.png"
-          alt="Play"
-          class="hh20 white" />
-    </div>
-    <div class="w90 lh20 white less_strong">Play</div>
-  </div>
-  <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
-      data-run="model.is_playlist_favorite"
-      data-on-click="model.favorite_toggle">
-    <div class="center">
-      <img src="img/icon_2x_trackdropdown_openheart.png"
-          alt="UnFavorite"
-          class="hh20 white"
-          data-if="{{= model.is_favorite }} == false" />
-      <img src="img/icon_2x_trackdropdown_closedheart.png"
-          alt="Favorite"
-          class="hh20 white"
-          data-if="{{= model.is_favorite }} == true" />
-    </div>
-    <div class="w90 lh20 white">
-      <span data-if="{{= model.is_favorite }} == false">Favorite</span>
-      <span data-if="{{= model.is_favorite }} == true">Unfavorite</span>
-    </div>
-  </div>
-  <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
-      data-on-click="publish"
-      data-publish="modal:open"
-      data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
-    <div class="center">
-      <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
-    </div>
-    <div class="w90 lh20 white">Add to Playlist</div>
-  </div>
-  <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
-      data-if="{{= model.data.is_deletable }} == true"
-      data-on-click="model.delete">
-    <div class="center white">
-      <img src="img/icon_2x_trashcan.png"
-          alt="Delete"
-          class="hh20 white" />
-    </div>
-    <div class="w90 lh20 white">Delete</div>
-  </div>
-  <div class="hh150">&nbsp;</div>
-</div>
   <div class="flex-center-row less_strong center bt-white clickable white  strong blue-hover bg-black pull-bottom"
       data-on-click="model.close">
     <h2 class="m0 media_fs14 fs17 p20">Close</h2>
