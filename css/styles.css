@@ -978,17 +978,17 @@ li.blue-hover:hover     { color: #00b1fa; }
 .hh75									{	height					: 75px; }
 .hh80									{	height					: 80px; }
 .hh85									{	height					: 85px; }
-.hh100								{	height					: 100px }
-.hh110								{	height					: 110px }
-.hh120								{	height					: 120px }
-.hh125								{	height					: 125px }
-.hh150								{	height					: 150px }
-.hh185								{	height					: 185px }
-.hh200								{	height					: 200px }
-.hh250								{	height					: 250px }
-.hh350								{	height					: 350px }
-.hh400								{	height					: 400px }
-.hh450								{	height					: 450px }
+.hh100								{	height					: 100px; }
+.hh110								{	height					: 110px; }
+.hh120								{	height					: 120px; }
+.hh125								{	height					: 125px; }
+.hh150								{	height					: 150px; }
+.hh185								{	height					: 185px; }
+.hh200								{	height					: 200px; }
+.hh250								{	height					: 250px; }
+.hh350								{	height					: 350px; }
+.hh400								{	height					: 400px; }
+.hh450								{	height					: 450px; }
 
 .mh50   							{ max-height 			: 50px  }
 
@@ -2034,8 +2034,8 @@ and (orientation : portrait)
 	}
 }
 /**************iPhone SE Matts Phone**************/
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) 
-and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71) 
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)
+and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 {
    .media_fs14 {
 	   font-size: 14px !important;

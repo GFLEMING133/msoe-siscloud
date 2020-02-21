@@ -344,10 +344,12 @@ app.model.sisyphus_manager = {
       self.get_service_data(device);
     }, function on_disconnect(device) {
       //alert('Disconnected from Device');
+      app.log("Disconnected from BLE device");
       self.ble_cb();
     }, function on_error(error) {
       if (connect_retries > 5) {
         app.plugins.n.notification.alert('Bluetooth Connect Error: ' + error);
+        app.log('Bluetooth Connect Error:', error);
         self.ble_cb();
       } else {
         setTimeout(function() {
@@ -364,6 +366,7 @@ app.model.sisyphus_manager = {
         var dataService = evothings.ble.getService(device, "ec00");
 
         if (dataService == null) {
+          app.log("BLE dataService null");
           self.ble_cb();
           evothings.ble.close(device);
         } else {
@@ -373,6 +376,7 @@ app.model.sisyphus_manager = {
       },
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
+        app.log('Bluetooth Service Data Error: ', error);
         self.ble_cb();
         evothings.ble.close(device);
       }
@@ -388,6 +392,7 @@ app.model.sisyphus_manager = {
       evothings.ble.close(device);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
+      app.log('BLE Reach Characteristic Error: ', error);
       self.ble_cb();
       evothings.ble.close(device);
     });
@@ -554,17 +559,17 @@ app.model.sisyphus_manager = {
       }
     }, 500);
   },
-  reconnect_from_error: function() {
-    // app.log("Wifi: reconnect_from_error()");
-    this.set('sisbot_reconnecting', 'true');
-    // this.get_model('sisbot_id')._poll_restart();
-    this.find_sisbots();
-  },
-  reconnect_to_hotspot: function() {
-    // app.log("Wifi: Reconnect to hotspot");
+  // reconnect_from_error: function() {
+  //   // app.log("Wifi: reconnect_from_error()");
+  //   this.set('sisbot_reconnecting', 'true');
+  //   // this.get_model('sisbot_id')._poll_restart();
+  //   this.find_sisbots();
+  // },
+  reconnect_to_sisbot: function() {
+    app.log("Wifi: Reconnect to hotspot", this.get('sisbot_connecting'));
     this.set('sisbot_reconnecting', 'true');
     // this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
-    this.find_sisbots();
+    this.find_sisbots(true);
   },
   check_reconnect_status: function() {
     var sisbot = this.get_model('sisbot_id');
@@ -607,8 +612,10 @@ app.model.sisyphus_manager = {
     // exit out if we are already scanning, before changing force_rescan
     if (this.get('sisbots_scanning') == 'true') return;
 
-    if (force_rescan && force_rescan != this) this.set('force_rescan', 'true');
-    else this.set('force_rescan', 'false');
+    if (force_rescan && force_rescan != this) {
+      this.set('force_rescan', 'true')
+        .set('sisbot_connecting', 'false');
+    } else this.set('force_rescan', 'false');
     app.log("Force rescan:", this.get('force_rescan'));
 
     if (app.is_app) {
@@ -833,6 +840,13 @@ app.model.sisyphus_manager = {
   },
   ping_sisbot: function(hostname, cb, retries) {
     app.log("ping_sisbot()", hostname);
+
+    // exit if no hostname given
+    if (!hostname) {
+      if (cb) cb();
+      return;
+    }
+
     var self = this;
 
     if (!retries) retries = 0;
@@ -849,10 +863,11 @@ app.model.sisyphus_manager = {
       if (!obj.resp || !obj.resp.hostname) return cb();
 
       if (self.get('sisbot_id') == obj.resp.id) {
-        app.log("Ping: found match", obj.resp.id, obj.resp.local_ip);
-        self.set('sisbots_networked', [obj.resp.local_ip]); // clear other sisbots
+        app.log("Ping: found match", hostname, obj.resp.id, obj.resp.local_ip);
+        // !! NOTE: IP address returned from table may not yet match the actual IP if just changing networks
+        self.set('sisbots_networked', [hostname]); // clear other sisbots
         // TODO: stop other bluetooth connections
-        self.connect_to_sisbot(obj.resp.local_ip); // found our expected table. Reconnect to it.
+        self.connect_to_sisbot(hostname); // found our expected table. Reconnect to it.
       }
 
       // Default select the one we are already on
@@ -867,6 +882,11 @@ app.model.sisyphus_manager = {
   connect_to_sisbot: function(sisbot_hostname) {
     if (this.get('sisbot_connecting') == 'true') return false;
     else this.set('sisbot_connecting', 'true');
+
+    if (this.get('is_connected') == 'true') {
+      app.log("Already connected, skip", sisbot_hostname);
+      return false;
+    }
 
     this.set('errors', []);
 
@@ -934,10 +954,15 @@ app.model.sisyphus_manager = {
           }
 
           self.set('sisbot_id', data.id);
-
           var sisbot = app.collection.get(data.id);
 
+          if (sisbot_hostname != data.local_ip) {
+            app.log("Connect Mismatch", sisbot_hostname, data.local_ip);
+            if (data.local_ip == '192.168.42.1') sisbot.set('data.local_ip', sisbot_hostname); // Fix hotspot address not yet updated on Pi
+          }
+
           // update ip address
+          app.log("Reset Sisbot URL", sisbot.get('data.local_ip'));
           app.config.set_sisbot_url(sisbot.get('data.local_ip'));
           app.socket.initialize();
         }

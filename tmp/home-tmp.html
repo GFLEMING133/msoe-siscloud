@@ -29,7 +29,7 @@
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == resetting">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Connection Lost!
         </h3>
         <p class="center fs18 lh24">
@@ -91,7 +91,7 @@
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Changing Wifi Network
         </h3>
         <p class="center fs18 lh24">
@@ -106,7 +106,7 @@
         </div>
         <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
           <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14"
-              data-on-click="parent.reconnect_to_hotspot">Attempt Reconnect</p>
+              data-on-click="parent.reconnect_to_sisbot">Attempt Reconnect</p>
         </div>
         <div class="p20 center i white pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
           <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
@@ -116,7 +116,7 @@
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == disconnect_from_wifi">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Sisyphus Disconnected from WiFi
         </h3>
         <p class="center fs18 lh24">
@@ -131,15 +131,15 @@
         </div>
         <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
           <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable"
-              data-on-click="parent.reconnect_to_hotspot">Reconnect</p>
+              data-on-click="parent.reconnect_to_sisbot">Reconnect</p>
         </div>
-        <div class="p20 center i black" data-if="{{= parent.sisbot_reconnecting }} == true">
+        <div class="p20 center i black pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
           <div class=" mb20 black" data-template="spinner-bounce-tmp"></div>
           <div class="black media_fs14">Connecting...</div>
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Sisyphus has been Disconnected from WiFi
         </h3>
         <p class="center fs18 lh24">
@@ -154,15 +154,15 @@
         </div>
         <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
           <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14 clickable"
-              data-on-click="parent.reconnect_to_hotspot">Reconnect</p>
+              data-on-click="parent.reconnect_to_sisbot">Reconnect</p>
         </div>
-        <div class="p20 center i black media_fs14" data-if="{{= parent.sisbot_reconnecting }} == true">
+        <div class="p20 center i black media_fs14 pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
           <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
           <div class="black media_fs14">Connecting...</div>
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == servo_th_fault">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Servo Th Failed!
         </h3>
         <p class="center fs18 lh24">
@@ -175,7 +175,7 @@
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == servo_rho_fault">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Servo Rho Failed!
         </h3>
         <p class="center fs18 lh24">
@@ -188,7 +188,7 @@
         </div>
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == servo_th_rho_fault">
-        <h3 class="m0 pt100 pb20 center justify fs24 lh24">
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24">
           Servo Th and Rho Failed!
         </h3>
         <p class="center fs18 lh24">
