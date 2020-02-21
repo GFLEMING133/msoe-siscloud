@@ -364,10 +364,11 @@ app.model.session = {
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
 			}
-			if (app.plugins.valid_email(user_data.username)){
+
+			if (app.plugins.valid_email(user_data.username.trim())){
                 errors.push('Username cannot be an email');
             }
-            if (!app.plugins.valid_email(user_data.email)){
+            if (!app.plugins.valid_email(user_data.email.trim())){
                 errors.push("The email you entered is invalid, please enter a valid email");
             }
             if (user_data.password.length <= 5 || user_data.password_confirmation.length <= 5){
@@ -380,6 +381,7 @@ app.model.session = {
         return errors;
     },
     _process_registration: function(user, data_arr) {
+			
       var session_data = {
 				username							: user.username,
         email									: user.email,
