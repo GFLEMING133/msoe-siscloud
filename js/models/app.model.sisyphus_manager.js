@@ -62,6 +62,7 @@ app.model.sisyphus_manager = {
         api_notes: 'false',
         sisbot: '10.0.0',
         sisbot_notes: 'false',
+        is_notes    : 'false'   
       },
 
       is_admin: 'false',
@@ -205,6 +206,10 @@ app.model.sisyphus_manager = {
         if (cbb.resp[key] == '') cbb.resp[key] = 'false';
         self.set('remote_versions.'+key, cbb.resp[key]);
       })
+      app.log()
+      if(keys.indexOf('sisbot_notes') >= 0 || keys.indexOf('siscloud_notes') >= 0 || keys.indexOf('sisproxy_notes') >= 0 ) {
+        self.set('remote_versions.is_notes', 'true');
+      }
       // self.set('remote_versions', cbb.resp);
     }, 0);
 
