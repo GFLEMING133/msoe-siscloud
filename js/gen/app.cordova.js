@@ -90,7 +90,7 @@ function on_resume() {
 
 		if (reason_unavailable != 'false') {
 			app.log("Resume: find trigger");
-			app.manager.find_sisbots(); // trigger rescan
+			app.manager.find_sisbots(true); // trigger rescan
 		}
 	} else {
 		app.log("Resume: No Sisbot find trigger");

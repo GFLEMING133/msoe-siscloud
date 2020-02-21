@@ -517,6 +517,7 @@ app.model.sisbot = {
 
 		// skip polling if this is not the currently connected bot
 		if (app.manager.get('sisbot_id') != this.id) return this.set('is_polling','false');
+		if (this.get('data.local_ip') == '') return this.set('is_polling','false');
 
 		if (this.get('is_master_branch') == 'false') app.log("Get State: ", app.manager.get('is_sisbot_available'), this.get('is_polling'));
 
@@ -702,8 +703,7 @@ app.model.sisbot = {
 		}
   },
 	_connect_to_wifi: function () {
-
-		var self= this;
+		var self = this;
 		var credentials = this.get('wifi');
 		var endpoint	= (this.is_legacy()) ? 'change_to_wifi' : 'connect_to_wifi';
 
@@ -712,31 +712,58 @@ app.model.sisbot = {
 				.set('data.wifi_forget', 'true')
 				.set('wifi_connecting', 'true');
 
-			this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password, is_hidden: this.get('input_ssid') }, function(obj) {
-				if (obj.err && obj.err !== 'Could not make request') {
-					app.log('wifi err', obj.err);
-					self.set('wifi_error', 'true')
-						.set('wifi_connecting', 'false');
-				} else if (obj.resp) {
-					app.manager.intake_data(obj.resp);
-				}
+		app.log("Manager Sisbots:", app.manager.get('sisbots_networked'));
 
-				if (self.is_legacy()) {
+		this._update_sisbot(endpoint, { ssid: credentials.name, psk: credentials.password, is_hidden: this.get('input_ssid') }, function(obj) {
+			if (obj.err && obj.err !== 'Could not make request') {
+				app.log('wifi err', obj.err);
+				self.set('wifi_error', 'true')
+					.set('wifi_connecting', 'false');
+			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
+
+				self.set('data.local_ip', ''); // TODO: test reconnect
+
+				// setTimeout for rescanning for sisbots
+				if (app.is_app) {
+					function rescan_networks() {
+						app.manager.get_network_ip_address(function(ip_address) {
+				      var ip_add = ip_address.split('.');
+				      ip_add.pop();
+				      var ip_base = ip_add.join('.');
+
+							if (ip_base == '192.168.42') {
+								// wait another 5 seconds
+								setTimeout(function() {
+									rescan_networks();
+								}, 5000);
+							} else app.manager.reconnect_to_sisbot();
+						});
+					}
+
+					// rescan, after 5 seconds
+					setTimeout(function() {
+						rescan_networks();
+					}, 5000);
+				}
+			}
+
+			if (self.is_legacy()) {
+				setTimeout(function() {
+					self.set('data.failed_to_connect_to_wifi', 'false')
+						.set('data.reason_unavailable', 'connect_to_wifi')
+						.set('data.is_hotspot', 'false')
+						.set('data.wifi_forget', 'true');
+
 					setTimeout(function() {
 						self.set('data.failed_to_connect_to_wifi', 'false')
 							.set('data.reason_unavailable', 'connect_to_wifi')
 							.set('data.is_hotspot', 'false')
 							.set('data.wifi_forget', 'true');
-
-						setTimeout(function() {
-							self.set('data.failed_to_connect_to_wifi', 'false')
-								.set('data.reason_unavailable', 'connect_to_wifi')
-								.set('data.is_hotspot', 'false')
-								.set('data.wifi_forget', 'true');
-						}, 200);
 					}, 200);
-				}
-			});
+				}, 200);
+			}
+		});
 
 	},
 	disconnect_wifi: function () {

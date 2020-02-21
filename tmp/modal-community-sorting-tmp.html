@@ -1,82 +1,86 @@
-<div data-model="{{= session.community_id }}">
-  <div class="pull-bottom overlay-container">
-    <div class="filter-container flex-column">
-      <h2 class="center white fs18">Filter</h2>
-      <ul class="flex-column">
-        <li class="pt10 pb10 fs17 white less_strong clickable"
-            data-on-click="toggle"
-            data-field="model.show_all">All Tracks
-          <div class="pull-right pr10p white">
-            <i class="fas fa-square" data-if="{{= model.show_all}} !== true"></i>
-            <i class="fas fa-check pull-right pr10p white" data-if="{{= model.show_all}} == true"></i>
-          </div>
-        </li>
-        <li class="pt10 pb10 fs17 white less_strong clickable"
-            data-on-click="toggle"
-            data-field="model.show_all">Tracks Not Downloaded
-          <div class="pull-right pr10p white">
-            <i class="fas fa-square" data-if="{{= model.show_all}} == true"></i>
-            <i class="fas fa-check pull-right pr10p white" data-if="{{= model.show_all }} !== true"></i>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="sort-by-container">
-      <h2 class="center white fs17">Sort By</h2>
+<div class="h100" data-model="{{= session.community_id }}">
+  <div class="h100 scroll hide-scrollbar">
+    <div class="overlay-container mt40">
+      <div class="filter-container flex-column">
+        <h2 class="center white fs18">Filter</h2>
         <ul class="flex-column">
           <li class="pt10 pb10 fs17 white less_strong clickable"
-              data-on-click="model.sort_function"
-              data-msg="{'track_sort':'most_popular'}">Most Popular
+              data-on-click="toggle"
+              data-field="model.show_all">All Tracks
             <div class="pull-right pr10p white">
-              <i class="fas fa-square" data-if="{{= model.track_sort }} !== most_popular"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == most_popular"></i>
+              <i class="fas fa-square" data-if="{{= model.show_all}} !== true"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.show_all}} == true"></i>
             </div>
           </li>
           <li class="pt10 pb10 fs17 white less_strong clickable"
-              data-on-click="model.sort_function"
-              data-msg="{'track_sort':'hot'}">What's Hot
+              data-on-click="toggle"
+              data-field="model.show_all">Tracks Not Downloaded
             <div class="pull-right pr10p white">
-              <i class="fas fa-square" data-if="{{= model.track_sort }} !== hot"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == hot"></i>
+              <i class="fas fa-square" data-if="{{= model.show_all}} == true"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.show_all }} !== true"></i>
             </div>
           </li>
-          <li class="pt10 pb10 fs17 white less_strong clickable"
-              data-on-click="model.sort_function"
-              data-msg="{'track_sort':'newest_designs'}">Newest to Oldest
-            <div class="pull-right pr10p white">
-              <i class="fas fa-square" data-if="{{= model.track_sort}} !== newest_designs"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort}} == newest_designs"></i>
-            </div>
-          </li>
-          <li class="pt10 pb10 fs17 white less_strong clickable"
-              data-on-click="model.sort_function"
-              data-msg="{'track_sort':'oldest_designs'}">Oldest to Newest
-            <div class="pull-right pr10p white">
-              <i class="fas fa-square" data-if="{{= model.track_sort }} !== oldest_designs"></i>
-              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == oldest_designs"></i>
-            </div>
-          </li>
-          <li class="pt10 pb10 fs17 white less_strong clickable"
-              data-on-click="model.sort_function"
-              data-msg="{'track_sort':'name'}">Track Name
-            <div class="pull-right pr10p white">
-            <i class="fas fa-square" data-if="{{= model.track_sort }} !== name"></i>
-            <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == name"></i>
-          </div>
-        </li>
-        <li class="pt10 pb10 fs17 white less_strong clickable"
-            data-on-click="model.sort_function"
-            data-msg="{'track_sort':'artist'}">Artist
-          <div class="pull-right pr10p white">
-            <i class="fas fa-square" data-if="{{= model.track_sort }} !== artist"></i>
-            <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == artist"></i>
-          </div>
-        </li>
         </ul>
-    </div>
-    <div class="center bt-white white mt50 mb20 p20 fs18 strong blue-hover"
-        data-on-click="publish"
-        data-publish="modal:close">
-        Close
+      </div>
+      <div class="sort-by-container">
+        <h2 class="center white fs17">Sort By</h2>
+          <ul class="flex-column">
+            <li class="pt10 pb10 fs17 white less_strong clickable"
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'most_popular'}">Most Popular
+              <div class="pull-right pr10p white">
+                <i class="fas fa-square" data-if="{{= model.track_sort }} !== most_popular"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == most_popular"></i>
+              </div>
+            </li>
+            <li class="pt10 pb10 fs17 white less_strong clickable"
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'hot'}">What's Hot
+              <div class="pull-right pr10p white">
+                <i class="fas fa-square" data-if="{{= model.track_sort }} !== hot"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == hot"></i>
+              </div>
+            </li>
+            <li class="pt10 pb10 fs17 white less_strong clickable"
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'newest_designs'}">Newest to Oldest
+              <div class="pull-right pr10p white">
+                <i class="fas fa-square" data-if="{{= model.track_sort}} !== newest_designs"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort}} == newest_designs"></i>
+              </div>
+            </li>
+            <li class="pt10 pb10 fs17 white less_strong clickable"
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'oldest_designs'}">Oldest to Newest
+              <div class="pull-right pr10p white">
+                <i class="fas fa-square" data-if="{{= model.track_sort }} !== oldest_designs"></i>
+                <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == oldest_designs"></i>
+              </div>
+            </li>
+            <li class="pt10 pb10 fs17 white less_strong clickable"
+                data-on-click="model.sort_function"
+                data-msg="{'track_sort':'name'}">Track Name
+              <div class="pull-right pr10p white">
+              <i class="fas fa-square" data-if="{{= model.track_sort }} !== name"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == name"></i>
+            </div>
+          </li>
+          <li class="pt10 pb10 fs17 white less_strong clickable"
+              data-on-click="model.sort_function"
+              data-msg="{'track_sort':'artist'}">Artist
+            <div class="pull-right pr10p white">
+              <i class="fas fa-square" data-if="{{= model.track_sort }} !== artist"></i>
+              <i class="fas fa-check pull-right pr10p white" data-if="{{= model.track_sort }} == artist"></i>
+            </div>
+          </li>
+          </ul>
+      </div>
+      <div class="hh100">&nbsp;</div>
     </div>
   </div>
+  <div class="flex-center-row less_strong center bt-white clickable white  strong blue-hover bg-black pull-bottom"
+      data-on-click="publish"
+      data-publish="modal:close">
+    <h2 class="m0 media_fs14 fs17 p20">Close</h2>
+  </div>
+</div>
