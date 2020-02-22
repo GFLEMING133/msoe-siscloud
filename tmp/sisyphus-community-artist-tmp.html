@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="body-header h100 pt185 scroll hide-scrollbar"
+    <div class="body-header h100 scroll hide-scrollbar"
         data-on-scroll="parent.scroll_check"
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_artists"
@@ -41,7 +41,7 @@
       </div>
       <div class="h100" data-if="{{= parent.fetching_community_artists }} == false">
         <div class="h100 " data-if="{{= _.size(parent.community_artist_ids) }} > 0">
-          <div class="pb200"
+          <div class="pt150 pb200"
             data-if="{{= model.is_ready }} == true"
             data-foreach="cluster"
             data-cluster="{{= model.data.query }}"

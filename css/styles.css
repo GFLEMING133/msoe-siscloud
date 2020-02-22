@@ -2036,6 +2036,9 @@ and (orientation : portrait)
 		/* background-color: #fdc539; */
 		max-height: calc(100vh - 310px);
 	}
+	.media_mr5 {
+		margin-right: 5px;	
+	}
 }
 /**************iPhone SE Matts Phone**************/
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px)
