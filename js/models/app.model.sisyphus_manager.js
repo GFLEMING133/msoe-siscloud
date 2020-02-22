@@ -206,7 +206,7 @@ app.model.sisyphus_manager = {
         if (cbb.resp[key] == '') cbb.resp[key] = 'false';
         self.set('remote_versions.'+key, cbb.resp[key]);
       })
-      app.log()
+      // to address Notes coming back with css stylers attached from the wysiwyg
       if(keys.indexOf('sisbot_notes') >= 0 || keys.indexOf('siscloud_notes') >= 0 || keys.indexOf('sisproxy_notes') >= 0 ) {
         self.set('remote_versions.is_notes', 'true');
       }

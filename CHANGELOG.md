@@ -1,3 +1,16 @@
+@2020-2-22 1.8.95 
+- overlays are all styled the same (pull-bottom close) and scrollable
+- wifi reconnect timing addressed
+- adjusted fetching tracks...
+- media_query added 
+- merged staging into beta for wifi, ble, and ssid changes.
+- added trim() to error checking 
+- is_notes added and check_remote_versions updated with conditional for Whats New obj coming back from a wysiwyg
+- image fallback fix 
+- removed drawing preview for alpha
+- fixed sign_out_community() to remove private tracks. 
+- "In Review" shown on tracks and My Tracks(#of tracks) tab added to community
+- UI changes 
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
  - Added  "'+self.get('data.name')+' to the notification error.
