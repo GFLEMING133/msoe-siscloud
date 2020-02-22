@@ -57,12 +57,12 @@
         data-run-msg="{{= model.data.playlist_id }}"
         tg-name="community_playlist_page">
 
-      <div class="mt100" data-if="{{= parent.fetching_playlist }} == true">
-        <div class="p20 center i">Fetching tracks...</div>
+      <div data-if="{{= parent.fetching_playlist }} == true">
+        <div class="mt180 p20 center i">Fetching tracks...</div>
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       </div>
 
-      <div class="mt150" data-if="{{= parent.fetching_playlist}} == false">
+      <div class="mt130" data-if="{{= parent.fetching_playlist}} == false">
         <div class="w100" data-if="{{= _.size(model.data.sorted_tracks) }} > 0">
           <div class="w100 mb10"
               data-foreach="model.data.sorted_tracks">
