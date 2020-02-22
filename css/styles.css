@@ -923,8 +923,9 @@ li.blue-hover:hover     { color: #00b1fa; }
 	right			: 0px;
 	bottom		: 0px;
 }
-
-
+.transform3d {
+transform: translate3d(0,0,0);
+}
 .pull-bottom-fixed	{
 	position	: fixed;
 	left			: 0px;
@@ -1641,6 +1642,12 @@ select:focus {
 
 .mb75						      { margin-bottom		  : 75px;	}
 .mb100						    { margin-bottom		  : 100px;}
+.mb110						    { margin-bottom		  : 110px;}
+.mb120						    { margin-bottom		  : 120px;}
+.mb130						    { margin-bottom		  : 130px;}
+.mb140						    { margin-bottom		  : 140px;}
+.mb150						    { margin-bottom		  : 150px;}
+.mb160						    { margin-bottom		  : 160px;}
 .mt50-child > div     { margin-top		    : 50px;	}
 
 .mt100									{	margin-top			: 100px !important;	}
