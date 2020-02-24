@@ -1,9 +1,9 @@
-<div class="h100 scroll hide-scrollbar">
-  <div class="flex-column h100" data-model="{{= model.track_id }}">
+<div class="h100">
+  <div class="flex-column h100 scroll hide-scrollbar pb100" data-model="{{= model.track_id }}">
       <div class="center vertical active">
           <img class="w90 center img-rounded rounded-x2 bg-white " alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
       </div>
-    <div class="h100 pb100">
+    <div class="h100">
         <div class="pt10 pb10">
           <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
           <div class="fs12 lh20  pt10 pb20 grey strong center">by {{= model.data.created_by_name }}</div>
@@ -45,7 +45,7 @@
     </div>
     <div class="w100 center bt-white clickable white strong blue-hove bg-black pull-bottom"
         data-on-click="parent.close">
-      <div class="media_fs14 fs18 p20">Close</div>
+      <div class="media_fs14 fs18 p20 media_ppb50">Close</div>
     </div>
   </div>
 </div>

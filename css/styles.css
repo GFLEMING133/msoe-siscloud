@@ -2155,6 +2155,9 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 	.media_pb200 {
 		padding-bottom: 200px !important;
 	}
+	.media_ppb50 {
+		padding: 20px 20px 50px 20px !important;
+	}
 
 }
 
@@ -2187,5 +2190,8 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 	}
 	.media_pb200 {
 		padding-bottom: 200px !important;
+	}
+	.media_ppb50 {
+		padding: 20px 20px 50px 20px !important;
 	}
 }

@@ -1,32 +1,36 @@
-<div class="h100 relative">
-  <div class="h100 scroll hide-scrollbar white p20"
+<div class="h100">
+  <div class="h100 white"
       data-model="{{= parent.sisyphus_manager_id }}"
       data-on-click="publish"
       data-publish="modal:close">
     <h1 class="center pt10 pb20">Release Notes</h1>
-    <div class="h100 mb150" data-model="{{= model.sisbot_id }}">
-      <div>
+    <div class="h100 pl20 pr20 pb200 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+
+      <div data-if="{{= model.remote_versions.sisbot_notes }} !== false">
         <div class="pt10 pb20" data-if="{{= model.local_versions.sisbot }} !== {{= parent.remote_versions.sisbot }}">
           <div class="f15 fl18 mb10 strong">Sisbot Notes</div>
-          <div >{{= model.remote_versions.sisbot_notes }}</div>
+          <div>{{= model.remote_versions.sisbot_notes }}</div>
         </div>
-      </div>
+      </div> 
+
       <div data-if="{{= model.remote_versions.app_notes }} !== false">
         <div class="pt10 pb20" data-if="{{= model.local_versions.app }} !== {{= parent.remote_versions.app }}">
           <div class="f15 fl18 mb10 strong">App Notes</div>
           <div>{{= model.remote_versions.app_notes }}</div>
         </div>
       </div>
+
       <div data-if="{{= model.remote_versions.proxy_notes }} !== false">
         <div class="pt10 pb20" data-if="{{= model.local_versions.proxy }} !== {{= parent.remote_versions.proxy }}">
           <div class="f15 fl18 mb10 strong">Proxy Notes</div>
           <div>{{= model.remote_versions.proxy_notes }}</div>
         </div>
       </div>
+
     </div>
-  </div>
-  <div class="w100 center bg-black bt-white p0 m0 clickable white strong blue-hover pull-bottom"
-      data-on-click="parent.close">
-    <div class="media_fs14 fs18 p20">Close</div>
+    <div class="w100 center bg-black bt-white p0 m0 clickable white strong blue-hover pull-bottom"
+        data-on-click="model.close">
+      <div class="media_fs14 fs18 p20 media_ppb50">Close</div>
+    </div>
   </div>
 </div>

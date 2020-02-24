@@ -64,7 +64,7 @@
 
       <div class="mt130" data-if="{{= parent.fetching_playlist}} == false">
         <div class="w100" data-if="{{= _.size(model.data.sorted_tracks) }} > 0">
-          <div class="w100 mb10"
+          <div class="w100 mb50"
               data-foreach="model.data.sorted_tracks">
             <div class="h100" data-model="{{= model.data.tracks[scope.value].id }}" data-template="sisyphus-community-playlist-list-item-tmp"></div>
           </div>
