@@ -7,7 +7,8 @@ app.model.community = {
       fetching_community_playlists  : 'false',
       fetching_community_tracks     : 'false',
       fetching_community_artists    : 'false',
-      fetched_community_playlists   : 'false',
+      fetched_community_playlists   : 'false', // all community playlists
+      fetched_featured_playlists    : 'false', // featured community playlists
       fetched_community_tracks      : 'false',
       fetched_community_artists     : 'false',
       fetching_playlist             : 'false',
@@ -144,13 +145,14 @@ app.model.community = {
     this.set('fetched_community_artists', 'false')
       .set('community_artist_ids', [])
       .set('fetched_community_playlists', 'false')
+      .set('fetched_featured_playlists', 'false')
       .set('community_playlist_ids', [])
       .set('fetched_community_tracks', 'false')
       .set('community_track_ids', []);
 
 		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
   },
-  fetch_community_playlists: function() {
+  fetch_community_playlists: function(given_data) {
     app.log('fetch_community_playlists function')
     if (this.get('fetching_community_playlists') == 'true') return this;
 
@@ -163,6 +165,8 @@ app.model.community = {
       data: {}
     };
 
+    if (given_data && given_data.is_featured == 'true') playlists.endpoint += '?is_featured=true';
+
     function cb(obj) {
       app.log("Community Playlists:", obj.resp);
       if (obj.err) return self;
@@ -171,7 +175,7 @@ app.model.community = {
 
       var new_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
-      // var new_playlist_ids = _.difference(resp_playlist_ids, sisbot_playlist_ids);
+      
       _.each(new_playlist_ids, function(playlist_id) {
         var playlist = app.collection.get(playlist_id);
         playlist.set('is_community', 'true');
@@ -179,10 +183,12 @@ app.model.community = {
         self.add_nx('community_playlist_ids', playlist_id); // add to array if not already there
       });
 
-      self.set('fetched_community_playlists', 'true');
+      if (given_data.is_featured == 'true') self.set('fetched_featured_playlists', 'true');
+      else self.set('fetched_community_playlists', 'true');
       self.set('fetching_community_playlists', 'false');
     }
 
+    app.log("Fetch playists:", playlists);
     app.post.fetch2(playlists, cb, 0);
 
     return this;

@@ -1,4 +1,7 @@
 <div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
+  <div data-if="{{= model.fetched_community_playlists }} == false">
+    <div data-run="model.fetch_community_playlists"></div>
+  </div>
   <div class="h100" data-scope="true"
       data-defaults="{'type':'searchable_list','list_type':'playlist','sort':'data.name','order':'asc','q':{'value':'','search_keys':['data.name']} }">
     <div class="pull-top bb">

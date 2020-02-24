@@ -16,8 +16,9 @@
 
     <div class="body-header h100 pb50 scroll hide-scrollbar"
         tg-name="browse_page">
-       <div data-if="{{= model.fetched_community_playlists }} == false">
-         <div data-run="model.fetch_community_playlists"></div>
+       <div data-if="{{= model.fetched_featured_playlists }} == false">
+         <div data-run="model.fetch_community_playlists"
+            data-run-msg="{'is_featured':'true'}"></div>
        </div>
         <div class="mt100" data-if="{{= model.fetching_community_playlists }} == true">
           <div class="p20 center i">Fetching Playlist...</div>
