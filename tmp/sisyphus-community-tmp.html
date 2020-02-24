@@ -30,6 +30,9 @@
         data-template="sisyphus-community-playlist-list-item-tmp"></div>
 
     <div class="h100"
+        data-if="{{= parent.active.secondary }} == playlists"
+        data-template="sisyphus-community-playlists-all-tmp"></div>
+    <div class="h100"
         data-if="{{= parent.active.secondary }} == rendering"
         data-template="sisyphus-community-playlists-rendering"></div>
 

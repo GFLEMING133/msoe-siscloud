@@ -82,6 +82,16 @@
             </span>
           </div>
           <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'secondary':'playlists'}"
+              tg-name="all_playlists_tab">
+            <span class="montserrat_semi_bold">All Playlists</span>
+            <span class="pull-right">
+              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
+          </div>
+          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
               data-model="{{= session.user_id }}"
               data-if="{{= model.data.track_count }} > 0"
               data-on-click="publish"

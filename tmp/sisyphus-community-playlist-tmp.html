@@ -1,7 +1,4 @@
 <div class="h100" data-model="{{= session.community_id }}">
-  <!-- <div data-if="{{= model.fetched_community_artists }} == false">
-    <div data-run="model.fetch_community_artists"></div>
-  </div> -->
   <div class="h100" data-model="{{= session.active.playlist_id }}">
     <div class="pull-top bg-black bb">
       <div class="white hh50 w100 center no-stuffing flex vertical-align bb-white">
@@ -18,9 +15,7 @@
       <div class="p10 relative" style="background-color:{{= model.data.bg_color }};">
         <div class="p10  white center fs22 lh22 fw900">{{= model.data.name }}</div>
         <div class="relative center">
-          <div class="download-all-btn strong fs17 mt10 o80 o100-hover"
-              data-if="{{= model.is_downloaded }} == false"
-              data-on-click="model.download_wc">Download All</div>
+          <div class="white less_strong pl30 pr40">{{= model.data.description}}</div>
 
           <div class="clickable active absolutely"
               data-if="{{= parent.download_cloud }} == true"
@@ -64,7 +59,7 @@
 
       <div class="mt130" data-if="{{= parent.fetching_playlist}} == false">
         <div class="w100" data-if="{{= _.size(model.data.sorted_tracks) }} > 0">
-          <div class="w100 mb50"
+          <div class="w100 mb50 pt25"
               data-foreach="model.data.sorted_tracks">
             <div class="h100" data-model="{{= model.data.tracks[scope.value].id }}" data-template="sisyphus-community-playlist-list-item-tmp"></div>
           </div>
