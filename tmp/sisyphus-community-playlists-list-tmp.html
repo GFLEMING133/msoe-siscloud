@@ -1,0 +1,11 @@
+<div class="h100" data-if="{{= model.is_community }} == true">
+  <div class="flex clickable active bb p10"
+      data-on-click="publish"
+      data-publish="session:active"
+      data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}'}">
+    <div class=" pl10">
+      <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
+      <div class="fs13 warmGrey pt10 hh30 truncate">{{= model.data.description }}</div>
+    </div>
+  </div>
+</div>

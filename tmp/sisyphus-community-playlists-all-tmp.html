@@ -1,0 +1,68 @@
+<div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
+  <div class="h100" data-scope="true"
+      data-defaults="{'type':'searchable_list','list_type':'playlist','sort':'data.name','order':'asc','q':{'value':'','search_keys':['data.name']} }">
+    <div class="pull-top bb">
+      <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
+        <div class="w25 left pl20 clickable active blue-hover"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'primary':'community','secondary':'false'}">
+          <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
+        </div>
+        <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Playlists</h1></div>
+        <div class="w25 center f-large">&nbsp;</div>
+      </div>
+
+        <div class="browse-feature bg-greyer p20">
+          <div class="center white fs17 less_strong">Search for your favorite Playlists</div>
+        </div>
+<!-- END HEADER -->
+
+      <div class="flex p20 w100 bg-white">
+        <div class="flex3">
+          <input
+            type="text"
+            placeholder="&#xf002; Search"
+            data-field="model.data.q.value"
+            value="{{= model.data.q.value }}"
+            data-on-input="model.update_q" />
+        </div>
+      </div>
+    </div>
+
+    <div class="body-header h100 scroll hide-scrollbar"
+        data-on-scroll="parent.scroll_check"
+        data-msg="{{= _self_.el_id }}"
+        data-run="parent.fetch_community_artists"
+        tg-name="">
+      <div class="mt100" data-if="{{= parent.fetching_community_playlists }} == true">
+        <div class="p20 center i">Fetching Playlists...</div>
+        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+      </div>
+      <div class="h100" data-if="{{= parent.fetching_community_playlists }} == false">
+        <div class="h100 " data-if="{{= _.size(parent.community_playlist_ids) }} > 0">
+          <div class="pt150 pb200"
+            data-if="{{= model.is_ready }} == true"
+            data-foreach="cluster"
+            data-cluster="{{= model.data.query }}"
+            data-foreach-limit="{{= parent.limit }}"
+            data-foreach-offset="{{= parent.offset }}"
+            data-cluster-comparator="model.data.comparator"
+            data-cluster-search-keys="model.data.q.search_keys"
+            data-cluster-search-value="model.data.q.value">
+            <div data-template="sisyphus-community-playlists-list-tmp"></div>
+          </div>
+        </div>
+        <div class="p20 mt100 center fs18 blue i"
+            data-if="{{= _.size(parent.community_playlist_ids) }} == 0">
+            There are No Playlists....something is wrong.
+        </div>
+        <div data-if="{{= _.size(parent.community_playlist_ids) }} > {{= parent.limit }}">
+          <div class="p20 center i">Fetching Playlists...</div>
+          <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>
