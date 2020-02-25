@@ -6,7 +6,8 @@
     <div class="h100">
         <div class="pt10 pb10">
           <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
-          <div class="fs12 lh20  pt10 pb20 grey strong center">by {{= model.data.created_by_name }}</div>
+          <div class="fs13 lh20 pt10 grey strong center">by {{= model.data.created_by_name }}</div>
+          <div class="fs13 grey pb20 center pt5">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').format('MMM Do, YYYY') }}</div>
         </div>
         <!-- Download -->
         <div class="pt10 pb20 flex-justify-center active clickable"
@@ -24,7 +25,7 @@
         </div>
         <!--View More Tracks-->
 
-        <div class="pt10 pb20 center active clickable" 
+        <div class="pt10 pb20 center active clickable"
             data-model="{{= session.user_id}}"
             data-if="{{= model.data.artist_id }} !== {{= parent.data.user_id }}">
           <div data-on-click="grandparent.more_from_artist"
