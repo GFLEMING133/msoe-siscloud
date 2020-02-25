@@ -26,21 +26,10 @@
         </div>
 
         <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
-          <h2 class="strong fs18 center">Features</h2>
+          <h2 class="mt1 bg-black white lh50 strong fs20 center">Featured Playlists</h2>
           <div data-template="sisyphus-community-feature-box"></div>
         </div>
 
-
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'secondary':'artist'}"
-              tg-name="artist_tab">
-            <span class="montserrat_semi_bold">Artists</span>
-            <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-          </div>
           <div data-run="model.fetch_community_tracks">
             <div class="bb bt hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
                 data-on-click="model.sort_function"
@@ -75,9 +64,9 @@
           <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
               data-on-click="publish"
               data-publish="session:active"
-              data-msg="{'secondary':'playlist', 'playlist_id':'f54f048a-0bf5-4e1c-96fa-9c2e1aeace6a' }"
-              tg-name="sisyphus_originals_tab">
-            <span class="montserrat_semi_bold">Sisyphus Originals</span>
+              data-msg="{'secondary':'artist'}"
+              tg-name="artist_tab">
+            <span class="montserrat_semi_bold">Artists</span>
             <span class="pull-right">
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
@@ -91,7 +80,18 @@
             <span class="pull-right">
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </span>
+          </div>                    
+          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'secondary':'playlist', 'playlist_id':'f54f048a-0bf5-4e1c-96fa-9c2e1aeace6a' }"
+              tg-name="sisyphus_originals_tab">
+            <span class="montserrat_semi_bold">Sisyphus Originals</span>
+            <span class="pull-right">
+              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+            </span>
           </div>
+
           <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
               data-model="{{= session.user_id }}"
               data-if="{{= model.data.track_count }} > 0"

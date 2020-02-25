@@ -14,8 +14,11 @@
       </div>
       <div class="p10 relative" style="background-color:{{= model.data.bg_color }};">
         <div class="p10  white center fs22 lh22 fw900">{{= model.data.name }}</div>
+        <div class="white center less_strong pl30 pr40">{{= model.data.description}}</div>
         <div class="relative center">
-          <div class="white less_strong pl30 pr40">{{= model.data.description}}</div>
+          <div class="download-all-btn strong fs17 mt10 o80 o100-hover"
+              data-if="{{= model.is_downloaded }} == false"
+              data-on-click="model.download_wc">Download All</div>
 
           <div class="clickable active absolutely"
               data-if="{{= parent.download_cloud }} == true"

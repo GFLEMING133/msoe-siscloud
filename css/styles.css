@@ -889,6 +889,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .w40p									{	width		: 40px;}
 .w80p									{	width		: 80px;}
 .w120p								{	width		: 120px;}
+.w300p								{	width		: 300px;}
 .w75per								{	width   : 75%;}
 .mh-480								{	min-height	: 480px;}
 
@@ -1495,6 +1496,7 @@ select:focus {
 .lh28									{	line-height				: 28px;	}
 .lh30									{	line-height				: 30px;	}
 .lh36									{	line-height				: 36px;	}
+.lh50									{	line-height				: 50px;	}
 
 /**************************** BORDERS *****************************************/
 
@@ -1564,6 +1566,8 @@ select:focus {
 .mb0									{	margin-bottom			: 0px !important; }
 .ml0									{	margin-left				: 0px !important; }
 .mr0									{	margin-right			: 0px !important; }
+
+.mt1									{	margin-top				: 1px !important; }
 
 .mt3									{	margin-top				: 3px !important; }
 .mb3									{	margin-bottom			: 3px !important; }
