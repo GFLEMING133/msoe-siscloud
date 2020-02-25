@@ -27,7 +27,7 @@ var Binding = Backbone.View.extend({
             var id = entry.target.className.match(/(e_[0-9]+)/i)[1];
             var el = self.get(id);
             var $el = $('.'+id);
-            if ($el) $el.attr('src', el.get_value(el.data.src));
+            if (el && $el) $el.attr('src', el.get_value(el.data.src));
             self.lazyImageObserver.unobserve(entry.target);
             if (self.debug) app.log("Bind: Intersection Observed", entry.target);
           }
@@ -1264,7 +1264,7 @@ function Element(el, parent, _scope) {
         // set the sorting of the cluster
         cluster._comparator = value;
         cluster.sort();
-        app.log("Sorted cluster: ", value, cluster.pluck(cluster._comparator.key));
+        // app.log("Sorted cluster: ", value, cluster.pluck(cluster._comparator.key));
       }
 
       // app.log("Cluster results", cluster);

@@ -8,6 +8,8 @@ app.model.searchable_list = {
       context_menu: 'false',
       is_ready: 'false',
 
+      q_size: -1, // force fix on first size()
+
       ready_timeout: 100,
 
       data: {
@@ -49,7 +51,7 @@ app.model.searchable_list = {
     this.on('change:data.sort', this.reset_comparator);
     this.on('change:data.order', this.reset_comparator);
     this.on('change:data.terms', this.reset_query);
-    // this.on('change:data.q.value', this.reset_query);
+    // this.on('change:data.q.value', this.reset_search);
 
     this.on('change:is_ready', this.size);
 
@@ -58,12 +60,41 @@ app.model.searchable_list = {
     this.reset_query();
   },
   update_q: function(data) {
-    // app.log("Update q:", data);
+    app.log("Update q:", data);
     if (data == this) data = ''; // fix self reference on empty value
+
 
     this.set('is_ready', 'false');
     this.set('data.q.value', data);
+    this.update_q_size();
     this.set('is_ready', 'true');
+  },
+  update_q_size: function() {
+    var data = this.get('data.q.value');
+    // app.log("Update q_size", data);
+
+    // save q_size
+    if (data == '') {
+      var count = this.get('size');
+      this.set('q_size', count);
+      app.log("q_size:", count);
+    } else {
+      var search_value = this.get('data.q.value').toLowerCase();
+      var search_keys = this.get('data.q.search_keys');
+
+      var count = 0;
+      this.cluster.each(function(model) {
+        // check if this model matches the criteria
+        var match = false;
+        _.each(search_keys, function(key) {
+          if (model.get(key).toLowerCase().indexOf(search_value) >= 0) match = true;
+        });
+        if (match) count++;
+      });
+
+      this.set('q_size', count);
+      app.log("q_size:", count);
+    }
   },
   reset_query: function () {
     // app.log("Reset Query");
@@ -150,6 +181,9 @@ app.model.searchable_list = {
     this.cluster = app.collection.get_cluster(this.get('data.query'));
 
     this.set('size', this.cluster.size());
+
+    // fix q_size
+    if (this.get('q_size') < 0) this.update_q_size();
 
     // loop through existing sum/average/min/max and recalculate
     var check = ['sum', 'average', 'min', 'max'];

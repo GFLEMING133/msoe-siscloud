@@ -12,17 +12,13 @@
         <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artists</h1></div>
         <div class="w25 center f-large">&nbsp;</div>
       </div>
-
-        <div class="browse-feature bg-greyer p20">
-          <div class="center white fs17 less_strong">Search for your favorite artist</div>
-        </div>
 <!-- END HEADER -->
 
       <div class="flex p20 w100 bg-white">
         <div class="flex3">
           <input
             type="text"
-            placeholder="&#xf002; Search"
+            placeholder="&#xf002; Search Artists"
             data-field="model.data.q.value"
             value="{{= model.data.q.value }}"
             data-on-input="model.update_q" />
@@ -35,13 +31,13 @@
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_artists"
         tg-name="">
-      <div class="mt100" data-if="{{= parent.fetching_community_artists }} == true">
+      <div class="pt75" data-if="{{= parent.fetching_community_artists }} == true">
         <div class="p20 center i">Fetching List of Artists...</div>
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       </div>
       <div class="h100" data-if="{{= parent.fetching_community_artists }} == false">
         <div class="h100 " data-if="{{= _.size(parent.community_artist_ids) }} > 0">
-          <div class="pt150 pb200"
+          <div class="pt75 pb200"
             data-if="{{= model.is_ready }} == true"
             data-foreach="cluster"
             data-cluster="{{= model.data.query }}"
@@ -55,9 +51,9 @@
         </div>
         <div class="p20 mt100 center fs18 blue i"
             data-if="{{= _.size(parent.community_artist_ids) }} == 0">
-            There are No Artist....something is wrong.
+            No Artists...
         </div>
-        <div data-if="{{= _.size(parent.community_artist_ids) }} > {{= parent.limit }}">
+        <div data-if="{{= model.q_size }} > {{= parent.limit }}">
           <div class="p20 center i">Fetching List of Artists...</div>
           <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
         </div>

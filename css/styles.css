@@ -1283,11 +1283,10 @@ select:focus {
     margin-top: 4px;
     margin-left: 4px;
   }
-.fa-list{
+/* .fa-list {
 	font-size: 1.5em;
 	/* font-style: italic; */
-
-}
+} */
 
 .add_tracks_circle {
 	width: 20px;
@@ -1737,6 +1736,7 @@ select:focus {
 .pl50									{	padding-left			: 50px !important; }
 .pr50									{	padding-right			: 50px !important; }
 .pb55									{	padding-bottom   	: 55px !important; }
+.pt60						      { padding-top       : 60px !important; }
 .pt60p								{ padding-top 			: 60%  !important; }
 .pb65						      { padding-bottom    : 65px !important; }
 .pt65						      { padding-top       : 65px !important; }
@@ -2056,7 +2056,7 @@ and (orientation : portrait)
 		max-height: calc(100vh - 310px);
 	}
 	.media_mr5 {
-		margin-right: 5px;	
+		margin-right: 5px;
 	}
 }
 /**************iPhone SE Matts Phone**************/

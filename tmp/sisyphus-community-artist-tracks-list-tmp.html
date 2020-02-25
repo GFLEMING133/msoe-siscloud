@@ -24,16 +24,11 @@
                 data-msg="{'primary':'community','secondary':'false'}">
               <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15"/>
             </div>
-            <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artist Tracks</h1></div>
+            <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">{{= parent.data.name }}</h1></div>
             <div class="w25 center f-large">&nbsp;</div>
           </div>
 
     <!-- END HEADER -->
-           <div class="browse-feature bg-bluer p10 center">
-            <div class="p10 white center fs22 lh22 fw900">{{= parent.data.name }}</div>
-            <div class="download-all-btn mt10 strong fs17 o80 o100-hover"
-                data-on-click="parent.download_wc">Download All</div>
-          </div>
           <div class="flex p15 pb10 pt10 w100 bg-white">
             <div class="flex3">
               <input
@@ -79,7 +74,11 @@
             <div class="p20 center i">Fetching tracks...</div>
             <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
           </div>
-          <div class="pt185 pb200" data-if="{{= grandparent.fetching_community_tracks }} == false">
+          <div class="pb200" data-if="{{= grandparent.fetching_community_tracks }} == false">
+            <div class="pt60 browse-feature bg-bluer p10 center">
+              <div class="download-all-btn mt10 strong fs17 o80 o100-hover"
+                  data-on-click="parent.download_wc">Download All</div>
+            </div>
             <div class="w100"
                 data-if="{{= model.is_ready }} == true"
                 data-foreach="cluster"
@@ -95,7 +94,7 @@
                 data-if="{{= model.size }} == 0">
                 You have downloaded all tracks for this artist.
             </div>
-            <div class="mt50" data-if="{{= model.size }} > {{= grandparent.limit }}">
+            <div class="mt50" data-if="{{= model.q_size }} > {{= grandparent.limit }}">
               <div class="p20 center i">Fetching List of Tracks...</div>
               <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
             </div>

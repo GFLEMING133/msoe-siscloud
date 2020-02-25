@@ -1,110 +1,134 @@
 <div class="h100" data-model="{{= session.community_id }}">
-    <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
-      <div class="w25" >
-        <div class="clickable blue-hover"
-            data-on-click="model.sign_out_community"
-            tg-name="sign_out_community_btn">
-          <i class="fas fa-sign-out-alt"></i>
-          <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
-        </div>
+  <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
+    <div class="w25" >
+      <div class="clickable blue-hover"
+          data-on-click="model.sign_out_community"
+          tg-name="sign_out_community_btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
       </div>
-      <div class="w50">
-        <h1 class="no-stuffing capitalize truncate fs18 lh24">Browse</h1>
-      </div>
-      <div class="w25 center f-large">&nbsp;</div>
+    </div>
+    <div class="w50">
+      <h1 class="no-stuffing capitalize truncate fs18 lh24">Browse</h1>
+    </div>
+    <div class="w25 center f-large">&nbsp;</div>
+  </div>
+
+  <div class="body-header h100 scroll hide-scrollbar"
+      tg-name="browse_page">
+    <div data-if="{{= model.fetched_featured_playlists }} == false">
+       <div data-run="model.fetch_community_playlists"
+          data-run-msg="{'is_featured':'true'}"></div>
+    </div>
+    <div class="mt100" data-if="{{= model.fetching_community_playlists }} == true">
+      <div class="p20 center i">Fetching Playlist...</div>
+      <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
     </div>
 
-    <div class="body-header h100 pb50 scroll hide-scrollbar"
-        tg-name="browse_page">
-       <div data-if="{{= model.fetched_featured_playlists }} == false">
-         <div data-run="model.fetch_community_playlists"
-            data-run-msg="{'is_featured':'true'}"></div>
-       </div>
-        <div class="mt100" data-if="{{= model.fetching_community_playlists }} == true">
-          <div class="p20 center i">Fetching Playlist...</div>
-          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-        </div>
-
-        <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
-          <h2 class="mt1 bg-black white lh50 strong fs20 center">Featured Playlists</h2>
-          <div data-template="sisyphus-community-feature-box"></div>
-        </div>
-
-          <div data-run="model.fetch_community_tracks">
-            <div class="bb bt hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-                data-on-click="model.sort_function"
-                data-msg="{'track_sort':'most_popular','secondary':'tracks'}"
-                tg-name="most_popular_tab">
-              <span class="montserrat_semi_bold">Most Popular</span>
-              <span class="pull-right">
-                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-              </span>
-            </div>
-
-            <div class="bb bt hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-                data-on-click="model.sort_function"
-                data-msg="{'track_sort':'hot','secondary':'tracks'}"
-                tg-name="whats_hot_tab">
-              <span class="montserrat_semi_bold">What's Hot</span>
-              <span class="pull-right">
-                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-              </span>
-            </div>
-
-            <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-                data-on-click="model.sort_function"
-                data-msg="{'track_sort':'newest_designs','secondary':'tracks'}"
-                tg-name="newest_designs_tab">
-              <span class="montserrat_semi_bold">Newest</span>
-              <span class="pull-right">
-                <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-              </span>
-            </div>
-          </div>
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'secondary':'artist'}"
-              tg-name="artist_tab">
-            <span class="montserrat_semi_bold">Artists</span>
-            <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-          </div>
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'secondary':'playlists'}"
-              tg-name="all_playlists_tab">
-            <span class="montserrat_semi_bold">All Playlists</span>
-            <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-          </div>                    
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'secondary':'playlist', 'playlist_id':'f54f048a-0bf5-4e1c-96fa-9c2e1aeace6a' }"
-              tg-name="sisyphus_originals_tab">
-            <span class="montserrat_semi_bold">Sisyphus Originals</span>
-            <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-          </div>
-
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-model="{{= session.user_id }}"
-              data-if="{{= model.data.track_count }} > 0"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'secondary':'artist-tracks-list', 'artist_id':'{{= model.data.artist_id }}' }"
-              tg-name="my_tracks_tab">
-            <span class="montserrat_semi_bold">My Tracks ({{= model.data.track_count }})</span>
-            <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-            </span>
-          </div>
-
-        <div class="hh150">&nbsp;</div>
+    <div class="flex-column pb10" data-if="{{= model.fetching_community_playlists}} == false">
+      <h2 class="p10 pt20 pb5 m0 strong fs20 center">Featured Playlists</h2>
+      <div data-template="sisyphus-community-feature-box"></div>
     </div>
+
+    <div>
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="model.sort_function"
+          data-msg="{'track_sort':'most_popular','secondary':'tracks'}"
+          tg-name="most_popular_tab">
+        <div class="wrapper">
+          <div class="tracks_circle">
+            <div class="tracks_inner_circle"></div>
+          </div>
+        </div>
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Most Popular</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="model.sort_function"
+          data-msg="{'track_sort':'hot','secondary':'tracks'}"
+          tg-name="whats_hot_tab">
+        <div class="wrapper">
+          <div class="tracks_circle">
+            <div class="tracks_inner_circle"></div>
+          </div>
+        </div>
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">What's Hot</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="model.sort_function"
+          data-msg="{'track_sort':'newest_designs','secondary':'tracks'}"
+          tg-name="newest_designs_tab">
+        <div class="wrapper">
+          <div class="tracks_circle">
+            <div class="tracks_inner_circle"></div>
+          </div>
+        </div>
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Newest</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'artist'}"
+          tg-name="artist_tab">
+        <i class="far fa-user f-large"></i>
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Artists</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'playlists'}"
+          tg-name="all_playlists_tab">
+        <i class="fas fa-list f-large" />
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Playlists</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'playlist', 'playlist_id':'f54f048a-0bf5-4e1c-96fa-9c2e1aeace6a' }"
+          tg-name="sisyphus_originals_tab">
+        <i class="fas fa-list f-large" />
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Sisyphus Originals</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+
+      <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-model="{{= session.user_id }}"
+          data-if="{{= model.data.track_count }} > 0"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'artist-tracks-list', 'artist_id':'{{= model.data.artist_id }}' }"
+          tg-name="my_tracks_tab">
+        <div class="wrapper">
+          <div class="tracks_circle">
+            <div class="tracks_inner_circle"></div>
+          </div>
+        </div>
+        <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">My Tracks ({{= model.data.track_count }})</div>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+        </span>
+      </div>
+    </div>
+
+    <div class="hh150">&nbsp;</div>
+  </div>
 </div>

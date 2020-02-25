@@ -80,7 +80,6 @@
               data-cluster-comparator="model.data.comparator"
               data-cluster-search-keys="model.data.q.search_keys"
               data-cluster-search-value="model.data.q.value">
-
             <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
           </div>
         </div>
@@ -88,7 +87,7 @@
             data-if="{{= model.size }} == 0">
             All tracks have been downloaded.
         </div>
-        <div data-if="{{= model.size }} > {{= parent.limit }}">
+        <div data-if="{{= model.q_size }} > {{= parent.limit }}">
           <div class="p20 center i">Fetching tracks...</div>
           <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
         </div>
