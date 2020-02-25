@@ -175,7 +175,7 @@ app.model.community = {
 
       var new_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
-      
+
       _.each(new_playlist_ids, function(playlist_id) {
         var playlist = app.collection.get(playlist_id);
         playlist.set('is_community', 'true');
@@ -195,6 +195,7 @@ app.model.community = {
   },
   fetch_playlist: function(playlist_id) {
     app.log('fetch_playlists function', playlist_id);
+    if (this.get('fetching_playlist') == 'true') return this;
 
     var self = this;
     this.set('fetching_playlist', 'true');
@@ -212,9 +213,22 @@ app.model.community = {
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
-      var resp_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
-
       // TODO: loop through returned objects, and mark is_downloaded appropriately
+      var resp_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
+      var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
+      var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
+
+      _.each(resp_ids, function(obj_id) {
+        var model = app.collection.get(obj_id);
+        model.set('is_community', 'true');
+        if (model.get('data.type') == 'track') {
+          if (sisbot_track_ids.indexOf(model.id) >= 0) model.set('is_downloaded', 'true');
+          self.add_nx('community_track_ids', model.id); // add to array if not already there
+        } else if (model.get('data.type') == 'playlist') {
+          if (sisbot_playlist_ids.indexOf(model.id) >= 0) model.set('is_downloaded', 'true');
+          self.add_nx('community_playlist_ids', playlist_id); // add to array if not already there
+        }
+      });
 
       // self.set('community_playlist_track_ids', resp_playlist_ids);
       self.set('fetched_playlist', 'true');
@@ -309,12 +323,12 @@ app.model.community = {
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
-      // var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
-      // var new_track_ids = _.difference(resp_track_ids, sisbot_track_ids);
+      var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
 
       _.each(resp_track_ids, function(track_id) {
         var track = app.collection.get(track_id);
         track.set('is_community', 'true');
+        if (sisbot_track_ids.indexOf(track_id) >= 0) track.set('is_downloaded', 'true');
         self.add_nx('community_track_ids', track_id); // add to array if not already there
       });
       self.set('sorting', 'false');
