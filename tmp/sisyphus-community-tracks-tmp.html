@@ -13,14 +13,23 @@
       }">
     <div class="pull-top bg-black bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align bb-white">
-        <div class="w25 left pl20 clickable active blue-hover"
+        <div class="w20 left pl20 clickable active blue-hover"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'primary':'community','secondary':'false'}">
             <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
         </div>
-        <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Track Search</h1></div>
-        <div class="w25 center f-large">&nbsp;</div>
+        <div class="w60">
+          <h1 class="no-stuffing capitalize truncate fs18 lh24">
+            <span data-if="{{= parent.track_sort }} == most_popular">Most Popular Tracks</span>
+            <span data-if="{{= parent.track_sort }} == newest_designs">Newest Tracks</span>
+            <span data-if="{{= parent.track_sort }} == oldest_designs">Oldest Tracks</span>
+            <span data-if="{{= parent.track_sort }} == hot">Hot Tracks</span>
+            <span data-if="{{= parent.track_sort }} == artist">All Tracks</span>
+            <span data-if="{{= parent.track_sort }} == name">All Tracks</span>
+          </h1>
+        </div>
+        <div class="w20 center f-large">&nbsp;</div>
       </div>
       <!-- END HEADER -->
 
