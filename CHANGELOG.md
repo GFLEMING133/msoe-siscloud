@@ -1,16 +1,15 @@
-@2020-2-22 1.8.95 
-- overlays are all styled the same (pull-bottom close) and scrollable
-- wifi reconnect timing addressed
-- adjusted fetching tracks...
-- media_query added 
-- merged staging into beta for wifi, ble, and ssid changes.
-- added trim() to error checking 
-- is_notes added and check_remote_versions updated with conditional for Whats New obj coming back from a wysiwyg
-- image fallback fix 
+#2020-2-22 1.10.01
+- Track overlays are all styled the same (pull-bottom close) and scrollable
+- Connect to Wifi reconnect timing addressed
+- media_query added
+- added trim() to Community sign in error checking
+- Whats New notes for Firmware Update
+- image fallback fix
 - removed drawing preview for alpha
-- fixed sign_out_community() to remove private tracks. 
-- "In Review" shown on tracks and My Tracks(#of tracks) tab added to community
-- UI changes 
+- fixed sign_out_community() to remove unwanted data (private tracks, artists, playlists)
+- "In Review" shown on tracks and My Tracks tab added to community
+- UI changes
+- Connect to sisbot sends data about device to be logged
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
  - Added  "'+self.get('data.name')+' to the notification error.
@@ -20,7 +19,7 @@
  - eye, eye-slash fix
  - scrollIntoView() fix
 #2020-2-8 1.8.92
- - BLE, SSID and IP changes. 
+ - BLE, SSID and IP changes.
  - on_init listeners now calling once to address track play
  - SSID Input added to on-boarding and wifi reconnect
  - UI changes
@@ -41,7 +40,7 @@
  - UI changes.
  - first push of new community to beta
  - Placeholder Rho/RGBW values on Advanced Table Settings removed
- - Track models (Erase, Attach, Detach) marked is_deletable, hides/shows Delete buttons 
+ - Track models (Erase, Attach, Detach) marked is_deletable, hides/shows Delete buttons
 #2019-01-27 1.8.89
  - Add table name to homepage header
  - Change css on Wifi password visibility toggle

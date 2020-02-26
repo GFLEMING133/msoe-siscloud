@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.95', // pushing beta up to TF and GP 
+	  version				:'1.9.01', // pushing beta up to TF and GP 
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

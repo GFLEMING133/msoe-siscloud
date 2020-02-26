@@ -273,25 +273,24 @@ app.model.session = {
 
         self._process_registration(user_data, obj.resp);
 
-			self.set('signing_up', 'false');
-			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
-			app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });//directing to the sign-in page after registration
-			// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above.
+				self.set('signing_up', 'false');
+				self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
+				app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });//directing to the sign-in page after registration
+				// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above.
+      };
 
-        };
+      var post_obj = {
+        _url 									: app.config.get_webcenter_url(),
+        _type 								: 'POST',
+        _timeout 							: 60000,
+        endpoint 							: 'register_user.json',
+        username              : user_data.username,
+      	email									: user_data.email,
+      	password							: user_data.password,
+      	password_confirmation	: user_data.password_confirmation
+      };
 
-        var post_obj = {
-          _url 									: app.config.get_webcenter_url(),
-          _type 								: 'POST',
-          _timeout 							: 60000,
-          endpoint 							: 'register_user.json',
-          username              : user_data.username,
-        	email									: user_data.email,
-        	password							: user_data.password,
-        	password_confirmation	: user_data.password_confirmation
-        };
-
-        app.post.fetch(post_obj, cb, 0);
+      app.post.fetch(post_obj, cb, 0);
     },
 
     sign_in: function(user_data) {
@@ -343,7 +342,7 @@ app.model.session = {
   			if (m.type == 'user' && m.email == user.email) {
 					session_data.user_id = m.id;
 					if (m.id) self.set('user_id', m.id );
-					
+
 				}
   		});
 
@@ -381,7 +380,7 @@ app.model.session = {
         return errors;
     },
     _process_registration: function(user, data_arr) {
-			
+
       var session_data = {
 				username							: user.username,
         email									: user.email,

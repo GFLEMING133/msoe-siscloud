@@ -816,6 +816,8 @@ app.model.sisyphus_manager = {
       app.log('get_network_ip_address ==', ip_address);
       if (!ip_address) return cb();
 
+      self.set('device_ip', ip_address);
+
       var ip_add = ip_address.split('.');
       ip_add.pop();
 
@@ -902,6 +904,16 @@ app.model.sisyphus_manager = {
     if (sisbot_hostname.match(/^https?:\/\//i)) sisbot_hostname = sisbot_hostname.replace(/^https?:\/\//i, "");
     app.log("connect_to_sisbot()", sisbot_hostname);
 
+    // data about requester for logging
+    var device_data = {
+      is_app: app.is_app,
+      version: app.config.version,
+      user_agent: navigator.userAgent
+    };
+    if (app.is_app) {
+      device_data.ip = this.get('device_ip');
+    }
+
     // ping sisbot for connection
     var obj = {
       _url: 'http://' + sisbot_hostname + '/',
@@ -909,10 +921,10 @@ app.model.sisyphus_manager = {
       _timeout: 5000,
       _console: true,
       endpoint: 'sisbot/connect',
-      data: {},
+      data: device_data
     };
 
-    app.log("fetch()", obj);
+    app.log("connect()", obj);
     app.post.fetch(obj, function(obj) {
       self.set('sisbot_connecting', 'false')
         .set('errors', []);
@@ -1138,7 +1150,7 @@ app.model.sisyphus_manager = {
               secondary: 'tracks',
               track_id: track_model.id
             });
-            
+
             app.trigger('modal:open', {
               track_id: track_model.id,
               'template': 'sisyphus-tracks-hero-tmp'
@@ -1177,7 +1189,7 @@ app.model.sisyphus_manager = {
           track_id: track_model.id,
           goBack: 'tracks'
         });
-        
+
         app.trigger('modal:open', {
           track_id: track_model.id,
           'template': 'sisyphus-tracks-hero-tmp'
