@@ -1889,7 +1889,6 @@ input[type="text"] {
 	font-size: 1em;
 	font-weight: 600;
 	border-radius: 5px;
-	width: 100%;
 }
 input[type="password"] {
 	font-family: "Font Awesome 5 Free", 'Montserrat', sans-serif;
