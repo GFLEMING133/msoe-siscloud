@@ -62,7 +62,7 @@ app.model.sisyphus_manager = {
         api_notes: 'false',
         sisbot: '10.0.0',
         sisbot_notes: 'false',
-        is_notes    : 'false'   
+        is_notes    : 'false'
       },
 
       is_admin: 'false',
@@ -863,9 +863,11 @@ app.model.sisyphus_manager = {
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {
-      if (obj.err) return cb();
+      if (!obj || obj.err) return cb();
 
       if (!obj.resp || !obj.resp.hostname) return cb();
+
+      app.log("Sisbot exists:", obj.resp);
 
       if (self.get('sisbot_id') == obj.resp.id) {
         app.log("Ping: found match", hostname, obj.resp.id, obj.resp.local_ip);
