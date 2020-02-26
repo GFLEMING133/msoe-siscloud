@@ -446,6 +446,7 @@ app.model.community = {
     }
   },
   remove_downloaded: function() {
+
     var self = this;
     let sisbot = app.manager.get_model('sisbot_id');
     let downloaded_tracks = this.get('downloaded_tracks');
@@ -459,7 +460,7 @@ app.model.community = {
     sisbot.save_to_sisbot(sisbot.get('data'));
     this.set('fetched_community_tracks', 'false')
       .set('downloaded_tracks', [])
-      .set('download_cloud', 'true');
+      .set('download_cloud', 'false');
 
     this.fetch_community_tracks();
 

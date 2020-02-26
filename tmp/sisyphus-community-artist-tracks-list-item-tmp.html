@@ -24,7 +24,7 @@
         <div class="fs13 warmGrey pt2">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</div>
         <div class="fs13 pt2 pb5 private_italic"><span class="orange pr5" data-if="{{= model.data.is_approved }} == false">
             In Review
-          </span><span class="warmRed" data-if="{{= model.data.is_public }} == false">
+          </span><span class="warmRed i" data-if="{{= model.data.is_public }} == false">
             Private
           </span></div>
       </div>
