@@ -1133,8 +1133,13 @@ app.model.sisyphus_manager = {
           } else {
             app.trigger('session:active', {
               primary: 'media',
-              secondary: 'track',
+              secondary: 'tracks',
               track_id: track_model.id
+            });
+            
+            app.trigger('modal:open', {
+              track_id: track_model.id,
+              'template': 'sisyphus-tracks-hero-tmp'
             });
           }
 
@@ -1166,9 +1171,14 @@ app.model.sisyphus_manager = {
       } else {
         app.trigger('session:active', {
           primary: 'media',
-          secondary: 'track',
+          secondary: 'tracks',
           track_id: track_model.id,
           goBack: 'tracks'
+        });
+        
+        app.trigger('modal:open', {
+          track_id: track_model.id,
+          'template': 'sisyphus-tracks-hero-tmp'
         });
       }
 

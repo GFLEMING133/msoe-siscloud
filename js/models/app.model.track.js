@@ -219,9 +219,7 @@ app.model.track = {
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
 	},
-	close: function() {
-    this.set('is_hidden', 'true');
-  },
+
 	delete: function () {
 		app.manager.get_model('sisbot_id').track_remove(this);
 	},
