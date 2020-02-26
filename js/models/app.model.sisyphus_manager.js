@@ -838,6 +838,11 @@ app.model.sisyphus_manager = {
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {
+      if (!obj) {
+        app.plugins.n.notification.alert("Sisbot found, no response", hostname);
+        return cb();
+      }
+
       if (obj.err) return cb();
 
       if (!obj.resp || !obj.resp.hostname) return cb();
