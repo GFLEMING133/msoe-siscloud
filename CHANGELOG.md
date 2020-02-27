@@ -1,7 +1,9 @@
-#2020-2-22 1.10.01
+#2020-2-27 1.8.98
+- search added for All Tracks page
+- Playlists tab added for all Playlists (including featured)
 - Track overlays are all styled the same (pull-bottom close) and scrollable
-- Connect to Wifi reconnect timing addressed
-- media_query added
+- Connect to Wifi reconnect timing addressed as well as empty()
+- media_queries added
 - added trim() to Community sign in error checking
 - Whats New notes for Firmware Update
 - image fallback fix
@@ -10,6 +12,7 @@
 - "In Review" shown on tracks and My Tracks tab added to community
 - UI changes
 - Connect to sisbot sends data about device to be logged
+#2020-2-2020 95-97 are in staging
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
  - Added  "'+self.get('data.name')+' to the notification error.

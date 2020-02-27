@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.9.01', // pushing beta up to TF and GP 
+	  version				:'1.8.98', // added Search to all tracks and Playlists tab to Community
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
