@@ -865,9 +865,14 @@ app.model.sisyphus_manager = {
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {
-      if (!obj || obj.err) return cb();
-
-      if (!obj.resp || !obj.resp.hostname) return cb();
+      if (!obj || obj.err) {
+        if (cb) cb();
+        return;
+      }
+      if (!obj.resp || !obj.resp.id || !obj.resp.hostname) {
+        if (cb) cb();
+        return;
+      }
 
       app.log("Sisbot exists:", obj.resp);
 
