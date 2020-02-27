@@ -953,8 +953,9 @@ app.model.sisyphus_manager = {
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
         self.intake_data(data);
-
-        if (data.type == 'sisbot') {
+        if(data.type == 'track') { 
+          app.collection.get(data.id).set('is_downloaded', 'true');
+        }else if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
 
           var old_sisbot = self.get('sisbot_id');
