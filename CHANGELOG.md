@@ -1,4 +1,4 @@
-#2020-2-26 1.8.96 
+#2020-2-26 1.8.96 & 97
 - test for empty exists() response in staging
 #2020-2-8 1.8.93/94
  - Onboarding scrollable

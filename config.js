@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.96', // test for empty exists() response in staging
+	  version				:'1.8.97', // test #2 for empty exists() response in staging
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {
