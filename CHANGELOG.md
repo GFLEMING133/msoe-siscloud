@@ -1,3 +1,5 @@
+#2020-2-26 1.8.96 
+- test for empty exists() response in staging
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
  - Added  "'+self.get('data.name')+' to the notification error.
