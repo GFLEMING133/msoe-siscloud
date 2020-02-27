@@ -827,6 +827,8 @@ app.model.sisyphus_manager = {
   },
   ping_sisbot: function(hostname, cb, retries) {
     app.log("ping_sisbot()", hostname);
+    if (!hostname) return cb();
+
     var self = this;
 
     if (!retries) retries = 0;
@@ -838,14 +840,20 @@ app.model.sisyphus_manager = {
       endpoint: '/sisbot/exists',
       data: {}
     }, function(obj) {
+      // Error checking
       if (!obj) {
-        app.plugins.n.notification.alert("Sisbot found, no response", hostname);
-        return cb();
+        app.plugins.n.notification.alert("Sisbot found, no response: " + hostname);
+        if (cb) cb();
+        return;
       }
-
-      if (obj.err) return cb();
-
-      if (!obj.resp || !obj.resp.hostname) return cb();
+      if (obj.err) {
+        if (cb) cb();
+        return;
+      }
+      if (!obj.resp || !obj.resp.id || !obj.resp.hostname) {
+        if (cb) cb();
+        return;
+      }
 
       if (self.get('sisbot_id') == obj.resp.id) {
         app.log("Ping: found match", obj.resp.id, obj.resp.local_ip);
