@@ -142,8 +142,9 @@
           <span class="montserrat_semi_bold">Firmware Update</span>
           <span data-model="{{= model.sisbot_id }}" data-if="{{= model.data.is_internet_connected }} == true">
             <span class="fs14 blue"
-                data-run="model.check_for_version_update"
-                data-if="{{= model.has_software_update }} == true">({{= model.remote_versions.sisbot }} available)</span>
+                data-run="model.check_for_version_update">
+              <span data-if="{{= model.has_software_update }} == true">({{= model.remote_versions.sisbot }} available)</span>
+            </span>
           </span>
         </span>
         <span class="pull-right">
