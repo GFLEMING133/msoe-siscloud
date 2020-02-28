@@ -2031,10 +2031,10 @@ app.model.sisbot = {
 			return this.set('has_software_update', 'false')
 		}
 
-		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false')
-			this.check_remote_versions(on_cb);
+		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false') this.check_remote_versions(on_cb);
 
-		function on_cb(on_cb) {
+		function on_cb() {
+
 			if (--cbs == 0) {
 				var local		= self.get('local_versions');
 				var remote		= self.get('remote_versions');
@@ -2082,6 +2082,7 @@ app.model.sisbot = {
 		return this;
 	},
 	check_local_versions: function (cb) {
+	
 		var self = this;
 
 		if (app.config.env == 'alpha') {

@@ -6,7 +6,7 @@
                       'order':'asc',
                       'q':{
                             'value':'',
-                            'search_keys':['data.name']
+                            'search_keys':['data.name','data.created_by_name']
                           },
                       'terms':{
                             'is_downloaded':'true'
@@ -47,7 +47,7 @@
             data-if="{{= parent.size }} == 0">
           <span>No Tracks matching search</span>
         </div>
-        <div data-if="{{= parent.size }} !== 0">
+        <div class="mt75" data-if="{{= parent.size }} !== 0">
           <div data-if="{{= parent.is_ready }} == true"
               data-foreach="cluster"
               data-cluster="{{= parent.data.query}}"
@@ -56,7 +56,7 @@
               data-cluster-comparator="parent.data.comparator"
               data-cluster-search-keys="parent.data.q.search_keys"
               data-cluster-search-value="parent.data.q.value">
-            <div data-template="sisyphus-tracks-list-item-tmp"></div>
+            <div class="pb10 pt10" data-template="sisyphus-tracks-list-item-tmp"></div>
           </div>
           <div data-if="{{= parent.q_size }} > {{= model.limit }}">
             <div class="p20 center i">Fetching tracks...</div>

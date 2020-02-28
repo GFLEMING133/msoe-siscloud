@@ -30,7 +30,7 @@ app.config = {
 			web_url			: 'http://localhost:3333/',
 			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			sisbot_url  : 'http://192.168.1.6:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  : 'http://192.168.1.8:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port		: 3001,
 			show_tg		: true
 		},
@@ -96,9 +96,9 @@ app.config = {
 	get_thumb_size: function () {
 		var firmware = app.manager.get_model('sisbot_id').get('data.software_version').split('.');
 		if (+(firmware[1]) >= 1) {
-			return '100';
+			return '400';
 		} else {
-			return '50';
+			return '100';
 		}
 	}
 };

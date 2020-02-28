@@ -4,10 +4,10 @@
       data-on-click="publish"
       data-publish="modal:open"
       data-msg="{'track_id':'{{= model.id }}','template':'sisyphus-community-track-overlay-tmp'}">
-    <div class="w80p hh80">
+    <div class="w75p hh75">
       <img class="w100 center img-rounded"
           alt="{{= model.name }}"
-          data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
+          data-src="{{= app.config.get_api_url() }}{{= model.data.large_photo}}"
           data-on-error="replace"
           data-replace="list-image-fallback-tmp" />
     </div>
