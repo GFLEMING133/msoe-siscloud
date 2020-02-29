@@ -9,7 +9,7 @@
         <div>
           <img class="w75p hh75"
               alt="{{= model.data.name }}"
-              data-src="{{= app.config.get_api_url() }}{{= model.data.large_photo}}"
+              data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
   						data-on-error="replace"
   						data-replace="list-image-fallback-tmp" />
         </div>
@@ -50,7 +50,7 @@
           <div class="flex mt10p">
             <div class="w5">&nbsp;</div>
           <div class="w90 center vertical active">
-              <img class="w100 center img-rounded" alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
+              <img class="w100 center img-rounded" alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.thumb }}" />
           </div>
           <div class="w5">&nbsp;</div>
           </div>
