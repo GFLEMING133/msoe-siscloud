@@ -247,17 +247,17 @@ app.model.playlist = {
 
 		// this.trigger('change:' + field);
 	},
-	add_track_and_save: function(track_id) {
-		app.log(track_id);
-		var track = app.collection.get(track_id);
-		app.log(track);
+	add_track_and_save: function(given_data) {
+
+		var track = app.collection.get(given_data.id);
+
 		var track_obj = {
-			id		: track_id,
-			vel		: track.get('data.default_vel'),
-			accel	: track.get('data.default_accel'),
+			id			: track.id,
+			vel			: track.get('data.default_vel'),
+			accel		: track.get('data.default_accel'),
 			thvmax	: track.get('data.default_thvmax'),
 			firstR	: track.get('data.firstR'),
-			lastR	: track.get('data.lastR')
+			lastR		: track.get('data.lastR')
 		};
 		this.add('data.tracks', track_obj);
 
@@ -266,8 +266,9 @@ app.model.playlist = {
 			sorted_tracks.push(index);
 		});
 		this.set("data.sorted_tracks", sorted_tracks);
-
 		this.save();
+		app.log('add_track_and_save given_data', given_data)
+    if(given_data.show_playlist) app.trigger('session:active', { primary:'media', secondary: 'playlist', playlist_id: this.id, goBack:'playlist' });
 	},
 	remove_track_and_save: function(track_id) {
 		var track = app.collection.get(track_id);

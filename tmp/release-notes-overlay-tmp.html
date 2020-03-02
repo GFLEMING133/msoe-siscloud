@@ -1,8 +1,6 @@
 <div class="h100">
   <div class="h100 white"
-      data-model="{{= parent.sisyphus_manager_id }}"
-      data-on-click="publish"
-      data-publish="modal:close">
+      data-model="{{= parent.sisyphus_manager_id }}">
     <h1 class="center pt10 pb20">Release Notes</h1>
     <div class="h100 pl20 pr20 pb200 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
 
@@ -29,7 +27,7 @@
 
     </div>
     <div class="w100 center bg-black bt-white p0 m0 clickable white strong blue-hover pull-bottom"
-        data-on-click="model.close">
+        data-on-click="parent.close">
       <div class="media_fs14 fs18 p20 media_ppb50">Close</div>
     </div>
   </div>
