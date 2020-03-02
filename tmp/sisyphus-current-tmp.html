@@ -49,7 +49,7 @@
         <div data-if="{{= model.data.active_playlist_id }} !== false">
           <div data-model="{{= model.data.active_playlist_id }}">
             <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
-            <div data-debug="true" data-if="{{= model.data.is_shuffle }} !== undefined">
+            <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-foreach="model.data.sorted_tracks"
