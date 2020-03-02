@@ -1,22 +1,22 @@
 <div data-run="model.collapse">
-	<div class="flex clickable active bg-grey-ll-hover bb"
+	<div class="flex clickable active bg-grey-ll-hover bb p20"
 			data-on-click="publish"
 			data-publish="modal:open"
 			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
 			tg-name="track_modal_btn">
-		<div class="w20 pt10 pb10 pl20 center vertical">
+		<div class="w20 center vertical">
 				<img class="w75p hh75"
 						alt="{{= model.data.name }}"
 						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
 						data-on-error="replace"
 						data-replace="list-image-fallback-tmp" />
 		</div>
-		<div class="w60 pt25 pb10 pl20"
+		<div class="w60 pt25 pl20"
 					tg-name="track_name">
 			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
 	    <div class="fs12 lh18 grey block hidden">by {{= model.data.created_by_name }}</div>
 		</div>
-		<div class="w20 pt10 pb10 h100 vertical right"
+		<div class="w20 h100 vertical  align-center right"
 				tg-name="trackdropdown_three_dots">
 	    <i class="grey pt20 pb20 pr20" aria-hidden="true">
 				<img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
