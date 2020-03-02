@@ -1788,7 +1788,7 @@ app.model.sisbot = {
 		this.remove('data.playlist_ids', playlist_model.id);
 	},
 	track_add: function (track_model) {
-		app.log('Calling track_add:', track_model);
+		app.log('Calling track_add:', track_model.toJSON());
 		var self	= this;
 		var track	= track_model.get('data');
 
@@ -1810,6 +1810,11 @@ app.model.sisbot = {
 				app.manager.intake_data(obj.resp);
 				// manager will now change pages
 				// app.trigger('session:active', { track_id: track.id, secondary: 'track', primary: 'media' });
+
+				if (track_model.get('downloading_community_track') == 'true') {
+					track_model.set('downloading_community_track', 'false');
+					app.trigger('community:downloaded_track', track_model.id);
+				}
 			}
 		}, 60000);
 
@@ -1839,6 +1844,10 @@ app.model.sisbot = {
 				} else if (obj.resp) {
 					app.manager.intake_data(obj.resp);
 					var active = app.session.get('active');
+
+					// mark track as not downloaded
+					track_model.set('is_downloaded','false');
+
 					if (active.primary == 'current') {
 						app.trigger('session:active', { track_id: 'false', secondary: 'false' });
 						app.trigger('modal:close');
@@ -2083,7 +2092,7 @@ app.model.sisbot = {
 		return this;
 	},
 	check_local_versions: function (cb) {
-	
+
 		var self = this;
 
 		if (app.config.env == 'alpha') {

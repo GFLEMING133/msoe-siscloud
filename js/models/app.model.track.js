@@ -219,9 +219,8 @@ app.model.track = {
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
 	},
-
 	delete: function () {
-		app.manager.get_model('sisbot_id').track_remove(this);
+		app.trigger('sisbot:track_remove', this);
 	},
 	on_file_upload: function (data, file, field) {
 		app.log("On File Upload:", data, file, field);
@@ -1148,13 +1147,11 @@ app.model.track = {
 				self.set('data.verts', obj.resp)
 					.set('is_downloaded', 'true')
 					.set('track_checked', 'false');
-				app.trigger('community:downloaded_track', self.id);
 
 				// let track_id = JSON.stringify(self.id); //pulling id
 				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
 				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
-				self.set('downloading_community_track', 'false');
 
 				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 

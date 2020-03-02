@@ -405,7 +405,8 @@ app.model.community = {
           app.log("Add Playlist", selected_playlist);
           var playlist = app.collection.get(selected_playlist);
           playlist.set('is_downloaded', 'true');
-          playlist.save();
+          // playlist.save();
+          app.trigger('sisbot:playlist_add', playlist);
         }
 
         this.set('selected_playlist', 'false'); // forget selected playlist
