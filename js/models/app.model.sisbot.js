@@ -29,6 +29,7 @@ app.model.sisbot = {
 				api			: 'master',
 				sisbot	: 'master',
 			},
+			sisbot_version	: 0, // number based on local_branches.sisbot value
 			local_versions: {
 				proxy		: '-',
 				app			: '-',
@@ -45,11 +46,11 @@ app.model.sisbot = {
 			csons			: 'false', // available cson files
 
 			has_software_update						: 'false',
-			is_connected									:  false,
+			is_connected									: false,
 			is_socket_connected						: 'false',
-			is_polling										:  'true',
-			is_jogging										:   false,
-			jog_type											:      '',
+			is_polling										: 'true',
+			is_jogging										:	false,
+			jog_type											: '',
 			updating_hostname							: 'false',
 			updating_tablename						: 'false',
 
@@ -76,7 +77,6 @@ app.model.sisbot = {
 			rem_primary_color		: '0xFFFFFFFF',
 			rem_secondary_color	: '0x00FFFFFF',
 			show_picker					: 'true',
-
 
 			edit		: {},
 			data		: {
@@ -222,6 +222,11 @@ app.model.sisbot = {
 		this._poll_state();
 
 		this._listeners_set = true;
+	},
+	clear_listeners: function() {
+		this.stopListening();
+		
+		this._listeners_set = false;
 	},
 	update_network: function() {
 		if (this.get('data.is_network_separate') == 'false') {
@@ -1273,6 +1278,9 @@ app.model.sisbot = {
 			if (obj.resp && obj.resp.id !== 'false') {
 				app.manager.intake_data(obj.resp);
 
+				var playlist = app.collection.get(playlist_data.id);
+				app.log("Playlist Tracks", playlist.get('sorted_tracks'), playlist.get('next_tracks'));
+
 				// TESTING: Siri shortcut
 				var siri_obj = {
 					action: 'play_playlist',
@@ -2092,7 +2100,6 @@ app.model.sisbot = {
 		return this;
 	},
 	check_local_versions: function (cb) {
-
 		var self = this;
 
 		if (app.config.env == 'alpha') {
@@ -2103,6 +2110,13 @@ app.model.sisbot = {
 
 		this._update_sisbot('latest_software_version', {}, function(cbb) {
 			self.set('local_versions', cbb.resp);
+
+			if (cbb.resp && cbb.resp.sisbot) {
+				var sisbot_v = cbb.resp.sisbot.split('.');
+				self.set('sisbot_version', (+sisbot_v[0]*1000000) + (+sisbot_v[1]*1000) + +sisbot_v[2]);
+				app.log("Local sisbot version:", cbb.resp.sisbot, self.get('sisbot_version'));
+			}
+
 			if (cb) cb();
 		});
 
@@ -2112,7 +2126,8 @@ app.model.sisbot = {
 		var self = this;
 		this._update_sisbot('software_branch', {}, function(cbb) {
 			self.set('local_branches', cbb.resp);
-			var branch_labels = [];
+
+			// var branch_labels = [];
 
 			/* set bool for knowing if on master
 			var is_master_branch = 'true';
