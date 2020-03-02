@@ -74,11 +74,11 @@ app.model.modal = {
           if (resp_num == 1) {
             return;
           }
-          app.collection.get(playlist_id).add_track_and_save(trackID);
+          app.collection.get(playlist_id).add_track_and_save({ 'id':trackID, 'show_playlist':'true' } );
 
         }, 'Add Track?', ['Cancel', 'OK']);
     } else {
-      app.collection.get(playlist_id).add_track_and_save(trackID);
+      app.collection.get(playlist_id).add_track_and_save({ 'id':trackID, 'show_playlist':'true' });
     }
     this.set('track_id', 'false')
       .set('is_hidden', 'true');

@@ -1051,7 +1051,7 @@ app.model.track = {
 				if (resp_num == 1){
 					return;
 				}
-				app.collection.get(playlist_id).add_track_and_save(trackID);
+				app.collection.get(playlist_id).add_track_and_save({id:trackID});
 
 			},'Outdated Firmware', ['OK']);
 
@@ -1060,7 +1060,7 @@ app.model.track = {
 		if (status == 'true' && fav_model) {
 			fav_model.remove_track_and_save(this.id);
 		} else if (fav_model) {
-			fav_model.add_track_and_save(this.id);
+			fav_model.add_track_and_save({id:trackID});
 		}
 		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},
