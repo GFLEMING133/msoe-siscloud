@@ -1044,7 +1044,7 @@ app.model.track = {
 			this.set('is_favorite', '' + has_track);
 		}
 	},
-	favorite_toggle: function () {
+	favorite_toggle: function (trackID) {
 		if (app.manager.get_model('sisbot_id').is_legacy())
 			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
 			function(resp_num) {
