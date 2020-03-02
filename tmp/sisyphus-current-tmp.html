@@ -49,7 +49,7 @@
         <div data-if="{{= model.data.active_playlist_id }} !== false">
           <div data-model="{{= model.data.active_playlist_id }}">
             <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
-            <div data-if="{{= model.data.is_shuffle }} !== undefined">
+            <div data-debug="true" data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-foreach="model.data.sorted_tracks"
@@ -64,13 +64,11 @@
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-if="{{= model.data.is_loop }} !== false">
                     <div data-foreach="model.data.next_tracks"
-                        data-foreach-limit="20"
-                        data-foreach-offset="1">
-                      <div data-if="{{= scope.index }} < {{= model.data.active_track_index }}">
-                        <div class="bb"
-                            data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
-                            data-template="sisyphus-tracks-list-item-tmp"></div>
-                      </div>
+                        data-foreach-limit="{{= Math.max(0, 20 - (_.size(model.data.sorted_tracks) - model.data.active_track_index)) }}"
+                        data-foreach-offset="{{= (model.data.is_shuffle == 'true') ? 1 : 0 }}">
+                      <div class="bb"
+                          data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                          data-template="sisyphus-tracks-list-item-tmp"></div>
                     </div>
                   </div>
                 </div>

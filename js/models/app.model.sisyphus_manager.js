@@ -958,18 +958,20 @@ app.model.sisyphus_manager = {
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
         self.intake_data(data);
-        if(data.type == 'track') { 
+        if (data.type == 'track') {
           app.collection.get(data.id).set('is_downloaded', 'true');
-        }else if (data.type == 'sisbot') {
+        } else if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
 
-          var old_sisbot = self.get('sisbot_id');
-          if (old_sisbot != 'false' && old_sisbot != data.id) {
+          var old_sisbot_id = self.get('sisbot_id');
+          if (old_sisbot_id != 'false' && old_sisbot_id != data.id) {
             app.log("New Sisbot connected");
             app.socket.reset_socket = true;
 
             // set old sisbot as not connected
-            app.collection.get(old_sisbot).set('is_connected', 'false');
+            var old_sisbot = app.collection.get(old_sisbot_id);
+            old_sisbot.set('is_connected', 'false');
+            old_sisbot.clear_listeners(); // stop listeners on old table
 
             // change page to home
             app.trigger('session:active', {
