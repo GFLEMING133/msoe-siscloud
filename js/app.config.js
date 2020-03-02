@@ -40,7 +40,7 @@ app.config = {
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
 			api_url			: 'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  : 'http://192.168.86.33:3002', // 33: wall, 26: mini
+			sisbot_url  : 'http://192.168.86.26:3002', // 33: wall, 26: mini
 			port		: 3001,
 		},
 		sisbot: {

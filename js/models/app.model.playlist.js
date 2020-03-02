@@ -37,7 +37,7 @@ app.model.playlist = {
 				next_tracks			: [],				//
 
 				created_by_id		: 'false',
-				created_by_name	: 'User Name',
+				created_by_name	: 'User Name'
 			}
 		};
 

@@ -10,7 +10,7 @@
                           },
                       'terms':{
                             'is_downloaded':'true'
-                          }   
+                          }
                       }">
     <div class="pull-top bb">
       <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align">
@@ -28,6 +28,10 @@
         <div class="flex3">
           <input
             type="text"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
             placeholder="&#xf002; Search Tracks"
             data-field="model.data.q.value"
             value="{{= model.data.q.value }}"
@@ -35,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="h100" 
+    <div class="h100"
         tg-name="all_tracks_page">
       <div class="body-header pb65 h100 scroll hide-scrollbar"
           data-scope="true"
