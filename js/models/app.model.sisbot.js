@@ -1804,7 +1804,8 @@ app.model.sisbot = {
 				if (track_model.get('data.verts')) track_model.unset('data.verts');
 
 				// show track image
-				track_model.set('generating_thumbnails', 'false');
+				track_model.set('generating_thumbnails', 'false')
+									 .set('is_downloaded', 'true');
 
 				app.manager.intake_data(obj.resp);
 				// manager will now change pages
