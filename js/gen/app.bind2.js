@@ -1036,11 +1036,12 @@ function Element(el, parent, _scope) {
 
               if (new_value != old_value) {
                 if (self.data.debug) app.log("Triggered change?", key, new_value, old_value);
-                if (key == 'data-if' && (!new_value.match(/<|>/i))) { // mark as changed if comparing < or > values or to undefined
+                var undefined_match = new_value.match(/undefined\s*$/i);
+                if (key == 'data-if' && (!new_value.match(/<|>/i) || undefined_match)) { // mark as changed if comparing < or > values or to undefined
                   var old_if = !self.is_hidden;
                   var new_if = self.if(new_value);
                   if (self.data.debug) app.log("If change?", self.is_hidden, new_if, old_if);
-                  if (old_if != new_if) is_change = true;
+                  if (old_if != new_if || undefined_match) is_change = true;
                 } else if (key.match(/^data-(model|scope|defaults|state)$/i)) {
                   self.is_model_changed = true;
                   is_change = true;
