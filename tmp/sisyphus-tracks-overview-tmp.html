@@ -26,7 +26,12 @@
       </div>
     </div>
     <div class="body-header pb65 h100 scroll hide-scrollbar"
-        tg-name="all_tracks_page">
+        data-scope="true"
+        data-defaults="{'type':'list'}"
+        data-state="{'total':'{{= parent.size }}'}"
+        tg-name="all_tracks_page"
+        data-on-scroll="model.scroll_check"
+        data-msg="{{= _self_.el_id }}">
         <div class="flex p20 w100 bg-white">
           <input
             type="text"
@@ -39,12 +44,7 @@
             value="{{= model.data.q.value }}"
             data-on-input="model.update_q" />
         </div>
-      <div class=""
-          data-scope="true"
-          data-defaults="{'type':'list'}"
-          data-state="{'total':'{{= parent.size }}'}"
-          data-on-scroll="model.scroll_check"
-          data-msg="{{= _self_.el_id }}">
+      <div class="">
         <div class="center p20 i"
             data-if="{{= parent.size }} == 0">
           <span>No Tracks matching search</span>

@@ -1,9 +1,7 @@
 <div class="h100" data-model="{{= session.community_id }}">
   <div class="pull-top hh50 white bg-black w100 center no-stuffing flex vertical-align">
-    <div class="w25" >
-      <div class="clickable blue-hover"
-          data-on-click="model.sign_out_community"
-          tg-name="sign_out_community_btn">
+    <div class="w25" data-on-click="model.sign_out_community">
+      <div class="clickable blue-hover" tg-name="sign_out_community_btn">
         <i class="fas fa-sign-out-alt"></i>
         <h1 class="capitalize mt0 mb0 fs10">Sign Out</h1>
       </div>
@@ -128,7 +126,6 @@
         </span>
       </div>
     </div>
-
     <div class="hh150">&nbsp;</div>
   </div>
 </div>
