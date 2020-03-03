@@ -123,10 +123,8 @@ app.model.community = {
   /**************************** COMMUNITY ***********************************/
   sign_out_community: function() {
     app.log('in the sign_out_community');
-
     // remove user model
     var user = app.session.get_model('user_id');
-    app.collection.remove(user.id);
 
 		app.session.set('auth_token', '')
       .set('remember_me', 'false')
@@ -150,7 +148,8 @@ app.model.community = {
       .set('fetched_community_tracks', 'false')
       .set('community_track_ids', []);
 
-		app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
+    app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
+    app.collection.remove(user.id);
   },
   fetch_community_playlists: function(given_data) {
     app.log('fetch_community_playlists function')
