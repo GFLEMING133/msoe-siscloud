@@ -225,7 +225,7 @@ app.model.sisbot = {
 	},
 	clear_listeners: function() {
 		this.stopListening();
-		
+
 		this._listeners_set = false;
 	},
 	update_network: function() {
@@ -2113,7 +2113,7 @@ app.model.sisbot = {
 
 			if (cbb.resp && cbb.resp.sisbot) {
 				var sisbot_v = cbb.resp.sisbot.split('.');
-				self.set('sisbot_version', (+sisbot_v[0]*1000000) + (+sisbot_v[1]*1000) + +sisbot_v[2]);
+				self.set('sisbot_version', (+sisbot_v[0]*1000000) + ((+sisbot_v[1] + +sisbot_v[1]%2)*1000) + +sisbot_v[2]);
 				app.log("Local sisbot version:", cbb.resp.sisbot, self.get('sisbot_version'));
 			}
 
