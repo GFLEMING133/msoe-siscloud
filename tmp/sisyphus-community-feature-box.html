@@ -7,7 +7,7 @@
           style="background-color:{{= model.data.bg_color }};"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}'}"
+          data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'false'}"
           tg-name="feature_box">
         <div class="flex-center-col montserrat_m relative center"
             style="background-image: url({{= app.config.get_api_url()}}uploads/track/thr/{{= model.data.db_tracks[0] }}/thumb_400.png );
