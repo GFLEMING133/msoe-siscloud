@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.98', // added Search to all tracks and Playlists tab to Community
+	  version				:'1.8.99', // UI Changes for 5s and testing for prod release
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

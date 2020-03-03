@@ -107,12 +107,12 @@ app.model.session = {
 		}
 	},
 	/************************** MOUSE COORDINATES ***********************************/
-	// showMouse: function() {
-	// 	var x = event.clientX;
-	// 	var y = event.clientY;
-	// 	var coords = "X coords: " + x + ", Y coords: " + y;
-	// 	app.log('Coordinates are =', coords)
-	// },
+	showMouse: function() {
+		var x = event.clientX;
+		var y = event.clientY;
+		var coords = "X coords: " + x + ", Y coords: " + y;
+		app.log('Coordinates are =', coords)
+	},
 	/************************** SETUP MODES ***********************************/
 	valid_modes: ['sisyphus','siscloud'],
 	setup_mode: function () {

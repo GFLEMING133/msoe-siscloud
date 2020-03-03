@@ -426,7 +426,12 @@ label {
     /* height: 100vh; */
 }
 
-
+.over-auto {
+	overflow: auto;
+}
+.over-hidden {
+	overflow: hidden;
+}
 .no-scroll {
 	overflow-y: hidden;
 	overflow-x: hidden;

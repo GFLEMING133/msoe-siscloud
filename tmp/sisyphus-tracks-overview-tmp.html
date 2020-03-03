@@ -24,8 +24,10 @@
         </div>
         <div class="w30 pt30 center">&nbsp;</div>
       </div>
-      <div class="flex p20 w100 bg-white">
-        <div class="flex3">
+    </div>
+    <div class="body-header pb65 h100 scroll hide-scrollbar"
+        tg-name="all_tracks_page">
+        <div class="flex p20 w100 bg-white">
           <input
             type="text"
             autocomplete="off"
@@ -37,11 +39,7 @@
             value="{{= model.data.q.value }}"
             data-on-input="model.update_q" />
         </div>
-      </div>
-    </div>
-    <div class="h100"
-        tg-name="all_tracks_page">
-      <div class="body-header pb65 h100 scroll hide-scrollbar"
+      <div class=""
           data-scope="true"
           data-defaults="{'type':'list'}"
           data-state="{'total':'{{= parent.size }}'}"
@@ -51,7 +49,7 @@
             data-if="{{= parent.size }} == 0">
           <span>No Tracks matching search</span>
         </div>
-        <div class="mt75" data-if="{{= parent.size }} !== 0">
+        <div data-if="{{= parent.size }} !== 0">
           <div data-if="{{= parent.is_ready }} == true"
               data-foreach="cluster"
               data-cluster="{{= parent.data.query}}"
