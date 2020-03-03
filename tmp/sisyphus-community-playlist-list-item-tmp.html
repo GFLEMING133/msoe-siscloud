@@ -1,11 +1,11 @@
-<div class="flex clickable active bb"
+<div class="flex clickable active bg-grey-ll-hover bb p10"
     tg-name="community_playlist_track_{{= model.id}}_div">
-  <div class="w25 p10 center vertical "
+  <div class="w25 center vertical "
       data-on-click="publish"
       data-publish="modal:open"
       data-msg="{'track_id':'{{= model.id }}','template':'sisyphus-community-track-overlay-tmp'}">
-    <div class="w75p hh75">
-      <img class="w100 center img-rounded"
+    <div>
+      <img class="w75p hh75"
           alt="{{= model.name }}"
           data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
           data-on-error="replace"
@@ -25,7 +25,7 @@
       </span></div>
   </div>
 
-  <div class="w15 pr10 vertical center flex-justify-center"
+  <div class="w15 vertical center flex-justify-center"
       data-if="{{= model.is_downloaded }} == false"
       data-field="model.track_checked"
       data-on-click="toggle"
@@ -33,7 +33,7 @@
     <span class="black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
     <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
   </div>
-  <div class="w15 pr10 vertical center flex-justify-center" data-if="{{= model.is_downloaded }} == true">
+  <div class="w15 vertical center flex-justify-center" data-if="{{= model.is_downloaded }} == true">
     <img src="img/checkCircle.png" alt="Checked Circle" />
   </div>
 </div>

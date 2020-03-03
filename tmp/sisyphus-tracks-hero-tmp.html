@@ -5,7 +5,7 @@
       <div class="bb">
         <div class="w100 mt20 mb20 center vertical active">
           <div data-if="{{= model.generating_thumbnails }} == false">
-            <img class="w90 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+            <img class="w90 center img-rounded rounded-x2 bg-white" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
           </div>
           <div data-if="{{= model.generating_thumbnails }} == true">
             <img class="w90 center" alt="track image" src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />

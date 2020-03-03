@@ -1,4 +1,9 @@
+#2020-3-2 1.8.99
+- UI changes to address responsiveness
+- search input now scrolling with page. 
 #2020-2-27 1.8.98
+- add track to playlist routes to playlist after added
+- clear listeners on table change
 - search added for All Tracks page
 - Playlists tab added for all Playlists (including featured)
 - Track overlays are all styled the same (pull-bottom close) and scrollable
