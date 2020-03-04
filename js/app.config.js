@@ -54,8 +54,8 @@ app.config = {
 		},
 		prod: { // Android & iOS
 			base_url		: 'false', // unused
-			api_url			: 'http://dev.webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
-			web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url			: 'http://18.233.67.111/', //change these to dev.webcenter for next push to TF and GP
+			web_url			: 'http://18.233.67.111/',
 			sisbot_url  : 'false', // set when we find a bot
 			base_port		: 443,
 		},

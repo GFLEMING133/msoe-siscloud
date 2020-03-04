@@ -8,6 +8,11 @@ app.model.searchable_list = {
       context_menu: 'false',
       is_ready: 'false',
 
+      offset: 0, // scrolling values
+      limit: 30,
+      limit_step: 30,
+      fetching_more: 'false',
+
       q_size: -1, // force fix on first size()
 
       ready_timeout: 100,
@@ -42,9 +47,13 @@ app.model.searchable_list = {
 
     return obj;
   },
+  scroll_timeout: 200, // so we aren't constantly checking while scrolling
+  scrolling: false, // in conjunction with scroll_timout, are we waiting for a timeout to finish?
   ready_timer: null,
   current_version: 1,
   on_init: function () {
+    this.on('change:offset', this.scrollTop);
+
     // app.log("Init Searchable List", this.toJSON());
     this.listenTo(app.current_session(), 'change:active.organization_id', this.reset_query);
 
@@ -177,6 +186,8 @@ app.model.searchable_list = {
     var self = this;
     if (this.get('is_ready') != 'true') return app.log("Searchable list not ready");
 
+    var old_size = this.get('size');
+
     var total = 0;
     this.cluster = app.collection.get_cluster(this.get('data.query'));
 
@@ -195,6 +206,12 @@ app.model.searchable_list = {
         self[value](original_key);
       });
     });
+
+    // toggle is_ready for UI to update on size change (add/remove matching models)
+    if (old_size != this.get('size')) {
+      this.set('is_ready', 'false');
+      this.set('is_ready', 'true');
+    }
 
     return self;
   },
@@ -266,5 +283,28 @@ app.model.searchable_list = {
     this.set('max.' + given_data, max);
 
     return self;
+  },
+  /************************* SCROLL FUNCTIONS ********************************/
+  scroll_top: function() {
+    $('.scroll').scrollTop(0);
+  },
+  scroll_check: function(data) {
+    if (!this.scrolling) {
+      var self = this;
+      setTimeout(function() {
+        app.log("Scroll Check", $('.'+data).scrollTop(), $('.'+data).prop('scrollHeight') - $('.'+data).outerHeight(true) - 60);
+        if ($('.'+data).scrollTop() >= $('.'+data).prop('scrollHeight') - $('.'+data).outerHeight(true) - 60) {
+          var limit = +self.get('limit');
+          var limit_step = +self.get('limit_step');
+          if (self.get('q_size') > limit) {
+            app.log("List: Load More...", data, limit+limit_step);
+            self.set('limit', limit+limit_step);
+          }
+        }
+        self.scrolling = false;
+      }, self.scroll_timeout);
+
+      self.scrolling = true;
+    }
   }
 };

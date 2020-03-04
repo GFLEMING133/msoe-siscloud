@@ -46,10 +46,10 @@ app.model.community = {
       downloaded_tracks : [],
       selected_playlist : 'false', // for saving whole playlist
 
-      offset        : 0,
-      limit         : 30,
-      limit_step    : 30,
-      fetching_more : 'false',
+      offset        : 0, // TODO: remove?
+      limit         : 30, // TODO: remove?
+      limit_step    : 30, // TODO: remove?
+      fetching_more : 'false', // TODO: remove?
 
       hamburger     : 'false',
 
