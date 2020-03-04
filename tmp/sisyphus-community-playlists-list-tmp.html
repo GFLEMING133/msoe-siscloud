@@ -3,10 +3,12 @@
       data-on-click="publish"
       data-publish="session:active"
       data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'playlists'}">
-    <div class=" pl10">
+    <div class=" pl10 w80">
       <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
-      <div class="fs13 blue i pt5">{{= (model.data.is_featured == 'true') ? 'Featured':'' }}</div>
       <div class="fs13 warmGrey pt10 truncate w300p">{{= model.data.description }}</div>
+    </div>
+    <div class="p10" data-if="{{= model.is_downloaded }} == true">
+      <img src="img/checkCircle.png" alt="Checked Circle" />
     </div>
   </div>
 </div>
