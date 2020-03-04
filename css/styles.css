@@ -886,17 +886,17 @@ li.blue-hover:hover     { color: #00b1fa; }
 .flex .h90 						{	height: 90vw;	}
 .flex .h95 						{	height: 95vw;	}
 
-.w5p									{	width		: 5px;}
-.w10p									{	width		: 10px;}
-.w15p									{	width		: 15px;}
-.w20p									{	width		: 20px;}
-.w25p									{	width		: 25px;}
-.w40p									{	width		: 40px;}
-.w75p									{	width		: 75px;}
-.w80p									{	width		: 80px;}
-.w120p								{	width		: 120px;}
-.w300p								{	width		: 300px;}
-.w75per								{	width   : 75%;}
+.w5p									{	width		: 5px !important;}
+.w10p									{	width		: 10px !important;}
+.w15p									{	width		: 15px !important;}
+.w20p									{	width		: 20px !important;}
+.w25p									{	width		: 25px !important;}
+.w40p									{	width		: 40px !important;}
+.w75p									{	width		: 75px !important;}
+.w80p									{	width		: 80px !important;}
+.w120p								{	width		: 120px !important;}
+.w300p								{	width		: 300px !important;}
+.w75per								{	width   : 75% !important;}
 .mh-480								{	min-height	: 480px;}
 
 /**************************** Generic ******************************************/
