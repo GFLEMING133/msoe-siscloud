@@ -98,12 +98,23 @@ app.model.track = {
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });
 	},
-	setup_edit: function () {
+	setup_edit: function (data) {
 		this.set('edit', this.get('data')).set('errors', []);
 
 		// remove unwanted values
 		this.unset('edit.verts');
 		this.unset('edit.file_data');
+
+		// check if we need to
+		if (data && data != this && data.set_created_by_name) {
+			if (app.session.get('user_id') !== 'false') {
+				var user = app.session.get_model('user_id');
+				this.set('edit.created_by_name', user.get('data.username'));
+				this.set('edit.created_by_id', user.get('data.artist_id'));
+			} else if (app.session.get('registration.username')) {
+				this.set('edit.created_by_name', app.session.get('registration.username'));
+			}
+		}
 
 		return this;
 	},
@@ -293,15 +304,19 @@ app.model.track = {
  		// remove data.file_data, it is now verts
 		this.unset('data.file_data');
 
+		// save name to session, so it is populated automatically
+		var created_by_name = this.get('edit.created_by_name');
+		if (created_by_name != '' && created_by_name != 'false') {
+			app.session.set('registration.username', created_by_name);
+			app.session.save_session();
+		}
+
 		// track is good. Change some settings and upload to sisbot!
 		this.set('data.name', this.get('edit.name'));
-		this.set('data.created_by_name', this.get('edit.created_by_name'));
+		if (created_by_name != '') this.set('data.created_by_name', created_by_name);
+		if (this.get('edit.created_by_id') != 'false') this.set('data.created_by_id', this.get('edit.created_by_id'));
 		this.set('data.has_verts_file', 'true');
 
-		var created_by_name = this.get('edit.created_by_name');
-		if (app.session.get('registration.username') == '' && created_by_name != '' && created_by_name != 'false') {
-			app.session.set('registration.username', created_by_name);
-		}
 		// if (app.manager.get('user_id') !== 'false') {
 		// 	this.set('data.created_by_id', app.manager.get('user_id'));
 		// 	this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));

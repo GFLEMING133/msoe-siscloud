@@ -1,5 +1,8 @@
 <div class="h100" data-if="{{= session.active.track_id }} !== false">
-	<div class="h100" data-model="{{= session.active.track_id }}" data-run="model.setup_edit">
+	<div class="h100"
+			data-model="{{= session.active.track_id }}"
+			data-run="model.setup_edit"
+			data-run-msg="{'set_created_by_name':'true'}">
 		<div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
 			<div class="w30 left pl20 clickable active"
 					data-on-click="publish"
@@ -34,29 +37,6 @@
 				</div>
 			</div>
 			<p class="red pl20 pb0"><em>*scroll down to edit name and save changes</em></p>
-			<!-- <div data-if="{{= model.data.original_file_type }} == draw">
-				<h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Steps</h3>
-				<p class="grey pl20 pb0">(Adjusts smoothness between points)</p>
-				<div class="flex vertical-align pl20 pr20" data-run="model.setup_steps">
-					<div class="w5 blue-hover pt15 pb15" data-on-click="model.steps_min">
-						<i class="fas fa-minus center clickable active grey" aria-hidden="true"></i>
-					</div>
-					<div class="w90 flex relative center">
-						<span class="w2-5"></span>
-						<input class="w90"
-								type="range"
-								min="1"
-								max="{{= model.max_steps }}"
-								step="1"
-								data-on-input="model.set_steps|model.get_thumbnail"
-								value="{{= model.edit_steps }}" />
-						<span class="w2-5"></span>
-					</div>
-					<div class="w5 center blue-hover pt15 pb15" data-on-click="model.steps_max">
-						<i class="fas fa-plus f-large center clickable active grey" aria-hidden="true"></i>
-					</div>
-				</div>
-			</div> -->
 			<div class="flex pr30 pl30 active">
 				<div class="w100">
 					<h4 class="no-stuffing pt10 fs18 lh18 pb5 strong">Track Name</h4>
@@ -72,20 +52,7 @@
 								value="{{= model.edit.name }}" />
 					</div>
 					<h4 class="no-stuffing pt10 fs18 lh18 pb5 strong">By</h4>
-					<div class="pb20" data-if="{{= session.user_id }} !== false">
-						<div data-model="{{= session.user_id }}">
-							<input class="fs18 w100"
-									type="text"
-									placeholder="Your name"
-									autocomplete="off"
-									autocorrect="off"
-									autocapitalize="off"
-									spellcheck="false"
-									data-field="model.edit.created_by_name"
-									value="{{= (model.data.username == 'false') ? '' : model.data.username }}" />
-						</div>
-					</div>
-					<div class="pb20" data-if="{{= session.user_id }} == false">
+					<div class="pb20">
 						<input class="fs18 w100"
 								type="text"
 								placeholder="Your name"
@@ -94,7 +61,7 @@
 								autocapitalize="off"
 								spellcheck="false"
 								data-field="model.edit.created_by_name"
-								value="{{= (session.registration.username == 'false') ? '' : session.registration.username }}" />
+								value="{{= (model.edit.created_by_name == 'false') ? '' : model.edit.created_by_name }}" />
 					</div>
 				</div>
 			</div>
