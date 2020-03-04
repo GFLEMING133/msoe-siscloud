@@ -26,9 +26,9 @@
       data-model="{{= model.sisbot_id }}"
       tg-name=current_tmp_page>
     <!------------------------- TRACK INSET ------------------------------->
-    <div data-if="{{= session.active.secondary }} == track">
+    <!-- <div data-if="{{= session.active.secondary }} == track">
       <div data-model="{{= session.active.track_id }}" class="overlay" data-template="sisyphus-tracks-hero-tmp"></div>
-    </div>
+    </div> -->
     <!------------------------- OVERVIEW ---------------------------------->
     <div data-if="{{= session.active.secondary }} == false">
       <div data-if="{{= model.data }} !== undefined">
@@ -41,8 +41,26 @@
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
               data-if="{{= model.data.is_waiting_between_tracks }} == false"
               tg-name="now_playing">Now Playing</div>
-          <div data-model="{{= model.data.active_track.id }}"
-              data-template="sisyphus-tracks-list-item-tmp"></div>
+          <div data-model="{{= model.data.active_track.id }}">
+            <div class="flex clickable active bg-grey-ll-hover bb p10 pl20"
+          			data-on-click="publish"
+          			data-publish="modal:open"
+          			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
+          			tg-name="track_modal_btn">
+          		<div class="w100 center">
+          				<img class="hh200"
+          						alt="{{= model.data.name }}"
+          						data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
+          						data-on-error="replace"
+          						data-replace="list-image-fallback-tmp" />
+              		<div class="pt10"
+            					tg-name="track_name">
+              			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
+              	    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+              		</div>
+          		</div>
+          	</div>
+          </div>
         </div>
       </div>
       <div class="mt10 pb200">
