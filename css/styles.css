@@ -134,7 +134,9 @@ textarea {
 ul {
     list-style-type             : none;
 }
-
+.wc_notes ul {
+	list-style-type 							: disc;
+}
 ul.horizontal li {
     display                     : inline !important;
     width                       : auto;
@@ -896,7 +898,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .w75p									{	width		: 75px !important;}
 .w80p									{	width		: 80px !important;}
 .w120p								{	width		: 120px !important;}
-.w300p								{	width		: 300px !important;}
+.w230									{	width		: 230px !important;}
 .w75per								{	width   : 75% !important;}
 .mh-480								{	min-height	: 480px;}
 
@@ -2086,10 +2088,10 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 		padding-top: 15px;
 	}
 	.mobile_pb55 {
-		padding-bottom: 55px;
+		padding-bottom: 55px !important;
 	}
 	.se350 {
-		height: 350px;
+		height: 350px !important;
 	}
 }
 
