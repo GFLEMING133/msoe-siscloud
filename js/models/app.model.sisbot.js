@@ -460,6 +460,9 @@ app.model.sisbot = {
 
 		if (this.get('data.reason_unavailable') != 'rebooting' && app.manager.get('did_update') == 'false' && this._retry_find && disconnect_length > 20000) { // extended to catch the fallback to hotspot
 			app.log("Poll Failure, find_sisbots()", disconnect_length, this.get('data.reason_unavailable'));
+
+			app.manager.set('is_sisbot_available', 'false'); // table can't be found, go to unavailable page
+
 			app.manager.find_sisbots(); // Try to find any tables again
 
 			this._retry_find = false; // don't bother more than once
@@ -1762,7 +1765,7 @@ app.model.sisbot = {
 	playlist_add: function (playlist_model) {
 		var self		= this;
 		var playlist	= playlist_model.get('data');
-		app.log("Sisbot: Playlist Add", this.id);
+		app.log("Sisbot: Playlist Add", this.id, playlist.id);
 
 		this._update_sisbot('add_playlist', playlist, function (obj) {
 			app.log('Sisbot: Add playlist', obj);
@@ -1771,6 +1774,8 @@ app.model.sisbot = {
 				return app.plugins.n.notification.alert('There was an error adding the playlist "'+self.get('data.name')+'" to your Sisyphus. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+
+				playlist_model.set('is_downloaded', 'true');
 			}
 		});
 
@@ -1789,6 +1794,9 @@ app.model.sisbot = {
 				return app.plugins.n.notification.alert('There was an error removing your Playlist. Please try again later.');
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+
+				playlist_model.set('is_downloaded', 'false');
+
 				app.trigger('session:active', { 'secondary': 'playlists' });
 			}
 		});

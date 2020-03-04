@@ -310,8 +310,14 @@ app.model.playlist = {
 			community.download_wc();
 		} else if (sisbot.get('data.playlist_ids').indexOf(this.id) < 0) {
 			this.set('is_downloaded', 'true');
-			this.save();
+
+      // make copy of this playlist to save
+      var new_obj = JSON.parse(JSON.stringify(this.get('data')));
+      new_obj.id = app.plugins.uuid(); // force new UUID
+      var new_playlist = app.collection.add(new_obj);
+
 			app.log("All tracks downloaded, just save playlist");
+      app.trigger('sisbot:playlist_add', new_playlist);
 		}
 	}
 };
