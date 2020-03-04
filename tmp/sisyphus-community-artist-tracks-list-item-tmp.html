@@ -2,7 +2,7 @@
   <div  data-if="{{= grandparent.data.name }} == {{= model.data.created_by_name }}">
     <div class="flex clickable active bb p10 {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
           tg-name="community_track_container_{{= model.id }}_div">
-      <div class="w25 p10 center vertical "
+      <div class="w25 center vertical "
           data-on-click="publish"
           data-publish="modal:open"
           data-msg="{'track_id':'{{= model.id }}','template':''sisyphus-community-track-overlay-tmp''}">
