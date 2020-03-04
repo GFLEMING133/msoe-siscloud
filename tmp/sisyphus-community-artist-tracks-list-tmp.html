@@ -98,8 +98,9 @@
                 data-if="{{= model.size }} == 0">
                 You have downloaded all tracks for this artist.
             </div>
+
             <div class="mt50" data-if="{{= model.q_size }} > {{= model.limit }}">
-              <div class="p20 center i">Fetching List of Tracks...</div>
+              <div class="p20 center i" data-if="{{= model.size }} > 0">Fetching List of Tracks...</div>
               <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
             </div>
           </div>

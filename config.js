@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.8.99', // UI Changes for 5s and testing for prod release
+	  version				:'1.9.00', // scroll_check fixed, Draw inputs fixed, added Checkbox to downloaded Playlist
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

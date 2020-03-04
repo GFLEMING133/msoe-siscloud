@@ -1,3 +1,7 @@
+#2020-3-4 1.9.00
+- scroll_check fixed and moved to searchable model to fix call error. 
+- Draw inputs changed to populate correct name and save to session. 
+- Added is_downloaded to  Playlists page 
 #2020-3-2 1.8.99
 - UI changes to address responsiveness
 - search input now scrolling with page. 
