@@ -173,17 +173,21 @@ app.model.community = {
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var new_playlist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
-      var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
+      var sisbot_playlist_ids = app.collection.get_cluster({type:'playlist', is_downloaded:'true'}).pluck('data.playlist_id');
+      sisbot_playlist_ids = _.uniq(_.without(sisbot_playlist_ids, undefined));
+      // var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
 
       _.each(new_playlist_ids, function(playlist_id) {
         var playlist = app.collection.get(playlist_id);
         playlist.set('is_community', 'true');
-        if (sisbot_playlist_ids.indexOf(playlist_id) >= 0) playlist.set('is_downloaded', 'true');
+        app.log("Playlist_ids", sisbot_playlist_ids, playlist.get('data.playlist_id'));
+        if (sisbot_playlist_ids.indexOf(playlist.get('data.playlist_id')) >= 0) playlist.set('is_downloaded', 'true');
         self.add_nx('community_playlist_ids', playlist_id); // add to array if not already there
       });
 
       if (given_data.is_featured == 'true') self.set('fetched_featured_playlists', 'true');
       else self.set('fetched_community_playlists', 'true');
+
       self.set('fetching_community_playlists', 'false');
     }
 
@@ -212,10 +216,13 @@ app.model.community = {
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
-      // TODO: loop through returned objects, and mark is_downloaded appropriately
+      // loop through returned objects, and mark is_downloaded appropriately
       var resp_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
       var sisbot_track_ids = app.manager.get_model('sisbot_id').get('data.track_ids');
-      var sisbot_playlist_ids = app.manager.get_model('sisbot_id').get('data.playlist_ids');
+
+      // get list of playlist_ids from playlists on table
+      var sisbot_playlist_ids = app.collection.get_cluster({type:'playlist', is_downloaded:'true'}).pluck('data.playlist_id');
+      sisbot_playlist_ids = _.uniq(_.without(sisbot_playlist_ids, undefined));
 
       _.each(resp_ids, function(obj_id) {
         var model = app.collection.get(obj_id);
@@ -224,8 +231,9 @@ app.model.community = {
           if (sisbot_track_ids.indexOf(model.id) >= 0) model.set('is_downloaded', 'true');
           self.add_nx('community_track_ids', model.id); // add to array if not already there
         } else if (model.get('data.type') == 'playlist') {
-          if (sisbot_playlist_ids.indexOf(model.id) >= 0) model.set('is_downloaded', 'true');
-          self.add_nx('community_playlist_ids', playlist_id); // add to array if not already there
+          app.log("Playlist_ids", sisbot_playlist_ids, model.get('data.playlist_id'));
+          if (sisbot_playlist_ids.indexOf(model.get('data.playlist_id')) >= 0) model.set('is_downloaded', 'true');
+          self.add_nx('community_playlist_ids', model.id); // add to array if not already there
         }
       });
 
@@ -404,8 +412,14 @@ app.model.community = {
           app.log("Add Playlist", selected_playlist);
           var playlist = app.collection.get(selected_playlist);
           playlist.set('is_downloaded', 'true');
-          // playlist.save();
-          app.trigger('sisbot:playlist_add', playlist);
+
+          // make copy with new UUID + reference to old UUID
+          var new_obj = JSON.parse(JSON.stringify(playlist.get('data')));
+          new_obj.id = app.plugins.uuid(); // force new UUID
+          var new_playlist = app.collection.add(new_obj);
+          app.log("New Playlist:", new_playlist.get('data'));
+
+          app.trigger('sisbot:playlist_add', new_playlist);
         }
 
         this.set('selected_playlist', 'false'); // forget selected playlist
@@ -446,7 +460,6 @@ app.model.community = {
     }
   },
   remove_downloaded: function() {
-
     var self = this;
     let sisbot = app.manager.get_model('sisbot_id');
     let downloaded_tracks = this.get('downloaded_tracks');

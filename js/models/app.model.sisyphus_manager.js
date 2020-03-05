@@ -619,7 +619,8 @@ app.model.sisyphus_manager = {
 
     if (force_rescan && force_rescan != this) {
       this.set('force_rescan', 'true')
-        .set('sisbot_connecting', 'false');
+        .set('sisbot_connecting', 'false')
+        .set('sisbot_id', 'false');
     } else this.set('force_rescan', 'false');
     app.log("Force rescan:", this.get('force_rescan'));
 
@@ -960,6 +961,8 @@ app.model.sisyphus_manager = {
         self.intake_data(data);
         if (data.type == 'track') {
           app.collection.get(data.id).set('is_downloaded', 'true');
+        } else if (data.type == 'playlist') {
+            app.collection.get(data.id).set('is_downloaded', 'true');
         } else if (data.type == 'sisbot') {
           if (data.reason_unavailable == 'false') self.set('is_sisbot_available', 'true');
 
