@@ -10,7 +10,7 @@
           data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'false'}"
           tg-name="feature_box">
         <div class="flex-center-col montserrat_m relative center"
-            style="background-image: url({{= app.config.get_api_url()}}uploads/track/thr/{{= model.data.db_tracks[0] }}/thumb_400.png );
+            style="background-image: url({{= app.config.get_api_url()}}uploads/track/thr/{{= model.data.db_tracks[{[= model.data.featured_track]}]}}/thumb_400.png );
                     height: 100px;
                     background-position: center;
                     background-size: 115px;
