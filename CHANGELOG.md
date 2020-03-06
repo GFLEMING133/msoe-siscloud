@@ -1,4 +1,4 @@
-#2020-3-4 1.9.00
+#2020-3-4 1.9.00-04
 - Community Playlist pages updated
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
@@ -22,7 +22,7 @@
 - "In Review" shown on tracks and My Tracks tab added to community
 - UI changes
 - Connect to sisbot sends data about device to be logged
-#2020-2-2020 95-97 are in staging
+#2020-2-26 1.8.96 & 97
 - test for empty exists() response in staging
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
