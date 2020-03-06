@@ -959,7 +959,7 @@ function Element(el, parent, _scope) {
           app.trigger('bind:render'); // render since new templates got added
         }
         this.listenTo(model, 'add:'+field,     self.triggers['_foreach']);
-        // this.listenTo(model, 'change:'+field,  self.triggers['_foreach']);
+        this.listenTo(model, 'change:'+field,  self.triggers['_foreach']);
         this.listenTo(model, 'remove:'+field,  self.triggers['_foreach']);
         this.listenTo(model, 'sort:'+field,    self.triggers['_foreach']);
       }

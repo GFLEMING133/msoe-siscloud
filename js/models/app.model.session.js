@@ -296,41 +296,40 @@ app.model.session = {
     sign_in: function(user_data) {
 			app.log("Session Sign In()");
 
-        if (this.get('signing_in') == 'true') return false;
-        else this.set('signing_in', 'true');
+      if (this.get('signing_in') == 'true') return false;
+      else this.set('signing_in', 'true');
 
-        var self = this;
-        var user_data = this.get('registration');
+      var self = this;
+      var user_data = this.get('registration');
 
-        var errors = this.get_errors(user_data);
+      var errors = this.get_errors(user_data);
 
-        user_data._timeout = 5000;
+      user_data._timeout = 5000;
 
-        //______________Password Errors______________________________________
-
-        if (errors.length > 0){
-            return this.set('signing_in', 'false').set('errors', errors);
+      //______________Password Errors______________________________________
+      if (errors.length > 0){
+        return this.set('signing_in', 'false').set('errors', errors);
+      }
+      function cb(obj) {
+        if (obj.err){
+					app.log("Sign in Err", obj.err);
+          if (obj.err == 'Unauthorized') {
+            return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['Email or Password is incorrect.']);
+          } else {
+            return self.set('signing_in', 'false').set('remember_me','false').set('errors', [ obj.err ]);
+          }
         }
-        function cb(obj) {
-            if (obj.err){
-                if(obj.err == 'Unauthorized') {
-                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', ['Email or Password is incorrect.']);
-                }else {
-                    return self.set('signing_in', 'false').set('remember_me','false').set('errors', [ obj.err ]);
-                }
-            }
-            self.set('errors', []);
+        self.set('errors', []);
 
-            self._process_sign_in(user_data, obj.resp);
+        self._process_sign_in(user_data, obj.resp);
 
-            app.trigger('session:active', {  'primary': 'community', 'secondary': 'false' });
-        };
+        app.trigger('session:active', {  'primary': 'community', 'secondary': 'false' });
+      };
 
-        user_data.endpoint  = 'auth_user';
-        user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
+      user_data.endpoint  = 'auth_user';
+      user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
 
-        app.post.fetch2(user_data, cb, 0);
-
+      app.post.fetch2(user_data, cb, 0);
     },
     _process_sign_in: function (user, data_arr) {
   		var session_data = {
@@ -356,31 +355,34 @@ app.model.session = {
     get_errors: function(user_data) {
 			var errors = [];
 
-        if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
-        if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
-         //__________________SignUp Errors________________________ //
-         if (this.get('signing_up') == 'true'){
-            if (user_data.username == ""){
-                errors.push('Username cannot be blank');
-			}
+      if (!user_data.email || user_data.email == '') errors.push('Email cannot be blank');
+      if (!user_data.password || user_data.password == '') errors.push('Password cannot be blank');
+			else if (user_data.password.length <= 5) errors.push('Password must be 6 or more characters');
 
-			if (app.plugins.valid_email(user_data.username.trim())){
-                errors.push('Username cannot be an email');
-            }
-            if (!app.plugins.valid_email(user_data.email.trim())){
-                errors.push("The email you entered is invalid, please enter a valid email");
-            }
-            if (user_data.password.length <= 5 || user_data.password_confirmation.length <= 5){
-                errors.push('Password must be 6 or more characters');
-            }
-            if (user_data.password != user_data.password_confirmation){
-                errors.push('Password verification does not match');
-            }
+			//__________________SignUp Errors________________________ //
+			if (this.get('signing_up') == 'true') {
+				if (user_data.username == "") {
+				  errors.push('Username cannot be blank');
+				}
+
+				if (app.plugins.valid_email(user_data.username.trim())) {
+          errors.push('Username cannot be an email');
         }
-        return errors;
+        if (!app.plugins.valid_email(user_data.email.trim())) {
+          errors.push("The email you entered is invalid, please enter a valid email");
+        }
+        // if (user_data.password.length <= 5 || user_data.password_confirmation.length <= 5) {
+        //   errors.push('Password must be 6 or more characters');
+        // }
+        if (user_data.password != user_data.password_confirmation) {
+          errors.push('Password verification does not match');
+        }
+      }
+
+			if (errors.length > 0) app.log("Errors", errors);
+      return errors;
     },
     _process_registration: function(user, data_arr) {
-
       var session_data = {
 				username							: user.username,
         email									: user.email,
