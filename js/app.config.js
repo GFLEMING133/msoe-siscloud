@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod', //
-	version				:  '1.9.02', // Playlist pages updated
+	version				:  '1.9.03', // Updated info.Plist and add <preference name="WKWebViewOnly" value="true" /> for Xcode depreciation
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing

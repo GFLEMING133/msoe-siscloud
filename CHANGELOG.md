@@ -1,4 +1,5 @@
-#2020-3-4 1.9.00
+#2020-3-4 1.9.02 & 03
+- Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
 #2020-3-4 1.9.00
 - scroll_check fixed and moved to searchable model to fix call error. 
