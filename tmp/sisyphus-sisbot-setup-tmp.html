@@ -57,8 +57,7 @@
           <div class="pt0 vertical"
               data-on-click="toggle"
               data-field="model.default_settings.share_log_files"
-              data-if="{{= model.default_settings.share_log_files }} !== undefined"
-              tg-name="log_file_toggle_checkbox">
+              data-if="{{= model.default_settings.share_log_files }} !== undefined">
             <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.share_log_files }} == true"></span>
             <span class="black f-large bg-white far fa-square" data-if="{{= model.default_settings.share_log_files }} !== true"></span>
             <p class="no-stuffing pl10 w100 fs18">Share Log Files</p>

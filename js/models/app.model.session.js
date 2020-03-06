@@ -18,7 +18,8 @@ app.model.session = {
 				playlist_id		: 'false',
 				track_id			: 'false',
 				drawing_id		: 'false',
-				sisbot_id			: 'false'
+				sisbot_id			: 'false',
+				artist_id			: 'false'
 			},
 			toggle: {
 				expanded			: 'false',
@@ -106,12 +107,12 @@ app.model.session = {
 		}
 	},
 	/************************** MOUSE COORDINATES ***********************************/
-	// showMouse: function() {
-	// 	var x = event.clientX;
-	// 	var y = event.clientY;
-	// 	var coords = "X coords: " + x + ", Y coords: " + y;
-	// 	app.log('Coordinates are =', coords)
-	// },
+	showMouse: function() {
+		var x = event.clientX;
+		var y = event.clientY;
+		var coords = "X coords: " + x + ", Y coords: " + y;
+		app.log('Coordinates are =', coords)
+	},
 	/************************** SETUP MODES ***********************************/
 	valid_modes: ['sisyphus','siscloud'],
 	setup_mode: function () {
@@ -142,7 +143,7 @@ app.model.session = {
 
 		var m = app.collection.add({ type: 'sisyphus_manager' });
 		this.set('active.primary', 'current')
-			.set('active.secondary', 'false');
+				.set('active.secondary', 'false');
 		this.set('sisyphus_manager_id', m.id);
 
 		var c = app.collection.add({ type: 'community' });
@@ -272,25 +273,24 @@ app.model.session = {
 
         self._process_registration(user_data, obj.resp);
 
-			self.set('signing_up', 'false');
-			self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
-			app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });//directing to the sign-in page after registration
-			// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above.
+				self.set('signing_up', 'false');
+				self.set('signed_in', 'false') // setting to false so we can access the community-sign-in-tmp.
+				app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });//directing to the sign-in page after registration
+				// if we want to direct straight to tracks after sign in we can just call self.sign_in(); and delete the 2 lines above.
+      };
 
-        };
+      var post_obj = {
+        _url 									: app.config.get_webcenter_url(),
+        _type 								: 'POST',
+        _timeout 							: 60000,
+        endpoint 							: 'register_user.json',
+        username              : user_data.username,
+      	email									: user_data.email,
+      	password							: user_data.password,
+      	password_confirmation	: user_data.password_confirmation
+      };
 
-        var post_obj = {
-            _url: app.config.get_webcenter_url(),
-            _type: 'POST',
-            _timeout: 60000,
-            endpoint: 'register_user.json',
-            username                : user_data.username,
-        	email					: user_data.email,
-        	password				: user_data.password,
-        	password_confirmation	: user_data.password_confirmation
-        };
-
-        app.post.fetch(post_obj, cb, 0);
+      app.post.fetch(post_obj, cb, 0);
     },
 
     sign_in: function(user_data) {
@@ -323,7 +323,7 @@ app.model.session = {
 
             self._process_sign_in(user_data, obj.resp);
 
-            app.trigger('session:active', {  'primary': 'community', 'secondary': 'community-tracks' });
+            app.trigger('session:active', {  'primary': 'community', 'secondary': 'false' });
         };
 
         user_data.endpoint  = 'auth_user';
@@ -335,13 +335,14 @@ app.model.session = {
     _process_sign_in: function (user, data_arr) {
   		var session_data = {
   			email			: user.email,
-      	password		: user.password,
+      	password	: user.password,
   		};
       var self = this;
   		_.each(data_arr, function (m) {
   			if (m.type == 'user' && m.email == user.email) {
 					session_data.user_id = m.id;
-        	if (m.id) self.set('user_id', m.id );
+					if (m.id) self.set('user_id', m.id );
+
 				}
   		});
 
@@ -362,10 +363,11 @@ app.model.session = {
             if (user_data.username == ""){
                 errors.push('Username cannot be blank');
 			}
-			if (app.plugins.valid_email(user_data.username)){
+
+			if (app.plugins.valid_email(user_data.username.trim())){
                 errors.push('Username cannot be an email');
             }
-            if (!app.plugins.valid_email(user_data.email)){
+            if (!app.plugins.valid_email(user_data.email.trim())){
                 errors.push("The email you entered is invalid, please enter a valid email");
             }
             if (user_data.password.length <= 5 || user_data.password_confirmation.length <= 5){
@@ -378,6 +380,7 @@ app.model.session = {
         return errors;
     },
     _process_registration: function(user, data_arr) {
+
       var session_data = {
 				username							: user.username,
         email									: user.email,

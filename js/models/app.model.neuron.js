@@ -58,7 +58,8 @@ app.model.neuron = Backbone.NestedModel.extend({
 			app.plugins.move_from_to_obj(obj, data);
 		}
 
-		this._last_save = (data.data) ? app.plugins.json.parse(app.plugins.json.stringify(data.data)) : data.data;
+		// this._last_save = (data.data) ? app.plugins.json.parse(app.plugins.json.stringify(data.data)) : data.data;
+		this._last_save = (data.data) ? data.data : {};
 
 		return data;
 	},

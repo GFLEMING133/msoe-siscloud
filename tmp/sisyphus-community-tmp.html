@@ -16,13 +16,45 @@
   </div>
 
   <div class="h100" data-if="{{= parent.signed_in }} == true">
+
     <div class="h100"
         data-if="{{= parent.active.secondary }} == false"
+        data-template="sisyphus-community-browse-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == playlist"
+        data-template="sisyphus-community-playlist-tmp"></div>
+    
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == playlist-item"
+        data-template="sisyphus-community-playlist-list-item-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == playlists"
+        data-template="sisyphus-community-playlists-all-tmp"></div>
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == rendering"
+        data-template="sisyphus-community-playlists-rendering"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == artist"
+        data-template="sisyphus-community-artist-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == artist-tracks-list"
+        data-template="sisyphus-community-artist-tracks-list-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == artist-tracks-list-item"
+        data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= parent.active.secondary }} == tracks"
         data-template="sisyphus-community-tracks-tmp"></div>
 
     <div class="h100"
-        data-if="{{= parent.active.secondary }} == community-tracks"
-        data-template="sisyphus-community-tracks-tmp"></div>
+        data-if="{{= parent.active.secondary }} == list-item"
+        data-template="sisyphus-community-tracks-list-item-tmp"></div>
 
     <div class="h100"
         data-if="{{= parent.active.secondary }} == tracks-hero"

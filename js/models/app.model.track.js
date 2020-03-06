@@ -8,20 +8,21 @@ app.model.track = {
 			playlist_ids			: [],
 			playlist_not_ids	: [],
 
-			upload_status										: 'hidden',		// hidden|false|uploading|success
+			upload_status										: 'hidden', // hidden|false|uploading|success
 			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
-			sisbot_upload										: 'false',
-			community_track_downloaded			: 'false',
 			generating_thumbnails						: 'false',
+
 			downloading_community_track 		: 'false',
 			download_cloud									: 'false',
-			track_checked										:'false',
+			track_checked										: 'false',
+			is_community										: 'false', // track from webcenter
+			is_downloaded 									: 'false', // community
 
-			is_favorite							:'false',
+			is_favorite											:'false',
 
-			svg_scaled							: 'false', // for drawing app to have pre-scaled values
+			svg_scaled											: 'false', // for drawing app to have pre-scaled values
 
-			d3											:'false',
+			d3															:'false',
 			d3_data : {
 				background						: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
 				stroke								: '#797977', // #797977, #948252
@@ -53,9 +54,10 @@ app.model.track = {
 				duration					: '90',		// minutes
 
 				created_by_id			: 'false',
-				email							: 'false', //community
-				created_by_name		: 'false', //community
-				is_public					: 'false', //community
+				email							: 'false', // community
+				created_by_name		: 'false', // community
+				is_public					: 'true', // community
+				is_deletable			: 'true', // user is able to delete this track
 
 				original_file_type  : 'false', 	// thr|svg|draw
 				has_verts_file			: 'false',
@@ -67,8 +69,12 @@ app.model.track = {
 				reversed				: false,
 				firstR					: -1,
 				lastR						: -1,
-				type						: 'r',
-				reversible			: "false"
+				r_type					: 'r', // r00|r01|r10|r11
+				reversible			: "false",
+
+				download_count	: 0, // webcenter downloads
+				popularity			: 0, // webcenter popularity rating
+				is_approved			: 'true' // webcenter approval (could be false, if your own track)
 			}
 		};
 
@@ -79,6 +85,8 @@ app.model.track = {
 	on_init: function() {
 		this.on('change:track_checked', this.get_track_checked);
 		this.on('change:data.reversible', this.save_track);
+
+		// var playlist = app.session.get_model('active.playlist_id')
 	},
 	save_track: function() {
 		// app.log("Save Track", this.get('data'));
@@ -90,12 +98,23 @@ app.model.track = {
 	after_export: function () {
 		app.current_session().set_active({ track_id: 'false' });
 	},
-	setup_edit: function () {
+	setup_edit: function (data) {
 		this.set('edit', this.get('data')).set('errors', []);
 
 		// remove unwanted values
 		this.unset('edit.verts');
 		this.unset('edit.file_data');
+
+		// check if we need to
+		if (data && data != this && data.set_created_by_name) {
+			if (app.session.get('user_id') !== 'false') {
+				var user = app.session.get_model('user_id');
+				this.set('edit.created_by_name', user.get('data.username'));
+				this.set('edit.created_by_id', user.get('data.artist_id'));
+			} else if (app.session.get('registration.username')) {
+				this.set('edit.created_by_name', app.session.get('registration.username'));
+			}
+		}
 
 		return this;
 	},
@@ -191,6 +210,7 @@ app.model.track = {
 	},
 	/**************************** GENERAL ***********************************/
 	play_logic: function (track_index) {
+		app.log( "play_logic", track_index);
 		var active			= app.session.get('active');
 		var current_track	= app.manager.get_model('sisbot_id').get('data.active_track.id');
 		app.log("Play Logic: active ", active, ", index "+track_index, ", current "+current_track, ", new "+this.id);
@@ -205,12 +225,13 @@ app.model.track = {
 		} else if (active.primary == 'media' && active.secondary == 'playlist') {
 			app.collection.get(active.playlist_id).play(track_index);
 		}
+		app.trigger('modal:close');
 	},
 	play: function () {
 		app.trigger('sisbot:set_track', this.get('data'));
 	},
 	delete: function () {
-		app.manager.get_model('sisbot_id').track_remove(this);
+		app.trigger('sisbot:track_remove', this);
 	},
 	on_file_upload: function (data, file, field) {
 		app.log("On File Upload:", data, file, field);
@@ -283,15 +304,19 @@ app.model.track = {
  		// remove data.file_data, it is now verts
 		this.unset('data.file_data');
 
+		// save name to session, so it is populated automatically
+		var created_by_name = this.get('edit.created_by_name');
+		if (created_by_name != '' && created_by_name != 'false') {
+			app.session.set('registration.username', created_by_name);
+			app.session.save_session();
+		}
+
 		// track is good. Change some settings and upload to sisbot!
 		this.set('data.name', this.get('edit.name'));
-		this.set('data.created_by_name', this.get('edit.created_by_name'));
+		if (created_by_name != '') this.set('data.created_by_name', created_by_name);
+		if (this.get('edit.created_by_id') != 'false') this.set('data.created_by_id', this.get('edit.created_by_id'));
 		this.set('data.has_verts_file', 'true');
 
-		var created_by_name = this.get('edit.created_by_name');
-		if (app.session.get('registration.username') == '' && created_by_name != '' && created_by_name != 'false') {
-			app.session.set('registration.username', created_by_name);
-		}
 		// if (app.manager.get('user_id') !== 'false') {
 		// 	this.set('data.created_by_id', app.manager.get('user_id'));
 		// 	this.set('data.created_by_name', app.manager.get_model('user_id').get('data.name'));
@@ -1034,14 +1059,14 @@ app.model.track = {
 			this.set('is_favorite', '' + has_track);
 		}
 	},
-	favorite_toggle: function () {
+	favorite_toggle: function (trackID) {
 		if (app.manager.get_model('sisbot_id').is_legacy())
 			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
 			function(resp_num) {
 				if (resp_num == 1){
 					return;
 				}
-				app.collection.get(playlist_id).add_track_and_save(trackID);
+				app.collection.get(playlist_id).add_track_and_save({id:trackID});
 
 			},'Outdated Firmware', ['OK']);
 
@@ -1050,7 +1075,7 @@ app.model.track = {
 		if (status == 'true' && fav_model) {
 			fav_model.remove_track_and_save(this.id);
 		} else if (fav_model) {
-			fav_model.add_track_and_save(this.id);
+			fav_model.add_track_and_save({id:trackID});
 		}
 		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},
@@ -1097,16 +1122,15 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-	download_wc: function() {
-
-    var track_id = this.get('data.track_id')
+	download_wc: function(skip_playlist_add) {
+    var track_id = this.get('data.track_id');
 		var self = this;
 
 		app.trigger('modal:open', {
 			'template': 'modal-overlay-downloading-tmp'
 		});
 
-		self.set('community_track_downloaded', 'true');
+		self.set('is_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
 		self.set('download_cloud',  'true');
 
@@ -1131,22 +1155,22 @@ app.model.track = {
 				else if (self.get('data.original_file_type') == 'draw') self.set('data.verts', obj.resp); // created via drawing page
 				else {
 					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
-					self.set('community_track_downloaded', 'false');
+					self.set('is_downloaded', 'false');
 					self.set('downloading_community_track', 'false');
 					return;
 				}
-				self.set('data.verts', obj.resp);
-				app.trigger('community:downloaded_track', self.id);
+				self.set('data.verts', obj.resp)
+					.set('is_downloaded', 'true')
+					.set('track_checked', 'false');
 
 				// let track_id = JSON.stringify(self.id); //pulling id
 				// track_id = track_id.replace(/['"]+/g, ''); // removing extra quotes
-
 				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
 
-				self.set('downloading_community_track', 'false');
+				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
 
-				app.trigger('session:active', { secondary: 'false', primary: 'community' });
+				// app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
 		}
 

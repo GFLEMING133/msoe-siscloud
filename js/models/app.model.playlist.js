@@ -4,6 +4,9 @@ app.model.playlist = {
 			id				: data.id,
 			type			: 'playlist',
 
+			is_community: 'false', // is webcenter playlist (true == not yet downloaded)
+			is_downloaded: 'false', // playlist has been loaded to the current table
+
 			eligible_tracks	: [],
 			active_tracks		: [],
 			edit		: {
@@ -11,6 +14,7 @@ app.model.playlist = {
 				description	: '',
 			},
 			add_playlist_tracks: {},
+
 			data		: {
 				id						: data.id,
 				type    			: 'playlist',
@@ -34,6 +38,7 @@ app.model.playlist = {
 
 				created_by_id		: 'false',
 				created_by_name	: 'User Name',
+				featured_track  : 0
 			}
 		};
 
@@ -58,6 +63,7 @@ app.model.playlist = {
 		app.log("Playlist: After save");
 		app.trigger('sisbot:playlist_add', this);
 		// if (this.get('data.is_published') == 'true') this.publish();
+		// this.set('is_community', 'false');
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account
@@ -105,6 +111,7 @@ app.model.playlist = {
 	},
 	/**************************** GENERAL *************************************/
 	play_from_current: function (track_index) {
+		app.log( "play_from_current", track_index);
 		track_index = (app.plugins.falsy(track_index)) ? 0 : +track_index;
 
 		var data				= JSON.parse(JSON.stringify(this.get('data')));
@@ -241,17 +248,17 @@ app.model.playlist = {
 
 		// this.trigger('change:' + field);
 	},
-	add_track_and_save: function(track_id) {
-		app.log(track_id);
-		var track = app.collection.get(track_id);
-		app.log(track);
+	add_track_and_save: function(given_data) {
+
+		var track = app.collection.get(given_data.id);
+
 		var track_obj = {
-			id		: track_id,
-			vel		: track.get('data.default_vel'),
-			accel	: track.get('data.default_accel'),
+			id			: track.id,
+			vel			: track.get('data.default_vel'),
+			accel		: track.get('data.default_accel'),
 			thvmax	: track.get('data.default_thvmax'),
 			firstR	: track.get('data.firstR'),
-			lastR	: track.get('data.lastR')
+			lastR		: track.get('data.lastR')
 		};
 		this.add('data.tracks', track_obj);
 
@@ -260,8 +267,9 @@ app.model.playlist = {
 			sorted_tracks.push(index);
 		});
 		this.set("data.sorted_tracks", sorted_tracks);
-
 		this.save();
+		app.log('add_track_and_save given_data', given_data)
+    if(given_data.show_playlist) app.trigger('session:active', { primary:'media', secondary: 'playlist', playlist_id: this.id, goBack:'playlist' });
 	},
 	remove_track_and_save: function(track_id) {
 		var track = app.collection.get(track_id);
@@ -280,5 +288,37 @@ app.model.playlist = {
 			.set("data.sorted_tracks", sorted_tracks)
 			.save();
 	},
+	/************************ Webcenter ******************************/
+	download_wc: function() {
+		app.log("Download Webcenter Playlist", this.id);
+		var self = this;
+		var community = app.session.get_model('community_id');
+		var sisbot = app.manager.get_model('sisbot_id');
+		var sisbot_track_ids = sisbot.get('data.track_ids');
 
+		// add tracks not already on table to 'selected_tracks'
+		var track_ids =  _.uniq(_.pluck(this.get('data.tracks'), 'id'));
+		_.each(track_ids, function(id) {
+			if (sisbot_track_ids.indexOf(id) < 0) community.add_nx('selected_tracks', id);
+		});
+
+		// TODO: call community.download_wc
+		if (community.get('selected_tracks').length > 0) {
+			// save playlist to table
+			community.set('selected_playlist', this.id);
+
+			app.log("Download tracks to table", community.get('selected_tracks'));
+			community.download_wc();
+		} else if (sisbot.get('data.playlist_ids').indexOf(this.id) < 0) {
+			this.set('is_downloaded', 'true');
+
+      // make copy of this playlist to save
+      var new_obj = JSON.parse(JSON.stringify(this.get('data')));
+      new_obj.id = app.plugins.uuid(); // force new UUID
+      var new_playlist = app.collection.add(new_obj);
+
+			app.log("All tracks downloaded, just save playlist");
+      app.trigger('sisbot:playlist_add', new_playlist);
+		}
+	}
 };

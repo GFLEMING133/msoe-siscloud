@@ -29,7 +29,13 @@ app.model.modal = {
     if (data.track_id) {
       this.set('track_id', data.track_id);
     } else {
-      this.set('track_id', 'false')
+      this.set('track_id', 'false');
+    }
+
+    if (data.track_index) {
+      this.set('track_index', data.track_index);
+    } else {
+      this.set('track_index', 'false');
     }
 
     if (data.playlist_id) {
@@ -43,9 +49,18 @@ app.model.modal = {
   close: function() {
     this.set('is_hidden', 'true');
   },
+  more_from_artist: function( route_msg ) {
+    if (!app.plugins.is_uuid(route_msg.artist_id)) {
+      var artists = app.collection.get_cluster({'type':'artist', 'user_id': route_msg.artist_id});
+      if (artists.size() > 0 ) route_msg.artist_id = artists.first().id; // gets id from first in collection
+    }
+
+    app.trigger('session:active', route_msg );
+    this.set('is_hidden', 'true');
+  },
 	/******************* PLAYLIST FUNCTIONS *************************/
   add_to_playlist: function(playlist_id) {
-
+    app.log( 'add_to_playlist function in modal.js');
     var trackList = app.collection.get(playlist_id);
     var trackID = this.get('track_id');
     var track = app.collection.get(trackID)
@@ -59,11 +74,11 @@ app.model.modal = {
           if (resp_num == 1) {
             return;
           }
-          app.collection.get(playlist_id).add_track_and_save(trackID);
+          app.collection.get(playlist_id).add_track_and_save({ 'id':trackID, 'show_playlist':'true' } );
 
         }, 'Add Track?', ['Cancel', 'OK']);
     } else {
-      app.collection.get(playlist_id).add_track_and_save(trackID);
+      app.collection.get(playlist_id).add_track_and_save({ 'id':trackID, 'show_playlist':'true' });
     }
     this.set('track_id', 'false')
       .set('is_hidden', 'true');

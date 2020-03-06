@@ -1,4 +1,28 @@
-#2020-2-26 1.8.96 
+#2020-3-4 1.9.00
+- Community Playlist pages updated
+- scroll_check fixed and moved to searchable model to fix call error.
+- Draw inputs changed to populate correct name and save to session.
+- Added is_downloaded to  Playlists page
+#2020-3-2 1.8.99
+- UI changes to address responsiveness
+- search input now scrolling with page.
+#2020-2-27 1.8.98
+- add track to playlist routes to playlist after added
+- clear listeners on table change
+- search added for All Tracks page
+- Playlists tab added for all Playlists (including featured)
+- Track overlays are all styled the same (pull-bottom close) and scrollable
+- Connect to Wifi reconnect timing addressed as well as empty()
+- media_queries added
+- added trim() to Community sign in error checking
+- Whats New notes for Firmware Update
+- image fallback fix
+- removed drawing preview for alpha
+- fixed sign_out_community() to remove unwanted data (private tracks, artists, playlists)
+- "In Review" shown on tracks and My Tracks tab added to community
+- UI changes
+- Connect to sisbot sends data about device to be logged
+#2020-2-2020 95-97 are in staging
 - test for empty exists() response in staging
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
@@ -9,20 +33,40 @@
  - eye, eye-slash fix
  - scrollIntoView() fix
 #2020-2-8 1.8.92
- - BLE, SSID and IP changes. 
+ - BLE, SSID and IP changes.
  - on_init listeners now calling once to address track play
  - SSID Input added to on-boarding and wifi reconnect
  - UI changes
-#2020-2-8 1.8.90
+ #2020-2-8 1.8.90
  - BLE scan reverted back to old method (stops scan on first Sisyphus found)
  - Manual SSID entry
  - Manual IP address connect entry
 #2020-1-29 1.8.89
  - JSON.parse fix
+#2019-01-27 1.8.89-91
+ - Playlist now displaying
+ - Sisyphus Originals showing all default tracks.
+ - Download All tracks working in Community Artist and Playlist
+ - Option for manually entering Network Name when connecting to network
+ - Hamburger overlay sort and filter working.
+ - Artist routing fixed
+ - Fetching all tracks reconfigured for community.
+ - UI changes.
+ - first push of new community to beta
+ - Placeholder Rho/RGBW values on Advanced Table Settings removed
+ - Track models (Erase, Attach, Detach) marked is_deletable, hides/shows Delete buttons
+#2019-01-27 1.8.89
+ - Add table name to homepage header
+ - Change css on Wifi password visibility toggle
+ - "What's Hot" sort option for Community
+ - Color Picker allows easier scrolling in app, touch area of circle reduced to just circle
+ - Specify IP page added to Change Table page
+ - Always Play on Wake added to Night Mode
 #2019-12-20 1.8.87, 1.8.88
  - Fixed no-scroll in app
  - Changed is_simulator=false
  - remove scroll and add no-scroll class in draw.js
+ - fix app.plugins.json.parse() error
 #2019-12-09 1.8.80-86
  - Turned off socket listeners.
  - added OS obj var in sessions to target Android and iOS in css to fix header issue in drawing
@@ -53,6 +97,7 @@
  - Browser will refresh after firmware update (making sure user is on most recent cloud code)
  - Track hero page layout change, allows Reversible to be toggled
  - Track hero in Community changed to an overlay
+ - Advanced Table Settings includes buttons for re-enabling Servo's when in fault
 #2019-11-20 1.8.79
  - Now can add artist name to drawn tracks / auto populates from webcenter (waiting for update to webcenter).
  - Rho Start and finish now working correctly.

@@ -27,7 +27,7 @@ var Binding = Backbone.View.extend({
             var id = entry.target.className.match(/(e_[0-9]+)/i)[1];
             var el = self.get(id);
             var $el = $('.'+id);
-            if ($el) $el.attr('src', el.get_value(el.data.src));
+            if (el && $el) $el.attr('src', el.get_value(el.data.src));
             self.lazyImageObserver.unobserve(entry.target);
             if (self.debug) app.log("Bind: Intersection Observed", entry.target);
           }
@@ -890,7 +890,7 @@ function Element(el, parent, _scope) {
     // attribute listeners
     _.each(this.el, function(attr, key) {
       var list = self._get_listeners(attr, key);
-      // if (self.data.debug) app.log("Attr", key, attr, list);
+      if (self.data.debug) app.log("Listeners Attr", key, attr, list);
 
       var r_key = attr;
 
@@ -1036,11 +1036,12 @@ function Element(el, parent, _scope) {
 
               if (new_value != old_value) {
                 if (self.data.debug) app.log("Triggered change?", key, new_value, old_value);
-                if (key == 'data-if' && !new_value.match(/<|>/i)) { // mark as changed if comparing < or > values
+                var undefined_match = new_value.match(/undefined\s*$/i);
+                if (key == 'data-if' && (!new_value.match(/<|>/i) || undefined_match)) { // mark as changed if comparing < or > values or to undefined
                   var old_if = !self.is_hidden;
                   var new_if = self.if(new_value);
                   if (self.data.debug) app.log("If change?", self.is_hidden, new_if, old_if);
-                  if (old_if != new_if) is_change = true;
+                  if (old_if != new_if || undefined_match) is_change = true;
                 } else if (key.match(/^data-(model|scope|defaults|state)$/i)) {
                   self.is_model_changed = true;
                   is_change = true;
@@ -1130,7 +1131,7 @@ function Element(el, parent, _scope) {
     var compare;
     try {
       if (data) compare = data;
-      else compare = this.get_value(this.data.if);
+      else compare = this.get_value(this.data.if).trim();
 
       // split string out for comparison
       var statement   = compare.split(/\s?(\=\=|\!\=\=|\<\=?|\>\=?)\s?/);
@@ -1264,20 +1265,7 @@ function Element(el, parent, _scope) {
         // set the sorting of the cluster
         cluster._comparator = value;
         cluster.sort();
-      }
-
-      var search_obj;
-      if (self.data.clusterSearch) {
-        search_obj = self.get_value(self.data.clusterSearch);
-
-        if (_.isString(search_obj)) {
-          var model = self.get_model(search_obj);
-          if (model) {
-            var field = self.get_field(search_obj);
-
-            search_obj = model.get(field);
-          } else app.log("No model found, for clusterSearch value", search_obj);
-        }
+        // app.log("Sorted cluster: ", value, cluster.pluck(cluster._comparator.key));
       }
 
       // app.log("Cluster results", cluster);
@@ -1285,9 +1273,18 @@ function Element(el, parent, _scope) {
       cluster.each(function(item) {
         var include = true;
 
-        if (self.data.clusterSearch && search_obj) {
-          if (search_obj.value && search_obj.value != "") {
-            var search_string = JSON.stringify(search_obj);
+        if (self.data.clusterSearchValue && self.data.clusterSearchKeys) {
+          var model = self.get_model(self.data.clusterSearchValue);
+          var field = self.get_field(self.data.clusterSearchValue);
+          var search_value = model.get(field);
+
+          if (search_value != "") {
+            model = self.get_model(self.data.clusterSearchKeys);
+            field = self.get_field(self.data.clusterSearchKeys);
+            var search_keys = model.get(field);
+
+            var search_string = JSON.stringify({ search_keys: search_value, value:search_keys });
+            // app.log("Search Str:", search_string);
 
             if (item.get('searches') && item.get('searches')[search_string] == true) {
               // nothing, do include
@@ -1296,9 +1293,9 @@ function Element(el, parent, _scope) {
 
               // loop through given keys looking for key/value indexOf match
               var match = false;
-              _.each(search_obj.search_keys, function(search_key) {
+              _.each(search_keys, function(search_key) {
                 var model_value = item.get(search_key);
-                if (model_value && model_value.toString().toLowerCase().indexOf(search_obj.value.toLowerCase()) >= 0) match = true;
+                if (model_value && model_value.toString().toLowerCase().indexOf(search_value.toLowerCase()) >= 0) match = true;
               });
 
               // cache results to the model
@@ -1395,8 +1392,8 @@ function Element(el, parent, _scope) {
       var $el = $('.'+this.el_id);
 
       // check if el_type does not match
-      if (this.data.debug) {
-        app.log("El type compare", this.el_type, $el.prop('tagName'));
+      if (this.el_type != $el.prop('tagName')) {
+        if (this.data.debug) app.log("El type compare", this.el_type, $el.prop('tagName'));
         return $el.empty().replaceWith(this.html());
       }
 
@@ -1910,10 +1907,10 @@ function Element(el, parent, _scope) {
   };
   this.on_error = function(e) {
     var self = e.data.el;
-    if (self.data.debug) app.log("Image load error", this.el_id);
+    app.log("Image load error", self.el_id);
     if (e.data.replace) {
       // self.data.debug = true;
-      if (self.data.debug) app.log("Image replace", self.data.replace);
+      app.log("Image replace", self.data.replace);
 
       // change type to div
       self.el_type = 'DIV';
@@ -1938,7 +1935,8 @@ function Element(el, parent, _scope) {
         });
       }
 
-      app.trigger('bind:render');
+      // app.trigger('bind:render');
+      app.trigger('bind:render', self.el_id); // render since new templates got added
     } else {
       self._call(self.data.onError, self.get_value(self.data.msg));
     }

@@ -1,40 +1,51 @@
-<div class="h100 mt50" data-model="{{= model.track_id }}">
-  <div class="flex">
-    <div class="w5">&nbsp;</div>
-    <div class="w90 center vertical active">
-        <img class="w100 center img-rounded rounded-x2 bg-white " alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
+<div class="h100">
+  <div class="flex-column h100 scroll hide-scrollbar pb100" data-model="{{= model.track_id }}">
+    <div class="center vertical active mt40">
+        <img class="w90 center img-rounded rounded-x2 bg-white " alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
     </div>
-    <div class="w5">&nbsp;</div>
-  </div>
-  <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
-  <div class="fs12 lh20  pt10 white strong center">by {{= model.data.created_by_name }}</div>
-<!-- Download -->
-  <div class="flex-center-column">
-    <div class="mt50">
-      <div class="flex1items-center active clickable p10" data-if="{{= model.downloading_community_track }} == false"
-          data-on-click="model.download_wc"
-          data-if="{{= model.community_track_downloaded}} == false"
-          tg-name="community_hero_download_cloud">
-        <i class=" white fs22 fas fa-cloud-download-alt"></i>
-        <h2 class="m0 media_fs14 fs17 white pl10">Download</h2>
-      </div>
+    <div class="h100">
+        <div class="pt10 pb10">
+          <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
+          <div class="fs13 lh20 pt10 grey strong center">by {{= model.data.created_by_name }}</div>
+          <div class="fs13 grey pb20 center pt5">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').format('MMM Do, YYYY') }}</div>
+        </div>
+        <!-- Download -->
+        <div class="pt10 pb20 flex-justify-center active clickable"
+            data-on-click="model.download_wc"
+            data-msg="{{= model.data.track_id }}"
+            data-if="{{= model.is_downloaded }} == false"
+            tg-name="community_hero_download_cloud">
+          <h2 class="m0 media_fs14 fs17 white pl10 blue-hover"><i class="white fs22 fas fa-cloud-download-alt"></i>&nbsp; Download</h2>
+        </div>
+        <!-- Green Check -->
+        <div class="pt10 pb20 flex-justify-center active" data-if="{{= model.is_downloaded }} == true">
+          <img class="mr10" src="img/checkCircle.png" alt="Checked Circle" />
+          <h2 class="white media_fs14 fs17">Downloaded</h2>
+        </div>
+        <!--View More Tracks-->
 
-      <!-- Spinner -->
-      <div class="p10" data-if="{{= model.downloading_community_track }} == true">
-        <div class="w100 center i">
-          <div class="mb20 white" data-template="spinner-bounce-tmp"></div>
-          <div class="m0 media_fs14 fs17 lh18">
-          Downloading track...
+        <div class="pt10 pb20 center active clickable"
+            data-model="{{= session.user_id}}"
+            data-if="{{= model.data.artist_id }} !== {{= parent.data.user_id }}">
+          <div data-on-click="grandparent.more_from_artist"
+              data-msg="{'primary':'community','secondary':'artist-tracks-list','artist_id':'{{= parent.data.user_id}}'}"
+              tg-name="overlay_view_more_tracks">
+            <h2 class="white m0 media_fs14 fs17 lh22 blue-hover"><i class="far fa-user white fs22 blue-hover"></i>&nbsp; More by {{= parent.data.created_by_name}}</span></h2>
           </div>
         </div>
-      </div>
+        <!-- Spinner -->
+        <div class="pt10 pb20" data-if="{{= model.downloading_community_track }} == true">
+          <div class="w100 center i">
+            <div class="mb20 white" data-template="spinner-bounce-tmp"></div>
+            <div class="m0 media_fs14 fs17 lh18">
+              Downloading track...
+            </div>
+          </div>
+        </div>
     </div>
-  </div>
-    <!-- Close -->
-  <div class="pull-bottom-fixed">  
-    <div class="flex-center-row center bt-white clickable white p20 strong blue-hover"
+    <div class="w100 center bt-white clickable white strong blue-hove bg-black pull-bottom"
         data-on-click="parent.close">
-        <h2 class="m0 media_fs14 fs17">Close</h2>
+      <div class="media_fs14 fs18 p20 media_ppb50">Close</div>
     </div>
   </div>
-</div>  
+</div>

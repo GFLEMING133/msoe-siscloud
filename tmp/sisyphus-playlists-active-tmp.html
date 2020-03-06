@@ -51,7 +51,10 @@
         <div class="i center pt100 " data-if="{{= model.data.sorted_tracks.length }} == 0">
           There are no tracks in this playlist
         </div>
-      <div class="pt50 pb100"
+        <div class="pt60" style="{{= model.data.bg_color ? 'background-color: {[=model.data.bg_color]};' : 'background-color:black;' }};">
+          <div class="white center less_strong p30">{{= model.data.description}}</div>
+        </div>
+      <div class="pb100"
           data-foreach="model.data.tracks"
           data-foreach-map="true">
         <div class="{{= (scope.index !== 0) ? 'bt' : '' }}"

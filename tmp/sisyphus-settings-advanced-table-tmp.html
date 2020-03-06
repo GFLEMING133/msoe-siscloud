@@ -10,12 +10,12 @@
       data-model="{{= model.sisbot_id }}"
       data-run="model.setup_edit"
       tg-name="table_settings_page">
-    <p class="p0 m0 mt20 fs18 center">
+    <p class="p10 m0 mt20 fs18 center">
       <i class="fas fa-exclamation-triangle red f-xxlarge"></i><br />
       These settings override the factory settings for your table. Changing the values will affect table performance.
     </p>
-    <div  data-if="{{= model.csons }} == false">
-      <div  data-run="model.check_for_csons"></div>
+    <div data-if="{{= model.csons }} == false">
+      <div data-run="model.check_for_csons"></div>
       <div class="mt20 black" data-template="spinner-bounce-tmp"></div>
     </div>
     <div  data-if="{{= model.csons }} !== false">
@@ -30,7 +30,7 @@
       </div>
       <div class="p20 bb">
         <p class="no-stuffing w100 fs18 lh18 mb5">Radius <span class="f-small">(in inches)</span></p>
-        <input class="fs18 w100" type="text" placeholder="8.25" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.radius" value="{{= model.data.table_settings.radius }}" />
+        <input class="fs18 w100" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.radius" value="{{= model.data.table_settings.radius }}" />
       </div>
       <div class="p20 bb">
         <p class="no-stuffing w100 fs18 lh18 mb5">Max Speed</p>
@@ -72,52 +72,42 @@
       </div>
       <div class="p20 bb" data-if="{{= model.data.led_enabled }} == true">
         <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
-        <input class="fs18 w100" type="text" placeholder="100" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.rgbwCount" value="{{= model.data.table_settings.rgbwCount }}" />
+        <input class="fs18 w100" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.rgbwCount" value="{{= model.data.table_settings.rgbwCount }}" />
       </div>
-      <div class="p20 bb">
-        <div class="w100 vertical clickable h__k"
-            data-on-click="toggle"
-            data-field="model.edit.table_settings.useRGBW">
-          <span class="h__k black f-large bg-white fas fa-check-square" data-if="{{= model.edit.table_settings.useRGBW }} == true"></span>
-          <span class="h__k black f-large bg-white far fa-square" data-if="{{= model.edit.table_settings.useRGBW }} !== true"></span>
-          <p class="no-stuffing pl10 w100 fs18 lh18">RGBW Lights</p>
-        </div>
-        <p class="i">*Remember to hit the save button <i class="fas fa-arrow-down"></i></p>
-        <div class="h__k" data-if="{{= model.edit.table_settings.useRGBW }} == true">
-          <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
-          <input class="h__k fs18 w100" type="text" placeholder="100"
-              autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-              data-field="model.edit.table_settings.rgbwCount"
-              value="{{= model.data.table_settings.rgbwCount }}" />
-          <p class="pt20 no-stuffing w100 fs18 lh18 mb5">Python Requirement</p>
-          <div class="mt5 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong h__k"
-              data-on-click="model.python_install"
-              data-if="{{= model.data.is_internet_connected }} == true">
-            Install Python
-          </div>
-          <div class="mt5 p15 btn bg-grey w100 m0 active corner-5px uppercase fs18 strong h__k"
-              data-if="{{= model.data.is_internet_connected }} == false">
-            Install Python
-          </div>
-          <div class="i fs14 lh24">*If you purchased your table after September 16th, 2019, you do not need this step.</div>
-        </div>
-      </div>
-      <div class="p20 bb">
-        <p class="no-stuffing w100 fs18 lh18 mb5">Regenerate Track Images</p>
-          <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
-              data-if="{{= model.data.thumbnail_queue_length }} <= 0"
-              data-on-click="model.regenerate_thumbnails">
-            Regenerate Thumbnails
-          </div>
-          <div class="mt20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
-              data-if="{{= model.data.thumbnail_queue_length }} > 0">
-            Regenerating ({{= model.data.thumbnail_queue_length }})
-          </div>
-      </div>
-      <div class="p20">
-        <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+      <div class="p20 pb40">
+        <div class="p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
             data-on-click="model.confirm_advanced_settings">
           Save
+        </div>
+      </div>
+      <div class="p20 pb0 mt20 center">
+        <h2 class="no-stuffing w100">Maintenance</h2>
+      </div>
+      <div data-if="{{= model.data.fault_status }} !== false">
+        <div class="p20 bb" data-if="{{= model.data.is_servo }} == true">
+          <p class="no-stuffing w100 fs18 lh18 mb5">Servo Motors</p>
+          <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+              data-on-click="model._update_sisbot_msg"
+              data-msg="{'endpoint':'servo_enable', 'data':{'motor':'rho'}}">
+            Re-enable Rho
+          </div>
+          <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+              data-on-click="model._update_sisbot_msg"
+              data-msg="{'endpoint':'servo_enable', 'data':{'motor':'theta'}}">
+            Re-enable Theta
+          </div>
+        </div>
+      </div>
+      <div class="p20">
+        <p class="no-stuffing w100 fs18 lh18 mb5">Regenerate Track Images</p>
+        <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+            data-if="{{= model.data.thumbnail_queue_length }} <= 0"
+            data-on-click="model.regenerate_thumbnails">
+          Regenerate Thumbnails
+        </div>
+        <div class="mt20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
+            data-if="{{= model.data.thumbnail_queue_length }} > 0">
+          Regenerating ({{= model.data.thumbnail_queue_length }})
         </div>
       </div>
     </div>

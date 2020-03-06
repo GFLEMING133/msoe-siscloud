@@ -80,7 +80,7 @@ app.plugins.push_notifications = {
 			contentType		: 'application/json',
 			success			: function (data) {
 				if (cb) cb();
-				console.log(data);
+				app.log(data);
 			}
 		});
 	}
