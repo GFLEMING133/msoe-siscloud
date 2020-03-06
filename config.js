@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.9.03', // Updated info.Plist and add <preference name="WKWebViewOnly" value="true" /> for Xcode depreciation
+	  version				:'1.9.04', // Playlist pages updated
     debug         : true,
     env           : process.env.NODE_ENV,
     matt: {

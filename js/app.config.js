@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod', //
-	version				:  '1.9.03', // Updated info.Plist and add <preference name="WKWebViewOnly" value="true" /> for Xcode depreciation
+	version				:  '1.9.04', // Playlist pages updated
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing
@@ -45,10 +45,10 @@ app.config = {
 		},
 		sisbot: {
 			base_url		: window.location.href,
-			api_url			: 'http://dev.webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
-			web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			// api_url			: 'https://webcenter.sisyphus-industries.com/',
-			// web_url			: 'https://webcenter.sisyphus-industries.com/',
+			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
+			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url			: 'http://18.233.67.111/',
+			web_url			: 'http://18.233.67.111/',
 			sisbot_url  : window.location.href, //talking to sisbot
 			port		: 3001,
 		},
