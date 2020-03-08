@@ -874,7 +874,7 @@ app.model.sisyphus_manager = {
         if (cb) cb();
         return;
       }
-      
+
       app.log("Sisbot exists:", obj.resp);
 
       if (self.get('sisbot_id') == obj.resp.id) {
@@ -1301,7 +1301,7 @@ app.model.sisyphus_manager = {
       id: 'F42695C4-AE32-4956-8C7D-0FF6A7E9D492',
       type: 'playlist',
       name: 'Default Playlist',
-      description: 'Description of Default Playlist',
+      description: 'Playlist of Sisyphus original tracks',
       created_by_name: 'Sisyphus Industries',
       is_saved: 'true',
       is_published: 'false',
@@ -1327,7 +1327,7 @@ app.model.sisyphus_manager = {
       id: '3fdab229-5c60-4a86-8713-adb7edd494fe',
       type: 'playlist',
       name: 'Erase Playlist',
-      description: 'Description of Default Playlist',
+      description: 'false',
       created_by_name: 'Sisyphus Industries',
       is_saved: 'true',
       is_published: 'false',

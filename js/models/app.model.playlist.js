@@ -20,8 +20,8 @@ app.model.playlist = {
 				type    			: 'playlist',
 				version				: this.current_version,
 
-        name                : '',
-        description         : '',
+        name                : 'false',
+        description         : 'false',
 				duration						: '',				// mins
 				duration_formatted	: '',				// HH:mm
 
@@ -46,6 +46,7 @@ app.model.playlist = {
 	},
 	current_version: 1,
 	on_init: function () {
+		if (this.get('data.description') == '') this.set('data.description', 'false');
 		// this.on('change:data.is_published', this.check_publish);
 		return this;
 	},
@@ -285,8 +286,10 @@ app.model.playlist = {
 		});
 
 		this.set('data.tracks', new_tracks)
-			.set("data.sorted_tracks", sorted_tracks)
+			.set('data.sorted_tracks', sorted_tracks)
 			.save();
+
+		this.trigger('remove:data.tracks');
 	},
 	/************************ Webcenter ******************************/
 	download_wc: function() {

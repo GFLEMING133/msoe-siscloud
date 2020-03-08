@@ -33,7 +33,8 @@
             </div>
             <div class="w24-12">
               <span class="fs18 lh18 w100 block strong">{{= model.data.name }}</span>
-              <div class="fs13 warmGrey pt5 pr20 truncate i">{{= model.data.description }}</div>
+              <div class="fs13 warmGrey pt5 pr20 truncate i"
+                  data-if="{{= model.data.description }} !== false">{{= model.data.description }}</div>
             </div>
             <div class="w24-2">
               <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
