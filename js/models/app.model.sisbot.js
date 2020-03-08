@@ -364,13 +364,14 @@ app.model.sisbot = {
 				self._poll_failure();
 				if (cb) cb(resp);
 			} else {
-				if (resp.err == null) self.check_for_unavailable();
-
 				if (resp.err) {
 					app.plugins.n.notification.alert(resp.err);
 					app.log(address, endpoint, resp);
+					if (cb) cb(resp);
 					return;
 				}
+
+				if (resp.err == null) self.check_for_unavailable();
 
 				self.trigger('change:data.active_track._index');	// fix bug
 				if (cb) cb(resp);

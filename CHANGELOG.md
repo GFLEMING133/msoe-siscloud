@@ -1,3 +1,13 @@
+#2020-3-7 1.9.05
+- Community sign in error handeling adjusted
+- Conditionals added for playlist description
+- check_for_unavailable() moved out of conditional in the fetch()
+- listener turned back on for change in input fields.
+#2020-3-4 1.9.04
+- Community Playlist pages updated
+- scroll_check fixed and moved to searchable model to fix call error.
+- Draw inputs changed to populate correct name and save to session.
+- Added is_downloaded to  Playlists page
 #2020-3-4 1.9.02 & 03
 - Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
@@ -7,7 +17,7 @@
 - Added is_downloaded to  Playlists page 
 #2020-3-2 1.8.99
 - UI changes to address responsiveness
-- search input now scrolling with page. 
+- search input now scrolling with page.
 #2020-2-27 1.8.98
 - add track to playlist routes to playlist after added
 - clear listeners on table change
@@ -24,7 +34,8 @@
 - "In Review" shown on tracks and My Tracks tab added to community
 - UI changes
 - Connect to sisbot sends data about device to be logged
-#2020-2-2020 95-97 are in staging
+#2020-2-26 1.8.96 & 97
+- test for empty exists() response in staging
 #2020-2-8 1.8.93/94
  - Onboarding scrollable
  - Added  "'+self.get('data.name')+' to the notification error.
