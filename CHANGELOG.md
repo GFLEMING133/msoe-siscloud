@@ -1,3 +1,8 @@
+#2020-3-4 1.9.05
+- wording and UI changes
+- Description error checking
+- Community log-in / sign-up error checking updated.
+- bug fixes in bind2 
 #2020-3-4 1.9.00-04
 - Community Playlist pages updated
 - scroll_check fixed and moved to searchable model to fix call error.
