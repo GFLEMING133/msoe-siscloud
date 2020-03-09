@@ -1,15 +1,15 @@
 <div class="h100">
   <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
     <div class="w30 left pl20 clickable active"
-        data-on-click="publish" 
-        data-publish="session:active" 
+        data-on-click="publish"
+        data-publish="session:active"
         data-msg="{'secondary':'advanced_settings'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w40">
       <h1 class="no-stuffing fs18 lh-1 capitalize">Table Name</h1>
     </div>
     <div class="w30">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" 
+  <div class="body-header h100 scroll hide-scrollbar"
       data-model="{{= model.sisbot_id }}"
       tg-name="table_name_page"
       >
@@ -30,13 +30,13 @@
               autocapitalize="off"
               spellcheck="false"
               data-field="model.edit.name"
-              value="{{= model.edit.name }}" 
+              value="{{= model.edit.name }}"
               data-on-key-enter="model.update_tableName_alert"
               tg-name="table_name_input"
               />
-          <p><i>So you are aware, changing the table name will restart the table so it can update the the SSID.</i></p>
+          <p><i>Changing the table name will restart the table so it can update the the SSID.</i></p>
         </div>
-        <h2 class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong" 
+        <h2 class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
           data-on-click="model.update_tableName_alert"
           tg-name="table_name_complete"  >Complete</h2>
       </div>
