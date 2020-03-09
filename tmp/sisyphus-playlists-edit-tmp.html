@@ -34,7 +34,15 @@
           spellcheck="false"
           data-field="model.edit.name"
           value="{{= model.edit.name }}" />
-    </div>
+    <div class="pt10 fs18 lh18 no-stuffing strong">Playlist Description</div>
+    <textarea class="corner-5px mt5 w100"
+        placeholder="Playlist Description"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="true"
+        data-field="model.edit.description">"{{= model.edit.description }}"</textarea>
+  </div>
     <!--------------------------- ADD TRACKS ------------------------------>
     <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
       data-on-click="publish"
