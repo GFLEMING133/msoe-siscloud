@@ -16,8 +16,8 @@ app.config = {
 			base_url		: 'http://app.dev.withease.io:3001/', //local url
 			api_url		: 'https://webcenter.sisyphus-industries.com/', // PRODUCTION
 			web_url		: 'https://webcenter.sisyphus-industries.com/', // PRODUCTION
-			// api_url			: 'http://18.233.67.11/', //change these to dev.webcenter for next push to TF and GP
-			// web_url			: 'http://18.233.67.11/',
+			// api_url			: 'http://3.214.203.248/', //change these to dev.webcenter for next push to TF and GP
+			// web_url			: 'http://3.214.203.248/',
 			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
 			// api_url			: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
