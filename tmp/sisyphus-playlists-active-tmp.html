@@ -48,12 +48,9 @@
     </div>
     <!--------------------------- PLAYLIST TRACKS ---------------------------->
     <div class="h100 scroll hide-scrollbar">
-      <div class="i center pt100 " data-if="{{= model.data.sorted_tracks.length }} == 0">
-        There are no tracks in this playlist
-      </div>
       <div class="pt60"
-          style="{{= model.data.bg_color ? 'background-color: {[=model.data.bg_color]};' : 'background-color:black;' }};">
-        <div class="white center less_strong p30"
+          style="{{= model.data.bg_color ? 'background-color: {[=model.data.bg_color]};' : 'background-color:black'}};">
+        <div class="white center less_strong pt20 pb20 pl35 pr35"
             data-if="{{= model.data.description }} !== false">{{= model.data.description}}</div>
       </div>
       <div class="pb100"
@@ -62,6 +59,9 @@
         <div class="{{= (scope.index !== 0) ? 'bt' : '' }}"
             data-template="sisyphus-tracks-list-item-tmp"
         ></div>
+      </div>
+      <div class="i center pt100 " data-if="{{= model.data.sorted_tracks.length }} == 0">
+        There are no tracks in this playlist
       </div>
       <div class="hh150">&nbsp;</div>
     </div>

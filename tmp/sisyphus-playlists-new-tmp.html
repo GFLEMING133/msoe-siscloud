@@ -12,18 +12,20 @@
       data-model="{{= parent.active.playlist_id }}"
       tg-name="playlist_new_page">
     <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
-    <div class="pt20 pb20 pl40 pr40">
-      <div class="fs18 lh18 no-stuffing strong">Playlist Name</div>
-      <input class="corner-5px mt5 w100"
-          type="text"
-          placeholder="Playlist Name"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
-          data-field="model.edit.name"
-          value="{{= model.edit.name }}" 
-          tg-name="new_playlist_name_input" />
+    <div class="pt20 pl40 pr40">
+      <div class="pt5 fs16 lh18 grey center i"
+          data-if="{{= model.edit.description }} == ">Click below to edit Name and Description</div>
+      <div>
+        <div class="fs18 lh18 center strong">{{= model.edit.name }}</div>
+        <div class="pt5 fs16 lh18 grey center i" data-if="{{= model.edit.description }} == false">Edit to add a description</div>
+        <div class="pt5 fs16 lh18 grey center i truncate" data-if="{{= model.edit.description }} !== false">{{= model.edit.description }}</div>
+      </div>
+      <div class="clickable active center"
+          data-on-click="publish"
+          data-publish="modal:open"
+          data-msg="{'playlist_id':'{{= model.id }}', 'template':'modal-playlist-edit-tmp'}"
+          tg-name="playlist_edit_btn"
+          ><img src="img/icon_2x_playlist_edit_black.png" alt="Edit" class="hh50 pt15 pb15" /></div>
     </div>
     <!--------------------------- ADD TRACKS ------------------------------>
     <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
