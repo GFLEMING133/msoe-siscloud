@@ -8,6 +8,7 @@ app.model.sisyphus_manager = {
       user_id: 'false',
 
       sisbot_id: 'false',
+      is_passcode_required: 'false', // does the current sisbot need a passcode?
       is_sisbot_available: 'false',
       sisbot_registration: 'find', // find|none|hotspot|multiple|specify_ip
       specify_ip: 'false',
@@ -433,6 +434,11 @@ app.model.sisyphus_manager = {
     var hotspot_status = sisbot.get('data.is_hotspot');
     var reminder_status = sisbot.get('data.do_not_remind');
     var is_internet_connected = sisbot.get('data.is_internet_connected');
+
+    // do we need a passcode?
+    if (sisbot.get('data.passcode') != 'false') {
+      this.set('is_passcode_required', 'true');
+    }
 
     if (reminder_status == 'false') {
       if (hotspot_status == 'true') {

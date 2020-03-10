@@ -2,24 +2,31 @@
   <div class="fixed white click-through" data-if="{{= app.is_simulator }} == true">Simulator</div>
   <div class="h100" data-if="{{= model.sisbot_id }} !== false">
     <div class="h100" data-run="model.should_show_onboarding">
-      <div class="h100" data-if="{{= model.is_sisbot_available }} == false" data-template="home-tmp"></div>
-      <div class="h100" data-if="{{= model.is_sisbot_available }} !== false">
-        <div class="h100" data-if="{{= model.is_ble_enabled }} == false" data-template="sisyphus-sisbot-ble-enabled-tmp"></div>
-        <div class="h100" data-if="{{= model.is_ble_enabled }} !== false">
-          <div class="h100" data-if="{{= model.show_wifi_page }} == true" data-template="sisyphus-sisbot-wifi-tmp"></div>
-          <div class="h100" data-if="{{= model.show_wifi_page }} == false">
-            <div class="h100" data-if="{{= model.show_setup_page }} == true" data-template="sisyphus-sisbot-setup-tmp"></div>
-            <div class="h100" data-if="{{= model.show_setup_page }} == false">
-              <div class="h100" data-if="{{= model.show_nightlight_page }} == true" data-template="sisyphus-sisbot-nightlight-tmp"></div>
-              <div class="h100" data-if="{{= model.show_nightlight_page }} == false">
-                <div class="h100" data-if="{{= model.show_sleeping_page }} == true" data-template="sisyphus-sisbot-sleeping-tmp"></div>
-                <div class="h100" data-if="{{= model.show_sleeping_page }} == false">
-                  <div class="h100" data-if="{{= model.show_software_update_page }} == true" data-template="sisyphus-sisbot-software-update-tmp"></div>
-                  <div class="h100" data-if="{{= model.show_software_update_page }} == false">
-                    <div class="app-container">
-                      <div class="page-content no-stuffing bg-white h100 w100" data-if="{{= session.active.primary }} !== false" data-template="sisyphus-{{= session.active.primary }}-tmp"></div>
-                      <div data-model="{{= model.sisbot_id }}" data-if="{{= session.active.primary }} !== unavailable" data-template="sisyphus-playback-tmp"></div>
-                      <div data-model="{{= model.sisbot_id }}" data-if="{{= session.active.primary }} !== unavailable" data-template="sisyphus-footer-tmp"></div>
+      <div class="h100" data-if="{{= model.is_passcode_required }} == true">
+        <div class="app-container">
+          <div class="page-content no-stuffing bg-white h100 w100" data-template="home-passcode-tmp"></div>
+        </div>
+      </div>
+      <div class="h100" data-if="{{= model.is_passcode_required }} == false">
+        <div class="h100" data-if="{{= model.is_sisbot_available }} == false" data-template="home-tmp"></div>
+        <div class="h100" data-if="{{= model.is_sisbot_available }} !== false">
+          <div class="h100" data-if="{{= model.is_ble_enabled }} == false" data-template="sisyphus-sisbot-ble-enabled-tmp"></div>
+          <div class="h100" data-if="{{= model.is_ble_enabled }} !== false">
+            <div class="h100" data-if="{{= model.show_wifi_page }} == true" data-template="sisyphus-sisbot-wifi-tmp"></div>
+            <div class="h100" data-if="{{= model.show_wifi_page }} == false">
+              <div class="h100" data-if="{{= model.show_setup_page }} == true" data-template="sisyphus-sisbot-setup-tmp"></div>
+              <div class="h100" data-if="{{= model.show_setup_page }} == false">
+                <div class="h100" data-if="{{= model.show_nightlight_page }} == true" data-template="sisyphus-sisbot-nightlight-tmp"></div>
+                <div class="h100" data-if="{{= model.show_nightlight_page }} == false">
+                  <div class="h100" data-if="{{= model.show_sleeping_page }} == true" data-template="sisyphus-sisbot-sleeping-tmp"></div>
+                  <div class="h100" data-if="{{= model.show_sleeping_page }} == false">
+                    <div class="h100" data-if="{{= model.show_software_update_page }} == true" data-template="sisyphus-sisbot-software-update-tmp"></div>
+                    <div class="h100" data-if="{{= model.show_software_update_page }} == false">
+                      <div class="app-container">
+                        <div class="page-content no-stuffing bg-white h100 w100" data-if="{{= session.active.primary }} !== false" data-template="sisyphus-{{= session.active.primary }}-tmp"></div>
+                        <div data-model="{{= model.sisbot_id }}" data-if="{{= session.active.primary }} !== unavailable" data-template="sisyphus-playback-tmp"></div>
+                        <div data-model="{{= model.sisbot_id }}" data-if="{{= session.active.primary }} !== unavailable" data-template="sisyphus-footer-tmp"></div>
+                      </div>
                     </div>
                   </div>
                 </div>

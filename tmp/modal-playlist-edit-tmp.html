@@ -1,32 +1,34 @@
-<div class="h100 relative" data-model="{{= session.active.playlist_id }}">
-  <div class="absolute mt50p pl40 pr40">
-    <div class="fs18 white lh18 pb10 strong">Playlist Name :</div>
-    <input class="bg-white corner-5px mt5 w100"
-        type="text"
-        placeholder="Playlist Name"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        data-field="model.edit.name"
-        value="{{= model.edit.name }}" />
-  <div class="pt50 pb5 white fs18 lh18 no-stuffing strong">Playlist Description</div>
-  <textarea class="corner-5px mt5 w100 hh100 i"
-      data-if="{{= model.edit.description }} !== false"
-      placeholder="Playlist Description"
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      spellcheck="true"
-      data-field="model.edit.description">{{= model.edit.description }}</textarea>
-  <textarea class="corner-5px mt5 w100 hh100 i"
-      data-if="{{= model.edit.description }} == false"
-      placeholder="Enter a description"
-      autocomplete="off"
-      autocorrect="off"
-      autocapitalize="off"
-      spellcheck="true"
-      data-field="model.edit.description"></textarea>
+<div class="h100" data-model="{{= session.active.playlist_id }}">
+  <div class="pt75 pl40 pr40">
+    <div class="">
+      <div class="fs18 white lh18 pb10 strong">Playlist Name :</div>
+      <input class="bg-white corner-5px mt5 w100"
+          type="text"
+          placeholder="Playlist Name"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-field="model.edit.name"
+          value="{{= model.edit.name }}" />
+      <div class="pt50 pb5 white fs18 lh18 no-stuffing strong">Playlist Description</div>
+      <textarea class="corner-5px mt5 w100 hh100 i"
+          data-if="{{= model.edit.description }} !== false"
+          placeholder="Playlist Description"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="true"
+          data-field="model.edit.description">{{= model.edit.description }}</textarea>
+      <textarea class="corner-5px mt5 w100 hh100 i"
+          data-if="{{= model.edit.description }} == false"
+          placeholder="Enter a description"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="true"
+          data-field="model.edit.description"></textarea>
+      </div>
   </div>
   <div class="w100 center bt-white clickable white strong blue-hove bg-black pull-bottom"
       data-on-click="parent.close">
