@@ -1,6 +1,6 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.9.05', // Pushing for production release
-    debug         : true,
+	  version				:'1.10.05', // Pushing for production release
+    debug         : false,
     env           : process.env.NODE_ENV,
     matt: {
       base_dir	  : '/Users/mattfox12/Documents/Sodo/Ease/Sisyphus/cloud',
