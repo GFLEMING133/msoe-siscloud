@@ -8,8 +8,10 @@ app.model.sisbot = {
 			type			: 'sisbot',
 
 			passcode_entry	: 'false', // for user to enter passcode
+			new_passcode		: 'false', // for entering a new passcode
 			passcode_confirmed	: 'false', // prove passcode before changing
 			passcode_error	: 'false', // shake input
+			show_passcode		: 'false',
 
 			wifi_networks   : [],
 			wifi   : {
@@ -575,7 +577,8 @@ app.model.sisbot = {
 		this.set('passcode_error', 'false');
 
 		var passcode = this.get('data.passcode');
-		if (passcode != 'false') {
+		var new_passcode = this.get('new_passcode');
+		if (passcode != 'false' || new_passcode != 'false') {
 			this.set('passcode_confirmed', 'false')
 				.set('passcode_entry', 'false');
 
@@ -589,7 +592,8 @@ app.model.sisbot = {
 	},
 	save_passcode: function() {
 		var self = this;
-		var passcode_entry = this.get('passcode_entry');
+		var passcode_entry = this.get('new_passcode');
+		var show_passcode = this.get('show_passcode');
 
 		var do_save = false;
 
@@ -605,13 +609,16 @@ app.model.sisbot = {
 		} else if (passcode_entry.length < 4) {
 			this.add('errors', 'Passcode too short, must be 4-6 characters');
 		} else if (passcode_entry.length <= 6) {
-			do_save = true;
+			if (show_passcode == 'true') do_save = true;
+			else this.confirm_passcode();
 		}
 
 		if (do_save) this._save_passcode();
 	},
 	_save_passcode: function() {
-		var passcode_entry = this.get('passcode_entry');
+		var self = this;
+
+		var passcode_entry = this.get('new_passcode');
 		if (passcode_entry == '') passcode_entry = 'false';
 		app.log("Save Passcode", passcode_entry);
 
@@ -630,17 +637,36 @@ app.model.sisbot = {
 				self.set('errors', [ obj.err ]);
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
+
+				self.set('new_passcode', passcode_entry); // update edit field
+
 				app.trigger('session:active', { secondary: 'advanced_settings' });
 			}
 		});
 	},
 	submit_passcode: function() {
 		var passcode_entry = this.get('passcode_entry');
-
+		var new_passcode = this.get('new_passcode');
 		var passcode = this.get('data.passcode');
-		if (passcode_entry == passcode) {
+
+		if (new_passcode != 'false' && new_passcode != passcode) {
+			if (passcode_entry == new_passcode) {
+				app.manager.set('is_passcode_required', 'false');
+				this.set('passcode_confirmed', 'true');
+				app.plugins.n.notification.alert('New Passcode Saved.');
+				this._save_passcode();
+				app.trigger('modal:close');
+			} else {
+				app.manager.set('is_passcode_required', 'false');
+				this.set('passcode_confirmed', 'true');
+				app.plugins.n.notification.alert('New Passcode not confirmed.');
+				this.set('new_passcode', passcode); // reset new_passcode field
+				app.trigger('modal:close');
+			}
+		} else if (passcode_entry == passcode) {
 			app.manager.set('is_passcode_required', 'false');
 			this.set('passcode_confirmed', 'true');
+			this.set('new_passcode', passcode); // update new_passcode field
 			app.trigger('modal:close');
 		} else {
 			this.set('passcode_error', 'false')

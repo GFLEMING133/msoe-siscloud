@@ -1,11 +1,9 @@
-#2020-3-=10 1.10.06
+#2020-3-10 1.10.06
 - Passcode in app
-#2020-3-7 1.10.05
+#2020-3-7 1.10.04-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
 - Community sign in error handling adjusted
 - Conditionals added for playlist description
 - check_for_unavailable() moved out of conditional in the fetch()
-- listener turned back on for change in input fields.
-#2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
 - wording and UI changes
 - Description error checking
 - Community log-in / sign-up error checking updated.

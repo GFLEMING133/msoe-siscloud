@@ -32,16 +32,23 @@
             <div class="red p5 montserrat_bold">{{= scope.value }}</div>
           </div>
         </div>
-        <input class="bg-white corner-5px center mt10 w100"
-            type="tel"
-            placeholder="****"
+        <div class="pt5 lh18 pull-right clickable"
+            data-field="model.show_passcode"
+            data-on-click="toggle"
+            tg-name="show_passcode_checkbox">
+          <i class="fas fa-eye" data-if="{{= model.show_passcode }} == false"></i>
+          <i class="fas fa-eye-slash" data-if="{{= model.show_passcode }} == true"></i>
+        </div>
+        <input class="bg-white corner-5px center mt10 w100 fs32"
+            type="{{= (model.show_passcode == 'true') ? 'tel' : 'password'}}"
+            placeholder="••••"
             maxlength="6"
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
-            data-field="model.passcode_entry"
-            value="{{= (model.passcode_entry !== 'false') ? model.passcode_entry : '' }}"
+            data-field="model.new_passcode"
+            value="{{= (model.data.passcode !== 'false') ? model.data.passcode : '' }}"
             data-on-key-enter="model.save_passcode" />
         <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
             data-on-click="model.save_passcode">
