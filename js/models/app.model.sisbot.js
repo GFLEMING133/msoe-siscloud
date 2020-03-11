@@ -7,6 +7,10 @@ app.model.sisbot = {
 			id				: data.id,
 			type			: 'sisbot',
 
+			passcode_entry	: 'false', // for user to enter passcode
+			passcode_confirmed	: 'false', // prove passcode before changing
+			passcode_error	: 'false', // shake input
+
 			wifi_networks   : [],
 			wifi   : {
 				name				: '',
@@ -83,6 +87,8 @@ app.model.sisbot = {
 				id								: data.id,
 				type    					: 'sisbot',
 				version						: this.current_version,
+
+				passcode					: 'false',
 
 				name							: 'Default Name',
 				timezone_offset		: '0',					// 0 greenwich
@@ -554,6 +560,95 @@ app.model.sisbot = {
 
 		return this;
 	},
+	/**************************** PASSCODE ***************************************/
+	enter_passcode: function() {
+		this.set('passcode_error', 'false');
+
+		app.trigger('modal:open', {
+			'template': 'modal-enter-passcode-tmp'
+		});
+	},
+	confirm_passcode: function() { // for changing the passcode in Settings
+		// clear errors
+		this.set('errors', []);
+
+		this.set('passcode_error', 'false');
+
+		var passcode = this.get('data.passcode');
+		if (passcode != 'false') {
+			this.set('passcode_confirmed', 'false')
+				.set('passcode_entry', 'false');
+
+			app.trigger('modal:open', {
+				'template': 'modal-enter-passcode-tmp'
+			});
+		} else {
+			this.set('passcode_confirmed', 'true')
+				.set('passcode_entry', 'false');
+		}
+	},
+	save_passcode: function() {
+		var self = this;
+		var passcode_entry = this.get('passcode_entry');
+
+		var do_save = false;
+
+		if (passcode_entry == '' && this.get('data.passcode') != 'false') {
+			app.plugins.n.notification.confirm("Do you want to remove the passcode from your Sisyphus?",
+			function(resp_num) {
+				if(resp_num == 1){
+					return self;
+				} else {
+					self._save_passcode();
+				}
+			}, 'No Passcode?', ['Cancel','Yes']);
+		} else if (passcode_entry.length < 4) {
+			this.add('errors', 'Passcode too short, must be 4-6 characters');
+		} else if (passcode_entry.length <= 6) {
+			do_save = true;
+		}
+
+		if (do_save) this._save_passcode();
+	},
+	_save_passcode: function() {
+		var passcode_entry = this.get('passcode_entry');
+		if (passcode_entry == '') passcode_entry = 'false';
+		app.log("Save Passcode", passcode_entry);
+
+		this.set('errors', []);
+
+		var data = this.get('data');
+		data.passcode = passcode_entry;
+
+		if (app.config.env == 'alpha') {
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
+			this.set('data.passcode', passcode_entry);
+		}
+
+		this._update_sisbot('save', data, function(obj) {
+			if (obj.err) {
+				self.set('errors', [ obj.err ]);
+			} else if (obj.resp) {
+				app.manager.intake_data(obj.resp);
+				app.trigger('session:active', { secondary: 'advanced_settings' });
+			}
+		});
+	},
+	submit_passcode: function() {
+		var passcode_entry = this.get('passcode_entry');
+
+		var passcode = this.get('data.passcode');
+		if (passcode_entry == passcode) {
+			app.manager.set('is_passcode_required', 'false');
+			this.set('passcode_confirmed', 'true');
+			app.trigger('modal:close');
+		} else {
+			this.set('passcode_error', 'false')
+				.set('passcode_entry', 'false');
+			this.set('passcode_error', 'true');
+		}
+		app.log("Submit passcode:", passcode_entry, passcode);
+	},
 	/**************************** ADMIN ***************************************/
 	check_for_unavailable: function () {
 		if (this.get('data.reason_unavailable') !== 'false') {
@@ -697,12 +792,12 @@ app.model.sisbot = {
 		if (credentials.password == '') {
 			app.plugins.n.notification.confirm("You did not enter a password, are you sure you want to submit",
 			function(resp_num) {
-				if(resp_num !== 1){
+				if(resp_num == 1){
 					return self;
 				}else{
 					self._connect_to_wifi();
 				}
-			}, 'No Password?', ['Yes','No']);
+			}, 'No Password?', ['No','Yes']);
 		}else if (credentials.password.length > 0 && credentials.password.length < 8 ) {
 			this.set('wifi_error', 'true');
 			app.plugins.n.notification.alert('Your Wi-Fi password mut be 8 characters or more.');

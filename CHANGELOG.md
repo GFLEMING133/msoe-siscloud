@@ -1,3 +1,5 @@
+#2020-3-=10 1.10.06
+- Passcode in app
 #2020-3-7 1.10.05
 - Community sign in error handling adjusted
 - Conditionals added for playlist description

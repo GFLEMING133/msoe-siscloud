@@ -1,0 +1,85 @@
+<div class="h100">
+  <div class="h100">
+    <div class="pull-top white hh50 w100 vertical vertical-align bg-black no-stuffing">
+      <div data-template="sisyphus-playing-active-tmp"></div>
+      <div class="clickable active"
+          data-model="{{= manager.sisbot_id }}"
+          data-run="model.enter_passcode">
+        <div  data-if="{{= model.data.active_playlist_id }} !== false">
+          <div class="pull-right pl20 pr20"
+              data-on-click="model.enter_passcode"
+              tg-name="passcode_modal_btn">
+            <i class="fas fa-sign-in-alt f-large" alt="Enter Passcode"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="body-header h100 scroll hide-scrollbar"
+        data-model="{{= model.sisbot_id }}"
+        tg-name=current_tmp_page>
+      <!------------------------- OVERVIEW ---------------------------------->
+      <div data-if="{{= session.active.secondary }} == false">
+        <div data-if="{{= model.data }} !== undefined">
+          <div data-if="{{= model.data.active_track.id }} == false">
+            <div class="fs18 lh18 p20 i center blue mt100 no-stuffing strong">No Current Track Is Playing</div>
+          </div>
+          <div data-if="{{= model.data.active_track.id }} !== false">
+            <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
+                data-if="{{= model.data.is_waiting_between_tracks }} == true">Finished Playing</div>
+            <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
+                data-if="{{= model.data.is_waiting_between_tracks }} == false"
+                tg-name="now_playing">Now Playing</div>
+            <div data-model="{{= model.data.active_track.id }}">
+              <div class="flex active bb p10 pl20">
+            		<div class="w100 center">
+            				<img class="hh200"
+            						alt="{{= model.data.name }}"
+            						data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
+            						data-on-error="replace"
+            						data-replace="large-image-fallback-tmp" />
+                		<div class="pt10"
+              					tg-name="track_name">
+                			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
+                	    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+                		</div>
+            		</div>
+            	</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt10 pb20">
+          <div data-if="{{= model.data.active_playlist_id }} !== false">
+            <div data-model="{{= model.data.active_playlist_id }}">
+              <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
+              <div data-if="{{= model.data.is_shuffle }} !== undefined">
+                <div data-if="{{= model.data.active_track_index }} > -1">
+                  <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                    <div data-foreach="model.data.sorted_tracks"
+                        data-foreach-offset="{{= model.data.active_track_index }}"
+                        data-foreach-limit="20">
+                      <div class="bb"
+                          data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                          data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
+                          data-template="home-passcode-tracks-list-item-tmp"></div>
+                    </div>
+                  </div>
+                  <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                    <div data-if="{{= model.data.is_loop }} !== false">
+                      <div data-foreach="model.data.next_tracks"
+                          data-foreach-limit="{{= Math.max(0, 20 - (_.size(model.data.sorted_tracks) - model.data.active_track_index)) }}"
+                          data-foreach-offset="{{= (model.data.is_shuffle == 'true') ? 1 : 0 }}">
+                        <div class="bb"
+                            data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                            data-template="home-passcode-tracks-list-item-tmp"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

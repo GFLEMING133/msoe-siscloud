@@ -1,0 +1,37 @@
+<div class="h100" data-model="{{= manager.sisbot_id }}">
+  <div class="h100 scroll hide-scrollbar">
+    <div class="mt50p pl40 pr40">
+      <div class="fs18 white lh18 pb10 strong">Enter Passcode</div>
+      <div data-if="{{= model.passcode_error }} == false">
+        <input class="bg-white corner-5px center mt5 w100"
+            type="tel"
+            placeholder="****"
+            maxlength="6"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            data-field="model.passcode_entry" />
+      </div>
+      <div data-if="{{= model.passcode_error }} == true">
+        <input class="bg-white corner-5px center mt5 w100 shake-error"
+            type="tel"
+            placeholder="****"
+            maxlength="6"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            data-field="model.passcode_entry" />
+      </div>
+      <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+          data-on-click="model.submit_passcode">Submit</div>
+      <div class="hh100">&nbsp;</div>
+    </div>
+  </div>
+  <div class="flex-center-row less_strong center bt-white clickable white  strong blue-hover bg-black pull-bottom"
+      data-on-click="publish"
+      data-publish="modal:close">
+    <h2 class="m0 media_fs14 fs17 p20 media_ppb50">Close</h2>
+  </div>
+</div>
