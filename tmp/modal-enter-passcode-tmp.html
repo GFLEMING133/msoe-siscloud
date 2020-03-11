@@ -16,7 +16,7 @@
         </span>
       </div>
       <div data-if="{{= model.passcode_error }} == false">
-        <input class="bg-white corner-5px center mt5 w100 fs32"
+        <input class="bg-white corner-5px center mt5 w100 fs22"
             type="{{= (model.show_passcode == 'true') ? 'tel' : 'password'}}"
             placeholder="••••"
             maxlength="6"
@@ -27,7 +27,7 @@
             data-field="model.passcode_entry" />
       </div>
       <div data-if="{{= model.passcode_error }} == true">
-        <input class="bg-white corner-5px center mt5 w100 fs32 shake-error"
+        <input class="bg-white corner-5px center mt5 w100 fs22 shake-error"
             type="{{= (model.show_passcode == 'true') ? 'tel' : 'password'}}"
             placeholder="••••"
             maxlength="6"
@@ -37,7 +37,7 @@
             spellcheck="false"
             data-field="model.passcode_entry" />
       </div>
-      <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
+      <div class="mt20 p10 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
           data-on-click="model.submit_passcode">Submit</div>
       <div class="hh100">&nbsp;</div>
     </div>

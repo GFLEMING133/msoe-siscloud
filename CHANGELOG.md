@@ -1,6 +1,9 @@
-#2020-3-10 1.10.06
-- Passcode in app
-#2020-3-7 1.10.04-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
+#2020-3-10 1.9.06
+- Passcode added in app
+- Playlist edit modal for name and description 
+- Versioning in 7 tap updated
+- Find More Tracks removed from UI
+#2020-3-7 1.9.04-05  (released for prod 1.10.01)
 - Community sign in error handling adjusted
 - Conditionals added for playlist description
 - check_for_unavailable() moved out of conditional in the fetch()
@@ -12,10 +15,10 @@
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
 - Added is_downloaded to  Playlists page
-#2020-3-4 1.10.02 & 03
+#2020-3-4 1.9.02 & 03
 - Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
-#2020-3-4 1.10.00
+#2020-3-4 1.9.00
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
 - Added is_downloaded to  Playlists page
