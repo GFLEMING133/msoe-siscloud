@@ -1,20 +1,24 @@
-#2020-3-7 1.9.05
-- Community sign in error handeling adjusted
+#2020-3-7 1.10.05
+- Community sign in error handling adjusted
 - Conditionals added for playlist description
 - check_for_unavailable() moved out of conditional in the fetch()
 - listener turned back on for change in input fields.
-#2020-3-4 1.9.04
+#2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
+- wording and UI changes
+- Description error checking
+- Community log-in / sign-up error checking updated.
+- bug fixes in bind2 (arrays that change without length change)
 - Community Playlist pages updated
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
 - Added is_downloaded to  Playlists page
-#2020-3-4 1.9.02 & 03
+#2020-3-4 1.10.02 & 03
 - Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
-#2020-3-4 1.9.00
-- scroll_check fixed and moved to searchable model to fix call error. 
-- Draw inputs changed to populate correct name and save to session. 
-- Added is_downloaded to  Playlists page 
+#2020-3-4 1.10.00
+- scroll_check fixed and moved to searchable model to fix call error.
+- Draw inputs changed to populate correct name and save to session.
+- Added is_downloaded to  Playlists page
 #2020-3-2 1.8.99
 - UI changes to address responsiveness
 - search input now scrolling with page.
