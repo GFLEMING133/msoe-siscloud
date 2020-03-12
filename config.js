@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-	  version				:'1.10.05', // Pushing for production release
+	  version				:'1.9.08', // Pushing for production release with Fetching More Artist bug fix
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {
