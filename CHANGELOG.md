@@ -1,3 +1,5 @@
+#2020-3-12 1.9.07
+- Fixed Fetching Artist spinner bug
 #2020-3-10 1.9.06
 - Passcode added in app
 - Playlist edit modal for name and description 

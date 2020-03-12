@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				: '1.9.06', // added Playlist edit modal and password for App and Versioning Update in 7 tap
+    version				: '1.9.07', //Fixed Fetching Artist spinner bug
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {
