@@ -1,6 +1,6 @@
 app.config = {
 	env						: 'prod', //
-	version				:  '1.9.08', // Pushing for production release with Fetching More Artist bug fix
+	version				:  '1.10.08', // Pushing for production release with Fetching More Artist bug fix
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	show_tg				: false, // for testing

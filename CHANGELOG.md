@@ -1,6 +1,5 @@
-#2020-3-12 1.9.08 
+#2020-3-12 1.10.08
 - Fetching more artist spinner fix
-- pushing to release to production
 #2020-3-4 1.10.00-05
 - wording and UI changes
 - Description error checking
