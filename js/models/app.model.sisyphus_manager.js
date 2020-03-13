@@ -26,6 +26,7 @@ app.model.sisyphus_manager = {
       sisbots_user: [],
       sisbots_networked: [],
       sisbots_ip_name: {},
+      ble_sisbot: 'false', // IP address BLE found
 
       force_rescan: 'false', // force full find_sisbots scan
       sisbots_scanning: 'false',
@@ -311,6 +312,7 @@ app.model.sisyphus_manager = {
       },
       function(error) {
         //alert('Start Scan Error: ' + error);
+        app.log("BLE scan error", error);
         self.ble_cb();
       }
     );
@@ -330,11 +332,15 @@ app.model.sisyphus_manager = {
     if (this._ble_cb) {
       app.log("BLE IP:", value);
       this._ble_ip = value;
+
+      if (value) this.set('ble_sisbot', value);
+      else this.set('ble_sisbot', 'false');
+
       self.ping_sisbot(value, function() {
-          if (_.isFunction(self._ble_cb)) self._ble_cb(value);
-          self._ble_cb = false;
-        });
-      }
+        if (_.isFunction(self._ble_cb)) self._ble_cb(value);
+        self._ble_cb = false;
+      });
+    }
     return this;
   },
   ble_stop_scan: function() {
@@ -346,6 +352,7 @@ app.model.sisyphus_manager = {
     var self = this;
 
     evothings.ble.connectToDevice(device, function on_connect(device) {
+      var dataService = evothings.ble.getService(device, "ec00");
 
       self.get_service_data(device);
     }, function on_disconnect(device) {
@@ -355,14 +362,15 @@ app.model.sisyphus_manager = {
     }, function on_error(error) {
       if (connect_retries > 5) {
         app.plugins.n.notification.alert('Bluetooth Connect Error: ' + error);
-        app.log('Bluetooth Connect Error:', error);
+        app.log('BLE Connect Error:', error);
         self.ble_cb();
       } else {
+        app.log('BLE Retry');
         setTimeout(function() {
           self.ble_connect(device, ++connect_retries);
         }, 500);
       }
-    });
+    }, { serviceUUIDs: ['ec00','ec0e'] });
   },
   get_service_data: function(device) {
     var self = this;
@@ -373,8 +381,8 @@ app.model.sisyphus_manager = {
 
         if (dataService == null) {
           app.log("BLE dataService null");
-          self.ble_cb();
           evothings.ble.close(device);
+          self.ble_cb();
         } else {
           self._char = evothings.ble.getCharacteristic(dataService, "ec0e")
           self.setup_read_chars(device);
@@ -383,8 +391,8 @@ app.model.sisyphus_manager = {
       function on_error(error) {
         //alert('Bluetooth Service Data Error: ' + error);
         app.log('Bluetooth Service Data Error: ', error);
-        self.ble_cb();
         evothings.ble.close(device);
+        self.ble_cb();
       }
     );
   },
@@ -393,14 +401,15 @@ app.model.sisyphus_manager = {
 
     evothings.ble.readCharacteristic(device, this._char, function on_success(d) {
       var ip_address_arr = new Uint8Array(d);
+      app.log("BLE Char:", ip_address_arr);
       self._ble_ip = ip_address_arr.join('.');
-      self.ble_cb(self._ble_ip);
       evothings.ble.close(device);
+      self.ble_cb(self._ble_ip);
     }, function on_fail(error) {
       //alert('Reach Characteristic Error: ' + error);
       app.log('BLE Reach Characteristic Error: ', error);
-      self.ble_cb();
       evothings.ble.close(device);
+      self.ble_cb();
     });
   },
   /****************************************************************************/
