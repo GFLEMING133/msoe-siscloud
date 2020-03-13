@@ -444,11 +444,6 @@ app.model.sisyphus_manager = {
     var reminder_status = sisbot.get('data.do_not_remind');
     var is_internet_connected = sisbot.get('data.is_internet_connected');
 
-    // do we need a passcode?
-    if (sisbot.get('data.passcode') != 'false') {
-      this.set('is_passcode_required', 'true');
-    }
-
     if (reminder_status == 'false') {
       if (hotspot_status == 'true') {
         this.set('show_wifi_page', 'true');
@@ -1005,6 +1000,10 @@ app.model.sisyphus_manager = {
             app.log("Connect Mismatch", sisbot_hostname, data.local_ip);
             if (data.local_ip == '192.168.42.1') sisbot.set('data.local_ip', sisbot_hostname); // Fix hotspot address not yet updated on Pi
           }
+
+          // do we need a passcode?
+          var passcode = sisbot.get('data.passcode');
+          if (passcode != 'false' && sisbot.get('passcode_entry') != passcode) self.set('is_passcode_required', 'true');
 
           // update ip address
           app.log("Reset Sisbot URL", sisbot.get('data.local_ip'));

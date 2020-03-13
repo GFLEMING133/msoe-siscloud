@@ -27,8 +27,8 @@
             data-field="model.passcode_entry" />
       </div>
       <div data-if="{{= model.passcode_error }} == true">
-        <input class="bg-white corner-5px center mt5 w100 fs22 shake-error"
-            type="{{= (model.show_passcode == 'true') ? 'tel' : 'password'}}"
+        <input class="bg-white corner-5px center mt5 w100 fs32 shake-error"
+            type="{{= (model.show_passcode == 'true') ? 'text' : 'password'}}"
             placeholder="••••"
             maxlength="6"
             autocomplete="off"

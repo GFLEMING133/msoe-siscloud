@@ -595,6 +595,9 @@ app.model.sisbot = {
 		var passcode_entry = this.get('new_passcode');
 		var show_passcode = this.get('show_passcode');
 
+		// clear errors
+		this.set('errors', []);
+
 		var do_save = false;
 
 		if (passcode_entry == '' && this.get('data.passcode') != 'false') {
