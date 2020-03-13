@@ -31,7 +31,7 @@
     </div>
 
     <div class="body-header h100 scroll hide-scrollbar"
-        data-on-scroll="parent.scroll_check"
+        data-on-scroll="model.scroll_check"
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_artists"
         tg-name="">
@@ -39,14 +39,14 @@
         <div class="p20 center i">Fetching List of Artists...</div>
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       </div>
-      <div class="h100" data-if="{{= parent.fetching_community_artists }} == false">
-        <div class="h100 " data-if="{{= _.size(parent.community_artist_ids) }} > 0">
+      <div class="w100" data-if="{{= parent.fetching_community_artists }} == false">
+        <div class="w100" data-if="{{= _.size(parent.community_artist_ids) }} > 0">
           <div class="pt75 pb200"
             data-if="{{= model.is_ready }} == true"
             data-foreach="cluster"
             data-cluster="{{= model.data.query }}"
-            data-foreach-limit="{{= parent.limit }}"
-            data-foreach-offset="{{= parent.offset }}"
+            data-foreach-limit="{{= model.limit }}"
+            data-foreach-offset="{{= model.offset }}"
             data-cluster-comparator="model.data.comparator"
             data-cluster-search-keys="model.data.q.search_keys"
             data-cluster-search-value="model.data.q.value">
@@ -57,8 +57,8 @@
             data-if="{{= _.size(parent.community_artist_ids) }} == 0">
             No Artists...
         </div>
-        <div data-if="{{= model.q_size }} > {{= parent.limit }}">
-          <div class="p20 center i">Fetching List of Artists...</div>
+        <div data-if="{{= model.q_size }} > {{= model.limit }}">
+          <div class="p20 center i">Fetching More Artists...</div>
           <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
         </div>
       </div>

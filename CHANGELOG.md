@@ -1,12 +1,11 @@
-#2020-3-10 1.9.06
+#2020-3-10 1.10.09
 - Passcode added in app
-- Playlist edit modal for name and description 
+- Playlist edit modal for name and description
 - Versioning in 7 tap updated
 - Find More Tracks removed from UI
-#2020-3-7 1.9.04-05  (released for prod 1.10.01)
-- Community sign in error handling adjusted
-- Conditionals added for playlist description
-- check_for_unavailable() moved out of conditional in the fetch()
+#2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
+- Fetching more artist spinner fix
+#2020-3-4 1.10.00-05
 - wording and UI changes
 - Description error checking
 - Community log-in / sign-up error checking updated.
@@ -15,6 +14,9 @@
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
 - Added is_downloaded to  Playlists page
+- Community sign in error handling adjusted
+- Conditionals added for playlist description
+- check_for_unavailable() moved out of conditional in the fetch()
 #2020-3-4 1.9.02 & 03
 - Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
