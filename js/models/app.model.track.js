@@ -1057,6 +1057,7 @@ app.model.track = {
 		}else if (this.get('data.reversed') == true){
 			this.set('data.reversed', false);
 		}
+		this.trigger('change:data.reversible');
 	},
 	is_playlist_favorite: function () {
 		var playlist_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
