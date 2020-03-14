@@ -1051,6 +1051,13 @@ app.model.track = {
 
 		this.set('playlist_ids', playlist_ids);
 	},
+	reverse_change: function() {
+		if (this.get('data.reversed') == false) {
+			this.set('data.reversed', true);
+		}else if (this.get('data.reversed') == true){
+			this.set('data.reversed', false);
+		}
+	},
 	is_playlist_favorite: function () {
 		var playlist_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
 
