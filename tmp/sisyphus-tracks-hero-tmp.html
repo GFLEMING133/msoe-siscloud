@@ -41,15 +41,6 @@
         </div>
         <div class="w90 lh20 white less_strong">Play</div>
       </div>
-      <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
-          data-if="{{= model.data.reversible }} == true"
-          data-on-click="model.reverse_change">
-        <div class="center white">
-          <i class="fs24 fab fa-rev"></i>
-        </div>
-        <div class="w90 lh20 white less_strong" data-if="{{= model.data.reversed }} == true">Unreverse</div>
-        <div class="w90 lh20 white less_strong" data-if="{{= model.data.reversed }} == false">Reverse</div>
-      </div>
       <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
           data-run="model.is_playlist_favorite"
           data-on-click="model.favorite_toggle">
@@ -76,6 +67,17 @@
           <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
         </div>
         <div class="w90 lh20 white">Add to Playlist</div>
+      </div>
+      <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable">
+        <div class="center white">
+          <i class="p10 pl0 white f-large fas fa-check-square clickable"
+              data-if="{{= model.data.reversible }} !== false"
+              data-on-click="model.change_reversible"></i>
+          <i class="p10 pl0 white f-large far fa-square clickable"
+              data-if="{{= model.data.reversible }} == false"
+              data-on-click="model.change_reversible"></i>
+        </div>
+        <div class="w90 lh20 white less_strong">Reversible</div>
       </div>
       <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
           data-if="{{= model.data.is_deletable }} == true"

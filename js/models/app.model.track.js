@@ -1051,11 +1051,11 @@ app.model.track = {
 
 		this.set('playlist_ids', playlist_ids);
 	},
-	reverse_change: function() {
-		if (this.get('data.reversed') == false) {
-			this.set('data.reversed', true);
-		}else if (this.get('data.reversed') == true){
-			this.set('data.reversed', false);
+	change_reversible: function() {
+		if (this.get('data.reversible') == 'false') {
+			this.set('data.reversible', 'true');
+		}else if (this.get('data.reversible') == 'true'){
+			this.set('data.reversible', 'false');
 		}
 		this.trigger('change:data.reversible');
 	},
