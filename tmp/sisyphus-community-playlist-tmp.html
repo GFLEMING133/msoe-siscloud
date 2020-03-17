@@ -5,7 +5,8 @@
         <div class="w25 left pl20 clickable active blue-hover"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'primary':'community','secondary':'{{= session.active.goBack }}'}">
+            data-msg="{'primary':'community','secondary':'{{= session.active.goBack }}'}"
+            tg-name="community_playlist_back_button">
             <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
         </div>
         <div class="w50">
@@ -22,7 +23,8 @@
         </div>
         <div class="w10 clickable active p10 pl0"
             data-if="{{= parent.download_cloud }} == true"
-            data-on-click="parent.download_wc">
+            data-on-click="parent.download_wc"
+            tg-name="community_playlist_download_cloud">
             <i class="o75 o100-hover white fs24 fas fa-cloud-download-alt"></i>
         </div>
         <div class="w10 pointer-none p10 pl0" data-if="{{= parent.download_cloud }} == false">
@@ -43,11 +45,13 @@
         <div class="relative center">
           <div class="download-all-btn strong fs17 mt10 o80 o100-hover"
               data-if="{{= model.is_downloaded }} == false"
-              data-on-click="model.download_wc">Download All</div>
+              data-on-click="model.download_wc"
+              tg-name="community_playlist_download_all_btn">Download All</div>
         </div>
         <div class="relative center">
           <div class="download-all-btn strong fs17 mt10 o80"
-              data-if="{{= model.is_downloaded }} == true">Downloaded</div>
+              data-if="{{= model.is_downloaded }} == true"
+              tg-name="community_playlist_downloaded_btn">Downloaded</div>
         </div>
       </div>
 

@@ -9,7 +9,8 @@
         <div class="w25 left pl20 clickable active blue-hover"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'primary':'community','secondary':'false'}">
+          data-msg="{'primary':'community','secondary':'false'}"
+          tg-name="community_playlists_all_back_button">
           <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
         </div>
         <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Playlists</h1></div>
@@ -28,7 +29,8 @@
             placeholder="&#xf002; Search Playlists"
             data-field="model.data.q.value"
             value="{{= model.data.q.value }}"
-            data-on-input="model.update_q" />
+            data-on-input="model.update_q" 
+            tg-name="community_playlists_all_input"/>
         </div>
       </div>
     </div>
@@ -37,7 +39,7 @@
         data-on-scroll="model.scroll_check"
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_artists"
-        tg-name="">
+        tg-name="community_playlists_all_page">
       <div class="pt75" data-if="{{= parent.fetching_community_playlists }} == true">
         <div class="p20 center i">Fetching Playlists...</div>
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
