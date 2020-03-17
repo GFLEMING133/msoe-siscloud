@@ -1,4 +1,7 @@
-<div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
+<div class="h100" 
+    data-model="{{= session.community_id }}" 
+    data-run="model.reset_params"
+    tg-name="community_artist_tracks_list_page">
   <div data-if="{{= model.fetched_community_artists }} == false">
     <div data-run="model.fetch_community_artists"></div>
   </div>
@@ -21,7 +24,8 @@
             <div class="w25 left pl20 clickable active"
                 data-on-click="publish"
                 data-publish="session:active"
-                data-msg="{'primary':'community','secondary':'artist'}">
+                data-msg="{'primary':'community','secondary':'artist'}"
+                tg-name="community_artist_tracks_list_back_button">
               <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15"/>
             </div>
             <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">{{= parent.data.name }}</h1></div>
@@ -40,14 +44,16 @@
                   placeholder="&#xf002; Search"
                   data-field="model.data.q.value"
                   value="{{= model.data.q.value }}"
-                  data-on-input="model.update_q" />
+                  data-on-input="model.update_q" 
+                  tg-name="community_artist_tracks_list_input"/>
             </div> <!--end of search-->
 
             <div class="hamburger-container clickable active">
               <div
                   data-on-click="publish"
                   data-publish="modal:open"
-                  data-msg="{'template':'modal-community-sorting-tmp'}">
+                  data-msg="{'template':'modal-community-sorting-tmp'}"
+                  tg-name="community_artist_tracks_list_hamburger">
                 <div class="bar1 bg-black"></div>
                 <div class="bar2 bg-black"></div>
                 <div class="bar3 bg-black"></div>
@@ -55,7 +61,7 @@
             </div>
 
             <div class="flex-end-center mr5"
-                tg-name="download_cloud_header">
+                tg-name="community_artist_tracks_list_download_cloud">
               <div class="clickable active"
                   data-if="{{= grandparent.download_cloud }} == true"
                   data-on-click="grandparent.download_wc">
@@ -73,7 +79,8 @@
             data-on-scroll="model.scroll_check"
             data-msg="{{= _self_.el_id }}"
             data-run="grandparent.fetch_artist_tracks"
-            data-run-msg="{'user_id':'{{= parent.data.user_id }}'}">
+            data-run-msg="{'user_id':'{{= parent.data.user_id }}'}"
+            tg-name="community_artist_tracks_list_page">
           <div class="mt250" data-if="{{= grandparent.fetching_community_tracks }} == true">
             <div class="p20 center i">Fetching tracks...</div>
             <div class="mb20 black" data-template="spinner-bounce-tmp"></div>

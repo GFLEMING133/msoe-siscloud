@@ -8,7 +8,7 @@
           data-on-click="publish"
           data-publish="session:active"
           data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'false'}"
-          tg-name="feature_box">
+          tg-name="feature_box_{{= model.id }}">
         <div class="flex-center-col montserrat_m relative center"
             style="background-image: url({{= app.config.get_api_url()}}uploads/track/thr/{{= model.data.db_tracks[{[= model.data.featured_track]}]}}/thumb_400.png );
                     height: 100px;

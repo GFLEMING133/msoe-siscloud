@@ -1,11 +1,12 @@
 <div class="h100 " data-run="model.collapse">
   <div  data-if="{{= grandparent.data.name }} == {{= model.data.created_by_name }}">
     <div class="flex clickable active bb p10 {{= (session.toggle.expanded == model.id) ? 'bg-grey-lt' : 'bg-grey-ll-hover' }}"
-          tg-name="community_track_container_{{= model.id }}_div">
+          tg-name="community_artist_tracks_list_item_container_{{= model.id }}">
       <div class="w25 center vertical "
           data-on-click="publish"
           data-publish="modal:open"
-          data-msg="{'track_id':'{{= model.id }}','template':''sisyphus-community-track-overlay-tmp''}">
+          data-msg="{'track_id':'{{= model.id }}','template':''sisyphus-community-track-overlay-tmp''}"
+          tg-name="community_artist_tracks_list_item_img_overlay_open">
         <div>
           <img class="w75p hh75"
               alt="{{= model.data.name }}"
@@ -18,7 +19,8 @@
       <div class="w60 pt15 pl10"
           data-on-click="publish"
           data-publish="modal:open"
-          data-msg="{'track_id':'{{= model.id}}','template':'sisyphus-community-track-overlay-tmp'}">
+          data-msg="{'track_id':'{{= model.id}}','template':'sisyphus-community-track-overlay-tmp'}"
+          tg-name="community_artist_tracks_list_item_name_overlay_open">
         <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
         <div class="fs13 warmGrey pt5">by {{= model.data.created_by_name }}</div>
         <div class="fs13 warmGrey pt2">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</div>
@@ -33,7 +35,7 @@
           data-if="{{= model.is_downloaded }} == false"
           data-field="model.track_checked"
           data-on-click="toggle"
-          tg-name="community_check_{{= model.id }}_box">
+          tg-name="community_artist_tracks_list_item_check_box_{{= model.id }}">
         <span class="black f-large fas fa-check-square"   data-if="{{= model.track_checked }} == true"></span>
         <span class="black f-large far fa-square"         data-if="{{= model.track_checked }} == false"></span>
       </div>

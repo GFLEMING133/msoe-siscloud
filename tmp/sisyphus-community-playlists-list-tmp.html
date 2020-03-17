@@ -2,7 +2,8 @@
   <div class="flex clickable active bb"
       data-on-click="publish"
       data-publish="session:active"
-      data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'playlists'}">
+      data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'playlists'}"
+      tg-name="community_playlists_list_select_{{= model.id }}">
     <div class="w24-8 pl24-1 pr24-1 pt24-1 pb24-1 relative">
       <div class="hh80 z10" 
           data-template="sisyphus-community-playlist-rendering"></div>

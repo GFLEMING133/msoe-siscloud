@@ -16,7 +16,8 @@
         <div class="w20 left pl20 clickable active blue-hover"
             data-on-click="publish"
             data-publish="session:active"
-            data-msg="{'primary':'community','secondary':'false'}">
+            data-msg="{'primary':'community','secondary':'false'}"
+            tg-name="community_tracks_back_button">
             <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
         </div>
         <div class="w60">
@@ -44,25 +45,27 @@
               placeholder="&#xf002; Search"
               data-field="model.data.q.value"
               value="{{= model.data.q.value }}"
-              data-on-input="model.update_q" />
+              data-on-input="model.update_q" 
+              tg-name="community_tracks_input"/>
         </div>
 
         <div class="hamburger-container clickable active">
           <div
               data-on-click="publish"
               data-publish="modal:open"
-              data-msg="{'template':'modal-community-sorting-tmp'}">
+              data-msg="{'template':'modal-community-sorting-tmp'}"
+              tg-name="community_tracks_hamburger">
             <div class="bar1 bg-black"></div>
             <div class="bar2 bg-black"></div>
             <div class="bar3 bg-black"></div>
           </div>
         </div>
 
-        <div class="flex-end-center media_mr5"
-            tg-name="download_cloud_header">
+        <div class="flex-end-center media_mr5">
           <div class="clickable active"
               data-if="{{= parent.download_cloud }} == true"
-              data-on-click="parent.download_wc">
+              data-on-click="parent.download_wc"
+              tg-name="community_tracks_download_cloud">
             <i class="black blue-hover fs24 fas fa-cloud-download-alt"></i>
           </div>
           <div class="pointer-none" data-if="{{= parent.download_cloud }} == false">
