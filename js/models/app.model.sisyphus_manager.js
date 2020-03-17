@@ -1003,7 +1003,10 @@ app.model.sisyphus_manager = {
 
           // do we need a passcode?
           var passcode = sisbot.get('data.passcode');
-          if (passcode != 'false' && sisbot.get('passcode_entry') != passcode) self.set('is_passcode_required', 'true');
+          app.log("Check passcode:", passcode, sisbot.get('passcode_entry'), sisbot.get('data.is_serial_open'));
+          if (passcode != 'false' && sisbot.get('passcode_entry') != passcode && sisbot.get('data.is_serial_open') == 'true') {
+            self.set('is_passcode_required', 'true');
+          }
 
           // update ip address
           app.log("Reset Sisbot URL", sisbot.get('data.local_ip'));
