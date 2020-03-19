@@ -237,7 +237,7 @@ app.model.sisyphus_manager = {
   },
   check_ble_status: function() {
     //   app.log("check_ble_status()");
-    if (app.is_simulator || !app.is_app || app.config.env == 'alpha') { //<<<< change app.is_simulator value for testing
+    if (app.config.is_simulator || !app.is_app || app.config.env == 'alpha') { //<<<< change app.config.is_simulator value for testing
       this.set('is_ble_enabled', 'true');
       return this;
     }
@@ -613,8 +613,9 @@ app.model.sisyphus_manager = {
   /**************************** FIND SISBOTS ********************************/
   _apple_counts: 0,
   _apple_counter: function() {
-     this._apple_counts++;
+    this._apple_counts++;
     app.log("_apple_counter()", this._apple_counts);
+
     if (this._apple_counts > 5) {
       app.config.env = 'alpha';
       this.set('sisbot_registration', 'find');
@@ -819,9 +820,9 @@ app.model.sisyphus_manager = {
     var self = this;
 
     this.get_network_ip_address(function(ip_address) {
-      if (app.is_simulator) {
-        app.log("Switch to Simulator IP", app.simulator_ip);
-        ip_address = app.simulator_ip; // testing for simulator
+      if (app.config.is_simulator) {
+        app.log("Switch to Simulator IP", app.config.simulator_ip);
+        ip_address = app.config.simulator_ip; // testing for simulator
       }
 
       app.log('get_network_ip_address ==', ip_address);
@@ -1319,7 +1320,7 @@ app.model.sisyphus_manager = {
       type: 'playlist',
       name: 'Default Playlist',
       description: 'Playlist of Sisyphus original tracks',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
       is_saved: 'true',
       is_published: 'false',
       is_shuffle: 'true',
@@ -1345,7 +1346,7 @@ app.model.sisyphus_manager = {
       type: 'playlist',
       name: 'Erase Playlist',
       description: 'false',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
       is_saved: 'true',
       is_published: 'false',
       is_shuffle: 'true',
@@ -1362,55 +1363,55 @@ app.model.sisyphus_manager = {
       type: 'track',
       name: 'Erase',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '2',
       type: 'track',
       name: 'Tensig 1',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '3',
       type: 'track',
       name: 'Sine',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '4',
       type: 'track',
       name: 'Circam 2S',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '5',
       type: 'track',
       name: 'C Warp 3B',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '6',
       type: 'track',
       name: 'D Ces 4P',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '7',
       type: 'track',
       name: 'Hep',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '8',
       type: 'track',
       name: 'India 1P',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }, {
       id: '9',
       type: 'track',
       name: 'Para 2B',
       created_by_id: '2B037165-209B-4C82-88C6-0FA4DEB08A08',
-      created_by_name: 'Sisyphus Industries',
+      created_by_name: 'Bruce Shapiro',
     }];
 
     return data;

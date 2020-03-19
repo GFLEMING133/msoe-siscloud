@@ -5,7 +5,7 @@
     <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40"
         data-on-click="model._apple_counter"
         aria-hidden="true">&nbsp;</p>
-    <div data-if="{{= model.ble_sisbot }} == false">
+    <div data-if="{{= app.config.is_debug }} == false">
       <h3 class="m0 pt20 pb20 center justify fs24 lh24">
           No table found
       </h3>
@@ -14,12 +14,12 @@
         then click the "Re-Scan" button below in 30 seconds.
       </p>
     </div>
-    <div data-if="{{= model.ble_sisbot }} !== false">
+    <div data-if="{{= app.config.is_debug }} !== false">
       <h3 class="m0 pt20 pb20 center justify fs24 lh24">
           Unable to reach table
       </h3>
       <p class="center fs18 strong lh24 pb10">
-        Table IP: {{= model.ble_sisbot }}<br/>
+        <span data-if="{{= model.ble_sisbot }} !== false">Table IP: {{= model.ble_sisbot }}<br/></span>
         Your IP: {{= model.device_ip }}
       </p>
       <p class="center fs18 lh24">

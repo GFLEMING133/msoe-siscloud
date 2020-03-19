@@ -202,9 +202,9 @@ function Element(el, parent, _scope) {
   this.events = [];
   this.libraries = {};
 
-  this.show_comments = false; // show/hide <!-- comments -->
-  this.show_data = true; // show/hide data-____ values in html
-  this.show_lib = false;
+  // this.show_comments = false; // moved to config // show/hide <!-- comments -->
+  // this.show_data = true; // moved to config // show/hide data-____ values in html
+  // this.show_lib = false; // moved to config
   // this.show_tg = false; // moved to config
 
   this.el_type = null;
@@ -1406,9 +1406,9 @@ function Element(el, parent, _scope) {
         if (self.data.debug) app.log("Render", key, value);
 
         if (key.indexOf('data-') == 0) {
-          if (self.show_data && key != 'data-model') $el.attr(key, self.get_value(value, true));
+          if (app.config.show_data && key != 'data-model') $el.attr(key, self.get_value(value, true));
         } else if (key.indexOf('lib-') == 0) {
-          if (self.show_lib) $el.attr(key, self.get_value(value, true));
+          if (app.config.show_lib) $el.attr(key, self.get_value(value, true));
         } else if (key.indexOf('tg-') == 0) {
           if (app.config.show_tg) $el.attr(key, self.get_value(value, true));
         } else if (key == 'class') {
@@ -1446,7 +1446,7 @@ function Element(el, parent, _scope) {
 
     // comment?
     if (this.el_type == 'comment') {
-      if (this.show_comments) {
+      if (app.config.show_comments) {
         return '<!-- '+this.get_value(this.el_text)+' -->';
       } else return '';
     }
@@ -1461,12 +1461,12 @@ function Element(el, parent, _scope) {
     // attributes
     _.each(this.el, function(value, key) {
       if (key.indexOf('data-') == 0) {
-        if (self.show_data) {
+        if (app.config.show_data) {
           if (key == 'data-model') returnValue += ' '+key+'="'+self.model_str+'"';
           else returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
         }
       } else if (key.indexOf('lib-') == 0) {
-        if (self.show_lib) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
+        if (app.config.show_lib) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
       } else if (key.indexOf('tg-') == 0) {
         if (app.config.show_tg) returnValue += ' '+key+'="'+self.get_value(value, true)+'"';
       } else if (key == 'class') {

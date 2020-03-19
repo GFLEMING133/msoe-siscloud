@@ -3,6 +3,7 @@
 - Playlist edit modal for name and description
 - Versioning in 7 tap updated
 - Find More Tracks removed from UI
+- Show created_by_name credit on Track lists
 #2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
 - Fetching more artist spinner fix
 #2020-3-4 1.10.00-05

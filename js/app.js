@@ -6,9 +6,6 @@ var app = {
 	tmps			: [],
 	view			: {},
 	tour			: {},
-	is_production: false, // disallow all console logs
-	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
-	simulator_ip: '192.168.1.6', // force a specific network address in simulator
 	is_visible: true,
 	mouse_is_down: false,
 	count		: 0,
@@ -67,7 +64,7 @@ var app = {
 		return app.session.get_model('user_id');
 	},
 	log: function () {
-		if (app.is_production) return; // don't output any logs if production
+		if (app.config.is_production) return; // don't output any logs if production
 
 		// output logs in setting friendly format (with timestamp)
 		if (app.is_app) {

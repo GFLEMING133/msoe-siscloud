@@ -1,5 +1,5 @@
 <div class="h100" data-model="{{= model.sisyphus_manager_id }}">
-  <div class="fixed white click-through" data-if="{{= app.is_simulator }} == true">Simulator</div>
+  <div class="fixed white click-through" data-if="{{= app.config.is_simulator }} == true">Simulator</div>
   <div class="h100" data-if="{{= model.sisbot_id }} !== false">
     <div class="h100" data-run="model.should_show_onboarding">
       <div class="h100" data-if="{{= model.is_passcode_required }} == true">
