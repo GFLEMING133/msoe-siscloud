@@ -42,8 +42,8 @@ app.model.artist = {
 
 		// TODO: call community.download_wc
 		if (community.get('selected_tracks').length > 0) {
-			// save playlist to table
-			community.set('selected_playlist', this.id);
+			// allow user to choose where to save
+			community.set('selected_playlist', 'false');
 
 			app.log("Download tracks to table", community.get('selected_tracks'));
 			community.download_wc();
