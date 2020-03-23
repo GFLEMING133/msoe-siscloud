@@ -1,6 +1,7 @@
 <div class="p10 overflow-box hide-scrollbar"
     data-foreach="model.community_playlist_ids"
-    data-foreach-map="true">
+    data-foreach-map="true"
+    tg-name="community_feature_box_page">
   <div data-if="{{= model.data.playlist_id }} !== 1">
     <div data-if="{{= model.data.is_featured }} == true">
       <div class="w120p mr20 clickable active corner-5px "

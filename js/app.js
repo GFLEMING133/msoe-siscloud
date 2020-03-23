@@ -1,15 +1,15 @@
 var app = {
 	base 			: {},
-	plugins		: {},
+	plugins			: {},
 	model			: {},
-	collection: {},
+	collection 		: {},
 	tmps			: [],
 	view			: {},
 	tour			: {},
-	is_visible: true,
-	mouse_is_down: false,
-	count		: 0,
-	timers		: function (id1, id2, id3) {
+	is_visible 		: true,
+	mouse_is_down 	: false,
+	count			: 0,
+	timers 		: function (id1, id2, id3) {
 		if (!this._timers)		this._timers = {};
 
 		if (id1 && id2 && id3) {
