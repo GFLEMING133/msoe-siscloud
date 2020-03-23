@@ -1,4 +1,7 @@
-<div class="h100" data-model="{{= session.community_id }}" data-run="model.reset_params">
+<div class="h100" 
+    data-model="{{= session.community_id }}" 
+    data-run="model.reset_params"
+    tg-name="community_artists_page">
   <div class="h100" data-scope="true"
       data-defaults="{
         'type':'searchable_list',
@@ -36,7 +39,7 @@
             data-field="model.data.q.value"
             value="{{= model.data.q.value }}"
             data-on-input="model.update_q" 
-            tg-name="artist_search_input"/>
+            tg-name="artists_search_input"/>
         </div>
       </div>
     </div>
