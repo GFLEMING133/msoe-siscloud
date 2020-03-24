@@ -1,6 +1,6 @@
 app.config = {
 	env				: 'prod', //
-	version			:  '1.9.09', //
+	version			:  '1.9.09', // lights updated, webview update addressed, removed wc_test env, other ui
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production	: false,
@@ -29,7 +29,7 @@ app.config = {
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
 			// api_url			: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  	: 'http://192.168.1.99:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  	: 'http://192.168.1.06:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port			: 3001,
 			show_tg			: true
 		},
@@ -41,7 +41,7 @@ app.config = {
 			// web_url			: 'http://localhost:3333/', // webcenter
 			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			sisbot_url  	: 'http://192.168.1.99:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url  	: 'http://192.168.1.06:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port			: 3001,
 			show_tg			: true
 		},
@@ -69,13 +69,6 @@ app.config = {
 			web_url			: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url  	: 'false', // set when we find a bot
 			base_port		: 443,
-		},
-		wc_test: {
-			base_url		: window.location.href,
-			api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			sisbot_url  	: 'http://192.168.1.99:3002', //talking to sisbot
-			port			: 3001,
 		}
 	},
 	get_base_url: function () {
@@ -156,4 +149,4 @@ if (window.location.hostname == '') app.config.env = 'prod';
 if (app.config.envs[app.config.env].show_tg) app.config.show_tg = app.config.envs[app.config.env].show_tg;
 
 // REMOVE this when done testing with webcenter DEV
-//app.config.env = 'wc_test';
+
