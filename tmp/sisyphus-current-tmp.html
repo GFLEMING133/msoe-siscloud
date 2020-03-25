@@ -38,7 +38,7 @@
               data-if="{{= model.data.is_waiting_between_tracks }} == false"
               tg-name="now_playing">Now Playing</div>
           <div data-model="{{= model.data.active_track.id }}">
-            <div class="flex clickable active bg-grey-ll-hover bb p10 pl20"
+            <div class="flex clickable active bg-grey-ll-hover p10 pl20"
           			data-on-click="publish"
           			data-publish="modal:open"
           			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
@@ -62,7 +62,7 @@
       <div class="mt10 pb200">
         <div data-if="{{= model.data.active_playlist_id }} !== false">
           <div data-model="{{= model.data.active_playlist_id }}">
-            <div class="fs18 lh18 p20 pt10 pb10 no-stuffing strong">Next Up</div>
+            <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-white sticky">Next Up</div>
             <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">

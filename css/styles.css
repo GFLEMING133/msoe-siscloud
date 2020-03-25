@@ -330,6 +330,11 @@ label {
 }
 
 /********************************* GENERAL ************************************/
+.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
 
 .readonly {
   -webkit-touch-callout		: none; /* iOS Safari */
