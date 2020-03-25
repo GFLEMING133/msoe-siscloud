@@ -1,3 +1,8 @@
+#2020-3-24 1.9.09
+- removed wc_test env from app.config
+- updated app.js for StatusBar.overlaysWebView(false & true) to fix status bar page height for new cordova
+- Download All from Artist fixed and routing to modal (also updated in sisbot/)
+- UI changes as well as naming conventions. 
 #2020-3-10 1.10.09
 - Passcode added in app
 - Playlist edit modal for name and description
