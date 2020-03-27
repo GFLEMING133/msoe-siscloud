@@ -1,17 +1,21 @@
-#2020-3-24 1.9.09
+# 2020-3-26 1.9.12
+- keyboard dismissal fix with cordova-plugin-wkkeyboardfix pushing for testing 
+# 2020-3-24 1.9.10 & 11
+- updated inappbrowser plugin in Cordova for Apple deprication of UIWebview
+# 2020-3-24 1.9.09
 - removed wc_test env from app.config
 - updated app.js for StatusBar.overlaysWebView(false & true) to fix status bar page height for new cordova
 - Download All from Artist fixed and routing to modal (also updated in sisbot/)
 - UI changes as well as naming conventions. 
-#2020-3-10 1.10.09
+# 2020-3-10 1.10.09
 - Passcode added in app
 - Playlist edit modal for name and description
 - Versioning in 7 tap updated
 - Find More Tracks removed from UI
 - Show created_by_name credit on Track lists
-#2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
+# 2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
 - Fetching more artist spinner fix
-#2020-3-4 1.10.00-05
+# 2020-3-4 1.10.00-05
 - wording and UI changes
 - Description error checking
 - Community log-in / sign-up error checking updated.
@@ -23,14 +27,14 @@
 - Community sign in error handling adjusted
 - Conditionals added for playlist description
 - check_for_unavailable() moved out of conditional in the fetch()
-#2020-3-4 1.9.02 & 03
+# 2020-3-4 1.9.02 & 03
 - Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
-#2020-3-4 1.9.00
+# 2020-3-4 1.9.00
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
 - Added is_downloaded to  Playlists page
-#2020-3-2 1.8.99
+# 2020-3-2 1.8.99
 - UI changes to address responsiveness
 - search input now scrolling with page.
 #2020-2-27 1.8.98
