@@ -1,13 +1,11 @@
-# 2020-3-26 1.9.12
-- keyboard dismissal fix with cordova-plugin-wkkeyboardfix pushing for testing 
-# 2020-3-24 1.9.10 & 11
+# 2020-3-10 1.10.09-13
+- Zendesk Support requests can be submitted within app
+- keyboard dismissal fix with cordova-plugin-wkkeyboardfix pushing for testing
 - updated inappbrowser plugin in Cordova for Apple deprication of UIWebview
-# 2020-3-24 1.9.09
 - removed wc_test env from app.config
 - updated app.js for StatusBar.overlaysWebView(false & true) to fix status bar page height for new cordova
 - Download All from Artist fixed and routing to modal (also updated in sisbot/)
-- UI changes as well as naming conventions. 
-# 2020-3-10 1.10.09
+- UI changes as well as naming conventions.
 - Passcode added in app
 - Playlist edit modal for name and description
 - Versioning in 7 tap updated

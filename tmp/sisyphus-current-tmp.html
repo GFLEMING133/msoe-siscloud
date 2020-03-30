@@ -38,7 +38,7 @@
               data-if="{{= model.data.is_waiting_between_tracks }} == false"
               tg-name="now_playing">Now Playing</div>
           <div data-model="{{= model.data.active_track.id }}">
-            <div class="flex clickable active bg-grey-ll-hover p10 pl20"
+            <div class="flex clickable active p10 pl20"
           			data-on-click="publish"
           			data-publish="modal:open"
           			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"

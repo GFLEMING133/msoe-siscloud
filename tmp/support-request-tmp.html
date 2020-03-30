@@ -1,0 +1,80 @@
+<div
+    class="h100"
+    data-scope="true"
+    data-defaults="{'type':'support_request'}"
+    data-run="model.setup_edit">
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
+    <div class="w15 center clickable active blue-hover"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'false'}"
+    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh18 capitalize truncate">Support Request</h1>
+    </div>
+    <div class="w15 center f-large">&nbsp;</div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar" tg-name="support_request_page">
+    <div class="p20 bg-white black">
+      <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">What can we help you with?</h4>
+      <div class="pb10">
+        <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
+            data-field="model.edit.request_type"
+            data-selected="{{= model.data.request_type }}">
+          <option value="false">-</option>
+          <option value="table_support">I'm having troubles with my table</option>
+          <option value="other_question">I have a different question</option>
+        </select>
+      </div>
+      <div data-if="{{= model.edit.request_type }} !== false">
+        <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Email</h4>
+        <div class="pb10">
+          <input class="fs18 w100" type="text" placeholder="email@address.com"
+              autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+              data-on-key-up="model.confirm_email"
+              data-field="model.edit.email"
+              value="{{= (model.edit.email !== 'false') ? model.edit.email : '' }}" />
+        </div>
+        <div data-if="{{= model.is_valid_email }} !== false">
+          <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Subject</h4>
+          <div class="pb10">
+            <input class="fs18 w100" type="text"
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                data-field="model.edit.subject"
+                value="{{= (model.edit.subject !== 'false') ? model.edit.subject : '' }}" />
+          </div>
+          <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Description</h4>
+          <div class="pb10">
+            <textarea class="corner-5px mt5 w100 hh100 p5"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="true"
+                data-field="model.edit.description">{{= (model.edit.description !== 'false') ? model.edit.description : '' }}</textarea>
+          </div>
+          <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Order Number <span class="f-small grey">(optional)</span></h4>
+          <div class="pb10">
+            <input class="fs18 w100" type="text"
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                data-field="model.edit.order_num"
+                value="{{= (model.edit.order_num !== 'false') ? model.edit.order_num : '' }}" />
+            <p class="f-small mt5">Order number or Kickstarter backer number</p>
+          </div>
+          <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+            <div  data-foreach="model.errors" class="red_triangle center mb10">
+              <div class="red p5 montserrat_bold">{{= scope.value }}</div>
+            </div>
+          </div>
+          <h2 class="btn bg-blue w100 m0 corner-5px uppercase fs18 strong p15"
+              data-if="{{= model.is_submitting }} == false"
+              data-on-click="model.submit_request"
+          >Submit</h2>
+          <h2 class="btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong p15"
+              data-if="{{= model.is_submitting }} == true"
+          >Submit</h2>
+        </div>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.12', // keyboard dismissal fix with cordova-plugin-wkkeyboardfix
+    version				:  '1.9.13', // Zendesk Support within app
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

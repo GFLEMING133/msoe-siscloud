@@ -366,6 +366,10 @@ function Element(el, parent, _scope) {
         this.events.push('input');
         $el.on('input', {el:this}, this.on_input);
       }
+      if (this.data.onKeyUp) {
+        this.events.push('keyup');
+        $el.on('keyup', {el:this}, this.on_key);
+      }
       if (this.data.onKeyEnter) {
         this.events.push('keydown');
         $el.on('keydown', {el:this}, this.on_key);

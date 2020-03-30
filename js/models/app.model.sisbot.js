@@ -157,6 +157,7 @@ app.model.sisbot = {
 				is_waiting_between_tracks	: 'false',
 				share_log_files						: 'false',
 
+				cson					: 'false',
 				table_settings: {}, // Advanced table settings, overrides CSON on reboot
 
 				led_enabled					: 'false',

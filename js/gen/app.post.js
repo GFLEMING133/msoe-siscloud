@@ -71,12 +71,22 @@ app.post = {
     var url = data._url || app.config.get_sisbot_url();
     var timeout = 30000;
     var type = data._type || 'POST';
-    if (data.endpoint) url += data.endpoint;
-    if (data._timeout) timeout = data._timeout;
+    if (data.endpoint) {
+      url += data.endpoint;
+      delete data.endpoint;
+    }
+    if (data._timeout) {
+      timeout = data._timeout;
+      delete data._timeout;
+    }
+    if (data._url) delete data._url;
+    if (data._type) delete data._type;
 
-    var req_data = {
-      data: JSON.stringify(data)
-    };
+    // var req_data = {
+    //   data: JSON.stringify(data)
+    // };
+    var req_data = data;
+
     //  app.log('FETCH2 reg_data' + "" + JSON.stringify(req_data));
     // if (app.current_user()) req_data = app.current_user().get('data');
     var auth_token = app.session.get('auth_token');

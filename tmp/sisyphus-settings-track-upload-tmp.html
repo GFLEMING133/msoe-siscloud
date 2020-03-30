@@ -13,11 +13,11 @@
 		<div class="w30">&nbsp;</div>
 	</div>
 	<div class="body-header h100 scroll hide-scrollbar" tg-name="upload_tracks_page">
-		<div class="bg-ll-red p20" data-if="{{= app.plugins.length(model.errors) }} > 0">
-			<div data-foreach="model.errors">
-				<div class="pb5 red">{{= scope.value }}</div>
-			</div>
-		</div>
+    <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+      <div  data-foreach="model.errors" class="red_triangle center mb10">
+        <div class="red p5 montserrat_bold">{{= scope.value }}</div>
+      </div>
+    </div>
 		<div class="p40 bg-white black">
 			<p class="p0 m0 fs18 center">
 				Choose .thr or .svg file(s) to upload. If SVG lines are not showing correctly, you may need to convert shapes to paths.

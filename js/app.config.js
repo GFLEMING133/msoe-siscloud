@@ -1,6 +1,6 @@
 app.config = {
 	env				: 'prod', //
-	version			:  '1.9.12', // keyboard dismissal fix with cordova-plugin-wkkeyboardfix
+	version			:  '1.9.13', // Zendesk Support within app
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production	: true,
@@ -37,7 +37,7 @@ app.config = {
 			base_url		: 'http://app.dev.withease.io:3001/', //local url
 			api_url			: 'https://webcenter.sisyphus-industries.com/', // production
 			web_url			: 'https://webcenter.sisyphus-industries.com/', // production
-			// api_url			: 'http://localhost:3333/', // webcenter 
+			// api_url			: 'http://localhost:3333/', // webcenter
 			// web_url			: 'http://localhost:3333/', // webcenter
 			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
@@ -47,10 +47,10 @@ app.config = {
 		},
 		matt: {
 			base_url		: 'http://app.dev.withease.io:3001/', //local url
-			api_url			: 'https://webcenter.sisyphus-industries.com/',
-			web_url			: 'https://webcenter.sisyphus-industries.com/',
-			// api_url			: 'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
-			// web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
+			// api_url			: 'https://webcenter.sisyphus-industries.com/',
+			// web_url			: 'https://webcenter.sisyphus-industries.com/',
+			api_url			: 'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
+			web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
 			sisbot_url  	: 'http://192.168.86.26:3002', // 33: wall, 26: mini
 			port			: 3001,
 		},
@@ -149,4 +149,3 @@ if (window.location.hostname == '') app.config.env = 'prod';
 if (app.config.envs[app.config.env].show_tg) app.config.show_tg = app.config.envs[app.config.env].show_tg;
 
 // REMOVE this when done testing with webcenter DEV
-

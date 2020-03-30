@@ -59,6 +59,13 @@ function on_visibility() {
     app.log('Page in foreground');
 		app.is_visible = true;
 
+		// force-fix statusbar
+		if (app.is_app) {
+			StatusBar.show();
+			StatusBar.overlaysWebView(false);
+			StatusBar.overlaysWebView(true);
+		}
+
 		// if sisbot is disconnected, reconnect now
 		if (app.manager.get('sisbot_id') !== 'false') {
 			var sisbot = app.manager.get_model('sisbot_id');

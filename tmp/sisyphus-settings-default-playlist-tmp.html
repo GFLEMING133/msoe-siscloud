@@ -13,10 +13,10 @@
         </div>
     </div>
     <div class="bg-white black" data-model="{{= model.sisbot_id }}" data-run="model.setup_default_playlist">
-        <div class="bg-ll-red p20" data-if="{{= app.plugins.length(model.errors) }} > 0">
-            <div data-foreach="model.errors">
-                <div class="pb5 red">{{= scope.value }}</div>
-            </div>
+        <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+          <div  data-foreach="model.errors" class="red_triangle center mb10">
+            <div class="red p5 montserrat_bold">{{= scope.value }}</div>
+          </div>
         </div>
         <h4 class="pl20 pr20 pt10 pb10 no-stuffing">Select Playlist</h4>
         <div class="pl20 pr20 pb10">
