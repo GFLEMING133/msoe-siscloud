@@ -1,4 +1,8 @@
 # 2020-3-10 1.10.09-13
+- Searching in All Tracks includes Artist name value
+- Editing playlist shows rho start/stop values as it would be played, with connection lines marked
+- Error checking for no playlist name
+- Community download all bugfixes (sometimes added tracks to next download batch, adding to the playlist created then)
 - Zendesk Support requests can be submitted within app
 - keyboard dismissal fix with cordova-plugin-wkkeyboardfix pushing for testing
 - updated inappbrowser plugin in Cordova for Apple deprication of UIWebview

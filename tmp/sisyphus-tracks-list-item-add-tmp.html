@@ -1,23 +1,23 @@
-<div class="flex1start p10 bt">
-  <div class="flex1start">
-    <img class="flex w80p img-rounded"
-        alt="{{= model.data.name }}"
-        src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+<div class="flex pl10 pr10 bt">
+  <div class="w20 pt10 pb10 center vertical">
+    <div class="w75p hh75">
+      <img class="w100 center img-rounded"
+          alt="{{= model.data.name }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+    </div>
   </div>
-  <div class="flex1start flex-column">
-    <div class="align-start fs18 lh20 black word-break strong">{{= model.data.name }}</div>
-    <div class="align-start fs12 lh20 grey word-break hidden">by {{= model.data.created_by_name }}</div>
-    <!-- <div class="fs12 lh20 align-start warmGrey" data-if="{{= grandparent.add_playlist_tracks }} !== undefined">
-      <div class="montserrat_semi_bold">count= {{= grandparent.add_playlist_tracks['{[= model.id ]}'] }}</div>
-    </div> -->
+  <div class="w50 pt25 pb10 pl10">
+    <div class="fs18 lh18 black block word-break strong">{{= model.data.name }}</div>
+    <div class="fs12 lh18 grey block">
+      Rho Start/End: {{= model.data.firstR }}{{= model.data.lastR }}
+    </div>
   </div>
-  <div class="flex1end flex-column">
-    <div class="flex1center clickable ml10" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
-      <div class="p15" 
-          data-on-click="grandparent.add_tracks_add" 
+  <div class="w30 pt15">
+    <div class="flex1center" data-if="{{= grandparent.add_playlist_tracks['{[= model.id ]}'] }} == 0">
+      <div class="p15 clickable"
+          data-on-click="grandparent.add_tracks_add"
           data-msg="{{= model.id }}"
-          tg-name="circle_track_{{= model.id}}_btn"
-      >
+          tg-name="circle_track_{{= model.id}}_btn">
         <i class="far fa-circle f-large active warmGrey" alt="Add Track" aria-hidden="true"></i>
       </div>
     </div>

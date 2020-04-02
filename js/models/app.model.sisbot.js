@@ -281,6 +281,7 @@ app.model.sisbot = {
 	present_siri: function(data) {
 		var self = this;
 
+		app.log("Present Siri", data);
 		// TESTING: Siri shortcut
 		if (data && app.is_app && app.platform == 'iOS') {
 

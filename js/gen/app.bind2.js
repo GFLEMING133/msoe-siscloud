@@ -2171,6 +2171,8 @@ function Element(el, parent, _scope) {
 
         onSort: function (evt) {
           self.model.move_array(self.data.field, evt.oldIndex, evt.newIndex);
+
+          if (self.data.onUpdate) self._call(self.data.onUpdate, self.get_value(self.data.msg));
         }
       });
     });

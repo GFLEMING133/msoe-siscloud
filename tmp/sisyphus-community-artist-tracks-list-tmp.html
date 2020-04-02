@@ -1,5 +1,5 @@
-<div class="h100" 
-    data-model="{{= session.community_id }}" 
+<div class="h100"
+    data-model="{{= session.community_id }}"
     data-run="model.reset_params">
   <div data-if="{{= model.fetched_community_artists }} == false">
     <div data-run="model.fetch_community_artists"></div>
@@ -23,7 +23,7 @@
             <div class="w25 left pl20 clickable active"
                 data-on-click="publish"
                 data-publish="session:active"
-                data-msg="{'primary':'community','secondary':'artist'}"
+                data-msg="{'primary':'community','secondary':'{{= session.active.goBack }}','artist_id':'false'}"
                 tg-name="community_artist_tracks_list_back_button">
               <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15"/>
             </div>
@@ -43,7 +43,7 @@
                   placeholder="&#xf002; Search"
                   data-field="model.data.q.value"
                   value="{{= model.data.q.value }}"
-                  data-on-input="model.update_q" 
+                  data-on-input="model.update_q"
                   tg-name="community_artist_tracks_list_input"/>
             </div> <!--end of search-->
 

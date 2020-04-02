@@ -70,7 +70,8 @@ app.model.track = {
 				firstR					: -1,
 				lastR						: -1,
 				r_type					: 'r', // r00|r01|r10|r11
-				reversible			: "false",
+				reversible			: "false", // WC value
+				// is_reversible		: "false", // Sisbot value
 
 				download_count	: 0, // webcenter downloads
 				popularity			: 0, // webcenter popularity rating
@@ -84,7 +85,17 @@ app.model.track = {
 
 	on_init: function() {
 		this.on('change:track_checked', this.get_track_checked);
-		this.on('change:data.reversible', this.save_track);
+
+		// fix is_reversible if it doesn't exist
+		if (!this.get('data.is_reversible')) {
+			app.log("Fix is_reversible", this.id, this.get('data.reversible'));
+			this.set('data.is_reversible', this.get('data.reversible'));
+		}
+
+		if (this.get('data.firstR') == this.get('data.lastR')) {
+			this.set('data.reversible', 'false');
+			this.set('data.is_reversible', 'false');
+		}
 
 		// var playlist = app.session.get_model('active.playlist_id')
 	},
@@ -1008,7 +1019,7 @@ app.model.track = {
 			reversed: this.get('data.revered'),
 			firstR: this.get('data.firstR'),
 			lastR: this.get('data.lastR'),
-			reversible: this.get('data.reversible')
+			reversible: this.get('data.is_reversible')
 		};
 		return return_obj;
 	},
@@ -1078,6 +1089,12 @@ app.model.track = {
 			fav_model.add_track_and_save({id:trackID});
 		}
 		this.set('is_favorite', app.plugins.bool_opp[status]);
+	},
+	reversible_toggle: function() {
+		var status = this.get('data.is_reversible');
+		this.set('data.is_reversible', app.plugins.bool_opp[status]);
+
+		this.save_track();
 	},
 	/**************************** COMMUNITY ***********************************/
 	fetch_then_download: function () {

@@ -10,47 +10,62 @@
         </div>
         <div class="w15">&nbsp;</div>
     </div>
-    <div class="body-header h100 scroll hide-scrollbar" 
+    <div class="body-header h100 scroll hide-scrollbar"
         data-model="{{= model.sisbot_id }}"
         tg-name="advanced_movement_page">
-        <div class="bb hh50 p20 fs17 mt40 flex vertical-align">
-          <p class="i red">* This is advanced functionality, your table may loose position or malfunction.</p>
+        <div class="bb p20 fs17 lh20 i red">
+          * This is advanced functionality, your table may lose position or malfunction.
         </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
             data-on-click="model.home"
-            tg-name="home_ball_btn">Home</div>
-
+            tg-name="home_ball_btn">
+          <div class="wrapper">
+            <i class="fas fa-compress-arrows-alt mr20"></i>Home
+          </div>
+        </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogThetaLeft') ? 'bg-grey-ll' : '' }}"
             data-on-touch-start="model.jog_start"
             data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaLeft"
-            tg-name="jogThetaLeft"
-        >Jog Theta Left</div>
+            tg-name="jogThetaLeft">
+          <div class="wrapper">
+            <i class="fas fa-undo-alt mr20"></i>Jog Theta Left
+          </div>
+        </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogThetaRight') ? 'bg-grey-ll' : '' }}"
             data-on-touch-start="model.jog_start"
             data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogThetaRight"
-            tg-name="jogThetaRight"
-        >Jog Theta Right</div>
+            tg-name="jogThetaRight">
+          <div class="wrapper">
+            <i class="fas fa-redo-alt mr20"></i>Jog Theta Right
+          </div>
+        </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogRhoOutward') ? 'bg-grey-ll' : '' }}"
             data-on-touch-start="model.jog_start"
             data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogRhoOutward"
-            tg-name="jogRhoOutward"
-        >Jog Rho Outward</div>
+            tg-name="jogRhoOutward">
+          <div class="wrapper">
+            <i class="fas fa-long-arrow-alt-up mr20"></i>Jog Rho Outward
+          </div>
+        </div>
         <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active {{= (model.jog_type == 'jogRhoInward') ? 'bg-grey-ll' : '' }}"
             data-on-touch-start="model.jog_start"
             data-on-touch-end="model.jog_end"
             data-on-mouse-down="model.jog_start"
             data-on-mouse-up="model.jog_end"
             data-msg="jogRhoInward"
-            tg-name="jogRhoInward"
-        >Jog Rho Inward</div>
+            tg-name="jogRhoInward">
+          <div class="wrapper">
+            <i class="fas fa-long-arrow-alt-down mr20"></i>Jog Rho Inward
+          </div>
+        </div>
     </div>
 </div>

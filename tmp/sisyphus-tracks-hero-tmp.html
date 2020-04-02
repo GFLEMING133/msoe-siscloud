@@ -15,8 +15,8 @@
       <div class="p20 flex item-center">
         <div class="w100">
           <div class="pull-right" data-if="{{= app.is_app }} == true">
-            <div class="clickable white less_strong"
-                data-model="{{= parent.sisbot_id }}"
+            <div class="less_strong inline-block blue-hover p5 pl10 pr10 white b-white rounded ml10 clickable"
+                data-model="{{= manager.sisbot_id }}"
                 data-on-click="model.present_siri"
                 data-msg="{'action':'play_track','phrase':'Play {{= parent.data.name }} Track','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
                 data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
@@ -70,11 +70,10 @@
       </div>
       <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
           data-if="{{= model.data.firstR }} !== {{= model.data.lastR }}"
-          data-on-click="toggle"
-          data-field="model.data.reversible">
+          data-on-click="model.reversible_toggle">
         <div class="center white">
-          <i class="p10 pl0 white f-large fas fa-check-square clickable" data-if="{{= model.data.reversible }} !== false"></i>
-          <i class="p10 pl0 white f-large far fa-square clickable" data-if="{{= model.data.reversible }} == false"></i>
+          <i class="p10 pl0 white f-large fas fa-check-square clickable" data-if="{{= model.data.is_reversible }} !== false"></i>
+          <i class="p10 pl0 white f-large far fa-square clickable" data-if="{{= model.data.is_reversible }} == false"></i>
         </div>
         <div class="w90 lh20 white less_strong">Reversible</div>
       </div>

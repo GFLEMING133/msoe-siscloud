@@ -31,11 +31,12 @@ app.model.artist = {
 		app.log("Download Webcenter Artist Tracks", this.id);
 		var self = this;
 		var community = app.session.get_model('community_id');
+    community.clear_selected(); // clear other selected tracks
 
     var track_cluster = app.collection.get_cluster({type:'track',is_community:'true',is_downloaded:'false',user_id:this.id});
 
     app.log("Track cluster:", {type:'track',is_community:'true',is_downloaded:'false',user_id:this.id}, track_cluster.pluck('id'));
-		// add tracks not already on table to 'selected_tracks'
+    // add tracks not already on table to 'selected_tracks'
 		track_cluster.each(function(track) {
 			community.add_nx('selected_tracks', track.id);
 		});

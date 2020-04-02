@@ -78,7 +78,7 @@
           data-if="{{= model.data.track_count }} > 0"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'artist-tracks-list', 'artist_id':'{{= model.data.artist_id }}' }"
+          data-msg="{'secondary':'artist-tracks-list', 'artist_id':'{{= model.data.artist_id }}', 'goBack':'false' }"
           tg-name="my_tracks_tab">
         <div class="wrapper">
           <div class="tracks_circle">
@@ -94,7 +94,7 @@
       <div class="bb bt pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
           data-on-click="publish"
           data-publish="session:active"
-          data-msg="{'secondary':'artist'}"
+          data-msg="{'secondary':'artists'}"
           tg-name="artists_tab">
         <i class="far fa-user f-large"></i>
         <div class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Artists</div>

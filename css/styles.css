@@ -569,8 +569,68 @@ body > .container > .row {	/* remove if you want a bottom bar */
 	position: inherit;
 }
 
- /* -----------Community Styling---------------------------  */
- .overflow-box {
+/* ----------- Rho Styling  ------------------------------- */
+
+.rho0 {
+  position: absolute;
+  left: 8px !important;
+}
+.rho1 {
+  position: absolute;
+  right: 8px !important;
+}
+
+.firstR {
+  width: 3px;
+  height: 50%;
+  background: -webkit-linear-gradient(rgba(216,216,216,1), rgba(216,216,216,0));
+  background: linear-gradient(rgba(216,216,216,1), rgba(216,216,216,0));
+}
+
+.lastR {
+  bottom:0;
+  width: 3px;
+  height: 50%;
+  background: -webkit-linear-gradient(rgba(216,216,216,0), rgba(216,216,216,1));
+  background: linear-gradient(rgba(216,216,216,0), rgba(216,216,216,1));
+}
+
+.solidR {
+  top:0;
+  bottom:0;
+  width: 3px;
+  background: rgb(216,216,216);
+}
+
+.iconFirst {
+  position: absolute;
+  top: -7px;
+}
+.iconLast {
+  position: absolute;
+  bottom: -7px;
+}
+
+.icon0 {
+  left: 3px;
+  width: 14px;
+  text-align: center;
+  color: rgb(216,216,216);
+  background: white;
+  border-radius: 20px;
+}
+.icon1 {
+  right: 3px;
+  width: 14px;
+  text-align: center;
+  color: rgb(216,216,216);
+  background: white;
+  border-radius: 20px;
+}
+
+
+/* -----------Community Styling---------------------------  */
+.overflow-box {
 	display 										: flex;
 	overflow-x 									: auto;
 	-webkit-overflow-scrolling 	: auto !important;

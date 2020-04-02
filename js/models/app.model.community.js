@@ -368,7 +368,6 @@ app.model.community = {
       drop[0].style.opacity = '0';
     }
   },
-
   selectTrack: function(track) {
     this.set('download_cloud', 'true');
     this.add('selected_tracks', track.id);
@@ -376,7 +375,21 @@ app.model.community = {
   deselectTrack: function(track) {
     this.remove('selected_tracks', track.id);
 
-    if (this.get('selected_tracks') < 1) this.set('download_cloud', 'false');
+    if (this.get('selected_tracks').length < 1) this.set('download_cloud', 'false');
+  },
+  clear_selected: function() {
+    var selected_tracks = this.get('selected_tracks');
+    if (selected_tracks.length > 0) {
+      _.each(selected_tracks, function(track_id) {
+        var track = app.collection.get(track_id);
+        track.set('track_checked', 'false');
+      });
+      this.set('selected_tracks', []);
+
+      this.set('download_cloud', 'false');
+    }
+
+    this.set('downloaded_tracks', []); // clear downloaded
   },
   download_wc: function() {
     app.trigger('modal:open', {
@@ -418,6 +431,8 @@ app.model.community = {
           new_obj.id = app.plugins.uuid(); // force new UUID
           var new_playlist = app.collection.add(new_obj);
           app.log("New Playlist:", new_playlist.get('data'));
+
+          this.set('downloaded_tracks', []); // clear downloaded
 
           app.trigger('sisbot:playlist_add', new_playlist);
         }

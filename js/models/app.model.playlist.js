@@ -4,8 +4,9 @@ app.model.playlist = {
 			id				: data.id,
 			type			: 'playlist',
 
-			is_community: 'false', // is webcenter playlist (true == not yet downloaded)
-			is_downloaded: 'false', // playlist has been loaded to the current table
+			is_new				: 'true', // used for showing Playlist name/description edit once
+			is_community	: 'false', // is webcenter playlist (true == not yet downloaded)
+			is_downloaded	: 'false', // playlist has been loaded to the current table
 
 			eligible_tracks	: [],
 			active_tracks		: [],
@@ -14,6 +15,7 @@ app.model.playlist = {
 				description	: '',
 			},
 			add_playlist_tracks: {},
+			temp_tracks: [], // for previewing the flow of start/end rho
 
 			data		: {
 				id						: data.id,
@@ -100,14 +102,16 @@ app.model.playlist = {
 		var track_index 		= active_tracks.lastIndexOf(track_id);
 		if(track_index >= 0) {
 		this.set('add_playlist_tracks[' + track_id + ']', --b);
-		this.remove_track(track_index);
+		this.remove_track({index: track_index});
 		}
 		this.trigger('change:add_playlist_tracks[' + track_id + ']');
 	},
 	add_tracks_done: function () {
 		var self = this;
 
-		if (self.get('data.is_saved') == true) app.trigger('session:active', { 'secondary': 'playlist-edit' });
+		app.log("Add Tracks Done", self.get('data.is_saved'));
+
+		if (self.get('data.is_saved') == 'true') app.trigger('session:active', { 'secondary': 'playlist-edit' });
 		else app.trigger('session:active', { 'secondary': 'playlist-new' });
 	},
 	/**************************** GENERAL *************************************/
@@ -167,6 +171,12 @@ app.model.playlist = {
 		return this;
 	},
 	/**************************** EDIT ****************************************/
+	setup_new: function() {
+		if (this.get('is_new') == 'true') {
+			if (this.get('edit.name') == '') app.trigger('modal:open', {playlist_id: this.id, 'template':'modal-playlist-edit-tmp'});
+			this.set('is_new', 'false');
+		}
+	},
 	setup_edit: function () {
 		this.set('active_tracks', this.get('data.tracks').slice())
 		.set('edit.name', this.get('data.name'))
@@ -178,18 +188,20 @@ app.model.playlist = {
 		app.trigger('session:active', { secondary: 'playlist' });
 	},
 	save_alert: function () {
+		var self = this;
 		this.set('data.name', this.get('edit.name'));
-		let self = this;
-		let playlist_name = this.get('data.name');
-		app.log(playlist_name);
-			if(playlist_name == ""){
-			 app.plugins.n.notification.confirm("You did not enter a Playlist Name, are you sure you want to save?",
-			 function(resp_num) {
-				 if(resp_num == 1){
-					 return self;
-				 }else{
+		var playlist_name = this.get('data.name');
+
+		if (playlist_name == "") {
+			app.plugins.n.notification.confirm("You did not enter a Playlist Name, are you sure you want to save?",
+			function(resp_num) {
+				if (resp_num == 1) {
+					app.trigger('modal:open', {playlist_id: this.id, 'template':'modal-playlist-edit-tmp'});
+
+					return self;
+				} else {
 					self.save_edit();
-				 }
+				}
 			}, 'No Name?', ['Cancel','OK']);
 		} else {
 			this.save_edit();
@@ -198,9 +210,10 @@ app.model.playlist = {
 	save_edit: function () {
 		let self = this;
 
-		this.set('data.name', this.get('edit.name'))
-			.set('data.description', this.get('edit.description'))
-			.set('data.tracks', this.get('active_tracks').slice());
+		this.set('data.name', this.get('edit.name'));
+		this.set('data.tracks', this.get('active_tracks').slice());
+		if (this.get('edit.description') == '') this.set('data.description', 'false');
+		else this.set('data.description', this.get('edit.description'));
 
 		var sorted_tracks = [];
 		_.each(self.get('data.tracks'), function(obj,index) {
@@ -233,9 +246,13 @@ app.model.playlist = {
 		this.add('active_tracks', track_obj);
 
 		this.trigger('change:active_tracks');
+
+		app.log("Add Track", track_id, this.get('active_tracks').length);
 	},
-	remove_track: function (track_index) {
-		this.remove('active_tracks['+track_index+']');
+	remove_track: function (data) {
+		this.remove('active_tracks['+data.index+']');
+
+		if (data && data.pos) this.order_temp_tracks(data);
 	},
 	move_array: function (field, old_index, new_index) {
 		field = field.replace(/^(model|parents?\[[0-9]+\]?|parent|grandparent|g_grandparent|g_g_grandparent)\.?/i, '');
@@ -245,12 +262,11 @@ app.model.playlist = {
 		var opt		= val.splice(old_index, 1);
 
 		val.splice(new_index, 0, opt[0]);
-		this.set(field, val, {silent:true});
+		this.set(field, val); //, {silent:true}
 
-		// this.trigger('change:' + field);
+		this.trigger('change:' + field);
 	},
 	add_track_and_save: function(given_data) {
-
 		var track = app.collection.get(given_data.id);
 
 		var track_obj = {
@@ -291,11 +307,83 @@ app.model.playlist = {
 
 		this.trigger('remove:data.tracks');
 	},
+	/************************ Track Preview **************************/
+	order_temp_tracks: function(data) {
+		app.log("Order Temp Tracks", data);
+
+		// get from edit or data?
+		var tracks = JSON.parse(JSON.stringify(this.get(data.pos)));
+		if (tracks.length < 1) return false;
+
+		var sorted_list = [];
+		for (var i=0; i<tracks.length; i++) {
+			sorted_list.push(i);
+		}
+		var start_rho	= 0; // homed
+
+		// reset all tracks
+		_.each(tracks, function(obj) {
+			var track_model = app.collection.get(obj.id);
+			obj.firstR = track_model.get('data.firstR');
+			obj.lastR = track_model.get('data.lastR');
+			obj.reversible = track_model.get('data.is_reversible');
+			obj.reversed = "false";
+			obj.firstBreak = "false";
+			obj.lastBreak = "false";
+		});
+
+		// reverse first track?
+		var track0 = tracks[sorted_list[0]];
+		if (track0.firstR != start_rho) {
+			if (track0.reversible == 'true') {
+				var tempR = track0.lastR;
+				track0.lastR = track0.firstR;
+				track0.firstR = tempR;
+				track0.reversed = "true";
+			} else {
+				app.log("Unable to start at zero");
+				track0.firstBreak = "true";
+			}
+		}
+
+		for(var i=0; i<sorted_list.length-1; i++) {
+			var track0 = tracks[sorted_list[i]];
+			var track1 = tracks[sorted_list[i+1]];
+
+			if (track0.lastR != track1.firstR) {
+				// app.log("Fix transition between", track0._index, track0.lastR, track1._index, track1.firstR, track1.lastR, track1.reversible);
+				if (track1.reversible == 'true') { // reversible
+					var tempR = track1.lastR;
+					track1.lastR = track1.firstR;
+					track1.firstR = tempR;
+					track1.reversed = "true";
+				} else {
+					app.log("Unable to transition between", track0._index, track0.lastR, track1._index, track1.firstR);
+					track0.lastBreak = "true";
+					track1.firstBreak = "true";
+				}
+			}
+			// app.log(track0._index, "Vs", track0.lastR, track1.firstR);
+		}
+
+		// check for break on loop
+		var track0 = tracks[sorted_list[sorted_list.length-1]];
+		var track1 = tracks[sorted_list[0]];
+		if (track0.lastR != track1.firstR) {
+			app.log("Unable to loop cleanly");
+			track0.lastBreak = "true";
+		}
+
+		this.set('temp_tracks', tracks);
+		app.log("Tracks:", sorted_list, tracks);
+	},
 	/************************ Webcenter ******************************/
 	download_wc: function() {
 		app.log("Download Webcenter Playlist", this.id);
 		var self = this;
 		var community = app.session.get_model('community_id');
+    community.clear_selected(); // clear other selected tracks
+
 		var sisbot = app.manager.get_model('sisbot_id');
 		var sisbot_track_ids = sisbot.get('data.track_ids');
 

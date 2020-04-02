@@ -5,7 +5,8 @@
       data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'playlists'}"
       tg-name="community_playlists_list_select_{{= model.id }}">
     <div class="w24-8 pl24-1 pr24-1 pt24-1 pb24-1 relative">
-      <div class="hh80 z10" 
+      <div class="h100 corner-5px"
+          style="background-color:{{= model.data.bg_color }};"
           data-template="sisyphus-community-playlist-rendering"></div>
     </div>
     <div class="w24-12 align-center">

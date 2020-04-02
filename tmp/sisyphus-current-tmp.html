@@ -62,7 +62,7 @@
       <div class="mt10 pb200">
         <div data-if="{{= model.data.active_playlist_id }} !== false">
           <div data-model="{{= model.data.active_playlist_id }}">
-            <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-white sticky">Next Up</div>
+            <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-white sticky z10">Next Up</div>
             <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">

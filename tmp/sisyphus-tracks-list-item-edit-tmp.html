@@ -1,22 +1,65 @@
-<div data-on-click="grandparent.showMouse">
-	<div class="flex pl20 pr20 clickable active">
-		<div class="w20 pt10 pb10 center vertical">
-			<div class="w75p hh75">
-				<img class="w100 center img-rounded"
-						alt="{{= model.data.name }}"
-						src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+<div>
+	<div data-if="{{= scope.index }} == 0">
+		<div class="bb p20 pt5 pb5 center red" data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true">
+			Starting connection line
+		</div>
+	</div>
+	<div class="relative" data-on-click="grandparent.showMouse">
+		<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
+		<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'red' : '' }}"></div>
+		<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'red' : '' }}"></div>
+		<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}">
+			<i class="fas fa-times-circle red"
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true"></i>
+			<i class="fas fa-check-circle"
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
+		</div>
+		<div class="iconLast icon{{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+			<i class="fas fa-times-circle red"></i>
+		</div>
+		<div class="flex pl20 pr20 clickable active">
+			<div class="w20 pt10 pb10 center vertical">
+				<div class="w75p hh75">
+					<img class="w100 center img-rounded"
+							alt="{{= model.data.name }}"
+							src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+				</div>
 			</div>
-		</div>
-		<div class="w60 pt25 pb10 pl10"
-				tg-name="track_name">
-	        <div class="fs18 lh18 black block word-break strong">{{= model.data.name }}</div>
-	        <div class="fs12 lh18 grey block hidden">by {{= model.data.created_by_name }}</div>
-		</div>
-		<div class="w20 h100 pt25 pb10 right vertical" 
-			data-on-click="parent.remove_track" 
-			data-msg="{{= scope.index }}"
-			tg-name="red_minus_track_{{= scope.index}}_btn">
-			<img src="img/icon_2x_playlist_remove.png" alt="Remove Track" class="w25p" /></i>
+			<div class="w60 pt25 pb10 pl10"
+					tg-name="track_name">
+	      <div class="fs18 lh18 black block word-break strong">{{= model.data.name }}</div>
+	      <div class="fs12 lh18 grey block">
+					Rho Start/End: {{= parent.temp_tracks[{[= scope.index ]}].firstR }}{{= parent.temp_tracks[{[= scope.index ]}].lastR }}
+				</div>
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}">
+					<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true">
+						<div class="fs12 lh18 red block"
+								data-if="{{= parent.temp_tracks[{[= scope.index ]}].reversible }} !== true">
+							! Not Reversible !
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="w20 h100 pt25 pb10 right vertical"
+					data-on-click="parent.remove_track"
+					data-msg="{'index':{{= scope.index }}, 'pos':'active_tracks'}"
+					tg-name="red_minus_track_{{= scope.index}}_btn">
+				<img src="img/icon_2x_playlist_remove.png" alt="Remove Track" class="w25p" />
 	    </div>
+		</div>
+	</div>
+	<div data-if="{{= scope.index }} < {{= _.size(parent.temp_tracks)-1 }}">
+		<div class="bt p20 pt5 pb5 center red" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+			Connection line
+		</div>
+	</div>
+	<div data-if="{{= scope.index }} == {{= _.size(parent.temp_tracks)-1 }}">
+		<div class="bt p20 pt5 pb5 center red" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+			Looping connection line
+		</div>
 	</div>
 </div>

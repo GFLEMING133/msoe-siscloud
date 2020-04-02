@@ -80,7 +80,9 @@ app.model.support_request = {
     description += '\nVersions: '+JSON.stringify(sisbot.get('local_versions'));
     // add app/browser info
     description += '\n\nUser agent: '+navigator.userAgent;
-    if (app.is_app) description += '\nApp version: '+app.config.version;
+    if (app.is_app) {
+      description += '\nApp version: '+app.config.version+', '+device.platform+' '+screen.width+'x'+screen.height;
+    }
 
     // send to Webcenter
     var api_req = {

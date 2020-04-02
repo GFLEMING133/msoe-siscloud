@@ -1,4 +1,4 @@
-<div class="h100" data-model="{{= parent.active.playlist_id }}">
+<div class="h100" data-model="{{= parent.active.playlist_id }}" data-run="model.setup_new">
   <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
     <div class="w30">&nbsp;</div>
     <div class="w40">
@@ -6,26 +6,28 @@
     </div>
     <div class="w30 right p15 pr20 fs18 lh18 clickable active less_strong"
         data-on-click="model.save_alert"
-        tg-name="playlist_save_btn">Save</div>
+        tg-name="playlist_save_btn">
+      Save
+    </div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar"
-      data-model="{{= parent.active.playlist_id }}"
       tg-name="playlist_new_page">
     <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
     <div class="pt20 pl40 pr40">
-      <div class="pt5 fs16 lh18 grey center i"
-          data-if="{{= model.edit.description }} == ">Click below to edit Name and Description</div>
       <div>
         <div class="fs18 lh18 center strong">{{= model.edit.name }}</div>
         <div class="pt5 fs16 lh18 grey center i" data-if="{{= model.edit.description }} == false">Edit to add a description</div>
         <div class="pt5 fs16 lh18 grey center i truncate" data-if="{{= model.edit.description }} !== false">{{= model.edit.description }}</div>
       </div>
+      <div class="pt5 fs16 lh18 grey center i"
+          data-if="{{= model.edit.description }} == ">Click below to edit Name and Description</div>
       <div class="clickable active center"
           data-on-click="publish"
           data-publish="modal:open"
           data-msg="{'playlist_id':'{{= model.id }}', 'template':'modal-playlist-edit-tmp'}"
-          tg-name="playlist_edit_btn"
-          ><img src="img/icon_2x_playlist_edit_black.png" alt="Edit" class="hh50 pt15 pb15" /></div>
+          tg-name="playlist_edit_btn">
+        <img src="img/icon_2x_playlist_edit_black.png" alt="Edit" class="hh50 pt15 pb15" />
+      </div>
     </div>
     <!--------------------------- ADD TRACKS ------------------------------>
     <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
@@ -39,12 +41,16 @@
       </span>
     </div>
     <!--------------------------- TRACKS ---------------------------------->
-    <div class="trackBox">
+    <div class="no-scroll hide-scrollbar"
+        data-run="model.order_temp_tracks"
+        data-run-msg="{'pos':'active_tracks'}">
       <div class="i center p20" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
         There are no tracks in this playlist
       </div>
       <div class="scrollDown hide-scrollbar"
           lib-sortable=".reorder"
+          data-on-update="model.order_temp_tracks"
+          data-msg="{'pos':'active_tracks'}"
           data-field="model.active_tracks"
           data-foreach="model.active_tracks">
         <div class="reorder {{= (scope.index !== 0) ? 'bt' : '' }}"
