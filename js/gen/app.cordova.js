@@ -42,6 +42,11 @@ function setup_cordova() {
 
 		// TESTING: Siri shortcuts
 		if (app.is_app && app.platform == 'iOS') {
+			app.log("Setup_cordova Show StatusBar");
+			StatusBar.show();
+			StatusBar.overlaysWebView(false);
+			StatusBar.overlaysWebView(true);
+
 			cordova.plugins.SiriShortcuts.getActivatedShortcut({}, function(data) {
 				app.log("Run Siri Shortcut", JSON.stringify(data));
 			}, function(err) {
@@ -60,7 +65,8 @@ function on_visibility() {
 		app.is_visible = true;
 
 		// force-fix statusbar
-		if (app.is_app) {
+		if (app.is_app && app.platform == 'iOS') {
+			app.log("Visibility Show StatusBar");
 			StatusBar.show();
 			StatusBar.overlaysWebView(false);
 			StatusBar.overlaysWebView(true);

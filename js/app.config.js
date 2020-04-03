@@ -1,14 +1,14 @@
 app.config = {
 	env				: 'prod', //
-	version			:  '1.9.15', // Rho start/end values in playlist editing, WC bugfixes
+	version			:  '1.9.16', // Rho start/end values in playlist editing, WC bugfixes
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
-	is_production	: false, // cuts out all app.log() output
+	is_production	: true, // cuts out all app.log() output
 	is_debug		: 'false', // for html to show custom debugging html, use string value
 	is_simulator 	: false, // are we in a simulator? Mainly for handling bluetooth
 	simulator_ip 	: '192.168.1.6', // force a specific network address in simulator
 	show_comments	: false,
-	show_data		: true,
+	show_data		: false,
 	show_lib		: false,
 	show_tg			: false, // for testing
 	envs	: {

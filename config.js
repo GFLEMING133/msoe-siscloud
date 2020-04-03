@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.15', // Rho start/end values in playlist editing, WC bugfixes
+    version				:  '1.9.16', // Search added to Playlist Edit->Add Tracks, bugfixes
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

@@ -1236,8 +1236,11 @@ app.model.drawing = {
       name: 'My Drawing',
       type: 'track',
       original_file_type: 'draw',
-      file_data: svg
+      file_data: svg,
+      firstR: this.get('data.firstR'),
+      lastR: this.get('data.lastR')
     };
+    if (track_obj.firstR != track_obj.lastR) track_obj.is_reversible = 'true';
 
     // TODO: check for user, set created_by_name
     var community = app.session.get_model('community_id');

@@ -42,7 +42,8 @@ var app = {
 		Backbone.history.start();
 		this.setup_fastclick();
 
-		if (app.is_app) {
+		if (app.is_app && app.platform == 'iOS') {
+			app.log("Show StatusBar");
 			StatusBar.show();
 			StatusBar.overlaysWebView(false);
 			StatusBar.overlaysWebView(true);
