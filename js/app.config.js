@@ -1,6 +1,6 @@
 app.config = {
 	env				: 'prod', //
-	version			:  '1.9.14', // Rho start/end values in playlist editing, WC bugfixes
+	version			:  '1.9.15', // Rho start/end values in playlist editing, WC bugfixes
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production	: false, // cuts out all app.log() output

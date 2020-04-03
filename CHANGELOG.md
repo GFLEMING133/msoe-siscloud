@@ -1,4 +1,4 @@
-# 2020-3-10 1.10.09-13
+# 2020-3-10 1.10.09-15
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
 - Error checking for no playlist name
