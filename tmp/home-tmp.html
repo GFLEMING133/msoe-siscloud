@@ -1,7 +1,7 @@
 <div class="h100">
   <div class="h100 app-container bg-white">
-    <div class="hh50 w100 bg-black no-stuffing" data-template="sisyphus-header-default-tmp"></div>
-    <div class="bg-white h100 scroll hide-scrollbar black pl40 pr40 pb150" data-model="{{= model.sisbot_id }}">
+    <div class="pull-top hh50 w100 bg-black no-stuffing" data-template="sisyphus-header-default-tmp"></div>
+    <div class="body-header bg-white h100 scroll hide-scrollbar black pl40 pr40" data-model="{{= model.sisbot_id }}">
       <div data-if="{{= model.data.reason_unavailable }} == false">
         <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40" aria-hidden="true"></p>
         <h3 class="m0 pt30 pb20 center justify fs24 lh24">
@@ -170,7 +170,7 @@
       </div>
       <div data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
         <h3 class="m0 pt50 pb20 center justify fs24 lh24">
-          Sisyphus has been Disconnected from WiFi
+          Sisyphus has been disconnected from WiFi
         </h3>
         <p class="center fs18 lh24">
           Your Sisyphus has become disconnected from WiFi. If you would
@@ -230,6 +230,7 @@
               data-on-click="parent.open_support_page">Learn How To Fix</p>
         </div>
       </div>
+      <div class="hh150">&nbsp;</div>
     </div>
   </div>
 </div>

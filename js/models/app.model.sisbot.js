@@ -444,6 +444,7 @@ app.model.sisbot = {
 
 		// don't poll if document is in background
 		if (app.is_visible && this.get('is_polling') == "false") {
+			app.log('Sisbot: start polling (disconnect)');
 			setTimeout(function() {
 				self.set('is_polling', "true");
 				self._poll_state();
@@ -451,8 +452,9 @@ app.model.sisbot = {
 		}
 	},
 	_socket_error: function(data) {
-		// app.log("Sisbot: Socket Error", data);
-		if (this.get('is_polling') == "false") {
+		app.log("Sisbot: Socket Error", data);
+		if (app.is_visible && this.get('is_polling') == "false") {
+			app.log('Sisbot: start polling (error)');
 			this.set('is_polling', "true");
 			this._poll_state();
 		}

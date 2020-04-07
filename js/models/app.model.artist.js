@@ -49,7 +49,7 @@ app.model.artist = {
 			app.log("Download tracks to table", community.get('selected_tracks'));
 			community.download_wc();
 		} else {
-			app.log("All tracks downloaded, just save playlist");
+			app.log("All tracks downloaded, skip Artist");
 		}
 	}
 };

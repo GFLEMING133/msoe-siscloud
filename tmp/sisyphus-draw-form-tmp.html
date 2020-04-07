@@ -21,7 +21,7 @@
         <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt-v" data-if="{{= model.edit.mirror }} == vertical"></span>
         <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt-h" data-if="{{= model.edit.mirror }} == horizontal"></span>
         <span class="pt5 black f-xlarge bg-white far fa-square" data-if="{{= model.edit.mirror }} == false"></span>
-        <label class="pt4 no-stuffing">MIRROR</label>
+        <p class="fs14 lh18 no-stuffing strong">MIRROR</p>
       </div>
       <div class="flex-column vertical-align fs14 lh18 no-stuffing strong">
         <input class="w40p center black-border"
@@ -30,7 +30,7 @@
             placeholder="1"
             data-field="model.edit.multiply"
             value="{{= model.data.multiply }}" />
-        <label class="no-stuffing">MULTIPLY</label>
+        <p class="fs14 lh18 no-stuffing strong">MULTIPLY</p>
       </div>
       <div class="flex-column vertical-align no-stuffing center"
           data-if="{{= model.path_count }} == 0">
@@ -51,10 +51,10 @@
             data-on-click="model.lastR_change">
           {{= model.edit.lastR }}
         </div>
-        <label>RHO END</label>
+        <p class="fs14 lh18 no-stuffing strong">RHO END</p>
       </div>
     </div>
-    <h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Smoothing</h3>
+    <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Smoothing</h3>
     <div class="w90 flex relative center">
       <span class="w2-5"></span>
       <input class="w90"

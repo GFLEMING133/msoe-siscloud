@@ -50,7 +50,7 @@ html, body {
 	scroll-behavior: smooth;
 	height						: 100%;
 	touch-action: none;
-
+  background: #000;
 }
 body{
 	padding-top: constant(safe-area-inset-top); /* for iOS 11.2 */
@@ -605,10 +605,12 @@ body > .container > .row {	/* remove if you want a bottom bar */
 .iconFirst {
   position: absolute;
   top: -7px;
+  z-index: 10;
 }
 .iconLast {
   position: absolute;
   bottom: -7px;
+  z-index: 10;
 }
 
 .icon0 {
@@ -628,6 +630,60 @@ body > .container > .row {	/* remove if you want a bottom bar */
   border-radius: 20px;
 }
 
+.connectionContainer {
+  width:  10px;
+  height: 10px;
+  overflow: hidden;
+  /* position: relative; */
+}
+
+.connBottom {
+  margin-top: 7px;
+}
+
+.connectionLine {
+  height: 3px;
+  background: #F4AE3D;
+  margin-top: 7px;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+}
+
+.connection0Top {
+  border-radius:50%;
+  border: 3px solid #F4AE3D;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -10px;
+}
+
+.connection1Top {
+  border-radius:50%;
+  border: 3px solid #F4AE3D;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: -10px;
+  top: -10px;
+}
+
+.connection0Bottom {
+  border-radius:50%;
+  border: 3px solid #F4AE3D;
+  width: 20px;
+  height: 20px;
+}
+
+.connection1Bottom {
+  border-radius:50%;
+  border: 3px solid #F4AE3D;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: -10px;
+}
 
 /* -----------Community Styling---------------------------  */
 .overflow-box {
@@ -1040,6 +1096,7 @@ transform: translate3d(0,0,0);
 	display	: block;
 }
 
+.h-auto               { height        : auto; }
 .hv100								{	height				: 100vh;	}
 .h100									{	height				: 100%;		}
 .h100p								{	height				: 100%;		}
@@ -1048,6 +1105,7 @@ transform: translate3d(0,0,0);
 .hh5									{	height					: 5px; 	}
 .hh10									{	height					: 10px; }
 .hh15									{	height					: 15px; }
+.hh17									{	height					: 17px; }
 .hh18									{	height					: 18px; }
 .hh20									{	height					: 20px; }
 .hh25									{	height					: 25px; }
@@ -1071,6 +1129,7 @@ transform: translate3d(0,0,0);
 .hh400								{	height					: 400px; }
 .hh450								{	height					: 450px; }
 
+.mh30   							{ max-height 			: 30px  }
 .mh50   							{ max-height 			: 50px  }
 
 .hvw5									{	height					: 5vw; 	}
@@ -1130,6 +1189,7 @@ transform: translate3d(0,0,0);
 .w90 									{ width 					: 90%;  }
 .w99									{ width 		  		: 99% !important;}
 .w100                 { width           : 100% !important;}
+.mw100                { max-width       : 100%;  }
 
 .shadow 							{	box-shadow			: 0px 1px 2px #999;}
 .t-shadow 						{	text-shadow			: 0px 2px 8px #000;}
@@ -1625,7 +1685,7 @@ select:focus {
 .p50									{	padding					: 50px !important; }
 .p75									{	padding					: 75px !important; }
 
-.mcenter							{ margin-left: 15px; 		margin-right: 15px; }
+.mcenter							{ margin-left: auto; 		margin-right: auto; }
 .m-auto								{ margin 					: auto !important; }
 .m0										{	margin					: 0px !important; }
 .m5										{	margin					: 5px !important; }

@@ -11,7 +11,7 @@
     </div>
     <div class="w24-12 align-center">
       <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
-      <div class="fs13 warmGrey pt5 pr20 truncate i">{{= model.data.description }}</div>
+      <div class="fs13 lh18 warmGrey pt5 pr20 truncate" data-if="{{= model.data.description }} !== false">{{= model.data.description }}</div>
     </div>
     <div class="w24-2 align-center">
       <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />

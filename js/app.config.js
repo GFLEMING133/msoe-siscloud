@@ -1,6 +1,6 @@
 app.config = {
 	env				: 'prod', //
-	version			:  '1.9.16', // Rho start/end values in playlist editing, WC bugfixes
+	version			:  '1.9.17', // Playlist Edit updates, Support tickets from No Connection pages
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production	: true, // cuts out all app.log() output
@@ -53,7 +53,7 @@ app.config = {
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
 			// api_url			: 'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url  	: 'http://192.168.86.26:3002', // 33: wall, 26: mini
+			sisbot_url  	: 'http://192.168.86.26:3002', //  33: wall, 26: mini
 			port			: 3001,
 		},
 		sisbot: {
@@ -67,10 +67,10 @@ app.config = {
 		},
 		prod: { // Android & iOS
 			base_url		: 'false', // unused
-			api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			// api_url			: 'https://webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
-			// web_url			: 'https://webcenter.sisyphus-industries.com/',
+			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
+			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url			: 'https://webcenter.sisyphus-industries.com/',
+			web_url			: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url  	: 'false', // set when we find a bot
 			base_port		: 443,
 		}

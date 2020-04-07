@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.16', // Search added to Playlist Edit->Add Tracks, bugfixes
+    version				:  '1.9.17', // Playlist Edit updates, Support tickets from No Connection pages
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

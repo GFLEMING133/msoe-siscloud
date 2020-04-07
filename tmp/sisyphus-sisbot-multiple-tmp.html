@@ -77,7 +77,7 @@
     </div>
 
     <div class="mt10 center black" data-if="{{= model.sisbots_scanning }} == false">
-      <div class="p20" data-if="{{= model.sisbot_connecting }} == false">
+      <div class="p20 clickable" data-if="{{= model.sisbot_connecting }} == false">
         <div data-if="{{= model.sisbot_id }} == false"
             data-on-click="set"
             data-field="model.sisbot_registration"
@@ -91,6 +91,14 @@
           Don't see your table?<br/>Enter an IP Address
         </div>
       </div>
+    </div>
+
+    <div class="mt10 center black pt0 p20 clickable"
+        data-if="{{= model.sisbot_id }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'support_request'}">
+      Support / Help
     </div>
 
     <div class="p20 center i black" data-if="{{= model.sisbots_scanning }} == false">

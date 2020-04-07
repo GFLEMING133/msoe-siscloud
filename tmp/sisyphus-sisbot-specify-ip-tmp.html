@@ -64,6 +64,14 @@
       <h2 class="mt20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong">Re-Scan</h2>
     </div>
 
+    <div class="mt10 center black p20 clickable"
+        data-if="{{= model.sisbot_id }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'support_request'}">
+      Support / Help
+    </div>
+
     <div class="p20 center i black" data-if="{{= model.sisbots_scanning }} == false">
       <div data-if="{{= model.sisbot_connecting }} == true">
         <div class="mb20" data-template="spinner-bounce-tmp"></div>

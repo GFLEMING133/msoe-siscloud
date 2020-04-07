@@ -73,11 +73,15 @@ app.model.support_request = {
     // add additional data to description
     var description = this.get('edit.description');
     // add table info
-    var sisbot = app.manager.get_model('sisbot_id');
-    description += '\n\nSisbot ID: '+sisbot.id;
-    description += '\nSisbot Name: '+sisbot.get('data.name');
-    if (sisbot.get('data.cson') != 'false') description += '\nConfig: '+sisbot.get('data.cson');
-    description += '\nVersions: '+JSON.stringify(sisbot.get('local_versions'));
+    if (app.manager.get('sisbot_id') != 'false') {
+      var sisbot = app.manager.get_model('sisbot_id');
+      description += '\n\nSisbot ID: '+sisbot.id;
+      description += '\nSisbot Name: '+sisbot.get('data.name');
+      if (sisbot.get('data.cson') != 'false') description += '\nConfig: '+sisbot.get('data.cson');
+      description += '\nVersions: '+JSON.stringify(sisbot.get('local_versions'));
+    } else {
+      description += '\n\nNo connected sisbot!';
+    }
     // add app/browser info
     description += '\n\nUser agent: '+navigator.userAgent;
     if (app.is_app) {

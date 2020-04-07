@@ -89,6 +89,7 @@ app.model.sisyphus_manager = {
     this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
     this.listenTo(app, 'sisbot:wifi_connected', this.should_show_setup_page);
     this.listenTo(app, 'navigate:back', this.navigate_home);
+    
     this.on('change:is_sisbot_available', this.check_reconnect_status);
 
     app.manager = this;
@@ -583,6 +584,7 @@ app.model.sisyphus_manager = {
   reconnect_to_sisbot: function() {
     app.log("Wifi: Reconnect to hotspot", this.get('sisbot_connecting'));
     this.set('sisbot_reconnecting', 'true');
+
     // this.get_model('sisbot_id').set('data.local_ip', '192.168.42.1')._poll_restart();
     this.find_sisbots(true);
   },
@@ -733,13 +735,15 @@ app.model.sisyphus_manager = {
               self.set('sisbot_registration', 'connecting');
               self.connect_to_sisbot(sisbots[0]);
             } else {
-              self.connect_to_sisbot(app.config.get_sisbot_url());
+              if (app.config.get_sisbot_url() != 'false') self.connect_to_sisbot(app.config.get_sisbot_url());
+              else self.set('sisbot_registration', 'none'); // go to no sisbot page
             }
           } else if (sisbots.length == 1) {
             self.set('sisbot_registration', 'connecting');
             self.connect_to_sisbot(sisbots[0]);
           } else if (sisbots.length == 0) {
-            if (self._ble_hotspot) self.set('sisbot_registration', 'hotspot'); // BLE found hotspot(s)
+            app.log('Sisbots BLE found', self._ble_ip);
+            if (self._ble_ip == '192.168.42.1') self.set('sisbot_registration', 'hotspot'); // BLE found hotspot(s)
             else self.set('sisbot_registration', 'none'); // show screen that we found none
           } else if (sisbots.length > 1) {
             // make sure old table is not polling

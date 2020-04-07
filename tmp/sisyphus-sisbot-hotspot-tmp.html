@@ -1,8 +1,8 @@
-<div>
-  <div class="hh50 w100 bg-black no-stuffing"
+<div class="h100">
+  <div class="pull-top hh50 w100 bg-black no-stuffing"
       data-template="sisyphus-header-default-tmp"
   ></div>
-  <div class="bg-white black pl40 pr40">
+  <div class="body-header h100 scroll hide-scrollbar pl40 pr40 pb50">
     <p class="no-stuffing center w100 mt40" aria-hidden="true">
       <img src="img/icon_2x_check.png" alt="WiFi" class="hh30" />
     </p>
@@ -24,6 +24,15 @@
               data-msg="find"
       >Find Sisyphus</p>
     </div>
+
+    <div class="mt10 center black p20 clickable"
+        data-if="{{= model.sisbot_id }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'support_request'}">
+      Support / Help
+    </div>
+
     <div class="p20 center i" data-if="{{= model.sisbots_scanning }} == true">
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
         <div>Scanning...</div>
@@ -32,5 +41,6 @@
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
         <div>Connecting...</div>
     </div>
+    <div class="hh150">&nbsp;</div>
   </div>
 </div>
