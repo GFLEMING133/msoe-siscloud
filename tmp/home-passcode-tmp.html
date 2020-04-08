@@ -5,12 +5,10 @@
       <div class="clickable active"
           data-model="{{= manager.sisbot_id }}"
           data-run="model.enter_passcode">
-        <div  data-if="{{= model.data.active_playlist_id }} !== false">
-          <div class="pull-right pl20 pr20"
-              data-on-click="model.enter_passcode"
-              tg-name="passcode_modal_btn">
-            <i class="fas fa-sign-in-alt f-large" alt="Enter Passcode"></i>
-          </div>
+        <div class="pull-right pl20 pr20"
+            data-on-click="model.enter_passcode"
+            tg-name="passcode_modal_btn">
+          <i class="fas fa-sign-in-alt f-large" alt="Enter Passcode"></i>
         </div>
       </div>
     </div>
