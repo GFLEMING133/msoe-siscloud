@@ -118,7 +118,7 @@ app.model.support_request = {
       // change page to success
       if (obj.resp == 'ok') {
         var session_email = app.session.get('registration.email');
-        if (!session_email || session_email == '' || session_email == 'false') app.session.set('registration.email', this.get('edit.email'));
+        if (!session_email || session_email == '' || session_email == 'false') app.session.set('registration.email', self.get('edit.email'));
 
         app.trigger('session:active', { secondary: 'support_success' });
       }

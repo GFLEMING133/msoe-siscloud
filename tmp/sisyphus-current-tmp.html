@@ -69,8 +69,7 @@
                   <div data-foreach="model.data.sorted_tracks"
                       data-foreach-offset="{{= model.data.active_track_index }}"
                       data-foreach-limit="20">
-                    <div class="bb"
-                        data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                    <div data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
                         data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
                         data-template="sisyphus-tracks-list-item-tmp"></div>
                   </div>
@@ -80,8 +79,7 @@
                     <div data-foreach="model.data.next_tracks"
                         data-foreach-limit="{{= Math.max(0, 20 - (_.size(model.data.sorted_tracks) - model.data.active_track_index)) }}"
                         data-foreach-offset="{{= (model.data.is_shuffle == 'true') ? 1 : 0 }}">
-                      <div class="bb"
-                          data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                      <div data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
                           data-template="sisyphus-tracks-list-item-tmp"></div>
                     </div>
                   </div>
