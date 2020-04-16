@@ -1189,6 +1189,7 @@ transform: translate3d(0,0,0);
 .w90 									{ width 					: 90%;  }
 .w99									{ width 		  		: 99% !important;}
 .w100                 { width           : 100% !important;}
+.ww200                { width           : 200px;}
 .mw100                { max-width       : 100%;  }
 
 .shadow 							{	box-shadow			: 0px 1px 2px #999;}
