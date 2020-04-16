@@ -55,6 +55,8 @@ app.model.sisbot = {
 			is_connected									: false,
 			is_socket_connected						: 'false',
 			is_polling										: 'true',
+			is_polling_waiting						: 'false', // is in wait to start polling
+			polling_delay									: 30, // seconds to wait before polling on restart/reboot
 			is_jogging										:	false,
 			jog_type											: '',
 			updating_hostname							: 'false',
@@ -172,6 +174,7 @@ app.model.sisbot = {
 		return obj;
 	},
 	current_version: 1,
+	polling_timeout: null, // setTimeout before polling on restart/reboot
 	sisbot_listeners: function () {
 		if (this._listeners_set) return; // don't set more than once
 
@@ -444,11 +447,23 @@ app.model.sisbot = {
 
 		// don't poll if document is in background
 		if (app.is_visible && this.get('is_polling') == "false") {
-			app.log('Sisbot: start polling (disconnect)');
-			setTimeout(function() {
+			app.log('Sisbot: start polling (disconnect)', self.get('data.reason_unavailable'));
+
+			// TODO: delay polling if reason_unavailable is resetting/restarting/rebooting
+			var timeout = 500;
+			var reason = self.get('data.reason_unavailable');
+			if (reason == 'resetting' || reason == 'restarting' || reason == 'rebooting') {
+				timeout = self.get('polling_delay') * 1000;
+				if (reason == 'rebooting') timeout *= 2; // make twice as long if full reboot
+				self.set('is_polling_waiting', 'true');
+			}
+
+			self.polling_timeout = setTimeout(function() {
+				app.log('Sisbot: start polling (after timeout)', self.get('data.reason_unavailable'));
+				self.set('is_polling_waiting', 'false');
 				self.set('is_polling', "true");
 				self._poll_state();
-			}, 500);
+			}, timeout);
 		}
 	},
 	_socket_error: function(data) {
@@ -545,6 +560,11 @@ app.model.sisbot = {
 		this._update_sisbot('state', {}, function(obj) {
 			if (obj.resp) {
 				self._poll_timer = false;
+
+				 // clear values in case it was waiting
+				clearTimeout(self.polling_timeout);
+				self.set('is_polling_waiting', 'false');
+
 				self.check_for_unavailable();
 
 				app.manager.intake_data(obj.resp);
@@ -684,9 +704,16 @@ app.model.sisbot = {
 	},
 	/**************************** ADMIN ***************************************/
 	check_for_unavailable: function () {
+		app.log("Check Unavailable", this.get('data.reason_unavailable'));
 		if (this.get('data.reason_unavailable') !== 'false') {
 			// make sure we say the sisbot is unavailable
 			app.manager.set('is_sisbot_available', 'false');
+
+			// set value for is_polling_waiting right away, so we don't see the buttons for a split second
+			var reason = this.get('data.reason_unavailable');
+			if (reason == 'resetting' || reason == 'restarting' || reason == 'rebooting') {
+				this.set('is_polling_waiting', 'true');
+			}
 		} else {
 			app.manager.set('is_sisbot_available', 'true');
 		}

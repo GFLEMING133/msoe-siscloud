@@ -47,7 +47,11 @@
           Please wait this will take some time.
         </p>
 
-        <div class="pb20">
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 mt50 mb10 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for table to reset.</p>
+        </div>
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == false">
           <p class="w100 mt50 mb100 p15 center blue fs18 lh18 less_strong uppercase clickable media_fs14"
               data-if="{{= model.is_polling }} == false"
               data-on-click="model._poll_then_reset">Retry Connecting</p>
@@ -68,7 +72,11 @@
           Please wait this will take some time.
         </p>
 
-        <div class="pb20">
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 mt50 mb10 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for table to reboot.</p>
+        </div>
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == false">
           <p class="w100 mt50 mb10 p15 center blue fs18 lh18 less_strong uppercase clickable media_fs14"
               data-if="{{= model.is_polling }} == false"
               data-on-click="model._poll_then_reset">Retry Connecting</p>
@@ -98,7 +106,12 @@
           A restart is required for these settings to take effect.
           Please wait, this will take some time.
         </p>
-        <div class="pb20">
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 mt50 mb10 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for table to restart.</p>
+        </div>
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == false">
           <p class="w100 mt50 mb10 p15 center blue fs18 lh18 less_strong uppercase clickable media_fs14"
               data-if="{{= model.is_polling }} == false"
               data-on-click="model._poll_then_reset">Retry Connecting</p>

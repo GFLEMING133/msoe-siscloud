@@ -20,7 +20,7 @@
                 <div class="h100" data-if="{{= model.show_nightlight_page }} == false">
                   <div class="h100" data-if="{{= model.show_sleeping_page }} == true" data-template="sisyphus-sisbot-sleeping-tmp"></div>
                   <div class="h100" data-if="{{= model.show_sleeping_page }} == false">
-                    <div class="h100" data-if="{{= model.show_software_update_page }} == true" data-template="sisyphus-sisbot-software-update-tmp"></div>
+                    <div class="h100 app-container" data-if="{{= model.show_software_update_page }} == true" data-template="sisyphus-sisbot-software-update-tmp"></div>
                     <div class="h100" data-if="{{= model.show_software_update_page }} == false">
                       <div class="app-container">
                         <div class="page-content no-stuffing bg-white h100 w100" data-if="{{= session.active.primary }} !== false" data-template="sisyphus-{{= session.active.primary }}-tmp"></div>

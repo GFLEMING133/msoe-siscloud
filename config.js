@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.17', // Playlist Edit updates, Support tickets from No Connection pages
+    version				:  '1.9.18', // Delay before reconnect on Reset/Restart/Reboot
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

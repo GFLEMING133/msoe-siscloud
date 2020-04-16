@@ -89,7 +89,7 @@ app.model.sisyphus_manager = {
     this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
     this.listenTo(app, 'sisbot:wifi_connected', this.should_show_setup_page);
     this.listenTo(app, 'navigate:back', this.navigate_home);
-    
+
     this.on('change:is_sisbot_available', this.check_reconnect_status);
 
     app.manager = this;
@@ -601,7 +601,8 @@ app.model.sisyphus_manager = {
       this.get_model('sisbot_id').set('wifi_error', 'incorrect');
     } else if (this.get('is_sisbot_available') == 'false' && sisbot.get('data.installing_updates') == 'true') {
       // we timed out in installing updates
-      if (sisbot.get('data.reason_unavailable').indexOf('_fault') < 0) sisbot.set('data.reason_unavailable', 'false');
+      // TODO: is the next line necessary?
+      // if (sisbot.get('data.reason_unavailable').indexOf('_fault') < 0) sisbot.set('data.reason_unavailable', 'false');
     }
 
     // TODO:  if "rebooting", reload page
@@ -933,6 +934,7 @@ app.model.sisyphus_manager = {
     };
     if (app.is_app) {
       device_data.ip = this.get('device_ip');
+      device_data.device_time = moment().format('X');
     }
 
     // ping sisbot for connection
