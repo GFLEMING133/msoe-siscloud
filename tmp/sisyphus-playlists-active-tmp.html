@@ -64,7 +64,7 @@
       </div>
       <div class="i center pt50 lh20" data-if="{{= _.size(model.data.sorted_tracks) }} == 0">
         <div data-model="{{= parent.sisbot_id }}">
-          <div data-if="{{= parent.id }} != {{= model.data.favorite_playlist_id }}">There are no tracks in this playlist</div>
+          <div data-if="{{= parent.id }} !== {{= model.data.favorite_playlist_id }}">There are no tracks in this playlist</div>
           <div data-if="{{= parent.id }} == {{= model.data.favorite_playlist_id }}">Add tracks to this playlist by marking<br/>tracks as <i class="fas fa-heart"></i> Favorite</div>
         </div>
       </div>
