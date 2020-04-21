@@ -1,73 +1,78 @@
-<div class="hh80 z10">
-    <div data-if="{{= app.plugins.length( model.data.tracks) }} == 1">
-        <img class="w100 center img-rounded"
-            data-model="{{= model.data.tracks[0].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
+<div class="z10">
+    <div data-if="{{= _.size(model.data.tracks) }} < 1">
+      <div class="w94p hh94 inline center img-rounded b-dcdc">
+        <i class="fas fa-plus grey-l f-xxlarge lh94"></i>
+      </div>
     </div>
-    <div data-if="{{= app.plugins.length(model.data.tracks) }} == 2">
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[0].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[1].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <div class="w50 h50 inline "></div>
-        <div class="w50 h50 inline "></div>
+    <div data-if="{{= _.size(model.data.tracks) }} == 1">
+      <img class="w100 inline center img-rounded"
+          data-model="{{= model.data.tracks[0].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
     </div>
-    <div data-if="{{= app.plugins.length(model.data.tracks) }} == 3">
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[0].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[1].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[2].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <div class="w50 h50 inline"></div>
+    <div data-if="{{= _.size(model.data.tracks) }} == 2">
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[0].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[1].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <div class="w50 h50 inline "></div>
+      <div class="w50 h50 inline "></div>
     </div>
-    <div data-if="{{= app.plugins.length(model.data.tracks) }} > 3">
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[0].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[1].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[2].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
-        <img class="w50 h50 center inline img-rounded"
-            data-model="{{= model.data.tracks[3].id }}"
-            src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
-            alt="{{= model.data.name }}"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
+    <div data-if="{{= _.size(model.data.tracks) }} == 3">
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[0].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[1].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[2].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <div class="w50 h50 inline"></div>
+    </div>
+    <div data-if="{{= _.size(model.data.tracks) }} > 3">
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[0].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[1].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[2].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
+      <img class="w50 h50 center inline img-rounded"
+          data-model="{{= model.data.tracks[3].id }}"
+          src="{{= app.config.get_thumb_url() }}thumbnail/100/{{= model.id }}.png"
+          alt="{{= model.data.name }}"
+					data-on-error="replace"
+					data-replace="list-image-fallback-tmp" />
     </div>
 </div>

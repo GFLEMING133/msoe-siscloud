@@ -1,5 +1,7 @@
-<div class="h100">
-  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align" data-model="{{= parent.active.playlist_id }}">
+<div class="h100"
+    data-model="{{= parent.active.playlist_id }}"
+    data-run="model.setup_edit">
+  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
     <div class="w30 left pl20 clickable active">
       <img src="img/icon_2x_trashcan.png"
           alt="Delete"
@@ -19,8 +21,8 @@
       Save
     </div>
   </div>
-  <div class="body-header h100" data-model="{{= parent.active.playlist_id }}"
-        tg-name="playlist_edit_page">
+  <div class="body-header h100"
+      tg-name="playlist_edit_page">
     <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
     <div class="pt20 pl40 pr40">
       <div>

@@ -27,6 +27,7 @@ app.model.playlist = {
 				duration						: '',				// mins
 				duration_formatted	: '',				// HH:mm
 
+				is_editable			: 'true', // Disallow editing (Favorites)
 				is_published		: 'false',
 				is_shuffle			: 'false',			// same from sisbot
 				is_loop					: 'true',			// same from sisbot
@@ -182,7 +183,7 @@ app.model.playlist = {
 		.set('edit.name', this.get('data.name'))
 		.set('edit.description', this.get('data.description'));
 
-		app.trigger('session:active', {'secondary':'playlist-edit'} );
+		// app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},
 	cancel_edit: function () {
 		app.trigger('session:active', { secondary: 'playlist' });

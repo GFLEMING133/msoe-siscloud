@@ -1,26 +1,99 @@
-<div data-run="model.collapse">
-	<div class="flex clickable active bg-grey-ll-hover bb p10 pl20 {{= (scope.index == 0) ? 'bt' : '' }}"
-			data-on-click="publish"
-			data-publish="modal:open"
-			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
-			tg-name="track_modal_btn">
-		<div class="w20 center vertical">
+<div>
+	<div class="relative">
+		<div class="absolute" data-if="{{= parent.data.type }} == playlist">
+			<div class="absolute" data-if="{{= session.debug_mode }} == true">
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+						class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+						class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'orange' : '' }}"></div>
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+						class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'orange' : '' }}"></div>
+				<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}" data-if="{{= scope.index }} > 0">
+					<!-- <i class="fas fa-exclamation-circle orange"
+							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true"></i> -->
+					<i class="fas fa-check-circle"
+							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
+				</div>
+			</div>
+		</div>
+		<div class="flex clickable active bg-grey-ll-hover p10 pl20"
+				data-on-click="publish"
+				data-publish="modal:open"
+				data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
+				tg-name="track_modal_btn">
+			<div class="w20 center vertical">
 				<img class="w75p hh75"
 						alt="{{= model.data.name }}"
 						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
 						data-on-error="replace"
 						data-replace="list-image-fallback-tmp" />
-		</div>
-		<div class="w60 pt25 pl20"
+			</div>
+			<div class="w60 pt25 pl20"
 					tg-name="track_name">
-			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
-	    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+				<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
+		    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+			</div>
+			<div class="w20 h100 vertical align-center right"
+					tg-name="trackdropdown_three_dots">
+		    <i class="grey pt20 pb20 pr20" aria-hidden="true">
+					<i class="fas fa-ellipsis-h f-xlarge grey-l" alt="Expand"></i>
+					<!-- <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" /> -->
+				</i>
+			</div>
 		</div>
-		<div class="w20 h100 vertical align-center right"
-				tg-name="trackdropdown_three_dots">
-	    <i class="grey pt20 pb20 pr20" aria-hidden="true">
-				<img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" />
-			</i>
+	</div>
+	<div data-if="{{= session.debug_mode }} == true">
+		<div data-if="{{= parent.data.type }} == playlist">
+			<div data-if="{{= scope.index }} < {{= _.size(parent.temp_tracks)-1 }}">
+				<div class="bt center relative" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+					<div class="relative hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 0">
+						<div class="connectionContainer rho0">
+							<div class="connection0Top"></div>
+						</div>
+						<div class="connectionLine"></div>
+						<div class="connectionContainer rho1 connBottom">
+							<div class="connection1Bottom"></div>
+						</div>
+					</div>
+					<div class="relative hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 1">
+						<div class="connectionContainer rho1">
+							<div class="connection1Top"></div>
+						</div>
+						<div class="connectionLine"></div>
+						<div class="connectionContainer rho0 connBottom">
+							<div class="connection0Bottom"></div>
+						</div>
+					</div>
+					<div class="absolute z10">
+						<div class="inline-block bg-white orange pl5 pr5 pt1">Connection line</div>
+					</div>
+				</div>
+			</div>
+			<div data-if="{{= scope.index }} == {{= _.size(parent.temp_tracks)-1 }}">
+				<div class="bt center relative" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+					<div class="absolute hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 0">
+						<div class="connectionContainer rho0">
+							<div class="connection0Top"></div>
+						</div>
+						<div class="connectionLine"></div>
+						<div class="connectionContainer rho1 connBottom">
+							<div class="connection1Bottom"></div>
+						</div>
+					</div>
+					<div class="absolute hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 1">
+						<div class="connectionContainer rho1">
+							<div class="connection1Top"></div>
+						</div>
+						<div class="connectionLine"></div>
+						<div class="connectionContainer rho0 connBottom">
+							<div class="connection0Bottom"></div>
+						</div>
+					</div>
+					<div class="absolute z10">
+						<div class="inline-block bg-white orange pl5 pr5 pt1">Looping connection line</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

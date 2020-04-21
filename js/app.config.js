@@ -8,7 +8,7 @@ app.config = {
 	is_simulator 	: false, // are we in a simulator? Mainly for handling bluetooth
 	simulator_ip 	: '192.168.1.6', // force a specific network address in simulator
 	show_comments	: false,
-	show_data		: false,
+	show_data		: true,
 	show_lib		: false,
 	show_tg			: false, // for testing
 	envs	: {

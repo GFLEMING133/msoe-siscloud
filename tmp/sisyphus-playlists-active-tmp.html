@@ -8,10 +8,16 @@
     <div class="w40">
       <h1 class="fs18 lh18 pb5 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
     </div>
-    <div class="w30 right pr20 f-large clickable active"
-        data-on-click="model.setup_edit"
-        tg-name="playlist_edit_btn"
-    ><img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" /></div>
+    <div class="w30 right">
+      <div class="pr20 f-large clickable active"
+          data-if="{{= model.data.is_editable }} !== false"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist-edit'}"
+          tg-name="playlist_edit_btn">
+        <img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" />
+      </div>
+    </div>
   </div>
   <div class="body-header h100" data-model="{{= parent.active.playlist_id }}"
         tg-name="playlist_page">
@@ -47,19 +53,25 @@
       </div>
     </div>
     <!--------------------------- PLAYLIST TRACKS ---------------------------->
-    <div class="h100 scroll hide-scrollbar">
+    <div class="h100 scroll hide-scrollbar"
+        data-run="model.order_temp_tracks"
+        data-run-msg="{'pos':'data.tracks'}">
       <div class="pt60"
           style="{{= model.data.bg_color ? 'background-color: {[=model.data.bg_color]};' : 'background-color:black'}};">
         <div class="white center less_strong pt20 pb20 pl35 pr35"
             data-if="{{= model.data.description }} !== false">{{= model.data.description}}</div>
       </div>
+      <div class="i center pt50 lh20" data-if="{{= _.size(model.data.sorted_tracks) }} == 0">
+        <div data-model="{{= parent.sisbot_id }}">
+          <div data-if="{{= parent.id }} != {{= model.data.favorite_playlist_id }}">There are no tracks in this playlist</div>
+          <div data-if="{{= parent.id }} == {{= model.data.favorite_playlist_id }}">Add tracks to this playlist by marking<br/>tracks as <i class="fas fa-heart"></i> Favorite</div>
+        </div>
+      </div>
       <div class="pb100"
+          data-if="{{= _.size(model.data.sorted_tracks) }} > 0"
           data-foreach="model.data.tracks"
           data-foreach-map="true">
-        <div data-template="sisyphus-tracks-list-item-tmp"></div>
-      </div>
-      <div class="i center pt100 " data-if="{{= model.data.sorted_tracks.length }} == 0">
-        There are no tracks in this playlist
+        <div class="bt" data-template="sisyphus-tracks-list-item-tmp"></div>
       </div>
       <div class="hh150">&nbsp;</div>
     </div>

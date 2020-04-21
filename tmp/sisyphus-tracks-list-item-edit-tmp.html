@@ -32,7 +32,7 @@
 				data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
 			<i class="fas fa-exclamation-circle orange"></i>
 		</div> -->
-		<div class="flex pl20 pr20 clickable active">
+		<div class="flex pl20 clickable active">
 			<div class="w20 pt10 pb10 center vertical">
 				<div class="w75p hh75">
 					<img class="w100 center img-rounded"
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="w20 h100 pt25 pb10 right vertical"
+			<div class="w20 pt25 pb25 pr20 right"
 					data-on-click="parent.remove_track"
 					data-msg="{'index':{{= scope.index }}, 'pos':'active_tracks'}"
 					tg-name="red_minus_track_{{= scope.index}}_btn">

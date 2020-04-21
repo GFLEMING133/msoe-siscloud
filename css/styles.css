@@ -1019,6 +1019,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 .w40p									{	width		: 40px !important;}
 .w75p									{	width		: 75px !important;}
 .w80p									{	width		: 80px !important;}
+.w94p									{	width		: 94px !important;}
 .w120p								{	width		: 120px !important;}
 .w230									{	width		: 230px !important;}
 .w75per								{	width   : 75% !important;}
@@ -1117,6 +1118,7 @@ transform: translate3d(0,0,0);
 .hh75									{	height					: 75px; }
 .hh80									{	height					: 80px; }
 .hh85									{	height					: 85px; }
+.hh94									{	height					: 94px; }
 .hh100								{	height					: 100px; }
 .hh110								{	height					: 110px; }
 .hh120								{	height					: 120px; }
@@ -1189,7 +1191,7 @@ transform: translate3d(0,0,0);
 .w90 									{ width 					: 90%;  }
 .w99									{ width 		  		: 99% !important;}
 .w100                 { width           : 100% !important;}
-.ww200                { width           : 200px;}
+.ww200                { width           : 200px; }
 .mw100                { max-width       : 100%;  }
 
 .shadow 							{	box-shadow			: 0px 1px 2px #999;}
@@ -1233,7 +1235,7 @@ transform: translate3d(0,0,0);
 }
 
 .img-rounded, .rounded									{	border-radius				: 100px;}
-.img-rounded, .rounded-x2									{	border-radius			: 200px;}
+.img-rounded, .rounded-x2								{	border-radius			: 200px;}
 .corner-2px, .corner-2px:hover					{	border-radius				: 2px;}
 .corner-3px, .corner-3px:hover					{	border-radius				: 3px;}
 .corner-4px, .corner-4px:hover					{	border-radius				: 4px;}
@@ -1632,10 +1634,12 @@ select:focus {
 .lh30									{	line-height				: 30px;	}
 .lh36									{	line-height				: 36px;	}
 .lh50									{	line-height				: 50px;	}
+.lh94									{	line-height				: 94px;	}
 
 /**************************** BORDERS *****************************************/
 
 .b										{	border						: 1px solid #efefef !important;	}
+.b-dcdc							  { border      			: 1px solid #dcdcdc !important;	}
 .b-bluer 							{ border 						: 1px solid #2c697f !important;	}
 .b-greyer 						{ border 						: 1px solid #888888 !important;	}
 .bb-dcdc							{ border-bottom			: 1px solid #dcdcdc !important;	}

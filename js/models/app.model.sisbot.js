@@ -1536,6 +1536,7 @@ app.model.sisbot = {
 			id					: "favorite_playlist_id",
 			type				: 'playlist',
 			name				: 'Favorites',
+			description	: 'Tracks marked as Favorites',
 			is_shuffle	: 'true'
 		});
 
