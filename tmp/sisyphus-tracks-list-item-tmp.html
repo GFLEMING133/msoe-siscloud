@@ -1,21 +1,5 @@
 <div>
 	<div class="relative">
-		<div class="absolute" data-if="{{= parent.data.type }} == playlist">
-			<div class="absolute" data-if="{{= session.debug_mode }} == true">
-				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
-						class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
-				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
-						class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'orange' : '' }}"></div>
-				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
-						class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'orange' : '' }}"></div>
-				<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}" data-if="{{= scope.index }} > 0">
-					<!-- <i class="fas fa-exclamation-circle orange"
-							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true"></i> -->
-					<i class="fas fa-check-circle"
-							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
-				</div>
-			</div>
-		</div>
 		<div class="flex clickable active bg-grey-ll-hover p10 pl20"
 				data-on-click="publish"
 				data-publish="modal:open"
@@ -41,8 +25,24 @@
 				</i>
 			</div>
 		</div>
+		<div class="absolute click-through" data-if="{{= parent.data.type }} == playlist">
+			<div class="absolute" data-if="{{= app.config.is_debug }} == true">
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+						class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+						class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'orange' : '' }}"></div>
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+						class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'orange' : '' }}"></div>
+				<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}" data-if="{{= scope.index }} > 0">
+					<!-- <i class="fas fa-exclamation-circle orange"
+							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true"></i> -->
+					<i class="fas fa-check-circle"
+							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div data-if="{{= session.debug_mode }} == true">
+	<div data-if="{{= app.config.is_debug }} == true">
 		<div data-if="{{= parent.data.type }} == playlist">
 			<div data-if="{{= scope.index }} < {{= _.size(parent.temp_tracks)-1 }}">
 				<div class="bt center relative" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">

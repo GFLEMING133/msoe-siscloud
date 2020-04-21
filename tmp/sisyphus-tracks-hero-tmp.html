@@ -44,15 +44,9 @@
       <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
           data-run="model.is_playlist_favorite"
           data-on-click="model.favorite_toggle">
-        <div class="center">
-          <img src="img/icon_2x_trackdropdown_openheart.png"
-              alt="UnFavorite"
-              class="hh20 white"
-              data-if="{{= model.is_favorite }} == false" />
-          <img src="img/icon_2x_trackdropdown_closedheart.png"
-              alt="Favorite"
-              class="hh20 white"
-              data-if="{{= model.is_favorite }} == true" />
+        <div class="center white">
+          <i class="pl0 white f-large fas fa-heart clickable" data-if="{{= model.is_favorite }} !== false"></i>
+          <i class="pl0 white f-large far fa-heart clickable" data-if="{{= model.is_favorite }} == false"></i>
         </div>
         <div class="w90 lh20 white">
           <span data-if="{{= model.is_favorite }} == false">Favorite</span>
@@ -64,7 +58,7 @@
           data-publish="modal:open"
           data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}">
         <div class="center">
-          <img src="img/icon_2x_trackdropdown_plus.png" alt="Add to Playlist" class="hh20"/>
+          <i class="pl0 white f-large far fa-plus-square clickable"></i>
         </div>
         <div class="w90 lh20 white">Add to Playlist</div>
       </div>
@@ -72,8 +66,8 @@
           data-if="{{= model.data.firstR }} !== {{= model.data.lastR }}"
           data-on-click="model.reversible_toggle">
         <div class="center white">
-          <i class="p10 pl0 white f-large fas fa-check-square clickable" data-if="{{= model.data.is_reversible }} !== false"></i>
-          <i class="p10 pl0 white f-large far fa-square clickable" data-if="{{= model.data.is_reversible }} == false"></i>
+          <i class="pl0 white f-large fas fa-check-square clickable" data-if="{{= model.data.is_reversible }} !== false"></i>
+          <i class="pl0 white f-large far fa-square clickable" data-if="{{= model.data.is_reversible }} == false"></i>
         </div>
         <div class="w90 lh20 white less_strong">Reversible</div>
       </div>
@@ -81,9 +75,7 @@
           data-if="{{= model.data.is_deletable }} == true"
           data-on-click="model.delete">
         <div class="center white">
-          <img src="img/icon_2x_trashcan.png"
-              alt="Delete"
-              class="hh20 white" />
+          <i class="pl0 white f-large far fa-trash-alt clickable"></i>
         </div>
         <div class="w90 lh20 white">Delete</div>
       </div>
