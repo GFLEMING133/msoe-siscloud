@@ -1859,10 +1859,11 @@ app.model.sisbot = {
 		app.log("Save color data?", color_data);
 		if (!_.isEmpty(color_data)) {
 			app.log("Save color data", this.get('data.led_primary_color'), this.get('data.led_secondary_color'));
-			var save_data = [this.get('data')];
-			if (led_pattern) save_data.push(led_pattern.get('data'));
-			app.log("Save data", save_data);
-			this.save_to_sisbot(save_data);
+			// var save_data = [this.get('data')];
+			// if (led_pattern) save_data.push(led_pattern.get('data'));
+			// app.log("Save data", save_data);
+			// this.save_to_sisbot(save_data);
+			color_data._save = true;
 
 			this._update_sisbot('set_led_color', color_data, function(obj) { app.log("Color Set", obj); });
 		}
