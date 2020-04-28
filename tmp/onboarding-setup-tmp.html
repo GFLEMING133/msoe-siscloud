@@ -1,6 +1,8 @@
 <div class="app-container bg-white h100">
   <div class="pull-top hh50 w100 bg-black no-stuffing" data-template="sisyphus-header-default-tmp"></div>
-  <div class="body-header h100 scroll hide-scrollbar flex" data-model="{{= model.sisbot_id }}">
+  <div class="body-header h100 scroll hide-scrollbar flex"
+      data-model="{{= model.sisbot_id }}"
+      data-run="model.check_local_versions">
     <div class="pl24-2 w24-24 pr24-2">
       <p class="no-stuffing center w100 mt40" aria-hidden="true">
         <img src="img/icon_2x_cog.png" alt="Settings" class="hh30" />

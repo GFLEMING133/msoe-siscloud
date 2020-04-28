@@ -14,9 +14,9 @@
           <div class="h100" data-if="{{= model.is_ble_enabled }} !== false">
             <div class="h100" data-if="{{= model.show_wifi_page }} == true" data-template="sisyphus-sisbot-wifi-tmp"></div>
             <div class="h100" data-if="{{= model.show_wifi_page }} == false">
-              <div class="h100" data-if="{{= model.show_setup_page }} == true" data-template="sisyphus-sisbot-setup-tmp"></div>
+              <div class="h100" data-if="{{= model.show_setup_page }} == true" data-template="onboarding-setup-tmp"></div>
               <div class="h100" data-if="{{= model.show_setup_page }} == false">
-                <div class="h100" data-if="{{= model.show_nightlight_page }} == true" data-template="sisyphus-sisbot-nightlight-tmp"></div>
+                <div class="h100" data-if="{{= model.show_nightlight_page }} == true" data-template="onboarding-nightlight-tmp"></div>
                 <div class="h100" data-if="{{= model.show_nightlight_page }} == false">
                   <div class="h100" data-if="{{= model.show_sleeping_page }} == true" data-template="sisyphus-sisbot-sleeping-tmp"></div>
                   <div class="h100" data-if="{{= model.show_sleeping_page }} == false">

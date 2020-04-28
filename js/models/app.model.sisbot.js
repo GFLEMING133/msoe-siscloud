@@ -732,7 +732,8 @@ app.model.sisbot = {
 			sleep_time				: '10:00 PM',
 			wake_time					: '8:00 AM',
 			is_nightlight			: data.is_nightlight,
-			nightlight_brightness	: data.nightlight_brightness
+			nightlight_brightness	: data.nightlight_brightness,
+			is_play_on_wake		: 'false'
 		}
 
 		this.set('default_settings', defaults);
