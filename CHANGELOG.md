@@ -17,6 +17,7 @@
 - Find More Tracks removed from UI
 - Show created_by_name credit on Track lists
 - Delay before restarting polling on Reset/Restart/Reboot (and UI without Rescan buttons during that time)
+- Delay before restarting polling on Wifi Connect (and UI without Rescan buttons during that time)
 # 2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
 - Fetching more artist spinner fix
 # 2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345

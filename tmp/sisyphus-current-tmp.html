@@ -63,7 +63,7 @@
         <div data-if="{{= model.data.active_playlist_id }} !== false">
           <div data-model="{{= model.data.active_playlist_id }}"
               data-run="model.order_temp_tracks"
-              data-run-msg="{'pos':'data.tracks'}">
+              data-run-msg="{'pos':'data.tracks','is_shuffle':'{{= parent.data.is_shuffle }}'}">
             <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-white sticky z50">Next Up</div>
             <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">

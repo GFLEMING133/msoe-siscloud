@@ -147,14 +147,19 @@
               data-if="{{= app.is_app }} == true"
               data-on-click="parent.open_network_settings_from_error">Open Wifi Settings</p>
         </div>
-        <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
-          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14"
-              data-on-click="parent.reconnect_to_sisbot">Attempt Reconnect</p>
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for table to connect to new network.</p>
         </div>
-        <div class="p20 center i white pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
-          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
-          <div class="black media_fs14">
-            Connecting...
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == false">
+          <div class="pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+            <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14"
+                data-on-click="parent.reconnect_to_sisbot">Attempt Reconnect</p>
+          </div>
+          <div class="p20 center i white pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+            <div class="black media_fs14">
+              Connecting...
+            </div>
           </div>
         </div>
       </div>

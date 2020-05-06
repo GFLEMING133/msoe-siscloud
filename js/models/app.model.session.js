@@ -338,14 +338,13 @@ app.model.session = {
   		};
       var self = this;
   		_.each(data_arr, function (m) {
-  			if (m.type == 'user' && m.email == user.email) {
+  			if (m.type == 'user' && m.email.toLowerCase() == user.email.toLowerCase()) {
 					session_data.user_id = m.id;
 					if (m.id) self.set('user_id', m.id );
-
 				}
   		});
 
-			app.log("Sign in Data: ", data_arr);
+			app.log("Sign in Data: ", JSON.parse(JSON.stringify(data_arr)));
   		app.manager.intake_data(data_arr);
   		app.trigger('session:user_sign_in', session_data);
     },

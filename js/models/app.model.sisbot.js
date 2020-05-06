@@ -57,6 +57,7 @@ app.model.sisbot = {
 			is_polling										: 'true',
 			is_polling_waiting						: 'false', // is in wait to start polling
 			polling_delay									: 30, // seconds to wait before polling on restart/reboot
+			wifi_polling_delay						: 15, // seconds to wait before polling on join network
 			is_jogging										:	false,
 			jog_type											: '',
 			updating_hostname							: 'false',
@@ -455,6 +456,9 @@ app.model.sisbot = {
 			if (reason == 'resetting' || reason == 'restarting' || reason == 'rebooting') {
 				timeout = self.get('polling_delay') * 1000;
 				if (reason == 'rebooting') timeout *= 2; // make twice as long if full reboot
+				self.set('is_polling_waiting', 'true');
+			} else if (reason == 'connect_to_wifi' || reason == 'reset_to_hotspot') {
+				timeout = self.get('wifi_polling_delay') * 1000;
 				self.set('is_polling_waiting', 'true');
 			}
 
@@ -892,6 +896,8 @@ app.model.sisbot = {
 				// setTimeout for rescanning for sisbots
 				if (app.is_app) {
 					function rescan_networks() {
+						app.log("Rescan Networks");
+
 						app.manager.get_network_ip_address(function(ip_address) {
 				      var ip_add = ip_address.split('.');
 				      ip_add.pop();
@@ -906,10 +912,10 @@ app.model.sisbot = {
 						});
 					}
 
-					// rescan, after 5 seconds
+					// rescan, after wifi_polling_delay seconds
 					setTimeout(function() {
 						rescan_networks();
-					}, 5000);
+					}, self.get('wifi_polling_delay')*1000);
 				}
 			}
 
