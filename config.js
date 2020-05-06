@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.18', // Delay before reconnect on Reset/Restart/Reboot
+    version				:  '1.9.19', // Delay before reconnect on Reset/Restart/Reboot/Wifi_connect
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

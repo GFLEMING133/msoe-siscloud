@@ -1,6 +1,6 @@
 app.config = {
 	env				: 'prod', //
-	version			:  '1.9.18', // Delay before reconnect on Reset/Restart/Reboot
+	version			:  '1.9.19', // Delay before reconnect on Reset/Restart/Reboot/Wifi_connect
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production	: false, // cuts out all app.log() output
