@@ -61,7 +61,7 @@ body{
 .footer_Xphone {
 	position: absolute;
 	margin-bottom: constant(safe-area-inset-bottom);
-		margin-bottom: env(safe-area-inset-bottom);
+	margin-bottom: env(safe-area-inset-bottom);
 }
 
 img {
@@ -82,8 +82,8 @@ body, h1, h2, h3, h4, h5, h6, p {
 	font-family									: 'Montserrat', sans-serif;
 	font-weight									: 400;
 	text-rendering							: optimizeLegibility;
-    -webkit-font-smoothing		: antialiased;
-    -moz-osx-font-smoothing		: grayscale;
+  -webkit-font-smoothing      : antialiased;
+  -moz-osx-font-smoothing	  	: grayscale;
 	line-height									: 1em;
 }
 
@@ -1043,7 +1043,7 @@ li.blue-hover:hover     { color: #00b1fa; }
 	margin-top: 75px !important;
 }
 .Android .body-header {
-	padding-top: 51px !important;
+	margin-top: 50px !important;
 }
 
 .app .body-header > *:last-child {
@@ -1086,9 +1086,6 @@ transform: translate3d(0,0,0);
 	right		: 0px;
 	z-index	: 1000;
 
-}
-.sticky {
-	position: sticky;
 }
 
 
@@ -2230,6 +2227,7 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 	   padding: 10px !important;
    }
 	.controls_adjustment  {
+    height: 100px !important; /* adjustment for new size */
 		margin-bottom: 20px !important;
 	}
 	.mobile_p10 {
@@ -2238,8 +2236,8 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 	.mobile_pt15 {
 		padding-top: 15px;
 	}
-	.mobile_pb55 {
-		padding-bottom: 55px !important;
+	.mobile_pb5 {
+		padding-bottom: 5px !important;
 	}
 	.se350 {
 		height: 350px !important;
@@ -2307,6 +2305,7 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 	}
 
 	.controls_adjustment  {
+    height: 100px !important;
 		margin-bottom: 70px !important;
 	}
 	.playback_adjustment {
@@ -2343,6 +2342,7 @@ and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71)
 		margin-bottom: env(safe-area-inset-bottom);
 	}
 	.controls_adjustment  {
+    height: 100px !important;
 		margin-bottom: 70px !important;
 	}
 	.playback_adjustment  {
