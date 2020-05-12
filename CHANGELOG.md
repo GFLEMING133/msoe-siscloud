@@ -1,4 +1,4 @@
-# 2020-3-10 1.10.09-20
+# 2020-3-10 1.10.09-21
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
@@ -19,6 +19,8 @@
 - Delay before restarting polling on Reset/Restart/Reboot (and UI without Rescan buttons during that time)
 - Delay before restarting polling on Wifi Connect (and UI without Rescan buttons during that time)
 - Fixed CSS on Android for homepage playback controls and whole page shift at end of scroll
+- Sign Out from Community correctly clears registration data
+- Fixed bug where jogging didn't stop on touch release
 # 2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
 - Fetching more artist spinner fix
 # 2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345

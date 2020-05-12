@@ -18,14 +18,13 @@
         Automatically shut down your Sisyphus and optionally use it as a night light.
       </p>
 
-      <div class="pt10 mt20 w100 vertical">
+      <div class="pt10 mt20 w100 vertical"
+          data-on-click="model.nightmode_disable_toggle">
         <i class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
             data-if="{{= model.edit.is_sleep_enabled }} !== false"
-            data-on-click="model.nightmode_disable_toggle"
             tg-name="night_mode_uncheck_box"></i>
         <i class="p10 pl0 black f-large bg-white far fa-square clickable"
             data-if="{{= model.edit.is_sleep_enabled }} == false"
-            data-on-click="model.nightmode_disable_toggle"
             tg-name="night_mode_check_box"></i>
         <p class="no-stuffing pt10 pb10 w100 fs18">Enable Night Mode</p>
       </div>
@@ -48,16 +47,14 @@
                 value="{{= (model.data.wake_time == 'false') ? moment().hour(8).minute(0).format('h:mm A') : model.data.wake_time }}" />
           </div>
         </div>
-        <div class="pt10 mb10 w100 vertical">
+        <div class="pt10 mb10 w100 vertical"
+            data-on-click="toggle"
+            data-field="model.edit.is_nightlight">
           <span class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
               data-if="{{= model.edit.is_nightlight }} == true"
-              data-on-click="toggle"
-              data-field="model.edit.is_nightlight"
               tg-name="nightlight_uncheckbox"></span>
           <span class="p10 pl0 black f-large bg-white far fa-square clickable"
               data-if="{{= model.edit.is_nightlight }} !== true"
-              data-on-click="toggle"
-              data-field="model.edit.is_nightlight"
               tg-name="nightlight_checkbox"></span>
           <p class="no-stuffing pt10 pb10 w100 fs18">Enable Night Light</p>
         </div>
@@ -83,16 +80,15 @@
           </div>
         </div>
 
-        <div class="mb10 w100 vertical" data-if="{{= model.sisbot_version }} > 1010062">
+        <div class="mb10 w100 vertical"
+            data-if="{{= model.sisbot_version }} > 1010062"
+            data-on-click="toggle"
+            data-field="model.edit.is_play_on_wake">
           <span class="p10 pt0 pl0 black f-large bg-white fas fa-check-square clickable"
               data-if="{{= model.edit.is_play_on_wake }} == true"
-              data-on-click="toggle"
-              data-field="model.edit.is_play_on_wake"
               tg-name="play_on_wake_uncheckbox"></span>
           <span class="p10 pt0 pl0 black f-large bg-white far fa-square clickable"
               data-if="{{= model.edit.is_play_on_wake }} !== true"
-              data-on-click="toggle"
-              data-field="model.edit.is_play_on_wake"
               tg-name="play_on_wake_checkbox"></span>
           <p class="no-stuffing pb10 w100 fs18">Always Play on Wake</p>
         </div>

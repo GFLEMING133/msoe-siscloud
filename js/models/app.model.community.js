@@ -130,7 +130,11 @@ app.model.community = {
       .set('remember_me', 'false')
       .set('signing_in', 'false')
       .set('signed_in', 'false')
-      .set('user_id', 'false');
+      .set('user_id', 'false')
+      .set('registration.username', '')
+      .set('registration.email', '')
+      .set('registration.password', '')
+      .set('registration.password_confirmation', '');
 
     var artists = app.collection.get_cluster({type:'artist'});
     app.collection.remove(artists.pluck('id')); // removing artists
@@ -147,6 +151,8 @@ app.model.community = {
       .set('community_playlist_ids', [])
       .set('fetched_community_tracks', 'false')
       .set('community_track_ids', []);
+
+		app.session.remove_session(); // clear the memory
 
     app.trigger('session:active', {  'primary': 'community', 'secondary': 'sign_in' });
     app.collection.remove(user.id);

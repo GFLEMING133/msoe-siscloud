@@ -2122,11 +2122,13 @@ app.model.sisbot = {
 						}
 					},'Unable to Jog', ['OK']);
 		}
+		app.log('Jog Start', jog_type);
 
 		this.set('jog_type', jog_type).set('is_jogging', true)._jog();
 		return this;
 	},
 	jog_end: function (jog_type) {
+		app.log('Jog End', jog_type);
 		this.set('is_jogging', false).set('jog_type', '');
 		return this;
 	},
@@ -2215,17 +2217,8 @@ app.model.sisbot = {
 
 		this.is_legacy();
 
-		if (this.get('is_connected')) this.check_local_versions(on_cb);
-
-		if (this.get('data.is_hotspot') == 'true') {
-			// hotspot.. Can't get status
-			return this.set('has_software_update', 'false')
-		}
-
-		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false') this.check_remote_versions(on_cb);
-
+		// callback function
 		function on_cb() {
-
 			if (--cbs == 0) {
 				var local		= self.get('local_versions');
 				var remote		= self.get('remote_versions');
@@ -2269,6 +2262,15 @@ app.model.sisbot = {
 				}
 			}
 		}
+
+		if (this.get('is_connected')) this.check_local_versions(on_cb);
+
+		if (this.get('data.is_hotspot') == 'true') {
+			// hotspot.. Can't get status
+			return this.set('has_software_update', 'false')
+		}
+
+		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false') this.check_remote_versions(on_cb);
 
 		return this;
 	},

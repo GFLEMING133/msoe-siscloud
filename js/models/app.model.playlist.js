@@ -10,6 +10,7 @@ app.model.playlist = {
 
 			eligible_tracks	: [],
 			active_tracks		: [],
+			did_edit				: 'false', // for maintaining added/deleted tracks
 			edit		: {
 				name				: '',
 				description	: '',
@@ -80,6 +81,7 @@ app.model.playlist = {
 		var add_playlist_tracks = {};
 		var active_tracks		= this.get('active_tracks');
 		var sisbot_tracks		= app.manager.get_model('sisbot_id').get('data.track_ids');
+		app.log("Add Tracks Setup", active_tracks);
 
 		_.each(sisbot_tracks, function(track_id) {
 			add_playlist_tracks[track_id] = 0;
@@ -102,8 +104,8 @@ app.model.playlist = {
 		var active_tracks		= _.pluck(this.get('active_tracks'), "id");
 		var track_index 		= active_tracks.lastIndexOf(track_id);
 		if(track_index >= 0) {
-		this.set('add_playlist_tracks[' + track_id + ']', --b);
-		this.remove_track({index: track_index});
+			this.set('add_playlist_tracks[' + track_id + ']', --b);
+			this.remove_track({index: track_index});
 		}
 		this.trigger('change:add_playlist_tracks[' + track_id + ']');
 	},
@@ -179,9 +181,15 @@ app.model.playlist = {
 		}
 	},
 	setup_edit: function () {
-		this.set('active_tracks', this.get('data.tracks').slice())
-		.set('edit.name', this.get('data.name'))
-		.set('edit.description', this.get('data.description'));
+		app.log("Playlist", this.id, "Setup_edit()");
+
+		if (this.get('did_edit') == 'true') {
+			this.set('did_edit', 'false');
+		} else {
+			this.set('active_tracks', this.get('data.tracks').slice())
+			.set('edit.name', this.get('data.name'))
+			.set('edit.description', this.get('data.description'));
+		}
 
 		// app.trigger('session:active', {'secondary':'playlist-edit'} );
 	},
@@ -245,13 +253,16 @@ app.model.playlist = {
 			lastR	: track.get('data.lastR')
 		};
 		this.add('active_tracks', track_obj);
+		this.set('did_edit', 'true');
 
 		this.trigger('change:active_tracks');
 
 		app.log("Add Track", track_id, this.get('active_tracks').length);
 	},
 	remove_track: function (data) {
+		app.log("Remove Track", data.index);
 		this.remove('active_tracks['+data.index+']');
+		this.set('did_edit', 'true');
 
 		if (data && data.pos) this.order_temp_tracks(data);
 	},

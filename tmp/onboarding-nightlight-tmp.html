@@ -82,16 +82,15 @@
           </div>
         </div>
 
-        <div class="mb10 w100 vertical" data-if="{{= model.sisbot_version }} > 1010062">
+        <div class="mb10 w100 vertical"
+            data-if="{{= model.sisbot_version }} > 1010062"
+            data-on-click="toggle"
+            data-field="model.default_settings.is_play_on_wake">
           <span class="p10 pt0 pl0 black f-large bg-white fas fa-check-square clickable"
               data-if="{{= model.default_settings.is_play_on_wake }} == true"
-              data-on-click="toggle"
-              data-field="model.default_settings.is_play_on_wake"
               tg-name="play_on_wake_uncheckbox"></span>
           <span class="p10 pt0 pl0 black f-large bg-white far fa-square clickable"
               data-if="{{= model.default_settings.is_play_on_wake }} !== true"
-              data-on-click="toggle"
-              data-field="model.default_settings.is_play_on_wake"
               tg-name="play_on_wake_checkbox"></span>
           <p class="no-stuffing pb10 w100 fs18">Always Play on Wake</p>
         </div>
