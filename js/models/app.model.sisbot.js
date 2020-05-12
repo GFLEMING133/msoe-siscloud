@@ -2263,12 +2263,12 @@ app.model.sisbot = {
 			}
 		}
 
-		if (this.get('is_connected')) this.check_local_versions(on_cb);
-
 		if (this.get('data.is_hotspot') == 'true') {
 			// hotspot.. Can't get status
 			return this.set('has_software_update', 'false')
 		}
+
+		if (this.get('is_connected')) this.check_local_versions(on_cb);
 
 		if (app.config.env !== 'sisbot' || this.get('data.is_internet_connected') !== 'false') this.check_remote_versions(on_cb);
 
@@ -2292,7 +2292,7 @@ app.model.sisbot = {
 				app.log("Local sisbot version:", cbb.resp.sisbot, self.get('sisbot_version'));
 			}
 
-			if (cb) cb();
+			if (cb && _.isFunction(cb)) cb();
 		});
 
 		return this;
