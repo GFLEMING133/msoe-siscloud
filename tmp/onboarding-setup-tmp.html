@@ -20,7 +20,16 @@
           <div class="pull-right error f-small">Table Name Required</div>
         </div>
         <div class="pb10" data-if="{{= model.default_settings_error }} == false">
-          <input class="fs18 pl10 w100" type="text" placeholder="Sisyphus Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.default_settings.name" value="{{= model.default_settings.name }}" />
+          <input class="fs18 pl10 w100"
+              type="text"
+              placeholder="Sisyphus Name"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-field="model.default_settings.name"
+              value="{{= model.default_settings.name }}"
+              data-on-key-enter="blur" />
         </div>
 
         <h4 class="pt30 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>

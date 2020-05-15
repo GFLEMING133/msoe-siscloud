@@ -137,6 +137,8 @@ app.model.drawing = {
   },
   multiply_change: function() {
     var multiply = this.get('edit.multiply');
+    app.log("Drawing: multiply change", multiply);
+
     if (!_.isFinite(multiply)) this.set('edit.multiply', 1).set('data.multiply', 1);
     else if (multiply < 1) this.set('edit.multiply', 1).set('data.multiply', 1);
 
@@ -257,6 +259,7 @@ app.model.drawing = {
     this.on('change:edit.firstR', this._firstR_change);
     this.on('change:edit.lastR', this._draw_paths);
     this.on('change:edit.mirror', this.mirror_change);
+    app.log("Setup change:edit.multiply");
     this.on('change:edit.multiply', this.multiply_change);
     this.on('change:smooth', this._recreate_paths);
 
@@ -350,7 +353,7 @@ app.model.drawing = {
 
     var paths = this.get('paths');
 
-    // app.log("Draw Paths", paths);
+    app.log("Draw Paths", paths);
 
     var svg = d3.select($el[0]);
     var d3_data = this.get('d3_data');

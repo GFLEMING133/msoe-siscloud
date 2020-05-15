@@ -308,7 +308,9 @@ app.model.session = {
 
       //______________Password Errors______________________________________
       if (errors.length > 0){
-        return this.set('signing_in', 'false').set('errors', errors);
+        return this.set('signing_in', 'false')
+					.set('remember_me', 'false')
+					.set('errors', errors);
       }
       function cb(obj) {
         if (obj.err){
@@ -367,7 +369,7 @@ app.model.session = {
 				if (app.plugins.valid_email(user_data.username.trim())) {
           errors.push('Username cannot be an email');
         }
-        if (!app.plugins.valid_email(user_data.email.trim())) {
+        if (user_data.email && user_data.email !== '' && !app.plugins.valid_email(user_data.email.trim())) {
           errors.push("The email you entered is invalid, please enter a valid email");
         }
         // if (user_data.password.length <= 5 || user_data.password_confirmation.length <= 5) {

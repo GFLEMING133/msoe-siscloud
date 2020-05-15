@@ -16,7 +16,7 @@
 			<div class="w30 center">&nbsp;</div>
 		</div>
 		<div class="body-header h100 scroll hide-scrollbar pb150" tg-name="preview_upload_page">
-			<div class="hh450 se350 mt10 pb20 pl10 pr10 bb">
+			<div class="mt10 pb20 pl10 pr10 bb">
 				<div class="center vertical active"
 						data-if="{{= app.config.env }} !== alpha">
 					<div data-run="model.get_thumbnail"></div>
@@ -27,7 +27,7 @@
 	  						data-on-error="replace"
 	  						data-replace="large-image-fallback-tmp" />
 					</div>
-					<div class="pt150" data-if="{{= model.generating_thumbnails }} == true">
+					<div class="pt150 pb100" data-if="{{= model.generating_thumbnails }} == true">
 						<i class="fas fa-spinner spin f-xxxxxlarge" aria-hidden="true"></i>
 					</div>
 				</div>

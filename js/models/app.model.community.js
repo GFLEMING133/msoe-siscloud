@@ -266,7 +266,8 @@ app.model.community = {
     };
 
     function cb(obj) {
-      // app.log("Community Tracks:", obj.resp);
+      app.log("Community Tracks:", _.size(obj.resp));
+
       if (obj.err) return self;
       app.manager.intake_data(obj.resp); // obj.resp.data
 

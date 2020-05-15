@@ -37,7 +37,8 @@
         placeholder="&#xf002; Search Tracks"
         data-field="model.data.q.value"
         value="{{= model.data.q.value }}"
-        data-on-input="model.update_q" />
+        data-on-input="model.update_q"
+        data-on-key-enter="blur" />
     </div>
     <div class="center p20 i"
         data-if="{{= model.size }} == 0">

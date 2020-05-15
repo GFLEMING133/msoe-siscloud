@@ -193,9 +193,6 @@ app.model.searchable_list = {
 
     this.set('size', this.cluster.size());
 
-    // fix q_size
-    if (this.get('q_size') < 0) this.update_q_size();
-
     // loop through existing sum/average/min/max and recalculate
     var check = ['sum', 'average', 'min', 'max'];
     _.each(check, function (value) {
@@ -210,6 +207,10 @@ app.model.searchable_list = {
     // toggle is_ready for UI to update on size change (add/remove matching models)
     if (old_size != this.get('size')) {
       this.set('is_ready', 'false');
+
+      // fix q_size
+      this.update_q_size();
+
       this.set('is_ready', 'true');
     }
 
@@ -292,10 +293,11 @@ app.model.searchable_list = {
     if (!this.scrolling) {
       var self = this;
       setTimeout(function() {
-        app.log("Scroll Check", $('.'+data).scrollTop(), $('.'+data).prop('scrollHeight') - $('.'+data).outerHeight(true) - 60);
+        // app.log("Scroll Check", $('.'+data).scrollTop(), $('.'+data).prop('scrollHeight') - $('.'+data).outerHeight(true) - 60);
         if ($('.'+data).scrollTop() >= $('.'+data).prop('scrollHeight') - $('.'+data).outerHeight(true) - 60) {
           var limit = +self.get('limit');
           var limit_step = +self.get('limit_step');
+          // app.log("List: Limits", limit, limit+limit_step);
           if (self.get('q_size') > limit) {
             app.log("List: Load More...", data, limit+limit_step);
             self.set('limit', limit+limit_step);

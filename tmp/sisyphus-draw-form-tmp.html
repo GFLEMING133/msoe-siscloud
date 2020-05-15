@@ -29,7 +29,9 @@
             pattern="[0-9]*"
             placeholder="1"
             data-field="model.edit.multiply"
-            value="{{= model.data.multiply }}" />
+            value="{{= model.data.multiply }}"
+            data-on-update="model.multiply_change"
+            data-on-key-enter="blur" />
         <p class="fs14 lh18 no-stuffing strong">MULTIPLY</p>
       </div>
       <div class="flex-column vertical-align no-stuffing center"

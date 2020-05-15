@@ -18,7 +18,7 @@
       </div>
 <!-- END HEADER -->
 
-      <div class="flex p20 w100 bg-white">
+      <div class="flex p15 pb10 pt10 w100 bg-white">
         <div class="flex3">
           <input
             type="text"
@@ -29,24 +29,25 @@
             placeholder="&#xf002; Search Playlists"
             data-field="model.data.q.value"
             value="{{= model.data.q.value }}"
-            data-on-input="model.update_q" 
+            data-on-input="model.update_q"
+            data-on-key-enter="blur"
             tg-name="community_playlists_all_input"/>
         </div>
       </div>
     </div>
 
-    <div class="body-header h100 scroll hide-scrollbar"
+    <div class="body-header h100 pb160 scroll hide-scrollbar"
         data-on-scroll="model.scroll_check"
         data-msg="{{= _self_.el_id }}"
         data-run="parent.fetch_community_artists"
         tg-name="community_playlists_all_page">
-      <div class="pt75" data-if="{{= parent.fetching_community_playlists }} == true">
+      <div class="mt100" data-if="{{= parent.fetching_community_playlists }} == true">
         <div class="p20 center i">Fetching Playlists...</div>
         <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
       </div>
-      <div class="w100" data-if="{{= parent.fetching_community_playlists }} == false">
+      <div class="mt60" data-if="{{= parent.fetching_community_playlists }} == false">
         <div class="w100" data-if="{{= _.size(parent.community_playlist_ids) }} > 0">
-          <div class="pt75 pb200"
+          <div class="w100 mt10"
             data-if="{{= model.is_ready }} == true"
             data-foreach="cluster"
             data-cluster="{{= model.data.query }}"
@@ -58,7 +59,7 @@
             <div data-template="sisyphus-community-playlists-list-tmp"></div>
           </div>
         </div>
-        <div class="p20 mt100 center fs18 blue i"
+        <div class="mt100 p20 center fs18 blue i"
             data-if="{{= _.size(parent.community_playlist_ids) }} == 0">
             No Playlists...
         </div>
@@ -68,6 +69,5 @@
         </div>
       </div>
     </div>
-    <div class="hh150">&nbsp;</div>
   </div>
 </div>

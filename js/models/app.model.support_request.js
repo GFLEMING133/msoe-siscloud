@@ -12,7 +12,7 @@ app.model.support_request = {
         type    : 'support_request',
         version : this.current_version,
 
-        email         :  'false',
+        email         : 'false',
         subject       : 'false',
         description   : 'false',
         order_num     : 'false',

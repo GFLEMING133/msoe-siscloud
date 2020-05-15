@@ -1386,6 +1386,10 @@ function Element(el, parent, _scope) {
       var href = this.get_value(this.data.href);
       app.router.navigate(JSON.stringify(href), false); // ??
   };
+  this.blur = function() {
+    var $el = $('.'+this.el_id);
+    $el.blur();
+  };
   /***************************** RENDERING ********************************/
   this.render = function() {
     var self = this;

@@ -441,6 +441,8 @@ app.model.sisyphus_manager = {
   should_show_onboarding: function() {
     // app.log("should_show_onboarding()");
     var sisbot = this.get_model('sisbot_id');
+    if (!sisbot) return this;
+
     var hotspot_status = sisbot.get('data.is_hotspot');
     var reminder_status = sisbot.get('data.do_not_remind');
     var is_internet_connected = sisbot.get('data.is_internet_connected');
@@ -1013,6 +1015,8 @@ app.model.sisyphus_manager = {
           app.log("Check passcode:", passcode, sisbot.get('passcode_entry'), sisbot.get('data.is_serial_open'));
           if (passcode != 'false' && sisbot.get('passcode_entry') != passcode && sisbot.get('data.is_serial_open') == 'true') {
             self.set('is_passcode_required', 'true');
+          } else {
+            self.set('is_passcode_required', 'false');
           }
 
           // update ip address
