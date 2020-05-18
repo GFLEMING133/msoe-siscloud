@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.22', // Mostly Android improvements, see Changelog
+    version				:  '1.9.23', // Fix Support page without network
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {
