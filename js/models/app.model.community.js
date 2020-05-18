@@ -138,9 +138,9 @@ app.model.community = {
 
     var artists = app.collection.get_cluster({type:'artist'});
     app.collection.remove(artists.pluck('id')); // removing artists
-    var private_tracks = app.collection.get_cluster({type:'track',is_community:'true',is_downloaded:'false',is_public:'false'});
+    var private_tracks = app.collection.get_cluster({type:'track',is_community:'true',is_downloaded:'false'});
     app.collection.remove(private_tracks.pluck('id')); // removing private tracks
-    var private_playlists = app.collection.get_cluster({type:'playlist',is_community:'true',is_downloaded:'false',is_public:'false'});
+    var private_playlists = app.collection.get_cluster({type:'playlist',is_community:'true',is_downloaded:'false'});
     app.collection.remove(private_playlists.pluck('id')); // removing private playlists
 
     // clear community values
