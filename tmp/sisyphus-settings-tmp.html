@@ -15,7 +15,7 @@
           <div class="w5 center clickable active pt15 pb15"
               data-on-click="model.speed_min"
               tg-name="turtle_icon">
-            <img src="img/icon-slow.png" class="w100 o50 center" alt="slow" />
+            <img src="img/icon-slow.png" class="w15p o50 center" alt="slow" />
           </div>
           <div class="w90 flex relative center"
               data-on-click="parent.showMouse"
@@ -28,7 +28,7 @@
           <div class="w5 center clickable active pt15 pb15"
               data-on-click="model.speed_max"
               tg-name="rabbit_icon">
-            <img src="img/icon-fast.png" class="w100 o50 center" alt="slow" />
+            <img src="img/icon-fast.png" class="w15p o50 center" alt="slow" />
           </div>
         </div>
         <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable"
@@ -43,8 +43,8 @@
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
         <div class="flex vertical-align pl20 pr20">
           <div class="w5 blue-hover pt15 pb15"
-            data-on-click="model.brightness_min"
-            tg-name="brightness_slider">
+              data-on-click="model.brightness_min"
+              tg-name="brightness_slider">
             <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
           </div>
           <div class="w90 flex relative center"
@@ -59,7 +59,9 @@
                 value="{{= model.edit.brightness }}" />
             <span class="w2-5"></span>
           </div>
-          <div class="w5 center blue-hover pt15 pb15" data-on-click="model.brightness_max">
+          <div class="w5 center blue-hover pt15 pb15"
+              data-on-click="model.brightness_max"
+              tg-name="brightness_max">
             <i class="fas fa-sun f-large center clickable active grey" aria-hidden="true"></i>
           </div>
         </div>

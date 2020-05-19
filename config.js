@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.23', // Fix Support page without network
+    version				:  '1.9.24', // Fix iPad rendering
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

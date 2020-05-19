@@ -1,6 +1,6 @@
 app.config = {
 	env: 'prod', //
-	version: '1.9.23', // Fix Support page without network
+	version: '1.9.24', // Fix iPad rendering
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output

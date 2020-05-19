@@ -1874,6 +1874,8 @@ select:focus {
 .pb50						      { padding-bottom		: 50px !important; }
 .pl50									{	padding-left			: 50px !important; }
 .pr50									{	padding-right			: 50px !important; }
+.pt50p						    { padding-top   		: 50% !important; }
+.pb50p						    { padding-bottom		: 50% !important; }
 .pb55									{	padding-bottom   	: 55px !important; }
 .pt60						      { padding-top       : 60px !important; }
 .pt60p								{ padding-top 			: 60%  !important; }
