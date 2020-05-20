@@ -23,18 +23,20 @@
       <div
           data-foreach="model.data.playlist_ids"
           data-foreach-map="true">
-        <div class="flex vertical-align clickable active bg-grey-ll-hover bb"
+        <div class="flex p10 pl20 clickable active bg-grey-ll-hover bb"
             data-on-click="publish"
             data-publish="session:active"
             data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','goBack':'playlist'}"
             tg-name="playlist_{{= model.data.id }}_btn">
-          <div class="w20 p15 relative">
-            <div class="z10" data-template="sisyphus-playlist-rendering"></div>
+          <div class="w20 center vertical">
+            <div class="w75p hh75 z10" data-template="sisyphus-playlist-rendering"></div>
           </div>
-          <div class="w60 pl15">
-            <span class="fs18 lh18 w100 block strong">{{= model.data.name }}</span>
-            <div class="fs13 lh18 warmGrey pt5 pr20 truncate"
-                data-if="{{= model.data.description }} !== false">{{= model.data.description }}</div>
+          <div class="w60 align-center">
+            <div class="fs18 lh18 w100 block warmGrey truncate ml20">
+              <span class="black strong">{{= model.data.name }}</span>
+              <span class="fs13 lh18 pt5 pr20"
+                data-if="{{= model.data.description }} !== false"><br/>{{= model.data.description }}</span>
+            </div>
           </div>
           <div class="w20 h100 vertical align-center right">
             <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15 pr20" />

@@ -1,19 +1,22 @@
 <div class="h100" data-if="{{= model.is_community }} == true">
-  <div class="flex clickable active bb"
+  <div class="flex p10 pl20 clickable active bg-grey-ll-hover bb"
       data-on-click="publish"
       data-publish="session:active"
       data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'playlists'}"
       tg-name="community_playlists_list_select_{{= model.id }}">
-    <div class="w20 p15 relative">
+    <div class="w20 relative">
       <div class="h100 corner-5px"
           style="background-color:{{= model.data.bg_color }};"
           data-template="sisyphus-community-playlist-rendering"></div>
     </div>
-    <div class="w60 pl15 align-center">
-      <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
-      <div class="fs13 lh18 warmGrey pt5 pr20 truncate" data-if="{{= model.data.description }} !== false">{{= model.data.description }}</div>
+    <div class="w60 align-center pl20">
+      <div class="fs18 lh18 w100 block warmGrey truncate">
+        <span class="black strong">{{= model.data.name }}</span>
+        <span class="fs13 lh18 pt5 pr20"
+          data-if="{{= model.data.description }} !== false"><br/>{{= model.data.description }}</span>
+      </div>
     </div>
-    <div class="w20 align-center right">
+    <div class="w20 h100 vertical align-center right">
       <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15 pr20" />
     </div>
   </div>
