@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8" />
 	<meta name="format-detection" content="telephone=no" />
@@ -8,7 +9,8 @@
 
 	<!-- <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height, viewport-fit=cover" /> -->
 	<!-- This is the real one for production -->
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, viewport-fit=cover, width=device-width, height=device-height, minimum-scale=1" />
+	<meta name="viewport"
+		content="initial-scale=1, maximum-scale=1, viewport-fit=cover, width=device-width, height=device-height, minimum-scale=1" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,10 +24,10 @@
 <body class="h100 no-stuffing">
 	<div class="body h100">
 		<div class="h100 relative touch-hover {{= model.mode }} {{= model.platform }} {{= model.OS }}"
-				data-model="current_session"
-				data-on-mouse-move="model.update_mouse">
+			data-model="current_session" data-on-mouse-move="model.update_mouse">
 			<div class="content h100">
-				<div class="bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp"></div>
+				<div class="bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp">
+				</div>
 			</div>
 			<div data-template="modal-tmp"></div>
 		</div>
@@ -39,4 +41,5 @@
 	<script src="prod/models.js"></script>
 	<script src="prod/templates.js"></script>
 </body>
+
 </html>

@@ -1,29 +1,23 @@
 <div class="h100">
   <div class="pull-top white hh50 w100 vertical vertical-align bg-black no-stuffing">
-    <div class="w30 left pl20 "
-        data-if="{{= session.active.secondary }} == track"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'track_id':'false','secondary':'false'}">
+    <div class="w30 left pl20 " data-if="{{= session.active.secondary }} == track" data-on-click="publish"
+      data-publish="session:active" data-msg="{'track_id':'false','secondary':'false'}">
       <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 clickable pt15 pb15" />
     </div>
     <div data-template="sisyphus-playing-active-tmp"></div>
-    <div class="clickable active" data-model="{{= manager.sisbot_id }}" data-if="{{= session.active.secondary }} == false">
-      <div  data-if="{{= model.data.active_playlist_id }} !== false">
-        <div class="pull-right pl20 pr20"
-            data-model="{{= model.data.active_playlist_id }}"
-            data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'playlist_id':'{{= parent.data.active_playlist_id }}','secondary':'playlist-edit','primary':'media'}"
-            tg-name="current_tmp_playlist_edit_btn">
-            <img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" />
+    <div class="clickable active" data-model="{{= manager.sisbot_id }}"
+      data-if="{{= session.active.secondary }} == false">
+      <div data-if="{{= model.data.active_playlist_id }} !== false">
+        <div class="pull-right pl20 pr20" data-model="{{= model.data.active_playlist_id }}" data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'playlist_id':'{{= parent.data.active_playlist_id }}','secondary':'playlist-edit','primary':'media'}"
+          tg-name="current_tmp_playlist_edit_btn">
+          <img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" />
         </div>
       </div>
     </div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar"
-      data-model="{{= model.sisbot_id }}"
-      tg-name=current_tmp_page>
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}" tg-name=current_tmp_page>
     <!------------------------- OVERVIEW ---------------------------------->
     <div data-if="{{= session.active.secondary }} == false">
       <div data-if="{{= model.data }} !== undefined">
@@ -32,58 +26,50 @@
         </div>
         <div data-if="{{= model.data.active_track.id }} !== false">
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
-              data-if="{{= model.data.is_waiting_between_tracks }} == true">Finished Playing</div>
+            data-if="{{= model.data.is_waiting_between_tracks }} == true">Finished Playing</div>
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
-              data-if="{{= model.data.is_waiting_between_tracks }} == false"
-              tg-name="now_playing">Now Playing</div>
+            data-if="{{= model.data.is_waiting_between_tracks }} == false" tg-name="now_playing">Now Playing</div>
           <div data-model="{{= model.data.active_track.id }}">
-            <div class="flex clickable active p10 pl20"
-          			data-on-click="publish"
-          			data-publish="modal:open"
-          			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
-          			tg-name="track_modal_btn">
-          		<div class="w100 center">
-          				<img class="ww200 hh200 mcenter"
-          						alt="{{= model.data.name }}"
-          						data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
-          						data-on-error="replace"
-          						data-replace="large-image-fallback-tmp" />
-              		<div class="pt10"
-            					tg-name="track_name">
-              			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
-              	    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
-              		</div>
-          		</div>
-          	</div>
+            <div class="flex clickable active p10 pl20" data-on-click="publish" data-publish="modal:open"
+              data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
+              tg-name="home_track_modal">
+              <div class="w100 center">
+                <img class="ww200 hh200 mcenter" alt="{{= model.data.name }}"
+                  data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" data-on-error="replace"
+                  data-replace="large-image-fallback-tmp" />
+                <div class="pt10" tg-name="track_name">
+                  <div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
+                  <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by
+                    {{= model.data.created_by_name }}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="mt10 pb200">
         <div data-if="{{= model.data.active_playlist_id }} !== false">
-          <div data-model="{{= model.data.active_playlist_id }}"
-              data-run="model.order_temp_tracks"
-              data-run-msg="{'pos':'data.tracks','is_shuffle':'{{= parent.data.is_shuffle }}'}">
+          <div data-model="{{= model.data.active_playlist_id }}" data-run="model.order_temp_tracks"
+            data-run-msg="{'pos':'data.tracks','is_shuffle':'{{= parent.data.is_shuffle }}'}">
             <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-white sticky z50">Next Up</div>
             <div data-if="{{= model.data.is_shuffle }} !== undefined">
               <div data-if="{{= model.data.active_track_index }} > -1">
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-foreach="model.data.sorted_tracks"
-                      data-foreach-offset="{{= model.data.active_track_index }}"
-                      data-foreach-limit="20">
+                    data-foreach-offset="{{= model.data.active_track_index }}" data-foreach-limit="20">
                     <div class="{{= (scope.index !== parent.data.active_track_index+1) ? 'bt' : '' }}"
-                        data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
-                        data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
-                        data-template="sisyphus-tracks-list-item-tmp"></div>
+                      data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                      data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
+                      data-template="sisyphus-tracks-list-item-tmp"></div>
                   </div>
                 </div>
                 <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
                   <div data-if="{{= model.data.is_loop }} !== false">
                     <div data-foreach="model.data.next_tracks"
-                        data-foreach-limit="{{= Math.max(0, 20 - (_.size(model.data.sorted_tracks) - model.data.active_track_index)) }}"
-                        data-foreach-offset="{{= (model.data.is_shuffle == 'true') ? 1 : 0 }}">
-                      <div class="bt"
-                          data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
-                          data-template="sisyphus-tracks-list-item-tmp"></div>
+                      data-foreach-limit="{{= Math.max(0, 20 - (_.size(model.data.sorted_tracks) - model.data.active_track_index)) }}"
+                      data-foreach-offset="{{= (model.data.is_shuffle == 'true') ? 1 : 0 }}">
+                      <div class="bt" data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                        data-template="sisyphus-tracks-list-item-tmp"></div>
                     </div>
                   </div>
                 </div>
