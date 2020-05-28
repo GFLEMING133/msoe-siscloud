@@ -27,7 +27,7 @@
         placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
         data-on-input="model.update_q" data-on-key-enter="blur" />
     </div>
-    <div class="center pb10" data-if="{{= parent.data.all_tracks_playlist_id }} == true">
+    <div class="center pb10" data-if="{{= parent.data.all_tracks_playlist_id }} !== false">
       <div class="inline-block p5 pl10 pr15 white bg-black rounded mr10 clickable blue-hover"
         data-on-click="parent.play" data-msg="{{= 0 }}" tg-name="playlists_play_btn">
         <i class="fas fa-play pr5 pl5"></i>
