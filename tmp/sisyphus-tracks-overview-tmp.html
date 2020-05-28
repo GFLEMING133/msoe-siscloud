@@ -1,20 +1,16 @@
 <div class="h100" data-model="{{= model.sisbot_id }}">
   <div class="pull-top bb">
     <div class="white bg-black hh50 w100 center no-stuffing flex vertical-align">
-      <div class="w30 left pl20 clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'false'}"
-      ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+      <div class="w30 left pl20 clickable active" data-on-click="publish" data-publish="session:active"
+        data-msg="{'secondary':'false'}"><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" />
+      </div>
       <div class="w40">
         <h1 class="no-stuffing fs18 capitalize truncate">All Tracks</h1>
       </div>
       <div class="w30 pt30 center">&nbsp;</div>
     </div>
   </div>
-  <div class="body-header pb65 h100 scroll hide-scrollbar"
-      data-scope="true"
-      data-defaults="{'type':'searchable_list',
+  <div class="body-header pb65 h100 scroll hide-scrollbar" data-scope="true" data-defaults="{'type':'searchable_list',
                       'list_type':'track',
                       'sort':'data.name',
                       'order':'asc',
@@ -25,38 +21,33 @@
                       'terms':{
                             'is_downloaded':'true'
                           }
-                      }"
-      tg-name="all_tracks_page"
-      data-on-scroll="model.scroll_check"
-      data-msg="{{= _self_.el_id }}">
+                      }" tg-name="all_tracks_page" data-on-scroll="model.scroll_check" data-msg="{{= _self_.el_id }}">
     <div class="flex p20 w100 bg-white">
-      <input
-        data-debug="true"
-        type="text"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        placeholder="&#xf002; Search Tracks"
-        data-field="model.data.q.value"
-        value="{{= model.data.q.value }}"
-        data-on-input="model.update_q"
-        data-on-key-enter="blur" />
+      <input data-debug="true" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
+        data-on-input="model.update_q" data-on-key-enter="blur" />
+    </div>
+    <div class="center pb10" data-if="{{= parent.data.all_tracks_playlist_id }} == true">
+      <div class="inline-block p5 pl10 pr15 white bg-black rounded mr10 clickable blue-hover"
+        data-on-click="parent.play" data-msg="{{= 0 }}" tg-name="playlists_play_btn">
+        <i class="fas fa-play pr5 pl5"></i>
+        Play All
+      </div>
+      <div class="inline-block p5 pl10 pr15 white bg-black rounded ml10 clickable blue-hover"
+        data-on-click="parent.shuffle_all" tg-name="playlists_shuffle_btn">
+        <i class="fas fa-random pr5 pl5"></i>
+        Shuffle All
+      </div>
     </div>
     <div class="">
-      <div class="center p20 i"
-          data-if="{{= model.size }} == 0">
+      <div class="center p20 i" data-if="{{= model.size }} == 0">
         <span>No Tracks matching search</span>
       </div>
       <div data-if="{{= model.size }} !== 0">
-        <div data-if="{{= model.is_ready }} == true"
-            data-foreach="cluster"
-            data-cluster="{{= model.data.query}}"
-            data-foreach-limit="{{= model.limit }}"
-            data-foreach-offset="{{= model.offset }}"
-            data-cluster-comparator="model.data.comparator"
-            data-cluster-search-keys="model.data.q.search_keys"
-            data-cluster-search-value="model.data.q.value">
+        <div data-if="{{= model.is_ready }} == true" data-foreach="cluster" data-cluster="{{= model.data.query}}"
+          data-foreach-limit="{{= model.limit }}" data-foreach-offset="{{= model.offset }}"
+          data-cluster-comparator="model.data.comparator" data-cluster-search-keys="model.data.q.search_keys"
+          data-cluster-search-value="model.data.q.value">
           <div class="bt" data-template="sisyphus-tracks-list-item-tmp"></div>
         </div>
         <div data-if="{{= model.q_size }} > {{= model.limit }}">
