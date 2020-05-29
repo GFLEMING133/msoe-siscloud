@@ -1,25 +1,20 @@
 <div>
 	<div class="relative">
-		<div class="flex clickable active bg-grey-ll-hover p10 pl20"
-				data-on-click="publish"
-				data-publish="modal:open"
-				data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
-				tg-name="track_modal_btn">
+		<div class="flex clickable active bg-grey-ll-hover p10 pl20" data-on-click="publish" data-publish="modal:open"
+			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
+			tg-name="track_modal_btn_{{= model.id}}">
 			<div class="w20 center vertical">
-				<img class="w75p hh75"
-						alt="{{= model.data.name }}"
-						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
-						data-on-error="replace"
-						data-replace="list-image-fallback-tmp" />
+				<img class="w75p hh75" alt="{{= model.data.name }}"
+					data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+					data-on-error="replace" data-replace="list-image-fallback-tmp" />
 			</div>
-			<div class="w60 pt25 pl20"
-					tg-name="track_name">
+			<div class="w60 pt25 pl20" tg-name="track_name">
 				<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
-		    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+				<div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by
+					{{= model.data.created_by_name }}</div>
 			</div>
-			<div class="w20 h100 vertical align-center right"
-					tg-name="trackdropdown_three_dots">
-		    <i class="grey pt20 pb20 pr20" aria-hidden="true">
+			<div class="w20 h100 vertical align-center right" tg-name="trackdropdown_three_dots">
+				<i class="grey pt20 pb20 pr20" aria-hidden="true">
 					<i class="fas fa-ellipsis-h f-xlarge grey-l" alt="Expand"></i>
 					<!-- <img src="img/icon_2x_three_dots.png" alt="Expand" class="w25p" /> -->
 				</i>
@@ -27,17 +22,23 @@
 		</div>
 		<div class="absolute click-through" data-if="{{= parent.data.type }} == playlist">
 			<div class="absolute" data-if="{{= app.config.is_debug }} == true">
-				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
-						class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
-				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
-						class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'orange' : '' }}"></div>
-				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
-						class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'orange' : '' }}"></div>
-				<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}" data-if="{{= scope.index }} > 0">
+				<div
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+					class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
+				<div
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+					class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'orange' : '' }}">
+				</div>
+				<div
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+					class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'orange' : '' }}">
+				</div>
+				<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"
+					data-if="{{= scope.index }} > 0">
 					<!-- <i class="fas fa-exclamation-circle orange"
 							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true"></i> -->
 					<i class="fas fa-check-circle"
-							data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
+						data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
 				</div>
 			</div>
 		</div>

@@ -27,14 +27,15 @@
         placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
         data-on-input="model.update_q" data-on-key-enter="blur" />
     </div>
-    <div class="center pb10" data-if="{{= parent.data.all_tracks_playlist_id }} !== false">
-      <div class="inline-block p5 pl10 pr15 white bg-black rounded mr10 clickable blue-hover"
-        data-on-click="parent.play" data-msg="{{= 0 }}" tg-name="playlists_play_btn">
+    <div class="center pb10" data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
+      data-model="{{= parent.data.all_tracks_playlist_id }}">
+      <div class="inline-block p5 pl10 pr15 white bg-black rounded mr10 clickable blue-hover" data-on-click="model.play"
+        data-msg="{{= 0 }}" tg-name="playlists_play_btn">
         <i class="fas fa-play pr5 pl5"></i>
         Play All
       </div>
       <div class="inline-block p5 pl10 pr15 white bg-black rounded ml10 clickable blue-hover"
-        data-on-click="parent.shuffle_all" tg-name="playlists_shuffle_btn">
+        data-on-click="model.play_shuffled" tg-name="playlists_shuffle_btn">
         <i class="fas fa-random pr5 pl5"></i>
         Shuffle All
       </div>
