@@ -22,19 +22,19 @@
                             'is_downloaded':'true'
                           }
                       }" tg-name="all_tracks_page" data-on-scroll="model.scroll_check" data-msg="{{= _self_.el_id }}">
-    <div class="flex p20 w100 bg-white">
+    <div class="flex p20 w100 bg-black">
       <input data-debug="true" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
-        data-on-input="model.update_q" data-on-key-enter="blur" />
+        data-on-input="model.update_q" data-on-key-enter="blur" class="white b-white-2px" />
     </div>
-    <div class="center pb10" data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
+    <div class="center pb10 bg-black" data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
       data-model="{{= parent.data.all_tracks_playlist_id }}">
-      <div class="inline-block p5 pl10 pr15 white bg-black rounded mr10 clickable blue-hover" data-on-click="model.play"
+      <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover" data-on-click="model.play"
         data-msg="{{= 0 }}" tg-name="playlists_play_btn">
         <i class="fas fa-play pr5 pl5"></i>
         Play All
       </div>
-      <div class="inline-block p5 pl10 pr15 white bg-black rounded ml10 clickable blue-hover"
+      <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
         data-on-click="model.play_shuffled" tg-name="playlists_shuffle_btn">
         <i class="fas fa-random pr5 pl5"></i>
         Shuffle All
