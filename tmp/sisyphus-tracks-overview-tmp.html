@@ -25,7 +25,8 @@
     <div class="flex p20 w100 bg-black">
       <input data-debug="true" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
-        data-on-input="model.update_q" data-on-key-enter="blur" class="white b-white-2px" />
+        data-on-input="model.update_q" data-on-key-enter="blur" class="white b-white-2px"
+        tg-name="all_tracks_search_input" />
     </div>
     <div class="center pb10 bg-black" data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
       data-model="{{= parent.data.all_tracks_playlist_id }}">

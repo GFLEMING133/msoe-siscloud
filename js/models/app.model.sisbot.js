@@ -1072,8 +1072,9 @@ app.model.sisbot = {
 			function (resp_num) {
 				if (resp_num == 1) return self;
 
-				self.set('data.factory_resetting', 'true');
+				app.collection.remove('favorite_playlist_id'); //Remove Favroite Playlist to clear out all instances of tracks.
 
+				self.set('data.factory_resetting', 'true');
 				self._update_sisbot('factory_reset', {}, function (obj) {
 					if (obj.err) {
 						self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
