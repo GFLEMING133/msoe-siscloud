@@ -15,7 +15,7 @@
         <h3 class="m0 pt50 pb20 center justify fs24 lh24" data-on-click="model._apple_counter">
           Unable To Reach Table
         </h3>
-        <p class="center fs18 strong lh24 pb10">
+        <p class="center fs18 strong lh24 pb10" data-if="{{ app.config.is_debug == true}}">
           <span data-if="{{= model.ble_sisbot }} !== false">Table IP: {{= model.ble_sisbot }}<br /></span>
           Your IP: {{= model.device_ip }}
         </p>
