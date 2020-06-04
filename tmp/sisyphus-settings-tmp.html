@@ -12,77 +12,66 @@
       <div class="bb" data-model="{{= model.sisbot_id }}" data-run="model.setup_edit">
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Speed</h3>
         <div class="flex vertical-align pl20 pr20">
-          <div class="w5 center clickable active pt15 pb15"
-              data-on-click="model.speed_min"
-              tg-name="turtle_icon">
+          <div class="w5 center clickable active pt15 pb15" data-on-click="model.speed_min" tg-name="turtle_icon">
             <img src="img/icon-slow.png" class="w15p o50 center" alt="slow" />
           </div>
-          <div class="w90 flex relative center"
-              data-on-click="parent.showMouse"
-              tg-name="speed_slider_div"
-              >
+          <div class="w90 flex relative center" data-on-click="parent.showMouse" tg-name="speed_slider_div">
             <span class="w5"></span>
-            <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true" data-on-input="model.speed" value="{{= model.edit.speed }}" tg-name="speed_slider" />
+            <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true"
+              data-on-input="model.speed" value="{{= model.edit.speed }}" tg-name="speed_slider" />
             <span class="w5"></span>
           </div>
-          <div class="w5 center clickable active pt15 pb15"
-              data-on-click="model.speed_max"
-              tg-name="rabbit_icon">
+          <div class="w5 center clickable active pt15 pb15" data-on-click="model.speed_max" tg-name="rabbit_icon">
             <img src="img/icon-fast.png" class="w15p o50 center" alt="slow" />
           </div>
         </div>
-        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable"
-            data-on-click="model.pause_between_tracks"
-            data-if="{{= model.data.is_paused_between_tracks }} !== undefined"
-            tg-name="pause_between_tracks_checkbox">
-          <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
-          <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
+        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable" data-on-click="model.pause_between_tracks"
+          data-if="{{= model.data.is_paused_between_tracks }} !== undefined" tg-name="pause_between_tracks_checkbox">
+          <span class="black f-large bg-white fas fa-check-square"
+            data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
+          <span class="black f-large bg-white far fa-square"
+            data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
           <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
+        </div>
+        <div class="flex-column" data-if="{{= model.edit.is_paused_between_tracks }} == true">
+          <h3 class="no-stuffing p20 pb10 fs18 lh18 strong"> How Long</h3>
+          <div class="flex vertical-align pl20 pr20">
+            <input type="time" data-on-input="{{= model.paused_track_time}}" value="{{= model.edit.paused_track_time }}"
+              step="01" class="w100" />
+            <!-- <input type="submit" value="Set Time" class="ml5 bg-blue white strong" /> -->
+          </div>
         </div>
 
         <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Brightness</h3>
         <div class="flex vertical-align pl20 pr20">
-          <div class="w5 blue-hover pt15 pb15"
-              data-on-click="model.brightness_min"
-              tg-name="brightness_slider">
+          <div class="w5 blue-hover pt15 pb15" data-on-click="model.brightness_min" tg-name="brightness_slider">
             <i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
           </div>
-          <div class="w90 flex relative center"
-              data-on-click="parent.showMouse">
+          <div class="w90 flex relative center" data-on-click="parent.showMouse">
             <span class="w2-5"></span>
-            <input class="w90"
-                type="range"
-                min="0"
-                max="1"
-                step=".05"
-                data-on-input="model.brightness"
-                value="{{= model.edit.brightness }}" />
+            <input class="w90" type="range" min="0" max="1" step=".05" data-on-input="model.brightness"
+              value="{{= model.edit.brightness }}" />
             <span class="w2-5"></span>
           </div>
-          <div class="w5 center blue-hover pt15 pb15"
-              data-on-click="model.brightness_max"
-              tg-name="brightness_max">
+          <div class="w5 center blue-hover pt15 pb15" data-on-click="model.brightness_max" tg-name="brightness_max">
             <i class="fas fa-sun f-large center clickable active grey" aria-hidden="true"></i>
           </div>
         </div>
-        <div class="pl20 pt5 pb5 pr20 pb20 w100 vertical clickable"
-            data-on-click="model.autodim_toggle"
-            data-if="{{= model.data.is_autodim_allowed }} !== false"
-            tg-name="auto_brightness_checkbox">
-          <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.data.is_autodim }} == true"></span>
+        <div class="pl20 pt5 pb5 pr20 pb20 w100 vertical clickable" data-on-click="model.autodim_toggle"
+          data-if="{{= model.data.is_autodim_allowed }} !== false" tg-name="auto_brightness_checkbox">
+          <span class="black f-large bg-white fas fa-check-square"
+            data-if="{{= model.data.is_autodim }} == true"></span>
           <span class="black f-large bg-white far fa-square" data-if="{{= model.data.is_autodim }} == false"></span>
           <p class="no-stuffing pl10 w100 fs18 lh18">Auto-brightness</p>
         </div>
 
-        <div  data-if="{{= model.data.led_enabled }} == true">
+        <div data-if="{{= model.data.led_enabled }} == true">
           <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Mode</h3>
           <div class="pl20 pr20 pb10">
-            <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
-                data-field="model.edit.led_pattern"
-                data-selected="{{= model.edit.led_pattern }}"
-                data-foreach="model.data.led_pattern_ids"
-                data-foreach-map="true">
-              <option  value="{{= model.id }}">{{= model.data.name }}</option>
+            <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7" data-field="model.edit.led_pattern"
+              data-selected="{{= model.edit.led_pattern }}" data-foreach="model.data.led_pattern_ids"
+              data-foreach-map="true">
+              <option value="{{= model.id }}">{{= model.data.name }}</option>
             </select>
           </div>
           <div class="mb10" data-if="{{= model.data.led_pattern }} !== false">
@@ -90,25 +79,18 @@
               <div data-if="{{= model.data.is_white }} == true">
                 <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Color Temperature</h3>
                 <div class="flex vertical-align pl20 pr20">
-                  <div class="w5 blue-hover pt15 pb15"
-                    data-on-click="model.white_cool"
-                    tg-name="white_cool_slider">
+                  <div class="w5 blue-hover pt15 pb15" data-on-click="model.white_cool" tg-name="white_cool_slider">
                     <i class="fa fa-thermometer-quarter blue center clickable active f-medium" aria-hidden="true"></i>
                   </div>
                   <div class="w90 flex relative center">
                     <span class="w2-5"></span>
-                    <input class="w90"
-                        type="range"
-                        min="0"
-                        max="1"
-                        step=".05"
-                        data-rangetouch="true"
-                        data-on-input="model.set_white"
-                        value="{{= model.edit.white_value }}" />
+                    <input class="w90" type="range" min="0" max="1" step=".05" data-rangetouch="true"
+                      data-on-input="model.set_white" value="{{= model.edit.white_value }}" />
                     <span class="w2-5"></span>
                   </div>
                   <div class="w5 center blue-hover pt15 pb15" data-on-click="model.white_warm">
-                    <i class="fa fa-thermometer-three-quarters orange center clickable active f-medium" aria-hidden="true"></i>
+                    <i class="fa fa-thermometer-three-quarters orange center clickable active f-medium"
+                      aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
@@ -116,18 +98,16 @@
                 <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Color Settings</h3>
                 <div class="flex">
                   <div class="p10 pl20 {{= (model.data.is_secondary_color == 'false') ? 'w100 pr20' : 'w50' }}">
-                    <div class="w100 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong {{= model.primary_text_color }}"
-                        style="background-color: {{= model.display_primary_color }};"
-                        data-on-click="publish"
-                        data-publish="session:active"
-                        data-msg="{'secondary':'primary_color'}">Primary</div>
+                    <div
+                      class="w100 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong {{= model.primary_text_color }}"
+                      style="background-color: {{= model.display_primary_color }};" data-on-click="publish"
+                      data-publish="session:active" data-msg="{'secondary':'primary_color'}">Primary</div>
                   </div>
                   <div class="p10 pr20 w50" data-if="{{= model.data.is_secondary_color }} == true">
-                    <div class="w100 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong {{= model.secondary_text_color }}"
-                        style="background-color: {{= model.display_secondary_color }};"
-                        data-on-click="publish"
-                        data-publish="session:active"
-                        data-msg="{'secondary':'secondary_color'}">Secondary</div>
+                    <div
+                      class="w100 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong {{= model.secondary_text_color }}"
+                      style="background-color: {{= model.display_secondary_color }};" data-on-click="publish"
+                      data-publish="session:active" data-msg="{'secondary':'secondary_color'}">Secondary</div>
                   </div>
                 </div>
               </div>
@@ -135,17 +115,14 @@
           </div>
         </div>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'software-update'}"
-          tg-name="firmware_update_tab">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" data-on-click="publish"
+        data-publish="session:active" data-msg="{'secondary':'software-update'}" tg-name="firmware_update_tab">
         <span>
           <span class="montserrat_semi_bold">Firmware Update</span>
           <span data-model="{{= model.sisbot_id }}" data-if="{{= model.data.is_internet_connected }} == true">
-            <span class="fs14 blue"
-                data-run="model.check_for_version_update">
-              <span data-if="{{= model.has_software_update }} == true">({{= model.remote_versions.sisbot }} available)</span>
+            <span class="fs14 blue" data-run="model.check_for_version_update">
+              <span data-if="{{= model.has_software_update }} == true">({{= model.remote_versions.sisbot }}
+                available)</span>
             </span>
           </span>
         </span>
@@ -153,49 +130,36 @@
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'night_mode'}"
-          tg-name="night_mode_tab">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" data-on-click="publish"
+        data-publish="session:active" data-msg="{'secondary':'night_mode'}" tg-name="night_mode_tab">
         <span class="montserrat_semi_bold">Night Mode</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'advanced_settings'}"
-          tg-name="advanced_settings_tab">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" data-on-click="publish"
+        data-publish="session:active" data-msg="{'secondary':'advanced_settings'}" tg-name="advanced_settings_tab">
         <span class="montserrat_semi_bold">Advanced</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="model.open_home_page"
-          tg-name="sisyphus_website_tab">
+        data-on-click="model.open_home_page" tg-name="sisyphus_website_tab">
         <span class="montserrat_semi_bold">Visit Sisyphus Website</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'support_request'}"
-          tg-name="support_request_tab">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" data-on-click="publish"
+        data-publish="session:active" data-msg="{'secondary':'support_request'}" tg-name="support_request_tab">
         <span class="montserrat_semi_bold">Submit Support Request</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'go-to-sleep'}"
-          tg-name="go_to_sleep_tab">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active" data-on-click="publish"
+        data-publish="session:active" data-msg="{'secondary':'go-to-sleep'}" tg-name="go_to_sleep_tab">
         <span class="montserrat_semi_bold">Go to Sleep</span>
         <span class="pull-right">
           <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
@@ -205,107 +169,77 @@
     </div>
   </div>
   <!------------------------- SOFTWARE UPDATE ----------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == software-update"
-      data-template="sisyphus-settings-software-update-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == software-update"
+    data-template="sisyphus-settings-software-update-tmp"></div>
   <!------------------------- TOS ----------------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == tos"
-      data-template="sisyphus-settings-tos-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == tos" data-template="sisyphus-settings-tos-tmp"></div>
   <!------------------------- PRIVACY ------------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == privacy"
-      data-template="sisyphus-settings-privacy-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == privacy" data-template="sisyphus-settings-privacy-tmp">
+  </div>
   <!------------------------- WIFI CREDENTIALS ---------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == wifi"
-      data-template="sisyphus-settings-wifi-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == wifi" data-template="sisyphus-settings-wifi-tmp"></div>
   <!------------------------- TRACK UPLOAD -------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == upload-track"
-      data-template="sisyphus-settings-track-upload-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == upload-track"
+    data-template="sisyphus-settings-track-upload-tmp"></div>
   <!------------------------- UPLOAD SVG -------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == upload-svg"
-      data-template="sisyphus-settings-upload-svg-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == upload-svg"
+    data-template="sisyphus-settings-upload-svg-tmp"></div>
   <!------------------------- PREVIEW UPLOAD -------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == preview-upload"
-      data-template="sisyphus-settings-preview-upload-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == preview-upload"
+    data-template="sisyphus-settings-preview-upload-tmp"></div>
   <!------------------------- DEFAULT PLAYLIST ---------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == default_playlist"
-      data-template="sisyphus-settings-default-playlist-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == default_playlist"
+    data-template="sisyphus-settings-default-playlist-tmp"></div>
   <!------------------------- ADVANCED MOVEMENT --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == advanced-movement"
-      data-template="sisyphus-settings-advanced-movement-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == advanced-movement"
+    data-template="sisyphus-settings-advanced-movement-tmp"></div>
   <!------------------------- ADVANCED LIGHTS --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == advanced_lights"
-      data-template="sisyphus-settings-advanced-lights-tmp"></div>
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == primary_color"
-      data-template="sisyphus-settings-primary-color-tmp"></div>
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == secondary_color"
-      data-template="sisyphus-settings-secondary-color-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == advanced_lights"
+    data-template="sisyphus-settings-advanced-lights-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == primary_color"
+    data-template="sisyphus-settings-primary-color-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == secondary_color"
+    data-template="sisyphus-settings-secondary-color-tmp"></div>
   <!------------------------- SIRI --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == siri"
-      data-template="sisyphus-settings-siri-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == siri" data-template="sisyphus-settings-siri-tmp"></div>
   <!------------------------- ADVANCED TABLE SETTINGS --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == advanced_table"
-      data-template="sisyphus-settings-advanced-table-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == advanced_table"
+    data-template="sisyphus-settings-advanced-table-tmp"></div>
   <!------------------------- ADVANCED SETTINGS --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == advanced_settings"
-      data-template="sisyphus-settings-advanced-settings-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == advanced_settings"
+    data-template="sisyphus-settings-advanced-settings-tmp"></div>
   <!------------------------- CHANGE HOSTNAME ----------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == change_hostname"
-      data-template="sisyphus-settings-change-hostname-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == change_hostname"
+    data-template="sisyphus-settings-change-hostname-tmp"></div>
   <!------------------------- NIGHT MODE ---------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == night_mode"
-      data-template="sisyphus-settings-night-mode-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == night_mode"
+    data-template="sisyphus-settings-night-mode-tmp"></div>
   <!------------------------- CHANGE TABLE NAME --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == change_table_name"
-      data-template="sisyphus-settings-change-table-name-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == change_table_name"
+    data-template="sisyphus-settings-change-table-name-tmp"></div>
   <!------------------------- PASSCODE --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == passcode"
-      data-template="sisyphus-settings-passcode-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == passcode" data-template="sisyphus-settings-passcode-tmp">
+  </div>
   <!------------------------- CHANGE TABLE  --------------------------------->
-  <div class="h100"
-        data-if="{{= parent.active.secondary }} == change_table"
-        data-template="sisyphus-sisbot-multiple-tmp"></div>
-  <div class="h100"
-        data-if="{{= parent.active.secondary }} == specify_ip"
-        data-template="sisyphus-sisbot-specify-ip-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == change_table"
+    data-template="sisyphus-sisbot-multiple-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == specify_ip"
+    data-template="sisyphus-sisbot-specify-ip-tmp"></div>
   <!------------------------- ABOUT --------------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == about"
-      data-template="sisyphus-settings-about-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == about" data-template="sisyphus-settings-about-tmp">
+  </div>
   <!------------------------- SUPPORT REQUEST --------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == support_request"
-      data-template="support-request-tmp"></div>
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == support_success"
-      data-template="support-success-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == support_request" data-template="support-request-tmp">
+  </div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == support_success" data-template="support-success-tmp">
+  </div>
   <!------------------------- GO TO SLEEP --------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == go-to-sleep"
-      data-template="sisyphus-settings-go-to-sleep-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == go-to-sleep"
+    data-template="sisyphus-settings-go-to-sleep-tmp"></div>
   <!------------------------- FACTORY RESET ------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == factory-reset"
-      data-template="sisyphus-settings-factory-reset-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == factory-reset"
+    data-template="sisyphus-settings-factory-reset-tmp"></div>
   <!------------------------- LOG FILES ----------------------------------------->
-  <div class="h100"
-      data-if="{{= parent.active.secondary }} == log-files"
-      data-template="sisyphus-settings-log-files-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == log-files"
+    data-template="sisyphus-settings-log-files-tmp"></div>
 </div>

@@ -157,6 +157,7 @@ app.model.sisbot = {
 				sleep_time: '10:00 PM',					// 10:00 PM sleep_time
 				wake_time: '8:00 AM',					// 8:00 AM  wake_time
 
+				paused_track_time: '00:00:15',
 				is_paused_between_tracks: 'false',
 				is_waiting_between_tracks: 'false',
 				share_log_files: 'false',
