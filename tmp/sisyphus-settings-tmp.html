@@ -25,20 +25,50 @@
             <img src="img/icon-fast.png" class="w15p o50 center" alt="slow" />
           </div>
         </div>
-        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb vertical clickable" data-on-click="model.pause_between_tracks"
-          data-if="{{= model.data.is_paused_between_tracks }} !== undefined" tg-name="pause_between_tracks_checkbox">
-          <span class="black f-large bg-white fas fa-check-square"
-            data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
-          <span class="black f-large bg-white far fa-square"
-            data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
-          <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
-        </div>
-        <div class="flex-column" data-if="{{= model.edit.is_paused_between_tracks }} == true">
-          <h3 class="no-stuffing p20 pb10 fs18 lh18 strong"> How Long</h3>
-          <div class="flex vertical-align pl20 pr20">
-            <input type="time" data-on-input="{{= model.paused_track_time}}" value="{{= model.edit.paused_track_time }}"
-              step="01" class="w100" />
-            <!-- <input type="submit" value="Set Time" class="ml5 bg-blue white strong" /> -->
+        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb " data-if="{{= model.data.is_paused_between_tracks }} !== undefined">
+          <div class="vertical clickable" data-on-click="model.pause_between_tracks"
+            tg-name="pause_between_tracks_checkbox">
+            <span class="black f-large bg-white fas fa-check-square"
+              data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
+            <span class="black f-large bg-white far fa-square"
+              data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
+            <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
+          </div>
+          <div class="" data-if="{{= model.edit.is_paused_between_tracks }} == true">
+            <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">How Long</h3>
+            <div class="flex-row pl20 pr20">
+              <div class="flex-center-column ">
+                <span class="pr5 pb5">hours</span>
+                <select name="hours" class="clickable w40p pr5 last-center"
+                  data-on-input="{{= model.paused_track_hour}}">
+                  <option value="{{= model.edit.paused_track_hour }}">0</option>
+                  <option value="{{= model.edit.paused_track_hour }}">1</option>
+                  <option value="{{= model.edit.paused_track_hour }}">2</option>
+                  <option value="{{= model.edit.paused_track_hour }}">3</option>
+                  <option value="{{= model.edit.paused_track_hour }}">4</option>
+                  <option value="{{= model.edit.paused_track_hour }}">6</option>
+                  <option value="{{= model.edit.paused_track_hour }}">8</option>
+                  <option value="{{= model.edit.paused_track_hour }}">12</option>
+                  <option value="{{= model.edit.paused_track_hour }}">24</option>
+                </select>
+              </div>
+              <div class="flex-center-column ">
+                <span class="pl5 pb5">minutes</span>
+                <select name="minutes" class="clickable w40p pl5 last-center"
+                  data-on-input="{{= model.paused_track_minute}}">:
+                  <option value="{{= model.edit.paused_track_minute }}">0</option>
+                  <option value="{{= model.edit.paused_track_minute }}">1</option>
+                  <option value="{{= model.edit.paused_track_minute }}">2</option>
+                  <option value="{{= model.edit.paused_track_minute }}">3</option>
+                  <option value="{{= model.edit.paused_track_minute }}">4</option>
+                  <option value="{{= model.edit.paused_track_minute }}">5</option>
+                  <option value="{{= model.edit.paused_track_minute }}">10</option>
+                  <option value="{{= model.edit.paused_track_minute }}">15</option>
+                  <option value="{{= model.edit.paused_track_minute }}">30</option>
+                  <option value="{{= model.edit.paused_track_minute }}">45</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 
