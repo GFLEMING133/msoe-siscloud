@@ -44,6 +44,7 @@ app.model.community = {
       download_cloud    : 'false',
       selected_tracks   : [],
       downloaded_tracks : [],
+      download_count    : 0,
       selected_playlist : 'false', // for saving whole playlist
 
       offset        : 0, // TODO: remove?
@@ -405,6 +406,9 @@ app.model.community = {
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
 
+    this.set('download_count', numberOfTracks);
+    app.log("Number of Tracks left:", numberOfTracks);
+
     if (numberOfTracks > 0) {
       var track_model = app.collection.get(track_list[numberOfTracks - 1]);
       if (track_model) track_model.download_wc(true);
@@ -415,6 +419,10 @@ app.model.community = {
     this.remove('community_track_ids', track_id, {silent:true}); // this removes id from displayed track array (list)
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;
+
+    this.set('download_count', numberOfTracks);
+    app.log("Number of Tracks left:", numberOfTracks);
+
     this.add('downloaded_tracks', track_id);
     if (numberOfTracks > 0) {
       this.download_wc();
@@ -483,16 +491,29 @@ app.model.community = {
   },
   remove_downloaded: function() {
     var self = this;
-    let sisbot = app.manager.get_model('sisbot_id');
-    let downloaded_tracks = this.get('downloaded_tracks');
+    var sisbot = app.manager.get_model('sisbot_id');
+    var downloaded_tracks = this.get('downloaded_tracks');
+    app.log("Remove Downloaded", downloaded_tracks.length);
+
     _.each(downloaded_tracks, function(i) {
       var track = app.collection.get(i);
-      track.set('is_community', 'true')
-      track.set('is_downloaded', 'false')
-      sisbot.remove('data.track_ids', i);
+      track.set('is_community', 'true');
+      track.set('is_downloaded', 'false');
+
+      // sisbot.remove('data.track_ids', i);
+      sisbot._update_sisbot('remove_track', track, function (obj) {
+				if (obj.err) {
+          app.log("Error removing track", obj.err);
+					// return app.plugins.n.notification.alert('There was an error removing the file from your Sisyphus. Please try again later.');
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
+			});
       self.add('selected_tracks', i);
     });
-    sisbot.save_to_sisbot(sisbot.get('data'));
+
+    // sisbot.save_to_sisbot(sisbot.get('data'));
+
     this.set('fetched_community_tracks', 'false')
       .set('downloaded_tracks', [])
       .set('download_cloud', 'false');

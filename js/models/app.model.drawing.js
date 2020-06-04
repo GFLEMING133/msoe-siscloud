@@ -363,6 +363,8 @@ app.model.drawing = {
     var lastR = this.get('edit.lastR');
     var mid = this.get('mid');
     var padding = this.get('padding');
+    var end_x = mid;
+    var end_y = mid;
 
     // correct start rho if changed after drawing
     if (paths.length > 0) {
@@ -439,8 +441,6 @@ app.model.drawing = {
             }
           }
         } else if (index == paths.length - 1) { // draw to end point on last path
-          var end_x = mid;
-          var end_y = mid;
           if (lastR == 1) { // draw straight out at same angle
             var new_dx = path.end.x - mid;
             var new_dy = path.end.y - mid;
@@ -473,13 +473,23 @@ app.model.drawing = {
       .attr("stroke-width", 0);
 
     // lastR
-    svg.append("rect")
-      .attr("width", 4)
-      .attr("height", 4)
-      .attr("fill", d3_data.end_color)
-      .attr("x", mid - 2 - (mid - padding)*lastR)
-      .attr("y", mid-2)
-      .attr("stroke-width", 0);
+    if (lastR == 0) {
+      svg.append("rect")
+        .attr("width", 4)
+        .attr("height", 4)
+        .attr("fill", d3_data.end_color)
+        .attr("x", mid-2)
+        .attr("y", mid-2)
+        .attr("stroke-width", 0);
+    } else {
+      svg.append("rect")
+        .attr("width", 4)
+        .attr("height", 4)
+        .attr("fill", d3_data.end_color)
+        .attr("x", end_x-2)
+        .attr("y", end_y-2)
+        .attr("stroke-width", 0);
+    }
 
     // start point
     if (this.get('is_dragging') == 'false') {

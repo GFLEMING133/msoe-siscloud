@@ -127,6 +127,7 @@ app.model.sisbot = {
 				playlist_ids					: [],
 				default_playlist_id		: 'false',
 				favorite_playlist_id	: 'false',
+				all_tracks_playlist_id: 'false',
 				track_ids							: [],
 
 				active_playlist_id	: 'false',

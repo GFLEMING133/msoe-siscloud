@@ -22,6 +22,8 @@ app.model.track = {
 
 			svg_scaled											: 'false', // for drawing app to have pre-scaled values
 
+			show_cam												: 'false', // Expermental feature
+
 			d3															:'false',
 			d3_data : {
 				background						: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -73,6 +75,8 @@ app.model.track = {
 				reversible			: "false", // WC value
 				// is_reversible		: "false", // Sisbot value
 
+				cam_image				: "false", // Pi camera image
+
 				download_count	: 0, // webcenter downloads
 				popularity			: 0, // webcenter popularity rating
 				is_approved			: 'true' // webcenter approval (could be false, if your own track)
@@ -95,6 +99,16 @@ app.model.track = {
 		if (this.get('data.firstR') == this.get('data.lastR')) {
 			this.set('data.reversible', 'false');
 			this.set('data.is_reversible', 'false');
+		}
+
+		// fix if this track is community
+		var sisbot = app.manager.get_model('sisbot_id');
+		if (sisbot) {
+			var track_ids = sisbot.get('data.track_ids');
+			if (track_ids && _.isArray(track_ids)) {
+				var track_index = track_ids.indexOf(this.id);
+				if (track_index < 0) this.set('is_community', 'true');
+			}
 		}
 
 		// var playlist = app.session.get_model('active.playlist_id')
@@ -1143,6 +1157,11 @@ app.model.track = {
     var track_id = this.get('data.track_id');
 		var self = this;
 
+		var community = app.session.get_model('community_id');
+		if (community.get('download_count') < 1) {
+			community.set('download_count', 1);
+		}
+
 		app.trigger('modal:open', {
 			'template': 'modal-overlay-downloading-tmp'
 		});
@@ -1192,7 +1211,5 @@ app.model.track = {
 		}
 
 		app.post.fetch2(req_obj, cb, 0);
-	},
-
-
+	}
 };
