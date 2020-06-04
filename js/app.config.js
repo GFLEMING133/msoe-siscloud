@@ -10,7 +10,7 @@ app.config = {
 	show_comments: false,
 	show_data: true,
 	show_lib: false,
-	show_tg: false, // for testing
+	show_tg: true, // for testing
 	envs: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
 			base_url: 'http://app.dev.withease.io:3001/', // local
@@ -41,7 +41,7 @@ app.config = {
 			// web_url			: 'http://localhost:3333/', // webcenter
 			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
 			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			sisbot_url: 'http://192.168.1.06:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url: 'http://192.168.1.02:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true
 		},

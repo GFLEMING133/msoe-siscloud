@@ -1,14 +1,10 @@
 <div class="h100">
-  <div class="pull-top hh50 w100 bg-black no-stuffing"
-      data-template="sisyphus-header-default-tmp"></div>
+  <div class="pull-top hh50 w100 bg-black no-stuffing" data-template="sisyphus-header-default-tmp"></div>
   <div class="body-header h100 scroll hide-scrollbar bg-white black">
     <div class="pl40 pr40">
-      <p class="no-stuffing fas fa-exclamation-triangle f-xxxlarge red center w100 mt40"
-          data-on-click="model._apple_counter"
-          aria-hidden="true">&nbsp;</p>
       <div data-if="{{= app.config.is_debug }} == false">
-        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-            No table found
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24" data-on-click="model._apple_counter">
+          No table found
         </h3>
         <p class="center fs18 lh24">
           Check that your table is plugged in, that you are connected to the same network as the Sisyphus,
@@ -16,11 +12,11 @@
         </p>
       </div>
       <div data-if="{{= app.config.is_debug }} !== false">
-        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-            Unable to reach table
+        <h3 class="m0 pt50 pb20 center justify fs24 lh24" data-on-click="model._apple_counter">
+          Unable To Reach Table
         </h3>
-        <p class="center fs18 strong lh24 pb10">
-          <span data-if="{{= model.ble_sisbot }} !== false">Table IP: {{= model.ble_sisbot }}<br/></span>
+        <p class="center fs18 strong lh24 pb10" data-if="{{ app.config.is_debug == true}}">
+          <span data-if="{{= model.ble_sisbot }} !== false">Table IP: {{= model.ble_sisbot }}<br /></span>
           Your IP: {{= model.device_ip }}
         </p>
         <p class="center fs18 lh24">
@@ -29,26 +25,17 @@
         </p>
       </div>
       <div class="pb20" data-if="{{= app.platform }} == Android">
-        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
-            data-if="{{= app.is_app }} == true"
-            data-on-click="model.open_network_settings">Open Wifi Settings</p>
+        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase" data-if="{{= app.is_app }} == true"
+          data-on-click="model.open_network_settings">Open Wifi Settings</p>
       </div>
-      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
-          data-on-click="set"
-          data-field="model.sisbot_registration"
-          data-msg="find">Re-Scan</p>
-      <div class="mt10 center black p20 clickable"
-          data-if="{{= model.sisbot_id }} == false"
-          data-on-click="set"
-          data-field="model.sisbot_registration"
-          data-msg="specify_ip">
-        Know your table's IP?<br/>Enter an IP Address
+      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase" data-on-click="set"
+        data-field="model.sisbot_registration" data-msg="find">Re-Scan</p>
+      <div class="mt10 center black p20 clickable" data-if="{{= model.sisbot_id }} == false" data-on-click="set"
+        data-field="model.sisbot_registration" data-msg="specify_ip">
+        Know your table's IP?<br />Enter an IP Address
       </div>
-      <div class="mt10 center black pt0 p20 clickable"
-          data-if="{{= model.sisbot_id }} == false"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'support_request'}">
+      <div class="mt10 center black pt0 p20 clickable blue" data-if="{{= model.sisbot_id }} == false"
+        data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'support_request'}">
         Support / Help
       </div>
     </div>

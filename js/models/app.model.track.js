@@ -41,38 +41,38 @@ app.model.track = {
 				circle_stroke_width		: 2,
 				square								: "false"
 			},
-			edit_steps			: 30, // for slider
-			steps						: 30, // steps between svg points to make
-			max_steps				: 30, // max steps
+			edit_steps: 30, // for slider
+			steps: 30, // steps between svg points to make
+			max_steps: 30, // max steps
 
-			data		: 			{
-				id								: data.id,
-				type    					: 'track',
-				version						: this.current_version,
+			data: {
+				id: data.id,
+				type: 'track',
+				version: this.current_version,
 
-    		name          		: '',
-				is_published			: 'false',
+				name: '',
+				is_published: 'false',
 
-				duration					: '90',		// minutes
+				duration: '90',		// minutes
 
-				created_by_id			: 'false',
-				email							: 'false', // community
-				created_by_name		: 'false', // community
-				is_public					: 'true', // community
-				is_deletable			: 'true', // user is able to delete this track
+				created_by_id: 'false',
+				email: 'false', // community
+				created_by_name: 'false', // community
+				is_public: 'true', // community
+				is_deletable: 'true', // user is able to delete this track
 
-				original_file_type  : 'false', 	// thr|svg|draw
-				has_verts_file			: 'false',
-				verts								: '',		// temporary
+				original_file_type: 'false', 	// thr|svg|draw
+				has_verts_file: 'false',
+				verts: '',		// temporary
 
-				default_vel			: 1,
-				default_accel		: 0.5,
-				default_thvmax	: 1,
-				reversed				: false,
-				firstR					: -1,
-				lastR						: -1,
-				r_type					: 'r', // r00|r01|r10|r11
-				reversible			: "false", // WC value
+				default_vel: 1,
+				default_accel: 0.5,
+				default_thvmax: 1,
+				reversed: false,
+				firstR: -1,
+				lastR: -1,
+				r_type: 'r', // r00|r01|r10|r11
+				reversible: "false", // WC value
 				// is_reversible		: "false", // Sisbot value
 
 				cam_image				: "false", // Pi camera image
@@ -87,7 +87,7 @@ app.model.track = {
 	},
 	current_version: 1,
 
-	on_init: function() {
+	on_init: function () {
 		this.on('change:track_checked', this.get_track_checked);
 
 		// fix is_reversible if it doesn't exist
@@ -113,10 +113,10 @@ app.model.track = {
 
 		// var playlist = app.session.get_model('active.playlist_id')
 	},
-	save_track: function() {
+	save_track: function () {
 		// app.log("Save Track", this.get('data'));
 		var sisbot = app.manager.get_model('sisbot_id');
-		sisbot.save_to_sisbot(this.get('data'), function(resp) {
+		sisbot.save_to_sisbot(this.get('data'), function (resp) {
 			app.log("Track saved", resp);
 		});
 	},
@@ -149,11 +149,11 @@ app.model.track = {
 		} else app.trigger('community:deselect_track', this);
 	},
 	/**************************** D3 RENDERING ***********************************/
-	load_d3_data: function() {
+	load_d3_data: function () {
 		app.log("Load D3 Data", this.id);
 		var self = this;
 		self.set("d3_data.loaded", "false");
-		app.manager.get_model('sisbot_id').track_get_verts(this, function(verts) {
+		app.manager.get_model('sisbot_id').track_get_verts(this, function (verts) {
 			var points = self._convert_verts_to_d3(verts);
 
 			// app.log("Points:", points);
@@ -161,25 +161,25 @@ app.model.track = {
 			self.set("d3_data.loaded", "true");
 		});
 	},
-	_convert_verts_to_d3: function(data) {
+	_convert_verts_to_d3: function (data) {
 		var return_value = [];
 		// Step the file, line by line
 		var lines = data.toString().trim().split('\n');
 		var regex = /^\s*$/; // eliminate empty lines
 
-		_.map(lines, function(line) {
+		_.map(lines, function (line) {
 			line.trim();
 
-			if (line.length > 0 && line.substring(0,1) != '#' && !line.match(regex)) {
+			if (line.length > 0 && line.substring(0, 1) != '#' && !line.match(regex)) {
 				var values = line.split(/\s+/);
-				var entry = {y:parseFloat(values[0]), x:parseFloat(values[1])}; // [theta, rho]
+				var entry = { y: parseFloat(values[0]), x: parseFloat(values[1]) }; // [theta, rho]
 				return_value.push(entry);
 			}
 		});
 
 		return return_value;
 	},
-	get_thumbnail: function() {
+	get_thumbnail: function () {
 		// exit if already generating
 		if (this.get('generating_thumbnails') == 'true') return this;
 
@@ -193,7 +193,7 @@ app.model.track = {
 			this.set('table_was_playing', 'true');
 
 			app.log("Wait longer for pause to finish");
-			setTimeout(function() {
+			setTimeout(function () {
 				self.set('generating_thumbnails', 'false');
 				self.get_thumbnail();
 			}, 4000);
@@ -206,19 +206,19 @@ app.model.track = {
 			if (original_type == 'svg' || original_type == 'draw') data.raw_coors = this.process_svg(this.get('data.file_data'));
 			else data.raw_coors = this.get('data.verts');
 
-			var address	= app.manager.get_model('sisbot_id').get('data.local_ip')
+			var address = app.manager.get_model('sisbot_id').get('data.local_ip')
 			var post_data = {
-				_url	: 'http://' + address + '/',
-				_type	: 'POST',
+				_url: 'http://' + address + '/',
+				_type: 'POST',
 				_timeout: 90000,
 				endpoint: 'sisbot/thumbnail_preview_generate',
-				data	: data
+				data: data
 			};
 
 			// send to sisbot
 			app.post.fetch(post_data, function exists_cb(obj) {
 				self.set('generating_thumbnails', 'false');
-				app.log( 'thumbnail response',obj);
+				app.log('thumbnail response', obj);
 				if (obj.err) {
 					app.plugins.n.notification.alert(obj.err)
 				} else {
@@ -235,10 +235,10 @@ app.model.track = {
 	},
 	/**************************** GENERAL ***********************************/
 	play_logic: function (track_index) {
-		app.log( "play_logic", track_index);
-		var active			= app.session.get('active');
-		var current_track	= app.manager.get_model('sisbot_id').get('data.active_track.id');
-		app.log("Play Logic: active ", active, ", index "+track_index, ", current "+current_track, ", new "+this.id);
+		app.log("play_logic", track_index);
+		var active = app.session.get('active');
+		var current_track = app.manager.get_model('sisbot_id').get('data.active_track.id');
+		app.log("Play Logic: active ", active, ", index " + track_index, ", current " + current_track, ", new " + this.id);
 		if (active.primary == 'current' && this.id == current_track) {
 			// do nothing, we're currently playing
 		} else if (active.primary == 'current') {
@@ -260,7 +260,7 @@ app.model.track = {
 	},
 	on_file_upload: function (data, file, field) {
 		app.log("On File Upload:", data, file, field);
-    if ( /\.(svg|thr)$/i.test(file.name)) { // regex for allowed filetypes
+		if (/\.(svg|thr)$/i.test(file.name)) { // regex for allowed filetypes
 			this.upload_verts_to_cloud(data);
 		}
 		return this;
@@ -268,16 +268,16 @@ app.model.track = {
 	upload_track_to_cloud: function () {
 		this.set('data.is_saved', 'true');
 
-		var post_data		= this.get('data');
+		var post_data = this.get('data');
 
-		post_data._url		= app.config.get_webcenter_url();
-		post_data._type		= 'POST';
-		post_data.endpoint	= 'set';
+		post_data._url = app.config.get_webcenter_url();
+		post_data._type = 'POST';
+		post_data.endpoint = 'set';
 
-		var verts_data		= post_data.verts;
-		post_data.verts		= '';
+		var verts_data = post_data.verts;
+		post_data.verts = '';
 
-		app.post.fetch(post_data, function cb(obj) {}, 0);
+		app.post.fetch(post_data, function cb(obj) { }, 0);
 
 		this.upload_verts_to_cloud(verts_data);
 
@@ -288,11 +288,11 @@ app.model.track = {
 		this.set('upload_status', 'uploading');
 
 		app.post.fetch({
-			_url	:  app.config.get_webcenter_url(),
-			_type	: 'POST',
+			_url: app.config.get_webcenter_url(),
+			_type: 'POST',
 			endpoint: 'upload_track',
-			id		: this.id,
-			verts	: verts_data,
+			id: this.id,
+			verts: verts_data,
 		}, function cb(obj) {
 			if (obj.err) {
 				self.set('upload_status', 'failure');
@@ -309,9 +309,9 @@ app.model.track = {
 		return this;
 	},
 	upload_track_to_sisbot: function () {
-		var name	= this.get('edit.name');
-		var verts	= this.get('edit.verts');
-		var errors	= [];
+		var name = this.get('edit.name');
+		var verts = this.get('edit.verts');
+		var errors = [];
 
 		if (name == '') errors.push('- Track Name cannot be empty');
 		if (verts == '') errors.push('- Track Verts File cannot be empty');
@@ -326,7 +326,7 @@ app.model.track = {
 		var original_type = this.get('data.original_file_type');
 		if (original_type == 'svg' || original_type == 'draw') this.set('data.verts', this.process_svg(this.get('data.file_data')));
 
- 		// remove data.file_data, it is now verts
+		// remove data.file_data, it is now verts
 		this.unset('data.file_data');
 
 		// save name to session, so it is populated automatically
@@ -378,9 +378,9 @@ app.model.track = {
 			this.get_thumbnail();
 		}
 	},
-	process_svg: function(file_data) {
+	process_svg: function (file_data) {
 		// app.log("Process svg", file_data);
-		var self			= this;
+		var self = this;
 
 		// verts stores the file data
 		var svg_xml = file_data;
@@ -392,7 +392,7 @@ app.model.track = {
 		var verts = [];
 		var steps = this.get('steps'); // make part of model
 
-		_.each(pathElements, function(pathEl) {
+		_.each(pathElements, function (pathEl) {
 			var path = pathEl.attributes.getNamedItem("d").value;
 			var commands = path.split(/(?=[MmLlCcSsQqTtHhVvAaZzR])/); // any letter
 			// app.log("Commands:", commands);
@@ -405,8 +405,8 @@ app.model.track = {
 			var control_point;
 			var prev_command;
 
-			_.each(commands, function(entry) {
-				var command = entry.substring(0,1);
+			_.each(commands, function (entry) {
+				var command = entry.substring(0, 1);
 				var points_string = entry.substring(1).trim();
 				var data = points_string.match(/([-]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g);
 
@@ -414,7 +414,7 @@ app.model.track = {
 
 				// trim extras, convert to numbers (if any)
 				if (data) {
-					for (var i=0; i<data.length; i++) {
+					for (var i = 0; i < data.length; i++) {
 						data[i] = +data[i];
 					}
 				}
@@ -426,10 +426,10 @@ app.model.track = {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
 									is_first_point = false;
-									first_point = [data[0],data[1]];
+									first_point = [data[0], data[1]];
 									verts.push(first_point);
 								} else {
-									verts.push([data[i],data[i+1]]);
+									verts.push([data[i], data[i + 1]]);
 								}
 							}
 						} else app.log("Error, wrong number of Start points");
@@ -440,23 +440,23 @@ app.model.track = {
 							for (var i = 0; i < data.length; i += 2) {
 								if (is_first_point) {
 									is_first_point = false;
-									first_point = [data[0],data[1]];
+									first_point = [data[0], data[1]];
 									if (verts.length == 0) verts.push(first_point);
 									else {
-										var p0 = verts[verts.length-1];
+										var p0 = verts[verts.length - 1];
 										var p1 = first_point;
-										for (var j=1; j<=steps; j++) {
+										for (var j = 1; j <= steps; j++) {
 											// app.log("fM ", p0, p1);
-											var point = self._calculate_linear_point(j/steps, p0, p1);
+											var point = self._calculate_linear_point(j / steps, p0, p1);
 											verts.push(point);
 										}
 									}
 								} else {
-									var p0 = verts[verts.length-1];
-									var p1 = [data[i],data[i+1]];
-									for (var j=1; j<=steps; j++) {
+									var p0 = verts[verts.length - 1];
+									var p1 = [data[i], data[i + 1]];
+									for (var j = 1; j <= steps; j++) {
 										// app.log("M ", p0, p1);
-										var point = self._calculate_linear_point(j/steps, p0, p1);
+										var point = self._calculate_linear_point(j / steps, p0, p1);
 										verts.push(point);
 									}
 								}
@@ -470,22 +470,22 @@ app.model.track = {
 								if (is_first_point) {
 									is_first_point = false;
 									if (verts.length == 0) {
-										first_point = [data[0],data[1]];
+										first_point = [data[0], data[1]];
 										verts.push(first_point);
 									} else {
-										var p0 = verts[verts.length-1];
-										var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
+										var p0 = verts[verts.length - 1];
+										var p1 = [p0[0] + data[i], p0[1] + data[i + 1]];
 										first_point = p1;
-										for (var j=1; j<=steps; j++) {
-											var point = self._calculate_linear_point(j/steps, p0, p1);
+										for (var j = 1; j <= steps; j++) {
+											var point = self._calculate_linear_point(j / steps, p0, p1);
 											verts.push(point);
 										}
 									}
 								} else {
-									var p0 = verts[verts.length-1];
-									var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
-									for (var j=1; j<=steps; j++) {
-										var point = self._calculate_linear_point(j/steps, p0, p1);
+									var p0 = verts[verts.length - 1];
+									var p1 = [p0[0] + data[i], p0[1] + data[i + 1]];
+									for (var j = 1; j <= steps; j++) {
+										var point = self._calculate_linear_point(j / steps, p0, p1);
 										verts.push(point);
 									}
 								}
@@ -497,10 +497,10 @@ app.model.track = {
 						// app.log("Line", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
-								var p0 = verts[verts.length-1];
-								var p1 = [data[i],data[i+1]];
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_linear_point(j/steps, p0, p1);
+								var p0 = verts[verts.length - 1];
+								var p1 = [data[i], data[i + 1]];
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_linear_point(j / steps, p0, p1);
 									verts.push(point);
 								}
 							}
@@ -510,10 +510,10 @@ app.model.track = {
 						// app.log("line", data);
 						if (data.length % 2 == 0) {
 							for (var i = 0; i < data.length; i += 2) {
-								var p0 = verts[verts.length-1];
-								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_linear_point(j/steps, p0, p1);
+								var p0 = verts[verts.length - 1];
+								var p1 = [p0[0] + data[i], p0[1] + data[i + 1]];
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_linear_point(j / steps, p0, p1);
 									verts.push(point);
 								}
 							}
@@ -522,10 +522,10 @@ app.model.track = {
 					case 'H':
 						// app.log("Horizontal", data);
 						for (var i = 0; i < data.length; i++) {
-							var p0 = verts[verts.length-1];
-							var p1 = [data[i],p0[1]];
-							for (var j=1; j<=steps; j++) {
-								var point = self._calculate_linear_point(j/steps, p0, p1);
+							var p0 = verts[verts.length - 1];
+							var p1 = [data[i], p0[1]];
+							for (var j = 1; j <= steps; j++) {
+								var point = self._calculate_linear_point(j / steps, p0, p1);
 								verts.push(point);
 							}
 						}
@@ -533,10 +533,10 @@ app.model.track = {
 					case 'h':
 						// app.log("horizontal", data);
 						for (var i = 0; i < data.length; i++) {
-							var p0 = verts[verts.length-1];
-							var p1 = [p0[0]+data[i],p0[1]];
-							for (var j=1; j<=steps; j++) {
-								var point = self._calculate_linear_point(j/steps, p0, p1);
+							var p0 = verts[verts.length - 1];
+							var p1 = [p0[0] + data[i], p0[1]];
+							for (var j = 1; j <= steps; j++) {
+								var point = self._calculate_linear_point(j / steps, p0, p1);
 								verts.push(point);
 							}
 						}
@@ -544,10 +544,10 @@ app.model.track = {
 					case 'V':
 						// app.log("Vertical", data);
 						for (var i = 0; i < data.length; i++) {
-							var p0 = verts[verts.length-1];
-							var p1 = [p0[0],data[i]];
-							for (var j=1; j<=steps; j++) {
-								var point = self._calculate_linear_point(j/steps, p0, p1);
+							var p0 = verts[verts.length - 1];
+							var p1 = [p0[0], data[i]];
+							for (var j = 1; j <= steps; j++) {
+								var point = self._calculate_linear_point(j / steps, p0, p1);
 								verts.push(point);
 							}
 						}
@@ -555,10 +555,10 @@ app.model.track = {
 					case 'v':
 						// app.log("vertical", data);
 						for (var i = 0; i < data.length; i++) {
-							var p0 = verts[verts.length-1];
-							var p1 = [p0[0],p0[1]+data[i]];
-							for (var j=1; j<=steps; j++) {
-								var point = self._calculate_linear_point(j/steps, p0, p1);
+							var p0 = verts[verts.length - 1];
+							var p1 = [p0[0], p0[1] + data[i]];
+							for (var j = 1; j <= steps; j++) {
+								var point = self._calculate_linear_point(j / steps, p0, p1);
 								verts.push(point);
 							}
 						}
@@ -567,14 +567,14 @@ app.model.track = {
 						// app.log("Curve", data);
 						if (data.length % 6 == 0) {
 							for (var i = 0; i < data.length; i += 6) {
-								var p0 = verts[verts.length-1];
-								var p1 = [data[i],data[i+1]];
-								var p2 = [data[i+2],data[i+3]];
-								var p3 = [data[i+4],data[i+5]];
+								var p0 = verts[verts.length - 1];
+								var p1 = [data[i], data[i + 1]];
+								var p2 = [data[i + 2], data[i + 3]];
+								var p3 = [data[i + 4], data[i + 5]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -583,15 +583,15 @@ app.model.track = {
 					case 'c':
 						// app.log("curve", data);
 						if (data.length % 6 == 0) {
-							for (var i = 0; i < data.length; i+=6) {
-								var p0 = verts[verts.length-1];
-								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
-								var p2 = [p0[0]+data[i+2],p0[1]+data[i+3]];
-								var p3 = [p0[0]+data[i+4],p0[1]+data[i+5]];
+							for (var i = 0; i < data.length; i += 6) {
+								var p0 = verts[verts.length - 1];
+								var p1 = [p0[0] + data[i], p0[1] + data[i + 1]];
+								var p2 = [p0[0] + data[i + 2], p0[1] + data[i + 3]];
+								var p3 = [p0[0] + data[i + 4], p0[1] + data[i + 5]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -599,17 +599,17 @@ app.model.track = {
 						break;
 					case 'S':
 						// app.log("Shortcut", data, prev_command);
-						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length-1];
+						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length - 1];
 						if (data.length % 4 == 0) {
-							for (var i = 0; i < data.length; i+=4) {
-								var p0 = verts[verts.length-1];
+							for (var i = 0; i < data.length; i += 4) {
+								var p0 = verts[verts.length - 1];
 								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]]; // control point from before
-								var p2 = [data[i],data[i+1]];
-								var p3 = [data[i+2],data[i+3]];
+								var p2 = [data[i], data[i + 1]];
+								var p3 = [data[i + 2], data[i + 3]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -617,17 +617,17 @@ app.model.track = {
 						break;
 					case 's':
 						// app.log("shortcut", data, prev_command);
-						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length-1];
+						if (prev_command.toLowerCase() != 'c' && prev_command.toLowerCase() != 's') control_point = verts[verts.length - 1];
 						if (data.length % 4 == 0) {
-							for (var i = 0; i < data.length; i+=4) {
-								var p0 = verts[verts.length-1];
+							for (var i = 0; i < data.length; i += 4) {
+								var p0 = verts[verts.length - 1];
 								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]];
-								var p2 = [p0[0]+data[i],p0[1]+data[i+1]];
-								var p3 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+								var p2 = [p0[0] + data[i], p0[1] + data[i + 1]];
+								var p3 = [p0[0] + data[i + 2], p0[1] + data[i + 3]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -637,14 +637,14 @@ app.model.track = {
 						// app.log("Quadratic", data, first_point);
 						if (data.length % 4 == 0) {
 							for (var i = 0; i < data.length; i += 4) {
-								var p0 = verts[verts.length-1];
-								var p1 = [data[i],data[i+1]];
-								var p2 = [data[i],data[i+1]];
-								var p3 = [data[i+2],data[i+3]];
+								var p0 = verts[verts.length - 1];
+								var p1 = [data[i], data[i + 1]];
+								var p2 = [data[i], data[i + 1]];
+								var p3 = [data[i + 2], data[i + 3]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -654,15 +654,15 @@ app.model.track = {
 					case 'q':
 						// app.log("quadratic", data, first_point);
 						if (data.length % 4 == 0) {
-							for (var i = 0; i < data.length; i+=4) {
-								var p0 = verts[verts.length-1];
-								var p1 = [p0[0]+data[i],p0[1]+data[i+1]];
-								var p2 = [p0[0]+data[i],p0[1]+data[i+1]];
-								var p3 = [p0[0]+data[i+2],p0[1]+data[i+3]];
+							for (var i = 0; i < data.length; i += 4) {
+								var p0 = verts[verts.length - 1];
+								var p1 = [p0[0] + data[i], p0[1] + data[i + 1]];
+								var p2 = [p0[0] + data[i], p0[1] + data[i + 1]];
+								var p3 = [p0[0] + data[i + 2], p0[1] + data[i + 3]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -671,15 +671,15 @@ app.model.track = {
 					case 'T':
 						// app.log("T", data, first_point);
 						if (data.length % 2 == 0) {
-							for (var i = 0; i < data.length; i+=2) {
-								var p0 = verts[verts.length-1];
+							for (var i = 0; i < data.length; i += 2) {
+								var p0 = verts[verts.length - 1];
 								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]]; // control point from before
-								var p2 = [p1[0],p1[1]];
-								var p3 = [data[i],data[i+1]];
+								var p2 = [p1[0], p1[1]];
+								var p3 = [data[i], data[i + 1]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -688,15 +688,15 @@ app.model.track = {
 					case 't':
 						// app.log("t", data, first_point);
 						if (data.length % 2 == 0) {
-							for (var i = 0; i < data.length; i+=2) {
-								var p0 = verts[verts.length-1];
+							for (var i = 0; i < data.length; i += 2) {
+								var p0 = verts[verts.length - 1];
 								var p1 = [p0[0] - control_point[0] + p0[0], p0[1] - control_point[1] + p0[1]];
-								var p2 = [p1[0],p1[1]];
-								var p3 = [p0[0]+data[i],p0[1]+data[i+1]];
+								var p2 = [p1[0], p1[1]];
+								var p3 = [p0[0] + data[i], p0[1] + data[i + 1]];
 
 								control_point = p2; // remember
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_bezier_point(j/steps, p0, p1, p2, p3);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_bezier_point(j / steps, p0, p1, p2, p3);
 									verts.push(point);
 								}
 							}
@@ -705,17 +705,17 @@ app.model.track = {
 					case 'A':
 						// app.log("Arc", data);
 						if (data.length % 7 == 0) {
-							for (var i = 0; i < data.length; i+=7) {
+							for (var i = 0; i < data.length; i += 7) {
 								var rx = data[i];
-								var ry = data[i+1];
-								var xAxisRotation = data[i+2];
-								var largeArcFlag = data[i+3];
-								var sweepFlag = data[i+4];
-								var p0 = verts[verts.length-1];
-								var p1 = [data[i+5],data[i+6]];
+								var ry = data[i + 1];
+								var xAxisRotation = data[i + 2];
+								var largeArcFlag = data[i + 3];
+								var sweepFlag = data[i + 4];
+								var p0 = verts[verts.length - 1];
+								var p1 = [data[i + 5], data[i + 6]];
 
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_elliptical_arc(j/steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_elliptical_arc(j / steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
 									verts.push(point);
 								}
 							}
@@ -724,17 +724,17 @@ app.model.track = {
 					case 'a':
 						// app.log("arc", data);
 						if (data.length % 7 == 0) {
-							for (var i = 0; i < data.length; i+=7) {
+							for (var i = 0; i < data.length; i += 7) {
 								var rx = data[i];
-								var ry = data[i+1];
-								var xAxisRotation = data[i+2];
-								var largeArcFlag = data[i+3];
-								var sweepFlag = data[i+4];
-								var p0 = verts[verts.length-1];
-								var p1 = [p0[0]+data[i+5],p0[1]+data[i+6]];
+								var ry = data[i + 1];
+								var xAxisRotation = data[i + 2];
+								var largeArcFlag = data[i + 3];
+								var sweepFlag = data[i + 4];
+								var p0 = verts[verts.length - 1];
+								var p1 = [p0[0] + data[i + 5], p0[1] + data[i + 6]];
 
-								for (var j=1; j<=steps; j++) {
-									var point = self._calculate_elliptical_arc(j/steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
+								for (var j = 1; j <= steps; j++) {
+									var point = self._calculate_elliptical_arc(j / steps, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag);
 									verts.push(point);
 								}
 							}
@@ -742,20 +742,20 @@ app.model.track = {
 						break;
 					case 'Z':
 						// app.log("Close", data, first_point);
-						var p0 = verts[verts.length-1];
+						var p0 = verts[verts.length - 1];
 						var p1 = first_point;
-						for (var j=1; j<=steps; j++) {
-							var point = self._calculate_linear_point(j/steps, p0, p1);
+						for (var j = 1; j <= steps; j++) {
+							var point = self._calculate_linear_point(j / steps, p0, p1);
 							verts.push(point);
 						}
 						is_first_point = true; // reset to true for closing
 						break;
 					case 'z':
 						// app.log("close", data, first_point);
-						var p0 = verts[verts.length-1];
+						var p0 = verts[verts.length - 1];
 						var p1 = first_point;
-						for (var j=1; j<=steps; j++) {
-							var point = self._calculate_linear_point(j/steps, p0, p1);
+						for (var j = 1; j <= steps; j++) {
+							var point = self._calculate_linear_point(j / steps, p0, p1);
 							verts.push(point);
 						}
 						is_first_point = true; // reset to true for closing
@@ -772,9 +772,9 @@ app.model.track = {
 		// center resulting verts
 		if (this.get('svg_scaled') != 'true') {
 			var min_max = self._min_max(verts);
-			var half_x = (min_max[2]-min_max[0]) / 2;
-			var half_y = (min_max[3]-min_max[1]) / 2;
-			_.each(verts, function(point) {
+			var half_x = (min_max[2] - min_max[0]) / 2;
+			var half_y = (min_max[3] - min_max[1]) / 2;
+			_.each(verts, function (point) {
 				point[0] = point[0] - min_max[0] - half_x;
 				point[1] = point[1] - min_max[1] - half_y;
 			});
@@ -785,10 +785,10 @@ app.model.track = {
 		var th_offset = 0;
 		var last_th = 0;
 		var pi = Math.PI;
-		var loop_th = pi*2;
-		_.each(verts, function(point) {
-			var rho = Math.sqrt(point[0]*point[0]+point[1]*point[1]);
-			var new_th =  Math.atan2(point[1],point[0])+pi/2;
+		var loop_th = pi * 2;
+		_.each(verts, function (point) {
+			var rho = Math.sqrt(point[0] * point[0] + point[1] * point[1]);
+			var new_th = Math.atan2(point[1], point[0]) + pi / 2;
 			// if (Math.abs(new_th) == pi) new_th = 0;
 			if (new_th - last_th > pi) {
 				th_offset -= loop_th;
@@ -806,16 +806,16 @@ app.model.track = {
 		// normalize
 		if (this.get('svg_scaled') != 'true') {
 			var polar_min_max = self._min_max(verts);
-			_.each(verts, function(point, index) {
+			_.each(verts, function (point, index) {
 				point[1] /= polar_min_max[3];
 			});
 		}
 
 		// fix start point if looping track
 		var start_index = -1;
-		if (Math.abs(verts[0][0] % loop_th - verts[verts.length-1][0] % loop_th) < 0.000000001 && Math.abs(verts[0][1] - verts[verts.length-1][1]) < 0.000000001) {
+		if (Math.abs(verts[0][0] % loop_th - verts[verts.length - 1][0] % loop_th) < 0.000000001 && Math.abs(verts[0][1] - verts[verts.length - 1][1]) < 0.000000001) {
 			// find the first instance of zero or one
-			_.each(verts, function(point, index) {
+			_.each(verts, function (point, index) {
 				if (start_index < 0 && self._is_valid_first_rho(point)) {
 					start_index = index;
 				}
@@ -823,7 +823,7 @@ app.model.track = {
 		}
 
 		// shift array if needed (not already start/end)
-		if (start_index > 0 && start_index < verts.length-1) {
+		if (start_index > 0 && start_index < verts.length - 1) {
 			var first_group = verts.splice(0, start_index);
 
 			// fix looping
@@ -831,9 +831,9 @@ app.model.track = {
 			verts.pop(); // remove duplicate/start/end
 
 			// adjust looping th difference
-			var loop_diff = Math.round((verts[verts.length-1][0] - first_group[0][0])/loop_th);
+			var loop_diff = Math.round((verts[verts.length - 1][0] - first_group[0][0]) / loop_th);
 			if (loop_diff != 0) {
-				_.each(first_group, function(point, index) {
+				_.each(first_group, function (point, index) {
 					point[0] += loop_diff * loop_th;
 				});
 			}
@@ -847,22 +847,22 @@ app.model.track = {
 			if (start_rho <= 0.5) verts.unshift([verts[0][0], 0]);
 			else verts.unshift([verts[0][0], 1]);
 		}
-		var end_rho = verts[verts.length-1][1];
+		var end_rho = verts[verts.length - 1][1];
 		if (end_rho != 1 && end_rho != 0) {
-			if (end_rho <= 0.5) verts.push([verts[verts.length-1][0], 0]);
-			else verts.push([verts[verts.length-1][0], 1]);
+			if (end_rho <= 0.5) verts.push([verts[verts.length - 1][0], 0]);
+			else verts.push([verts[verts.length - 1][0], 1]);
 		}
 
 		// convert to space separates, line separated string
 		var verts_string = "";
-		_.each(verts, function(point) {
-			verts_string += point[0]+" "+point[1]+"\n";
+		_.each(verts, function (point) {
+			verts_string += point[0] + " " + point[1] + "\n";
 		});
 
 		// send to page for confirming the appearance/upload
 		return verts_string;
 	},
-	_calculate_linear_point: function(t, p0, p1) {
+	_calculate_linear_point: function (t, p0, p1) {
 		if (t == 0) return [p0[0], p0[1]]; // no calculation needed
 		if (t == 1) return [p1[0], p1[1]]; // no calculation needed
 
@@ -872,13 +872,13 @@ app.model.track = {
 
 		return p;
 	},
-	_calculate_bezier_point: function(t, p0, p1, p2, p3) { // time 0-1, start point, control 1, control 2, end point
+	_calculate_bezier_point: function (t, p0, p1, p2, p3) { // time 0-1, start point, control 1, control 2, end point
 		if (t == 0) return [p0[0], p0[1]]; // no calculation needed
 		if (t == 1) return [p3[0], p3[1]]; // no calculation needed
 
 		var u = 1.0 - t;
-		var tt = t*t;
-		var uu = u*u;
+		var tt = t * t;
+		var uu = u * u;
 		var uuu = uu * u;
 		var ttt = tt * t;
 
@@ -894,123 +894,123 @@ app.model.track = {
 
 		return p;
 	},
-	_calculate_elliptical_arc: function(t, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag) {
-    // In accordance to: http://www.w3.org/TR/SVG/implnote.html#ArcOutOfRangeParameters
-    rx = Math.abs(rx);
-    ry = Math.abs(ry);
-    xAxisRotation = this._mod(xAxisRotation, 360);
-    var xAxisRotationRadians = this._toRadians(xAxisRotation);
-    // If the endpoints are identical, then this is equivalent to omitting the elliptical arc segment entirely.
-    if(p0[0] === p1[0] && p0[1] === p1[1]) {
-      return p0;
-    }
+	_calculate_elliptical_arc: function (t, p0, p1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag) {
+		// In accordance to: http://www.w3.org/TR/SVG/implnote.html#ArcOutOfRangeParameters
+		rx = Math.abs(rx);
+		ry = Math.abs(ry);
+		xAxisRotation = this._mod(xAxisRotation, 360);
+		var xAxisRotationRadians = this._toRadians(xAxisRotation);
+		// If the endpoints are identical, then this is equivalent to omitting the elliptical arc segment entirely.
+		if (p0[0] === p1[0] && p0[1] === p1[1]) {
+			return p0;
+		}
 
-    // If rx = 0 or ry = 0 then this arc is treated as a straight line segment joining the endpoints.
-    if(rx === 0 || ry === 0) {
-      return this._calculate_linear_point(t, p0, p1);
-    }
+		// If rx = 0 or ry = 0 then this arc is treated as a straight line segment joining the endpoints.
+		if (rx === 0 || ry === 0) {
+			return this._calculate_linear_point(t, p0, p1);
+		}
 
-    // Following "Conversion from endpoint to center parameterization"
-    // http://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter
-    // Step #1: Compute transformedPoint
-    var dx = (p0[0]-p1[0])/2;
-    var dy = (p0[1]-p1[1])/2;
-    var transformedPoint = {
-      x: Math.cos(xAxisRotationRadians)*dx + Math.sin(xAxisRotationRadians)*dy,
-      y: -Math.sin(xAxisRotationRadians)*dx + Math.cos(xAxisRotationRadians)*dy
-    };
-    // Ensure radii are large enough
-    var radiiCheck = Math.pow(transformedPoint.x, 2)/Math.pow(rx, 2) + Math.pow(transformedPoint.y, 2)/Math.pow(ry, 2);
-    if(radiiCheck > 1) {
-      rx = Math.sqrt(radiiCheck)*rx;
-      ry = Math.sqrt(radiiCheck)*ry;
-    }
+		// Following "Conversion from endpoint to center parameterization"
+		// http://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter
+		// Step #1: Compute transformedPoint
+		var dx = (p0[0] - p1[0]) / 2;
+		var dy = (p0[1] - p1[1]) / 2;
+		var transformedPoint = {
+			x: Math.cos(xAxisRotationRadians) * dx + Math.sin(xAxisRotationRadians) * dy,
+			y: -Math.sin(xAxisRotationRadians) * dx + Math.cos(xAxisRotationRadians) * dy
+		};
+		// Ensure radii are large enough
+		var radiiCheck = Math.pow(transformedPoint.x, 2) / Math.pow(rx, 2) + Math.pow(transformedPoint.y, 2) / Math.pow(ry, 2);
+		if (radiiCheck > 1) {
+			rx = Math.sqrt(radiiCheck) * rx;
+			ry = Math.sqrt(radiiCheck) * ry;
+		}
 
-    // Step #2: Compute transformedCenter
-    var cSquareNumerator = Math.pow(rx, 2)*Math.pow(ry, 2) - Math.pow(rx, 2)*Math.pow(transformedPoint.y, 2) - Math.pow(ry, 2)*Math.pow(transformedPoint.x, 2);
-    var cSquareRootDenom = Math.pow(rx, 2)*Math.pow(transformedPoint.y, 2) + Math.pow(ry, 2)*Math.pow(transformedPoint.x, 2);
-    var cRadicand = cSquareNumerator/cSquareRootDenom;
-    // Make sure this never drops below zero because of precision
-    cRadicand = cRadicand < 0 ? 0 : cRadicand;
-    var cCoef = (largeArcFlag !== sweepFlag ? 1 : -1) * Math.sqrt(cRadicand);
-    var transformedCenter = {
-      x: cCoef*((rx*transformedPoint.y)/ry),
-      y: cCoef*(-(ry*transformedPoint.x)/rx)
-    };
+		// Step #2: Compute transformedCenter
+		var cSquareNumerator = Math.pow(rx, 2) * Math.pow(ry, 2) - Math.pow(rx, 2) * Math.pow(transformedPoint.y, 2) - Math.pow(ry, 2) * Math.pow(transformedPoint.x, 2);
+		var cSquareRootDenom = Math.pow(rx, 2) * Math.pow(transformedPoint.y, 2) + Math.pow(ry, 2) * Math.pow(transformedPoint.x, 2);
+		var cRadicand = cSquareNumerator / cSquareRootDenom;
+		// Make sure this never drops below zero because of precision
+		cRadicand = cRadicand < 0 ? 0 : cRadicand;
+		var cCoef = (largeArcFlag !== sweepFlag ? 1 : -1) * Math.sqrt(cRadicand);
+		var transformedCenter = {
+			x: cCoef * ((rx * transformedPoint.y) / ry),
+			y: cCoef * (-(ry * transformedPoint.x) / rx)
+		};
 
-    // Step #3: Compute center
-    var center = {
-      x: Math.cos(xAxisRotationRadians)*transformedCenter.x - Math.sin(xAxisRotationRadians)*transformedCenter.y + ((p0[0]+p1[0])/2),
-      y: Math.sin(xAxisRotationRadians)*transformedCenter.x + Math.cos(xAxisRotationRadians)*transformedCenter.y + ((p0[1]+p1[1])/2)
-    };
+		// Step #3: Compute center
+		var center = {
+			x: Math.cos(xAxisRotationRadians) * transformedCenter.x - Math.sin(xAxisRotationRadians) * transformedCenter.y + ((p0[0] + p1[0]) / 2),
+			y: Math.sin(xAxisRotationRadians) * transformedCenter.x + Math.cos(xAxisRotationRadians) * transformedCenter.y + ((p0[1] + p1[1]) / 2)
+		};
 
-    // Step #4: Compute start/sweep angles
-    // Start angle of the elliptical arc prior to the stretch and rotate operations.
-    // Difference between the start and end angles
-    var startVector = {
-      x: (transformedPoint.x-transformedCenter.x)/rx,
-      y: (transformedPoint.y-transformedCenter.y)/ry
-    };
-    var startAngle = this._angleBetween({
-      x: 1,
-      y: 0
-    }, startVector);
+		// Step #4: Compute start/sweep angles
+		// Start angle of the elliptical arc prior to the stretch and rotate operations.
+		// Difference between the start and end angles
+		var startVector = {
+			x: (transformedPoint.x - transformedCenter.x) / rx,
+			y: (transformedPoint.y - transformedCenter.y) / ry
+		};
+		var startAngle = this._angleBetween({
+			x: 1,
+			y: 0
+		}, startVector);
 
-    var endVector = {
-      x: (-transformedPoint.x-transformedCenter.x)/rx,
-      y: (-transformedPoint.y-transformedCenter.y)/ry
-    };
-    var sweepAngle = this._angleBetween(startVector, endVector);
+		var endVector = {
+			x: (-transformedPoint.x - transformedCenter.x) / rx,
+			y: (-transformedPoint.y - transformedCenter.y) / ry
+		};
+		var sweepAngle = this._angleBetween(startVector, endVector);
 
-    if(!sweepFlag && sweepAngle > 0) {
-      sweepAngle -= 2*Math.PI;
-    }
-    else if(sweepFlag && sweepAngle < 0) {
-      sweepAngle += 2*Math.PI;
-    }
-    // We use % instead of `_mod()..)` because we want it to be -360deg to 360deg(but actually in radians)
-    sweepAngle %= 2*Math.PI;
+		if (!sweepFlag && sweepAngle > 0) {
+			sweepAngle -= 2 * Math.PI;
+		}
+		else if (sweepFlag && sweepAngle < 0) {
+			sweepAngle += 2 * Math.PI;
+		}
+		// We use % instead of `_mod()..)` because we want it to be -360deg to 360deg(but actually in radians)
+		sweepAngle %= 2 * Math.PI;
 
-    // From http://www.w3.org/TR/SVG/implnote.html#ArcParameterizationAlternatives
-    var angle = startAngle+(sweepAngle*t);
-    var ellipseComponentX = rx*Math.cos(angle);
-    var ellipseComponentY = ry*Math.sin(angle);
+		// From http://www.w3.org/TR/SVG/implnote.html#ArcParameterizationAlternatives
+		var angle = startAngle + (sweepAngle * t);
+		var ellipseComponentX = rx * Math.cos(angle);
+		var ellipseComponentY = ry * Math.sin(angle);
 
-    var point = [
-      Math.cos(xAxisRotationRadians)*ellipseComponentX - Math.sin(xAxisRotationRadians)*ellipseComponentY + center.x,
-      Math.sin(xAxisRotationRadians)*ellipseComponentX + Math.cos(xAxisRotationRadians)*ellipseComponentY + center.y
-    ];
+		var point = [
+			Math.cos(xAxisRotationRadians) * ellipseComponentX - Math.sin(xAxisRotationRadians) * ellipseComponentY + center.x,
+			Math.sin(xAxisRotationRadians) * ellipseComponentX + Math.cos(xAxisRotationRadians) * ellipseComponentY + center.y
+		];
 
-    // Attach some extra info to use
-    // point.ellipticalArcStartAngle = startAngle;
-    // point.ellipticalArcEndAngle = startAngle+sweepAngle;
-    // point.ellipticalArcAngle = angle;
+		// Attach some extra info to use
+		// point.ellipticalArcStartAngle = startAngle;
+		// point.ellipticalArcEndAngle = startAngle+sweepAngle;
+		// point.ellipticalArcAngle = angle;
 		//
-    // point.ellipticalArcCenter = center;
-    // point.resultantRx = rx;
-    // point.resultantRy = ry;
+		// point.ellipticalArcCenter = center;
+		// point.resultantRx = rx;
+		// point.resultantRy = ry;
 
-    return point;
+		return point;
 	},
-	_mod: function(x, m) {
-		return (x%m + m)%m;
+	_mod: function (x, m) {
+		return (x % m + m) % m;
 	},
-	_toRadians: function(angle) {
+	_toRadians: function (angle) {
 		return angle * (Math.PI / 180);
 	},
-	_angleBetween: function(v0, v1) {
-		var p = v0.x*v1.x + v0.y*v1.y;
-		var n = Math.sqrt((Math.pow(v0.x, 2)+Math.pow(v0.y, 2)) * (Math.pow(v1.x, 2)+Math.pow(v1.y, 2)));
-		var sign = v0.x*v1.y - v0.y*v1.x < 0 ? -1 : 1;
-		var angle = sign*Math.acos(p/n);
+	_angleBetween: function (v0, v1) {
+		var p = v0.x * v1.x + v0.y * v1.y;
+		var n = Math.sqrt((Math.pow(v0.x, 2) + Math.pow(v0.y, 2)) * (Math.pow(v1.x, 2) + Math.pow(v1.y, 2)));
+		var sign = v0.x * v1.y - v0.y * v1.x < 0 ? -1 : 1;
+		var angle = sign * Math.acos(p / n);
 
 		//var angle = Math.atan2(v0.y, v0.x) - Math.atan2(v1.y,  v1.x);
 
 		return angle;
 	},
-	_min_max: function(given_array) {
+	_min_max: function (given_array) {
 		var min_x, max_x, min_y, max_y;
-		_.each(given_array, function(point) {
+		_.each(given_array, function (point) {
 			if (min_x == undefined || point[0] < min_x) min_x = point[0];
 			if (max_x == undefined || point[0] > max_x) max_x = point[0];
 			if (min_y == undefined || point[1] < min_y) min_y = point[1];
@@ -1019,12 +1019,12 @@ app.model.track = {
 
 		return [min_x, min_y, max_x, max_y];
 	},
-	_is_valid_first_rho: function(given_point) {
+	_is_valid_first_rho: function (given_point) {
 		// return true if valid first rho (0 or 1)
 		return (given_point[1] == 0 || given_point[1] == 1);
 	},
 	/**************************** PLAYLISTS ***********************************/
-	playlist_obj: function() { // returns object to save in playlist (to retain speeds/reversed/etc per instance)
+	playlist_obj: function () { // returns object to save in playlist (to retain speeds/reversed/etc per instance)
 		var return_obj = {
 			id: this.get('id'),
 			vel: this.get('data.default_vel'),
@@ -1041,23 +1041,23 @@ app.model.track = {
 		this.set('is_adding', 'false');
 		return this;
 	},
-	goBackFromHero: function() {
+	goBackFromHero: function () {
 		var active = app.session.get('active');
 		app.log("I made it to Hero");
 		app.log('goBack =', active.goBack);
-		if (active.goBack == 'playlist' || active.goBack == 'false'){
-			app.trigger('session:active', {  secondary: 'playlist' });
-		}else{
-			app.trigger('session:active', {  secondary: 'tracks' });
+		if (active.goBack == 'playlist' || active.goBack == 'false') {
+			app.trigger('session:active', { secondary: 'playlist' });
+		} else {
+			app.trigger('session:active', { secondary: 'tracks' });
 		}
 	},
-	get_not_playlists: function() {
-		var sisbot			= app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');
-		var playlist_ids	= [];
-		var track_id		= this.id;
+	get_not_playlists: function () {
+		var sisbot = app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');
+		var playlist_ids = [];
+		var track_id = this.id;
 
-		_.each(sisbot.get_model('data.playlist_ids'), function(p) {
-			if (_.findIndex(p.get('data.tracks'), {id:track_id}) == -1)
+		_.each(sisbot.get_model('data.playlist_ids'), function (p) {
+			if (_.findIndex(p.get('data.tracks'), { id: track_id }) == -1)
 				playlist_ids.push(p.id);
 		});
 
@@ -1065,12 +1065,12 @@ app.model.track = {
 		this.trigger('change:playlist_not_ids');
 	},
 	get_playlists: function () {
-		var sisbot			= app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');
-		var playlist_ids	= [];
-		var track_id		= this.id;
+		var sisbot = app.current_session().get_model('sisyphus_manager_id').get_model('sisbot_id');
+		var playlist_ids = [];
+		var track_id = this.id;
 
-		_.each(sisbot.get_model('data.playlist_ids'), function(p) {
-			if (_.findIndex(p.get('data.tracks'), {id: track_id}) > -1)
+		_.each(sisbot.get_model('data.playlist_ids'), function (p) {
+			if (_.findIndex(p.get('data.tracks'), { id: track_id }) > -1)
 				playlist_ids.push(p.id);
 		});
 
@@ -1087,27 +1087,26 @@ app.model.track = {
 	favorite_toggle: function (trackID) {
 		if (app.manager.get_model('sisbot_id').is_legacy())
 			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
-			function(resp_num) {
-				if (resp_num == 1){
-					return;
-				}
-				app.collection.get(playlist_id).add_track_and_save({id:trackID});
+				function (resp_num) {
+					if (resp_num == 1) {
+						return;
+					}
+					app.collection.get(playlist_id).add_track_and_save({ id: trackID });
 
-			},'Outdated Firmware', ['OK']);
+				}, 'Outdated Firmware', ['OK']);
 
 		var status = this.get('is_favorite');
 		var fav_model = app.manager.get_model('sisbot_id').get_model('data.favorite_playlist_id');
 		if (status == 'true' && fav_model) {
 			fav_model.remove_track_and_save(this.id);
 		} else if (fav_model) {
-			fav_model.add_track_and_save({id:trackID});
+			fav_model.add_track_and_save({ id: trackID });
 		}
 		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},
-	reversible_toggle: function() {
+	reversible_toggle: function () {
 		var status = this.get('data.is_reversible');
 		this.set('data.is_reversible', app.plugins.bool_opp[status]);
-
 		this.save_track();
 	},
 	/**************************** COMMUNITY ***********************************/
@@ -1115,15 +1114,15 @@ app.model.track = {
 		var self = this;
 
 		var req_obj = {
-			_url	: app.config.get_webcenter_url(),
-			_type	: 'POST',
+			_url: app.config.get_webcenter_url(),
+			_type: 'POST',
 			endpoint: 'tracks/get_track_header.json',
-			id		: this.id
+			id: this.id
 		};
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				app.log(self.get('data.name') +" "+ track_id);
+				app.log(self.get('data.name') + " " + track_id);
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
 			} else {
 				self.set('data', obj.resp[0]);
@@ -1137,10 +1136,10 @@ app.model.track = {
 		var self = this;
 
 		var req_obj = {
-			_url	: app.config.get_webcenter_url(),
-			_type	: 'GET',
+			_url: app.config.get_webcenter_url(),
+			_type: 'GET',
 			endpoint: 'tracks/get_track_header.json',
-			id		: this.id
+			id: this.id
 		};
 
 		function cb(obj) {
@@ -1153,8 +1152,8 @@ app.model.track = {
 		}
 		app.post.fetch(req_obj, cb, 0);
 	},
-	download_wc: function(skip_playlist_add) {
-    var track_id = this.get('data.track_id');
+	download_wc: function (skip_playlist_add) {
+		var track_id = this.get('data.track_id');
 		var self = this;
 
 		var community = app.session.get_model('community_id');
@@ -1168,19 +1167,19 @@ app.model.track = {
 
 		self.set('is_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
-		self.set('download_cloud',  'true');
+		self.set('download_cloud', 'true');
 
 		var req_obj = {
-			_url	: app.config.get_webcenter_url(),
-			_type	: 'GET',
-			endpoint: `tracks/${track_id}/download.json?class=downloadTrackLink`,
+			_url: app.config.get_webcenter_url(),
+			_type: 'GET',
+			endpoint: `tracks/${ track_id }/download.json?class=downloadTrackLink`,
 			_timeout: 90000
 		};
 
 		function cb(obj) {
 			if (obj.err) {
-				app.log(self.get('data.name') +" "+ track_id);
-				app.log('obj.err', obj.err );
+				app.log(self.get('data.name') + " " + track_id);
+				app.log('obj.err', obj.err);
 				app.trigger('modal:close');
 				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
 			} else {
@@ -1204,7 +1203,7 @@ app.model.track = {
 				app.log("Downloaded ID:", self.id, self.get('data'));
 				app.trigger('sisbot:track_add', self);
 
-				if(!skip_playlist_add) app.trigger('modal:open', { 'track_id' : self.id });
+				if (!skip_playlist_add) app.trigger('modal:open', { 'track_id': self.id });
 
 				// app.trigger('session:active', { secondary: 'false', primary: 'community' });
 			}
