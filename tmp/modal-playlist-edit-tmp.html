@@ -1,7 +1,7 @@
 <div class="h100" data-model="{{= session.active.playlist_id }}">
   <div class="pt75 pl40 pr40">
     <div class="">
-      <div class="fs18 white lh18 pb10 strong">Playlist Name :</div>
+      <div class="fs18 white lh18 pb10 strong">Playlist Name</div>
       <input class="bg-white corner-5px mt5 w100"
           type="text"
           placeholder="Playlist Name"
@@ -11,7 +11,7 @@
           spellcheck="false"
           data-field="model.edit.name"
           value="{{= model.edit.name }}" />
-      <div class="pt50 pb5 white fs18 lh18 no-stuffing strong">Playlist Description</div>
+      <div class="pt40 pb5 white fs18 lh18 no-stuffing strong">Playlist Description</div>
       <textarea class="corner-5px mt5 w100 hh100 p5"
           data-if="{{= model.edit.description }} !== false"
           placeholder="Playlist Description"
@@ -28,7 +28,15 @@
           autocapitalize="off"
           spellcheck="true"
           data-field="model.edit.description"></textarea>
+      <div class="pt40 fs18 white lh18 pb10 w100 vertical strong clickable"
+          data-on-click="toggle"
+          data-field="model.edit.erase_between_tracks"
+          tg-name="erase_between_tracks_checkbox">
+        <span class="f-large fas fa-check-square" data-if="{{= model.edit.erase_between_tracks }} == true"></span>
+        <span class="f-large far fa-square" data-if="{{= model.edit.erase_between_tracks }} !== true"></span>
+        <p class="no-stuffing pl10 w100 fs18 lh18">Erase between tracks</p>
       </div>
+    </div>
   </div>
   <div class="w100 center bt-white clickable white strong blue-hove bg-black pull-bottom"
       data-on-click="parent.close">

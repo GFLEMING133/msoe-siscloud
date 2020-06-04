@@ -4,9 +4,17 @@
 			data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
 			tg-name="track_modal_btn_{{= model.id}}">
 			<div class="w20 center vertical">
-				<img class="w75p hh75" alt="{{= model.data.name }}"
-					data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
-					data-on-error="replace" data-replace="list-image-fallback-tmp" />
+				<img class="w75p hh75"
+						alt="{{= model.data.name }}"
+						data-src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png"
+						data-on-error="replace"
+						data-replace="list-image-fallback-tmp" />
+				<!-- <img class="w75p hh75 rounded"
+						data-if="{{= model.data.cam_image }} !== false"
+						alt="{{= model.data.name }}"
+						data-src="{{= app.config.get_thumb_url() }}cam/400/{{= model.id }}.png"
+						data-on-error="replace"
+						data-replace="list-image-fallback-tmp" /> -->
 			</div>
 			<div class="w60 pt25 pl20" tg-name="track_name">
 				<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>

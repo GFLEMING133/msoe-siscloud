@@ -74,6 +74,13 @@
         <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
         <input class="fs18 w100" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.edit.table_settings.rgbwCount" value="{{= model.data.table_settings.rgbwCount }}" />
       </div>
+      <div class="p20 bb">
+        <div class="w100 vertical clickable" data-on-click="toggle" data-field="model.edit.is_camera">
+          <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.edit.is_camera }} == true"></span>
+          <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.is_camera }} !== true"></span>
+          <p class="no-stuffing pl10 w100 fs18 lh18">Enable Camera</p>
+        </div>
+      </div>
       <div class="p20 pb40">
         <div class="p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
             data-on-click="model.confirm_advanced_settings">
@@ -98,7 +105,7 @@
           </div>
         </div>
       </div>
-      <div class="p20">
+      <div class="p20 bb">
         <p class="no-stuffing w100 fs18 lh18 mb5">Regenerate Track Images</p>
         <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
             data-if="{{= model.data.thumbnail_queue_length }} <= 0"
@@ -109,6 +116,13 @@
             data-if="{{= model.data.thumbnail_queue_length }} > 0">
           Regenerating ({{= model.data.thumbnail_queue_length }})
         </div>
+      </div>
+      <div class="p20">
+        <p class="no-stuffing w100 fs18 lh18 mb5">Force Firmware Update</p>
+        <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong"
+            data-if="{{= model.data.installing_updates }} == false"
+            data-on-click="model.install_update_alert"
+            tg-name="install_update_btn">Start Update</h2>
       </div>
     </div>
     <div class="hh150">&nbsp;</div>

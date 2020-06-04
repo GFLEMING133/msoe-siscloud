@@ -1,43 +1,45 @@
 app.model.track = {
 	defaults: function (data) {
 		var obj = {
-			id: data.id,
-			type: 'track',
+			id								: data.id,
+			type							: 'track',
 
-			is_adding: 'false',
-			playlist_ids: [],
-			playlist_not_ids: [],
+			is_adding					: 'false',
+			playlist_ids			: [],
+			playlist_not_ids	: [],
 
-			upload_status: 'hidden', // hidden|false|uploading|success
-			table_was_playing: 'false', // sisbot was playing before requesting thumbnail
-			generating_thumbnails: 'false',
+			upload_status										: 'hidden', // hidden|false|uploading|success
+			table_was_playing								: 'false', // sisbot was playing before requesting thumbnail
+			generating_thumbnails						: 'false',
 
-			downloading_community_track: 'false',
-			download_cloud: 'false',
-			track_checked: 'false',
-			is_community: 'false', // track from webcenter
-			is_downloaded: 'false', // community
+			downloading_community_track 		: 'false',
+			download_cloud									: 'false',
+			track_checked										: 'false',
+			is_community										: 'false', // track from webcenter
+			is_downloaded 									: 'false', // community
 
-			is_favorite: 'false',
+			is_favorite											:'false',
 
-			svg_scaled: 'false', // for drawing app to have pre-scaled values
+			svg_scaled											: 'false', // for drawing app to have pre-scaled values
 
-			d3: 'false',
-			d3_data: {
-				background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
-				stroke: '#797977', // #797977, #948252
-				stroke_width: 3,
-				stroke_edge: '#fdfaf3', // #fdfaf3, #f6ebcd
-				stroke_edge_width: 6,
-				points: [],
-				steps: 0,
-				r_max_dist: 0.1,
-				retrace_steps: 5,
-				loaded: "false",
-				circle: "true",
-				circle_stroke: '#d6d2ca',
-				circle_stroke_width: 2,
-				square: "false"
+			show_cam												: 'false', // Expermental feature
+
+			d3															:'false',
+			d3_data : {
+				background						: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
+				stroke								: '#797977', // #797977, #948252
+				stroke_width					: 3,
+				stroke_edge						: '#fdfaf3', // #fdfaf3, #f6ebcd
+				stroke_edge_width			: 6,
+				points								: [],
+				steps									: 0,
+				r_max_dist						: 0.1,
+				retrace_steps					: 5,
+				loaded								: "false",
+				circle								: "true",
+				circle_stroke					: '#d6d2ca',
+				circle_stroke_width		: 2,
+				square								: "false"
 			},
 			edit_steps: 30, // for slider
 			steps: 30, // steps between svg points to make
@@ -73,9 +75,11 @@ app.model.track = {
 				reversible: "false", // WC value
 				// is_reversible		: "false", // Sisbot value
 
-				download_count: 0, // webcenter downloads
-				popularity: 0, // webcenter popularity rating
-				is_approved: 'true' // webcenter approval (could be false, if your own track)
+				cam_image				: "false", // Pi camera image
+
+				download_count	: 0, // webcenter downloads
+				popularity			: 0, // webcenter popularity rating
+				is_approved			: 'true' // webcenter approval (could be false, if your own track)
 			}
 		};
 
@@ -95,6 +99,16 @@ app.model.track = {
 		if (this.get('data.firstR') == this.get('data.lastR')) {
 			this.set('data.reversible', 'false');
 			this.set('data.is_reversible', 'false');
+		}
+
+		// fix if this track is community
+		var sisbot = app.manager.get_model('sisbot_id');
+		if (sisbot) {
+			var track_ids = sisbot.get('data.track_ids');
+			if (track_ids && _.isArray(track_ids)) {
+				var track_index = track_ids.indexOf(this.id);
+				if (track_index < 0) this.set('is_community', 'true');
+			}
 		}
 
 		// var playlist = app.session.get_model('active.playlist_id')
@@ -1142,6 +1156,11 @@ app.model.track = {
 		var track_id = this.get('data.track_id');
 		var self = this;
 
+		var community = app.session.get_model('community_id');
+		if (community.get('download_count') < 1) {
+			community.set('download_count', 1);
+		}
+
 		app.trigger('modal:open', {
 			'template': 'modal-overlay-downloading-tmp'
 		});
@@ -1191,7 +1210,5 @@ app.model.track = {
 		}
 
 		app.post.fetch2(req_obj, cb, 0);
-	},
-
-
+	}
 };

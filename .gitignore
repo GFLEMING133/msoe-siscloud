@@ -8,3 +8,5 @@ prod/*
 /prod/*
 thumbnail/*
 package-lock.json
+img/stills/*
+img/cam/*

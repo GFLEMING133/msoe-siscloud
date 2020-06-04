@@ -42,7 +42,9 @@ app.model.playlist = {
 
 				created_by_id		: 'false',
 				created_by_name	: 'User Name',
-				featured_track  : 0
+				featured_track  : 0,
+
+				erase_between_tracks	: "false" // experimental feature
 			}
 		};
 
@@ -188,7 +190,8 @@ app.model.playlist = {
 		} else {
 			this.set('active_tracks', this.get('data.tracks').slice())
 			.set('edit.name', this.get('data.name'))
-			.set('edit.description', this.get('data.description'));
+			.set('edit.description', this.get('data.description'))
+			.set('edit.erase_between_tracks', this.get('data.erase_between_tracks'));
 		}
 
 		// app.trigger('session:active', {'secondary':'playlist-edit'} );

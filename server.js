@@ -68,6 +68,27 @@ var app = function(given_config,ansible) {
 			}
 		});
 	})
+	.get('/cam/:size/:filename', function (req, res) {
+		var filename 		= req.params.filename.replace('.png', '');
+		var size			= req.params.size;
+		var file_loc		= config.dir + '/img/cam/' + filename + '_' + size + '.png';
+		var default_img		= config.dir + '/img/cam/_default_' + size + '.png';
+
+		fs.readFile(file_loc, function(err, img) {
+			if (err) {
+				fs.readFile(default_img, function(err, img) {
+					if (err) return console.log("Default image err", err);
+					res.contentType		= 'image/png';
+					res.contentLength	= img.length;
+					res.end(img, 'binary');
+				});
+			} else {
+				res.contentType		= 'image/png';
+				res.contentLength	= img.length;
+				res.end(img, 'binary');
+			}
+		});
+	})
 	.get('/tmp/*', function (req, res) {
 		var tmp_file	= req.originalUrl;
 
