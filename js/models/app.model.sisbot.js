@@ -157,9 +157,9 @@ app.model.sisbot = {
 				sleep_time: '10:00 PM',					// 10:00 PM sleep_time
 				wake_time: '8:00 AM',					// 8:00 AM  wake_time
 
-				paused_track_hour: '00',
-				paused_track_minute: '01',
 				is_paused_between_tracks: 'false',
+				is_paused_time_enabled: 'false',
+				paused_track_time: 15, // this is minutes
 				is_waiting_between_tracks: 'false',
 				share_log_files: 'false',
 
@@ -205,6 +205,10 @@ app.model.sisbot = {
 		this.on('change:data.software_version', this.check_for_version_update);
 		this.on('change:data.reason_unavailable', this.check_for_unavailable);
 		this.on('change:data', this.nightmode_sleep_change);
+
+		this.on('change:data.is_paused_between_tracks', this.pause_between_tracks);
+		this.on('change:data.is_paused_time_enabled', this.pause_between_tracks);
+		this.on('change:data.paused_track_time', this.pause_between_tracks);
 
 		this.on('change:edit.led_pattern', this._change_led_pattern);
 
@@ -1368,8 +1372,8 @@ app.model.sisbot = {
 
 		this._update_sisbot('save', data, function (obj) {
 			if (obj.err) {
-				self.set('errors', [obj.err]);
 			} else if (obj.resp) {
+				self.set('errors', [obj.err]);
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { secondary: 'advanced_settings' });
 			}
@@ -1404,19 +1408,18 @@ app.model.sisbot = {
 	pause_between_tracks: function () {
 		if (this.is_legacy())
 			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
-
 		var self = this;
-		var state = app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
-
-		this.set('edit.is_paused_between_tracks', state)
-			.set('errors', []);
-
-		this._update_sisbot('set_pause_between_tracks', { is_paused_between_tracks: state }, function (obj) {
-			if (obj.err) {
-				self.set('errors', [obj.err]);
-			} else if (obj.resp) {
-				app.manager.intake_data(obj.resp);
-			}
+		// app.log("Paused Time",this.get('data.paused_track_time'));
+		this._update_sisbot('set_pause_between_tracks', {
+			is_paused_between_tracks: self.get('data.is_paused_between_tracks'),
+			is_paused_time_enabled: self.get('data.is_paused_time_enabled'),
+			paused_track_time: self.get('data.paused_track_time')
+			}, function (obj) {
+				if (obj.err) {
+					self.set('errors', [obj.err]);
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
 		});
 	},
 	/**************************** PLAYBACK ************************************/

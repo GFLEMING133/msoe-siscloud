@@ -26,68 +26,73 @@
           </div>
         </div>
         <div class="pl20 pt5 pb5 pr20 pb20 w100 bb " data-if="{{= model.data.is_paused_between_tracks }} !== undefined">
-          <div class="vertical clickable" data-on-click="model.pause_between_tracks"
-            tg-name="pause_between_tracks_checkbox">
+          <div class="vertical clickable"
+              data-on-click="toggle"
+              data-field="model.data.is_paused_between_tracks"
+              tg-name="pause_between_tracks_checkbox">
             <span class="black f-large bg-white fas fa-check-square"
-              data-if="{{= model.edit.is_paused_between_tracks }} == true"></span>
+              data-if="{{= model.data.is_paused_between_tracks }} == true"></span>
             <span class="black f-large bg-white far fa-square"
-              data-if="{{= model.edit.is_paused_between_tracks }} !== true"></span>
+              data-if="{{= model.data.is_paused_between_tracks }} !== true"></span>
             <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
           </div>
-          <div class="" data-if="{{= model.edit.is_paused_between_tracks }} == true">
-            <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">How Long</h3>
-            <div class="flex-row pl20 pr20">
-              <div class="flex-center-column ">
-                <span class="pr5 pb5">hours</span>
-                <select name="hours" class="clickable w40p pr5 last-center"
-                  data-on-input="{{= model.paused_track_hour}}">
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">0
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">1
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">2
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">3
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">4
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">6
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">8
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">12
-                  </option>
-                  <option data-on-input="{{= model.paused_track_hour }}" value="{{= model.edit.paused_track_hour }}">24
-                  </option>
-                </select>
-              </div>
-              <div class="flex-center-column ">
-                <span class="pl5 pb5">minutes</span>
-                <select name="minutes" class="clickable w40p pl5 last-center"
-                  data-on-input="{{= model.paused_track_minute}}">:
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">0</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">1</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">2</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">3</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">4</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">5</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">10</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">15</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">30</option>
-                  <option data-on-input="{{= model.paused_track_minute }}"
-                    value="{{= model.edit.paused_track_minute }}">45</option>
-                </select>
-              </div>
+          <div class="vertical {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black'}}"
+              data-if="{{= model.data.is_paused_between_tracks }} == true">
+            <div class="vertical clickable"
+                data-on-click="toggle"
+                data-field="model.data.is_paused_time_enabled"
+                tg-name="pause_between_tracks_checkbox"
+            >
+              <span class="f-large bg-white far fa-square"
+                data-if="{{= model.data.is_paused_time_enabled }} !== true"></span>
+              <span class="f-large bg-white fas fa-check-square"
+                data-if="{{= model.data.is_paused_time_enabled }} == true"></span>
+              <p class="no-stuffing pl10 w100 fs18 lh18">
+                Restart after
+              </p>
             </div>
+            <select name="time"
+                  class="clickable w60p pr5 last-center corner-5px {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black strong black-border'}}"
+                  data-selected="{{= model.data.paused_track_time }}"
+                  data-field="model.data.paused_track_time">
+             <optgroup label="Minutes">
+                <option value="15">
+                  15 min
+                </option>
+                <option value="30">
+                  30 min
+                </option>
+                <option value="45">
+                  45 min
+                </option>
+              </optgroup>
+              <optgroup label="Hours">
+                <option value="60">
+                  1 hr
+                </option>
+                <option value="120">
+                  2 hr
+                </option>
+                <option value="180">
+                  3 hr
+                </option>
+                <option value="240">
+                  4 hr
+                </option>
+                <option value="360">
+                  6 hr
+                </option>
+                <option value="480">
+                  8 hr
+                </option>
+                <option value="720">
+                  12 hr
+                </option>
+                <option value="1440">
+                  24 hr
+                </option>
+              </optgroup>
+            </select>
           </div>
         </div>
 
@@ -271,9 +276,11 @@
   </div>
   <!------------------------- CHANGE TABLE  --------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == change_table"
-    data-template="sisyphus-sisbot-multiple-tmp"></div>
+    data-template="sisyphus-sisbot-multiple-tmp">
+  </div>
   <div class="h100" data-if="{{= parent.active.secondary }} == specify_ip"
-    data-template="sisyphus-sisbot-specify-ip-tmp"></div>
+    data-template="sisyphus-sisbot-specify-ip-tmp">
+  </div>
   <!------------------------- ABOUT --------------------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == about" data-template="sisyphus-settings-about-tmp">
   </div>
@@ -290,5 +297,6 @@
     data-template="sisyphus-settings-factory-reset-tmp"></div>
   <!------------------------- LOG FILES ----------------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == log-files"
-    data-template="sisyphus-settings-log-files-tmp"></div>
+    data-template="sisyphus-settings-log-files-tmp">
+  </div>
 </div>
