@@ -228,12 +228,17 @@
   <div class="h100" data-if="{{= parent.active.secondary }} == software-update"
     data-template="sisyphus-settings-software-update-tmp"></div>
   <!------------------------- TOS ----------------------------------------------->
-  <div class="h100" data-if="{{= parent.active.secondary }} == tos" data-template="sisyphus-settings-tos-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == tos"
+    data-template="sisyphus-settings-tos-tmp"></div>
   <!------------------------- PRIVACY ------------------------------------------->
-  <div class="h100" data-if="{{= parent.active.secondary }} == privacy" data-template="sisyphus-settings-privacy-tmp">
-  </div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == privacy"
+    data-template="sisyphus-settings-privacy-tmp"></div>
   <!------------------------- WIFI CREDENTIALS ---------------------------------->
-  <div class="h100" data-if="{{= parent.active.secondary }} == wifi" data-template="sisyphus-settings-wifi-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == wifi"
+    data-template="sisyphus-settings-wifi-tmp"></div>
+  <!------------------------- HOTSPOT PASSWORD -------------------------------------->
+  <div class="h100" data-if="{{= parent.active.secondary }} == hotspot-password"
+      data-template="sisyphus-settings-hotspot-password-tmp"></div>
   <!------------------------- TRACK UPLOAD -------------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == upload-track"
     data-template="sisyphus-settings-track-upload-tmp"></div>
@@ -257,7 +262,8 @@
   <div class="h100" data-if="{{= parent.active.secondary }} == secondary_color"
     data-template="sisyphus-settings-secondary-color-tmp"></div>
   <!------------------------- SIRI --------------------------------->
-  <div class="h100" data-if="{{= parent.active.secondary }} == siri" data-template="sisyphus-settings-siri-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == siri"
+    data-template="sisyphus-settings-siri-tmp"></div>
   <!------------------------- ADVANCED TABLE SETTINGS --------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == advanced_table"
     data-template="sisyphus-settings-advanced-table-tmp"></div>
@@ -278,19 +284,17 @@
   </div>
   <!------------------------- CHANGE TABLE  --------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == change_table"
-    data-template="sisyphus-sisbot-multiple-tmp">
-  </div>
+    data-template="sisyphus-sisbot-multiple-tmp"></div>
   <div class="h100" data-if="{{= parent.active.secondary }} == specify_ip"
-    data-template="sisyphus-sisbot-specify-ip-tmp">
-  </div>
+    data-template="sisyphus-sisbot-specify-ip-tmp"></div>
   <!------------------------- ABOUT --------------------------------------------->
-  <div class="h100" data-if="{{= parent.active.secondary }} == about" data-template="sisyphus-settings-about-tmp">
-  </div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == about"
+    data-template="sisyphus-settings-about-tmp"></div>
   <!------------------------- SUPPORT REQUEST --------------------------------->
-  <div class="h100" data-if="{{= parent.active.secondary }} == support_request" data-template="support-request-tmp">
-  </div>
-  <div class="h100" data-if="{{= parent.active.secondary }} == support_success" data-template="support-success-tmp">
-  </div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == support_request"
+    data-template="support-request-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == support_success"
+    data-template="support-success-tmp"></div>
   <!------------------------- GO TO SLEEP --------------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == go-to-sleep"
     data-template="sisyphus-settings-go-to-sleep-tmp"></div>
@@ -299,6 +303,5 @@
     data-template="sisyphus-settings-factory-reset-tmp"></div>
   <!------------------------- LOG FILES ----------------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == log-files"
-    data-template="sisyphus-settings-log-files-tmp">
-  </div>
+    data-template="sisyphus-settings-log-files-tmp"></div>
 </div>

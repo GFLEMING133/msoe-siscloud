@@ -121,7 +121,10 @@ app.model.sisbot = {
 				input_network: 'false',
 				wifi_network: '',
 				wifi_password: '',
-				hotspot_password: '',
+				hotspot : {
+					password: '',
+					password_verification: '',
+				},
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget: 'false',
 
@@ -945,17 +948,33 @@ app.model.sisbot = {
 		});
 	},
 	set_hotspot_password: function(data) {
+
 		app.log("set_hostpot_password()");
+
+		var self = this;
+		var password = data.attributes.data.hotspot.password;
+		var password_verification = data.attributes.data.hotspot.password_verification;
+		app.log(password, password_verification)
+		if (password.length < 8 || password.length > 63) {
+			app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
+			password = '';
+		}
+		if (password !== password_verification) {
+			app.plugins.n.notification.alert('Your Hotspot password does not match');
+		}
+		// self._update_sisbot("set_hotspot_password", function() {
+				// Matt will you show me how to fill in this part for the pasword.
+		// });
 	},
 	disconnect_wifi: function () {
 		app.log("disconnect_wifi()");
 		var self = this;
 		var password = self.get('data.hotspot_password');
 
-		if (password.length < 8 || password.length > 63) {
-			app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
-			password = '';
-		}
+		// if (password.length < 8 || password.length > 63) {
+		// 	app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
+		// 	password = '';
+		// }
 
 		if (this.get('data.is_hotspot') == 'true') {
 			on_disconnect(0); // reset it right away, we are just changing passwords
