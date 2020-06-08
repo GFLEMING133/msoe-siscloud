@@ -1424,7 +1424,7 @@ app.model.sisbot = {
 		if (this.is_legacy())
 			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
 		var self = this;
-		// app.log("Paused Time",this.get('data.paused_track_time'));
+
 		this._update_sisbot('set_pause_between_tracks', {
 			is_paused_between_tracks: self.get('data.is_paused_between_tracks'),
 			is_paused_time_enabled: self.get('data.is_paused_time_enabled'),
