@@ -121,6 +121,7 @@ app.model.sisbot = {
 				input_network: 'false',
 				wifi_network: '',
 				wifi_password: '',
+				hotspot_password: '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget: 'false',
 
@@ -870,9 +871,9 @@ app.model.sisbot = {
 						self._connect_to_wifi();
 					}
 				}, 'No Password?', ['No', 'Yes']);
-		} else if (credentials.password.length > 0 && credentials.password.length < 8) {
+		} else if (credentials.password.length > 0 && (credentials.password.length < 8 || credentials.password.length > 63)) {
 			this.set('wifi_error', 'true');
-			app.plugins.n.notification.alert('Your Wi-Fi password mut be 8 characters or more.');
+			app.plugins.n.notification.alert('Your Wi-Fi password must be between 8-63 characters.');
 			return this;
 		} else {
 			this._connect_to_wifi();
@@ -942,19 +943,33 @@ app.model.sisbot = {
 				}, 200);
 			}
 		});
-
+	},
+	set_hotspot_password: function(data) {
+		app.log("set_hostpot_password()");
 	},
 	disconnect_wifi: function () {
 		app.log("disconnect_wifi()");
 		var self = this;
+		var password = self.get('data.hotspot_password');
 
-		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
+		if (password.length < 8 || password.length > 63) {
+			app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
+			password = '';
+		}
+
+		if (this.get('data.is_hotspot') == 'true') {
+			on_disconnect(0); // reset it right away, we are just changing passwords
+		} else {
+			app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
+		}
 
 		function on_disconnect(status) {
-			if (status == 1)
-				return self;
+			if (status == 1) return self;
 
-			self._update_sisbot('disconnect_wifi', {}, function (obj) {
+			var opts = {};
+			if (password && password != 'false' && password != '') opts.password = password;
+
+			self._update_sisbot('disconnect_wifi', opts, function (obj) {
 				// do nothing
 				self.set('is_polling', 'false')
 					.set('wifi.password', '')

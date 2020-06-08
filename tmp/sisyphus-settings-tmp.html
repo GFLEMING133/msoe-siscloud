@@ -122,9 +122,11 @@
         <div data-if="{{= model.data.led_enabled }} == true">
           <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Lighting Mode</h3>
           <div class="pl20 pr20 pb10">
-            <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7" data-field="model.edit.led_pattern"
-              data-selected="{{= model.edit.led_pattern }}" data-foreach="model.data.led_pattern_ids"
-              data-foreach-map="true">
+            <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
+                data-field="model.edit.led_pattern"
+                data-selected="{{= model.edit.led_pattern }}"
+                data-foreach="model.data.led_pattern_ids"
+                data-foreach-map="true">
               <option value="{{= model.id }}">{{= model.data.name }}</option>
             </select>
           </div>

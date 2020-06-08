@@ -673,7 +673,7 @@ app.model.sisyphus_manager = {
     var self = this;
 
     // conditional for if in beta/training localhost mode or not to ignore error.
-    if (app.config.env != 'beta' && app.config.env != 'training') {
+    if (app.config.env != 'beta' && app.config.env != 'training' && app.config.env != 'matt') {
       if (navigator && navigator.connection) {
           this.set('network_status', navigator.connection.type );
         if (navigator.connection.type == Connection.NONE) {
