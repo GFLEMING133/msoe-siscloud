@@ -18,6 +18,7 @@ app.model.sisbot = {
 				name: '',
 				password: ''
 			},
+			hotspot_password_verify : '',
 			wifi_error: 'false',
 			wifi_connecting: 'false',
 			fetching_cloud: 'false',
@@ -121,10 +122,7 @@ app.model.sisbot = {
 				input_network: 'false',
 				wifi_network: '',
 				wifi_password: '',
-				hotspot : {
-					password: '',
-					password_verification: '',
-				},
+				hotspot_password : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget: 'false',
 
@@ -948,23 +946,47 @@ app.model.sisbot = {
 		});
 	},
 	set_hotspot_password: function(data) {
-
 		app.log("set_hostpot_password()");
-
 		var self = this;
-		var password = data.attributes.data.hotspot.password;
-		var password_verification = data.attributes.data.hotspot.password_verification;
-		app.log(password, password_verification)
+
+		var password = this.get('edit.hotspot_password');
+		var password_verification = this.get('hotspot_password_verify');
+
+		// error checking
+		this.set('errors', []);
 		if (password.length < 8 || password.length > 63) {
-			app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
-			password = '';
+			this.add('errors', 'Hotspot password cannot be less than 8 or more than 63 characters.');
+			return;
 		}
 		if (password !== password_verification) {
-			app.plugins.n.notification.alert('Your Hotspot password does not match');
+			this.set('hotspot_error', 'true');
+			this.add('errors', 'Hotspot password does not match.');
+			return;
 		}
-		// self._update_sisbot("set_hotspot_password", function() {
-				// Matt will you show me how to fill in this part for the pasword.
-		// });
+
+		var opts = {};
+		if (password && password != 'false' && password != '') opts.password = password;
+		app.log("Set hotspot password", opts);
+		self._update_sisbot('disconnect_wifi', opts, function (obj) {
+			// do nothing
+			self.set('is_polling', 'false')
+				.set('wifi.password', '')
+				.set('data.is_internet_connected', 'false')
+				.set('data.is_network_connected', 'false')
+				.set('data.is_hotspot', 'true')
+				.set('data.wifi_forget', 'false')
+				.set('data.wifi_network', 'false')
+				.set('data.wifi_password', 'false')
+				.set('data.reason_unavailable', 'disconnect_from_wifi')
+				.set('data.local_ip', '192.168.42.1') // change right away
+				.set('hotspot_password_verify', '');
+
+			app.manager.set('sisbot_reconnecting', 'false');
+			app.session.clear_sisbots(); // forget sisbots in session
+			app.config.set_sisbot_url('192.168.42.1'); // change right away
+			app.socket.reset_socket = true; // force recreating socket
+			self.check_for_unavailable();
+		});
 	},
 	disconnect_wifi: function () {
 		app.log("disconnect_wifi()");
@@ -1112,7 +1134,7 @@ app.model.sisbot = {
 			function (resp_num) {
 				if (resp_num == 1) return self;
 
-				app.collection.remove('favorite_playlist_id'); //Remove Favroite Playlist to clear out all instances of tracks.
+				app.collection.remove('favorite_playlist_id'); // Remove Favorite Playlist.
 
 				self.set('data.factory_resetting', 'true');
 				self._update_sisbot('factory_reset', {}, function (obj) {
