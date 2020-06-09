@@ -954,7 +954,8 @@ app.model.sisbot = {
 		var self = this;
 		var password = data.attributes.data.hotspot.password;
 		var password_verification = data.attributes.data.hotspot.password_verification;
-		app.log(password, password_verification)
+		app.log(password, password_verification);
+
 		if (password.length < 8 || password.length > 63) {
 			app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
 			password = '';
@@ -962,7 +963,8 @@ app.model.sisbot = {
 		if (password !== password_verification) {
 			app.plugins.n.notification.alert('Your Hotspot password does not match');
 		}
-		// self._update_sisbot("set_hotspot_password", function() {
+		// self._update_sisbot("set_hotspot_password", function(obj) {
+
 				// Matt will you show me how to fill in this part for the pasword.
 		// });
 	},

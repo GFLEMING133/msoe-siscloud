@@ -2090,6 +2090,18 @@ li.blue-hover:hover {
   width: 100vw
 }
 
+.w50 {
+  width: 50%;
+}
+
+.w60 {
+  width: 60%;
+}
+
+.w70 {
+  width: 70%;
+}
+
 .w90 {
   width: 90%;
 }
@@ -4715,6 +4727,10 @@ input[type="password"] {
 
   .mobile_pb5 {
     padding-bottom: 5px !important;
+  }
+
+  mobile_w70 {
+    width: 70%;
   }
 
   .se350 {

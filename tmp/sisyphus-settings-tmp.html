@@ -38,7 +38,7 @@
           </div>
           <div class="vertical {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black'}}"
               data-if="{{= model.data.is_paused_between_tracks }} == true">
-            <div class="vertical clickable"
+            <div class="w50 mobile_w70 vertical clickable"
                 data-on-click="toggle"
                 data-field="model.data.is_paused_time_enabled"
                 tg-name="pause_between_tracks_checkbox"
@@ -52,7 +52,7 @@
               </p>
             </div>
             <select name="time"
-                  class="clickable w60p pr5 last-center corner-5px {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black strong black-border'}}"
+                  class="clickable w50 pr5 last-center corner-5px {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black strong black-border'}}"
                   data-selected="{{= model.data.paused_track_time }}"
                   data-field="model.data.paused_track_time">
              <optgroup label="Minutes">
