@@ -991,12 +991,6 @@ app.model.sisbot = {
 	disconnect_wifi: function () {
 		app.log("disconnect_wifi()");
 		var self = this;
-		var password = self.get('data.hotspot_password');
-
-		// if (password.length < 8 || password.length > 63) {
-		// 	app.plugins.n.notification.alert('Your Hotspot password must be between 8-63 characters, no password will be used.');
-		// 	password = '';
-		// }
 
 		if (this.get('data.is_hotspot') == 'true') {
 			on_disconnect(0); // reset it right away, we are just changing passwords
