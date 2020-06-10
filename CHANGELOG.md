@@ -3,6 +3,10 @@
 - Downloading Tracks count added to Community overlay
 - Cancelling after downloading tracks correctly removes the tracks from the table
 - Drawing shows red stop square at correct position of rho 1
+- Hotspot Password settings page
+- Factory Reset clears the Favorites Playlist model
+- Resume time for Pause Between Tracks
+- What's New viewable when no Firmware Updates
 # 2020-3-10 1.10.09-25
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value

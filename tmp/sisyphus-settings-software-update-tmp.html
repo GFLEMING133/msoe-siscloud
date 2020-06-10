@@ -66,7 +66,7 @@
                 data-if="{{= model.data.installing_updates }} == false"
                 data-on-click="model.install_update_alert"
                 tg-name="install_update_btn">Start Update</h2>
-          
+
             <div class="center w100 flex-justify-center">
               <div class="center mt20 p15 clickable white bg-orange corner-5px w200 m0 fs18 strong"
                   data-if="{{= parent.remote_versions.is_notes }} !== false"
@@ -121,9 +121,18 @@
             <p class="p0 m0 fs18 center">
               Your table has the latest and greatest firmware, and doesn't need to be updated at this time. We will let you know when an update is available.
             </p>
+            <div class="center w100 flex-justify-center"
+                data-if="{{= parent.remote_versions.is_notes }} !== false">
+              <div class="center mt20 p15 clickable white bg-orange corner-5px w200 m0 fs18 strong"
+                  data-on-click="publish"
+                  data-publish="modal:open"
+                  data-msg="{'template':'release-notes-overlay-tmp'}">
+                See What's New
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>

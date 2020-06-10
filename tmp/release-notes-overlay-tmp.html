@@ -3,28 +3,36 @@
   <h1 class="center pt10 pb10 mb0 bg-black">Release Notes</h1>
 
   <div class="h100 pl20 pr20 pb200 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
-
     <div data-if="{{= model.remote_versions.is_notes }} !== false">
-      <div class="pt10 pb20" data-if="{{= model.local_versions.sisbot }} !== {{= parent.remote_versions.sisbot }}">
-        <div class="f15 fl18 mb10 strong ">Sisbot Notes</div>
-        <div class="wc_notes">{{= model.remote_versions.sisbot_notes }}</div>
+      <div data-if="{{= model.has_software_update }} == true">
+        <div class="pt10 pb20" data-if="{{= model.local_versions.sisbot }} !== {{= parent.remote_versions.sisbot }}">
+          <div class="f15 fl18 mb10 strong">Sisbot Notes</div>
+          <div class="wc_notes">{{= model.remote_versions.sisbot_notes }}</div>
+        </div>
+        <div class="pt10 pb20" data-if="{{= model.local_versions.app }} !== {{= parent.remote_versions.app }}">
+          <div class="f15 fl18 mb10 strong">App Notes</div>
+          <div class="wc_notes">{{= model.remote_versions.app_notes }}</div>
+        </div>
+        <div class="pt10 pb20" data-if="{{= model.local_versions.proxy }} !== {{= parent.remote_versions.proxy }}">
+          <div class="f15 fl18 mb10 strong">Proxy Notes</div>
+          <div class="wc_notes">{{= model.remote_versions.proxy_notes }}</div>
+        </div>
       </div>
-    </div> 
-
-    <div data-if="{{= model.remote_versions.is_notes }} !== false">
-      <div class="pt10 pb20" data-if="{{= model.local_versions.app }} !== {{= parent.remote_versions.app }}">
-        <div class="f15 fl18 mb10 strong">App Notes</div>
-        <div class="wc_notes">{{= model.remote_versions.app_notes }}</div>
+      <div data-if="{{= model.has_software_update }} !== true">
+        <div class="pt10 pb20">
+          <div class="f15 fl18 mb10 strong">Sisbot Notes ({{= model.remote_versions.sisbot }})</div>
+          <div class="wc_notes">{{= model.remote_versions.sisbot_notes }}</div>
+        </div>
+        <div class="pt10 pb20">
+          <div class="f15 fl18 mb10 strong">App Notes ({{= model.remote_versions.app }})</div>
+          <div class="wc_notes">{{= model.remote_versions.app_notes }}</div>
+        </div>
+        <div class="pt10 pb20">
+          <div class="f15 fl18 mb10 strong">Proxy Notes ({{= model.remote_versions.proxy }})</div>
+          <div class="wc_notes">{{= model.remote_versions.proxy_notes }}</div>
+        </div>
       </div>
     </div>
-
-    <div data-if="{{= model.remote_versions.is_notes }} !== false">
-      <div class="pt10 pb20" data-if="{{= model.local_versions.proxy }} !== {{= parent.remote_versions.proxy }}">
-        <div class="f15 fl18 mb10 strong">Proxy Notes</div>
-        <div class="wc_notes">{{= model.remote_versions.proxy_notes }}</div>
-      </div>
-    </div>
-
   </div>
   <div class="w100 center bg-black bt-white p0 m0 clickable white strong blue-hover pull-bottom"
       data-on-click="parent.close">
