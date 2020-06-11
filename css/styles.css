@@ -161,6 +161,9 @@ ul {
 .wc_notes ul {
   list-style-type: disc;
 }
+.wc_notes ul li {
+  margin-bottom: 5px;
+}
 
 ul.horizontal li {
   display: inline !important;

@@ -25,7 +25,7 @@
       </div>
       <div data-if="{{= model.passcode_confirmed }} == true">
         <p class="p0 m0 fs18 center">
-          Set a passcode to prevent unwanted changes to your table.
+          Set a passcode to prevent unwanted changes to your table. Leave blank to remove passcode.
         </p>
         <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
           <div  data-foreach="model.errors" class="red_triangle center mb10">
