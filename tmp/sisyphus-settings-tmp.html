@@ -25,8 +25,8 @@
             <img src="img/icon-fast.png" class="w15p o50 center" alt="slow" />
           </div>
         </div>
-        <div class="pl20 pt5 pb5 pr20 pb20 w100 bb " data-if="{{= model.data.is_paused_between_tracks }} !== undefined">
-          <div class="vertical clickable"
+        <div class="pl20 pt5 pb5 pr20 pb20 bb" data-if="{{= model.data.is_paused_between_tracks }} !== undefined">
+          <div class="inline-block clickable"
               data-on-click="toggle"
               data-field="model.data.is_paused_between_tracks"
               tg-name="pause_between_tracks_checkbox">
@@ -34,11 +34,11 @@
               data-if="{{= model.data.is_paused_between_tracks }} == true"></span>
             <span class="black f-large bg-white far fa-square"
               data-if="{{= model.data.is_paused_between_tracks }} !== true"></span>
-            <p class="no-stuffing pl10 w100 fs18 lh18">Pause between tracks</p>
+            <p class="inline-block no-stuffing pl5 fs18 lh18">Pause between tracks</p>
           </div>
-          <div class="vertical {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black'}}"
+          <div class="{{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black'}}"
               data-if="{{= model.data.is_paused_between_tracks }} == true">
-            <div class="w50 mobile_w70 vertical clickable"
+            <div class="inline-block clickable"
                 data-on-click="toggle"
                 data-field="model.data.is_paused_time_enabled"
                 tg-name="pause_between_tracks_checkbox">
@@ -46,50 +46,28 @@
                 data-if="{{= model.data.is_paused_time_enabled }} !== true"></span>
               <span class="f-large bg-white fas fa-check-square"
                 data-if="{{= model.data.is_paused_time_enabled }} == true"></span>
-              <p class="no-stuffing pl10 w100 fs18 lh18">
+              <p class="inline-block no-stuffing pt10 pl5 pr10 fs18 lh18">
                 Restart after
               </p>
             </div>
             <select name="time"
-                  class="clickable w50 pr5 last-center corner-5px {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black strong black-border'}}"
-                  data-selected="{{= model.data.paused_track_time }}"
-                  data-field="model.data.paused_track_time">
-             <optgroup label="Minutes">
-                <option value="15">
-                  15 min
-                </option>
-                <option value="30">
-                  30 min
-                </option>
-                <option value="45">
-                  45 min
-                </option>
+                class="clickable pr5 last-center corner-5px strong {{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black black-border'}}"
+                data-selected="{{= model.data.paused_track_time }}"
+                data-field="model.data.paused_track_time">
+              <optgroup label="Minutes">
+                <option value="15">15 min</option>
+                <option value="30">30 min</option>
+                <option value="45">45 min</option>
               </optgroup>
               <optgroup label="Hours">
-                <option value="60">
-                  1 hr
-                </option>
-                <option value="120">
-                  2 hr
-                </option>
-                <option value="180">
-                  3 hr
-                </option>
-                <option value="240">
-                  4 hr
-                </option>
-                <option value="360">
-                  6 hr
-                </option>
-                <option value="480">
-                  8 hr
-                </option>
-                <option value="720">
-                  12 hr
-                </option>
-                <option value="1440">
-                  24 hr
-                </option>
+                <option value="60">1 hr</option>
+                <option value="120">2 hr</option>
+                <option value="180">3 hr</option>
+                <option value="240">4 hr</option>
+                <option value="360">6 hr</option>
+                <option value="480">8 hr</option>
+                <option value="720">12 hr</option>
+                <option value="1440">24 hr</option>
               </optgroup>
             </select>
           </div>
