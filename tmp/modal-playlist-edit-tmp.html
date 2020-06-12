@@ -28,13 +28,16 @@
           autocapitalize="off"
           spellcheck="true"
           data-field="model.edit.description"></textarea>
-      <div class="pt40 fs18 white lh18 pb10 w100 vertical strong clickable"
-          data-on-click="toggle"
-          data-field="model.edit.erase_between_tracks"
-          tg-name="erase_between_tracks_checkbox">
-        <span class="f-large fas fa-check-square" data-if="{{= model.edit.erase_between_tracks }} == true"></span>
-        <span class="f-large far fa-square" data-if="{{= model.edit.erase_between_tracks }} !== true"></span>
-        <p class="no-stuffing pl10 w100 fs18 lh18">Erase between tracks</p>
+      <div data-model="{{= manager.sisbot_id }}">
+        <div class="pt40 fs18 white lh18 pb10 w100 vertical strong clickable"
+            data-if="{{= model.data.is_camera }} == true"
+            data-on-click="toggle"
+            data-field="parent.edit.erase_between_tracks"
+            tg-name="erase_between_tracks_checkbox">
+          <span class="f-large fas fa-check-square" data-if="{{= parent.edit.erase_between_tracks }} == true"></span>
+          <span class="f-large far fa-square" data-if="{{= parent.edit.erase_between_tracks }} !== true"></span>
+          <p class="no-stuffing pl10 w100 fs18 lh18">Erase between tracks</p>
+        </div>
       </div>
     </div>
   </div>

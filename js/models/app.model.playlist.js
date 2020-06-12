@@ -226,6 +226,7 @@ app.model.playlist = {
 		this.set('data.tracks', this.get('active_tracks').slice());
 		if (this.get('edit.description') == '') this.set('data.description', 'false');
 		else this.set('data.description', this.get('edit.description'));
+		this.set('data.erase_between_tracks', this.get('edit.erase_between_tracks'));
 
 		var sorted_tracks = [];
 		_.each(self.get('data.tracks'), function(obj,index) {
