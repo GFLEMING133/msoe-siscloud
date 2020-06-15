@@ -652,12 +652,13 @@ app.model.sisbot = {
 			if (show_passcode == 'true') do_save = true;
 			else this.confirm_passcode();
 		}
-
-		if (do_save) this._save_passcode();
+		if (do_save) {
+			app.plugins.n.notification.alert('New Passcode Saved.');
+			this._save_passcode();
+		}
 	},
 	_save_passcode: function () {
 		var self = this;
-
 		var passcode_entry = this.get('new_passcode');
 		if (passcode_entry == '') passcode_entry = 'false';
 		app.log("Save Passcode", passcode_entry);
@@ -668,8 +669,8 @@ app.model.sisbot = {
 		data.passcode = passcode_entry;
 
 		if (app.config.env == 'alpha') {
-			return app.trigger('session:active', { secondary: 'advanced_settings' });
 			this.set('data.passcode', passcode_entry);
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
 		this._update_sisbot('save', data, function (obj) {
