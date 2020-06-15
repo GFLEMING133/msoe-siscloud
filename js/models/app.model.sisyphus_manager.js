@@ -366,7 +366,7 @@ app.model.sisyphus_manager = {
         app.log('BLE Connect Error:', error);
         self.ble_cb();
       } else {
-        app.log('BLE Retry');
+        app.log('BLE Retry', connect_retries);
         setTimeout(function() {
           self.ble_connect(device, ++connect_retries);
         }, 500);
@@ -626,19 +626,37 @@ app.model.sisyphus_manager = {
       this.set('sisbot_registration', 'find');
     }
   },
-  find_sisbots: function(force_rescan) {
-    app.log("find_sisbots()", force_rescan, this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbots_scanning'));
+  find_sisbots: function(data) {
+    app.log("find_sisbots()", data, this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbots_scanning'));
     var self = this;
 
     // exit out if we are already scanning, before changing force_rescan
     if (this.get('sisbots_scanning') == 'true') return;
 
-    if (force_rescan && force_rescan != this) {
-      this.set('force_rescan', 'true')
-        .set('sisbot_connecting', 'false')
-        .set('sisbot_id', 'false');
-    } else this.set('force_rescan', 'false');
-    app.log("Force rescan:", this.get('force_rescan'));
+    if (data != this) {
+      if (data.confirm_rescan) {
+        app.plugins.n.notification.confirm("Do you want to rescan for Sisyphus tables?",
+  				function (resp_num) {
+            app.log("Confirm resp:", resp_num);
+  					if (resp_num == 1) {
+  						return self;
+  					} else {
+              delete data.confirm_rescan;
+  						self.find_sisbots(data);
+  					}
+  				}, 'Rescan', ['Cancel', 'Yes']);
+
+        // exit from rest of call
+        return;
+      }
+
+      if (data.force_rescan || data == true || data == 'true') {
+        this.set('force_rescan', 'true')
+          .set('sisbot_connecting', 'false')
+          .set('sisbot_id', 'false');
+      } else this.set('force_rescan', 'false');
+      app.log("Force rescan:", this.get('force_rescan'));
+    }
 
     if (app.is_app) {
       if (device.platform == 'Android') {
@@ -977,6 +995,7 @@ app.model.sisyphus_manager = {
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
+        app.log("Connect to sisbot:", data);
         self.intake_data(data);
         if (data.type == 'track') {
           var track = app.collection.get(data.id);
