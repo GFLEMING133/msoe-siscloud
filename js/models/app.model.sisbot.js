@@ -1858,7 +1858,7 @@ app.model.sisbot = {
 
 		// load last used color from this pattern
 		var pattern = app.collection.get(this.get('data.led_pattern'));
-		// app.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		app.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		if (pattern) {
 			if (pattern.get('data.is_white') == 'true') {
 				// app.log("Update white from led_pattern", pattern.get('data'));
@@ -1917,6 +1917,11 @@ app.model.sisbot = {
 				edit_primary = this.get('data.led_primary_color');
 				this.set('edit.led_primary_color', edit_primary);
 			}
+		}
+
+		// include white_value
+		if (led_pattern.get('data.is_white')) {
+			color_data.white_value = led_pattern.get('data.white_value');
 		}
 
 		// app.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);

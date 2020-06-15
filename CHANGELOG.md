@@ -7,6 +7,7 @@
 - Factory Reset clears the Favorites Playlist model
 - Resume time for Pause Between Tracks
 - What's New viewable when no Firmware Updates
+- Send white slider value when changing white temp (prevents recentering slider on app startup)
 # 2020-3-10 1.10.09-25
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value

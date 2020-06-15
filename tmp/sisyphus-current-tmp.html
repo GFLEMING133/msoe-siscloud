@@ -5,18 +5,20 @@
       <img src="img/icon_2x_button_back.png" alt="Back" class="hh50 clickable pt15 pb15" />
     </div>
     <div data-template="sisyphus-playing-active-tmp"></div>
-    <div class="clickable active" data-model="{{= manager.sisbot_id }}"
-      data-if="{{= session.active.secondary }} == false">
-      <div data-if="{{= model.data.active_playlist_id }} !== false">
-        <div data-if="{{= model.data.active_playlist_id }} !== all_tracks_playlist">
-          <div class="pull-right pl20 pr20" data-model="{{= model.data.active_playlist_id }}" data-on-click="publish"
-            data-publish="session:active"
-            data-msg="{'playlist_id':'{{= parent.data.active_playlist_id }}','secondary':'playlist-edit','primary':'media'}"
-            tg-name="current_tmp_playlist_edit_btn">
-            <img src="img/icon_2x_playlist_edit.png" alt="Edit" class="hh50 pt15 pb15" />
-          </div>
-        </div>
-      </div>
+    <div class="clickable active pull-right pl20 pr20"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'settings', 'secondary':'change_table'}"
+        data-if="{{= _.size(model.sisbots_ip_name) }} > 1"
+        tg-name="change_table_tab">
+      <h2 class="m0 mt10"><i class="fas fa-ring" alt="Change Table"></i></h2>
+    </div>
+    <div class="clickable active pull-right pl20 pr20"
+        data-on-click="model.find_sisbots"
+        data-msg="{'force_rescan':'true','confirm_rescan':'true'}"
+        data-if="{{= _.size(model.sisbots_ip_name) }} < 2"
+        tg-name="change_table_tab">
+      <h2 class="m0 mt10"><i class="fas fa-sync-alt" alt="Rescan for Tables"></i></h2>
     </div>
   </div>
   <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}" tg-name=current_tmp_page>
