@@ -6,10 +6,17 @@
   <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align"
       data-if="{{= model.sisbot_id }} !== false">
     <div class="w15 center clickable active blue-hover"
+        data-if="{{= session.active.goBack }} !== current"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'advanced_settings'}"
     ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+  <div class="w15 center clickable active blue-hover"
+      data-if="{{= session.active.goBack }} == current"
+      data-on-click="publish"
+      data-publish="session:active"
+      data-msg="{'primary':'current','secondary':'false'}"
+  ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
     <div class="w70">
         <h1 class="no-stuffing fs18 lh18 capitalize">Change Table</h1>
     </div>

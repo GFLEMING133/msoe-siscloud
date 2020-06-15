@@ -366,7 +366,7 @@ app.model.sisyphus_manager = {
         app.log('BLE Connect Error:', error);
         self.ble_cb();
       } else {
-        app.log('BLE Retry');
+        app.log('BLE Retry', connect_retries);
         setTimeout(function() {
           self.ble_connect(device, ++connect_retries);
         }, 500);
@@ -644,7 +644,7 @@ app.model.sisyphus_manager = {
               delete data.confirm_rescan;
   						self.find_sisbots(data);
   					}
-  				}, 'Rescan?', ['Cancel', 'Yes']);
+  				}, 'Rescan', ['Cancel', 'Yes']);
 
         // exit from rest of call
         return;
