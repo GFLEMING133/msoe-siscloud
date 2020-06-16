@@ -653,8 +653,8 @@ app.model.sisbot = {
 			else this.confirm_passcode();
 		}
 		if (do_save) {
-			app.plugins.n.notification.alert('New Passcode Saved.');
 			this._save_passcode();
+			app.plugins.n.notification.alert('New Passcode Saved.');
 		}
 	},
 	_save_passcode: function () {
