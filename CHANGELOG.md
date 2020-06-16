@@ -1,4 +1,5 @@
-# 2020-5-21 1.10.26
+# 2020-6-16 1.10.26
+
 - Force Firmware Update button added to Advanced Table settings
 - Downloading Tracks count added to Community overlay
 - Cancelling after downloading tracks correctly removes the tracks from the table
@@ -7,8 +8,13 @@
 - Factory Reset clears the Favorites Playlist model
 - Resume time for Pause Between Tracks
 - What's New viewable when no Firmware Updates
+- Pause between tracks has a Restart After
+- Confirmation after changing Passcode passowrd
+- ALl Tracks now has shuffle and play all
 - Send white slider value when changing white temp (prevents recentering slider on app startup)
+
 # 2020-3-10 1.10.09-25
+
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
@@ -362,7 +368,7 @@
 #2019-8-12 1.8.30 & 31
  - Onboarding Wifi list spinner and dropdown fix
  - Updated Sortable.js to address passiveEventListener issues.
- - iPhone media query for footer added back  
+ - iPhone media query for footer added back
  - Decreased timeout in ping_sisbots() for Android connect and commented put conditionals,
  - _find_sisbots() changed order of switch case for finding bots first
 
@@ -398,7 +404,7 @@
  - added Show Password to Community sign-in page
  - public / private to display in Community track list as well as private being italicized.
  - changed <meta> tag in dev.index to try and address iPhone Max XS screen sizing issues.
- - changed padding on pause/play button to help with sizing  
+ - changed padding on pause/play button to help with sizing
 #2019-7-10, 1.8.21
  - Fixed merge conflicts and updated code to reflect UI changes from beta releases.
  - WiFi disconnect or power loss no longer bricks table while updating.
@@ -476,7 +482,7 @@
   - remove several red exclamation points when screen shows something that is expected to happen
   - add spinners during restart
 
-# 2019-02-13, 1.8.2  
+# 2019-02-13, 1.8.2
   - Fixed Routing issues between playlist and tracks and added a more clear directional path by adding arrows and changing the names of some buttons and click events.
   - Added a "Complete" button and warning when changing the Table Name.
   - Removed "About"  and added "Visit Sisyphus Website".
