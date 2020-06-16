@@ -633,8 +633,8 @@ app.model.sisyphus_manager = {
     // exit out if we are already scanning, before changing force_rescan
     if (this.get('sisbots_scanning') == 'true') return;
 
-    if (data != this) {
-      if (data.confirm_rescan) {
+    if (data && data != this) {
+      if (_.isObject(data) && data.confirm_rescan) {
         app.plugins.n.notification.confirm("Do you want to rescan for Sisyphus tables?",
   				function (resp_num) {
             app.log("Confirm resp:", resp_num);
@@ -650,7 +650,7 @@ app.model.sisyphus_manager = {
         return;
       }
 
-      if (data.force_rescan || data == true || data == 'true') {
+      if (data == true || data == 'true' || data.force_rescan) {
         this.set('force_rescan', 'true')
           .set('sisbot_connecting', 'false')
           .set('sisbot_id', 'false');
