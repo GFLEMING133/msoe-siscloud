@@ -1,7 +1,7 @@
 <div class="playback-controls" data-if="{{= model.data }} !== undefined">
   <div data-if="{{= model.data.fault_status }} !== false">
     <div class="pull-bottom hh100 mb50 controls_adjustment bg-black z50">
-      <div class="pt10 center white clickable" data-on-click="parent.open_support_page">
+      <div class="pt20 center white clickable" data-on-click="parent.open_support_page">
         <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == th_fault">Theta Failed!</div>
         <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_th_fault">Servo Th Failed!</div>
         <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_rho_fault">Servo Rho Failed!</div>
