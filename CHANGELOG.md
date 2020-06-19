@@ -9,7 +9,7 @@
 - Resume time for Pause Between Tracks
 - What's New viewable when no Firmware Updates
 - Pause between tracks has a Restart After
-- Confirmation after changing Passcode passowrd
+- Confirmation after changing Passcode password
 - ALl Tracks now has shuffle and play all
 - Send white slider value when changing white temp (prevents recentering slider on app startup)
 
