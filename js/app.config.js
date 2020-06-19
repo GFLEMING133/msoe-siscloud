@@ -3,14 +3,14 @@ app.config = {
 	version: '1.9.26', // Read CHANGELOG.md
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
-	is_production: true, // cuts out all app.log() output
-	is_debug: 'false', // for html to show custom debugging html, use string value
-	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
+	is_production: false, // cuts out all app.log() output
+	is_debug: 'true', // for html to show custom debugging html, use string value
+	is_simulator: true, // are we in a simulator? Mainly for handling bluetooth
 	simulator_ip: '192.168.1.2', // force a specific network address in simulator
-	show_comments: false,
+	show_comments: true,
 	show_data: true,
-	show_lib: false,
-	show_tg: false, // for testing
+	show_lib: true,
+	show_tg: true, // for testing
 	envs: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
 			base_url: 	'http://app.dev.withease.io:3001/', // local

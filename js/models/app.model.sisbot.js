@@ -8,6 +8,7 @@ app.model.sisbot = {
 			type: 'sisbot',
 
 			passcode_entry: 'false', // for user to enter passcode
+			typed_passcode: '', // For allowing show_passcode to keep value
 			new_passcode: 'false', // for entering a new passcode
 			passcode_confirmed: 'false', // prove passcode before changing
 			passcode_error: 'false', // shake input
@@ -612,9 +613,12 @@ app.model.sisbot = {
 		this.set('errors', []);
 
 		this.set('passcode_error', 'false');
-
 		var passcode = this.get('data.passcode');
+		var typed_passcode = this.get('typed_passcode');
 		var new_passcode = this.get('new_passcode');
+		if(typed_passcode !== '') {
+			this.set('new_passcode', typed_passcode);
+		}
 		if (passcode != 'false' || new_passcode != 'false') {
 			this.set('passcode_confirmed', 'false')
 				.set('passcode_entry', 'false');
@@ -629,7 +633,7 @@ app.model.sisbot = {
 	},
 	save_passcode: function () {
 		var self = this;
-		var passcode_entry = this.get('new_passcode');
+		var passcode_entry = this.get('typed_passcode');
 		var show_passcode = this.get('show_passcode');
 
 		// clear errors
@@ -659,7 +663,7 @@ app.model.sisbot = {
 	},
 	_save_passcode: function () {
 		var self = this;
-		var passcode_entry = this.get('new_passcode');
+		var passcode_entry = this.get('typed_passcode');
 		if (passcode_entry == '') passcode_entry = 'false';
 		app.log("Save Passcode", passcode_entry);
 
