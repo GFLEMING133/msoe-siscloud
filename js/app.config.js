@@ -25,10 +25,10 @@ app.config = {
 			// web_url: 		'https://webcenter.sisyphus-industries.com/', // PRODUCTION
 			// api_url				: 'http://3.214.203.248/', //change these to dev.webcenter for next push to TF and GP
 			// web_url				: 'http://3.214.203.248/',
-			api_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
-			web_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
-			// api_url				: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
-			// web_url				: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
+			// api_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
+			// web_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
+			api_url				: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
+			web_url				: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
 			sisbot_url: 	'http://192.168.1.2:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true

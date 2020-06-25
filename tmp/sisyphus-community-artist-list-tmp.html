@@ -6,7 +6,8 @@
       tg-name="artists_{{= model.id }}_tab">
     <div class="pl10">
       <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
-      <div class="fs13 warmGrey pt5">joined {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</div>
+      <div class="fs13 warmGrey pt5" data-if="{{= moment(model.data.date_created).format('MMM Do YY')}} !== {{=moment().format('MMM Do YY')}}">joined {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</div>
+      <div class="fs13 warmGrey pt5" data-if="{{= moment(model.data.date_created).format('MMM Do YY')}} == {{=moment().format('MMM Do YY')}}">joined TODAY!!</div>
     </div>
     <span class="pull-right">
       <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
