@@ -1,6 +1,6 @@
 app.config = {
 	env: 'prod', //
-	version: '1.10.25', // Fix iPad rendering
+	version: '1.10.28', // wkwebview fix for iOS only /alpha is poinitng to 'https://webcenter
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output
@@ -14,8 +14,8 @@ app.config = {
 	envs: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
 			base_url: 'http://app.dev.withease.io:3001/', // local
-			api_url: 'http://dev.webcenter.sisyphus-industries.com/',
-			web_url: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url: 'https://webcenter.sisyphus-industries.com/',
+			web_url: 'https://webcenter.sisyphus-industries.com/',
 			sisbot_url: 'http://api.dev.withease.io:3000/', //talking to sisbot
 			port: 3001,
 		},
