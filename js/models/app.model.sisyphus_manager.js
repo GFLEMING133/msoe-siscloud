@@ -83,7 +83,6 @@ app.model.sisyphus_manager = {
   on_init: function() {
     // app.log("on_init() in app.model.sisyphus_manager");
     if (window.cordova) StatusBar.show();
-
     app.plugins.n.initialize();
 
     this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
@@ -1154,7 +1153,10 @@ app.model.sisyphus_manager = {
       track_obj.is_published = publish_track;
 
       var track_model = app.collection.add(track_obj);
-
+      // if(track_model.get('data.original_file_type') !== 'thr' || track_model.get('data.original_file_type') !== 'svg ') {
+      //   app.log("Track error:", track_model.get('errors'));
+      //   alert("Tracks must either be .thr or .svg extension")
+      // }
       if (track_model.get('data.original_file_type') == 'thr') track_model.set('data.verts', track_model.get('data.file_data')); // remove/change later
       else if (track_model.get('data.original_file_type') == 'svg') track_model.set('data.verts', track_model.process_svg(track_model.get('data.file_data')));
 
