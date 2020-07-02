@@ -29,7 +29,7 @@ var app = {
 			$('.body').removeClass('touch-hover'); // FOR TOUCH EVENTS
 
 			screen.orientation.lock('portrait-primary');//lock orientation
-			console.log('Orientation is ' + screen.orientation.type);
+			app.log('Orientation is ' + screen.orientation.type);
 		}
 		// if (app.plugins.is_mobile() !== false)	app.is_app = true;
 
