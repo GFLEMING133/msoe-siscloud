@@ -1,4 +1,19 @@
+# 202-7-2 1.10.29
+
+- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
+- cordova-plugin-wkwebview-file-xhr added which updated wkwebview-engine for Community downloading error
+- Tilt control / Streaming  addded
+- Passcode and HotSpot password merged into one and updated.
+- Error alert for upload_tracks in Advance Settings (browser only)
+- Updated moment() in Artist created to dislpay correctly
+- Rescan for tables added to homepage
+- tg-names added /updated for training_grounds
+- cleaned up code
+- alpha in app.config.js is pointed to https://webcenter
+- notes updated for Cordova, Sis-Docs, training_grounds and regression testing
+
 # 2020-6-16 1.10.26
+
 - Force Firmware Update button added to Advanced Table settings
 - Downloading Tracks count added to Community overlay
 - Cancelling after downloading tracks correctly removes the tracks from the table
@@ -12,7 +27,9 @@
 - ALl Tracks now has shuffle and play all
 - Send white slider value when changing white temp (prevents recentering slider on app startup)
 - Fix playback label when playing single track
+
 # 2020-3-10 1.10.09-25
+
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
@@ -40,9 +57,13 @@
 - Passcode requirement fixed when app not refreshed
 - Searchable list fix for query length on first load of remote data
 - Fix iPad Playlist icon rendering
+
 # 2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
+
 - Fetching more artist spinner fix
+
 # 2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
+
 - wording and UI changes
 - Description error checking
 - Community log-in / sign-up error checking updated.
