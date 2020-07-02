@@ -8,7 +8,6 @@ app.model.sisbot = {
 			type: 'sisbot',
 
 			passcode_entry: 'false', // for user to enter passcode
-			typed_passcode: '', // For allowing show_passcode to keep value
 			new_passcode: 'false', // for entering a new passcode
 			passcode_confirmed: 'false', // prove passcode before changing
 			passcode_error: 'false', // shake input
@@ -19,7 +18,6 @@ app.model.sisbot = {
 				name: '',
 				password: ''
 			},
-			hotspot_password_verify : '',
 			wifi_error: 'false',
 			wifi_connecting: 'false',
 			fetching_cloud: 'false',
@@ -123,7 +121,6 @@ app.model.sisbot = {
 				input_network: 'false',
 				wifi_network: '',
 				wifi_password: '',
-				hotspot_password : '',
 				failed_to_connect_to_wifi: 'false',
 				wifi_forget: 'false',
 
@@ -623,7 +620,7 @@ app.model.sisbot = {
 
 		var passcode = this.get('data.passcode');
 		var new_passcode = this.get('new_passcode');
-		if (passcode != 'false' || new_passcode != 'false') {
+		if (passcode != 'false' || (new_passcode != 'false' && new_passcode != '')) {
 			this.set('passcode_confirmed', 'false')
 				.set('passcode_entry', 'false');
 
@@ -645,6 +642,9 @@ app.model.sisbot = {
 
 		var do_save = false;
 
+		var regex = /^[0-9a-zA-Z_]+$/;
+		var is_match = passcode_entry.match(regex);
+
 		if (passcode_entry == '' && this.get('data.passcode') != 'false') {
 			app.plugins.n.notification.confirm("Do you want to remove the passcode from your Sisyphus?",
 				function (resp_num) {
@@ -654,9 +654,11 @@ app.model.sisbot = {
 						self._save_passcode();
 					}
 				}, 'No Passcode?', ['Cancel', 'Yes']);
-		} else if (passcode_entry.length < 4) {
-			this.add('errors', 'Passcode too short, must be 4-6 characters');
-		} else if (passcode_entry.length <= 6) {
+		} else if (!is_match) {
+			this.add('errors', 'Passcode contains invalid characters, please use alphanumeric and underscores');
+		} else if (passcode_entry.length < 8) {
+			this.add('errors', 'Passcode too short, must be 8 or more characters');
+		} else if (passcode_entry.length >= 8) {
 			if (show_passcode == 'true') do_save = true;
 			else this.confirm_passcode();
 		}
@@ -687,7 +689,7 @@ app.model.sisbot = {
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 
-				self.set('new_passcode', passcode_entry); // update edit field
+				self.set('new_passcode', 'false'); // clear edit field
 
 				app.trigger('session:active', { secondary: 'advanced_settings' });
 			}
@@ -707,8 +709,8 @@ app.model.sisbot = {
 				app.trigger('modal:close');
 			} else {
 				app.manager.set('is_passcode_required', 'false');
+				if (this.get('passcode_confirmed') == 'false') app.plugins.n.notification.alert('New Passcode not confirmed.');
 				this.set('passcode_confirmed', 'true');
-				app.plugins.n.notification.alert('New Passcode not confirmed.');
 				this.set('new_passcode', passcode); // reset new_passcode field
 				app.trigger('modal:close');
 			}
@@ -954,99 +956,21 @@ app.model.sisbot = {
 			}
 		});
 	},
-	// set_hotspot_password: function(data) {
-	// 	app.log("set_hostpot_password()");
-	// 	var self = this;
-	//
-	// 	var password = this.get('edit.hotspot_password');
-	// 	var password_verification = this.get('hotspot_password_verify');
-	//
-	// 	// error checking
-	// 	this.set('errors', []);
-	// 	if (password.length > 0 && (password.length < 8 || password.length > 63)) {
-	// 		this.add('errors', 'Hotspot password cannot be less than 8 or more than 63 characters.');
-	// 		return;
-	// 	}
-	// 	if (password !== password_verification) {
-	// 		this.set('hotspot_error', 'true');
-	// 		this.add('errors', 'Hotspot password does not match.');
-	// 		return;
-	// 	}
-	//
-	// 	if (password.length == 0) {
-	// 		app.plugins.n.notification.confirm('Are you sure you want to remove the Hotspot password?', on_disconnect, 'No Password', ['Cancel', 'Disconnect']);
-	// 	} else on_disconnect(0);
-	//
-	// 	function on_disconnect(status) {
-	// 		if (status == 1) return self;
-	//
-	// 		var opts = {};
-	// 		if (password && password != 'false' && password != '') opts.password = password;
-	// 		app.log("Set hotspot password", opts);
-	// 		self._update_sisbot('disconnect_wifi', opts, function (obj) {
-	// 			// do nothing
-	// 			self.set('is_polling', 'false')
-	// 				.set('wifi.password', '')
-	// 				.set('data.is_internet_connected', 'false')
-	// 				.set('data.is_network_connected', 'false')
-	// 				.set('data.is_hotspot', 'true')
-	// 				.set('data.wifi_forget', 'false')
-	// 				.set('data.wifi_network', 'false')
-	// 				.set('data.wifi_password', 'false')
-	// 				.set('data.reason_unavailable', 'disconnect_from_wifi')
-	// 				.set('data.local_ip', '192.168.42.1') // change right away
-	// 				.set('hotspot_password_verify', '');
-	//
-	// 			app.manager.set('sisbot_reconnecting', 'false');
-	// 			app.session.clear_sisbots(); // forget sisbots in session
-	// 			app.config.set_sisbot_url('192.168.42.1'); // change right away
-	// 			app.socket.reset_socket = true; // force recreating socket
-	// 			self.check_for_unavailable();
-	// 		});
-	// 	}
-	// },
 	disconnect_wifi: function (data) {
 		app.log("disconnect_wifi()", data);
 		var self = this;
-		var set_password = false;
 
-		if (data != this && data.set_password == 'true') {
-			app.log("Password error checking!");
-			set_password = true;
-
-			var password = this.get('edit.hotspot_password');
-			var password_verification = this.get('hotspot_password_verify');
-
-			// error checking
-			this.set('errors', []);
-			if (password.length > 0 && (password.length < 8 || password.length > 63)) {
-				this.add('errors', 'Hotspot password must be between 8-63 characters.');
-				return;
-			}
-			if (password !== password_verification) {
-				this.set('hotspot_error', 'true');
-				this.add('errors', 'Hotspot password does not match.');
-				return;
-			}
-
-			self.set('data.hotspot_password', password);
-		}
-
-		var password = self.get('data.hotspot_password');
-
-		if (set_password) {
-			if (password.length == 0) {
-				app.plugins.n.notification.confirm('Are you sure you want to remove the Hotspot password?', on_disconnect, 'No Password', ['Cancel', 'Disconnect']);
-			} else on_disconnect(0);
-		} else {
-			app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
+		var passcode = self.get('data.passcode');
+		// confirm passcode is the right length
+		if (passcode.length > 0 && (passcode.length < 8 || passcode.length > 63)) {
+			passcode = 'false'; // do not use
 		}
 
 		function on_disconnect(status) {
 			if (status == 1) return self;
 
 			var opts = {};
-			if (password && password != 'false' && password != '') opts.password = password;
+			if (passcode && passcode != 'false' && passcode != '') opts.password = passcode;
 
 			self._update_sisbot('disconnect_wifi', opts, function (obj) {
 				// do nothing
@@ -1059,8 +983,7 @@ app.model.sisbot = {
 					.set('data.wifi_network', 'false')
 					.set('data.wifi_password', 'false')
 					.set('data.reason_unavailable', 'disconnect_from_wifi')
-					.set('data.local_ip', '192.168.42.1') // change right away
-					.set('hotspot_password_verify', password);
+					.set('data.local_ip', '192.168.42.1'); // change right away
 
 				app.manager.set('sisbot_reconnecting', 'false');
 				app.session.clear_sisbots(); // forget sisbots in session

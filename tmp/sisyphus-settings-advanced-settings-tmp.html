@@ -97,54 +97,38 @@
         </span>
       </div>
     </div>
-    <div data-model="{{= model.sisbot_id }}">
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-        data-if="{{= model.data.is_network_connected }} == false"
-        data-on-click="publish"
-        data-publish="session:active"
-        data-msg="{'secondary':'hotspot-password'}"
-        tg-name="hotspot_password_tab">
-        <span class="strong montserrat_semi_bold">Hotspot Password</span>
-        <span class="pull-right">
-          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-        </span>
-      </div>
-    </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-model="{{= model.sisbot_id }}"
         data-if="{{= model.is_legacy_branch }} == false"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'log-files'}"
-        tg-name="log_files_tab"
-    >
-        <span class="strong montserrat_semi_bold">Log Files</span>
-        <span class="pull-right">
-            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-        </span>
+        tg-name="log_files_tab">
+      <span class="strong montserrat_semi_bold">Log Files</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
     </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-if="{{= app.is_app }} == false"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'upload-track'}"
-        tg-name="upload_tracks_tab"
-    >
-        <span class="strong montserrat_semi_bold">Upload Track(s)</span>
-        <span class="pull-right">
-            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-        </span>
+        tg-name="upload_tracks_tab">
+      <span class="strong montserrat_semi_bold">Upload Track(s)</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
     </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'advanced-movement'}"
-        tg-name="advanced_movement_tab"
-    >
-        <span class="strong montserrat_semi_bold">Advanced Movement</span>
-        <span class="pull-right">
-            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-        </span>
+        tg-name="advanced_movement_tab">
+      <span class="strong montserrat_semi_bold">Advanced Movement</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
     </div>
     <div data-model="{{= model.sisbot_id }}">
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
