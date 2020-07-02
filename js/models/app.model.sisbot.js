@@ -8,6 +8,7 @@ app.model.sisbot = {
 			type: 'sisbot',
 
 			passcode_entry: 'false', // for user to enter passcode
+			typed_passcode: '', // For allowing show_passcode to keep value
 			new_passcode: 'false', // for entering a new passcode
 			passcode_confirmed: 'false', // prove passcode before changing
 			passcode_error: 'false', // shake input

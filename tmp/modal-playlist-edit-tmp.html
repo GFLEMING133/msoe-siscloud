@@ -1,5 +1,5 @@
 <div class="h100" data-model="{{= session.active.playlist_id }}">
-  <div class="pt75 pl40 pr40">
+  <div class="pt75 pl40 pr40" tg-name="new_playlist_setup_page">
     <div class="">
       <div class="fs18 white lh18 pb10 strong">Playlist Name</div>
       <input class="bg-white corner-5px mt5 w100"
@@ -10,7 +10,8 @@
           autocapitalize="off"
           spellcheck="false"
           data-field="model.edit.name"
-          value="{{= model.edit.name }}" />
+          value="{{= model.edit.name }}"
+          tg-name="new_playlist_name_input"/>
       <div class="pt40 pb5 white fs18 lh18 no-stuffing strong">Playlist Description</div>
       <textarea class="corner-5px mt5 w100 hh100 p5"
           data-if="{{= model.edit.description }} !== false"
@@ -19,7 +20,8 @@
           autocorrect="off"
           autocapitalize="off"
           spellcheck="true"
-          data-field="model.edit.description">{{= model.edit.description }}</textarea>
+          data-field="model.edit.description"
+          tg-name="new_playlist_description_input">{{= model.edit.description }}</textarea>
       <textarea class="corner-5px mt5 w100 hh100 p5"
           data-if="{{= model.edit.description }} == false"
           placeholder="Enter a description"
@@ -27,7 +29,8 @@
           autocorrect="off"
           autocapitalize="off"
           spellcheck="true"
-          data-field="model.edit.description"></textarea>
+          data-field="model.edit.description"
+          tg-name="new_playlist_description_input"></textarea>
       <div data-model="{{= manager.sisbot_id }}">
         <div class="pt40 fs18 white lh18 pb10 w100 vertical strong clickable"
             data-if="{{= model.data.is_camera }} == true"
@@ -42,7 +45,8 @@
     </div>
   </div>
   <div class="w100 center bt-white clickable white strong blue-hove bg-black pull-bottom"
-      data-on-click="parent.close">
+      data-on-click="parent.close"
+      tg-name="new_playlist_modal_close">
     <div class="media_fs14 fs18 p20 media_ppb50">Close</div>
   </div>
 </div>

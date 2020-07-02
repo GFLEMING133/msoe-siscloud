@@ -49,9 +49,11 @@
             spellcheck="false"
             data-field="model.new_passcode"
             value="{{= (model.data.passcode == 'false') ? '': model.data.passcode }}"
-            data-on-key-enter="model.save_passcode" />
+            data-on-key-enter="model.save_passcode"
+            tg-name="passcode_input" />
         <div class="mt20 p10 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
-            data-on-click="model.save_passcode">
+            data-on-click="model.save_passcode"
+            tg-name="passcode_save_btn">
           Save
         </div>
       </div>
