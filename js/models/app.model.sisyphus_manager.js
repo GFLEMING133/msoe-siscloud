@@ -1130,10 +1130,10 @@ app.model.sisyphus_manager = {
     app.log("On File Upload", data, file, field);
 
     var file_name = file.name.substr(0, file.name.lastIndexOf('.'));
-
     var regex = /.(svg|thr)$/;
     var is_match = file.name.match(regex);
 
+    //checking if regex is not null and array is populated
     if( is_match && is_match.length > 1) {
       var file_type = is_match[1];
         app.log(file_type);
@@ -1143,11 +1143,11 @@ app.model.sisyphus_manager = {
         original_file_type: file_type,
         file_data: data
       };
-
       this.add('tracks_to_upload', track_obj);
     }else {
       app.plugins.n.notification.alert("Tracks must either be .thr or .svg extension")
     }
+
     return this;
   },
   upload_tracks: function() {

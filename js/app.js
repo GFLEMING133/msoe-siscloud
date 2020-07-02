@@ -24,7 +24,7 @@ var app = {
 		}
 	},
 	setup: function () {
-		if (window.cordova)						{
+		if (window.cordova) {
 			app.is_app = true;
 			$('.body').removeClass('touch-hover'); // FOR TOUCH EVENTS
 

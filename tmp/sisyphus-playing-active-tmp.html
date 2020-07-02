@@ -13,12 +13,16 @@
     </h2>
   </div>
   <div class="white" data-if="{{= model.data.active_playlist_id }} == false">
-    <div
-        data-if="{{= model.data.active_track.id }} == false"
+    <div data-if="{{= model.data.active_track.id }} == false"
         data-template="sisyphus-header-default-tmp"></div>
     <div class="pl20" data-if="{{= model.data.active_track.id }} !== false">
       <h3 class="fs13 lh18 no-stuffing capitalize truncate">Playing Single Track</h3>
-      <h2 class="fs18 lh24 no-stuffing capitalize truncate strong">{{= model.data.name }}</h2>
+      <h2 class="fs18 lh24 no-stuffing capitalize truncate strong"
+          data-if="{{= session.active.primary }} == current">{{= model.data.name }}</h2>
+      <h2 class="fs18 lh24 no-stuffing capitalize truncate strong"
+          data-if="{{= session.active.primary }} !== current">
+        <span data-model="{{= model.data.active_track.id }}">{{= model.data.name }}</span>
+      </h2>
     </div>
   </div>
 </div>
