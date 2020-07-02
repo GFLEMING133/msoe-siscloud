@@ -83,7 +83,6 @@ app.model.sisyphus_manager = {
   on_init: function() {
     // app.log("on_init() in app.model.sisyphus_manager");
     if (window.cordova) StatusBar.show();
-
     app.plugins.n.initialize();
 
     this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
@@ -1133,16 +1132,20 @@ app.model.sisyphus_manager = {
     var file_name = file.name.substr(0, file.name.lastIndexOf('.'));
     var regex = /.(svg|thr)$/;
     var is_match = file.name.match(regex);
-    if (is_match && is_match.length > 1) {
-      var file_type = file.name.match(regex)[1];
+
+    //checking if regex is not null and array is populated
+    if( is_match && is_match.length > 1) {
+      var file_type = is_match[1];
+        app.log(file_type);
       var track_obj = {
         type: 'track',
         name: file_name,
         original_file_type: file_type,
         file_data: data
       };
-
       this.add('tracks_to_upload', track_obj);
+    }else {
+      app.plugins.n.notification.alert("Tracks must either be .thr or .svg extension")
     }
 
     return this;
