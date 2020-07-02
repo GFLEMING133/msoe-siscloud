@@ -1132,15 +1132,18 @@ app.model.sisyphus_manager = {
 
     var file_name = file.name.substr(0, file.name.lastIndexOf('.'));
     var regex = /.(svg|thr)$/;
-    var file_type = file.name.match(regex)[1];
-    var track_obj = {
-      type: 'track',
-      name: file_name,
-      original_file_type: file_type,
-      file_data: data
-    };
+    var is_match = file.name.match(regex);
+    if (is_match && is_match.length > 1) {
+      var file_type = file.name.match(regex)[1];
+      var track_obj = {
+        type: 'track',
+        name: file_name,
+        original_file_type: file_type,
+        file_data: data
+      };
 
-    this.add('tracks_to_upload', track_obj);
+      this.add('tracks_to_upload', track_obj);
+    }
 
     return this;
   },

@@ -25,6 +25,9 @@ app.model.drawing = {
       redo_count  : 0, // for redo states
       coords      : [], // cartesian coordinates
 
+      is_streaming: 'false',
+      th_offset   : 0,
+
       d3_data : {
           background          : 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
           stroke              : '#797977', // #797977, #948252
@@ -72,6 +75,34 @@ app.model.drawing = {
     this.on('change:paths', this.update_path_count);
     this.on('add:paths', this.update_path_count);
     this.on('remove:paths', this.update_path_count);
+  },
+  toggle_streaming: function() {
+    var self = this;
+    var streaming = this.get('is_streaming');
+
+    if (streaming == 'false') {
+      app.log("Start Streaming");
+
+      // turn streaming on
+      var sisbot = app.manager.get_model('sisbot_id');
+      sisbot._update_sisbot('start_streaming', {}, function(resp) {
+        app.log(resp);
+        if (resp.err) return app.log("Error", resp.err);
+
+        self.set('is_streaming', 'true');
+      });
+    } else {
+      app.log("Stop Streaming");
+
+      // turn streaming off
+      var sisbot = app.manager.get_model('sisbot_id');
+      sisbot._update_sisbot('stop_streaming', {}, function(resp) {
+        app.log(resp);
+        if (resp.err) return app.log("Error", resp.err);
+        
+        self.set('is_streaming', 'false');
+      });
+    }
   },
   firstR_change: function() {
     var firstR = this.get('edit.firstR');
@@ -791,6 +822,41 @@ app.model.drawing = {
             self._line(svg, {x1:new_point[0],y1:new_point[1],x2:new_curr[0],y2:new_curr[1],stroke:d3_data.mirror_stroke,stroke_width:d3_data.stroke_width});
           }
 
+          if (this.get('is_streaming') == 'true') {
+            var mid = w/2;
+            var x = (mid - point[0])/(mid-padding);
+            var y = (mid - point[1])/(mid-padding);
+            var theta = Math.atan2(y,x);
+            var rho = Math.sqrt(x*x+y*y);
+
+            // compare to last point, see if we need to wrap theta
+            if (old_x && old_y) {
+              var th_offset = this.get('th_offset');
+          		var pi = Math.PI;
+          		var loop_th = pi * 2;
+              var x_old = (mid - old_x)/(mid-padding);
+              var y_old = (mid - old_y)/(mid-padding);
+              var theta_old = Math.atan2(y_old, x_old);
+
+              if (theta - theta_old > pi) {
+                th_offset -= loop_th;
+                this.set('th_offset', th_offset);
+        			} else if (theta - theta_old < -pi) {
+                th_offset += loop_th;
+                this.set('th_offset', th_offset);
+              }
+              theta = theta + th_offset;
+            }
+
+            // app.log("Line", point[0]-padding,point[1]-padding,old_x-padding,old_y-padding, this.get('width')-padding*2, this.get('height')-padding*2);
+            // app.log("Theta/Rho", theta, rho);
+
+            // send to table
+            var sisbot = app.manager.get_model('sisbot_id');
+            sisbot._update_sisbot('add_verts_streaming', {verts:[{th:theta,r:rho}]}, function(obj) {
+              app.log(obj);
+            });
+          }
           self._line(svg, {x1:point[0],y1:point[1],x2:old_x,y2:old_y,stroke:d3_data.stroke,stroke_width:d3_data.stroke_width});
         }
 
@@ -952,6 +1018,14 @@ app.model.drawing = {
     this.set('drag_pos.current.y', this.get('mid'));
 
     // app.log('Current', this.get('drag_pos.current'))
+
+    if (this.get('is_streaming') == 'true') {
+      // turn streaming off
+      var sisbot = app.manager.get_model('sisbot_id');
+      sisbot._update_sisbot('clear_verts_streaming', {}, function(obj) {
+        app.log(obj);
+      });
+    }
 
     if (this.get('el_id') != 'false') {
       this._draw_preview({el_id: this.get('el_id')});

@@ -198,6 +198,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'socket:error', this._socket_error);
 
 		// this.on('change:data.is_serial_open', 				this._check_serial);
+		this.on('change:data.state', this.state_change);
 		this.on('change:data.failed_to_connect_to_wifi', this.wifi_failed_to_connect);
 		this.on('change:data.is_network_connected', this.wifi_connected);
 		this.on('change:data.wifi_forget', this.wifi_connected);
@@ -249,6 +250,12 @@ app.model.sisbot = {
 		this.stopListening();
 
 		this._listeners_set = false;
+	},
+	state_change: function() {
+		// app.log("Sisbot state changed", this.id, this.get('data.state'));
+		app.trigger('sisbot:state_change',{
+			'state': this.get('data.state')
+		});
 	},
 	update_network: function () {
 		if (this.get('data.is_network_separate') == 'false') {
@@ -370,7 +377,7 @@ app.model.sisbot = {
 		var self = this;
 		var address = this.get('data.local_ip');
 
-		app.log("_update_sisbot()", address);
+		// app.log("_update_sisbot()", address);
 
 		// if (app.platform == 'iOS')	address = this.get('data.hostname');
 		// 192.168.42.1 | iOS | state
@@ -718,7 +725,7 @@ app.model.sisbot = {
 	},
 	/**************************** ADMIN ***************************************/
 	check_for_unavailable: function () {
-		app.log("Check Unavailable", this.get('data.reason_unavailable'));
+		// app.log("Check Unavailable", this.get('data.reason_unavailable'));
 		if (this.get('data.reason_unavailable') !== 'false') {
 			// make sure we say the sisbot is unavailable
 			app.manager.set('is_sisbot_available', 'false');

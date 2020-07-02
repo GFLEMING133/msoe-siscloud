@@ -1,5 +1,4 @@
 # 2020-6-16 1.10.26
-
 - Force Firmware Update button added to Advanced Table settings
 - Downloading Tracks count added to Community overlay
 - Cancelling after downloading tracks correctly removes the tracks from the table
@@ -12,9 +11,8 @@
 - Confirmation after changing Passcode passowrd
 - ALl Tracks now has shuffle and play all
 - Send white slider value when changing white temp (prevents recentering slider on app startup)
-
+- Fix playback label when playing single track
 # 2020-3-10 1.10.09-25
-
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
