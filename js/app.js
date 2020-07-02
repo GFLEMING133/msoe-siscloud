@@ -27,8 +27,9 @@ var app = {
 		if (window.cordova)						{
 			app.is_app = true;
 			$('.body').removeClass('touch-hover'); // FOR TOUCH EVENTS
-			//lock orientation
-			ScreenOrientation.orientation.lock('portrait');
+
+			screen.orientation.lock('portrait-primary');//lock orientation
+			console.log('Orientation is ' + screen.orientation.type);
 		}
 		// if (app.plugins.is_mobile() !== false)	app.is_app = true;
 

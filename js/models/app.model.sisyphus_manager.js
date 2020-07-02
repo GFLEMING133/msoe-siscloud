@@ -1130,17 +1130,24 @@ app.model.sisyphus_manager = {
     app.log("On File Upload", data, file, field);
 
     var file_name = file.name.substr(0, file.name.lastIndexOf('.'));
+
     var regex = /.(svg|thr)$/;
-    var file_type = file.name.match(regex)[1];
-    var track_obj = {
-      type: 'track',
-      name: file_name,
-      original_file_type: file_type,
-      file_data: data
-    };
+    var is_match = file.name.match(regex);
 
-    this.add('tracks_to_upload', track_obj);
+    if( is_match && is_match.length > 1) {
+      var file_type = is_match[1];
+        app.log(file_type);
+      var track_obj = {
+        type: 'track',
+        name: file_name,
+        original_file_type: file_type,
+        file_data: data
+      };
 
+      this.add('tracks_to_upload', track_obj);
+    }else {
+      app.plugins.n.notification.alert("Tracks must either be .thr or .svg extension")
+    }
     return this;
   },
   upload_tracks: function() {
@@ -1153,10 +1160,7 @@ app.model.sisyphus_manager = {
       track_obj.is_published = publish_track;
 
       var track_model = app.collection.add(track_obj);
-      // if(track_model.get('data.original_file_type') !== 'thr' || track_model.get('data.original_file_type') !== 'svg ') {
-      //   app.log("Track error:", track_model.get('errors'));
-      //   alert("Tracks must either be .thr or .svg extension")
-      // }
+
       if (track_model.get('data.original_file_type') == 'thr') track_model.set('data.verts', track_model.get('data.file_data')); // remove/change later
       else if (track_model.get('data.original_file_type') == 'svg') track_model.set('data.verts', track_model.process_svg(track_model.get('data.file_data')));
 
