@@ -1,6 +1,6 @@
 app.config = {
 	env: 'prod', //
-	version: '1.10.28', // wkwebview fix for iOS only /alpha is poinitng to 'https://webcenter
+	version: '1.10.29', // pushing to promote new version for Apple because of cordova plugin socket issue
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output

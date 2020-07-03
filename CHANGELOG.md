@@ -1,4 +1,6 @@
 #2020-7-2 1.10.28
+- Pushing to promote new version for Apple because of cordova-plugin causeing socket issues
+#2020-7-2 1.10.28
 - In app.config.js alpha is poinitng to 'https://webcenter.sisyphus-industries.com
 - Updated cordova wkwebview-engine plugin (iOS only) to fix Community download error
 #2020-3-10 1.10.09-25
