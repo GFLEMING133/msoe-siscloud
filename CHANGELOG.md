@@ -1,16 +1,16 @@
-# 202-7-2 1.10.29
+# 202-7-3 1.10.30
 
-- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
-- cordova-plugin-wkwebview-file-xhr added which updated wkwebview-engine for Community downloading error
-- Tilt control / Streaming  addded
+- Tilt control / Streaming  added
 - Passcode and HotSpot password merged into one and updated.
 - Error alert for upload_tracks in Advance Settings (browser only)
-- Updated moment() in Artist created to dislpay correctly
+- Updated moment() in Artist created to display correctly
 - Rescan for tables added to homepage
 - tg-names added /updated for training_grounds
 - cleaned up code
 - alpha in app.config.js is pointed to https://webcenter
 - notes updated for Cordova, Sis-Docs, training_grounds and regression testing
+- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
+- cordova-plugin-wkwebview-file-xhr added which updated wkwebview-engine for Community downloading error
 
 # 2020-6-16 1.10.26
 
