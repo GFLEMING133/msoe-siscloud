@@ -9,6 +9,7 @@
 - tg-names added /updated for training_grounds
 - cleaned up code
 - alpha in app.config.js is pointed to https://webcenter
+- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Time left on current track added
 
 # 2020-6-16 1.10.26
