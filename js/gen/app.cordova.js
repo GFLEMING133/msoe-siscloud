@@ -84,6 +84,8 @@ function on_visibility() {
 			}
 		}
   }
+
+	app.trigger('app:is_visible');
 }
 
 function on_active() {

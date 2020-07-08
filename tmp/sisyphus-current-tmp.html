@@ -36,7 +36,7 @@
           <div class="fs18 lh18 no-stuffing pt20 pl20 pr20 pb10 strong"
             data-if="{{= model.data.is_waiting_between_tracks }} == false" tg-name="now_playing">Now Playing</div>
           <div data-model="{{= model.data.active_track.id }}">
-            <div class="flex clickable active p10 pl20" data-on-click="publish" data-publish="modal:open"
+            <div class="flex clickable active p10 pl20 pr20" data-on-click="publish" data-publish="modal:open"
               data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'sisyphus-tracks-hero-tmp'}"
               tg-name="home_track_modal">
               <div class="w100 center">
@@ -47,6 +47,15 @@
                   <div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
                   <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by
                     {{= model.data.created_by_name }}</div>
+                </div>
+                <div data-if="{{= parent.sisbot_version }} >= 1010072">
+                  <div class="w100 pt15" data-run="parent.get_track_time">
+                    <div class="bg-grey-lt hh5 rounded mb5 over-hidden">
+                      <div class="bg-grey hh5" style="width: {{= parent.track_time_percent }}%"></div>
+                    </div>
+                    <div class="grey pull-right">{{= parent.remaining_time_str }}</div>
+                    <div class="grey pull-left">{{= parent.past_time_str }}</div>
+                  </div>
                 </div>
               </div>
             </div>

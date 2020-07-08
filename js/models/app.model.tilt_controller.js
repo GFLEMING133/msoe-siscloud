@@ -15,6 +15,7 @@ app.model.tilt_controller = {
 
       is_listening: 'false',
       is_streaming: 'false',
+      streaming_id: 'false',
       th_offset   : 0,
       send_offset : Math.PI/2,
 
@@ -253,7 +254,7 @@ app.model.tilt_controller = {
       var ms_now = window.performance.now();
       app.log("Send Verts", ms_now - this.sent_ms, verts_to_send.length);
       var sisbot = app.manager.get_model('sisbot_id');
-      sisbot._update_sisbot('add_verts_streaming', {verts: verts_to_send, accel:self.get('accel'), vel: self.get('vel'), thvmax: self.get('thvmax')}, function(resp) {
+      sisbot._update_sisbot('add_verts_streaming', {id: self.get('streaming_id'), verts: verts_to_send, accel:self.get('accel'), vel: self.get('vel'), thvmax: self.get('thvmax')}, function(resp) {
         if (resp.err) {
           app.log("Verts error", resp);
           // put the sent verts back in beginnig of array
@@ -336,6 +337,11 @@ app.model.tilt_controller = {
 
         app.log("Start Streaming Resp:", resp, sisbot.get('data.state'));
 
+        // save streaming_id for streaming calls
+        _.each(resp.resp, function(obj) {
+          if (obj && obj.streaming_id) self.set('streaming_id', obj.streaming_id);
+        });
+
         app.log("Start X,Y:", self.get('x'), self.get('y'));
         if (sisbot.get('data.state').includes('streaming')) {
           self.set('is_listening', 'true');
@@ -358,7 +364,7 @@ app.model.tilt_controller = {
     var self = this;
     if (data && data.state && data.state.includes('streaming')) {
       app.log("Tilt Controller: State changed", data, this.get('is_listening'), window.performance.now());
-      if (this.get('is_listening') == 'false') {
+      if (data.state == 'streaming_waiting' && this.get('is_listening') == 'false') {
         this.set('is_listening', 'true');
 
         // listen for changing page
@@ -390,7 +396,7 @@ app.model.tilt_controller = {
 
     // turn streaming off
     var sisbot = app.manager.get_model('sisbot_id');
-    sisbot._update_sisbot('stop_streaming', {}, function(resp) {
+    sisbot._update_sisbot('stop_streaming', {id: self.get('streaming_id')}, function(resp) {
       app.log("Stop Streaming Resp:", resp);
     });
   },

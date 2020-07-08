@@ -26,6 +26,7 @@ app.model.drawing = {
       coords      : [], // cartesian coordinates
 
       is_streaming: 'false',
+      streaming_id: 'false',
       th_offset   : 0,
 
       d3_data : {
@@ -89,6 +90,11 @@ app.model.drawing = {
         app.log(resp);
         if (resp.err) return app.log("Error", resp.err);
 
+        // save streaming_id for streaming calls
+        _.each(resp.resp, function(obj) {
+          if (obj && obj.streaming_id) self.set('streaming_id', obj.streaming_id);
+        });
+
         self.set('is_streaming', 'true');
       });
     } else {
@@ -96,10 +102,10 @@ app.model.drawing = {
 
       // turn streaming off
       var sisbot = app.manager.get_model('sisbot_id');
-      sisbot._update_sisbot('stop_streaming', {}, function(resp) {
+      sisbot._update_sisbot('stop_streaming', {id:self.get('streaming_id')}, function(resp) {
         app.log(resp);
         if (resp.err) return app.log("Error", resp.err);
-        
+
         self.set('is_streaming', 'false');
       });
     }
@@ -853,7 +859,7 @@ app.model.drawing = {
 
             // send to table
             var sisbot = app.manager.get_model('sisbot_id');
-            sisbot._update_sisbot('add_verts_streaming', {verts:[{th:theta,r:rho}]}, function(obj) {
+            sisbot._update_sisbot('add_verts_streaming', {id:self.get('streaming_id'), verts:[{th:theta,r:rho}]}, function(obj) {
               app.log(obj);
             });
           }
@@ -1022,7 +1028,7 @@ app.model.drawing = {
     if (this.get('is_streaming') == 'true') {
       // turn streaming off
       var sisbot = app.manager.get_model('sisbot_id');
-      sisbot._update_sisbot('clear_verts_streaming', {}, function(obj) {
+      sisbot._update_sisbot('clear_verts_streaming', {id: this.get('streaming_id')}, function(obj) {
         app.log(obj);
       });
     }

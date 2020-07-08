@@ -87,6 +87,12 @@ app.model.sisbot = {
 			rem_secondary_color: '0x00FFFFFF',
 			show_picker: 'true',
 
+			track_total_time: 0,
+			track_remaining_time: 0,
+			remaining_time_str: '0:00', // time left in current track
+			past_time_str: '0:00', // time past on current track
+			track_time_percent: 0,
+
 			edit: {},
 			data: {
 				id: data.id,
@@ -239,6 +245,10 @@ app.model.sisbot = {
 			this.setup_edit();
 			this._update_pattern_colors();
 		}
+
+    // listen for changing page
+		this.listenTo(app, 'app:is_visible', this.check_track_time);
+		this.listenTo(app.session, 'change:active', this.stop_track_time);
 
 		this._poll_state();
 
@@ -603,6 +613,91 @@ app.model.sisbot = {
 		}
 
 		return this;
+	},
+	/**************************** TIME *******************************************/
+	track_time_interval: null,
+	get_track_time: function() {
+		var self = this;
+
+		this._update_sisbot('get_track_time',{}, function(obj) {
+			if (obj.err) return app.log("Get Track Time error", obj.err);
+
+			if (obj.resp) {
+				app.log("Track time:", obj.resp);
+
+				var total_time = obj.resp.total_time;
+				self.set('track_total_time', Math.round(total_time/1000));
+
+				var remaining_time = obj.resp.remaining_time;
+				self.set('track_remaining_time', Math.round(remaining_time/1000));
+
+				self.update_track_time();
+
+
+				clearInterval(self.track_time_interval);
+				if (self.get('data.state') == 'playing') {
+					self.track_time_interval = setInterval(function() {
+						var remaining_time = self.get('track_remaining_time');
+						remaining_time--;
+						if (remaining_time < 0) {
+							remaining_time = 0;
+							clearInterval(self.track_time_interval);
+						}
+						self.set('track_remaining_time', remaining_time);
+
+						self.update_track_time();
+					}, 1000);
+				}
+			}
+		});
+	},
+	check_track_time: function() {
+		if (app.is_visible) {
+			if (this.get('data.state') == 'playing' && app.session.get('active.primary') == 'current') {
+				this.get_track_time();
+			};
+		} else clearInterval(this.track_time_interval);
+	},
+	stop_track_time: function() {
+		var primary = app.session.get('active.primary');
+		if (primary != 'current') {
+			// app.log("Stop track_time_interval", primary);
+			clearInterval(this.track_time_interval);
+		}
+	},
+	update_track_time: function() {
+		var self = this;
+
+		var total_time = this.get('track_total_time');
+		var remaining_time = this.get('track_remaining_time');
+
+		var remaining_hours = Math.floor(remaining_time/3600);
+		var remaining_minutes = Math.floor(remaining_time/60) - remaining_hours * 60;
+		var remaining_seconds = Math.floor(remaining_time) - remaining_hours * 3600 - remaining_minutes * 60;
+		var remaining_str = "";
+		if (remaining_hours > 0) remaining_str += remaining_hours+":";
+		if (remaining_minutes < 10) remaining_str += "0";
+		remaining_str += remaining_minutes+":";
+		if (remaining_seconds < 10) remaining_str += "0";
+		remaining_str += remaining_seconds;
+		// app.log("Remaining:", remaining_str);
+		self.set('remaining_time_str', remaining_str);
+
+		var past_time = total_time - remaining_time;
+		var past_hours = Math.floor(past_time/3600);
+		var past_minutes = Math.floor(past_time/60) - past_hours * 60;
+		var past_seconds = Math.floor(past_time) - past_hours * 3600 - past_minutes * 60;
+		var past_str = "";
+		if (past_hours > 0) past_str += past_hours+":";
+		if (past_minutes < 10) past_str += "0";
+		past_str += past_minutes+":";
+		if (past_seconds < 10) past_str += "0";
+		past_str += past_seconds;
+		// app.log("Past:", past_str);
+		self.set('past_time_str', past_str);
+
+		// calc percent for progress bar
+		self.set('track_time_percent', Math.round(past_time/total_time*100));
 	},
 	/**************************** PASSCODE ***************************************/
 	enter_passcode: function () {
