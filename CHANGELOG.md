@@ -1,4 +1,4 @@
-# 2020-7-2 1.10.29-30
+# 2020-7-2 1.10.29-30/31
 
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Tilt control / Streaming  added
