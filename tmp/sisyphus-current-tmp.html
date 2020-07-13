@@ -49,12 +49,14 @@
                     {{= model.data.created_by_name }}</div>
                 </div>
                 <div data-if="{{= parent.sisbot_version }} >= 1010072">
-                  <div class="w100 pt15" data-run="parent.get_track_time">
-                    <div class="bg-grey-lt hh5 rounded mb5 over-hidden">
-                      <div class="bg-grey hh5" style="width: {{= parent.track_time_percent }}%"></div>
+                  <div data-if="{{= parent.data.state }} !== homing">
+                    <div class="w100 pt15" data-run="parent.get_track_time">
+                      <div class="bg-grey-lt hh5 rounded mb5 over-hidden">
+                        <div class="bg-grey hh5" style="width: {{= parent.track_time_percent }}%"></div>
+                      </div>
+                      <div class="grey pull-right">{{= parent.remaining_time_str }}</div>
+                      <div class="grey pull-left">{{= parent.past_time_str }}</div>
                     </div>
-                    <div class="grey pull-right">{{= parent.remaining_time_str }}</div>
-                    <div class="grey pull-left">{{= parent.past_time_str }}</div>
                   </div>
                 </div>
               </div>

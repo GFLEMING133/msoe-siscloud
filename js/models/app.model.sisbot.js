@@ -248,6 +248,7 @@ app.model.sisbot = {
 
     // listen for changing page
 		this.listenTo(app, 'app:is_visible', this.check_track_time);
+		this.on('change:data.state', this.check_track_time);
 		this.listenTo(app.session, 'change:active', this.stop_track_time);
 
 		this._poll_state();
@@ -625,23 +626,22 @@ app.model.sisbot = {
 			if (obj.resp) {
 				app.log("Track time:", obj.resp);
 
-				var total_time = obj.resp.total_time;
-				self.set('track_total_time', Math.round(total_time/1000));
+				var total_time = Math.round(obj.resp.total_time/1000);
+				self.set('track_total_time', total_time);
 
-				var remaining_time = obj.resp.remaining_time;
-				self.set('track_remaining_time', Math.round(remaining_time/1000));
+				var remaining_time = Math.round(obj.resp.remaining_time/1000);
+				self.set('track_remaining_time', remaining_time);
 
 				self.update_track_time();
 
-
 				clearInterval(self.track_time_interval);
-				if (self.get('data.state') == 'playing') {
+				if (self.get('data.state') == 'playing' && remaining_time > 0) {
 					self.track_time_interval = setInterval(function() {
 						var remaining_time = self.get('track_remaining_time');
 						remaining_time--;
 						if (remaining_time < 0) {
 							remaining_time = 0;
-							clearInterval(self.track_time_interval);
+							self.check_track_time();
 						}
 						self.set('track_remaining_time', remaining_time);
 
@@ -653,7 +653,7 @@ app.model.sisbot = {
 	},
 	check_track_time: function() {
 		if (app.is_visible) {
-			if (this.get('data.state') == 'playing' && app.session.get('active.primary') == 'current') {
+			if ((this.get('data.state') == 'playing' || this.get('data.state') == 'waiting') && app.session.get('active.primary') == 'current') {
 				this.get_track_time();
 			};
 		} else clearInterval(this.track_time_interval);
