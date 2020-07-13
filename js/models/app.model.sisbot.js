@@ -1054,12 +1054,16 @@ app.model.sisbot = {
 	disconnect_wifi: function (data) {
 		app.log("disconnect_wifi()", data);
 		var self = this;
-
 		var passcode = self.get('data.passcode');
 		// confirm passcode is the right length
-		if (passcode.length > 0 && (passcode.length < 8 || passcode.length > 63)) {
-			passcode = 'false'; // do not use
+		if (passcode !== 'false') {
+			if (passcode.length > 0 && (passcode.length < 8 || passcode.length > 63)) {
+				passcode = 'false'; // do not use
+			}
 		}
+
+		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi',
+		on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
 
 		function on_disconnect(status) {
 			if (status == 1) return self;
