@@ -385,6 +385,7 @@ app.model.tilt_controller = {
   },
   stop_listening: function() {
     var self = this;
+    
     // Stops listener from triggering twice.
     this.stopListening(app.session, 'change:active.secondary');
     window.removeEventListener('deviceorientation', this.orientation_func);
@@ -394,15 +395,14 @@ app.model.tilt_controller = {
       .set('is_listening', 'false')
       .set('is_ready', 'false');
 
-
     // turn streaming off
-   if (self.get('streaming_id') !== 'false') {
-     var sisbot = app.manager.get_model('sisbot_id');
-     sisbot._update_sisbot('stop_streaming', {id: self.get('streaming_id')}, function(resp) {
-       app.log("Stop Streaming Resp:", resp);
-       self.set('streaming_id', 'false');
-     });
-   }
+    if (self.get('streaming_id') != 'false') {
+      var sisbot = app.manager.get_model('sisbot_id');
+      sisbot._update_sisbot('stop_streaming', {id: self.get('streaming_id')}, function(resp) {
+        app.log("Stop Streaming Resp:", resp);
+        self.set('streaming_id', 'false');
+      });
+    }
   },
   export_data: function () {
     // do nothing
