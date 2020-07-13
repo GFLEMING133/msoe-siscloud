@@ -328,11 +328,11 @@ app.model.tilt_controller = {
         {th:th_offset, r:0}
       ];
 
-      this.set('verts_to_send', arrow);
+      // this.set('verts_to_send', arrow);
 
       // turn streaming on
       var sisbot = app.manager.get_model('sisbot_id');
-      sisbot._update_sisbot('start_streaming', {accel:self.get('accel'), vel: self.get('vel'), thvmax: self.get('thvmax')}, function(resp) {
+      sisbot._update_sisbot('start_streaming', {accel:self.get('accel'), vel: self.get('vel'), thvmax: self.get('thvmax'), verts: arrow}, function(resp) {
         if (resp.err) return app.log("Start Streaming Error", resp);
 
         app.log("Start Streaming Resp:", resp, sisbot.get('data.state'));
@@ -385,7 +385,7 @@ app.model.tilt_controller = {
   },
   stop_listening: function() {
     var self = this;
-    
+
     // Stops listener from triggering twice.
     this.stopListening(app.session, 'change:active.secondary');
     window.removeEventListener('deviceorientation', this.orientation_func);
