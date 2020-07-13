@@ -1055,8 +1055,9 @@ app.model.sisbot = {
 		app.log("disconnect_wifi()", data);
 		var self = this;
 		var passcode = self.get('data.passcode');
-		// confirm passcode is the right length
+
 		if (passcode !== 'false') {
+			// confirm passcode is the right length
 			if (passcode.length > 0 && (passcode.length < 8 || passcode.length > 63)) {
 				passcode = 'false'; // do not use
 			}
