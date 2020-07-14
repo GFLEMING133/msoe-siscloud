@@ -228,7 +228,7 @@ app.model.tilt_controller = {
 
     // TODO: send to table
     if (ball_x != old_x || ball_y != old_y) this.add('verts_to_send', {th:b_th+this.get('send_offset'),r:b_rho});
-    if (this.get('is_sending_verts') == 'false' && this.get('verts_to_send').length > 0) this.send_verts();
+    if (this.get('is_sending_verts') == 'false' && this.get('verts_to_send').length > 0 && this.get('is_listening') == 'true') this.send_verts();
 
     // app.log("Ball X,Y", ball_x, ball_y);
     this.set('x', ball_x);
@@ -393,7 +393,8 @@ app.model.tilt_controller = {
     app.log("Stop Streaming");
     this.set('is_streaming', 'false')
       .set('is_listening', 'false')
-      .set('is_ready', 'false');
+      .set('is_ready', 'false')
+      .set('verts_to_send', []); // clear verts to send
 
     // turn streaming off
     if (self.get('streaming_id') != 'false') {
