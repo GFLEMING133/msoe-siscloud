@@ -1,9 +1,40 @@
-#2020-7-2 1.10.28
+# 2020-7-2 1.10.29-30/31
+
+- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
+- Tilt control / Streaming  added
+- Passcode and HotSpot password merged into one and updated.
+- Error alert for upload_tracks in Advance Settings (browser only)
+- Updated moment() in Artist created to display correctly
+- Rescan for tables added to homepage
+- tg-names added /updated for training_grounds
+- cleaned up code
+- alpha in app.config.js is pointed to https://webcenter
+- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
+- Time left on current track added
+
+# 2020-7-2 1.10.28
 - Pushing to promote new version for Apple because of cordova-plugin causeing socket issues
-#2020-7-2 1.10.28
 - In app.config.js alpha is poinitng to 'https://webcenter.sisyphus-industries.com
 - Updated cordova wkwebview-engine plugin (iOS only) to fix Community download error
-#2020-3-10 1.10.09-25
+
+# 2020-6-16 1.10.26
+
+- Force Firmware Update button added to Advanced Table settings
+- Downloading Tracks count added to Community overlay
+- Cancelling after downloading tracks correctly removes the tracks from the table
+- Drawing shows red stop square at correct position of rho 1
+- Hotspot Password settings page
+- Factory Reset clears the Favorites Playlist model
+- Resume time for Pause Between Tracks
+- What's New viewable when no Firmware Updates
+- Pause between tracks has a Restart After
+- Confirmation after changing Passcode password
+- ALl Tracks now has shuffle and play all
+- Send white slider value when changing white temp (prevents recentering slider on app startup)
+- Fix playback label when playing single track
+
+# 2020-3-10 1.10.09-25
+
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
@@ -31,9 +62,13 @@
 - Passcode requirement fixed when app not refreshed
 - Searchable list fix for query length on first load of remote data
 - Fix iPad Playlist icon rendering
+
 # 2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
+
 - Fetching more artist spinner fix
+
 # 2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
+
 - wording and UI changes
 - Description error checking
 - Community log-in / sign-up error checking updated.

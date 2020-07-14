@@ -83,7 +83,6 @@ app.model.sisyphus_manager = {
   on_init: function() {
     // app.log("on_init() in app.model.sisyphus_manager");
     if (window.cordova) StatusBar.show();
-
     app.plugins.n.initialize();
 
     this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
@@ -366,7 +365,7 @@ app.model.sisyphus_manager = {
         app.log('BLE Connect Error:', error);
         self.ble_cb();
       } else {
-        app.log('BLE Retry');
+        app.log('BLE Retry', connect_retries);
         setTimeout(function() {
           self.ble_connect(device, ++connect_retries);
         }, 500);
@@ -626,19 +625,37 @@ app.model.sisyphus_manager = {
       this.set('sisbot_registration', 'find');
     }
   },
-  find_sisbots: function(force_rescan) {
-    app.log("find_sisbots()", force_rescan, this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbots_scanning'));
+  find_sisbots: function(data) {
+    app.log("find_sisbots()", data, this.get('sisbot_id'), this.get('sisbot_registration'), this.get('sisbots_scanning'));
     var self = this;
 
     // exit out if we are already scanning, before changing force_rescan
     if (this.get('sisbots_scanning') == 'true') return;
 
-    if (force_rescan && force_rescan != this) {
-      this.set('force_rescan', 'true')
-        .set('sisbot_connecting', 'false')
-        .set('sisbot_id', 'false');
-    } else this.set('force_rescan', 'false');
-    app.log("Force rescan:", this.get('force_rescan'));
+    if (data && data != this) {
+      if (_.isObject(data) && data.confirm_rescan) {
+        app.plugins.n.notification.confirm("Do you want to rescan for Sisyphus tables?",
+  				function (resp_num) {
+            app.log("Confirm resp:", resp_num);
+  					if (resp_num == 1) {
+  						return self;
+  					} else {
+              delete data.confirm_rescan;
+  						self.find_sisbots(data);
+  					}
+  				}, 'Rescan', ['Cancel', 'Yes']);
+
+        // exit from rest of call
+        return;
+      }
+
+      if (data == true || data == 'true' || data.force_rescan) {
+        this.set('force_rescan', 'true')
+          .set('sisbot_connecting', 'false')
+          .set('sisbot_id', 'false');
+      } else this.set('force_rescan', 'false');
+      app.log("Force rescan:", this.get('force_rescan'));
+    }
 
     if (app.is_app) {
       if (device.platform == 'Android') {
@@ -673,7 +690,7 @@ app.model.sisyphus_manager = {
     var self = this;
 
     // conditional for if in beta/training localhost mode or not to ignore error.
-    if (app.config.env != 'beta' && app.config.env != 'training') {
+    if (app.config.env != 'beta' && app.config.env != 'training' && app.config.env != 'matt') {
       if (navigator && navigator.connection) {
           this.set('network_status', navigator.connection.type );
         if (navigator.connection.type == Connection.NONE) {
@@ -977,9 +994,11 @@ app.model.sisyphus_manager = {
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
+        app.log("Connect to sisbot:", data);
         self.intake_data(data);
         if (data.type == 'track') {
-          app.collection.get(data.id).set('is_downloaded', 'true');
+          var track = app.collection.get(data.id);
+          if (track.get('is_community') == 'false') track.set('is_downloaded', 'true'); // removes potentially downloaded tracks that shouldn't be listed
         } else if (data.type == 'playlist') {
             app.collection.get(data.id).set('is_downloaded', 'true');
         } else if (data.type == 'sisbot') {
@@ -1112,15 +1131,22 @@ app.model.sisyphus_manager = {
 
     var file_name = file.name.substr(0, file.name.lastIndexOf('.'));
     var regex = /.(svg|thr)$/;
-    var file_type = file.name.match(regex)[1];
-    var track_obj = {
-      type: 'track',
-      name: file_name,
-      original_file_type: file_type,
-      file_data: data
-    };
+    var is_match = file.name.match(regex);
 
-    this.add('tracks_to_upload', track_obj);
+    //checking if regex is not null and array is populated
+    if( is_match && is_match.length > 1) {
+      var file_type = is_match[1];
+        app.log(file_type);
+      var track_obj = {
+        type: 'track',
+        name: file_name,
+        original_file_type: file_type,
+        file_data: data
+      };
+      this.add('tracks_to_upload', track_obj);
+    }else {
+      app.plugins.n.notification.alert("Tracks must either be .thr or .svg extension")
+    }
 
     return this;
   },

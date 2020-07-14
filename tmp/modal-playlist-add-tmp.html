@@ -1,14 +1,14 @@
 <div class="pull-bottom m20">
   <div class="scrollable hide-scrollbar mb20">
     <div
-      data-model="{{= manager.sisbot_id }}"
-      data-foreach="model.data.playlist_ids"
-      data-foreach-map="true"
-      tg-name="add_to_playlist_modal">
+        data-model="{{= manager.sisbot_id }}"
+        data-foreach="model.data.playlist_ids"
+        data-foreach-map="true"
+        tg-name="add_to_playlist_modal">
       <div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb {{= (scope.index == 0) ? 'corner-10px corner-bl-none corner-br-none' : '' }}"
-      data-on-click="grandparent.add_to_playlist"
-      data-msg="{{= model.id }}"
-      tg-name="add_to_playlist_{{= model.id}}_btn">Add to "{{= model.data.name }}"</div>
+        data-on-click="grandparent.add_to_playlist"
+        data-msg="{{= model.id }}"
+        tg-name="add_to_playlist_{{= model.id}}_btn">Add to "{{= model.data.name }}"</div>
     </div>
   </div>
   <div class="bg-blue black o95 o100-hover p15 corner-10px fs18 lh18 center clickable"

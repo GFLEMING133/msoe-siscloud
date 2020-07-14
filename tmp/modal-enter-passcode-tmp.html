@@ -1,5 +1,6 @@
 <div class="h100" data-model="{{= manager.sisbot_id }}">
-  <div class="h100 scroll hide-scrollbar">
+  <div class="h100 scroll hide-scrollbar"
+      tg-name="passcode_modal_page">
     <div class="mt25p pl40 pr40">
       <div class="pt5 white lh18 pull-right clickable"
           data-field="model.show_passcode"
@@ -18,39 +19,43 @@
       <div data-if="{{= model.passcode_error }} == false">
         <input class="bg-white corner-5px center mt5 w100 fs32"
             type="{{= (model.show_passcode == 'true') ? 'text' : 'password'}}"
-            placeholder="••••"
-            maxlength="6"
+            placeholder="••••••••"
+            maxlength="63"
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
             data-on-key-enter="model.submit_passcode"
-            data-field="model.passcode_entry" />
+            data-field="model.passcode_entry"
+            tg-name="enter_confirm_passcode_no_error_input"/>
       </div>
       <div data-if="{{= model.passcode_error }} == true">
         <input class="bg-white corner-5px center mt5 w100 fs32 shake-error"
             type="{{= (model.show_passcode == 'true') ? 'text' : 'password'}}"
-            placeholder="••••"
-            maxlength="6"
+            placeholder="••••••••"
+            maxlength="63"
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
             spellcheck="false"
             data-on-key-enter="model.submit_passcode"
-            data-field="model.passcode_entry" />
+            data-field="model.passcode_entry"
+            tg-name="enter_confirm_passcode_with_error_input"/>
       </div>
       <div class="mt20 p10 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong"
-          data-on-click="model.submit_passcode">Submit</div>
+          data-on-click="model.submit_passcode"
+          tg-name="passcode_submit_btn">Submit</div>
       <div class="hh100">&nbsp;</div>
     </div>
   </div>
   <div class="flex-center-row less_strong center bt-white clickable white  strong blue-hover bg-black pull-bottom"
       data-on-click="publish"
-      data-publish="modal:close">
+      data-publish="modal:close"
+      tg-name="passcode_modal_close_cancel">
     <h2 class="m0 media_fs14 fs17 p20 media_ppb50">
       <span data-if="{{= model.new_passcode }} == false">Close</span>
       <span data-if="{{= model.new_passcode }} !== false">
-        <span data-if="{{= model.new_passcode }} !== {{= model.data.passcode }}">Cancel Save</span>
+        <span data-if="{{= model.new_passcode }} !== {{= model.data.passcode }}">Cancel</span>
         <span data-if="{{= model.new_passcode }} == {{= model.data.passcode }}">Close</span>
       </span>
     </h2>

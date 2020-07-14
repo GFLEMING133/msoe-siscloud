@@ -84,6 +84,8 @@ function on_visibility() {
 			}
 		}
   }
+
+	app.trigger('app:is_visible');
 }
 
 function on_active() {
@@ -103,7 +105,7 @@ function on_resume() {
 
 		if (reason_unavailable != 'false') {
 			app.log("Resume: find trigger");
-			app.manager.find_sisbots(true); // trigger rescan
+			app.manager.find_sisbots({force_rescan: true}); // trigger rescan
 		}
 	} else {
 		app.log("Resume: No Sisbot find trigger");

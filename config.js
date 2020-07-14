@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.10.29', // pushing to promote new version for Apple because of cordova plugin socket issue
+    version				:  '1.9.31', // Read CHANGELOG.md / added track timer
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

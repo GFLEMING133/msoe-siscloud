@@ -56,6 +56,16 @@
         <p class="fs14 lh18 no-stuffing strong">RHO END</p>
       </div>
     </div>
+    <div class="w100 flex relative bb pt10 pb10 pl20">
+      <div class="clickable"
+          data-on-click="model.toggle_streaming">
+        <p class="f-medium no-stuffing strong">
+          <span class="pt5 black bg-white far fa-check-square" data-if="{{= model.is_streaming }} == true"></span>
+          <span class="pt5 black bg-white far fa-square" data-if="{{= model.is_streaming }} == false"></span>
+          Live Preview
+        </p>
+      </div>
+    </div>
     <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Smoothing</h3>
     <div class="w100 flex relative center">
       <span class="w2-5"></span>

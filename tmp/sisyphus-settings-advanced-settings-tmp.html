@@ -13,139 +13,122 @@
     <div class="w15 center f-large">&nbsp;</div>
   </div>
   <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="advanced_settings_page">
-      <div class="bb p20 fs14 flex" data-model="{{= model.sisbot_id }}">
-          <div class="w40 strong"> ID</div>
-          <div class="w60 truncate pull-right grey">{{= model.id }}</div>
-      </div>
-      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
-          <span class="strong"> URL</span>
-          <span class="pull-right grey">{{= model.data.hostname }}:3001</span>
-      </div>
-      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
-          <span class="strong"> IP Address</span>
-          <span class="pull-right grey">{{= model.data.local_ip }}</span>
-      </div>
-      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.mac_address }} !== false">
-          <span class="strong"> MAC Address</span>
-          <span class="pull-right grey">{{= model.data.mac_address }}</span>
-      </div>
-      <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
-          <span class="strong"> Firmware Version</span>
-          <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
-      </div>
+    <div class="bb p20 fs14 flex" data-model="{{= model.sisbot_id }}">
+        <div class="w40 strong"> ID</div>
+        <div class="w60 truncate pull-right grey">{{= model.id }}</div>
+    </div>
+    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
+        <span class="strong"> URL</span>
+        <span class="pull-right grey">{{= model.data.hostname }}:3001</span>
+    </div>
+    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
+        <span class="strong"> IP Address</span>
+        <span class="pull-right grey">{{= model.data.local_ip }}</span>
+    </div>
+    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.mac_address }} !== false">
+        <span class="strong"> MAC Address</span>
+        <span class="pull-right grey">{{= model.data.mac_address }}</span>
+    </div>
+    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
+        <span class="strong"> Firmware Version</span>
+        <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+    </div>
 
-      <div data-model="{{= model.sisbot_id }}"
-          data-if="{{= parent.is_admin }} == true"
-          tg-name="is_admin_list">
-        <div class="bb p20 fs14" data-if="{{= (app.is_app == true) ? 'true' : 'false' }} == true">
-          <span class="strong">App Version</span>
-          <span class="pull-right grey">{{= app.config.version }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Local Sisbot Version</span>
-          <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Remote Sisbot Version</span>
-          <span class="pull-right grey">{{= model.remote_versions.sisbot }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Local Browser Version</span>
-          <span class="pull-right grey">{{= model.local_versions.app }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Remote Browser Version</span>
-          <span class="pull-right grey">{{= model.remote_versions.app }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Local Proxy Version</span>
-          <span class="pull-right grey">{{= model.local_versions.proxy }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Remote Proxy Version</span>
-          <span class="pull-right grey">{{= model.remote_versions.proxy }}</span>
-        </div>
-        <div class="bb p20 fs14">
-          <span class="strong">Remote Api Version</span>
-          <span class="pull-right grey">{{= model.remote_versions.api }}</span>
-        </div>
+    <div data-model="{{= model.sisbot_id }}"
+        data-if="{{= parent.is_admin }} == true"
+        tg-name="is_admin_list">
+      <div class="bb p20 fs14" data-if="{{= (app.is_app == true) ? 'true' : 'false' }} == true">
+        <span class="strong">App Version</span>
+        <span class="pull-right grey">{{= app.config.version }}</span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-model="{{= model.sisbot_id }}"
-          data-run="model.is_legacy"
-          data-if="{{= model.is_legacy_branch }} == false"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'change_table_name'}"
-          tg-name="table_name_tab"
-      >
-          <span class="strong montserrat_semi_bold">Table Name</span>
-          <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
+      <div class="bb p20 fs14">
+        <span class="strong">Local Sisbot Version</span>
+        <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
       </div>
-      <div data-model="{{= model.sisbot_id }}">
-          <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-              data-if="{{= model.data.is_network_connected }} == false"
-              data-on-click="publish"
-              data-publish="session:active"
-              data-msg="{'secondary':'wifi'}"
-              tg-name="connect_to_wifi_tab"
-          >
-              <span class="strong montserrat_semi_bold">Connect to WiFi network</span>
-              <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
-          </div>
+      <div class="bb p20 fs14">
+        <span class="strong">Remote Sisbot Version</span>
+        <span class="pull-right grey">{{= model.remote_versions.sisbot }}</span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-model="{{= model.sisbot_id }}"
-          data-if="{{= model.is_legacy_branch }} == false"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'log-files'}"
-          tg-name="log_files_tab"
-      >
-          <span class="strong montserrat_semi_bold">Log Files</span>
-          <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
+      <div class="bb p20 fs14">
+        <span class="strong">Local Browser Version</span>
+        <span class="pull-right grey">{{= model.local_versions.app }}</span>
       </div>
-      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-          data-if="{{= app.is_app }} == false"
-          data-on-click="publish"
-          data-publish="session:active"
-          data-msg="{'secondary':'upload-track'}"
-          tg-name="upload_tracks_tab"
-      >
-          <span class="strong montserrat_semi_bold">Upload Track(s)</span>
-          <span class="pull-right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-          </span>
+      <div class="bb p20 fs14">
+        <span class="strong">Remote Browser Version</span>
+        <span class="pull-right grey">{{= model.remote_versions.app }}</span>
       </div>
-
-    <!-- <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
-        data-if="{{= app.is_app }} == false"
-        data-on-click="model.find_tracks"
-        tg-name="find_tracks_tab"
+      <div class="bb p20 fs14">
+        <span class="strong">Local Proxy Version</span>
+        <span class="pull-right grey">{{= model.local_versions.proxy }}</span>
+      </div>
+      <div class="bb p20 fs14">
+        <span class="strong">Remote Proxy Version</span>
+        <span class="pull-right grey">{{= model.remote_versions.proxy }}</span>
+      </div>
+      <div class="bb p20 fs14">
+        <span class="strong">Remote Api Version</span>
+        <span class="pull-right grey">{{= model.remote_versions.api }}</span>
+      </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-model="{{= model.sisbot_id }}"
+        data-run="model.is_legacy"
+        data-if="{{= model.is_legacy_branch }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'change_table_name'}"
+        tg-name="table_name_tab"
     >
-        <span class="strong montserrat_semi_bold">Find More Tracks</span>
+        <span class="strong montserrat_semi_bold">Table Name</span>
         <span class="pull-right">
-            <span class="pull-right">
             <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
+    </div>
+    <div data-model="{{= model.sisbot_id }}">
+      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+          data-if="{{= model.data.is_network_connected }} == false"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'wifi'}"
+          tg-name="connect_to_wifi_tab">
+        <span class="strong montserrat_semi_bold">Connect to WiFi network</span>
+        <span class="pull-right">
+          <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
         </span>
-    </div> -->
+      </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-model="{{= model.sisbot_id }}"
+        data-if="{{= model.is_legacy_branch }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'log-files'}"
+        tg-name="log_files_tab">
+      <span class="strong montserrat_semi_bold">Log Files</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+        data-if="{{= app.is_app }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'upload-track'}"
+        tg-name="upload_tracks_tab">
+      <span class="strong montserrat_semi_bold">Upload Track(s)</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
+    </div>
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'advanced-movement'}"
-        tg-name="advanced_movement_tab"
-    >
-        <span class="strong montserrat_semi_bold">Advanced Movement</span>
-        <span class="pull-right">
-            <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
-        </span>
+        tg-name="advanced_movement_tab">
+      <span class="strong montserrat_semi_bold">Advanced Movement</span>
+      <span class="pull-right">
+        <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
+      </span>
     </div>
     <div data-model="{{= model.sisbot_id }}">
       <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
@@ -199,7 +182,7 @@
     <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
         data-on-click="publish"
         data-publish="session:active"
-        data-msg="{'secondary':'change_table'}"
+        data-msg="{'secondary':'change_table','goBack':'settings'}"
         data-if="{{= _.size(model.sisbots_ip_name) }} > 1"
         tg-name="change_table_tab">
       <span class="strong montserrat_semi_bold">Change Table</span>

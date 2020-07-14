@@ -87,6 +87,12 @@ app.model.sisbot = {
 			rem_secondary_color: '0x00FFFFFF',
 			show_picker: 'true',
 
+			track_total_time: 0,
+			track_remaining_time: 0,
+			remaining_time_str: '0:00', // time left in current track
+			past_time_str: '0:00', // time past on current track
+			track_time_percent: 0,
+
 			edit: {},
 			data: {
 				id: data.id,
@@ -157,8 +163,10 @@ app.model.sisbot = {
 				sleep_time: '10:00 PM',					// 10:00 PM sleep_time
 				wake_time: '8:00 AM',					// 8:00 AM  wake_time
 
-				is_paused_between_tracks: 'false',
-				is_waiting_between_tracks: 'false',
+				is_paused_between_tracks: 'false', // do we wait when hitting the end of a track
+				is_paused_time_enabled: 'false',
+				paused_track_time: 15, // this is minutes
+				is_waiting_between_tracks: 'false', // table is currently paused after a track finish
 				share_log_files: 'false',
 
 				cson: 'false',
@@ -194,6 +202,7 @@ app.model.sisbot = {
 		this.listenTo(app, 'socket:error', this._socket_error);
 
 		// this.on('change:data.is_serial_open', 				this._check_serial);
+		this.on('change:data.state', this.state_change);
 		this.on('change:data.failed_to_connect_to_wifi', this.wifi_failed_to_connect);
 		this.on('change:data.is_network_connected', this.wifi_connected);
 		this.on('change:data.wifi_forget', this.wifi_connected);
@@ -203,6 +212,10 @@ app.model.sisbot = {
 		this.on('change:data.software_version', this.check_for_version_update);
 		this.on('change:data.reason_unavailable', this.check_for_unavailable);
 		this.on('change:data', this.nightmode_sleep_change);
+
+		this.on('change:data.is_paused_between_tracks', this.pause_between_tracks);
+		this.on('change:data.is_paused_time_enabled', this.pause_between_tracks);
+		this.on('change:data.paused_track_time', this.pause_between_tracks);
 
 		this.on('change:edit.led_pattern', this._change_led_pattern);
 
@@ -233,6 +246,11 @@ app.model.sisbot = {
 			this._update_pattern_colors();
 		}
 
+    // listen for changing page
+		this.listenTo(app, 'app:is_visible', this.check_track_time);
+		this.on('change:data.state', this.check_track_time);
+		this.listenTo(app.session, 'change:active', this.stop_track_time);
+
 		this._poll_state();
 
 		this._listeners_set = true;
@@ -241,6 +259,12 @@ app.model.sisbot = {
 		this.stopListening();
 
 		this._listeners_set = false;
+	},
+	state_change: function() {
+		// app.log("Sisbot state changed", this.id, this.get('data.state'));
+		app.trigger('sisbot:state_change',{
+			'state': this.get('data.state')
+		});
 	},
 	update_network: function () {
 		if (this.get('data.is_network_separate') == 'false') {
@@ -362,7 +386,7 @@ app.model.sisbot = {
 		var self = this;
 		var address = this.get('data.local_ip');
 
-		app.log("_update_sisbot()", address);
+		// app.log("_update_sisbot()", address);
 
 		// if (app.platform == 'iOS')	address = this.get('data.hostname');
 		// 192.168.42.1 | iOS | state
@@ -591,6 +615,90 @@ app.model.sisbot = {
 
 		return this;
 	},
+	/**************************** TIME *******************************************/
+	track_time_interval: null,
+	get_track_time: function() {
+		var self = this;
+
+		this._update_sisbot('get_track_time',{}, function(obj) {
+			if (obj.err) return app.log("Get Track Time error", obj.err);
+
+			if (obj.resp) {
+				app.log("Track time:", obj.resp);
+
+				var total_time = Math.round(obj.resp.total_time/1000);
+				self.set('track_total_time', total_time);
+
+				var remaining_time = Math.round(obj.resp.remaining_time/1000);
+				self.set('track_remaining_time', remaining_time);
+
+				self.update_track_time();
+
+				clearInterval(self.track_time_interval);
+				if (self.get('data.state') == 'playing' && remaining_time > 0) {
+					self.track_time_interval = setInterval(function() {
+						var remaining_time = self.get('track_remaining_time');
+						remaining_time--;
+						if (remaining_time < 0) {
+							remaining_time = 0;
+							self.check_track_time();
+						}
+						self.set('track_remaining_time', remaining_time);
+
+						self.update_track_time();
+					}, 1000);
+				}
+			}
+		});
+	},
+	check_track_time: function() {
+		if (app.is_visible) {
+			if ((this.get('data.state') == 'playing' || this.get('data.state') == 'waiting') && app.session.get('active.primary') == 'current') {
+				this.get_track_time();
+			};
+		} else clearInterval(this.track_time_interval);
+	},
+	stop_track_time: function() {
+		var primary = app.session.get('active.primary');
+		if (primary != 'current') {
+			// app.log("Stop track_time_interval", primary);
+			clearInterval(this.track_time_interval);
+		}
+	},
+	update_track_time: function() {
+		var self = this;
+
+		var total_time = this.get('track_total_time');
+		var remaining_time = this.get('track_remaining_time');
+
+		var remaining_hours = Math.floor(remaining_time/3600);
+		var remaining_minutes = Math.floor(remaining_time/60) - remaining_hours * 60;
+		var remaining_seconds = Math.floor(remaining_time) - remaining_hours * 3600 - remaining_minutes * 60;
+		var remaining_str = "";
+		if (remaining_hours > 0) remaining_str += remaining_hours+":";
+		if (remaining_minutes < 10) remaining_str += "0";
+		remaining_str += remaining_minutes+":";
+		if (remaining_seconds < 10) remaining_str += "0";
+		remaining_str += remaining_seconds;
+		// app.log("Remaining:", remaining_str);
+		self.set('remaining_time_str', remaining_str);
+
+		var past_time = total_time - remaining_time;
+		var past_hours = Math.floor(past_time/3600);
+		var past_minutes = Math.floor(past_time/60) - past_hours * 60;
+		var past_seconds = Math.floor(past_time) - past_hours * 3600 - past_minutes * 60;
+		var past_str = "";
+		if (past_hours > 0) past_str += past_hours+":";
+		if (past_minutes < 10) past_str += "0";
+		past_str += past_minutes+":";
+		if (past_seconds < 10) past_str += "0";
+		past_str += past_seconds;
+		// app.log("Past:", past_str);
+		self.set('past_time_str', past_str);
+
+		// calc percent for progress bar
+		self.set('track_time_percent', Math.round(past_time/total_time*100));
+	},
 	/**************************** PASSCODE ***************************************/
 	enter_passcode: function () {
 		this.set('passcode_error', 'false');
@@ -607,7 +715,7 @@ app.model.sisbot = {
 
 		var passcode = this.get('data.passcode');
 		var new_passcode = this.get('new_passcode');
-		if (passcode != 'false' || new_passcode != 'false') {
+		if (passcode != 'false' || (new_passcode != 'false' && new_passcode != '')) {
 			this.set('passcode_confirmed', 'false')
 				.set('passcode_entry', 'false');
 
@@ -629,6 +737,9 @@ app.model.sisbot = {
 
 		var do_save = false;
 
+		var regex = /^[0-9a-zA-Z_]+$/;
+		var is_match = passcode_entry.match(regex);
+
 		if (passcode_entry == '' && this.get('data.passcode') != 'false') {
 			app.plugins.n.notification.confirm("Do you want to remove the passcode from your Sisyphus?",
 				function (resp_num) {
@@ -638,18 +749,21 @@ app.model.sisbot = {
 						self._save_passcode();
 					}
 				}, 'No Passcode?', ['Cancel', 'Yes']);
-		} else if (passcode_entry.length < 4) {
-			this.add('errors', 'Passcode too short, must be 4-6 characters');
-		} else if (passcode_entry.length <= 6) {
+		} else if (!is_match) {
+			this.add('errors', 'Passcode contains invalid characters, please use alphanumeric and underscores');
+		} else if (passcode_entry.length < 8) {
+			this.add('errors', 'Passcode too short, must be 8 or more characters');
+		} else if (passcode_entry.length >= 8) {
 			if (show_passcode == 'true') do_save = true;
 			else this.confirm_passcode();
 		}
-
-		if (do_save) this._save_passcode();
+		if (do_save) {
+			this._save_passcode();
+			app.plugins.n.notification.alert('New Passcode Saved.');
+		}
 	},
 	_save_passcode: function () {
 		var self = this;
-
 		var passcode_entry = this.get('new_passcode');
 		if (passcode_entry == '') passcode_entry = 'false';
 		app.log("Save Passcode", passcode_entry);
@@ -660,8 +774,8 @@ app.model.sisbot = {
 		data.passcode = passcode_entry;
 
 		if (app.config.env == 'alpha') {
-			return app.trigger('session:active', { secondary: 'advanced_settings' });
 			this.set('data.passcode', passcode_entry);
+			return app.trigger('session:active', { secondary: 'advanced_settings' });
 		}
 
 		this._update_sisbot('save', data, function (obj) {
@@ -670,7 +784,7 @@ app.model.sisbot = {
 			} else if (obj.resp) {
 				app.manager.intake_data(obj.resp);
 
-				self.set('new_passcode', passcode_entry); // update edit field
+				self.set('new_passcode', 'false'); // clear edit field
 
 				app.trigger('session:active', { secondary: 'advanced_settings' });
 			}
@@ -690,8 +804,8 @@ app.model.sisbot = {
 				app.trigger('modal:close');
 			} else {
 				app.manager.set('is_passcode_required', 'false');
+				if (this.get('passcode_confirmed') == 'false') app.plugins.n.notification.alert('New Passcode not confirmed.');
 				this.set('passcode_confirmed', 'true');
-				app.plugins.n.notification.alert('New Passcode not confirmed.');
 				this.set('new_passcode', passcode); // reset new_passcode field
 				app.trigger('modal:close');
 			}
@@ -709,7 +823,7 @@ app.model.sisbot = {
 	},
 	/**************************** ADMIN ***************************************/
 	check_for_unavailable: function () {
-		app.log("Check Unavailable", this.get('data.reason_unavailable'));
+		// app.log("Check Unavailable", this.get('data.reason_unavailable'));
 		if (this.get('data.reason_unavailable') !== 'false') {
 			// make sure we say the sisbot is unavailable
 			app.manager.set('is_sisbot_available', 'false');
@@ -864,9 +978,9 @@ app.model.sisbot = {
 						self._connect_to_wifi();
 					}
 				}, 'No Password?', ['No', 'Yes']);
-		} else if (credentials.password.length > 0 && credentials.password.length < 8) {
+		} else if (credentials.password.length > 0 && (credentials.password.length < 8 || credentials.password.length > 63)) {
 			this.set('wifi_error', 'true');
-			app.plugins.n.notification.alert('Your Wi-Fi password mut be 8 characters or more.');
+			app.plugins.n.notification.alert('Your Wi-Fi password must be between 8-63 characters.');
 			return this;
 		} else {
 			this._connect_to_wifi();
@@ -936,19 +1050,29 @@ app.model.sisbot = {
 				}, 200);
 			}
 		});
-
 	},
-	disconnect_wifi: function () {
-		app.log("disconnect_wifi()");
+	disconnect_wifi: function (data) {
+		app.log("disconnect_wifi()", data);
 		var self = this;
+		var passcode = self.get('data.passcode');
 
-		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi', on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
+		if (passcode !== 'false') {
+			// confirm passcode is the right length
+			if (passcode.length > 0 && (passcode.length < 8 || passcode.length > 63)) {
+				passcode = 'false'; // do not use
+			}
+		}
+
+		app.plugins.n.notification.confirm('Are you sure you want to disconnect your Sisyphus from WiFi',
+		on_disconnect, 'WiFi Disconnect', ['Cancel', 'Disconnect']);
 
 		function on_disconnect(status) {
-			if (status == 1)
-				return self;
+			if (status == 1) return self;
 
-			self._update_sisbot('disconnect_wifi', {}, function (obj) {
+			var opts = {};
+			if (passcode && passcode != 'false' && passcode != '') opts.password = passcode;
+
+			self._update_sisbot('disconnect_wifi', opts, function (obj) {
 				// do nothing
 				self.set('is_polling', 'false')
 					.set('wifi.password', '')
@@ -1072,8 +1196,9 @@ app.model.sisbot = {
 			function (resp_num) {
 				if (resp_num == 1) return self;
 
-				self.set('data.factory_resetting', 'true');
+				app.collection.remove('favorite_playlist_id'); // Remove Favorite Playlist.
 
+				self.set('data.factory_resetting', 'true');
 				self._update_sisbot('factory_reset', {}, function (obj) {
 					if (obj.err) {
 						self.set('data.factory_resetting_error', 'There was an error resetting your Sisbot');
@@ -1365,8 +1490,8 @@ app.model.sisbot = {
 
 		this._update_sisbot('save', data, function (obj) {
 			if (obj.err) {
-				self.set('errors', [obj.err]);
 			} else if (obj.resp) {
+				self.set('errors', [obj.err]);
 				app.manager.intake_data(obj.resp);
 				app.trigger('session:active', { secondary: 'advanced_settings' });
 			}
@@ -1401,19 +1526,18 @@ app.model.sisbot = {
 	pause_between_tracks: function () {
 		if (this.is_legacy())
 			return app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature');
-
 		var self = this;
-		var state = app.plugins.bool_opp[this.get('edit.is_paused_between_tracks')];
 
-		this.set('edit.is_paused_between_tracks', state)
-			.set('errors', []);
-
-		this._update_sisbot('set_pause_between_tracks', { is_paused_between_tracks: state }, function (obj) {
-			if (obj.err) {
-				self.set('errors', [obj.err]);
-			} else if (obj.resp) {
-				app.manager.intake_data(obj.resp);
-			}
+		this._update_sisbot('set_pause_between_tracks', {
+			is_paused_between_tracks: self.get('data.is_paused_between_tracks'),
+			is_paused_time_enabled: self.get('data.is_paused_time_enabled'),
+			paused_track_time: self.get('data.paused_track_time')
+			}, function (obj) {
+				if (obj.err) {
+					self.set('errors', [obj.err]);
+				} else if (obj.resp) {
+					app.manager.intake_data(obj.resp);
+				}
 		});
 	},
 	/**************************** PLAYBACK ************************************/
@@ -1766,7 +1890,7 @@ app.model.sisbot = {
 
 		// load last used color from this pattern
 		var pattern = app.collection.get(this.get('data.led_pattern'));
-		// app.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
+		app.log("Update Pattern Colors", pattern.get('data'), this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 		if (pattern) {
 			if (pattern.get('data.is_white') == 'true') {
 				// app.log("Update white from led_pattern", pattern.get('data'));
@@ -1825,6 +1949,11 @@ app.model.sisbot = {
 				edit_primary = this.get('data.led_primary_color');
 				this.set('edit.led_primary_color', edit_primary);
 			}
+		}
+
+		// include white_value
+		if (led_pattern.get('data.is_white')) {
+			color_data.white_value = led_pattern.get('data.white_value');
 		}
 
 		// app.log("Compare Primary Color", this.get('data.led_primary_color'), edit_primary);

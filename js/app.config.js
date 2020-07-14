@@ -1,77 +1,77 @@
 app.config = {
-	env: 'prod', //
-	version: '1.10.29', // pushing to promote new version for Apple because of cordova plugin socket issue
+	env: 'prod',
+	version: '1.9.31', // Read CHANGELOG.md /added track timer
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output
 	is_debug: 'false', // for html to show custom debugging html, use string value
 	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
-	simulator_ip: '192.168.86.26', // force a specific network address in simulator
+	simulator_ip: '192.168.1.2', // force a specific network address in simulator
 	show_comments: false,
 	show_data: false,
 	show_lib: false,
-	show_tg: false, // for testing
+	show_tg: false, // for training_grounds
 	envs: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
-			base_url: 'http://app.dev.withease.io:3001/', // local
-			api_url: 'https://webcenter.sisyphus-industries.com/',
-			web_url: 'https://webcenter.sisyphus-industries.com/',
+			base_url: 	'http://app.dev.withease.io:3001/', // local
+			api_url: 		'https://webcenter.sisyphus-industries.com/',
+			web_url: 		'https://webcenter.sisyphus-industries.com/',
 			sisbot_url: 'http://api.dev.withease.io:3000/', //talking to sisbot
 			port: 3001,
 		},
 		beta: {		// tests local network
-			base_url: 'http://app.dev.withease.io:3001/', //local url
-			api_url: 'https://webcenter.sisyphus-industries.com/', // PRODUCTION
-			web_url: 'https://webcenter.sisyphus-industries.com/', // PRODUCTION
-			// api_url			: 'http://3.214.203.248/', //change these to dev.webcenter for next push to TF and GP
-			// web_url			: 'http://3.214.203.248/',
-			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
-			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
-			// api_url			: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
-			// web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url: 'http://192.168.1.2:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			base_url: 		'http://app.dev.withease.io:3001/', //local url
+			// api_url: 		'https://webcenter.sisyphus-industries.com/', // PRODUCTION
+			// web_url: 		'https://webcenter.sisyphus-industries.com/', // PRODUCTION
+			// api_url				: 'http://3.214.203.248/', //change these to dev.webcenter for next push to TF and GP
+			// web_url				: 'http://3.214.203.248/',
+			api_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
+			web_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
+			// api_url				: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
+			// web_url				: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
+			sisbot_url: 	'http://192.168.1.2:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true
 		},
 		training: {
-			base_url: 'http://app.dev.withease.io:3001/', //local url
-			api_url: 'https://webcenter.sisyphus-industries.com/', // production
-			web_url: 'https://webcenter.sisyphus-industries.com/', // production
-			// api_url			: 'http://localhost:3333/', // webcenter
-			// web_url			: 'http://localhost:3333/', // webcenter
-			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			sisbot_url: 'http://192.168.1.06:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			base_url: 		'http://app.dev.withease.io:3001/', //local url
+			// api_url: 		'https://webcenter.sisyphus-industries.com/', // production
+			// web_url: 		'https://webcenter.sisyphus-industries.com/', // production
+			// api_url				: 'http://localhost:3333/', // localhost
+			// web_url				: 'http://localhost:3333/', // localhost
+			api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
+			web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
+			sisbot_url: 	'http://192.168.1.02:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true
 		},
 		matt: {
-			base_url: 'http://app.dev.withease.io:3001/', //local url
-			api_url: 'https://webcenter.sisyphus-industries.com/',
-			web_url: 'https://webcenter.sisyphus-industries.com/',
-			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			// api_url			: 'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
-			// web_url			: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url: 'http://192.168.86.26:3002', //  33: wall, 26: mini
+			base_url: 		'http://app.dev.withease.io:3001/', //local url
+			api_url: 			'https://webcenter.sisyphus-industries.com/',
+			web_url: 			'https://webcenter.sisyphus-industries.com/',
+			// api_url				: 'http://dev.webcenter.sisyphus-industries.com/',
+			// web_url				: 'http://dev.webcenter.sisyphus-industries.com/',
+			// api_url: 			'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
+			// web_url: 			'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
+			sisbot_url: 	'http://192.168.86.26:3002', //  33: wall, 26: mini
 			port: 3001,
 		},
 		sisbot: {
 			base_url: window.location.href,
-			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
-			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			api_url: 'https://webcenter.sisyphus-industries.com/',
-			web_url: 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url: window.location.href, //talking to sisbot
+			api_url				: 'http://dev.webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
+			web_url				: 'http://dev.webcenter.sisyphus-industries.com/',
+			// api_url: 			'https://webcenter.sisyphus-industries.com/',
+			// web_url: 			'https://webcenter.sisyphus-industries.com/',
+			sisbot_url: 	window.location.href, //talking to sisbot
 			port: 3001,
 		},
 		prod: { // Android & iOS
-			base_url: 'false', // unused
-			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/',
-			api_url: 'https://webcenter.sisyphus-industries.com/',
-			web_url: 'https://webcenter.sisyphus-industries.com/',
-			sisbot_url: 'false', // set when we find a bot
+			base_url: 		'false', // unused
+			// api_url					: 'http://dev.webcenter.sisyphus-industries.com/',
+			// web_url					: 'http://dev.webcenter.sisyphus-industries.com/',
+			api_url: 			'https://webcenter.sisyphus-industries.com/',
+			web_url: 			'https://webcenter.sisyphus-industries.com/',
+			sisbot_url: 	'false', // set when we find a bot
 			base_port: 443,
 		}
 	},

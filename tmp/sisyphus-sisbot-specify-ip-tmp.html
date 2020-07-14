@@ -56,7 +56,7 @@
       <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong clickable"
           data-if="{{= model.sisbot_connecting }} == false"
           data-on-click="model.find_sisbots"
-          data-msg="true">Re-Scan</h2>
+          data-msg="{'force_rescan':'true'}">Re-Scan</h2>
       <h2 class="mt20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
           data-if="{{= model.sisbot_connecting }} == true">Re-Scan</h2>
     </div>
