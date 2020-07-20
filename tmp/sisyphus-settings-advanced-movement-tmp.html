@@ -69,7 +69,7 @@
           <i class="fas fa-long-arrow-alt-down mr20"></i>Jog Rho Inward
         </div>
       </div>
-      <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+      <!-- <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
           data-if="{{= parent.is_ready }} == false"
           data-on-click="parent.start_listening"
           tg-name="startTilt">
@@ -82,9 +82,9 @@
         <div class="wrapper">
           <i class="fas fa-vial mr20"></i>Starting Tilt Control...
         </div>
-      </div>
+      </div> -->
     </div>
-    <div data-if="{{= model.is_listening }} == true">
+    <!-- <div data-if="{{= model.is_listening }} == true">
       <div class="w100"
           data-run-after="model.init_preview"
           data-run-msg="{'el_id':'.{{= _self_.el_id }}'}">
@@ -111,7 +111,7 @@
         <div>Force (Rho): {{= model.force.toFixed(2) }} Angle (Theta): {{= model.angle.toFixed(2) }}</div>
       </div> -->
       <!-- Controls for modifying values -->
-      <div class="p10 bb">
+      <!-- <div class="p10 bb">
         <p class="strong no-stuffing w100 fs18 lh18">Min Tilt {{= model.min_tilt }} (default: 1)</p>
         <p class="no-stuffing w100 f-small mb5">How far does the device need to tilt before affecting ball</p>
         <div class="flex vertical-align w100">
@@ -214,15 +214,15 @@
             <div class="w5 blue-hover center pt10 pb10">100</div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- Stop -->
-      <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+      <!-- <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
           data-on-click="model.stop_listening"
           tg-name="stopTilt">
         <div class="wrapper">
           <i class="fas fa-vial mr20"></i>Stop Tilt Control
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="hh150">&nbsp;</div>
   </div>
