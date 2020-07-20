@@ -1,34 +1,26 @@
-# 2020-7-2 1.10.29-31
-
+# 2020-7-2 1.10.26-31
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
-- Tilt control / Streaming  added
+- Tilt control / Streaming added
 - Passcode and HotSpot password merged into one and updated.
 - Error alert for upload_tracks in Advance Settings (browser only)
 - Updated moment() in Artist created to display correctly
 - Rescan for tables added to homepage
-- tg-names added /updated for training_grounds
-- cleaned up code
-- alpha in app.config.js is pointed to https://webcenter
+- Test mode points to production Webcenter (tap 5x on table not found page)
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Time left on current track added
-
-# 2020-6-16 1.10.26
-
 - Force Firmware Update button added to Advanced Table settings
 - Downloading Tracks count added to Community overlay
 - Cancelling after downloading tracks correctly removes the tracks from the table
 - Drawing shows red stop square at correct position of rho 1
-- Hotspot Password settings page
 - Factory Reset clears the Favorites Playlist model
 - Resume time for Pause Between Tracks
 - What's New viewable when no Firmware Updates
-- Pause between tracks has a Restart After
 - Confirmation after changing Passcode password
-- ALl Tracks now has shuffle and play all
+- All Tracks now has shuffle and play all
 - Send white slider value when changing white temp (prevents recentering slider on app startup)
 - Fix playback label when playing single track
 
-# 2020-3-10 1.10.09-25
+# 2020-3-10 1.10.09-25 3a89bc1a8f70c2427c7c55e1fdb633f96d745cdf
 
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
@@ -38,7 +30,6 @@
 - Zendesk Support requests can be submitted within app
 - keyboard dismissal fix with cordova-plugin-wkkeyboardfix pushing for testing
 - updated inappbrowser plugin in Cordova for Apple depreciation of UIWebview
-- removed wc_test env from app.config
 - updated app.js for StatusBar.overlaysWebView(false & true) to fix status bar page height for new cordova
 - Download All from Artist fixed and routing to modal (also updated in sisbot/)
 - UI changes as well as naming conventions.

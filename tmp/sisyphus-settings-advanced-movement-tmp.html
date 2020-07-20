@@ -69,18 +69,20 @@
           <i class="fas fa-long-arrow-alt-down mr20"></i>Jog Rho Inward
         </div>
       </div>
-      <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
-          data-if="{{= parent.is_ready }} == false"
-          data-on-click="parent.start_listening"
-          tg-name="startTilt">
-        <div class="wrapper">
-          <i class="fas fa-vial mr20"></i>Start Tilt Control
+      <div  data-if="{{= grandparent.is_admin }} == true">
+        <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-if="{{= parent.is_ready }} == false"
+            data-on-click="parent.start_listening"
+            tg-name="startTilt">
+          <div class="wrapper">
+            <i class="fas fa-vial mr20"></i>Start Tilt Control
+          </div>
         </div>
-      </div>
-      <div class="bb hh50 p20 mb20 fs18 flex vertical-align montserrat_m active"
-          data-if="{{= parent.is_ready }} == true">
-        <div class="wrapper">
-          <i class="fas fa-vial mr20"></i>Starting Tilt Control...
+        <div class="bb hh50 p20 mb20 fs18 flex vertical-align montserrat_m active"
+            data-if="{{= parent.is_ready }} == true">
+          <div class="wrapper">
+            <i class="fas fa-vial mr20"></i>Starting Tilt Control...
+          </div>
         </div>
       </div>
     </div>
