@@ -34,7 +34,7 @@
             tg-name="community_playlists_all_input"/>
         </div>
         <div class="grey fs10 absolute pointer-none i strong t40p l80p">
-          Count: <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+          Count: <span class="orange" data-if="{{= model.is_ready }} == true">{{= _.size(parent.community_playlist_ids) }}</span>
         </div>
       </div>
     </div>
