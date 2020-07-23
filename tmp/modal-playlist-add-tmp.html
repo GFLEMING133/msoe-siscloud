@@ -6,6 +6,7 @@
         data-foreach-map="true"
         tg-name="add_to_playlist_modal">
       <div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb {{= (scope.index == 0) ? 'corner-10px corner-bl-none corner-br-none' : '' }}"
+        data-if="{{= model.id }} !== all_tracks_playlist"
         data-on-click="grandparent.add_to_playlist"
         data-msg="{{= model.id }}"
         tg-name="add_to_playlist_{{= model.id}}_btn">Add to "{{= model.data.name }}"</div>

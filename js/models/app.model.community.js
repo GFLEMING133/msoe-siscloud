@@ -53,7 +53,7 @@ app.model.community = {
       fetching_more : 'false', // TODO: remove?
 
       hamburger     : 'false',
-
+      is_admin      : 'false',
       data: {
         id      : data.id,
         type    : 'community',
@@ -64,6 +64,7 @@ app.model.community = {
         created_by_name : 'false', //community
         created_at      : 'false',
         is_public       : 'false', //community
+        is_admin        : 'false'
       }
     };
 
@@ -305,11 +306,12 @@ app.model.community = {
     function cb(obj) {
       app.log("Community Artists:", obj.resp);
       if (obj.err) return self;
-
       app.manager.intake_data(obj.resp); // obj.resp.data
-
+      var obj_data = _.pluck(obj.resp, 'data');
+      var is_admin = _.pluck(obj_data, 'is_admin');
       var resp_artist_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
 
+      self.set('data.is_admin', is_admin[0] );
       self.set('community_artist_ids', resp_artist_ids);
       self.set('fetched_community_artists', 'true');
       self.set('fetching_community_artists', 'false');
