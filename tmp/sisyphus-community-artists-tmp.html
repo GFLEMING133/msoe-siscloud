@@ -28,7 +28,7 @@
       </div>
 <!-- END HEADER -->
 
-      <div class="flex p15 pb10 pt10 w100 bg-white">
+      <div class="flex p15 pb10 pt10 w100 bg-white relative">
         <div class="flex3">
           <input
             type="text"
@@ -43,6 +43,7 @@
             data-on-key-enter="blur"
             tg-name="artists_search_input"/>
         </div>
+        <div class="grey fs10 absolute pointer-none i strong t40p l80p">Count: <span class="orange">{{= model.q_size }}</span></div>
       </div>
     </div>
 
