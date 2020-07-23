@@ -43,7 +43,10 @@
             data-on-key-enter="blur"
             tg-name="artists_search_input"/>
         </div>
-        <div class="grey fs10 absolute pointer-none i strong t40p l80p">Count: <span class="orange">{{= model.q_size }}</span></div>
+        <div class="grey fs10 absolute pointer-none i strong t40p l80p">
+          Count:
+          <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+        </div>
       </div>
     </div>
 

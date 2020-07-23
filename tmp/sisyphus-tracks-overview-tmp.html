@@ -56,7 +56,10 @@
             data-on-input="model.update_q"
             data-on-key-enter="blur"
             tg-name="all_tracks_search_input" />
-            <div class="grey fs10 absolute pointer-none i strong t40p l80p">Count: <span class="orange">{{= model.q_size }}</span></div>
+            <div class="grey fs10 absolute pointer-none i strong t40p l80p">
+              Count:
+              <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+            </div>
       </div>
       <div class="center p20 i" data-if="{{= model.size }} == 0">
         <span>No Tracks matching search</span>
