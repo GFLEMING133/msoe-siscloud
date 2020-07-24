@@ -3,14 +3,14 @@ app.config = {
 	version: '1.9.31', // Read CHANGELOG.md /added track timer
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
-	is_production: false, // cuts out all app.log() output
-	is_debug: 'true', // for html to show custom debugging html, use string value
+	is_production: true, // cuts out all app.log() output
+	is_debug: 'false', // for html to show custom debugging html, use string value
 	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
 	simulator_ip: '192.168.1.2', // force a specific network address in simulator
-	show_comments: true,
-	show_data: true,
-	show_lib: true,
-	show_tg: true, // for training_grounds
+	show_comments: false,
+	show_data: false,
+	show_lib: false,
+	show_tg: false, // for training_grounds
 	envs: {
 		alpha: {	// loads local data only **5 tap on No Table Found Screen to launch shell app
 			base_url: 	'http://app.dev.withease.io:3001/', // local
@@ -35,13 +35,13 @@ app.config = {
 		},
 		training: {
 			base_url: 		'http://app.dev.withease.io:3001/', //local url
-			api_url: 		'https://webcenter.sisyphus-industries.com/', // production
-			web_url: 		'https://webcenter.sisyphus-industries.com/', // production
+			// api_url: 		'https://webcenter.sisyphus-industries.com/', // production
+			// web_url: 		'https://webcenter.sisyphus-industries.com/', // production
 			// api_url				: 'http://localhost:3333/', // localhost
 			// web_url				: 'http://localhost:3333/', // localhost
-			// api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			// web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			sisbot_url: 	'http://192.168.1.02:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
+			web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
+			sisbot_url: 	'http://192.168.1.13:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true
 		},

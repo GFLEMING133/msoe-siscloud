@@ -18,6 +18,11 @@
       var app = {
         plugins: {}
       };
+
+      //Scroll into view when keyboard pops up on Android.
+      $(document).on('focus', selector, function() {
+        document.querySelector(selector).scrollIntoView();
+      });
     </script>
     <script src="js/gen/app.post.js"></script>
     <script src="js/gen/app.plugins.utils.js"></script>

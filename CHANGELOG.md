@@ -1,4 +1,14 @@
+# 2020-7-23 1.9.32
+
+- Added Count to search bars.
+- Adjusted tilt for servo tables
+- Sending Arrow verts when start_streaming
+- Fixed playlist modal to not show Add to All Playlist
+- Adjusted Track-Timer
+- fixed disconnect from wifi (broke on 1.9.31)
+
 # 2020-7-2 1.10.26-31
+
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Tilt control / Streaming added
 - Passcode and HotSpot password merged into one and updated.
