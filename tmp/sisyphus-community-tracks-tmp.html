@@ -76,9 +76,10 @@
                 data-on-input="model.update_q"
                 data-on-key-enter="blur"
                 tg-name="community_tracks_input"/>
-            <div class="grey fs10 absolute pointer-none i strong t30p l70p">
-              Count:
-              <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+            <div
+              class="grey absolute pointer-none i strong t34p l85p"
+              data-if="{{= model.is_ready }} == true">
+              {{= model.q_size }}
             </div>
           </div>
 

@@ -2216,7 +2216,6 @@ li.blue-hover:hover {
 .relative {
   position: relative;
 }
-
 .absolute {
   position: absolute;
   left: 0;
@@ -2224,40 +2223,28 @@ li.blue-hover:hover {
   top: 0;
   bottom: 0;
 }
-.t30p {
-  top: 30%;
-}
-.t40p {
-  top: 40%;
-}
-.t65p {
-  top: 65%;
-}
-.l70p {
-  left: 70%;
-}
-.l75p {
-  left: 75%;
-}
-.l78p {
-  left: 78%;
-}
-.l80p {
-  left: 80%;
-}
-
 .absolutely {
   position: absolute;
   right: 6px;
   top: 20px;
 }
-
+.t34p {
+  top: 30%;
+}
+.t39p {
+  top: 39%;
+}
+.l85p {
+  left: 85%;
+}
+.l86p {
+  left: 86%;
+}
 .truncate {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .img-rounded,
 .rounded {
   border-radius: 100px;
@@ -3657,7 +3644,7 @@ select:focus {
   margin-right: 40px !important;
 }
 
-.mt40p {
+.mt39p {
   margin-top: 40% !important;
 }
 
