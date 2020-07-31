@@ -20,10 +20,15 @@
                       }
                   }" data-on-scroll="model.scroll_check" data-msg="{{= _self_.el_id }}"
     tg-name="playlist_add_tracks_page">
-    <div class="flex p20 w100 bg-white">
+    <div class="flex p20 w100 bg-white relative">
       <input data-debug="true" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
         data-on-input="model.update_q" data-on-key-enter="blur" tg-name="playlis_edit_tracks_input" />
+        <div
+          class="grey absolute pointer-none i strong center t39p l75p"
+          data-if="{{= model.is_ready }} == true">
+          {{= model.q_size }}
+        </div>
     </div>
     <div class="center p20 i" data-if="{{= model.size }} == 0">
       <span>No Tracks matching search</span>

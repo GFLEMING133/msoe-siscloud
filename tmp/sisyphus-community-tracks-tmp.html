@@ -62,8 +62,9 @@
         <!-- END HEADER -->
 
         <div class="flex p15 pb10 pt10 w100 bg-white">
-          <div class="flex3">
+          <div class="flex3 relative">
             <input
+                class="strong"
                 type="text"
                 autocomplete="off"
                 autocorrect="off"
@@ -75,6 +76,11 @@
                 data-on-input="model.update_q"
                 data-on-key-enter="blur"
                 tg-name="community_tracks_input"/>
+            <div
+              class="grey absolute pointer-none i strong center t34p l80p"
+              data-if="{{= model.is_ready }} == true">
+              {{= model.q_size }}
+            </div>
           </div>
 
           <div class="hamburger-container clickable active">
@@ -111,7 +117,7 @@
           <div class="p20 center i">Fetching tracks...</div>
           <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
         </div>
-        <div class="mt60" data-if="{{= parent.fetching_community_tracks }} == false">
+        <div class="mt70" data-if="{{= parent.fetching_community_tracks }} == false">
           <div class="w100" data-if="{{= model.size }} > 0">
             <div class="w100 mt10"
                 data-if="{{= model.is_ready }} == true"

@@ -1,8 +1,12 @@
 <div class="pull-bottom m20" data-model="{{= session.community_id }}"
     tg-name="community_add_to_modal">
     <div class="scrollable hide-scrollbar mb20">
-        <div data-model="{{= manager.sisbot_id }}" data-foreach="model.data.playlist_ids" data-foreach-map="true">
+        <div data-model="{{= manager.sisbot_id }}"
+            data-foreach="model.data.playlist_ids"
+            data-foreach-map="true"
+            >
             <div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb {{= (scope.index == 0) ? 'corner-10px corner-bl-none corner-br-none' : '' }}"
+                data-if="{{= model.id }} !== all_tracks_playlist"
                 data-on-click="grandparent.add_to_playlist"
                 data-msg="{{= model.id }}"
                 tg-name="community_add_to_playlist_{{= model.id }}">Add to "{{= model.data.name }}"</div>

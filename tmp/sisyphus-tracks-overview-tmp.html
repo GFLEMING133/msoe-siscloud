@@ -56,6 +56,11 @@
             data-on-input="model.update_q"
             data-on-key-enter="blur"
             tg-name="all_tracks_search_input" />
+            <div
+              class="grey absolute pointer-none i strong center t39p l75p"
+              data-if="{{= model.is_ready }} == true">
+              {{= model.q_size }}
+            </div>
       </div>
       <div class="center p20 i" data-if="{{= model.size }} == 0">
         <span>No Tracks matching search</span>
