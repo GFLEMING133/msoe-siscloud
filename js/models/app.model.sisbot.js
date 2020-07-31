@@ -2163,7 +2163,6 @@ app.model.sisbot = {
 						app.trigger('session:active', { track_id: 'false', secondary: 'false' });
 						app.trigger('modal:close');
 					} else {
-						app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
 						app.trigger('modal:close');
 					}
 				}
