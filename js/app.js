@@ -116,6 +116,4 @@ var app = {
 	is_app: false
 };
 
-
-
 window.onload = app.on_load;

@@ -2298,7 +2298,9 @@ app.model.sisbot = {
 		app.log("Advanced Update", this.get('data.table_settings'), this.get('edit.table_settings'));
 		var edit_value = this.get('edit.table_settings');
 		var data_value = this.get('data.table_settings');
-		if (JSON.stringify(edit_value) == JSON.stringify(data_value)) return app.trigger('session:active', { secondary: 'advanced_settings' });
+		var edit_camera = this.get('edit.is_camera');
+		var data_camera = this.get('data.is_camera');
+		if (JSON.stringify(edit_value) == JSON.stringify(data_value) && edit_camera == data_camera) return app.trigger('session:active', { secondary: 'advanced_settings' });
 
 		app.plugins.n.notification.confirm("Changing these settings may cause your table to not function as expected.",
 			function (resp_num) {

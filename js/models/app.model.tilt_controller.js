@@ -25,6 +25,7 @@ app.model.tilt_controller = {
 
       x           : 185, // start at mid
       y           : 185, // start at mid
+      rho         : 0, // remembering old rho
       theta       : 0, // remembering old theta
 
       ax          : 0, // x acceleration
@@ -52,6 +53,8 @@ app.model.tilt_controller = {
 				id				: data.id,
 				type    	: 'tilt_controller',
 				version		: this.current_version,
+
+        walls     : [] // for maze
 			}
 		};
 
@@ -115,6 +118,9 @@ app.model.tilt_controller = {
     var padding = this.get('padding');
     var ball_r = this.get('ball_r');
 
+    var pi = Math.PI;
+    var loop_th = pi * 2;
+
     var x = e.gamma;
     var y = e.beta;
     // var z = e.alpha; // unused
@@ -166,6 +172,12 @@ app.model.tilt_controller = {
     var old_x = this.get('x');
     var ball_y = this.get('y');
     var old_y = this.get('y');
+    var old_rho = this.get('rho');
+    var old_theta = this.get('theta');
+
+    // update pos based on old velocity
+    ball_x += this.get('vx') / 2;
+    ball_y += this.get('vy') / 2;
 
     // update ball_position
     var friction = this.get('friction');
@@ -187,36 +199,78 @@ app.model.tilt_controller = {
 
     // reduce velocity with friction
     vx *= friction;
-    this.set('vx', vx);
     vy *= friction;
-    this.set('vy', vy);
 
     // set x, y for preview
-    ball_x += vx;
-    ball_y += vy;
+    ball_x += vx / 2;
+    ball_y += vy / 2;
 
     // keep within bounds
     var b_x = ball_x - mid;
     var b_y = ball_y - mid;
     var b_rho = Math.sqrt(b_x*b_x + b_y*b_y)/(mid-padding-ball_r);
     if (b_rho > 1) b_rho = 1;
-    var b_r = (mid-padding-ball_r) * b_rho;
     var b_th;
     if (b_x != 0 || b_y != 0) b_th = Math.atan2(b_y, b_x); // make sure it won't be NaN
-    else b_th = this.get('theta'); // use last value
+    else b_th = old_theta; // use last value
 
-    // TODO: fix th loop
+    // collision detection
+    var walls = this.get('data.walls');
+    if (walls.length > 0) {
+      // wrap old_theta if needed
+      var theta_compare = old_theta;
+      if (b_th - theta_compare > pi) theta_compare += loop_th;
+      else if (b_th - theta_compare < -pi) theta_compare -= loop_th;
+
+      // Loop through walls
+      _.each(walls, function(wall, index) {
+        var left = Math.max(wall.th - pi, -pi); // clamp to -pi
+        var right = Math.min(wall.th - pi + wall.w, pi); // clamp to pi
+        var bottom = wall.r;
+        var top = wall.r + wall.h;
+
+        // are we within the rho?
+        while (b_rho > bottom && b_rho < top && b_th > left && b_th < right) {
+          // collision!
+          // TODO: keep outside wall
+          if (theta_compare <= left) {
+            // app.log('Collision left: '+index, b_th, old_theta, left, right);
+            b_th = left;
+          } else if (theta_compare >= right) {
+            // app.log('Collision right: '+index, b_th, old_theta, left, right);
+            b_th = right;
+          } else if (old_rho <= bottom) {
+            // app.log('Collision bottom: '+index, b_rho, old_rho, top, bottom);
+            b_rho = bottom;
+          } else if (old_rho >= top) {
+            // app.log('Collision top: '+index, b_rho, old_rho, top, bottom);
+            b_rho = top;
+          } else app.log('Collision?', b_rho, b_th, theta_compare, "Rect:", top, right, bottom, left);
+          // {r:0.5, th: Math.PI*1.5, w: Math.PI*2*0.85, h: 0.1},
+
+          // reduce velocities in half(?)
+          vx /= 2;
+          vy /= 2;
+        }
+      });
+    }
+
+    // update after the collision detection
+    this.set('vx', vx);
+    this.set('vy', vy);
+    var b_r = (mid-padding-ball_r) * b_rho;
+
+    // fix th loop
     var th_offset = this.get('th_offset');
-    var pi = Math.PI;
-    var loop_th = pi * 2;
-    var theta_old = this.get('theta'); // get old theta for compare
+    // var theta_old = this.get('theta'); // get old theta for compare
     this.set('theta', b_th); // save current theta for next time
+    this.set('rho', b_rho);
 
-    // app.log("b_h", b_th, theta_old);
-    if (b_th - theta_old > pi) {
+    // app.log("b_h", b_th, old_theta);
+    if (b_th - old_theta > pi) {
       th_offset -= loop_th;
       this.set('th_offset', th_offset);
-    } else if (b_th - theta_old < -pi) {
+    } else if (b_th - old_theta < -pi) {
       th_offset += loop_th;
       this.set('th_offset', th_offset);
     }
@@ -252,20 +306,22 @@ app.model.tilt_controller = {
 
     if (verts_to_send.length > 0) {
       var ms_now = window.performance.now();
-      app.log("Send Verts", ms_now - this.sent_ms, verts_to_send.length);
+      // app.log("Send Verts", ms_now - this.sent_ms, verts_to_send.length);
       var sisbot = app.manager.get_model('sisbot_id');
       sisbot._update_sisbot('add_verts_streaming', {id: self.get('streaming_id'), verts: verts_to_send, accel:self.get('accel'), vel: self.get('vel'), thvmax: self.get('thvmax')}, function(resp) {
-        if (resp.err) {
+        var send_delay = self.get('send_delay');
+        if (!resp || resp.err) {
           app.log("Verts error", resp);
           // put the sent verts back in beginnig of array
           var all_verts = self.get('verts_to_send');
           self.set('verts_to_send', verts_to_send.concat(all_verts));
+          send_delay = 1000; // wait longer
         }
 
         // throttle the sending of new verts
         setTimeout(function() {
           self.set('is_sending_verts', 'false');
-        }, self.get('send_delay'));
+        }, send_delay);
       });
 
       this.sent_ms = ms_now;
@@ -328,8 +384,6 @@ app.model.tilt_controller = {
         {th:th_offset, r:0}
       ];
 
-      // this.set('verts_to_send', arrow);
-
       // turn streaming on
       var sisbot = app.manager.get_model('sisbot_id');
       sisbot._update_sisbot('start_streaming', {accel:self.get('accel'), vel: self.get('vel'), thvmax: self.get('thvmax'), verts: arrow}, function(resp) {
@@ -363,7 +417,7 @@ app.model.tilt_controller = {
   state_listening: function(data) {
     var self = this;
     if (data && data.state && data.state.includes('streaming')) {
-      app.log("Tilt Controller: State changed", data, this.get('is_listening'), window.performance.now());
+      // app.log("Tilt Controller: State changed", data, this.get('is_listening'), window.performance.now());
       if (data.state == 'streaming_waiting' && this.get('is_listening') == 'false') {
         this.set('is_listening', 'true');
 
