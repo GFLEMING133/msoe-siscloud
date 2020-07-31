@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.31', // Read CHANGELOG.md / added track timer
+    version				:  '1.9.33', // Read CHANGELOG.md / Staging push for regression testing
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

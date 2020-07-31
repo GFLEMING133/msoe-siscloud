@@ -1,3 +1,8 @@
+# 2020-7-2 1.10.29-33
+
+- Pushing changed from 31/32 up for release
+- Minor bug fixes
+
 # 2020-7-2 1.10.29-30/31
 
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
