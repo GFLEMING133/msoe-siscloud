@@ -2223,19 +2223,32 @@ li.blue-hover:hover {
   top: 0;
   bottom: 0;
 }
+.only-absolute {
+  position: absolute;
+}
+.r5p {
+  right: 5%;
+}
+.r7p {
+  right: 7%;
+}
+.r9p {
+  right: 9%;
+}
+.t12px {
+  top: 12px;
+}
+.t22px {
+  top: 22px;
+}
+.t32px {
+  top: 32px;
+}
+
 .absolutely {
   position: absolute;
   right: 6px;
   top: 20px;
-}
-.t32p {
-  top: 32%;
-}
-.t39p {
-  top: 39%;
-}
-.l75p {
-  left: 75%;
 }
 
 .truncate {
@@ -4742,7 +4755,9 @@ input[type="password"] {
   .btn {
     padding: 10px !important;
   }
-
+  .l75p {
+    left: 71% ;
+  }
   .controls_adjustment {
     height: 100px !important;
     /* adjustment for new size */
