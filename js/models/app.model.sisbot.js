@@ -637,15 +637,18 @@ app.model.sisbot = {
 				clearInterval(self.track_time_interval);
 				if (self.get('data.state') == 'playing' && remaining_time > 0) {
 					self.track_time_interval = setInterval(function() {
-						var remaining_time = self.get('track_remaining_time');
-						remaining_time--;
-						if (remaining_time < 0) {
-							remaining_time = 0;
-							self.check_track_time();
-						}
-						self.set('track_remaining_time', remaining_time);
+						if (self.get('data.state') == 'playing') {
+							var remaining_time = self.get('track_remaining_time');
+							remaining_time--;
+							if (remaining_time < 0) {
+								remaining_time = 0;
+								self.check_track_time();
+							}
+							self.set('track_remaining_time', remaining_time);
 
-						self.update_track_time();
+
+							self.update_track_time();
+						}
 					}, 1000);
 				}
 			}
@@ -653,7 +656,7 @@ app.model.sisbot = {
 	},
 	check_track_time: function() {
 		if (app.is_visible) {
-			if ((this.get('data.state') == 'playing' || this.get('data.state') == 'waiting') && app.session.get('active.primary') == 'current') {
+			if ((this.get('data.state') == 'playing' || (this.get('data.state') == 'waiting') && app.session.get('active.primary') == 'current')) {
 				this.get_track_time();
 			};
 		} else clearInterval(this.track_time_interval);
@@ -667,8 +670,6 @@ app.model.sisbot = {
 	},
 	update_track_time: function() {
 		var self = this;
-
-		if (self.get('data.state') != 'playing') return;
 
 		var total_time = this.get('track_total_time');
 		var remaining_time = this.get('track_remaining_time');
