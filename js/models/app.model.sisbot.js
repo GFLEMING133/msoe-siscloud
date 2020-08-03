@@ -668,6 +668,8 @@ app.model.sisbot = {
 	update_track_time: function() {
 		var self = this;
 
+		if (self.get('data.state') != 'playing') return;
+
 		var total_time = this.get('track_total_time');
 		var remaining_time = this.get('track_remaining_time');
 
@@ -1840,7 +1842,7 @@ app.model.sisbot = {
 			if (pattern) {
 				app.log("Update LED Pattern", pattern.get('data'));
 				self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-					if (obj.err) return console.error(err);
+					if (obj.err) return console.error(obj.err);
 
 					// fix possible incorrect return value
 					if (_.isObject(obj.resp.led_primary_color)) {
@@ -2159,13 +2161,8 @@ app.model.sisbot = {
 					// mark track as not downloaded
 					track_model.set('is_downloaded', 'false');
 
-					if (active.primary == 'current') {
-						app.trigger('session:active', { track_id: 'false', secondary: 'false' });
-						app.trigger('modal:close');
-					} else {
-						app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
-						app.trigger('modal:close');
-					}
+					// close modal
+					app.trigger('modal:close');
 				}
 			});
 
