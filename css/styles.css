@@ -2228,8 +2228,8 @@ li.blue-hover:hover {
   right: 6px;
   top: 20px;
 }
-.t34p {
-  top: 30%;
+.t32p {
+  top: 32%;
 }
 .t39p {
   top: 39%;
@@ -2237,9 +2237,7 @@ li.blue-hover:hover {
 .l75p {
   left: 75%;
 }
-.l80p {
-  left: 80%;
-}
+
 .truncate {
   white-space: nowrap;
   overflow: hidden;
@@ -2673,7 +2671,9 @@ select:focus {
 .grey {
   color: #838383 !important;
 }
-
+.lightgrey {
+  color: lightgrey !important;
+}
 .greyer {
   color: #888888 !important;
 }
@@ -4327,7 +4327,22 @@ input[type="password"] {
   border-radius: 5px;
   width: 100%;
 }
-
+/* do not group these placeholder rules */
+*::-webkit-input-placeholder {
+  color: lightgray;
+}
+*:-moz-placeholder {
+  /* FF 4-18 */
+  color: lightgray;
+}
+*::-moz-placeholder {
+  /* FF 19+ */
+  color: lightgray;
+}
+*:-ms-input-placeholder {
+  /* IE 10+ */
+  color: lightgray;
+}
 
 
 /***************** ANIMATIONS *********************/
