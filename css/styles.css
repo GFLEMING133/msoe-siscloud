@@ -3856,10 +3856,8 @@ select:focus {
   padding-left: 2px !important;
 }
 
-
 .pr2 {
-  /* removed important for @mediaquery */
-  padding-right: 2px;
+  padding-right: 2px !important;
 }
 
 .pt3 {
