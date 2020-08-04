@@ -1,9 +1,14 @@
-# 2020-7-2 1.10.29-33
+# 2020-7-2 1.10.29-34
 
-- Pushing changed from 31/32 up for release
+- readjusted counters and set color for Placeholder
+- fixed routing after track deletion
+- removed sisyphus-community-artist-track-list-item-tmp (no longer needed after search cluster added)
+- added conditional for all_track_playlist to stop showing
+- fixed Python script error when python crashes
+- removed artist comparison conditional to fix tracks not showing
+- Pushing changes from 31/32 up for release
 - Minor bug fixes
 
-# 2020-7-2 1.10.29-30/31
 # 2020-7-23 1.9.32
 
 - Added Count to search bars.
