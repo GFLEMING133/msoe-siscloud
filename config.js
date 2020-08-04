@@ -1,5 +1,5 @@
 var config = {     // REMEMBER TO CHANGE is_production and is_simulator!!!!!
-    version				:  '1.9.34', // Read CHANGELOG.md / Staging push for regression testing
+    version				:  '1.9.35', // Read CHANGELOG.md / Staging push for regression testing
     debug         : false,
     env           : process.env.NODE_ENV,
     matt: {

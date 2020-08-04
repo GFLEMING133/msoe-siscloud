@@ -27,19 +27,21 @@
         tg-name="all_tracks_page"
         data-on-scroll="model.scroll_check"
         data-msg="{{= _self_.el_id }}">
-    <div class="center p15 bg-black"
-        data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
-        data-model="{{= parent.data.all_tracks_playlist_id }}">
-      <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
-          data-on-click="model.play"
-          data-msg="{{= 0 }}"
-          tg-name="playlists_play_btn">
-        <i class="fas fa-play pr5 pl5"></i> Play All
-      </div>
-      <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
-          data-on-click="model.play_shuffled"
-          tg-name="playlists_shuffle_btn">
-        <i class="fas fa-random pr5 pl5"></i> Shuffle All
+    <div data-if="{{= parent.sisbot_version }} >= 1010072">
+      <div class="center p15 bg-black"
+          data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
+          data-model="{{= parent.data.all_tracks_playlist_id }}">
+        <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
+            data-on-click="model.play"
+            data-msg="{{= 0 }}"
+            tg-name="playlists_play_btn">
+          <i class="fas fa-play pr5 pl5"></i> Play All
+        </div>
+        <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
+            data-on-click="model.play_shuffled"
+            tg-name="playlists_shuffle_btn">
+          <i class="fas fa-random pr5 pl5"></i> Shuffle All
+        </div>
       </div>
     </div>
     <div>

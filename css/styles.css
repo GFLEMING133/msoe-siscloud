@@ -3856,8 +3856,10 @@ select:focus {
   padding-left: 2px !important;
 }
 
+
 .pr2 {
-  padding-right: 2px !important;
+  /* removed important for @mediaquery */
+  padding-right: 2px;
 }
 
 .pt3 {
@@ -4763,7 +4765,9 @@ input[type="password"] {
     /* adjustment for new size */
     margin-bottom: 20px !important;
   }
-
+  .mobile_pr9 {
+    padding-right: 9px !important;
+  }
   .mobile_p10 {
     padding: 10px !important;
   }
@@ -4776,7 +4780,7 @@ input[type="password"] {
     padding-bottom: 5px !important;
   }
 
-  mobile_w70 {
+  .mobile_w70 {
     width: 70%;
   }
 
@@ -4791,7 +4795,9 @@ input[type="password"] {
     /* background-color: #00b1fa; */
     max-height: calc(100vh - 320px);
   }
-
+  .mobile_pr9 {
+    padding-right: 9px !important;
+  }
   .media_fs14 {
     font-size: 14px !important;
   }
@@ -4807,6 +4813,10 @@ input[type="password"] {
   .app .scrollDown {
     /* border: 4px solid purple; */
     max-height: calc(100vh - 320px);
+  }
+
+  .mobile_pr9 {
+    padding-right: 9px !important;
   }
 
   .media_fs14 {
