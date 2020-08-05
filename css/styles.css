@@ -2235,6 +2235,9 @@ li.blue-hover:hover {
 .r25px {
   right: 25px;
 }
+.r30px {
+  right: 30px;
+}
 .t12px {
   top: 12px;
 }
@@ -4740,9 +4743,11 @@ input[type="password"] {
     /* background-color: #fdc539; */
     max-height: calc(100vh - 310px);
   }
-
+  .mobile_pr6 {
+    padding-right: 6px !important;
+  }
   .media_mr5 {
-    margin-right: 5px;
+    margin-right: 5px !important;
   }
 }
 

@@ -8,7 +8,7 @@
     <div class="w40">
         <h1 class="no-stuffing fs18 capitalize truncate">Playlists</h1>
     </div>
-    <div class="w30 right p15 pr20 fs18 lh18 clickable active"
+    <div class="w30 right pr20 clickable active"
         data-on-click="model.playlist_create"
         tg-name="playlist_create_plus_btn"
     ><img src="img/icon_2x_new.png" alt="Back" class="hh50 pt15 pb15" /></div>
@@ -25,7 +25,7 @@
       data-foreach="model.data.playlist_ids"
       data-foreach-map="true">
         <div data-if="{{= model.data.id }} !== all_tracks_playlist">
-          <div class="flex p10 pl20 clickable active bg-grey-ll-hover bb"
+          <div class="flex p10 pl20 pr20 clickable active bg-grey-ll-hover bb"
               data-on-click="publish"
               data-publish="session:active"
               data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','goBack':'playlist'}"
@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="w20 h100 vertical align-center right">
-              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15 pr20" />
+              <img src="img/icon_2x_chevron_right_black.png" alt="View" class="hh50 pt15 pb15" />
             </div>
           </div>
         </div>
