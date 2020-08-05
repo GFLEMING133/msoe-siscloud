@@ -175,7 +175,10 @@ app.model.community = {
 
     function cb(obj) {
       app.log("Community Playlists:", obj.resp);
-      if (obj.err) return self;
+      if (obj.err) {
+        self.set('fetching_community_playlists', 'false');
+        return self;
+      }
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
@@ -219,7 +222,10 @@ app.model.community = {
 
     function cb(obj) {
       app.log("Playlist Resp:", obj);
-      if (obj.err) return self;
+      if (obj.err) {
+        self.set('fetching_playlist', 'false');
+        return self;
+      }
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
@@ -269,7 +275,10 @@ app.model.community = {
     function cb(obj) {
       app.log("Community Tracks:", _.size(obj.resp));
 
-      if (obj.err) return self;
+      if (obj.err) {
+        self.set('fetching_community_tracks', 'false');
+        return self;
+      }
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var new_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
@@ -304,7 +313,10 @@ app.model.community = {
 
     function cb(obj) {
       app.log("Community Artists:", obj.resp);
-      if (obj.err) return self;
+      if (obj.err) {
+        self.set('fetching_community_artists', 'false');
+        return self;
+      }
 
       app.manager.intake_data(obj.resp); // obj.resp.data
 
@@ -334,7 +346,10 @@ app.model.community = {
 
     function cb(obj) {
       app.log("Artist Tracks:", obj.resp);
-      if (obj.err) return self;
+      if (obj.err) {
+        self.set('fetching_community_tracks', 'false');
+        return self;
+      }
       app.manager.intake_data(obj.resp); // obj.resp.data
 
       var resp_track_ids = _.pluck(obj.resp, 'id'); // obj.resp.data
@@ -370,7 +385,6 @@ app.model.community = {
     if (!drop[0].style.visibility || drop[0].style.visibility === 'hidden') {
       drop[0].style.visibility = 'visible';
       drop[0].style.opacity = '1';
-
     } else {
       drop[0].style.visibility = 'hidden';
       drop[0].style.opacity = '0';

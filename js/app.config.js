@@ -1,6 +1,6 @@
 app.config = {
 	env: 'prod',
-	version: '1.9.35', // Read CHANGELOG.md /Staging push for regression testing
+	version: '1.10.36', // Read CHANGELOG.md /Staging push for regression testing
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output
