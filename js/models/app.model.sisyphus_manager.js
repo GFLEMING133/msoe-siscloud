@@ -981,13 +981,13 @@ app.model.sisyphus_manager = {
           // IF WE HAVE CONNECTION ERROR
           app.log("Connecting Error:", obj.err);
 
-          if (self.get('sisbot_registration') == 'specify_ip') {
+          if (self.get('sisbot_registration') == 'specify_ip' || app.session.get('active.secondary') == 'specify_ip') {
             // allow changing of IP
             self.set('sisbot_connecting', 'false');
             return self.set('errors', ['That sisbot does not appear to be on the network']);
           } else {
             self.connect_to_sisbot(sisbot_hostname);
-            return self.set('errors', ['- That sisbot does not appear to be on the network']);
+            return self.set('errors', ['That sisbot does not appear to be on the network']);
           }
         }
       }
@@ -1194,7 +1194,12 @@ app.model.sisyphus_manager = {
     var tracks_to_upload = self.get('tracks_to_upload');
     var track_model = app.collection.get(tracks_to_upload[0].id);
     track_model.set('upload_status', 'uploading'); // for spinner
-    if (track_model.get('data.original_file_type') == 'draw') app.session.set('active.drawing_id', 'false'); // clear memory
+    if (track_model.get('data.original_file_type') == 'draw') {
+      track_model.set('is_downloaded', 'true');
+      track_model.set('data.is_saved', 'true');
+      track_model.set('is_community', 'false');
+      app.session.set('active.drawing_id', 'false'); // clear memory
+    }
 
     if (sisbot.get('data.state') == 'playing') {
       // wait for table to be paused

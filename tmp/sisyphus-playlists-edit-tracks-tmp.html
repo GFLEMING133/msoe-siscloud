@@ -24,9 +24,10 @@
       <input data-debug="true" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         placeholder="&#xf002; Search Tracks" data-field="model.data.q.value" value="{{= model.data.q.value }}"
         data-on-input="model.update_q" data-on-key-enter="blur" tg-name="playlis_edit_tracks_input" />
-        <div class="grey fs10 absolute pointer-none i strong t40p l78p">
-          Count:
-          <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+        <div
+          class="lightgrey only-absolute r30px t32px pointer-none strong center"
+          data-if="{{= model.is_ready }} == true">
+          {{= model.q_size }}
         </div>
     </div>
     <div class="center p20 i" data-if="{{= model.size }} == 0">

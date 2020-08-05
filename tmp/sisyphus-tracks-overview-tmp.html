@@ -27,23 +27,25 @@
         tg-name="all_tracks_page"
         data-on-scroll="model.scroll_check"
         data-msg="{{= _self_.el_id }}">
-    <div class="center p15 bg-black"
-        data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
-        data-model="{{= parent.data.all_tracks_playlist_id }}">
-      <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
-          data-on-click="model.play"
-          data-msg="{{= 0 }}"
-          tg-name="playlists_play_btn">
-        <i class="fas fa-play pr5 pl5"></i> Play All
-      </div>
-      <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
-          data-on-click="model.play_shuffled"
-          tg-name="playlists_shuffle_btn">
-        <i class="fas fa-random pr5 pl5"></i> Shuffle All
+    <div data-if="{{= parent.sisbot_version }} >= 1010072">
+      <div class="center p15 bg-black"
+          data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
+          data-model="{{= parent.data.all_tracks_playlist_id }}">
+        <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
+            data-on-click="model.play"
+            data-msg="{{= 0 }}"
+            tg-name="playlists_play_btn">
+          <i class="fas fa-play pr5 pl5"></i> Play All
+        </div>
+        <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
+            data-on-click="model.play_shuffled"
+            tg-name="playlists_shuffle_btn">
+          <i class="fas fa-random pr5 pl5"></i> Shuffle All
+        </div>
       </div>
     </div>
     <div>
-      <div class="flex p15 pb10 pt10 w100 bg-white z50 bb sticky">
+      <div class="flex pr20 pl20 pb10 pt10 w100 bg-white z50 bb sticky">
         <input class="b-2px"
             type="text"
             autocomplete="off"
@@ -56,9 +58,10 @@
             data-on-input="model.update_q"
             data-on-key-enter="blur"
             tg-name="all_tracks_search_input" />
-            <div class="grey fs10 absolute pointer-none i strong t40p l80p">
-              Count:
-              <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+            <div
+              class="lightgrey only-absolute r30px t22px pointer-none strong center"
+              data-if="{{= model.is_ready }} == true">
+              {{= model.q_size }}
             </div>
       </div>
       <div class="center p20 i" data-if="{{= model.size }} == 0">

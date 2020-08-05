@@ -27,11 +27,15 @@ var app = {
 		if (window.cordova) {
 			app.is_app = true;
 			$('.body').removeClass('touch-hover'); // FOR TOUCH EVENTS
-
+			//Scroll into view when keyboard pops up on Android.
+			$(document).on('focus', 'input[type="text"]', function() {
+				document.querySelector('input[type="text"]').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+			});
 			screen.orientation.lock('portrait-primary');//lock orientation
 			app.log('Orientation is ' + screen.orientation.type);
 		}
 		// if (app.plugins.is_mobile() !== false)	app.is_app = true;
+
 
 		_.extend(app, Backbone.Events);
 

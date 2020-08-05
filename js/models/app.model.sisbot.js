@@ -637,15 +637,18 @@ app.model.sisbot = {
 				clearInterval(self.track_time_interval);
 				if (self.get('data.state') == 'playing' && remaining_time > 0) {
 					self.track_time_interval = setInterval(function() {
-						var remaining_time = self.get('track_remaining_time');
-						remaining_time--;
-						if (remaining_time < 0) {
-							remaining_time = 0;
-							self.check_track_time();
-						}
-						self.set('track_remaining_time', remaining_time);
+						if (self.get('data.state') == 'playing') {
+							var remaining_time = self.get('track_remaining_time');
+							remaining_time--;
+							if (remaining_time < 0) {
+								remaining_time = 0;
+								self.check_track_time();
+							}
+							self.set('track_remaining_time', remaining_time);
 
-						self.update_track_time();
+
+							self.update_track_time();
+						}
 					}, 1000);
 				}
 			}
@@ -653,7 +656,7 @@ app.model.sisbot = {
 	},
 	check_track_time: function() {
 		if (app.is_visible) {
-			if ((this.get('data.state') == 'playing' || this.get('data.state') == 'waiting') && app.session.get('active.primary') == 'current') {
+			if ((this.get('data.state') == 'playing' || (this.get('data.state') == 'waiting') && app.session.get('active.primary') == 'current')) {
 				this.get_track_time();
 			};
 		} else clearInterval(this.track_time_interval);
@@ -1840,7 +1843,7 @@ app.model.sisbot = {
 			if (pattern) {
 				app.log("Update LED Pattern", pattern.get('data'));
 				self._update_sisbot('set_led_pattern', pattern.get('data'), function (obj) {
-					if (obj.err) return console.error(err);
+					if (obj.err) return console.error(obj.err);
 
 					// fix possible incorrect return value
 					if (_.isObject(obj.resp.led_primary_color)) {
@@ -2159,13 +2162,8 @@ app.model.sisbot = {
 					// mark track as not downloaded
 					track_model.set('is_downloaded', 'false');
 
-					if (active.primary == 'current') {
-						app.trigger('session:active', { track_id: 'false', secondary: 'false' });
-						app.trigger('modal:close');
-					} else {
-						app.trigger('session:active', { track_id: 'false', secondary: 'tracks', primary: 'media' });
-						app.trigger('modal:close');
-					}
+					// close modal
+					app.trigger('modal:close');
 				}
 			});
 

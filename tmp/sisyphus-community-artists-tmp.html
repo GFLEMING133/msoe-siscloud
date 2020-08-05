@@ -27,29 +27,26 @@
         <div class="w25 center f-large">&nbsp;</div>
       </div>
 <!-- END HEADER -->
-
-      <div class="flex p15 pb10 pt10 w100 bg-white relative">
-        <div class="flex3">
-          <input
-            type="text"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="&#xf002; Search Artists"
-            data-field="model.data.q.value"
-            value="{{= model.data.q.value }}"
-            data-on-input="model.update_q"
-            data-on-key-enter="blur"
-            tg-name="artists_search_input"/>
-        </div>
-        <div class="grey fs10 absolute pointer-none i strong t40p l80p">
-          Count:
-          <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+      <div class="flex pr20 pl20 pb10 pt10 w100 bg-white relative">
+        <input
+          type="text"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="&#xf002; Search Artists"
+          data-field="model.data.q.value"
+          value="{{= model.data.q.value }}"
+          data-on-input="model.update_q"
+          data-on-key-enter="blur"
+          tg-name="artists_search_input"/>
+        <div
+          data-if="{{= model.is_ready }} == true"
+          class="lightgrey only-absolute r30px t22px pointer-none strong center">
+          {{= model.q_size }}
         </div>
       </div>
     </div>
-
     <div class="body-header h100 pb160 scroll hide-scrollbar"
         data-on-scroll="model.scroll_check"
         data-msg="{{= _self_.el_id }}"

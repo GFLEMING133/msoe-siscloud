@@ -1,14 +1,12 @@
-# 2020-7-23 1.9.32
+# 2020-7-2 1.10.26-36
 
+- fixed routing after track deletion
+- removed sisyphus-community-artist-track-list-item-tmp (no longer needed after search cluster added)
+- added conditional for all_track_playlist to stop showing
+- fixed Python script error when python crashes
+- removed artist comparison conditional to fix tracks not showing
 - Added Count to search bars.
-- Adjusted tilt for servo tables
-- Sending Arrow verts when start_streaming
 - Fixed playlist modal to not show Add to All Playlist
-- Adjusted Track-Timer
-- fixed disconnect from wifi (broke on 1.9.31)
-
-# 2020-7-2 1.10.26-31
-
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Tilt control / Streaming added
 - Passcode and HotSpot password merged into one and updated.
@@ -16,8 +14,8 @@
 - Updated moment() in Artist created to display correctly
 - Rescan for tables added to homepage
 - Test mode points to production Webcenter (tap 5x on table not found page)
-- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Time left on current track added
+- Updated cordova wkwebview-engine plugin (iOS only) to fix Community download error
 - Force Firmware Update button added to Advanced Table settings
 - Downloading Tracks count added to Community overlay
 - Cancelling after downloading tracks correctly removes the tracks from the table
@@ -25,7 +23,6 @@
 - Factory Reset clears the Favorites Playlist model
 - Resume time for Pause Between Tracks
 - What's New viewable when no Firmware Updates
-- Confirmation after changing Passcode password
 - All Tracks now has shuffle and play all
 - Send white slider value when changing white temp (prevents recentering slider on app startup)
 - Fix playback label when playing single track

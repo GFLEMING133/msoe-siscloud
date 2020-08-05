@@ -46,9 +46,10 @@
                   data-on-input="model.update_q"
                   data-on-key-enter="blur"
                   tg-name="community_artist_tracks_list_input"/>
-              <div class="grey fs10 absolute pointer-none i strong t30p l70p">
-                Count:
-                <span class="orange" data-if="{{= model.is_ready }} == true">{{= model.q_size }}</span>
+              <div
+                data-if="{{= model.is_ready }} == true"
+                class="lightgrey only-absolute r5p t12px  pointer-none strong center">
+                {{= model.q_size }}
               </div>
             </div> <!--end of search-->
 
@@ -104,7 +105,7 @@
                 data-cluster-comparator="model.data.comparator"
                 data-cluster-search-keys="model.data.q.search_keys"
                 data-cluster-search-value="model.data.q.value">
-              <div data-template="sisyphus-community-artist-tracks-list-item-tmp"></div>
+              <div data-template="sisyphus-community-tracks-list-item-tmp"></div>
             </div>
             <div class="p20 center fs18 lh24 blue i"
                 data-if="{{= model.size }} == 0">

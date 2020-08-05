@@ -18,23 +18,23 @@
       </div>
 <!-- END HEADER -->
 
-      <div class="flex p15 pb10 pt10 w100 bg-white relative">
-        <div class="flex3 ">
-          <input
-            type="text"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-            placeholder="&#xf002; Search Playlists"
-            data-field="model.data.q.value"
-            value="{{= model.data.q.value }}"
-            data-on-input="model.update_q"
-            data-on-key-enter="blur"
-            tg-name="community_playlists_all_input"/>
-        </div>
-        <div class="grey fs10 absolute pointer-none i strong t40p l80p">
-          Count: <span class="orange" data-if="{{= model.is_ready }} == true">{{= _.size(parent.community_playlist_ids) }}</span>
+      <div class="flex pl20 pr20 pb10 pt10 w100 bg-white relative">
+        <input
+          type="text"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="&#xf002; Search Playlists"
+          data-field="model.data.q.value"
+          value="{{= model.data.q.value }}"
+          data-on-input="model.update_q"
+          data-on-key-enter="blur"
+          tg-name="community_playlists_all_input"/>
+        <div
+          data-if="{{= model.is_ready }} == true"
+          class="lightgrey only-absolute r30px t22px pointer-none strong center">
+          {{= _.size(parent.community_playlist_ids) }}
         </div>
       </div>
     </div>
