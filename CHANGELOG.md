@@ -1,4 +1,4 @@
-# 2020-7-2 1.10.26-35
+# 2020-7-2 1.10.26-36
 
 - fixed routing after track deletion
 - removed sisyphus-community-artist-track-list-item-tmp (no longer needed after search cluster added)
@@ -7,7 +7,6 @@
 - removed artist comparison conditional to fix tracks not showing
 - Added Count to search bars.
 - Fixed playlist modal to not show Add to All Playlist
-- fixed disconnect from wifi (broke on 1.9.31)
 - cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Tilt control / Streaming added
 - Passcode and HotSpot password merged into one and updated.
@@ -15,7 +14,6 @@
 - Updated moment() in Artist created to display correctly
 - Rescan for tables added to homepage
 - Test mode points to production Webcenter (tap 5x on table not found page)
-- cordova-plugin-screen-orientation added and app.js updated to lock portrait-primary
 - Time left on current track added
 - Updated cordova wkwebview-engine plugin (iOS only) to fix Community download error
 - Force Firmware Update button added to Advanced Table settings
