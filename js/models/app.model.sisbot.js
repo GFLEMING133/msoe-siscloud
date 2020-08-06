@@ -620,6 +620,8 @@ app.model.sisbot = {
 	get_track_time: function() {
 		var self = this;
 
+		if (parseInt(this.get('sisbot_version')) < 1010072) return app.log("API endpoint not available: get_track_time", this.get('sisbot_version'));
+
 		this._update_sisbot('get_track_time',{}, function(obj) {
 			if (obj.err) return app.log("Get Track Time error", obj.err);
 

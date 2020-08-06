@@ -1,4 +1,4 @@
-# 2020-7-2 1.10.26-36
+# 2020-7-2 1.10.26-37
 
 - fixed routing after track deletion
 - removed sisyphus-community-artist-track-list-item-tmp (no longer needed after search cluster added)

@@ -29,16 +29,29 @@
           <div data-model="{{= model.data.active_track.id }}">
             <div class="flex active p10 pl20">
           		<div class="w100 center">
-          				<img class="hh200"
-          						alt="{{= model.data.name }}"
-          						data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
-          						data-on-error="replace"
-          						data-replace="large-image-fallback-tmp" />
-              		<div class="pt10"
-            					tg-name="track_name">
-              			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
-              	    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
-              		</div>
+        				<img class="hh200"
+        						alt="{{= model.data.name }}"
+        						data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
+        						data-on-error="replace"
+        						data-replace="large-image-fallback-tmp" />
+            		<div class="pt10"
+          					tg-name="track_name">
+            			<div class="fs18 lh18 black block strong word-break">{{= model.data.name }}</div>
+            	    <div class="fs12 lh18 grey block" data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+            		</div>
+                <div data-if="{{= parent.sisbot_version }} >= 1010072">
+                  <div data-if="{{= parent.data.state }} !== undefined">
+                    <div data-if="{{= parent.data.state }} !== homing">
+                      <div class="w100 pt15" data-run="parent.get_track_time">
+                        <div class="bg-grey-lt hh5 rounded mb5 over-hidden">
+                          <div class="bg-grey hh5" style="width: {{= parent.track_time_percent }}%"></div>
+                        </div>
+                        <div class="grey pull-right">{{= parent.remaining_time_str }}</div>
+                        <div class="grey pull-left">{{= parent.past_time_str }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
           		</div>
           	</div>
           </div>

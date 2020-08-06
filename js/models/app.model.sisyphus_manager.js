@@ -481,6 +481,9 @@ app.model.sisyphus_manager = {
         });
     }
 
+    // check for local versions right away
+    sisbot.check_local_versions();
+
     return this;
   },
   should_show_setup_page: function() {
@@ -994,7 +997,7 @@ app.model.sisyphus_manager = {
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
-        app.log("Connect to sisbot:", data);
+        // app.log("Connect to sisbot:", data);
         self.intake_data(data);
         if (data.type == 'track') {
           var track = app.collection.get(data.id);
