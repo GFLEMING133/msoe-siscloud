@@ -1,9 +1,9 @@
 app.config = {
 	env: 'prod',
-	version: '1.10.36', // Read CHANGELOG.md /Staging push for regression testing
+	version: '1.9.37', // Read CHANGELOG.md
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
-	is_production: true, // cuts out all app.log() output
+	is_production: false, // cuts out all app.log() output
 	is_debug: 'false', // for html to show custom debugging html, use string value
 	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
 	simulator_ip: '192.168.1.9', // force a specific network address in simulator
@@ -53,7 +53,7 @@ app.config = {
 			// web_url				: 'http://dev.webcenter.sisyphus-industries.com/',
 			// api_url: 			'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url: 			'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url: 	'http://192.168.86.26:3002', //  33: wall, 26: mini
+			sisbot_url: 	'http://192.168.86.26:3002', //  33: wall, 26: mini, 24: beta
 			port: 3001,
 		},
 		sisbot: {

@@ -61,7 +61,7 @@ app.model.track = {
 				is_public: 'true', // community
 				is_deletable: 'true', // user is able to delete this track
 
-				original_file_type: 'false', 	// thr|svg|draw
+				original_file_type: 'false', 	// thr|svg|draw|tilt
 				has_verts_file: 'false',
 				verts: '',		// temporary
 
