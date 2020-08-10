@@ -1,6 +1,6 @@
 app.config = {
 	env: 'prod',
-	version: '1.10.40', // Read CHANGELOG.md -- THIS VERSION IS WHAT THE APP READS
+	version: '1.10.41', // Read CHANGELOG.md -- THIS VERSION IS WHAT THE APP READS
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output

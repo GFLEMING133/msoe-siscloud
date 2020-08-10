@@ -1048,12 +1048,23 @@ app.model.sisyphus_manager = {
         }
       });
 
+      var sisbot = self.get_model('sisbot_id');
+
+      // TODO: Remove all Tracks that are not on this new sisbot
+      var all_tracks = app.collection.get_cluster({type:'track'}).pluck('id');
+      var current_tracks = sisbot.get('data.track_ids');
+      var tracks_to_remove = _.difference(all_tracks, current_tracks);
+      app.log("Tracks to Remove", tracks_to_remove.length);
+      _.each(tracks_to_remove, function(track_id) {
+        app.collection.remove(track_id);
+      });
+
       // setup listeners after all objects added
-      self.get_model('sisbot_id').sisbot_listeners();
+      sisbot.sisbot_listeners();
 
-      app.log("Sisbot: connected", self.get_model('sisbot_id').get('is_connected'));
+      app.log("Sisbot: connected", sisbot.get('is_connected'));
 
-      self.get_model('sisbot_id').set('is_connected', 'true')
+      sisbot.set('is_connected', 'true')
         .set('sisbots_scanning', 'false'); // cancel out of scanning
 
       app.current_session().add_nx('sisbot_hostnames', sisbot_hostname);

@@ -21,9 +21,8 @@
           data-on-click="parent.playlist_create">Want to create one?</span>
     </div>
     <div data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
-      <div
-      data-foreach="model.data.playlist_ids"
-      data-foreach-map="true">
+      <div data-foreach="model.data.playlist_ids"
+          data-foreach-map="true">
         <div data-if="{{= model.data.id }} !== all_tracks_playlist">
           <div class="flex p10 pl20 pr20 clickable active bg-grey-ll-hover bb"
               data-on-click="publish"
