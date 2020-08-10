@@ -36,7 +36,7 @@
               data-if="{{= model.data.is_paused_between_tracks }} !== true"></span>
             <p class="inline-block no-stuffing pl5 fs18 lh18">Pause between tracks</p>
           </div>
-          <div data-if="{{= parent.sisbot_version }} >= 1010072">
+          <div data-if="{{= model.sisbot_version }} >= 1010072">
             <div class="{{= (model.data.is_paused_time_enabled == 'false') ? 'grey':'black'}}"
                 data-if="{{= model.data.is_paused_between_tracks }} == true">
               <div class="inline-block clickable"
