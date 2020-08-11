@@ -1189,7 +1189,7 @@ app.model.track = {
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else if (self.get('data.original_file_type') == 'draw') self.set('data.verts', obj.resp); // created via drawing page
 				else {
-					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.id);
+					app.plugins.n.notification.alert('Failed to get verts for this download ' + self.get('data.name'));
 					self.set('is_downloaded', 'false');
 					self.set('downloading_community_track', 'false');
 					return;

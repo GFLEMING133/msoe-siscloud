@@ -1056,7 +1056,8 @@ app.model.sisyphus_manager = {
       var tracks_to_remove = _.difference(all_tracks, current_tracks);
       app.log("Tracks to Remove", tracks_to_remove.length);
       _.each(tracks_to_remove, function(track_id) {
-        app.collection.remove(track_id);
+        var track = app.collection.get(track_id);
+        track.set('is_downloaded', 'false');
       });
 
       // setup listeners after all objects added
