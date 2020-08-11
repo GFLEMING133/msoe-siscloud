@@ -1001,7 +1001,7 @@ app.model.sisyphus_manager = {
         self.intake_data(data);
         if (data.type == 'track') {
           var track = app.collection.get(data.id);
-          if (track.get('is_community') == 'false') track.set('is_downloaded', 'true'); // removes potentially downloaded tracks that shouldn't be listed
+          track.set('is_downloaded', 'true'); // removes potentially downloaded tracks that shouldn't be listed
         } else if (data.type == 'playlist') {
             app.collection.get(data.id).set('is_downloaded', 'true');
         } else if (data.type == 'sisbot') {
