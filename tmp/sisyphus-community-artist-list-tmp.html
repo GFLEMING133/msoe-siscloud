@@ -4,7 +4,7 @@
       data-publish="session:active"
       data-msg="{'primary':'community','secondary':'artist-tracks-list','artist_id':'{{= model.id }}','goBack':'artists'}"
       tg-name="artists_{{= model.id }}_tab">
-    <div class="pl10">
+    <div>
       <div class="fs18 black strong lh20 w100 word-break">{{= model.data.name }}</div>
       <div class="fs13 warmGrey pt5" data-if="{{= moment(model.data.date_created).format('MMM Do YY')}} !== {{=moment().format('MMM Do YY')}}">joined {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</div>
       <div class="fs13 warmGrey pt5" data-if="{{= moment(model.data.date_created).format('MMM Do YY')}} == {{=moment().format('MMM Do YY')}}">joined TODAY!!</div>

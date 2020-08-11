@@ -1123,7 +1123,7 @@ app.model.track = {
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
 				app.log(self.get('data.name') + " " + track_id);
-				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later -', obj.err)
+				return app.plugins.n.notification.alert('There was an error downloading ' + self.get('data.name') +'. Please try again later - '+ JSON.stringify(obj.err))
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download();
@@ -1144,7 +1144,7 @@ app.model.track = {
 
 		function cb(obj) {
 			if (obj.err || obj.resp.length == 0) {
-				return app.plugins.n.notification.alert('There was an error downloading this track header. Please try again later - ', obj.err);
+				return app.plugins.n.notification.alert('There was an error downloading '+ self.get('data.name') +'. Please try again later - '+ JSON.stringify(obj.err));
 			} else {
 				self.set('data', obj.resp[0]);
 				self.download_wc();
@@ -1179,9 +1179,9 @@ app.model.track = {
 		function cb(obj) {
 			if (obj.err) {
 				app.log(self.get('data.name') + " " + track_id);
-				app.log('obj.err', obj.err);
+				app.log('obj.err ' + JSON.stringify(obj.err));
 				app.trigger('modal:close');
-				return app.plugins.n.notification.alert('There was an error downloading this track. Please try again later - ', obj.err)
+				return app.plugins.n.notification.alert('There was an error downloading '+ self.get('data.name') +'. Please try again later - '+ JSON.stringify(obj.err))
 			} else {
 				app.log('track : download response = ', self.id);
 
