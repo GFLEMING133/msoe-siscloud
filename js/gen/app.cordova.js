@@ -53,6 +53,11 @@ function setup_cordova() {
 				app.log("Run Siri Shortcut Error", JSON.stringify(err));
 			});
 		}
+
+		if (app.is_app) {
+			app.log("Initial Orientation:", screen.orientation.type); // e.g. portrait-primary
+			if (!app.orientation) app.orientation = screen.orientation.type;
+		}
 	});
 }
 
@@ -81,6 +86,15 @@ function on_visibility() {
 				setTimeout(function() {
 					sisbot._poll_restart();
 				}, 500);
+			} else {
+				// get latest state data
+				sisbot._update_sisbot('state', {}, function (obj) {
+					if (obj.resp) {
+						app.manager.intake_data(obj.resp);
+					} else if (obj.err) {
+						app.log("Error", obj.err);
+					}
+				});
 			}
 		}
   }
@@ -146,9 +160,30 @@ function status_tap() {
 	});
 }
 
-document.addEventListener( 'visibilitychange' , on_visibility, false );
+function resize_window() {
+	if(window.innerWidth > 750) {
+    // app.log("WINDOW SIZE CORDOVA", window.innerWidth, window.innerHeight);
+		// app.log("IS TABLET", app.manager.set('is_tablet', 'true'));
+		app.manager.set('is_tablet', 'true');
+	} else {
+		app.manager.set('is_tablet', 'false');
+	}
 
+	if (app.is_app && app.manager.get('is_tablet') == 'false') screen.orientation.lock('portrait-primary'); //lock orientation
+}
+
+function orientation_change() {
+	if (app.is_app) {
+		app.log("Orientation:", screen.orientation.type); // e.g. portrait
+		app.orientation = screen.orientation.type;
+	}
+}
+
+document.addEventListener( 'visibilitychange' , on_visibility, false );
 document.addEventListener("deviceready", setup_cordova, false);
 document.addEventListener("resume", on_resume, false);
 document.addEventListener("active", on_active, false);
+
 window.addEventListener("statusTap", status_tap);
+window.addEventListener("resize", resize_window);
+window.addEventListener("orientationchange", orientation_change);

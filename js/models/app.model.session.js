@@ -5,7 +5,7 @@ app.model.session = {
 			type					: 'session',
 			signed_in   	: 'false',
 			mode					: 'app',
-
+			is_tablet			: 'false',
 			mouse_x							: 0,
 			mouse_y							: 0,
 
@@ -79,7 +79,6 @@ app.model.session = {
 				if (saved_session.registration) this.set('registration', saved_session.registration);
 			}
 		}
-
   	this.listenTo(app,	'session:sign_out',			this.sign_out);
 		this.listenTo(app,	'session:active',			this.set_active);
 		this.listenTo(app,	'session:toggle',			this.set_toggle);
@@ -121,7 +120,7 @@ app.model.session = {
 		} else if (!window || !window.location || !window.location.href) {
 			this._setup_mode('sisyphus');
 		} else {
-			var href		= window.location.href;
+			var href = window.location.href;
 			var active_mode = 'sisyphus';
 			_.each(this.valid_modes, function(m) {
 				if (href.indexOf(m) > -1) {
@@ -195,6 +194,11 @@ app.model.session = {
 	},
 	set_active: function (msg) {
 		var self = this;
+
+		if (msg && msg.dismiss_modal) {
+			app.trigger('modal:close');
+			delete msg.dismiss_modal;
+		}
 
 		_.each(msg, function(val, key) {
 			self.set('active.' + key, val);
@@ -331,7 +335,7 @@ app.model.session = {
       user_data.endpoint  = 'auth_user';
       user_data._url      = app.config.get_webcenter_url();  // user_data._url		= http://dev.webcenter.sisyphus-industries.com  NEW
 
-      app.post.fetch2(user_data, cb, 0);
+      app.post.fetchWC(user_data, cb, 0);
     },
     _process_sign_in: function (user, data_arr) {
   		var session_data = {
@@ -417,19 +421,22 @@ app.model.session = {
 			if (!app.plugins.valid_email(user_email)) return this.add('errors', 'Not a valid email.') ;
 
 			function cb(obj) {
-					if (obj.err) return self.set('forgot_email', '').set('errors', ['That email is not in our system']);
+				if (obj.err) {
+					app.log("Forgot Password Email", obj.err);
+					return self.set('forgot_email', '').set('errors', ['That email is not in our system']);
+				}
 
-					self.set('errors', []);
-					self._process_email(user_email, obj.resp);
+				self.set('errors', []);
+				self._process_email(user_email, obj.resp);
 
-					app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
-					function(resp_num) {
-						if (resp_num == 1){
-								return;
-						}
-					},'Email Sent', ['OK']);
+				app.plugins.n.notification.alert('An email has been sent with instructions on how to reset your password.',
+				function(resp_num) {
+					if (resp_num == 1){
+							return;
+					}
+				},'Email Sent', ['OK']);
 
-					app.trigger('session:active', {'primary':'community','secondary':'false'});
+				app.trigger('session:active', {'primary':'community','secondary':'false'});
 			};
 
 			var api_obj = {

@@ -27,8 +27,8 @@ var Binding = Backbone.View.extend({
             var id = entry.target.className.match(/(e_[0-9]+)/i)[1];
             var el = self.get(id);
             var $el = $('.'+id);
-            if (el && $el) $el.attr('src', el.get_value(el.data.src));
             self.lazyImageObserver.unobserve(entry.target);
+            if (el && $el) $el.attr('src', el.get_value(el.data.src));
             if (self.debug) app.log("Bind: Intersection Observed", entry.target);
           }
         });
@@ -36,6 +36,8 @@ var Binding = Backbone.View.extend({
     }
 
     this.start_listening();
+
+		app.trigger('bind:render', this.element.el_id);
     return this;
   },
   lazyLoad: function(e) {
@@ -77,13 +79,15 @@ var Binding = Backbone.View.extend({
     return this.element.get(id);
   },
   render: function(el_id) {
+		if (!el_id) return; // must have an id to add
+
     var self = this;
     clearTimeout(this.render_timeout);
 
     if (this.render_count == 0) {
       this.render_ids.length = 0;
       this.render_start = new Date();
-      if (this.debug) app.log("Bind: render start", this.render_start);
+      if (this.debug) app.log("Bind: render start", this.render_start, el_id);
     }
     this.render_count++;
 
@@ -176,6 +180,8 @@ var Binding = Backbone.View.extend({
     data-on-touch-move :: triggers event on touchMove of element
     data-on-touch-end :: triggers event on touchEnd of element
     data-on-touch-cancel :: triggers event on touchCancel
+    data-on-input :: triggers on input change
+    data-input-msg :: adds object data to onInput call (includes input value as {value:xx})
     data-on-error :: calls function on current model when img src fails to load, used in conjunction with data-replace
     data-event-stop :: stops propagation if on-event triggered
   lib:
@@ -332,7 +338,8 @@ function Element(el, parent, _scope) {
       if (this.model.get('is_fetching') == 'true') {
         this.listenToOnce(this.model, 'change:is_fetched', function() {
           self.is_changed = true;
-          app.trigger('bind:render');
+          if (self.data.debug) app.log("is_fetched: render");
+          app.trigger('bind:render', self.el_id);
         });
       } else {
         if (this.data.run) this._call(this.data.run, this.get_value(this.data.runMsg));
@@ -947,25 +954,35 @@ function Element(el, parent, _scope) {
     if (this.data.foreach) {
       var _foreach = this.get_value(this.data.foreach);
       // app.log("Foreach listeners", _foreach, listeners);
-      var model = this.get_model(_foreach);
-      if (model) {
-        var field = this.get_field(_foreach);
 
-        // app.log("Foreach", _foreach, field);
-        self.triggers['_foreach'] = function () {
-          // if (self.data.debug || self.el_text) app.log("Foreach Triggered: ", val, trigger_str, self.el_id);
-          // remove children right away
-          self.remove_children();
+      self.triggers['_foreach'] = function () {
+        // if (self.data.debug || self.el_text) app.log("Foreach Triggered: ", val, trigger_str, self.el_id);
+        // remove children right away
+        self.remove_children();
 
-          // make sure to refresh values on redraw
-          self.is_changed = true;
+        // make sure to refresh values on redraw
+        self.is_changed = true;
 
-          app.trigger('bind:render'); // render since new templates got added
+        if (self.data.debug) app.log("Foreach: render");
+        app.trigger('bind:render', self.el_id); // render since new templates got added
+      }
+
+      if (_foreach == 'cluster') {
+        var cluster = app.collection.get_cluster(this.get_value(this.data.cluster));
+
+        this.listenTo(cluster, 'add',     self.triggers['_foreach']);
+        this.listenTo(cluster, 'remove',  self.triggers['_foreach']);
+      } else {
+        var model = this.get_model(_foreach);
+        if (model) {
+          var field = this.get_field(_foreach);
+
+          // app.log("Foreach", _foreach, field);
+          this.listenTo(model, 'add:'+field,     self.triggers['_foreach']);
+          this.listenTo(model, 'change:'+field,  self.triggers['_foreach']);
+          this.listenTo(model, 'remove:'+field,  self.triggers['_foreach']);
+          this.listenTo(model, 'sort:'+field,    self.triggers['_foreach']);
         }
-        this.listenTo(model, 'add:'+field,     self.triggers['_foreach']);
-        this.listenTo(model, 'change:'+field,  self.triggers['_foreach']);
-        this.listenTo(model, 'remove:'+field,  self.triggers['_foreach']);
-        this.listenTo(model, 'sort:'+field,    self.triggers['_foreach']);
       }
     }
 
@@ -1004,11 +1021,11 @@ function Element(el, parent, _scope) {
         // add listeners
         _.each(changes, function(change) {
           var trigger_str = listen_model.id+'|'+change;
-          if (self.data.debug) app.log("Listen to", self.$el, self.el_id, val, trigger_str);
+          if (self.data.debug || (self.el_text && self.parent_element.data.debug)) app.log("Listen to", self.$el, self.el_id, val, trigger_str);
           self.triggers[trigger_str] = function () {
             var is_change = false;
 
-            if (self.data.debug) app.log("Listener triggered", self.el_id, trigger_str);
+            if (self.data.debug || (self.el_text && self.parent_element.data.debug)) app.log("Listener triggered", self.el_id, trigger_str);
 
             // check if attributes really changed
             _.each(self.r_el, function(old_value, key) {
@@ -1039,7 +1056,7 @@ function Element(el, parent, _scope) {
               if (!_.isString(new_value)) new_value = JSON.stringify(new_value);
 
               if (new_value != old_value) {
-                if (self.data.debug) app.log("Triggered change?", key, new_value, old_value);
+                if (self.data.debug || (self.el_text && self.parent_element.data.debug)) app.log("Triggered change?", key, new_value, old_value);
                 var undefined_match = new_value.match(/undefined\s*$/i);
                 if (key == 'data-if' && (!new_value.match(/<|>/i) || undefined_match)) { // mark as changed if comparing < or > values or to undefined
                   var old_if = !self.is_hidden;
@@ -1059,7 +1076,7 @@ function Element(el, parent, _scope) {
             // check if checkbox, mark changed
             if (self.el_type == 'INPUT' && self.el.type && (self.el.type == 'checkbox' || self.el.type == 'radio')) is_change = true;
 
-            if (self.data.debug) app.log("Change triggered", is_change);
+            if (self.data.debug || (self.el_text && self.parent_element.data.debug)) app.log("Change triggered", is_change);
             if (is_change) {
               self.is_changed = true;
 
@@ -1069,8 +1086,12 @@ function Element(el, parent, _scope) {
               // make sure to refresh parent if text element
               if (self.el_text) self.parent_element.is_changed = true;
 
-              if (self.data.debug) app.log("Trigger render", self.el_id);
-              app.trigger('bind:render', self.el_id); // render since new templates got added
+              if (self.data.debug || (self.el_text && self.parent_element.data.debug)) app.log("Trigger render", self.el_id);
+							var el_id = self.el_id;
+							if (self.el_text)  el_id = self.parent_element.el_id;
+
+              if (self.data.debug) app.log("Listener: render", self.el_id);
+              app.trigger('bind:render', el_id); // render since new templates got added
             }
           }
 
@@ -1189,8 +1210,8 @@ function Element(el, parent, _scope) {
 
               self.subviews.push(new Element($(self.template), self, self._scope));
 
-              if (self.data.debug) app.log("Fallback Resp", resp);
-              app.trigger('bind:render'); // render since new templates got added
+              if (self.data.debug) app.log("Fetch Render: Fallback Resp", resp);
+              app.trigger('bind:render', self.el_id); // render since new templates got added
             });
 
             return app.log(resp, 'Replace with ' + self.data.fallback);
@@ -1204,13 +1225,13 @@ function Element(el, parent, _scope) {
 
         self.subviews.push(new Element($(self.template), self, self._scope));
 
-        if (self.data.debug) app.log("Resp", resp);
-        app.trigger('bind:render'); // render since new templates got added
+        if (self.data.debug) app.log("Fetch: Render", resp);
+        app.trigger('bind:render', self.el_id); // render since new templates got added
       });
     } else if (el.contents().length > 0) {
       _.each(el.contents(), function(child, i) {
         if (child.nodeType === Node.COMMENT_NODE) {
-          self.subviews.push(new Element(child, self, self._scope));
+          if (app.config.show_comments) self.subviews.push(new Element(child, self, self._scope));
         } else if (child.nodeType === Node.TEXT_NODE) {
           var text_value = $(child).text();
           // only bother rendering non-empty text subviews
@@ -1234,7 +1255,7 @@ function Element(el, parent, _scope) {
     var loop_element;
     _.each(el.contents(), function(child, i) {
       if (child.nodeType === Node.COMMENT_NODE) {
-        self.subviews.push(new Element(child, self));
+        if (app.config.show_comments) self.subviews.push(new Element(child, self));
       } else if (!loop_element && child.nodeType === Node.ELEMENT_NODE) loop_element = child;
     });
 
@@ -1454,9 +1475,8 @@ function Element(el, parent, _scope) {
 
     // comment?
     if (this.el_type == 'comment') {
-      if (app.config.show_comments) {
-        return '<!-- '+this.get_value(this.el_text)+' -->';
-      } else return '';
+      if (app.config.show_comments) return '<!-- '+this.get_value(this.el_text)+' -->';
+      else return '';
     }
     // show immediately if text
     if (this.el_text) {
@@ -1587,7 +1607,12 @@ function Element(el, parent, _scope) {
   this.on_input = function(e) {
     var self = e.data.el;
     var $el = $(e.currentTarget);
-    self._call(self.data.onInput, $el.val());
+    if (self.data.inputMsg) {
+      var msg = self.get_value(self.data.inputMsg);
+      if (_.isObject(msg)) _.extend(msg, {value:$el.val()});
+      else msg = {value:$el.val()};
+      self._call(self.data.onInput, msg);
+    } else self._call(self.data.onInput, $el.val());
   };
   this.on_key = function (e) {
     self = e.data.el;
@@ -1725,9 +1750,9 @@ function Element(el, parent, _scope) {
           y : pos.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.originalEvent.offsetX,
+          offset_x: e.originalEvent.offsetX, // node relative
           offset_y: e.originalEvent.offsetY,
-          mouse_x : e.originalEvent.clientX,
+          mouse_x : e.originalEvent.clientX, // viewport
           mouse_y : e.originalEvent.clientY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
@@ -1756,9 +1781,9 @@ function Element(el, parent, _scope) {
           y : pos.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.originalEvent.offsetX,
+          offset_x: e.originalEvent.offsetX, // node relative
           offset_y: e.originalEvent.offsetY,
-          mouse_x : e.originalEvent.clientX,
+          mouse_x : e.originalEvent.clientX, // viewport
           mouse_y : e.originalEvent.clientY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
@@ -1784,9 +1809,9 @@ function Element(el, parent, _scope) {
           y : pos.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.originalEvent.offsetX,
+          offset_x: e.originalEvent.offsetX, // node relative
           offset_y: e.originalEvent.offsetY,
-          mouse_x : e.originalEvent.clientX,
+          mouse_x : e.originalEvent.clientX, // viewport
           mouse_y : e.originalEvent.clientY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
@@ -1807,16 +1832,16 @@ function Element(el, parent, _scope) {
 
       if (!self.data.msg) {
         var $el = $('.'+self.el_id);
-        var pos = $el.position();
+        var offset = $el.offset();
         var element_obj = {
-          x : pos.left,
-          y : pos.top,
+          x : offset.left,
+          y : offset.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.touches[0].clientX - pos.left,
-          offset_y: e.touches[0].clientY - pos.top,
-          mouse_x : e.touches[0].clientX,
-          mouse_y : e.touches[0].clientY,
+          offset_x: e.touches[0].pageX - offset.left, // node relative
+          offset_y: e.touches[0].pageY - offset.top,
+          mouse_x : e.touches[0].pageX, // viewport
+          mouse_y : e.touches[0].pageY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
@@ -1836,16 +1861,16 @@ function Element(el, parent, _scope) {
 
       if (!self.data.msg) {
         var $el = $('.'+self.el_id);
-        var pos = $el.position();
+        var offset = $el.offset();
         var element_obj = {
-          x : pos.left,
-          y : pos.top,
+          x : offset.left,
+          y : offset.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.changedTouches[0].clientX - pos.left,
-          offset_y: e.changedTouches[0].clientY - pos.top,
-          mouse_x : e.changedTouches[0].clientX,
-          mouse_y : e.changedTouches[0].clientY,
+          offset_x: e.changedTouches[0].pageX - offset.left, // node relative
+          offset_y: e.changedTouches[0].pageY - offset.top,
+          mouse_x : e.changedTouches[0].pageX, // viewport
+          mouse_y : e.changedTouches[0].pageY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
@@ -1865,16 +1890,16 @@ function Element(el, parent, _scope) {
 
       if (!self.data.msg) {
         var $el = $('.'+self.el_id);
-        var pos = $el.position();
+        var offset = $el.offset();
         var element_obj = {
-          x : pos.left,
-          y : pos.top,
+          x : offset.left,
+          y : offset.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.changedTouches[0].clientX - pos.left,
-          offset_y: e.changedTouches[0].clientY - pos.top,
-          mouse_x : e.changedTouches[0].clientX,
-          mouse_y : e.changedTouches[0].clientY,
+          offset_x: e.changedTouches[0].pageX - offset.left, // node relative
+          offset_y: e.changedTouches[0].pageY - offset.top,
+          mouse_x : e.changedTouches[0].pageX, // viewport
+          mouse_y : e.changedTouches[0].pageY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
@@ -1893,16 +1918,16 @@ function Element(el, parent, _scope) {
 
       if (!self.data.msg) {
         var $el = $('.'+self.el_id);
-        var pos = $el.position();
+        var offset = $el.offset();
         var element_obj = {
-          x : pos.left,
-          y : pos.top,
+          x : offset.left,
+          y : offset.top,
           width : $el.width(),
           height : $el.height(),
-          offset_x: e.changedTouches[0].clientX - pos.left,
-          offset_y: e.changedTouches[0].clientY - pos.top,
-          mouse_x : e.changedTouches[0].clientX,
-          mouse_y : e.changedTouches[0].clientY,
+          offset_x: e.changedTouches[0].pageX - offset.left, // node relative
+          offset_y: e.changedTouches[0].pageY - offset.top,
+          mouse_x : e.changedTouches[0].pageX, // viewport
+          mouse_y : e.changedTouches[0].pageY,
           scroll_x : $el.scrollLeft(),
           scroll_y : $el.scrollTop()
         };
@@ -1943,7 +1968,7 @@ function Element(el, parent, _scope) {
         });
       }
 
-      // app.trigger('bind:render');
+      if (self.data.debug) app.log("Img Error: render");
       app.trigger('bind:render', self.el_id); // render since new templates got added
     } else {
       self._call(self.data.onError, self.get_value(self.data.msg));

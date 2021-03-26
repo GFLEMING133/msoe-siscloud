@@ -1,5 +1,28 @@
-# 2020-7-2 1.10.26-37
-
+# 2020-03-08 1.10.54
+- Confirm dialog for track upload where rho is outside bounds
+- Restart page shows up correctly instead of black page
+- Upload track listens for successful track added before showing Track modal
+# 2020-02-22 1.10.52-53 c276869e85ae5292f3ef6956df5a07a77f43a786
+- Remove Extra Playlists on Sisbot connect
+- Skip startup modal for Software Update in training env
+- Better track time display (hides while calculating)
+- CSS fixes for modals
+- Reduce Track/Playlist delete send data
+- Add Card Version to Advanced Settings admin list
+- Improved messaging between open apps on Track/Playlist delete
+- Error messaging when have an IP and unable to connect to Sisyphus, including iOS Local Network permissions
+- Fixed repeated value change on Pause Between Tracks values, which could cause a hammering of Pi/Network and unresponsiveness
+- Speed/Brightness/LED values live update while multiple apps/browsers connected
+# 2020-11-23 1.10.43-51 8cec25bf06b5c3bdfe3408a31161c99322bd0fd5
+- Tablet/Web view layout added
+- Dark Mode
+- Change brightness or Sisyphus from Sleeping Screen
+- Shutdown added to Advanced Settings
+- Improved track time on Home page
+- Color in background of sliders
+- remove img/icons_ from app and replaced with font-awesome-icons
+- Missing CSON shows page to select it on connection
+# 2020-7-2 1.10.26-42 78c49dfa2cf21314c539406e359ee44af7c2ee9d
 - fixed routing after track deletion
 - removed sisyphus-community-artist-track-list-item-tmp (no longer needed after search cluster added)
 - added conditional for all_track_playlist to stop showing
@@ -28,7 +51,6 @@
 - Fix playback label when playing single track
 
 # 2020-3-10 1.10.09-25 3a89bc1a8f70c2427c7c55e1fdb633f96d745cdf
-
 - Search added to Playlist Edit->Add Tracks
 - Searching in All Tracks includes Artist name value
 - Editing playlist shows rho start/stop values as it would be played, with connection lines marked
@@ -57,11 +79,9 @@
 - Fix iPad Playlist icon rendering
 
 # 2020-3-12 1.10.08 1d03f3071c64485f403b5ded6412401369d7fa77
-
 - Fetching more artist spinner fix
 
 # 2020-3-4 1.10.00-05 e1da68217ebdb8fa0610bdc797c7eb3e40b28345
-
 - wording and UI changes
 - Description error checking
 - Community log-in / sign-up error checking updated.
@@ -73,17 +93,28 @@
 - Community sign in error handling adjusted
 - Conditionals added for playlist description
 - check_for_unavailable() moved out of conditional in the fetch()
+
 # 2020-3-4 1.9.02 & 03
+
 - Updated info.Plist and added < preference name="WKWebViewOnly" value="true" /> for Xcode depreciation warning (trial)
 - Playlist pages updated
+
 # 2020-3-4 1.9.00
+
 - scroll_check fixed and moved to searchable model to fix call error.
 - Draw inputs changed to populate correct name and save to session.
 - Added is_downloaded to  Playlists page
+
 # 2020-3-2 1.8.99
 - UI changes to address responsiveness
 - search input now scrolling with page.
+
+<<<<<<< Updated upstream
+# 2020-2-27 1.8.98
+
+=======
 #2020-2-27 1.8.98
+>>>>>>> Stashed changes
 - add track to playlist routes to playlist after added
 - clear listeners on table change
 - search added for All Tracks page
@@ -99,25 +130,34 @@
 - "In Review" shown on tracks and My Tracks tab added to community
 - UI changes
 - Connect to sisbot sends data about device to be logged
-#2020-2-26 1.8.96 & 97
+
+# 2020-2-26 1.8.96 & 97
+
 - test for empty exists() response in staging
-#2020-2-8 1.8.93/94
- - Onboarding scrollable
- - Added  "'+self.get('data.name')+' to the notification error.
- - _.omit password from state obj on resp
- - Wifi clearing password fix
- - self._ble_cb fix
- - eye, eye-slash fix
- - scrollIntoView() fix
-#2020-2-8 1.8.92
- - BLE, SSID and IP changes.
- - on_init listeners now calling once to address track play
- - SSID Input added to on-boarding and wifi reconnect
- - UI changes
- #2020-2-8 1.8.90
- - BLE scan reverted back to old method (stops scan on first Sisyphus found)
- - Manual SSID entry
- - Manual IP address connect entry
+
+# 2020-2-8 1.8.93/94
+
+- Onboarding scrollable
+- Added  "'+self.get('data.name')+' to the notification error.
+- _.omit password from state obj on resp
+- Wifi clearing password fix
+- self._ble_cb fix
+- eye, eye-slash fix
+- scrollIntoView() fix
+
+# 2020-2-8 1.8.92
+
+- BLE, SSID and IP changes.
+- on_init listeners now calling once to address track play
+- SSID Input added to on-boarding and wifi reconnect
+- UI changes
+
+ # 2020-2-8 1.8.90
+
+- BLE scan reverted back to old method (stops scan on first Sisyphus found)
+- Manual SSID entry
+- Manual IP address connect entry
+
 #2020-1-29 1.8.89
  - JSON.parse fix
 #2019-01-27 1.8.89-91

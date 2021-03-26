@@ -1,0 +1,117 @@
+<div>
+	<!-- <div class="bb center" data-if="{{= scope.index }} == 0">
+		<div class="relative hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true">
+			<div class="absolute hh17">
+				<div class="connectionContainer rho0">
+					<div class="connection0Top"></div>
+				</div>
+				<div class="connectionLine"></div>
+				<div class="connectionContainer rho1 connBottom">
+					<div class="connection1Bottom"></div>
+				</div>
+			</div>
+			<div class="absolute z10">
+				<div class="inline-block bg-white orange pl5 pr5">Starting connection line</div>
+			</div>
+		</div>
+	</div> -->
+	<div class="relative" data-on-click="grandparent.showMouse">
+		<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} == {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				class="solidR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }}"></div>
+		<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				class="firstR rho{{= parent.temp_tracks[{[= scope.index ]}].firstR }} {{= (parent.temp_tracks[{[= scope.index ]}].firstBreak == 'true') ? 'orange' : '' }}"></div>
+		<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				class="lastR rho{{= parent.temp_tracks[{[= scope.index ]}].lastR }} {{= (parent.temp_tracks[{[= scope.index ]}].lastBreak == 'true') ? 'orange' : '' }}"></div>
+		<div class="iconFirst icon{{= parent.temp_tracks[{[= scope.index ]}].firstR }}" data-if="{{= scope.index }} > 0">
+			<!-- <i class="fas fa-exclamation-circle orange"
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true"></i> -->
+			<i class="fas fa-check-circle"
+					data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == false"></i>
+		</div>
+		<!-- <div class="iconLast icon{{= parent.temp_tracks[{[= scope.index ]}].lastR }}"
+				data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+			<i class="fas fa-exclamation-circle orange"></i>
+		</div> -->
+		<div class="flex pl20 clickable active">
+			<div class="w20 pt10 pb10 center vertical">
+				<div class="w75p hh75">
+					<img class="w100 mw100px center img-rounded"
+							alt="{{= model.data.name }}"
+							src="{{= app.config.get_thumb_url() }}thumbnail/{{= app.config.get_thumb_size() }}/{{= model.id }}.png" />
+				</div>
+			</div>
+			<div class="w60 pt25 pb10 pl10"
+					tg-name="track_name">
+	      <div class="fs18 lh18 black block word-break strong">{{= model.data.name }}</div>
+	      <div class="fs12 lh18 grey block">
+					Rho Start/End: {{= parent.temp_tracks[{[= scope.index ]}].firstR }}{{= parent.temp_tracks[{[= scope.index ]}].lastR }}
+					<span data-if="{{= parent.temp_tracks[{[= scope.index ]}].reversed }} == true">(reversed)</span>
+				</div>
+				<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstR }} !== {{= parent.temp_tracks[{[= scope.index ]}].lastR }}">
+					<div data-if="{{= parent.temp_tracks[{[= scope.index ]}].firstBreak }} == true">
+						<div class="fs12 lh18 red block"
+								data-if="{{= parent.temp_tracks[{[= scope.index ]}].reversible }} !== true">
+							! Not Reversible !
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="w20 pr20 flex-justify-center vertical right"
+					data-on-click="parent.remove_track"
+					data-msg="{'index':{{= scope.index }}, 'pos':'active_tracks'}"
+					tg-name="red_minus_track_{{= scope.index}}_btn">
+				<i class="far fa-minus-circle red f-large"></i>
+	    </div>
+		</div>
+	</div>
+	<div data-if="{{= scope.index }} < {{= _.size(parent.temp_tracks)-1 }}">
+		<div class="bt center relative" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+			<div class="relative hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 0">
+				<div class="connectionContainer rho0">
+					<div class="connection0Top"></div>
+				</div>
+				<div class="connectionLine"></div>
+				<div class="connectionContainer rho1 connBottom">
+					<div class="connection1Bottom"></div>
+				</div>
+			</div>
+			<div class="relative hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 1">
+				<div class="connectionContainer rho1">
+					<div class="connection1Top"></div>
+				</div>
+				<div class="connectionLine"></div>
+				<div class="connectionContainer rho0 connBottom">
+					<div class="connection0Bottom"></div>
+				</div>
+			</div>
+			<div class="absolute z10">
+				<div class="inline-block bg-white orange pl5 pr5 pt1">Connection line</div>
+			</div>
+		</div>
+	</div>
+	<div data-if="{{= scope.index }} == {{= _.size(parent.temp_tracks)-1 }}">
+		<div class="bt center relative" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastBreak }} == true">
+			<div class="absolute hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 0">
+				<div class="connectionContainer rho0">
+					<div class="connection0Top"></div>
+				</div>
+				<div class="connectionLine"></div>
+				<div class="connectionContainer rho1 connBottom">
+					<div class="connection1Bottom"></div>
+				</div>
+			</div>
+			<div class="absolute hh17" data-if="{{= parent.temp_tracks[{[= scope.index ]}].lastR }} == 1">
+				<div class="connectionContainer rho1">
+					<div class="connection1Top"></div>
+				</div>
+				<div class="connectionLine"></div>
+				<div class="connectionContainer rho0 connBottom">
+					<div class="connection0Bottom"></div>
+				</div>
+			</div>
+			<div class="absolute z10">
+				<div class="inline-block bg-white orange pl5 pr5 pt1">Looping connection line</div>
+			</div>
+		</div>
+	</div>
+</div>

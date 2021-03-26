@@ -1,0 +1,48 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced_settings'}"><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh18 capitalize">Siri Shortcuts</h1>
+    </div>
+    <div class="w15">&nbsp;</div>
+  </div>
+  <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
+      tg-name="siri_page">
+    <div class="bb p20 fs17 lh20">
+      Use the buttons below to record a shortcut to Siri, or add shortcuts by touching the <i class="fas fa-microphone ml5 mr5"></i> icon wherever you see it.
+    </div>
+
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+        data-on-click="model.present_siri"
+        data-msg="{'action':'play','phrase':'Play'}">
+      <div class="wrapper">
+        <i class="fas fa-microphone mr20"></i>Play
+      </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+        data-on-click="model.present_siri"
+        data-msg="{'action':'pause','phrase':'Pause'}">
+      <div class="wrapper">
+        <i class="fas fa-microphone mr20"></i>Pause
+      </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+        data-on-click="model.present_siri"
+        data-msg="{'action':'sleep','phrase':'Sleep'}">
+      <div class="wrapper">
+        <i class="fas fa-microphone mr20"></i>Sleep
+      </div>
+    </div>
+    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+        data-on-click="model.present_siri"
+        data-msg="{'action':'wake_up','phrase':'Wake'}">
+      <div class="wrapper">
+        <i class="fas fa-microphone mr20"></i>Wake
+      </div>
+    </div>
+  </div>
+</div>

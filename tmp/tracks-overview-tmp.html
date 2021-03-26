@@ -1,0 +1,120 @@
+<div class="h100" data-model="{{= model.sisbot_id }}">
+  <div class="pull-top">
+    <div class="white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+      <div class="w30 left pl20 clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'false'}">
+        <i data-if="{{= manager.is_tablet }} == false" class="far fa-chevron-left f-large pt15 pb15"></i>
+      </div>
+      <div class="w40">
+        <h1 class="no-stuffing fs18 capitalize truncate">All Tracks</h1>
+      </div>
+      <div class="w30 pt30 center">&nbsp;</div>
+    </div>
+  </div>
+  <div class="body-header pb65 h100 scroll hide-scrollbar"
+      data-scope="true"
+      data-defaults="{'type':'searchable_list',
+                      'list_type':'track',
+                      'sort':'data.name',
+                      'order':'asc',
+                      'q':{
+                            'value':'',
+                            'search_keys':['data.name', 'data.created_by_name']
+                          },
+                      'terms':{
+                            'is_downloaded':'true'
+                          }
+                      }"
+        tg-name="all_tracks_page"
+        data-on-scroll="model.scroll_check"
+        data-msg="{{= _self_.el_id }}">
+    <!-- Play and Shuffle for phone  -->
+    <div data-if="{{= manager.is_tablet }} == false">
+      <div class="bg-black" data-if="{{= parent.sisbot_version }} >= 1010072">
+        <div class="center p15 tmp-max-width m-auto"
+            data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
+            data-model="{{= parent.data.all_tracks_playlist_id }}">
+          <div class="inline-block white b-white rounded mr10 clickable blue-hover p5 pl10 pr15"
+              data-on-click="model.play"
+              data-msg="{{= 0 }}"
+              tg-name="tracks_play_btn">
+            <i class="fas fa-play pr5 pl5"></i> Play All
+          </div>
+          <div class="inline-block white b-white rounded ml10 clickable blue-hover p5 pl10 pr15"
+              data-on-click="model.play_shuffled"
+              tg-name="tracks_shuffle_btn">
+            <i class="fas fa-random pr5 pl5"></i> Shuffle All
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="tmp-max-width m-auto">
+        <div class="sticky z50 bg-white">
+          <div data-if="{{= manager.is_tablet }} == true" data-template="tablet-nav-bar-tmp"></div>
+          <div class="flex relative pb10 pt10 w100 bg-white {{= (manager.is_tablet == 'false') ? 'pr20 pl20 bb':'pl10 pr10'}}">
+            <input
+                type="text"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                style="font-family:'Font Awesome 5 Pro', 'Montserrat' !important"
+                placeholder="&#xf002; Search Tracks"
+                data-field="model.data.q.value"
+                value="{{= model.data.q.value }}"
+                data-on-input="model.update_q"
+                data-on-key-enter="blur"
+                tg-name="all_tracks_search_input" />
+            <div
+                class="lightgrey only-absolute r30px t22px pointer-none strong center"
+                data-if="{{= model.is_ready }} == true">
+              {{= model.q_size }}
+            </div>
+          </div>
+        </div>
+        <!-- Play and Shuffle for tablet  -->
+        <div data-if="{{= manager.is_tablet }} == true">
+          <div data-if="{{= parent.sisbot_version }} >= 1010072">
+            <div class="center p15 bb" data-if="{{= parent.data.all_tracks_playlist_id }} !== false"
+              data-model="{{= parent.data.all_tracks_playlist_id }}">
+              <div class="inline-block black rounded mr10 clickable blue-hover b2 strong {{= (manager.is_tablet == 'true') ? 'p10': 'p5 pl10 pr15'}}"
+                  data-on-click="model.play"
+                  data-msg="{{= 0 }}"
+                  tg-name="tracks_play_btn">
+                <i class="fas fa-play pr5 pl5"></i> Play All
+              </div>
+              <div class="inline-block black rounded ml10 clickable blue-hover b2 strong {{= (manager.is_tablet == 'true') ? 'p10': 'p5 pl10 pr15'}}"
+                  data-on-click="model.play_shuffled"
+                  tg-name="tracks_shuffle_btn">
+                <i class="fas fa-random pr5 pl5"></i> Shuffle All
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="center p20 i" data-if="{{= model.size }} == 0">
+          <span>No Tracks matching search</span>
+        </div>
+        <div data-if="{{= model.size }} !== 0">
+          <div data-if="{{= model.is_ready }} == true"
+              data-foreach="cluster"
+              data-cluster="{{= model.data.query}}"
+              data-foreach-limit="{{= model.limit }}"
+              data-foreach-offset="{{= model.offset }}"
+              data-cluster-comparator="model.data.comparator"
+              data-cluster-search-keys="model.data.q.search_keys"
+              data-cluster-search-value="model.data.q.value">
+            <div class="bb" data-template="tracks-list-item-tmp"></div>
+          </div>
+          <div data-if="{{= model.q_size }} > {{= model.limit }}">
+            <div class="p20 center i">Fetching tracks...</div>
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+          </div>
+        </div>
+        <div class="hh200">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,24 +1,23 @@
-<div class="pull-bottom m20" data-model="{{= session.community_id }}"
+<div class="pull-bottom tmp-max-width safe-bottom {{= (manager.is_tablet == 'true') ? 'm100-auto':'m20'}}" data-model="{{= session.community_id }}"
     tg-name="community_add_to_modal">
-    <div class="scrollable hide-scrollbar mb20">
-        <div data-model="{{= manager.sisbot_id }}"
-            data-foreach="model.data.playlist_ids"
-            data-foreach-map="true"
-            >
-            <div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb {{= (scope.index == 0) ? 'corner-10px corner-bl-none corner-br-none' : '' }}"
-                data-if="{{= model.id }} !== all_tracks_playlist"
-                data-on-click="grandparent.add_to_playlist"
-                data-msg="{{= model.id }}"
-                tg-name="community_add_to_playlist_{{= model.id }}">Add to "{{= model.data.name }}"</div>
-        </div>
-        <div class="bg-white black o95 o100-hover p15 corner-10px corner-tl-none corner-tr-none fs18 lh18 center clickable"
-            data-on-click="model.new_playlist"
-            tg-name="community_add_to_new_playlist_btn">Add to New Playlist...</div>
+  <div class="scrollable hide-scrollbar mb20">
+    <div data-model="{{= manager.sisbot_id }}"
+        data-foreach="model.data.playlist_ids"
+        data-foreach-map="true">
+      <div class="bg-white black o95 o100-hover p15 fs18 lh18 center clickable bb {{= (scope.index == 0) ? 'corner-10px corner-bl-none corner-br-none' : '' }}"
+          data-if="{{= model.id }} !== all_tracks_playlist"
+          data-on-click="grandparent.add_to_playlist"
+          data-msg="{{= model.id }}"
+          tg-name="community_add_to_playlist_{{= model.id }}">Add to "{{= model.data.name }}"</div>
     </div>
+    <div class="bg-white black o95 o100-hover p15 corner-10px corner-tl-none corner-tr-none fs18 lh18 center clickable"
+        data-on-click="model.new_playlist"
+        tg-name="community_add_to_new_playlist_btn">Add to New Playlist...</div>
+  </div>
   <div class="mt20 bg-blue white o95 o100-hover p15 corner-10px fs18 lh18 center clickable"
       data-on-click="parent.close"
       tg-name="community_add_to_library_btn">Add to Library</div>
-      <div class="mt10 bg-white black o95 o100-hover p15 corner-10px fs18 lh18 center clickable"
+  <div class="mt10 bg-white black o95 o100-hover p15 corner-10px fs18 lh18 center clickable"
       data-on-click="model.remove_downloaded"
-      tg-name="cancel_download_btn">Cancel Download(s)</div>
+      tg-name="modal_close_btn">Cancel Download(s)</div>
 </div>

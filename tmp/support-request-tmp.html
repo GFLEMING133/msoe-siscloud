@@ -1,42 +1,43 @@
 <div class="h100">
-  <div class="pull-top white bg-black hh50 w100 center no-stuffing flex vertical-align">
-    <div class="w15 center clickable active blue-hover"
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 clickable active blue-hover left pl20 inline-block"
         data-on-click="publish"
         data-publish="session:active"
         data-msg="{'secondary':'false'}"
-    ><img src="img/icon_2x_button_back.png" alt="Back" class="hh50 pt15 pb15" /></div>
+    ><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
     <div class="w70">
       <h1 class="no-stuffing fs18 capitalize truncate">Support Request</h1>
     </div>
     <div class="w15 center f-large">&nbsp;</div>
   </div>
-  <div class="body-header h100 scroll hide-scrollbar" tg-name="support_request_page">
-    <div data-if="{{= model.sisbot_id }} == false">
-      <div data-template="support-request-form-tmp"></div>
+  <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="support_request_page">
+		<div class="tmp-max-width m-auto">
+	    <div data-if="{{= model.sisbot_id }} == false">
+	      <div data-template="support-request-form-tmp"></div>
+	    </div>
+	    <div data-if="{{= model.sisbot_id }} !== false">
+	      <div data-model="{{= model.sisbot_id }}">
+	        <div data-if="{{= model.data.is_internet_connected }} == false">
+	          <div class="p20 bg-white black">
+	            <h4 class="no-stuffing pt20 fs18 lh18 pb5 mb10 strong">Please visit our Support Page</h4>
+	            <p>
+	              Click the button below to be directed to the Sisyphus Support website.
+	              You may need to connect your
+	              <span data-if="{{= app.is_app }} == true">phone</span><span data-if="{{= app.is_app }} == false">computer</span>
+	              to an internet-connected wifi network.
+	            </p>
+	            <h2 class="btn bg-blue w100 m0 corner-5px uppercase fs18 strong p15"
+	                data-on-click="parent.open_support_page"
+	                tg-name="sisyphus_website_tab"
+	            >Visit Sisyphus Support</h2>
+	          </div>
+	        </div>
+	        <div data-if="{{= model.data.is_internet_connected }} == true">
+	          <div data-template="support-request-form-tmp"></div>
+	        </div>
+	      </div>
+	    </div>
       <div class="hh150">&nbsp;</div>
-    </div>
-    <div data-if="{{= model.sisbot_id }} !== false">
-      <div data-model="{{= model.sisbot_id }}">
-        <div data-if="{{= model.data.is_internet_connected }} == false">
-          <div class="p20 bg-white black">
-            <h4 class="no-stuffing pt20 fs18 lh18 pb5 mb10 strong">Please visit our Support Page</h4>
-            <p>
-              Click the button below to be directed to the Sisyphus Support website.
-              You may need to connect your
-              <span data-if="{{= app.is_app }} == true">phone</span><span data-if="{{= app.is_app }} == false">computer</span>
-              to an internet-connected wifi network.
-            </p>
-            <h2 class="btn bg-blue w100 m0 corner-5px uppercase fs18 strong p15"
-                data-on-click="parent.open_support_page"
-                tg-name="sisyphus_website_tab"
-            >Visit Sisyphus Support</h2>
-          </div>
-        </div>
-        <div data-if="{{= model.data.is_internet_connected }} == true">
-          <div data-template="support-request-form-tmp"></div>
-          <div class="hh150">&nbsp;</div>
-        </div>
-      </div>
-    </div>
+		</div>
   </div>
 </div>

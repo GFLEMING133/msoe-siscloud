@@ -1,0 +1,54 @@
+<div data-if="{{= parent.is_tablet }} == false">
+  <div class="bottom-nav safe-bottom bg-dark-black pull-bottom white w100 center no-stuffing flex z50">
+    <div class="w25 hh50 pt10 clickable active {{= (grandparent.active.primary == 'current') ? 'white' : 'grey' }}"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'current','secondary':'false'}"
+        tg-name="home_btn">
+      <i data-if="{{= grandparent.active.primary }} == current"
+        class="fas fa-home fs18"
+        aria-hidden="true"></i>
+      <i data-if="{{= grandparent.active.primary }} !== current"
+        class="fas fa-home fs18"
+        aria-hidden="true"></i>
+      <br clear="both" />
+      <span class="f-small strong">Home</span>
+    </div>
+    <div class="w25 hh50 pt10 clickable active {{= (grandparent.active.primary == 'media') ? 'white' : 'grey' }}"
+        tg-name="library_btn"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'media','secondary':'false'}">
+        <i data-if="{{= grandparent.active.primary }} == media"
+          class="far fa-bullseye fs18"
+          aria-hidden="true"></i>
+        <i data-if="{{= grandparent.active.primary }} !== media"
+          class="far fa-bullseye fs18"
+          aria-hidden="true"></i>
+      <br clear="both" />
+      <span class="f-small strong">Library</span>
+    </div>
+    <div class="w25 hh50 pt10 clickable active {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
+        tg-name="community_btn"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'community','secondary':'false' }">
+        <i data-if="{{= grandparent.active.primary }} == community"
+          class="fa fa-globe fs18"></i>
+        <i data-if="{{= grandparent.active.primary }} !== community"
+          class="fa fa-globe fs18"></i>
+      <br clear="both" />
+      <span class="f-small strong">Community</span>
+    </div>
+    <div class="w25 hh50 pt10 clickable active {{= (grandparent.active.primary == 'settings') ? 'white' : 'grey' }}"
+        tg-name="settings_btn"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'primary':'settings','secondary':'false'}">
+        <i data-if="{{= grandparent.active.primary }} == settings" class="fas fa-cogs fs18 white"></i>
+        <i data-if="{{= grandparent.active.primary }} !== settings" class="fas fa-cogs fs18 grey"></i>
+      <br clear="both" />
+      <span class="f-small">Settings</span>
+    </div>
+  </div>
+</div>

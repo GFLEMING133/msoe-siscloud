@@ -202,7 +202,7 @@ app.model.community = {
     }
 
     app.log("Fetch playists:", playlists);
-    app.post.fetch2(playlists, cb, 0);
+    app.post.fetchWC(playlists, cb, 0);
 
     return this;
   },
@@ -255,7 +255,7 @@ app.model.community = {
       self.set('fetching_playlist', 'false');
     }
 
-    app.post.fetch2(playlist, cb, 0);
+    app.post.fetchWC(playlist, cb, 0);
 
     return this;
   },
@@ -294,7 +294,7 @@ app.model.community = {
       self.set('fetching_community_tracks', 'false');
     }
 
-    app.post.fetch2(tracks, cb, 0);
+    app.post.fetchWC(tracks, cb, 0);
 
     return this;
   },
@@ -327,7 +327,7 @@ app.model.community = {
       self.set('fetching_community_artists', 'false');
     }
 
-    app.post.fetch2(artists, cb, 0);
+    app.post.fetchWC(artists, cb, 0);
 
     return this;
   },
@@ -367,7 +367,7 @@ app.model.community = {
       app.log('After Fetch', self.get('fetching_community_tracks'))
     }
 
-    app.post.fetch2(tracks, cb, 0);
+    app.post.fetchWC(tracks, cb, 0);
 
     return this;
   },
@@ -415,7 +415,8 @@ app.model.community = {
   },
   download_wc: function() {
     app.trigger('modal:open', {
-      'template': 'modal-overlay-downloading-tmp'
+      'template': 'modal-overlay-downloading-tmp',
+			'no_dismiss': 'true'
     });
     var track_list = _.unique(this.get('selected_tracks'));
     var numberOfTracks = track_list.length;

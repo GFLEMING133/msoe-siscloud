@@ -1,0 +1,28 @@
+<div class="h100">
+  <div class="h100 scroll hide-scrollbar"
+			data-model="{{= manager.sisbot_id }}"
+      tg-name="corruption_notice_page">
+    <div class="h100">
+      <div class="h100 webkit-center">
+        <div>
+          <div class="h100 pt40 pb200 center webkit-center">
+            <p class="no-stuffing center w100 mt40" aria-hidden="true">
+							<i class="red far fa-exclamation-triangle f-xlarge"></i>
+            </p>
+            <h3 class="m0 pt20 pb20 center justify fs24 lh24 white">
+              File Corruption Fixed
+            </h3>
+            <p class="p0 m0 fs18 center white {{= (manager.is_tablet == 'true') ? 'mw350' : 'mw300' }}">
+              Your Sisyphus ran into a file issue and fixed it.
+							This may have affected the content, and original factory settings have been restored.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-center-row center bt-white clickable white strong blue-hover bg-dark-black pull-bottom safe-bottom"
+      data-on-click="model.close" tg-name="modal_close_btn">
+    <h2 class="m0 media_fs14 fs17 p20">Close</h2>
+  </div>
+</div>

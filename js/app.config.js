@@ -1,12 +1,12 @@
 app.config = {
 	env: 'prod',
-	version: '1.10.42', // Read CHANGELOG.md -- THIS VERSION IS WHAT THE APP READS
+	version: '1.10.54', // Read CHANGELOG.md -- THIS VERSION IS WHAT THE APP READS
 	disconnect_timeout_to_stop_polling: 45000, // stop trying to find tables after 45 seconds
 	extended_timeout_to_stop_polling: 90000, // stop trying to find tables when rebooting
 	is_production: true, // cuts out all app.log() output
-	is_debug: 'false', // for html to show custom debugging html, use string value
+	is_debug: 'false', // for html to show custom debugging html, **use 'string' value**
 	is_simulator: false, // are we in a simulator? Mainly for handling bluetooth
-	simulator_ip: '192.168.1.9', // force a specific network address in simulator
+	simulator_ip: '192.168.86.26', // force a specific network address in simulator
 	show_comments: false,
 	show_data: false,
 	show_lib: false,
@@ -20,7 +20,7 @@ app.config = {
 			port: 3001,
 		},
 		beta: {		// tests local network
-			base_url: 		'http://app.dev.withease.io:3001/', //local url
+			base_url: 	'http://app.dev.withease.io:3001/', //local url
 			api_url: 		'https://webcenter.sisyphus-industries.com/', // PRODUCTION
 			web_url: 		'https://webcenter.sisyphus-industries.com/', // PRODUCTION
 			// api_url				: 'http://3.214.203.248/', //change these to dev.webcenter for next push to TF and GP
@@ -29,19 +29,17 @@ app.config = {
 			// web_url				: 'http://dev.webcenter.sisyphus-industries.com/', // DEV
 			// api_url				: 'http://localhost:3333/',// add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url				: 'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url: 	'http://192.168.1.9:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url: 	'http://192.168.86.26:3002', //talking to sisbot    //  ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true
 		},
 		training: {
 			base_url: 		'http://app.dev.withease.io:3001/', //local url
-			// api_url: 		'https://webcenter.sisyphus-industries.com/', // production
-			// web_url: 		'https://webcenter.sisyphus-industries.com/', // production
 			// api_url				: 'http://localhost:3333/', // localhost
 			// web_url				: 'http://localhost:3333/', // localhost
 			api_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
 			web_url			: 'http://dev.webcenter.sisyphus-industries.com/', // dev
-			sisbot_url: 	'http://192.168.1.9:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
+			sisbot_url: 	'http://192.168.86.33:3002', //talking to sisbot    // ... or just put your URL in here '192.168.XX.XXX:3002' << for local Dev Env --insert your ip address + 3000
 			port: 3001,
 			show_tg: true
 		},
@@ -53,12 +51,12 @@ app.config = {
 			// web_url				: 'http://dev.webcenter.sisyphus-industries.com/',
 			// api_url: 			'http://localhost:3333/', // add entry in your computers /etc/hosts mapped to your bot's IP address
 			// web_url: 			'http://localhost:3333/', //web_center url	***Change to this for Rails web_center= http://localhost:3333/  (aka rails s) //  10.0.0.3	beta_bot.local
-			sisbot_url: 	'http://192.168.86.26:3002', //  33: wall, 26: mini, 24: beta
+			sisbot_url: 	'http://192.168.86.33:3002', //  33: wall, 26: mini, 24: beta, 27: coffee, 32: LAN
 			port: 3001,
 		},
 		sisbot: {
 			base_url: window.location.href,
-			// api_url				: 'http://dev.webcenter.sisyphus-industries.com/', //change these to dev.webcenter for next push to TF and GP
+			// api_url				: 'http://dev.webcenter.sisyphus-industries.com/',
 			// web_url				: 'http://dev.webcenter.sisyphus-industries.com/',
 			api_url: 			'https://webcenter.sisyphus-industries.com/',
 			web_url: 			'https://webcenter.sisyphus-industries.com/',
@@ -116,6 +114,7 @@ if (window.location.href.indexOf('withease') < 0) app.config.env = 'sisbot';
 if (window.location.href.indexOf('localhost') > -1) {
 	var fragment = window.location.hash;
 	var env = 'beta';
+	var ip = null;
 
 	if (fragment.charAt(0) === '#') {
 		fragment = fragment.slice(1);
@@ -124,30 +123,31 @@ if (window.location.href.indexOf('localhost') > -1) {
 		for (var i = 0; i < count; i++) {
 			var obj = fragment[i].split('=');
 			if (obj[0] == 'env') env = obj[1];
+			if (obj[0] == 'ip') ip = 'http://'+obj[1]+':3002';
 		}
 
 		if (env != 'beta') {
-			app.log("Env:", env);
+			app.log("Env:", env, app.config.envs[env].sisbot_url);
 			app.config.env = env;
 			// app.config.envs.beta.base_url 		= app.config.envs[env].base_url;
 			// app.config.envs.beta.api_url 		= app.config.envs[env].api_url;
 			// app.config.envs.beta.web_url 		= app.config.envs[env].web_url;
-			// app.config.envs.beta.sisbot_url 	= app.config.envs[env].sisbot_url;
+			if (ip) app.config.envs[env].sisbot_url = ip;
 		}
 	}
 
 	// app.log('Second 1/2' + !app.config.envs[env])
 	if (env == 'beta' || !app.config.envs[env]) app.config.env = 'beta';
-	app.log("Env:", env);
-}
+	// app.log("Env:", env);
+} else if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';
+
 if (window.location.href.indexOf('.local') > -1) app.config.env = 'sisbot';
-if (window.location.href.indexOf('192.168') > -1) app.config.env = 'sisbot';
 
 // for any url not including dev, assumes prod env
 if (window.location.href.indexOf('sisyphus.withease') > -1) app.config.env = 'prod';
 if (window.location.href.indexOf('siscloud.withease') > -1) app.config.env = 'prod';
-if (window.cordova) app.config.env = 'prod';
 if (window.location.hostname == '') app.config.env = 'prod';
+if (window.cordova) app.config.env = 'prod';
 
 // testing
 if (app.config.envs[app.config.env].show_tg) app.config.show_tg = app.config.envs[app.config.env].show_tg;

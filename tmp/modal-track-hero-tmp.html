@@ -1,0 +1,124 @@
+<div class="h100 relative">
+  <div class="h100 scroll hide-scrollbar"
+      data-model="{{= model.track_id }}"
+      tg-name="track_hero_container">
+    <div class="overlay-container mt20" tg-name="track_hero_{{= model.id }}">
+      <div class="{{= (manager.is_tablet == 'true') ? '' : 'bb' }}">
+        <div class="w100 mt20 mb20 center vertical active">
+          <div data-if="{{= model.generating_thumbnails }} == false">
+            <div data-if="{{= model.data.cam_image }} == false">
+              <img class="center img-rounded bg-a-white {{= (manager.is_tablet == 'true') ? 'w100' : 'w90'}}"
+                  alt="track image"
+                  src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+            </div>
+            <div class="clickable"
+                data-if="{{= model.data.cam_image }} !== false"
+                data-on-click="toggle"
+                data-field="model.show_cam">
+              <img class="center img-rounded bg-a-white {{= (manager.is_tablet == 'true') ? 'w100' : 'w90'}}"
+                  data-if="{{= model.show_cam }} == false"
+                  alt="track image"
+                  src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png" />
+              <img class="center img-rounded bg-a-white {{= (manager.is_tablet == 'true') ? 'w100' : 'w90'}}"
+      						data-if="{{= model.show_cam }} !== false"
+                  alt="track image"
+                  src="{{= app.config.get_thumb_url() }}cam/400/{{= model.id }}.png" />
+            </div>
+          </div>
+          <div data-if="{{= model.generating_thumbnails }} == true">
+            <img class="w90 center" alt="track image"
+                src="{{= app.config.get_thumb_url() }}thumbnail/400/_default.png" />
+          </div>
+        </div>
+      </div>
+      <div class="p20 flex item-center">
+        <div class="w100">
+          <div class="pull-right" data-if="{{= app.is_app }} == true">
+            <div class="less_strong inline-block blue-hover p5 pl10 pr10 white b-white rounded ml10 clickable"
+                data-model="{{= manager.sisbot_id }}"
+                data-on-click="model.present_siri"
+                data-msg="{'action':'play_track','phrase':'Play {{= parent.data.name }} Track','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
+                data-if="{{= app.platform }} == iOS"
+                tg-name="track_hero_present_siri_btn">
+              <i class="fas fa-microphone"></i>
+            </div>
+          </div>
+          <div class="fs18 lh20 white block strong">{{= model.data.name }}</div>
+          <div class="fs12 lh20 grey block strong" data-if="{{= model.data.created_by_name }} == false">
+            by Sisyphus Industries
+          </div>
+          <div class="fs12 lh20 grey block strong" data-if="{{= model.data.created_by_name }} !== false">
+            by {{= model.data.created_by_name }}
+          </div>
+          <!-- <div class="mt20">Track start: {{= model.data.firstR }}, end: {{= model.data.lastR }}</div> -->
+        </div>
+      </div>
+      <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
+          data-on-click="model.play_logic"
+          data-msg="{{= parent.track_index}}"
+          tg-name="track_hero_play_button">
+        <div class="center white">
+          <i class="far fa-play f-large white"></i>
+        </div>
+        <div class="w90 lh20 white less_strong">Play</div>
+      </div>
+      <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
+          data-run="model.is_playlist_favorite"
+          data-on-click="model.favorite_toggle"
+          tg-name="track_hero_favorite_btn">
+        <div class="center white">
+          <i class="pl0 red f-large fas fa-heart clickable red" data-if="{{= model.is_favorite }} !== false"></i>
+          <i class="pl0 white f-large fal fa-heart clickable" data-if="{{= model.is_favorite }} == false"></i>
+        </div>
+        <div class="w90 lh20 white">
+          <span data-if="{{= model.is_favorite }} == false">Favorite</span>
+          <span data-if="{{= model.is_favorite }} == true">Unfavorite</span>
+        </div>
+      </div>
+      <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable" data-on-click="publish"
+          data-publish="modal:open"
+          data-msg="{'track_id':'{{= model.id }}','template':'modal-playlist-add-tmp'}"
+          tg-name="track_hero_add_to_playlist_btn">
+        <div class="center">
+          <i class="pl0 white f-large far fa-plus-square clickable"></i>
+        </div>
+        <div class="w90 lh20 white">Add to Playlist</div>
+      </div>
+      <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
+          data-if="{{= model.data.firstR }} !== {{= model.data.lastR }}"
+          data-on-click="model.reversible_toggle"
+          tg-name="track_hero_reversible_btn">
+        <div class="center white">
+          <i class="pl0 white f-large fas fa-check-square clickable"
+            data-if="{{= model.data.is_reversible }} !== false"></i>
+          <i class="pl0 white f-large far fa-square clickable" data-if="{{= model.data.is_reversible }} == false"></i>
+        </div>
+        <div class="w90 lh20 white less_strong">Reversible</div>
+      </div>
+      <div class="pb10 pt10 pl20 white flex item-center bg-d-grey-hover clickable"
+          data-on-click="model.orientation_toggle"
+          tg-name="track_hero_orientation_btn">
+        <div class="center white">
+          <i class="pl0 white f-large fas fa-check-square clickable"
+            data-if="{{= model.data.force_orientation }} !== false"></i>
+          <i class="pl0 white f-large far fa-square clickable" data-if="{{= model.data.force_orientation }} == false"></i>
+        </div>
+        <div class="w90 lh20 white less_strong">Force Orientation</div>
+      </div>
+      <div class="pb10 pt10 pl20 white less_strong flex item-center bg-d-grey-hover clickable"
+          data-if="{{= model.data.is_deletable }} == true"
+          data-on-click="model.delete"
+          tg-name="track_hero_delete_btn">
+        <div class="center white">
+          <i class="pl0 white f-large far fa-trash-alt clickable"></i>
+        </div>
+        <div class="w90 lh20 white">Delete</div>
+      </div>
+      <div class="hh150">&nbsp;</div>
+    </div>
+  </div>
+  <div class="flex-center-row center bt-white clickable white strong blue-hover bg-dark-black pull-bottom safe-bottom"
+      data-on-click="model.close" tg-name="modal_close_btn">
+    <h2 class="m0 media_fs14 fs17 p20">Close</h2>
+  </div>
+</div>

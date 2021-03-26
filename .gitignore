@@ -10,3 +10,4 @@ thumbnail/*
 package-lock.json
 img/stills/*
 img/cam/*
+*.bak

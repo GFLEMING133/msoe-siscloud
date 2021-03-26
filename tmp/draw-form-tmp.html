@@ -1,0 +1,118 @@
+<div class="{{= (manager.is_tablet == 'false') ? 'pt20':''}}">
+  <div class="sticky bg-white" data-if="{{= manager.is_tablet }} == true" data-template="tablet-nav-bar-tmp"></div>
+  <div class="d3 vertical bb"
+      lib-d3="true"
+      data-run-after="model.draw_preview"
+      data-run-msg="{'el_id':'.{{= _self_.el_id }}'}"
+      data-on-mouse-down="model.start_drag"
+      data-on-mouse-move="model.drag"
+      data-on-mouse-up="model.stop_drag"
+      data-on-touch-start="model.start_drag"
+      data-on-touch-move="model.drag"
+      data-on-touch-end="model.stop_drag"
+      data-on-touch-cancel="model.stop_drag"
+      data-on-mouse-leave="model.stop_drag">
+    <svg class="drawing_area" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
+  </div>
+  <div class="block-wrapper p10">
+    <div class="flex-evenly bb pt10 pb10 fs14 lh18 no-stuffing strong">
+      <div class="flex-column-sb vertical-align clickable"
+          data-on-click="model.step_mirror">
+        <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt" data-if="{{= model.edit.mirror }} == both"></span>
+        <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt-v" data-if="{{= model.edit.mirror }} == vertical"></span>
+        <span class="pt5 black f-xlarge bg-white fas fa-arrows-alt-h" data-if="{{= model.edit.mirror }} == horizontal"></span>
+        <span class="pt5 black f-xlarge bg-white far fa-square" data-if="{{= model.edit.mirror }} == false"></span>
+        <p class="fs14 lh18 no-stuffing strong">MIRROR</p>
+      </div>
+      <div class="flex-column-sb vertical-align fs14 lh18 no-stuffing strong">
+        <input class="w40p center"
+            type="text"
+            pattern="[0-9]*"
+            placeholder="1"
+            data-field="model.edit.multiply"
+            value="{{= model.data.multiply }}"
+            data-on-update="model.multiply_change"
+            data-on-key-enter="blur" />
+        <p class="fs14 lh18 no-stuffing strong">MULTIPLY</p>
+      </div>
+      <div class="flex-column-sb vertical-align no-stuffing center"
+          data-if="{{= model.path_count }} == 0">
+        <div class="w40p b2 fs14 corner-5px black-a bg-a-white center strong lh20 p10 pt7 pb7 clickable"
+            data-on-click="model.firstR_change">
+          {{= model.edit.firstR }}
+        </div>
+        <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
+      </div>
+      <div class="flex-column-sb grey vertical-align no-stuffing center"
+          data-if="{{= model.path_count }} > 0">
+        <div class="w40p b2 corner-5px fs14 strong lh20 p10 pt7 pb7">{{= model.edit.firstR }}</div>
+        <p class="fs14 lh18 no-stuffing strong">RHO START<span data-if="{{= model.edit.mirror }} !== false">/END</span></p>
+      </div>
+      <div class="flex-column-sb vertical-align fs14 lh18 no-stuffing strong center"
+          data-if="{{= model.edit.mirror }} == false">
+        <div class="w40p b2 last-center black-a bg-a-white corner-5px fs14 lh20 p10 pt7 pb7 clickable"
+            data-on-click="model.lastR_change">
+          {{= model.edit.lastR }}
+        </div>
+        <p class="fs14 lh18 no-stuffing strong">RHO END</p>
+      </div>
+    </div>
+    <!-- <div class="w100 flex relative bb pt10 pb10 pl20">
+      <div class="clickable"
+          data-on-click="model.toggle_streaming">
+        <p class="f-medium no-stuffing strong">
+          <span class="pt5 black bg-white far fa-check-square" data-if="{{= model.is_streaming }} == true"></span>
+          <span class="pt5 black bg-white far fa-square" data-if="{{= model.is_streaming }} == false"></span>
+          Live Preview
+        </p>
+      </div>
+    </div> -->
+    <h3 class="no-stuffing p20 pb10 fs18 lh18 strong">Smoothing</h3>
+		<div class="flex vertical-align pl20 pr20">
+			<div class="w5 center active pt15 pb15" tg-name="wave_triangle_icon">
+				<i class="far fa-wave-triangle center active grey" aria-hidden="true" alt="crisp"></i>
+			</div>
+			<div class="w90 flex relative center" data-on-click="parent.showMouse" tg-name="smoothing_slider_div">
+				<span class="w5"></span>
+				<input class="w90 smooth_slider"
+	        type="range"
+	        min="0"
+	        max="0.25"
+	        step="0.025"
+	        data-field="model.smooth"
+					data-on-input="model.update_smooth"
+					data-run-after="model.update_smooth"
+	        value="{{= model.smooth }}" />
+				<span class="w5"></span>
+			</div>
+			<div class="w5 center active pt15 pb15" tg-name="wave_sine_icon">
+				<i class="far fa-wave-sine center active grey" aria-hidden="true" alt="smooth"></i>
+			</div>
+		</div>
+    <!-- <div class="w100 flex relative center">
+      <span class="w2-5 far fa-wave-triangle"></span>
+      <input class="w90"
+        type="range"
+        min="0"
+        max="0.25"
+        step="0.025"
+        data-field="model.smooth"
+        value="{{= model.smooth }}" />
+      <span class="w2-5 far fa-wave-sine"></span>
+    </div> -->
+    <div class="flex-column-sb pl30 pr30 pt25 pb50 center">
+      <div class="flex-justify-center">
+        <div class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase clickable active fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+            data-on-click="model.save"
+            data-if="{{= model.path_count }} > 0">Save</div>
+        <div class="mt30 p15 btn bg-grey-l w100 mw400 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+            data-if="{{= model.path_count }} <= 0">Save</div>
+      </div>
+      <div class="flex-justify-center">
+        <div class="mt30 p15 btn bg-grey-l w100 mw400 m0 corner-5px uppercase clickable active fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+            data-on-click="model.clear">Clear</div>
+      </div>
+    </div>
+  </div>
+  <div class="pb150">&nbsp;</div>
+</div>

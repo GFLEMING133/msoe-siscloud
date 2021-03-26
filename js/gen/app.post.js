@@ -2,15 +2,16 @@ app.post = {
   initialize: function() {
 
   },
-  fetch: function(data, cb, retry_count) {
+  fetch: function(data, cb, retry_count, err_cb) {
     // if retry_count is not defined......which will be the case for all callers of app.plugins.fetch
     if (typeof retry_count == 'undefined') retry_count = 5;
+    // err_cb is optional
     var _data = JSON.parse(JSON.stringify(data));
 
     var url = data._url || app.config.get_sisbot_url();
     var timeout = 30000;
 
-    // app.log("Fetch: "+url+", "+data.endpoint);
+    app.log("Fetch: "+url+", "+data.endpoint);
 
     if (data.endpoint) url += data.endpoint;
     if (data._timeout) timeout = data._timeout;
@@ -35,7 +36,7 @@ app.post = {
         withCredentials: false
       },
       success: function(data) {
-        // app.log("POST success", url, data);
+        app.log("POST success", url, data);
         try {
           data = JSON.parse(data);
         } catch (err) {}
@@ -46,7 +47,12 @@ app.post = {
       error: function(resp) {
         if (retry_count <= 0) {
           app.log("POST Error:", url, resp.statusText);
-          if (cb) cb({
+          if (err_cb) {
+            err_cb({
+              err: 'Could not make request',
+              resp: null
+            });
+          } else if (cb) cb({
             err: 'Could not make request',
             resp: null
           });
@@ -54,7 +60,7 @@ app.post = {
         }
 
         setTimeout(function() {
-          app.post.fetch(_data, cb, --retry_count);
+          app.post.fetch(_data, cb, --retry_count, err_cb);
         }, 5000);
       },
       timeout: timeout
@@ -64,7 +70,7 @@ app.post = {
     $.ajax(obj);
   },
 
-  fetch2: function(data, cb, retry_count) {
+  fetchWC: function(data, cb, retry_count) {
 
     if (retry_count !== 0) retry_count = 5;
     var _data = JSON.parse(JSON.stringify(data));
@@ -100,7 +106,7 @@ app.post = {
       },
       success: function(data, status, xhr) {
         try {
-          if (data && data.resp[0]) {
+          if (data && data.resp && data.resp[0]) {
             if (typeof(data.resp[0].auth_token) != 'undefined') {
               app.session.set('auth_token', data.resp[0].auth_token);
             }

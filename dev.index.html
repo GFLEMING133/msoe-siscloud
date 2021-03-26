@@ -17,19 +17,24 @@
 	<meta name="google" value="notranslate">
 
 	<title>Sisyphus</title>
-	<link rel="stylesheet" type="text/css" href="node_modules/@fortawesome/fontawesome-free/css/all.css" />
 	<link rel="stylesheet" type="text/css" href="prod/styles.css" />
 </head>
 
 <body class="h100 no-stuffing">
 	<div class="body h100">
-		<div class="h100 relative touch-hover {{= model.mode }} {{= model.platform }} {{= model.OS }}"
+		<div class="h100 relative touch-hover {{= model.mode }} {{= model.platform }} {{= model.OS }} {{= (manager.is_tablet == 'true') ? 'tablet' : '' }} {{= (manager.is_tablet == 'false' && manager.sisbot_id != 'false' && manager.show_wifi_page == 'false' && manager.show_setup_page == 'false' && manager.show_nightlight_page == 'false' && manager.is_sisbot_available == 'true') ? 'nontablet' : '' }}"
 			data-model="current_session" data-on-mouse-move="model.update_mouse">
 			<div class="content h100">
 				<div class="bg-black h100" data-if="{{= model.mode }} !== false" data-template="{{= model.mode }}-mode-tmp">
 				</div>
 			</div>
 			<div data-template="modal-tmp"></div>
+			<!-- <div class="absolute w10p z3001 click-through"
+					data-if="{{= app.config.env }} == training"
+					style="left:{{= session.mouse_x+2 }}px; top:{{= session.mouse_y+2 }}px;">
+				<i class="f-medium fas fa-mouse-pointer white text-shadow click-through"></i>
+				<i class="fas fa-mouse-pointer absolute red click-through" style="top:2px;left:2px;"></i>
+			</div> -->
 		</div>
 	</div>
 

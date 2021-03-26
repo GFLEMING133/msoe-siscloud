@@ -1,0 +1,123 @@
+<div class="h100" data-if="{{= session.active.track_id }} !== false">
+	<div class="h100" data-model="{{= session.active.track_id }}">
+    <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+        <div class="w30 left pl20 clickable active"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'upload-track', 'track_id':'false'}"
+        ><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+        <div class="w40">
+          <h1 class="no-stuffing fs18 capitalize truncate">Track Preview</h1>
+        </div>
+        <div class="w30 pt30 center">&nbsp;</div>
+    </div>
+    <div class="body-header h100 scroll hide-scrollbar" tg-name="preview_upload_page">
+			<div class="tmp-max-width m-auto">
+				<div class="flex mt10 pb20 bb">
+					<div class="w20">&nbsp;</div>
+					<div class="w60 hvw40 center vertical active">
+					<div data-run="model.get_thumbnail"></div>
+						<div data-if="{{= model.generating_thumbnails }} == false">
+							<img class="w100 center img-rounded"
+									alt="preview"
+									data-src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png?{{= moment().format('x') }}"
+									data-on-error="replace"
+									data-replace="large-image-fallback-tmp" />
+						</div>
+						<div data-if="{{= model.generating_thumbnails }} == true">
+							<i class="fas fa-spinner spin f-xxxxxlarge" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div class="w20">&nbsp;</div>
+				</div>
+				<p data-if="{{= manager.is_tablet }} == false" class="red pl20 pb0">
+					<em>*scroll down to edit name and save changes</em>
+				</p>
+				<div class="pt20 pr20 pl20 pb20 active" data-if="{{= model.outside_rho }} == true">
+	        <div class="center">
+	          <i class="red far fa-exclamation-triangle f-xxlarge p30"></i>
+	        </div>
+					<p class="red">
+						Rho values outside 0-1 are found in your track.
+						This may result in unexpected behavior, ball dislodging, or hammering sounds.
+						Use the checkbox below to allow this track to move outside bounds.
+						If you do not agree, the rho values will be clamped between 0-1.
+					</p>
+	        <div class="mb10 w100 vertical clickable"
+	            data-on-click="toggle"
+	            data-field="model.allow_outside_rho">
+	          <span class="p10 pl0 black f-large bg-white fas fa-check-square clickable"
+	              data-if="{{= model.allow_outside_rho }} == true"
+	              tg-name="allow_outside_rho_uncheckbox"></span>
+	          <span class="p10 pl0 black f-large bg-white far fa-square clickable"
+	              data-if="{{= model.allow_outside_rho }} !== true"
+	              tg-name="allow_outside_rho_checkbox"></span>
+	          <p class="pt10 pb10 w100 fs18">I understand the risks, allow it to run outside the suggested bounds.</p>
+	        </div>
+					<!-- <p class="pt10 pb10 w100 fs18 strong center"
+							data-if="{{= model.allow_outside_rho }} !== true">Rho values will be clamped between 0-1.</p> -->
+				</div>
+				<!-- <div data-if="{{= model.data.original_file_type }} == svg">
+					<h3 class="no-stuffing p20 pb5 fs18 lh18 strong">Steps</h3>
+					<p class="grey pl20 pb0">(Adjusts smoothness between points)</p>
+							<div class="flex vertical-align pl20 pr20" data-run="model.setup_steps">
+									<div class="w5 blue-hover pt15 pb15" data-on-click="model.steps_min">
+											<i class="fas fa-minus center clickable active grey" aria-hidden="true"></i>
+									</div>
+									<div class="w90 flex relative center">
+											<span class="w2-5"></span>
+											<input class="w90" type="range" min="1" max="{{= model.max_steps }}" step="1"
+													data-on-input="model.set_steps"
+													data-on-mouse-up="model.get_thumbnail"
+													value="{{= model.edit_steps }}"
+											/>
+											<span class="w2-5"></span>
+									</div>
+									<div class="w5 center blue-hover pt15 pb15" data-on-click="model.steps_max">
+											<i class="fas fa-plus f-large center clickable active grey" aria-hidden="true"></i>
+									</div>
+							</div>
+				</div> -->
+				<div class="flex pt0 pr20 pl20 pb20 active center">
+					<div class="w100">
+						<h4 class="no-stuffing pt20  pb5 strong {{= (manager.is_tablet == 'true') ? 'fs22 lh28':'fs18 lh18'}}">Track Name</h4>
+						<div class="pb20">
+							<input class=" {{= (manager.is_tablet == 'true') ? 'w75 fs24':'w100 fs18'}}"
+									type="text"
+									placeholder="{{= model.data.name }}"
+									autocomplete="off"
+									autocorrect="off"
+									autocapitalize="off"
+									spellcheck="false"
+									data-field="model.edit.name"
+									value="{{= model.edit.name }}"
+							/>
+						</div>
+						<!-- <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">By</h4>
+						<div class="pb20">
+								<input class="fs18 w100" type="text" placeholder="Your name"
+										autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+										data-field="model.edit.created_by_name"
+										value="{{= (model.edit.created_by_name == 'false') ? '' : model.edit.created_by_name }}"
+								/>
+						</div> -->
+					</div>
+				</div>
+				<div class="pl40 pr40 grid-center">
+					<h2 class="mt30 p15 btn bg-grey-l m0 corner-5px uppercase fs18 strong center {{= (manager.is_tablet == 'true') ? 'w75':'w100'}}"
+							data-if="{{= model.upload_status }} == uploading"
+					>Saving...</h2>
+					<h2 class="mt30 p15 btn bg-blue m0 corner-5px uppercase fs18 strong center {{= (manager.is_tablet == 'true') ? 'w75':'w100'}}"
+							data-if="{{= model.upload_status }} == false"
+							data-on-click="parent.process_upload_track"
+					>Save</h2>
+					<h2 class="mt30 p15 btn bg-red m0 corner-5px uppercase fs18 strong center {{= (manager.is_tablet == 'true') ? 'w75':'w100'}}"
+							data-if="{{= model.upload_status }} == false"
+							data-on-click="parent.reject_upload_track"
+					>Reject</h2>
+				</div>
+				<div class="hh150">&nbsp;</div>
+	    </div>
+		</div>
+	</div>
+</div>

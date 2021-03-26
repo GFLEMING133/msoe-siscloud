@@ -1,0 +1,41 @@
+<div class="h100">
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == false"
+      data-template="media-overview-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == tracks"
+      data-template="tracks-overview-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == track"
+      data-template="tracks-active-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == playlists"
+      data-template="playlists-overview-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == playlist"
+      data-template="playlists-active-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == playlist-edit"
+      data-template="playlists-edit-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == playlist-new"
+      data-template="playlists-new-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == playlist-edit-tracks"
+      data-template="playlists-edit-tracks-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == draw"
+      data-template="draw-track-tmp"></div>
+
+  <div class="h100"
+      data-if="{{= session.active.secondary }} == draw-preview"
+      data-template="draw-preview-tmp"></div>
+</div>

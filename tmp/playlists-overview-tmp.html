@@ -1,0 +1,55 @@
+<div class="h100">
+  <div class="pull-top white w100 center no-stuffing hh50 flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w30 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'false'}"
+    ><i data-if="{{= manager.is_tablet }} == false" class="far fa-chevron-left f-large pt15 pb15"></i></div>
+    <div class="w40">
+        <h1 class="no-stuffing fs18 capitalize truncate">Playlists</h1>
+    </div>
+    <div class="w30 right pr20 clickable active"
+        data-on-click="model.playlist_create"
+        tg-name="playlist_create_plus_btn"
+    ><i class="far fa-plus-circle white f-large"></i></div>
+  </div>
+  <div class="body-header h100 pb50 scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
+      tg-name="playlists_page">
+    <div class="tmp-max-width m-auto">
+      <div class="sticky bg-white" data-if="{{= manager.is_tablet }} == true" data-template="tablet-nav-bar-tmp"></div>
+      <div class="center p20 i"
+          data-if="{{= app.plugins.length(model.data.playlist_ids) }} == 0">
+        There are no playlists. <span class="clickable active"
+            data-on-click="parent.playlist_create">Want to create one?</span>
+      </div>
+      <div class="mb10" data-if="{{= app.plugins.length(model.data.playlist_ids) }} !== 0">
+        <div data-foreach="model.data.playlist_ids"
+            data-foreach-map="true">
+          <div data-if="{{= model.data.id }} !== all_tracks_playlist">
+            <div class="flex p10 pl20 pr20 se_pl10 se_pr10 clickable active bg-grey-ll-hover bb"
+                data-on-click="publish"
+                data-publish="session:active"
+                data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist','goBack':'playlist'}"
+                tg-name="playlist_{{= model.data.id }}_btn">
+              <div class="w85p no-flex-shrink">
+                <div class="w75p hh75 z10" data-template="playlist-rendering"></div>
+              </div>
+              <div class="flex-grow align-center">
+                <div class="fs18 lh18 w100 block warmGrey ml10">
+                  <span class="black strong truncate">{{= model.data.name }}</span>
+                  <span class="fs13 lh18 pt5 truncate"
+                    data-if="{{= model.data.description }} !== false"><br/>{{= model.data.description }}</span>
+                </div>
+              </div>
+              <div class="w50p no-flex-shrink h100 vertical align-center right">
+                <i class="far fa-chevron-right f-large pt15 pb15"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hh150">&nbsp;</div>
+    </div>
+  </div>
+</div>

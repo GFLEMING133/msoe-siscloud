@@ -1,0 +1,52 @@
+<div class="flex clickable active bg-grey-ll-hover bb pt10 pb5 {{= (manager.is_tablet == 'true') ? 'pr5':''}}"
+      tg-name="community_track_container_{{= model.id }}_div">
+  <div class="w85p no-flex-shrink vertical "
+      data-on-click="publish"
+      data-publish="modal:open"
+      data-msg="{'track_id':'{{= model.id }}', 'template':'community-track-overlay-tmp'}"
+      tg-name="community_tracks_list_item_img_open">
+    <div class="center">
+      <img class="w75p hh75"
+          alt="{{= model.data.name }}"
+          data-src="{{= app.config.get_api_url() }}{{= model.data.thumb}}"
+          data-on-error="replace"
+          data-replace="list-image-fallback-tmp" />
+    </div>
+  </div>
+  <div class="flex-grow pl10 flex-justify-center"
+      data-on-click="publish"
+      data-publish="modal:open"
+      data-msg="{'track_id':'{{= model.id }}', 'template':'community-track-overlay-tmp'}">
+    <div class="w100 word-break">
+			<span class="fs18 black strong lh20">{{= model.data.name }}</span><br/>
+			<span class="fs13 warmGrey pt5">by {{= model.data.created_by_name }}</span><br/>
+			<span class="fs13 warmGrey pt2">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</span>
+			<span class="fs13 pt2 pb5 private_italic orange pr5" data-if="{{= model.data.is_approved }} == false">
+        <br/>In Review
+      </span><span class="fs13 pt2 pb5 private_italic warmRed i" data-if="{{= model.data.is_public }} == false">
+        <br data-if="{{= model.data.is_approved }} !== false"/>Private
+      </span>
+		</div>
+    <!-- <div class="fs13 warmGrey pt5">by {{= model.data.created_by_name }}</div>
+    <div class="fs13 warmGrey pt2">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').fromNow() }}</div>
+    <div class="fs13 pt2 pb5 private_italic"><span class="orange pr5" data-if="{{= model.data.is_approved }} == false">
+        In Review
+      </span><span class="warmRed i" data-if="{{= model.data.is_public }} == false">
+        Private
+      </span>
+		</div> -->
+  </div>
+
+  <div class="w50p right flex-justify-center"
+      data-if="{{= model.is_downloaded }} == false"
+      data-field="model.track_checked"
+      data-on-click="toggle"
+      tg-name="community_check_{{= model.id }}_box">
+    <span class="black f-large fas fa-check-square" data-if="{{= model.track_checked }} == true"></span>
+    <span class="black f-large far fa-square" data-if="{{= model.track_checked }} == false"></span>
+  </div>
+  <div class="w50p right flex-justify-center"
+      data-if="{{= model.is_downloaded }} == true">
+    <i class="far fa-cloud-download-alt green fs30"></i>
+  </div>
+</div>

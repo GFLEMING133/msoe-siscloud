@@ -25,7 +25,7 @@ var app = function(given_config,ansible) {
 	_.extend(config, local_config);
 
 	/********************* REGENERATES THE INDEX.HTML *****************************/
-	if (config.env.indexOf('dev') > -1 || config.env.indexOf('sisbot') == -1) {
+	if (process.env.NODE_ENV.indexOf('dev') > -1 || process.env.NODE_ENV.indexOf('sisbot') == -1) {
 		fs.watch(config.dir + '/tmp', regenerate_index_page);
 		fs.watch(config.dir + '/js/gen', regenerate_index_page);
 		fs.watch(config.dir + '/js/libs', regenerate_index_page);
@@ -37,7 +37,7 @@ var app = function(given_config,ansible) {
 	app_service
 	.get('/thumbnail_exists/:id', function (req, res) {
 		var id 				= req.params.id;
-		var file_loc		= config.dir + '/img/tracks/' + id + '_50.png';
+		var file_loc		= config.folders.thumbnails + '/' + id + '_50.png';
 
 		fs.readFile(file_loc, function(err, img) {
 			if (err) {
@@ -50,8 +50,10 @@ var app = function(given_config,ansible) {
 	.get('/thumbnail/:size/:filename', function (req, res) {
 		var filename 		= req.params.filename.replace('.png', '');
 		var size			= req.params.size;
-		var file_loc		= config.dir + '/img/tracks/' + filename + '_' + size + '.png';
-		var default_img		= config.dir + '/img/tracks/_default_' + size + '.png';
+
+		// TODO: make this config based so v2 mapping works
+		var file_loc		= config.folders.thumbnails + '/' + filename + '_' + size + '.png';
+		var default_img		= config.folders.thumbnails + '/_default_' + size + '.png';
 
 		fs.readFile(file_loc, function(err, img) {
 			if (err) {
@@ -105,6 +107,21 @@ var app = function(given_config,ansible) {
 			res.send(resp);
 		});
 	})
+	.get('/prod/:filename', function (req, res) {
+		var prod_file 	= req.params.filename;
+
+		fs.readFile(config.folders.prod + '/'+ prod_file, 'utf-8', function(err, resp) {
+			if (err) console.log('Couldnt load prod', prod_file);
+			if (/\.(css)$/.test(prod_file)){
+		    res.writeHead(200, {'Content-Type': 'text/css'});
+		    res.write(resp); // <--- add this line
+		    res.end();
+			} else {
+				res.send(resp);
+			}
+		});
+	})
+	// TODO: point index.html to prod/index.html
 	.use(cors())
 	.use(express.static(config.dir))
 	.use(function(res, req, next) {
@@ -129,8 +146,9 @@ function regenerate_index_page() { // eliminate multiple regens really close tog
 };
 
 function _regenerate_index_page() {
+	console.log("Regenerate Index page", config.dir, config.folders.prod);
 	var index_page   = fs.readFileSync(config.dir + '/dev.index.html', 'utf-8');
-	var uploads_dir  = config.dir + '/prod';
+	var uploads_dir  = config.folders.prod;
 	if (!fs.existsSync(uploads_dir))
 	    fs.mkdirSync(uploads_dir, 0777);
 
@@ -138,6 +156,10 @@ function _regenerate_index_page() {
 	var files	   = [
 		"css/bootstrap.min.css",
 		"css/fontawesome.min.css",
+		"css/regular.min.css",
+		"css/solid.min.css",
+		"css/light.min.css",
+		"css/brands.min.css",
 		"css/flatpickr.min.css",
 		"css/chosen.css",
 		"css/styles.css",
@@ -149,7 +171,7 @@ function _regenerate_index_page() {
 		all.push(minified)
 	});
 
-	fs.writeFileSync(config.dir + '/prod/styles.css', all.join(''));
+	fs.writeFileSync(config.folders.prod + '/styles.css', all.join(''));
 	// 242KB
 
 
@@ -169,7 +191,7 @@ function _regenerate_index_page() {
 		var js = fs.readFileSync(config.dir + '/js/libs/' + filename, 'utf-8');
 		all.push(js);
 	});
-	fs.writeFileSync(config.dir + '/prod/libs.js', all.join(''));
+	fs.writeFileSync(config.folders.prod + '/libs.js', all.join(''));
 
 	// Concatenate Models
 	var files  = fs.readdirSync(config.dir + '/js/models', 'utf-8');
@@ -179,7 +201,7 @@ function _regenerate_index_page() {
 		all.push(js);
 	});
 
-	fs.writeFileSync(config.dir + '/prod/models.js', all.join(''));
+	fs.writeFileSync(config.folders.prod + '/models.js', all.join(''));
 
 	// Concatenate General JS
 	var files  = fs.readdirSync(config.dir + '/js/gen', 'utf-8');
@@ -188,16 +210,16 @@ function _regenerate_index_page() {
 		var js = fs.readFileSync(config.dir + '/js/gen/' + filename, 'utf-8');
 		all.push(js);
 	});
-	fs.writeFileSync(config.dir + '/prod/gen.js', all.join(''));
+	fs.writeFileSync(config.folders.prod + '/gen.js', all.join(''));
 
 	// TODO: make list of all templates (for preloading)
 	var files  = fs.readdirSync(config.dir + '/tmp', 'utf-8');
 	var templates = [];
 	_.each(files, function(filename) {
-		templates.push(filename.replace(/.html$/i, ''));
+		if (filename.match(/\.html$/)) templates.push(filename.replace(/.html$/i, ''));
 	});
 	// console.log("Templates:", JSON.stringify(templates));
-	fs.writeFileSync(config.dir + '/prod/templates.js', 'app.tmps='+JSON.stringify(templates)+';');
+	fs.writeFileSync(config.folders.prod + '/templates.js', 'app.tmps='+JSON.stringify(templates)+';');
 
 	var index_tmp	= _.template(index_page);
 	var new_index   = index_tmp({
@@ -205,7 +227,8 @@ function _regenerate_index_page() {
 	    all_scripts_link	: ''
 	});
 
-	fs.writeFileSync(config.dir + '/index.html', new_index);
+	// TODO: write to prod
+	fs.writeFileSync(config.folders.index + '/index.html', new_index);
 	console.log('New Index Page');
 }
 

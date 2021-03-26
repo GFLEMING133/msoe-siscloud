@@ -1,0 +1,27 @@
+<div class="mt10">
+  <nav class="bb2">
+    <ul class="flex jc-end fs18 strong no-stuffing">
+      <li class="p20 clickable active "
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'tracks','goBack':'tracks'}"
+          tg-name="all_tracks_btn">
+        <span class="less-strong f-medium {{= (session.active.secondary == 'tracks') ? 'black': 'lightgrey' }}">Tracks</span>
+      </li>
+      <li class="p20 clickable active"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'playlists','goBack':'playlists'}"
+          tg-name="playlists_btn">
+        <span class="less-strong f-medium {{= (session.active.secondary == 'playlists') ? 'black': 'lightgrey' }}">Playlists</span>
+      </li>
+      <li class="p20 clickable active "
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'draw'}"
+          tg-name="draw_btn">
+        <span class="less-strong f-medium {{= (session.active.secondary == 'draw') ? 'black': 'lightgrey' }}">Draw</span>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,70 @@
+<div class="h100"
+    data-model="{{= model.sisbot_id }}"
+    data-run="model.confirm_passcode">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 clickable active blue-hover left pl20"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced_settings'}"
+    ><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh18 capitalize truncate">Passcode</h1>
+    </div>
+    <div class="w15 center f-large">&nbsp;</div>
+  </div>
+  <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar" tg-name="passcode_page">
+    <div class="p20 bg-white black">
+      <div data-if="{{= model.passcode_confirmed }} == false">
+        <p class="p0 m0 fs18 center">
+          Confirm your passcode to make changes
+        </p>
+        <div class="w100 center">
+          <div class="mt20 p10 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="model.confirm_passcode">
+            Confirm Passcode
+          </div>
+        </div>
+      </div>
+      <div data-if="{{= model.passcode_confirmed }} == true">
+
+        <p class="p0 m0 mb10 fs18 center">Set a passcode to prevent unwanted changes to your Sisyphus.</p>
+        <p class="p0 m0 mb10 fs18 center">When the Sisyphus is in hotspot mode, this passcode will be needed to connect to its network.</p>
+
+        <div class="p10 center" data-if="{{= app.plugins.length(model.errors) }} > 0">
+					<i class="red far fa-exclamation-triangle f-xlarge p10"></i>
+          <div data-foreach="model.errors" class="mb10">
+            <div class="red p5 montserrat_bold">{{= scope.value }}</div>
+          </div>
+        </div>
+        <div class="pt5 lh18 pull-right clickable"
+            data-field="model.show_passcode"
+            data-on-click="toggle"
+            tg-name="show_passcode_checkbox">
+          <i class="fas fa-eye" data-if="{{= model.show_passcode }} == false"></i>
+          <i class="fas fa-eye-slash" data-if="{{= model.show_passcode }} == true"></i>
+        </div>
+        <input class="center mt10 w100 fs32"
+            type="{{= (model.show_passcode == 'true') ? 'text' : 'password'}}"
+            placeholder="••••••••"
+            maxlength="63"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            data-field="model.new_passcode"
+            value="{{= (model.new_passcode == 'false') ? '' : model.new_passcode }}"
+            data-on-key-enter="model.save_passcode"
+            tg-name="passcode_input" />
+        <p class="p0 m0 f-small i">* Leave blank to remove passcode.</p>
+        <div class="w100 center">
+          <div class="mt20 p10 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="model.save_passcode"
+              tg-name="passcode_save_btn">
+            Save
+          </div>
+        </div>
+      </div>
+      <div class="hh150">&nbsp;</div>
+    </div>
+  </div>
+</div>

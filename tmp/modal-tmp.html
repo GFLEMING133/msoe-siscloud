@@ -1,8 +1,13 @@
-<div class="mymodal" data-model="{{= model.modal_id }}" data-if="{{= model.is_hidden }} == false">
-    <div class="modal-bg w100 h100 bg-black o90"></div>
-    <div class="absolute">
-        <div class="app-container">
-            <div class="h100" data-template="{{= model.template }}"></div>
-        </div>
+<div class="{{= (manager.is_tablet == 'true' && manager.is_passcode_required == 'false') ? 'tablet-modal' : 'full-modal'}}"
+    data-model="{{= model.modal_id }}"
+    data-if="{{= model.is_hidden }} == false">
+  <div class="h100 bg-black o90 relative w100"></div>
+  <div class="absolute">
+    <div class="h100 app-container">
+      <div class="h100 relative" data-template="{{= model.template }}"></div>
+      <div class="x-close t-shadow safe-top" data-if="{{= model.allow_close }} == true">
+        <i class="white fal fa-times-circle f-xlarge p10 pr20 pl20 clickable" data-on-click="model.close"></i>
+      </div>
     </div>
+  </div>
 </div>

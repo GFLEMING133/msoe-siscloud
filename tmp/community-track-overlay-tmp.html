@@ -1,0 +1,52 @@
+<div class="h100 relative" tg-name="community_track_overlay_page">
+  <div class="flex-column-sb h100 scroll hide-scrollbar pb100" data-model="{{= model.track_id }}">
+    <div class="center vertical active mt40">
+        <img class="center img-rounded bg-white {{= (manager.is_tablet == 'true') ? '': 'w90'}} " alt="{{= model.data.name }}" src="{{= app.config.get_api_url()}}{{= model.data.large_photo }}" />
+    </div>
+    <div class="h100">
+        <div class="pt10 pb10">
+          <div class="fs18 lh20 pt20 white strong center">{{= model.data.name }}</div>
+          <div class="fs13 lh20 pt10 grey strong center">by {{= model.data.created_by_name }}</div>
+          <div class="fs13 grey pb20 center pt5">uploaded {{= moment(model.data.date_created, 'YYYY-MM-DD').format('MMM Do, YYYY') }}</div>
+        </div>
+        <!-- Download -->
+        <div class="pt10 pb20 flex-justify-center active clickable"
+            data-on-click="model.download_wc"
+            data-msg="{{= model.data.track_id }}"
+            data-if="{{= model.is_downloaded }} == false"
+            tg-name="community_track_overlay_download_cloud">
+          <h2 class="m0 media_fs14 fs17 white pl10 blue-hover"><i class="white fs22 far fa-cloud-download-alt mr5"></i>Download</h2>
+        </div>
+        <!-- Green Check -->
+        <div class="pt10 pb20 flex-justify-center active" data-if="{{= model.is_downloaded }} == true">
+          <i class="far fa-cloud-download-alt green mr10 fs30"></i>
+          <h2 class="white media_fs14 fs17">Downloaded</h2>
+        </div>
+        <!--View More Tracks-->
+
+        <div class="pt10 pb20 center active clickable"
+            data-model="{{= session.user_id}}"
+            data-if="{{= model.data.artist_id }} !== {{= parent.data.user_id }}">
+          <div data-on-click="grandparent.more_from_artist"
+              data-msg="{'primary':'community','secondary':'artist-tracks-list','artist_id':'{{= parent.data.user_id}}'}"
+              tg-name="community_track_overlay_view_more_tracks">
+            <h2 class="white m0 media_fs14 fs17 lh22 blue-hover"><i class="far fa-user white fs22 blue-hover"></i>&nbsp; More by {{= parent.data.created_by_name}}</span></h2>
+          </div>
+        </div>
+        <!-- Spinner -->
+        <div class="pt10 pb20" data-if="{{= model.downloading_community_track }} == true">
+          <div class="w100 center i">
+            <div class="mb20 white" data-template="spinner-bounce-tmp"></div>
+            <div class="m0 media_fs14 fs17 lh18">
+              Downloading track...
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="w100 center bt-white clickable white strong blue-hover bg-dark-black pull-bottom safe-bottom"
+        data-on-click="parent.close"
+        tg-name="community_track_overlay_close_btn">
+      <div class="media_fs14 fs18 p20">Close</div>
+    </div>
+  </div>
+</div>

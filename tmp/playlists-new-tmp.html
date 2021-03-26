@@ -1,0 +1,64 @@
+<div class="h100" data-model="{{= parent.active.playlist_id }}" data-run="model.setup_new">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w30">&nbsp;</div>
+    <div class="w40">
+      <h1 class="fs18 lh18 no-stuffing capitalize">{{= (model.data.is_saved == 'true') ? model.data.name : 'New Playlist' }}</h1>
+    </div>
+    <div class="w30 right p15 pr20 fs18 lh18 clickable active less_strong"
+        data-on-click="model.save_alert"
+        tg-name="playlist_save_btn">
+      Save
+    </div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar"
+      tg-name="playlist_new_page">
+    <div class="tmp-max-width m-auto">
+    <!--------------------------- PLAYLIST TRACKS EDITING ----------------->
+      <div class="pt20 pl5 pr5">
+        <div>
+          <div class="fs18 lh18 center strong">{{= model.edit.name }}</div>
+          <div class="pt5 fs16 lh18 grey center i" data-if="{{= model.edit.description }} == false">Edit to add a description</div>
+          <div class="pt5 fs16 lh18 grey center i truncate" data-if="{{= model.edit.description }} !== false">{{= model.edit.description }}</div>
+        </div>
+        <div class="pt5 fs16 lh18 grey center i"
+            data-if="{{= model.edit.description }} == ">Click below to edit Name and Description</div>
+        <div class="clickable active center"
+            data-on-click="publish"
+            data-publish="modal:open"
+            data-msg="{'playlist_id':'{{= model.id }}', 'template':'modal-playlist-edit-tmp'}"
+            tg-name="new_playlist_text_edit_btn">
+          <i class="far fa-edit f-large pt15 pb15" alt="Edit"></i>
+        </div>
+      </div>
+      <!--------------------------- ADD TRACKS ------------------------------>
+      <div class="bt bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active inherit"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'playlist-edit-tracks'}"
+          tg-name="add_tracks_btn">
+        <span class="strong">Add Tracks</span>
+        <span class="pull-right">
+          <i class="far fa-chevron-right f-large pt15 pb15"></i>
+        </span>
+      </div>
+      <!--------------------------- TRACKS ---------------------------------->
+      <div class="no-scroll hide-scrollbar"
+          data-run="model.order_temp_tracks"
+          data-run-msg="{'pos':'active_tracks'}">
+        <div class="i center p20" data-if="{{= app.plugins.length(model.active_tracks) }} == 0">
+          There are no tracks in this playlist
+        </div>
+        <div class="{{= (manager.is_tablet == 'true') ? 'h100':'scrollDown'}} hide-scrollbar"
+            lib-sortable=".reorder"
+            data-on-update="model.order_temp_tracks"
+            data-msg="{'pos':'active_tracks'}"
+            data-field="model.active_tracks"
+            data-foreach="model.active_tracks">
+          <div class="reorder {{= (scope.index !== 0) ? 'bt' : '' }}"
+              data-model="{{= scope.value.id }}"
+              data-template="tracks-list-item-edit-tmp"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

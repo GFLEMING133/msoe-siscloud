@@ -1,0 +1,48 @@
+<div class="h100">
+  <div class="white pull-top w100 center no-stuffing hh50 flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 pt30 center">&nbsp;</div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh24 capitalize truncate">Library</h1>
+    </div>
+    <div class="w15 pt30 center">&nbsp;</div>
+  </div>
+
+  <div class="body-header h100 scroll hide-scrollbar" data-model="{{= model.sisbot_id }}">
+    <div>
+      <div class="bb pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'tracks','goBack':'tracks'}"
+          tg-name="all_tracks_btn">
+				<i class="far fa-bullseye f-large" />
+        <span class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Tracks</span>
+        <span class="pull-right">
+          <i class="far fa-chevron-right f-large pt15 pb15"></i>
+        </span>
+      </div>
+      <div class="bb pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'playlists','goBack':'playlists'}"
+          tg-name="playlists_btn">
+        <i class="fas fa-list f-large" />
+        <span class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Playlists</span>
+        <span class="pull-right">
+          <i class="far fa-chevron-right f-large pt15 pb15"></i>
+        </span>
+      </div>
+      <div class="bb pl20 pr20 bg-grey-ll-hover clickable active hh50 vertical"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'secondary':'draw'}"
+          tg-name="draw_btn">
+        <i class="fas fa-paint-brush f-large"></i>
+        <span class="montserrat_semi_bold pl20 pr20 fs18 lh18 strong w100">Draw</span>
+        <span class="pull-right">
+          <i class="far fa-chevron-right f-large pt15 pb15"></i>
+        </span>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

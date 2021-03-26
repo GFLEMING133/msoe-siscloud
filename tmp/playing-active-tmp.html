@@ -1,0 +1,37 @@
+<div data-model="{{= manager.sisbot_id }}">
+  <div class="white" data-if="{{= model.data.active_playlist_id }} !== false">
+    <h2 class="fs18 lh24 pl20 no-stuffing truncate strong"
+        data-if="{{= session.active.primary }} == current">
+			<i class="fas fa-ring mr5"></i>{{= model.data.name }}
+		</h2>
+    <h3 class="fs13 lh18 {{= (session.active.primary == 'current') ? '' : 'pt5' }} pl20 no-stuffing capitalize truncate"
+        data-model="{{= model.data.active_playlist_id }}"
+        data-if="{{= manager.is_tablet }} == false">
+      Playing from {{= model.data.name }}
+    </h3>
+    <h2 class="pl20 fs18 lh24 pb5 no-stuffing capitalize truncate strong"
+        data-if="{{= session.active.primary }} !== current">
+      <span data-model="{{= model.data.active_track.id }}">{{= model.data.name }}</span>
+    </h2>
+  </div>
+  <div class="white" data-if="{{= model.data.active_playlist_id }} == false">
+    <div data-if="{{= model.data.active_track.id }} == false">
+			<h2 class="fs18 lh24 pl20 no-stuffing truncate strong"
+	        data-if="{{= session.active.primary }} == current">
+				<i class="fas fa-ring mr5"></i>{{= model.data.name }}
+			</h2>
+		</div>
+    <div class="pl20" data-if="{{= model.data.active_track.id }} !== false">
+      <h3 class="fs13 lh18 pt5 no-stuffing capitalize truncate"
+          data-if="{{= model.data.is_waiting_between_tracks }} == false">Playing Single Track</h3>
+      <h3 class="fs13 lh18 pt5 no-stuffing capitalize truncate"
+          data-if="{{= model.data.is_waiting_between_tracks }} == true">Finished Playing</h3>
+      <h2 class="fs18 lh24 pb5 no-stuffing capitalize truncate strong"
+          data-if="{{= session.active.primary }} == current">{{= model.data.name }}</h2>
+      <h2 class="fs18 lh24 pb5 no-stuffing capitalize truncate strong"
+          data-if="{{= session.active.primary }} !== current">
+        <span data-model="{{= model.data.active_track.id }}">{{= model.data.name }}</span>
+      </h2>
+    </div>
+  </div>
+</div>

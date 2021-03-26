@@ -1,0 +1,303 @@
+<div class="h100">
+  <div class="h100 app-container bg-white">
+    <div class="pull-top hh50 w100 bg-black no-stuffing" data-template="header-default-tmp"></div>
+    <div class="body-header bg-white h100 tmp-max-width m-auto scroll hide-scrollbar black pl40 pr40" data-model="{{= model.sisbot_id }}">
+      <div data-if="{{= model.data.reason_unavailable }} == false">
+        <div class="center">
+          <i class="red far fa-exclamation-triangle f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Connection Lost!
+        </h3>
+        <p class="center fs18 lh24">
+          The connection with your Sisyphus has been lost and could not be restored.
+        </p>
+        <p class="pt20 center fs18 lh24" data-if="{{= model.is_polling }} == true">
+          Attempting to reconnect now.
+        </p>
+        <div class="w100 center pb20">
+          <p class="w100 mb20 p15 mcenter btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_polling }} == false"
+              data-on-click="parent.open_support_page">Learn How To Fix</p>
+          <p class="w100 mt50 mb10 p15 mcenter blue fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_polling }} == false"
+              data-on-click="model._poll_then_reset">Retry Connecting</p>
+
+          <div class="w100 center pb20" data-if="{{= model.is_polling }} == false">
+            <h2 class="mt10 mb20 p15 btn bg-blue w100 m0 mcenter corner-5px uppercase fs18 strong clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+                data-if="{{= model.sisbots_scanning }} == false"
+                data-on-click="parent.find_sisbots"
+                data-msg="{'force_rescan':'true'}">Re-Scan</h2>
+            <h2 class="mt10 mb20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
+                data-if="{{= model.sisbots_scanning }} == true">Re-Scan</h2>
+          </div>
+
+          <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 i bluer">
+              Reconnecting...
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="center" data-if="{{= model.data.reason_unavailable }} == resetting">
+        <div class="center">
+          <i class="fas fa-power-off f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Resetting
+        </h3>
+        <p class="center fs18 lh24">
+          A restart is required for these settings to take effect.
+          Please wait this will take some time.
+        </p>
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 mt50 mb10 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for Sisyphus to reset.</p>
+        </div>
+
+        <div class="w100 center pb20" data-if="{{= model.is_polling_waiting }} == false">
+          <p class="w100 mt50 mb100 p15 mcenter blue fs18 lh18 less_strong uppercase clickable media_fs14 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_polling }} == false"
+              data-on-click="model._poll_then_reset">Retry Connecting</p>
+          <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 i bluer">
+              Reconnecting...
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="center" data-if="{{= model.data.reason_unavailable }} == rebooting">
+        <div class="center">
+          <i class="fas fa-power-off f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Rebooting
+        </h3>
+        <p class="center fs18 lh24">
+          A restart is required for these settings to take effect.
+          Please wait this will take some time.
+        </p>
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 mt50 mb10 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for Sisyphus to reboot.</p>
+        </div>
+
+        <div class="w100 center pb20" data-if="{{= model.is_polling_waiting }} == false">
+          <p class="w100 mt50 mb10 p15 mcenter blue fs18 lh18 less_strong uppercase clickable media_fs14 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_polling }} == false"
+              data-on-click="model._poll_then_reset">Retry Connecting</p>
+
+          <div class="w100 center" data-if="{{= model.is_polling }} == false">
+            <h2 class="mt10 mb20 p15 btn bg-blue w100 m0 mcenter corner-5px uppercase fs18 strong clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+                data-if="{{= model.sisbots_scanning }} == false"
+                data-on-click="parent.find_sisbots"
+                data-msg="{'force_rescan':'true'}">Re-Scan</h2>
+            <h2 class="mt10 mb20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
+                data-if="{{= model.sisbots_scanning }} == true">Re-Scan</h2>
+          </div>
+
+          <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 bluer">
+              Reconnecting...
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="center" data-if="{{= model.data.reason_unavailable }} == restarting">
+        <div class="center">
+          <i class="fas fa-power-off f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Restarting
+        </h3>
+        <p class="center fs18 lh24">
+          A restart is required for these settings to take effect.
+          Please wait, this will take some time.
+        </p>
+
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 mt50 mb10 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for Sisyphus to restart.</p>
+        </div>
+
+        <div class="w100 center pb20" data-if="{{= model.is_polling_waiting }} == false">
+          <p class="w100 mt50 mb10 p15 mcenter blue fs18 lh18 less_strong uppercase clickable media_fs14 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_polling }} == false"
+              data-on-click="model._poll_then_reset">Retry Connecting</p>
+
+          <div class="w100 center" data-if="{{= model.is_polling }} == false">
+            <h2 class="mt10 mb20 p15 btn bg-blue w100 m0 mcenter corner-5px uppercase fs18 strong clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+                data-if="{{= model.sisbots_scanning }} == false"
+                data-on-click="parent.find_sisbots"
+                data-msg="{'force_rescan':'true'}">Re-Scan</h2>
+            <h2 class="mt10 mb20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
+                data-if="{{= model.sisbots_scanning }} == true">Re-Scan</h2>
+          </div>
+
+          <div class="p20 center i black" data-if="{{= model.is_polling }} == true">
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+            <div class="fs18 lh18 bluer">
+              Reconnecting...
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == shutdown">
+        <div class="center">
+          <i class="fas fa-power-off f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Shut Down
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus is shutting down. You will need to unplug/re-plug your Sisyphus in to make it start again.
+        </p>
+
+        <div class="w100 center pb20">
+          <h2 class="mt10 mb20 p15 btn bg-blue w100 m0 mcenter corner-5px uppercase fs18 strong clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.sisbots_scanning }} == false"
+              data-on-click="parent.find_sisbots"
+              data-msg="{'force_rescan':'true'}">Re-Scan</h2>
+          <h2 class="mt10 mb20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong"
+              data-if="{{= model.sisbots_scanning }} == true">Re-Scan</h2>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == connect_to_wifi">
+        <div class="center">
+          <i class="fas fa-wifi f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Changing Wifi Network
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus is attempting to connect to your local router.
+          If it does not automatically reconnect, please open Wifi Settings
+          and reconnect to the {{= model.data.name }} network.
+        </p>
+        <div class="w100 center pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+          <p class="w100 p15 mcenter btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= app.is_app }} == true"
+              data-on-click="parent.open_network_settings_from_error">Open Wifi Settings</p>
+        </div>
+        <div class="pb20" data-if="{{= model.is_polling_waiting }} == true">
+          <p class="w100 p15 center grey fs18 lh18 less_strong media_fs14">Please wait for Sisyphus to connect to new network.</p>
+        </div>
+        <div class="w100 center pb20" data-if="{{= model.is_polling_waiting }} == false">
+          <div class="w100 center pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+            <p class="w100 p15 mcenter btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+                data-on-click="parent.reconnect_to_sisbot">Attempt Reconnect</p>
+          </div>
+          <div class="p20 center i white pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
+            <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+            <div class="black media_fs14">
+              Connecting...
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == disconnect_from_wifi">
+        <div class="center">
+          <i class="fas fa-wifi-slash f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Sisyphus Disconnected from WiFi
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus has become disconnected from WiFi. If you would
+          like to reconnect to your Sisyphus please open Wifi Settings
+          and reconnect to the {{= model.data.name}} network.
+        </p>
+        <div class="w100 center pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+          <p class="w100 p15 mcenter btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= app.is_app }} == true"
+              data-on-click="parent.open_network_settings_for_hotspot">Open Wifi Settings</p>
+        </div>
+        <div class="w100 center pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+          <p class="w100 p15 mcenter btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="parent.reconnect_to_sisbot">Reconnect</p>
+        </div>
+        <div class="p20 center i black pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
+          <div class=" mb20 black" data-template="spinner-bounce-tmp"></div>
+          <div class="black media_fs14">Connecting...</div>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == reset_to_hotspot">
+        <div class="center">
+          <i class="fas fa-wifi-slash f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Sisyphus has been disconnected from WiFi
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus has become disconnected from WiFi. If you would
+          like to reconnect to your Sisyphus please open Wifi Settings
+          and reconnect to the {{= model.data.name }} network.
+        </p>
+        <div class="w100 center pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= app.is_app }} == true"
+              data-on-click="parent.open_network_settings_for_hotspot">Open Wifi Settings</p>
+        </div>
+        <div class="w100 center pb20" data-if="{{= parent.sisbot_reconnecting }} == false">
+          <p class="w100 p15 center btn bg-blue corner-5px fs18 lh18 uppercase less_strong media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="parent.reconnect_to_sisbot">Reconnect</p>
+        </div>
+        <div class="p20 center i black media_fs14 pull-bottom" data-if="{{= parent.sisbot_reconnecting }} == true">
+          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+          <div class="black media_fs14">Connecting...</div>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == servo_th_fault">
+        <div class="center">
+          <i class="red far fa-exclamation-triangle f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Servo Th Failed!
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus is experiencing a hardware failure.
+					Please contact Sisyphus support to troubleshoot your Sisyphus.
+        </p>
+        <div class="w100 center pb20">
+          <p class="w100 mb20 p15 mcenter btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="parent.open_support_page">Learn How To Fix</p>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == servo_rho_fault">
+        <div class="center">
+          <i class="red far fa-exclamation-triangle f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Servo Rho Failed!
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus is experiencing a hardware failure.
+					Please contact Sisyphus support to troubleshoot your Sisyphus.
+        </p>
+        <div class="w100 center pb20">
+          <p class="w100 mb20 p15 mcenter btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="parent.open_support_page">Learn How To Fix</p>
+        </div>
+      </div>
+      <div data-if="{{= model.data.reason_unavailable }} == servo_th_rho_fault">
+        <div class="center">
+          <i class="red far fa-exclamation-triangle f-xxlarge p50"></i>
+        </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Servo Th and Rho Failed!
+        </h3>
+        <p class="center fs18 lh24">
+          Your Sisyphus is experiencing a hardware failure.
+					Please contact Sisyphus support to troubleshoot your Sisyphus.
+        </p>
+        <div class="w100 center pb20">
+          <p class="w100 mb20 p15 mcenter btn bg-blue corner-5px fs18 lh18 less_strong uppercase media_fs14 clickable {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-on-click="parent.open_support_page">Learn How To Fix</p>
+        </div>
+      </div>
+      <div class="hh150">&nbsp;</div>
+    </div>
+  </div>
+</div>

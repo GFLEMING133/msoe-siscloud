@@ -1,0 +1,141 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w100">
+      <div class="tmp-max-width m-auto">
+        <div data-if="{{= app.is_app }} == true">
+          <div class="clickable active pull-right pr20 {{= (manager.is_tablet == 'true') ? 'pt5' : 'pt10'}}"
+              data-on-click="model.change_sisbots"
+              data-if="{{= _.size(model.sisbots_ip_name) }} > 1"
+              tg-name="change_table_tab">
+            <i class="fas fa-window-restore fs24" alt="Change Sisyphus"></i>
+          </div>
+          <div class="clickable active pull-right pr20 {{= (manager.is_tablet == 'true') ? 'pt5' : 'pt10'}}"
+              data-on-click="model.find_sisbots"
+              data-msg="{'force_rescan':'true','confirm_rescan':'true'}"
+              data-if="{{= _.size(model.sisbots_ip_name) }} < 2"
+              tg-name="change_table_tab">
+            <i class="fas fa-sync-alt fs24 " alt="Rescan for Sisyphus"></i>
+          </div>
+        </div>
+        <div data-template="playing-active-tmp"></div>
+      </div>
+    </div>
+  </div>
+  <div class="body-header h100 w100 scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
+      tg-name=current_tmp_page>
+    <div class="tmp-max-width m-auto">
+      <!------------------------- OVERVIEW ---------------------------------->
+      <div class="w100" data-if="{{= session.active.secondary }} == false">
+        <div data-if="{{= model.data }} !== undefined">
+          <div class="p10 pl20 pr20" data-if="{{= model.data.active_track.id }} == false">
+            <div class="w100 center">
+              <div class="mcenter mw400">
+                <div class="w100 img-rounded" data-template="large-image-fallback-tmp"></div>
+              </div>
+            </div>
+            <div class="fs18 lh18 p20 i center grey-l no-stuffing strong">No Current Track Is Playing</div>
+          </div>
+          <div data-if="{{= model.data.active_track.id }} !== false">
+            <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-dark-white sticky z50"
+              data-if="{{= model.data.is_waiting_between_tracks }} == true">Finished Playing</div>
+            <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-dark-white sticky z50"
+                data-if="{{= model.data.is_waiting_between_tracks }} == false"
+                tg-name="now_playing">Now Playing</div>
+            <div class="mcenter" data-model="{{= model.data.active_track.id }}">
+              <div data-if="{{= manager.is_tablet }} == true">
+                <div class="pl20 pt10 black pb10" data-if="{{= parent.data.active_playlist_id }} !== false">
+                  <div data-model="{{= parent.data.active_playlist_id }}">
+                    <h3 class="fs18 lh24 no-stuffing capitalize truncate strong">
+                      {{= model.data.name }}
+                    </h3>
+                    <p class="fs16 lh18 no-stuffing black" data-if="{{= model.data.description }} !== false">{{= model.data.description }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex clickable active p10 pl20 pr20"
+                  data-on-click="publish"
+                  data-publish="modal:open"
+                  data-msg="{'track_id':'{{= model.id }}','track_index':'{{= scope.index }}','template':'modal-track-hero-tmp'}"
+                  tg-name="track_modal_btn">
+                <div class="w100 center">
+                  <div class="mcenter mw400">
+                    <img class="w100 bg-a-white img-rounded"
+                        alt="{{= model.data.name }}"
+                        data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= model.id }}.png"
+                        data-on-error="replace"
+                        data-replace="large-image-fallback-tmp" />
+                  </div>
+                  <div class="pt10 left">
+                    <div class="pull-right p10 clickable red-hover"
+                        data-run="model.is_playlist_favorite"
+                        data-on-click="model.favorite_toggle"
+                        data-event-stop="true"
+                        tg-name="track_hero_favorite_btn">
+                      <i class="pl5 pr5 fas fa-heart clickable red f-large" data-if="{{= model.is_favorite }} !== false"></i>
+                      <i class="pl5 pr5 fal fa-heart clickable f-large" data-if="{{= model.is_favorite }} == false"></i>
+                    </div>
+                    <div class="fs18 lh18 black block strong word-break" tg-name="track_name">{{= model.data.name }}</div>
+                    <div class="fs12 lh18 grey block"
+                        data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+                  </div>
+                  <div class="clear"></div>
+                  <div data-if="{{= parent.sisbot_version }} >= 1010072">
+                    <div data-if="{{= parent.data.state }} !== undefined">
+	                    <div data-if="{{= parent.data.speed }} !== undefined">
+	                      <div data-if="{{= parent.data.state }} !== homing">
+	                        <div class="w100 pt15" data-run="parent.get_track_time">
+                            <div data-if="{{= parent.data.is_calculating_track_time }} == false">
+  	                          <div class="bg-grey-lt hh5 rounded mb5 over-hidden">
+  	                            <div class="bg-grey hh5" style="width: {{= parent.track_time_percent }}%"></div>
+  	                          </div>
+  	                          <div class="grey pull-right">{{= parent.remaining_time_str }}</div>
+  	                          <div class="grey pull-left">{{= parent.past_time_str }}</div>
+                            </div>
+	                        </div>
+	                      </div>
+											</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt10 pb200">
+              <div data-if="{{= model.data.active_playlist_id }} !== false">
+                <div data-model="{{= model.data.active_playlist_id }}" data-run="model.order_temp_tracks"
+                    data-run-msg="{'pos':'data.tracks','is_shuffle':'{{= parent.data.is_shuffle }}'}">
+                  <div class="fs18 lh18 p20 pt10 pb10 bb no-stuffing strong bg-dark-white sticky z50">Next Up</div>
+                  <div data-if="{{= model.data.is_shuffle }} !== undefined">
+                    <div data-if="{{= model.data.active_track_index }} > -1">
+                      <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                        <div data-foreach="model.data.sorted_tracks"
+                          data-foreach-offset="{{= model.data.active_track_index }}" data-foreach-limit="20">
+                          <div class="{{= (scope.index !== parent.data.active_track_index+1) ? 'bt' : '' }}"
+                            data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                            data-if="{{= scope.index }} > {{= parent.data.active_track_index }}"
+                            data-template="tracks-list-item-tmp"></div>
+                        </div>
+                      </div>
+                      <div data-if="{{= app.plugins.length(model.data.sorted_tracks) }} !== 0">
+                        <div data-if="{{= model.data.is_loop }} !== false">
+                          <div data-foreach="model.data.next_tracks"
+                            data-foreach-limit="{{= Math.max(0, 20 - (_.size(model.data.sorted_tracks) - model.data.active_track_index)) }}"
+                            data-foreach-offset="{{= (model.data.is_shuffle == 'true') ? 1 : 0 }}">
+                            <div class="bt" data-model="{{= model.data.tracks[{[= scope.value ]}].id }}"
+                                data-template="tracks-list-item-tmp">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hh50">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

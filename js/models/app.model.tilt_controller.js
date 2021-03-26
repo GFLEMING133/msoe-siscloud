@@ -23,8 +23,8 @@ app.model.tilt_controller = {
       height      : 370,
       mid         : 185,
 
-      x           : 185, // start at mid
-      y           : 185, // start at mid
+      x           : -1, // start at mid
+      y           : -1, // start at mid
       rho         : 0, // remembering old rho
       theta       : 0, // remembering old theta
 
@@ -37,17 +37,22 @@ app.model.tilt_controller = {
       force       : 0, // tilt force to add to ball movement (taken from tilt)
       angle       : 0, // angle of force
 
-      min_tilt: 1,
-      max_tilt: 35,
-      max_vel: 0.65, // max position velocity
+      invert_x    : 'false', // Android x value is inverted
+      smooth_tilt : 'false', // Android movement is jerky, smooth out the coordinates
 
-      accel: 0.5, // table accel value
-      vel: 1.5, // table vel
-      thvmax: 1, // table thvmax
-      send_delay: 5, // ms
+      min_tilt    : 1,
+      max_tilt    : 35,
+      max_vel     : 0.65, // max position velocity
+
+      accel       : 0.5, // table accel value
+      vel         : 1.5, // table vel
+      thvmax      : 1, // table thvmax
+      send_delay  : 5, // ms
 
       verts_to_send     : [], // save verts, then send when able
       is_sending_verts  : 'false', // currently sending
+
+      show_advanced : 'false', //
 
 			data		: {
 				id				: data.id,
@@ -68,11 +73,11 @@ app.model.tilt_controller = {
 
 	current_version : 1,
   on_init: function() {
-    //
+    app.log("Init Tilt Controller", this.id, app.manager.get_model('sisbot_id').get('data.state'));
   },
   init_preview: function(data) {
     var self = this;
-    app.log("Init Tilt Controller Preview", data);
+    app.log("Init Tilt Controller Preview", data, this.get('width'), this.get('height'), this.get('x'), this.get('y'));
 
     if (this.get('el_id') != data.el_id) this.set('el_id', data.el_id);
 
@@ -85,6 +90,8 @@ app.model.tilt_controller = {
     this.set('mid', mid);
     this.set('x', mid); // update start ball_pos
     this.set('y', mid); // update start ball_pos
+    // if (this.get('x') < 0) this.set('x', mid); // update start ball_pos
+    // if (this.get('y') < 0) this.set('y', mid); // update start ball_pos
     var padding = this.get('padding');
 
     var svg = $('.tilt_preview');
@@ -109,9 +116,16 @@ app.model.tilt_controller = {
 
     var ball_position = $('.ball_position');
     ball_position.attr('cx', mid).attr('cy', mid);
+
+    // invert x?
+    if (app.platform == 'Android') this.set({ invert_x: 'true', max_tilt: 10, smooth_tilt: 'true' });
+    app.log("Ball Pos:", mid, "W/X/Y:", w, this.get('x'), this.get('y'));
   },
   _orientation_change: function(e) {
     // app.log("Orientation Change", e);
+    // console.log(e); // test for full info
+    // if (e && (!e.gamma || !e.beta)) return app.log("No tilt data, exit");
+
     var tNow = window.performance.now();
 
     var mid = this.get('mid');
@@ -121,9 +135,29 @@ app.model.tilt_controller = {
     var pi = Math.PI;
     var loop_th = pi * 2;
 
-    var x = e.gamma;
-    var y = e.beta;
+    var x = 0;
+    if (e.gamma) x = e.gamma;
+    else if (e.accelerationIncludingGravity && e.accelerationIncludingGravity.x) x = e.accelerationIncludingGravity.x;
+    var y = 0;
+    if (e.beta) y = e.beta;
+    else if (e.accelerationIncludingGravity && e.accelerationIncludingGravity.y) y = e.accelerationIncludingGravity.y;
     // var z = e.alpha; // unused
+
+    // adjust for orientation
+    if (app.orientation == 'landscape-primary') {
+      var temp = y;
+      y = -x;
+      x = temp;
+    } else if (app.orientation == 'landscape-secondary') {
+      var temp = y;
+      y = x;
+      x = -temp;
+    } else if (app.orientation == 'portrait-secondary') {
+      x *= -1;
+      y *= -1;
+    }
+
+    if (this.get('invert_x') == 'true') x *= -1;
 
     // make sure above minimum value
     var min_tilt = this.get('min_tilt');
@@ -150,6 +184,11 @@ app.model.tilt_controller = {
       else if (y > max_tilt) y = max_tilt;
     }
 
+    // smooth tilt pos
+    if (this.get('smooth_tilt') == 'true') {
+      x = this._old_x + (x - this._old_x) * 0.25;
+      y = this._old_y + (y - this._old_y) * 0.25;
+    }
 
     // change to polar
     var x_pos = x/max_tilt;
@@ -331,11 +370,13 @@ app.model.tilt_controller = {
   start_listening: function() {
     var self = this;
 
-    app.log("Tilt Controller: start_listening");
-    this.set('is_ready', 'true');
+    if (window.DeviceOrientationEvent) {
+      app.log("Device Orientation Event Supported");
+      // app.log("Tilt Controller: start_listening");
+      this.set('is_ready', 'true');
 
-    if (app.is_app) {
-      if (app.platform == 'iOS' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        app.log("Tilt Controller: app requestPermission");
         DeviceOrientationEvent.requestPermission().then(permissionState => {
           if (permissionState === 'granted') {
             app.log("Permission Granted");
@@ -344,16 +385,18 @@ app.model.tilt_controller = {
           }
         }).catch(console.error);
       } else {
+        app.log("Tilt Controller: app start_listening");
         // handle regular non iOS 13+ devices
         self._start_listening();
       }
-    } else {
-      self._start_listening();
-    }
+    } else app.log("!!Device Orientation Event Not Supported!!");
   },
   orientation_func: null,
   _start_listening: function() {
     var self = this;
+
+    // lock current orientation
+    if (app.manager.get('is_tablet') == 'true' && app.orientation) screen.orientation.lock(app.orientation); //lock orientation
 
     // save new function to this (w/ ref to self), so we can remove the event listener later
     if (!this.orientation_func) {
@@ -396,7 +439,7 @@ app.model.tilt_controller = {
           if (obj && obj.streaming_id) self.set('streaming_id', obj.streaming_id);
         });
 
-        app.log("Start X,Y:", self.get('x'), self.get('y'));
+        app.log("Start X,Y:", self.get('x'), self.get('y'), sisbot.get('data.state'));
         if (sisbot.get('data.state').includes('streaming')) {
           self.set('is_listening', 'true');
 
@@ -406,7 +449,11 @@ app.model.tilt_controller = {
     				self.stop_listening();
     			});
 
-          window.addEventListener('deviceorientation', self.orientation_func);
+          if (window.DeviceOrientationEvent) {
+            if (app.platform == 'Android') {
+              window.addEventListener('devicemotion', self.orientation_func, false);
+            } else window.addEventListener('deviceorientation', self.orientation_func);
+          } else app.log("DeviceOrientationEvent not supported");
         } else {
           // start event listener
           self.listenTo(app, 'sisbot:state_change', self.state_listening);
@@ -417,7 +464,7 @@ app.model.tilt_controller = {
   state_listening: function(data) {
     var self = this;
     if (data && data.state && data.state.includes('streaming')) {
-      // app.log("Tilt Controller: State changed", data, this.get('is_listening'), window.performance.now());
+      app.log("Tilt Controller: State changed", data, this.get('is_listening'), window.performance.now());
       if (data.state == 'streaming_waiting' && this.get('is_listening') == 'false') {
         this.set('is_listening', 'true');
 
@@ -429,9 +476,13 @@ app.model.tilt_controller = {
 
         this.send_verts();
 
-        window.addEventListener('deviceorientation', this.orientation_func);
+        if (window.DeviceOrientationEvent) {
+          if (app.platform == 'Android') window.addEventListener('devicemotion', this.orientation_func, false);
+          else window.addEventListener('deviceorientation', this.orientation_func);
+        } else app.log("DeviceOrientationEvent not supported");
       }
     } else {
+      app.log("State Stop", data);
       // turn off listening
       this.stopListening(app, 'sisbot:state_change');
       this.set('is_listening', 'false');
@@ -442,13 +493,17 @@ app.model.tilt_controller = {
 
     // Stops listener from triggering twice.
     this.stopListening(app.session, 'change:active.secondary');
-    window.removeEventListener('deviceorientation', this.orientation_func);
+    if (app.platform == 'Android') window.removeEventListener('devicemotion', this.orientation_func);
+    else window.removeEventListener('deviceorientation', this.orientation_func);
 
     app.log("Stop Streaming");
     this.set('is_streaming', 'false')
-      .set('is_listening', 'false')
+      // .set('is_listening', 'false')
       .set('is_ready', 'false')
       .set('verts_to_send', []); // clear verts to send
+
+    // unlock orientation
+    if (app.manager.get('is_tablet') == 'true' && app.orientation) screen.orientation.unlock(); // unlock orientation
 
     // turn streaming off
     if (self.get('streaming_id') != 'false') {
@@ -456,6 +511,7 @@ app.model.tilt_controller = {
       sisbot._update_sisbot('stop_streaming', {id: self.get('streaming_id')}, function(resp) {
         app.log("Stop Streaming Resp:", resp);
         self.set('streaming_id', 'false');
+        self.set('is_listening', 'false');
       });
     }
   },

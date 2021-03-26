@@ -1,0 +1,245 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced_settings'}"
+    ><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+    <div class="w70">
+        <h1 class="no-stuffing fs18 lh18 capitalize">Advanced Movement</h1>
+    </div>
+    <div class="w15">&nbsp;</div>
+  </div>
+  <div class="body-header h100 scroll hide-scrollbar"
+      data-scope="true"
+      data-defaults="{'type':'tilt_controller'}"
+      tg-name="advanced_movement_page">
+    <div class="tmp-max-width m-auto">
+      <div data-model="{{= parent.sisbot_id }}" data-if="{{= parent.is_listening }} == false">
+        <div class="bb p20 fs17 lh20 i red">
+          * This is advanced functionality, your Sisyphus may lose position or malfunction.
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-click="model.home"
+            tg-name="home_ball_btn">
+          <div class="wrapper">
+            <i class="fas fa-compress-arrows-alt mr20"></i>Home
+          </div>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
+            data-on-mouse-down="model.jog_start"
+            data-on-mouse-up="model.jog_end"
+            data-msg="jogThetaLeft"
+            tg-name="jogThetaLeft">
+          <div class="wrapper">
+            <i class="far fa-hand-point-left mr20"></i>Jog Theta Left
+          </div>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
+            data-on-mouse-down="model.jog_start"
+            data-on-mouse-up="model.jog_end"
+            data-msg="jogThetaRight"
+            tg-name="jogThetaRight">
+          <div class="wrapper">
+            <i class="far fa-hand-point-right mr20"></i>Jog Theta Right
+          </div>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
+            data-on-mouse-down="model.jog_start"
+            data-on-mouse-up="model.jog_end"
+            data-msg="jogRhoOutward"
+            tg-name="jogRhoOutward">
+          <div class="wrapper">
+            <i class="far fa-hand-point-up mr20"></i>Jog Rho Outward
+          </div>
+        </div>
+        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-touch-start="model.jog_start"
+            data-on-touch-end="model.jog_end"
+            data-on-mouse-down="model.jog_start"
+            data-on-mouse-up="model.jog_end"
+            data-msg="jogRhoInward"
+            tg-name="jogRhoInward">
+          <div class="wrapper">
+            <i class="far fa-hand-point-down mr20"></i>Jog Rho Inward
+          </div>
+        </div>
+        <div data-if="{{= app.is_app }} == true">
+          <div data-if="{{= model.sisbot_version }} >= 1010072">
+            <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+                data-if="{{= parent.is_ready }} == false"
+                data-on-click="parent.start_listening"
+                tg-name="startTilt">
+              <div class="wrapper">
+                <i class="far fa-mobile mr20 black"></i>Start Tilt Control
+              </div>
+            </div>
+            <div class="bb hh50 p20 mb20 fs18 flex vertical-align montserrat_m active"
+                data-if="{{= parent.is_ready }} == true">
+              <div class="wrapper">
+                <i class="fas fa-spinner spin mr20"></i>Starting Tilt Control...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-if="{{= model.is_listening }} == true">
+        <div class="w100"
+            data-run-after="model.init_preview"
+            data-run-msg="{'el_id':'.{{= _self_.el_id }}'}">
+          <svg class="tilt_preview" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <defs>
+              <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgb(32,32,64);stop-opacity:1" />
+              </radialGradient>
+            </defs>
+            <circle class="tilt_area" cx="185" cy="185" r="175" stroke="black" stroke-width="2" fill="white" />
+            <line class="line_c" x1="185" y1="185" x2="185" y2="145" style="stroke:rgb(216,216,216);stroke-width:2" />
+            <line class="line_l" x1="185" y1="185" x2="185" y2="145" style="stroke:rgb(216,216,216);stroke-width:2" />
+            <line class="line_r" x1="185" y1="185" x2="185" y2="145" style="stroke:rgb(216,216,216);stroke-width:2" />
+            <circle class="ball_position" cx="185" cy="185" r="15" stroke="black" stroke-width="0" fill="url(#grad1)" />
+            <circle class="tilt_position" cx="185" cy="185" r="15" stroke="white" stroke-width="1" fill="#11b2fb" fill-opacity="0.5" />
+          </svg>
+        </div>
+        <!-- Controls for modifying values -->
+        <div data-if="{{= model.show_advanced }} == true">
+          <!-- TODO: Visual for x, y values -->
+          <!-- <div class="bb p10 center">
+            <div>Th: {{= model.theta }} Rho: {{= model.rho }}</div>
+            <div>X: {{= model.x.toFixed(2) }} Y: {{= model.y.toFixed(2) }}</div>
+            <div>X Accel: {{= model.ax.toFixed(2) }} Y Accel: {{= model.ay.toFixed(2) }}</div>
+            <div>X Vel: {{= model.vx.toFixed(2) }} Y Vel: {{= model.vy.toFixed(2) }}</div>
+            <div>Force (Rho): {{= model.force.toFixed(2) }} Angle (Theta): {{= model.angle.toFixed(2) }}</div>
+          </div> -->
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Min Tilt {{= model.min_tilt }} (default: 1)</p>
+            <p class="no-stuffing w100 f-small mb5">How far does the device need to tilt before affecting ball</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">0</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min="0" max="10" step="0.25" data-field="model.min_tilt" value="{{= model.min_tilt }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">10</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Max Tilt {{= model.max_tilt }} (default: 35)</p>
+            <p class="no-stuffing w100 f-small mb5">Maximum device tilt that affects ball</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">{{= Math.round(model.min_tilt) }}</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min="{{= Math.round(model.min_tilt) }}" max="90" step="1" data-field="model.max_tilt" value="{{= model.max_tilt }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">90</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Max Velocity {{= model.max_vel }} (default: 0.65)</p>
+            <p class="no-stuffing w100 f-small mb5">Make sure ball doesn't move too fast for Sisyphus to keep up</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">.025</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min="0.025" max="1" step="0.025" data-field="model.max_vel" value="{{= model.max_vel }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">1</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Friction {{= model.friction }} (default: 0.6)</p>
+            <p class="no-stuffing w100 f-small mb5">Lower number slows ball faster, 1 == no friction</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">0</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min="0" max="1" step="0.025" data-field="model.friction" value="{{= model.friction }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">1</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Accel {{= model.accel }} (default: 0.5)</p>
+            <p class="no-stuffing w100 f-small mb5">Plotter acceleration between start/end of points</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">.025</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min=".025" max="1" step="0.025" data-field="model.accel" value="{{= model.accel }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">1</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Vel {{= model.vel }} (default: 1.5)</p
+            <p class="no-stuffing w100 f-small mb5">Plotter velocity between points</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">.025</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min=".025" max="3" step="0.025" data-field="model.vel" value="{{= model.vel }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">3</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Theta Max {{= model.thvmax }} (default: 1)</p>
+            <p class="no-stuffing w100 f-small mb5">Plotter theta max speed</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">1</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min="1" max="3" step="0.025" data-field="model.thvmax" value="{{= model.thvmax }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">3</div>
+              </div>
+            </div>
+          </div>
+          <div class="p10 bb">
+            <p class="strong no-stuffing w100 fs18 lh18">Send Delay {{= model.send_delay }} (default: 5ms)</p>
+            <p class="no-stuffing w100 f-small mb5">Small delay before next API call</p>
+            <div class="flex vertical-align w100">
+              <div class="w100 flex relative center">
+                <div class="w5 blue-hover center pt10 pb10">1</div>
+                <div class="w90 mt3 p5 mb3">
+                  <input class="w100" type="range" min="1" max="100" step="1" data-field="model.send_delay" value="{{= model.send_delay }}" />
+                </div>
+                <div class="w5 blue-hover center pt10 pb10">100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Stop -->
+        <!-- <div class="bb hh50 p20 mb20 fs18 flex vertical-align bg-grey-ll-hover clickable montserrat_m active"
+            data-on-click="model.stop_listening"
+            tg-name="stopTilt">
+          <div class="wrapper">
+            <i class="far fa-octagon mr20"></i>Stop Tilt Control
+          </div>
+        </div> -->
+        <div class="p10">
+          <div class="w100 center">
+            <h2 class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+                data-on-click="model.stop_listening"
+                tg-name="stopTilt"><i class="fas fa-octagon mr20"></i>Stop Tilt Control</h2>
+          </div>
+        </div>
+      </div>
+      <div class="hh150">&nbsp;</div>
+    </div>
+  </div>
+</div>

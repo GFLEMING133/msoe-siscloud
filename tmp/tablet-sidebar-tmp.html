@@ -1,0 +1,168 @@
+<div class="h100 white relative" data-model="{{= model.sisbot_id}}">
+  <!-- Nav Menu -->
+  <div class="safe-top h100">
+    <div class="bg-dark-black h100">
+      <div class="header-fs hh50 pt15 center ls12">SISYPHUS</div>
+      <div class="pt20 pl20">
+        <div class="flex1start pt10 clickable active {{= (grandparent.active.primary == 'current') ? 'white' : 'grey' }}"
+  	        data-on-click="publish"
+  					data-publish="session:active"
+  					data-msg="{'primary':'current','secondary':'false','dismiss_modal':'true'}"
+  	        tg-name="home_btn">
+          <i data-if="{{= grandparent.active.primary }} == current"
+  	          class="fas fa-home fs24 white"
+  	          aria-hidden="true"></i>
+          <i data-if="{{= grandparent.active.primary }} !== current"
+  	          class="fas fa-home fs24 lightgrey"
+  	          aria-hidden="true"></i>
+          <br clear="both" />
+          <span class="ml20 less-strong f-large ls2">Home</span>
+        </div>
+        <div class="flex1start pt20 clickable active {{= (grandparent.active.primary == 'media') ? 'white' : 'grey' }}"
+  	        tg-name="library_btn" data-on-click="publish" data-publish="session:active"
+  	        data-msg="{'primary':'media','secondary':'tracks','dismiss_modal':'true'}">
+          <i data-if="{{= grandparent.active.primary }} == media"
+            class="far fa-bullseye fs24 white"
+            aria-hidden="true"></i>
+          <i data-if="{{= grandparent.active.primary }} !== media"
+            class="far fa-bullseye fs24 lightgrey"
+            aria-hidden="true"></i>
+          <br clear="both" />
+          <span class="ml20 less-strong f-large ls2">Library</span>
+        </div>
+        <div class="flex1start pt20 clickable active {{= (grandparent.active.primary == 'community') ? 'white' : 'grey' }}"
+  	        tg-name="community_btn" data-on-click="publish" data-publish="session:active"
+  	        data-msg="{'primary':'community','secondary':'false','dismiss_modal':'true'}">
+        <i data-if="{{= grandparent.active.primary }} == community"
+          	class="fa fa-globe fs24 white"></i>
+        <i data-if="{{= grandparent.active.primary }} !== community"
+          	class="fa fa-globe fs24 grey"></i>
+          <br clear="both" />
+          <span class="ml20 less-strong f-large ls2">Community</span>
+        </div>
+        <div class="flex1start pt20 clickable active {{= (grandparent.active.primary == 'settings') ? 'white' : 'grey' }}"
+  	        tg-name="settings_btn" data-on-click="publish" data-publish="session:active"
+  	        data-msg="{'primary':'settings','secondary':'false','dismiss_modal':'true'}">
+          <i data-if="{{= grandparent.active.primary }} == settings"
+            	class="fas fa-cogs fs24 white"></i>
+          <i data-if="{{= grandparent.active.primary }} !== settings"
+            	class="fas fa-cogs fs24 grey"></i>
+          <br clear="both" />
+          <span class="ml20 less-strong f-large ls2">Settings</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- IMG Now Playlign and Names -->
+  <div class="pull-bottom">
+    <!-- SLIDERS -->
+    <div class="pt10 pb10" data-if="{{= model.data.active_track.id }} !== false">
+      <div data-model="{{= model.data.active_track.id }}">
+        <div class="clickable active center"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'current','secondary':'false'}"
+            tg-name="track_modal_btn">
+          <div class="tablet-img-mw mcenter p10" data-model="{{= session.modal_id }}">
+            <img class="w100 img-rounded bg-a-white {{= (model.is_hidden == 'true') ? '':'o25' }}"
+                data-if="{{= session.active.primary }} !== current"
+                alt="{{= parent.data.name }}"
+                data-src="{{= app.config.get_thumb_url() }}thumbnail/400/{{= parent.id }}.png"
+                data-on-error="replace"
+                data-replace="large-image-fallback-tmp" />
+          </div>
+          <div class="left pl20" tg-name="track_name">
+            <div class=" white f-medium no-stuffing pb10 less-strong" data-if="{{= parent.data.is_waiting_between_tracks }} == true">
+              Finished Playing</div>
+            <div class="white f-medium no-stuffing pb10 less-strong" data-if="{{= parent.data.is_waiting_between_tracks }} == false"
+              	tg-name="now_playing">Now Playing</div>
+            <div class="strong f-large pb15 white word-break">{{= model.data.name }}</div>
+            <div class=" white f-medium"
+                data-if="{{= model.data.created_by_name }} !== false">by {{= model.data.created_by_name }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pt10" data-if="{{= session.active.primary }} == current" data-run="model.setup_edit">
+      <div class="white strong pl20">Speed</div>
+      <div class="flex vertical-align p20 pb10 pt10">
+        <div class="center clickable active " data-on-click="model.speed_min" tg-name="turtle_icon">
+          <i class="fa fa-turtle white"></i>
+        </div>
+        <div class=" flex relative center" data-on-click="parent.showMouse" tg-name="speed_slider_div">
+          <span class="w2-5"></span>
+          <input id="speed-slider" type="range" min="0" max="1" step=".05" data-rangetouch="true"
+	            data-on-input="model.speed" value="{{= model.data.speed }}" tg-name="speed_slider"
+	            data-run-after="model.update_speed" />
+          <span class="w2-5"></span>
+        </div>
+        <div class="center clickable active" data-on-click="model.speed_max" tg-name="rabbit_icon">
+          <i class="fas fa-rabbit-fast w20p center"></i>
+        </div>
+      </div>
+      <div class="white strong pl20">Brightness</div>
+      <div class="flex vertical-align p20 pt10">
+        <div class=" blue-hover" data-on-click="model.brightness_min" tg-name="brightness_slider">
+          <i class="fas fa-sun center clickable active white" aria-hidden="true"></i>
+        </div>
+        <div class=" flex relative center" data-on-click="parent.showMouse">
+          <span class="w2-5"></span>
+          <input id="brightness-slider" type="range" min="0" max="1" step=".05"
+							data-on-input="model.brightness"
+            	value="{{= model.data.brightness }}"
+							data-run-after="model.brightness_slider_update" />
+          <span class="w2-5"></span>
+        </div>
+        <div class=" center blue-hover" data-on-click="model.brightness_max" tg-name="brightness_max">
+          <i class="fas fa-sun f-large center clickable active white" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+		<div data-if="{{= model.data.is_serial_open }} == false">
+			<div class="w100 align-last">
+	      <div class="pt10 center white clickable" data-on-click="parent.open_support_page">
+	        <div class="red uppercase fs18 lh18">USB Disconnected!</div>
+	        <div class="fs12 lh18 pl10 pr10">
+	          Your Sisyphus is experiencing a hardware failure.
+	          Please contact Sisyphus support or touch here to learn how to fix.
+	        </div>
+	      </div>
+	    </div>
+		</div>
+		<div data-if="{{= model.data.is_serial_open }} !== false">
+			<div data-if="{{= model.data.fault_status }} !== false">
+	      <div class="w100 align-last">
+	        <div class="pt10 center white clickable" data-on-click="parent.open_support_page">
+						<div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == rho_fault">Rho Failed!</div>
+	          <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == th_fault">Th Failed!</div>
+	          <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_th_fault">Servo Th Failed!</div>
+	          <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_rho_fault">Servo Rho Failed!</div>
+	          <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_th_rho_fault">Servo Th and Rho Failed!</div>
+	          <div class="fs12 lh18 pl10 pr10">
+	            Your Sisyphus is experiencing a hardware failure.
+	            Please contact Sisyphus support or touch here to learn how to fix.
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	    <div data-if="{{= model.data.fault_status }} == false">
+	      <div class="w100 align-last">
+	        <div data-if="{{= model.data }} !== undefined">
+	          <div data-if="{{= model.data.state }} == playing"
+	            	data-template="playback-controls-tmp"></div>
+	          <div data-if="{{= model.data.state }} == paused"
+	            	data-template="playback-controls-tmp"></div>
+	          <div class="mb50 center white" data-if="{{= model.data.state }} == homing">
+	            <div class="uppercase fs18">Homing your Sisyphus</div>
+	            <div class="fs12">This should only take a moment...</div>
+	          </div>
+	          <div class="mb50 center white" data-if="{{= model.data.state }} == waiting">
+	            <div class="uppercase fs18">Waiting</div>
+	            <div class="fs12">This Sisyphus is waiting for instructions</div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+		</div>
+  </div>
+</div>

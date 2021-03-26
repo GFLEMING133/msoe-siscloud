@@ -1,0 +1,88 @@
+<div class="h100"
+    data-model="{{= session.community_id }}"
+    data-run="model.reset_params"
+    tg-name="community_artists_page">
+  <div class="h100"
+      data-scope="true"
+      data-defaults="{
+        'type':'searchable_list',
+        'list_type':'artist',
+        'sort':'data.name',
+        'order':'asc',
+        'q':{
+          'value':'',
+          'search_keys':['data.name']
+        }
+      }">
+    <div class="pull-top">
+      <div class="white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}} bb-white">
+        <div class="w25 left pl20 clickable active blue-hover"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'primary':'community','secondary':'false'}"
+          tg-name="community_artist_back_button">
+          <i class="far fa-chevron-left f-large pt15 pb15""></i>
+        </div>
+        <div class="w50"><h1 class="no-stuffing capitalize truncate fs18 lh24">Artists</h1></div>
+        <div class="w25 center f-large">&nbsp;</div>
+      </div>
+<!-- END HEADER -->
+      <div class="flex pb10 pt10 w100 bg-white relative tmp-max-width m-auto {{= (manager.is_tablet == 'false') ? ' pr20 pl20':''}}">
+        <input
+          type="text"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          style="font-family:'Font Awesome 5 Pro', 'Montserrat' !important"
+          placeholder="&#xf002; Search Artists"
+          data-field="model.data.q.value"
+          value="{{= model.data.q.value }}"
+          data-on-input="model.update_q"
+          data-on-key-enter="blur"
+          tg-name="artists_search_input"/>
+        <div
+          data-if="{{= model.is_ready }} == true"
+          class="lightgrey only-absolute r30px t22px pointer-none strong center">
+          {{= model.q_size }}
+        </div>
+      </div>
+    </div>
+    <div class="body-header h100 pb50 scroll hide-scrollbar"
+        data-on-scroll="model.scroll_check"
+        data-msg="{{= _self_.el_id }}"
+        data-run="parent.fetch_community_artists"
+        tg-name="community_artist_page">
+      <div class="tmp-max-width m-auto">
+        <div class="mt100" data-if="{{= parent.fetching_community_artists }} == true">
+          <div class="p20 center i">Fetching Artists...</div>
+          <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+        </div>
+        <div class="mt60" data-if="{{= parent.fetching_community_artists }} == false">
+          <div class="w100" data-if="{{= model.size }} > 0">
+            <div class="w100 mt10"
+                data-if="{{= model.is_ready }} == true"
+                data-foreach="cluster"
+                data-cluster="{{= model.data.query }}"
+                data-foreach-limit="{{= model.limit }}"
+                data-foreach-offset="{{= model.offset }}"
+                data-cluster-comparator="model.data.comparator"
+                data-cluster-search-keys="model.data.q.search_keys"
+                data-cluster-search-value="model.data.q.value">
+              <div data-template="community-artist-list-tmp"></div>
+            </div>
+          </div>
+          <div class="mt100 p20 center fs18 blue i"
+              data-if="{{= _.size(parent.community_artist_ids) }} == 0">
+              No Artists...
+          </div>
+          <div data-if="{{= model.q_size }} > {{= model.limit }}">
+            <div class="p20 center i">Fetching More Artists...</div>
+            <div class="mb50 black" data-template="spinner-bounce-tmp"></div>
+          </div>
+        </div>
+        <div class="hh150">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+</div>

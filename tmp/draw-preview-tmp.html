@@ -1,0 +1,80 @@
+<div class="h100" data-if="{{= session.active.track_id }} !== false">
+	<div class="h100"
+			data-model="{{= session.active.track_id }}"
+			data-run="model.setup_edit"
+			data-run-msg="{'set_created_by_name':'true'}">
+		<div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+			<div class="w30 left pl20 clickable active"
+					data-on-click="publish"
+					data-publish="session:active"
+					data-msg="{'secondary':'draw', 'track_id':'false'}">
+				<i class="far fa-chevron-left f-large pt15 pb15""></i>
+			</div>
+			<div class="w40">
+				<h1 class="no-stuffing fs18 capitalize truncate">Draw Preview</h1>
+			</div>
+			<div class="w30 center">&nbsp;</div>
+		</div>
+		<div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar pb150" tg-name="preview_upload_page">
+			<div class="mt10 pb20 pl10 pr10 bb">
+				<div class="center vertical active"
+						data-if="{{= app.config.env }} !== alpha">
+					<div data-run="model.get_thumbnail"></div>
+					<div data-if="{{= model.generating_thumbnails }} == false">
+						<img class="w100 center"
+								alt="preview"
+								data-src="{{= app.config.get_thumb_url() }}thumbnail/400/preview.png?{{= moment().format('x') }}"
+	  						data-on-error="replace"
+	  						data-replace="large-image-fallback-tmp" />
+					</div>
+					<div class="pt150 pb100" data-if="{{= model.generating_thumbnails }} == true">
+						<i class="fas fa-spinner spin f-xxxxxlarge" aria-hidden="true"></i>
+					</div>
+				</div>
+				<div class="center vertical active"
+						data-if="{{= app.config.env }} == alpha">
+					<div data-template="large-image-fallback-tmp"></div>
+				</div>
+			</div>
+			<p class="red pl20 pb0"><em>*scroll down to edit name and save changes</em></p>
+			<div class="flex pr30 pl30 active">
+				<div class="w100">
+					<h4 class="no-stuffing pt10 fs18 lh18 pb5 strong">Track Name</h4>
+					<div class="pb20">
+						<input class="fs18 w100"
+								type="text"
+								placeholder="{{= model.data.name }}"
+								autocomplete="off"
+								autocorrect="off"
+								autocapitalize="off"
+								spellcheck="false"
+								data-field="model.edit.name"
+								value="{{= model.edit.name }}" />
+					</div>
+					<h4 class="no-stuffing pt10 fs18 lh18 pb5 strong">By</h4>
+					<div class="pb20">
+						<input class="fs18 w100"
+								type="text"
+								placeholder="Your name"
+								autocomplete="off"
+								autocorrect="off"
+								autocapitalize="off"
+								spellcheck="false"
+								data-field="model.edit.created_by_name"
+								value="{{= (model.edit.created_by_name == 'false') ? '' : model.edit.created_by_name }}" />
+					</div>
+				</div>
+			</div>
+			<div class="pl30 pr30 pb50 center">
+				<h2 class="mt30 p15 btn bg-grey-l w100 m0 corner-5px uppercase clickable active  fs18 strong"
+						data-if="{{= model.upload_status }} == uploading">Saving...</h2>
+				<h2 class="mt30 p15 btn bg-blue w100 m0 corner-5px uppercase clickable active fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+						data-if="{{= model.upload_status }} == false"
+						data-on-click="parent.process_upload_track">Save</h2>
+				<h2 class="mt30 p15 btn bg-red w100 m0 corner-5px uppercase clickable active fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+						data-if="{{= model.upload_status }} == false"
+						data-on-click="parent.reject_upload_track">Reject</h2>
+			</div>
+		</div>
+	</div>
+</div>
