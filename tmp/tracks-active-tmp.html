@@ -1,0 +1,13 @@
+<div class="h100" data-model="{{= session.active.track_id }}">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w30 left pl20 clickable active"
+        data-on-click="model.goBackFromHero"><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+    <div class="w40">
+      <h1 class="no-stuffing fs18 capitalize truncate">{{= model.data.name }}</h1>
+    </div>
+    <div class="w30 pt30 center">&nbsp;</div>
+  </div>
+  <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar">
+    <div class="overlay" data-template="modal-track-hero-tmp"></div>
+  </div>
+</div>

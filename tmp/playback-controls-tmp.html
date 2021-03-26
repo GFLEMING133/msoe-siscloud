@@ -1,0 +1,37 @@
+<div class="w100">
+	<!-- <div class="flex" data-if="{{= model.data.active_track.id }} == false" data-template="header-default-tmp"></div> -->
+	<div class="flex" data-if="{{= model.data.active_track.id }} !== false">
+	  <div class="w33 center relative">
+	    <i class="fas fa-random p20 rounded relative clickable active f-large
+	        {{= (model.data.is_shuffle == 'true') ? 'blue' : 'grey-l' }}"
+	        data-if="{{= model.data.active_playlist_id }} !== false"
+	        data-on-click="model.set_shuffle"
+	        aria-hidden="true"
+	        tg-name="home_shuffle_btn"></i>
+	  </div>
+	  <div class="w33 center self-center">
+	    <div class="clickable active p10"
+	        tg-name="home_play_btn"
+	        aria-hidden="true"
+	        data-if="{{= model.data.state }} == paused"
+	        data-on-click="model.play">
+	        <i class="fal fa-play-circle mobile_pb5 f-xxlarge white"></i>
+	    </div>
+	    <div class="clickable active p10"
+	        tg-name="home_pause_btn"
+	        aria-hidden="true"
+	        data-if="{{= model.data.state }} == playing"
+	        data-on-click="model.pause">
+	      <i class="fal fa-pause-circle mobile_pb5 f-xxlarge white"></i>
+	    </div>
+	  </div>
+	  <div class="w33 center">
+	    <i class="fa fa-retweet p20 rounded clickable active f-large
+	        {{= (model.data.is_loop == 'true') ? 'blue' : 'grey-l' }}"
+	        data-if="{{= model.data.active_playlist_id }} !== false"
+	        data-on-click="model.set_loop"
+	        aria-hidden="true"
+	        tg-name="home_loop_btn"></i>
+	  </div>
+	</div>
+</div>

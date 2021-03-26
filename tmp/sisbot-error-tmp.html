@@ -1,0 +1,44 @@
+<div class="h100">
+  <div class="pull-top hh50 w100 bg-black no-stuffing" data-template="header-default-tmp"></div>
+  <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar bg-white black">
+    <div class="pl40 pr40">
+      <div class="center w100 pt20 pb10 justify" data-on-click="model._apple_counter">
+        <i class="fas fa-ring f-xlarge"></i>
+      </div>
+      <h3 class="m0 pt20 pb20 center justify fs24 lh24" data-on-click="model._apple_counter">
+        Error Connecting to Sisyphus
+      </h3>
+      <p class="center fs18 strong lh24 pb10">
+        <span data-if="{{= model.sisbot_hostname }} !== false">Sisyphus IP: {{= model.sisbot_hostname }}<br /></span>
+        <span data-if="{{= app.is_app }} == true">Your IP: {{= model.device_ip }}</span>
+      </p>
+      <p class="center fs18 lh24">
+        Check that your Sisyphus is plugged in, that you are connected to the same network as the Sisyphus,
+        then click the "Re-Scan" button below in 30 seconds.
+      </p>
+      <div class="pb20" data-if="{{= app.is_app }} == true">
+        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+          data-on-click="model.open_network_settings">Open Wifi Settings</p>
+      </div>
+      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase" data-on-click="set"
+        data-field="model.sisbot_registration" data-msg="find">Re-Scan</p>
+      <!-- TODO: iOS Local Network permissions -->
+      <div class="pb20" data-if="{{= app.platform }} == iOS">
+        <p class="center fs14 lh18">
+          If you are still unable to connect, please check Local Network permissions in the Privacy Settings.
+        </p>
+        <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+          data-on-click="model.open_privacy_settings">Open Privacy Settings</p>
+      </div>
+      <div class="mt10 center black p20 clickable" data-if="{{= model.sisbot_id }} == false" data-on-click="set"
+        data-field="model.sisbot_registration" data-msg="specify_ip">
+        Know your Sisyphus' IP?<br />Enter an IP Address
+      </div>
+      <div class="mt10 center black pt0 p20 clickable blue" data-if="{{= model.sisbot_id }} == false"
+        data-on-click="publish" data-publish="session:active" data-msg="{'secondary':'support_request'}">
+        Support / Help
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

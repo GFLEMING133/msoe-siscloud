@@ -1,0 +1,50 @@
+<div class="app-container bg-black">
+  <div class="p20 bg-black mh-480 tmp-max-width m-auto">
+    <img src="img/sisyphus-cardlogo.png" class="center w100 pt50" />
+    <div class="center pull-bottom {{= (manager.is_tablet == 'true') ? 'tmp-max-width m-auto':'pl40 pr40'}}"
+        data-model="{{= model.sisbot_id }}"
+        tg-name="wake_up_page">
+      <div class="mb50 white" data-if="{{= app.is_app }} == true">
+        <div class="clickable active fs18"
+            data-on-click="parent.change_sisbots"
+            data-msg="{'disconnect':'true'}"
+            data-if="{{= _.size(parent.sisbots_ip_name) }} > 1"
+            tg-name="change_table_tab">
+          Change Sisyphus<i class="fas fa-window-restore pl10" alt="Change Sisyphus"></i>
+        </div>
+        <div class="clickable active fs18"
+            data-on-click="parent.find_sisbots"
+            data-msg="{'force_rescan':'true','confirm_rescan':'true'}"
+            data-if="{{= _.size(parent.sisbots_ip_name) }} < 2"
+            tg-name="change_table_tab">
+          Rescan for Sisyphus<i class="fas fa-sync-alt pl10" alt="Rescan for Sisyphus"></i>
+        </div>
+      </div>
+      <div class="fs18 lh18 pt20 pb20 white i">
+          <i class="fas fa-ring mr5"></i>{{= model.data.name }} is sleeping...
+      </div>
+      <div data-if="{{= model.sisbot_version }} >= 1010075">
+        <div class="flex vertical-align" data-if="{{= model.data.is_serial_open }} == true" data-run="model.setup_edit">
+          <div class="w5 blue-hover pt15 pb15" data-on-click="model.nightlight_brightness_min" tg-name="brightness_min">
+            <i class="fas fa-sun center clickable active white" aria-hidden="true"></i>
+          </div>
+          <div class="w90 flex relative center" data-on-click="parent.showMouse">
+            <span class="w2-5"></span>
+            <input id="nightlight-slider" class="w90" type="range" min="0" max="1" step=".05"
+                data-on-input="model.nightlight_brightness"
+                value="{{= model.edit.nightlight_brightness }}"
+                data-run-after="model.nightlight_slider_update"
+                tg-name="brightness_slider" />
+            <span class="w2-5"></span>
+          </div>
+          <div class="w5 center blue-hover pt15 pb15" data-on-click="model.nightlight_brightness_max" tg-name="brightness_max">
+            <i class="fas fa-sun f-large center clickable active white" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <h2 class="mt20 mb50 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+          data-on-click="model.wake_up"
+          tg-name="wake_up_btn">Wake up</h2>
+    </div>
+  </div>
+</div>

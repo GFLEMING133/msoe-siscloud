@@ -125,6 +125,6 @@ app.model.support_request = {
     }
 
     app.log("WC req:", api_req);
-    app.post.fetch2(api_req, cb, 0);
+    app.post.fetchWC(api_req, cb, 0);
   }
 };

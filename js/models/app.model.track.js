@@ -21,6 +21,8 @@ app.model.track = {
 			is_favorite											:'false',
 
 			svg_scaled											: 'false', // for drawing app to have pre-scaled values
+			outside_rho											: 'false', // does uploaded track contain rho values outside 0-1?
+			allow_outside_rho								: 'false', // checkbox for allowing rho values outside 0-1
 
 			show_cam												: 'false', // Expermental feature
 
@@ -74,6 +76,9 @@ app.model.track = {
 				r_type: 'r', // r00|r01|r10|r11
 				reversible: "false", // WC value
 				// is_reversible		: "false", // Sisbot value
+				force_orientation: "false", // Make theta always start at given pos
+				min_rho					: 0,
+				max_rho					: 1,
 
 				cam_image				: "false", // Pi camera image
 
@@ -124,6 +129,7 @@ app.model.track = {
 		app.current_session().set_active({ track_id: 'false' });
 	},
 	setup_edit: function (data) {
+		app.log("Track: setup_edit");
 		this.set('edit', this.get('data')).set('errors', []);
 
 		// remove unwanted values
@@ -148,6 +154,36 @@ app.model.track = {
 			app.trigger('community:select_track', this);
 		} else app.trigger('community:deselect_track', this);
 	},
+	upload_error_checking: function() {
+		var self = this;
+		app.log("Track: Upload error checking", this.get('data.verts'));
+
+		var verts = [];
+		// Step the file, line by line
+		var lines = this.get('data.verts').toString().trim().split('\n');
+		// var regex = /^\s*$/; // eliminate empty lines
+		var pos_regex = /^[0-9.e-]+\s+[0-9.e-]+$/m; // eliminate lines that have more than 2 values
+
+		_.map(lines, function (line) {
+			line.trim();
+
+			if (line.length > 0 && pos_regex.test(line)) {
+				var values = line.split(/\s+/);
+				var rho = parseFloat(values[1]);
+
+				if (rho < 0 || rho > 1) {
+					app.log("Outside Rho", rho);
+
+					self.set('outside_rho', 'true');
+
+					if (rho < +self.get('edit.min_rho')) self.set('edit.min_rho', rho);
+					else if (rho > +self.get('edit.max_rho')) self.set('edit.max_rho', rho);
+				}
+			}
+		});
+
+		app.log("Track rho min/max", self.get('edit.min_rho'), self.get('edit.max_rho'));
+	},
 	/**************************** D3 RENDERING ***********************************/
 	load_d3_data: function () {
 		app.log("Load D3 Data", this.id);
@@ -162,15 +198,17 @@ app.model.track = {
 		});
 	},
 	_convert_verts_to_d3: function (data) {
+		app.log("Track: Convert Verts to D3");
 		var return_value = [];
 		// Step the file, line by line
 		var lines = data.toString().trim().split('\n');
-		var regex = /^\s*$/; // eliminate empty lines
+		// var regex = /^\s*$/; // eliminate empty lines
+		var pos_regex = /^[0-9.e-]+\s+[0-9.e-]+$/; // eliminate lines that have more than 2 values
 
 		_.map(lines, function (line) {
 			line.trim();
 
-			if (line.length > 0 && line.substring(0, 1) != '#' && !line.match(regex)) {
+			if (line.length > 0 && pos_regex.test(line)) {
 				var values = line.split(/\s+/);
 				var entry = { y: parseFloat(values[0]), x: parseFloat(values[1]) }; // [theta, rho]
 				return_value.push(entry);
@@ -205,6 +243,34 @@ app.model.track = {
 			var original_type = this.get('data.original_file_type');
 			if (original_type == 'svg' || original_type == 'draw') data.raw_coors = this.process_svg(this.get('data.file_data'));
 			else data.raw_coors = this.get('data.verts');
+
+			// TODO: reduce raw_coors to minimum before sending
+			var lines = data.raw_coors.trim().split('\n');
+			if (lines.length > 15000) {
+				app.log("Reduce Preview points", lines.length);
+				var verts_arr = [];
+				var pos_regex = /^[0-9.e-]+\s+[0-9.e-]+/; // eliminate empty lines
+				var last_line;
+				_.map(lines, function(line) {
+					line.trim();
+
+					if (line.length > 0 && pos_regex.test(line)) { //line.substring(0,1) != '#' && !line.match(regex)) {
+						var values = line.split(/\s+/);
+						var entry = {th:parseFloat(values[0]),r:parseFloat(values[1])};
+						if (!last_line || entry.th != last_line.th || entry.r != last_line.r) verts_arr.push(line); // eliminate duplicate points
+						last_line = entry;
+					}
+				});
+				if (verts_arr.length > 15000) {
+					var total_count = verts_arr.length;
+					var remove_every = Math.ceil(1/(15000/verts_arr.length));
+					for (var i=total_count-2-remove_every; i > 1; i -= remove_every) {
+						verts_arr.splice(i+1, remove_every-1);
+					}
+					app.log("Reduced Preview points to:", verts_arr.length);
+					data.raw_coors = verts_arr.join('\n');
+				}
+			}
 
 			var address = app.manager.get_model('sisbot_id').get('data.local_ip')
 			var post_data = {
@@ -340,7 +406,13 @@ app.model.track = {
 		this.set('data.name', this.get('edit.name'));
 		if (created_by_name != '') this.set('data.created_by_name', created_by_name);
 		if (this.get('edit.created_by_id') != 'false') this.set('data.created_by_id', this.get('edit.created_by_id'));
+		if (this.get('allow_outside_rho') == 'true') {
+			this.set('data.min_rho', this.get('edit.min_rho'));
+			this.set('data.max_rho', this.get('edit.max_rho'));
+		}
 		this.set('data.has_verts_file', 'true');
+
+		app.log("Track rho min/max", this.get('data.min_rho'), this.get('data.max_rho'), this.get('allow_outside_rho'));
 
 		// if (app.manager.get('user_id') !== 'false') {
 		// 	this.set('data.created_by_id', app.manager.get('user_id'));
@@ -1084,14 +1156,14 @@ app.model.track = {
 			this.set('is_favorite', '' + has_track);
 		}
 	},
-	favorite_toggle: function (trackID) {
+	favorite_toggle: function () {
 		if (app.manager.get_model('sisbot_id').is_legacy())
 			app.plugins.n.notification.alert('This feature is unavailable because your Sisyphus firmware is not up to date. Please update your version in order to enable this feature',
 				function (resp_num) {
 					if (resp_num == 1) {
 						return;
 					}
-					app.collection.get(playlist_id).add_track_and_save({ id: trackID });
+					// app.collection.get(playlist_id).add_track_and_save({ id: trackID });
 
 				}, 'Outdated Firmware', ['OK']);
 
@@ -1100,13 +1172,18 @@ app.model.track = {
 		if (status == 'true' && fav_model) {
 			fav_model.remove_track_and_save(this.id);
 		} else if (fav_model) {
-			fav_model.add_track_and_save({ id: trackID });
+			fav_model.add_track_and_save({ id: this.id });
 		}
 		this.set('is_favorite', app.plugins.bool_opp[status]);
 	},
 	reversible_toggle: function () {
 		var status = this.get('data.is_reversible');
 		this.set('data.is_reversible', app.plugins.bool_opp[status]);
+		this.save_track();
+	},
+	orientation_toggle: function () {
+		var status = this.get('data.force_orientation');
+		this.set('data.force_orientation', app.plugins.bool_opp[status]);
 		this.save_track();
 	},
 	/**************************** COMMUNITY ***********************************/
@@ -1162,17 +1239,34 @@ app.model.track = {
 		}
 
 		app.trigger('modal:open', {
-			'template': 'modal-overlay-downloading-tmp'
+			'template': 'modal-overlay-downloading-tmp',
+			'no_dismiss': 'true'
 		});
 
 		self.set('is_downloaded', 'true');
 		self.set('downloading_community_track', 'true');
 		self.set('download_cloud', 'true');
 
+		// TODO: Let sisbot download the track if it can
+		var sisbot = app.manager.get_model('sisbot_id');
+		if (sisbot.get('sisbot_version') >= 1010076) {
+			app.log("Newer Sisbot, let it download", sisbot.get('sisbot_version'));
+
+			self.set('is_downloaded', 'true')
+				.set('track_checked', 'false');
+
+			app.log("Downloaded ID:", self.id, self.get('data'));
+			app.trigger('sisbot:track_add', self);
+
+			if (!skip_playlist_add) app.trigger('modal:open', { 'track_id': self.id });
+
+			return;
+		}
+
 		var req_obj = {
 			_url: app.config.get_webcenter_url(),
 			_type: 'GET',
-			endpoint: `tracks/${ track_id }/download.json?class=downloadTrackLink`,
+			endpoint: 'tracks/'+track_id+'/download.json?class=downloadTrackLink',
 			_timeout: 90000
 		};
 
@@ -1185,6 +1279,7 @@ app.model.track = {
 			} else {
 				app.log('track : download response = ', self.id);
 
+				// TODO: Why are we comparing type?
 				if (self.get('data.original_file_type') == 'thr') self.set('data.verts', obj.resp); // remove/change later
 				else if (self.get('data.original_file_type') == 'svg') self.set('data.verts', obj.resp);
 				else if (self.get('data.original_file_type') == 'draw') self.set('data.verts', obj.resp); // created via drawing page
@@ -1209,6 +1304,6 @@ app.model.track = {
 			}
 		}
 
-		app.post.fetch2(req_obj, cb, 0);
+		app.post.fetchWC(req_obj, cb, 0);
 	}
 };

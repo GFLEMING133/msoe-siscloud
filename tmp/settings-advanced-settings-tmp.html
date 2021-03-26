@@ -1,0 +1,247 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 clickable active blue-hover left inline-block pl20"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'false'}"
+    ><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh18 capitalize truncate"
+          data-on-click="model.check_admin"
+          tg-name="check_admin_btn">Advanced</h1>
+    </div>
+    <div class="w15 center f-large">&nbsp;</div>
+  </div>
+  <div class="body-header h100 pb50 scroll hide-scrollbar" tg-name="advanced_settings_page">
+		<div class="tmp-max-width m-auto">
+	    <div class="bb p20 fs14 flex" data-model="{{= model.sisbot_id }}">
+        <div class="w40 strong"> ID</div>
+        <div class="w60 truncate pull-right grey">{{= model.id }}</div>
+	    </div>
+	    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
+        <span class="strong"> URL</span>
+        <span class="pull-right grey">{{= model.data.hostname }}:3001</span>
+	    </div>
+	    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}">
+        <span class="strong"> IP Address</span>
+        <span class="pull-right grey">{{= model.data.local_ip }}</span>
+	    </div>
+	    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= model.data.mac_address }} !== false">
+        <span class="strong"> MAC Address</span>
+        <span class="pull-right grey">{{= model.data.mac_address }}</span>
+	    </div>
+	    <div class="bb p20 fs14" data-model="{{= model.sisbot_id }}" data-if="{{= parent.is_admin }} == false">
+        <span class="strong"> Firmware Version</span>
+        <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+	    </div>
+
+	    <div data-model="{{= model.sisbot_id }}"
+	        data-if="{{= parent.is_admin }} == true"
+	        tg-name="is_admin_list">
+	      <div class="bb p20 fs14" data-if="{{= model.data.version }} > 1">
+	        <span class="strong">Card Version</span>
+	        <span class="pull-right grey">{{= model.data.version }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Configuration</span>
+	        <span class="pull-right grey">{{= model.data.cson }}</span>
+	      </div>
+	      <div class="bb p20 fs14" data-if="{{= (app.is_app == true) ? 'true' : 'false' }} == true">
+	        <span class="strong">App Version</span>
+	        <span class="pull-right grey">{{= app.config.version }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Local Sisbot Version</span>
+	        <span class="pull-right grey">{{= model.local_versions.sisbot }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Remote Sisbot Version</span>
+	        <span class="pull-right grey">{{= manager.remote_versions.sisbot }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Local Browser Version</span>
+	        <span class="pull-right grey">{{= model.local_versions.app }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Remote Browser Version</span>
+	        <span class="pull-right grey">{{= manager.remote_versions.app }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Local Proxy Version</span>
+	        <span class="pull-right grey">{{= model.local_versions.proxy }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Remote Proxy Version</span>
+	        <span class="pull-right grey">{{= manager.remote_versions.proxy }}</span>
+	      </div>
+	      <div class="bb p20 fs14">
+	        <span class="strong">Remote Api Version</span>
+	        <span class="pull-right grey">{{= manager.remote_versions.api }}</span>
+	      </div>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-model="{{= model.sisbot_id }}"
+	        data-run="model.is_legacy"
+	        data-if="{{= model.is_legacy_branch }} == false"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'change_table_name'}"
+	        tg-name="table_name_tab"
+	    >
+	        <span class="strong montserrat_semi_bold">Sisyphus Name</span>
+	        <span class="pull-right">
+	            <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	        </span>
+	    </div>
+	    <div data-model="{{= model.sisbot_id }}">
+	      <div class="w100 center">
+	        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	            data-if="{{= model.data.is_network_connected }} == false"
+	            data-on-click="publish"
+	            data-publish="session:active"
+	            data-msg="{'secondary':'wifi'}"
+	            tg-name="connect_to_wifi_tab">
+	          <span class="strong montserrat_semi_bold">Connect to WiFi network</span>
+	          <span class="pull-right">
+	            <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-model="{{= model.sisbot_id }}"
+	        data-if="{{= model.is_legacy_branch }} == false"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'log-files'}"
+	        tg-name="log_files_tab">
+	      <span class="strong montserrat_semi_bold">Log Files</span>
+	      <span class="pull-right">
+	        <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	      </span>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-if="{{= app.is_app }} == false"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'upload-track'}"
+	        tg-name="upload_tracks_tab">
+	      <span class="strong montserrat_semi_bold">Upload Track(s)</span>
+	      <span class="pull-right">
+	        <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	      </span>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'advanced-movement'}"
+	        tg-name="advanced_movement_tab">
+	      <span class="strong montserrat_semi_bold">Advanced Movement</span>
+	      <span class="pull-right">
+	        <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	      </span>
+	    </div>
+	    <div data-model="{{= model.sisbot_id }}">
+	      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	          data-on-click="publish"
+	          data-publish="session:active"
+	          data-msg="{'secondary':'advanced_lights'}"
+	          data-if="{{= model.data.led_enabled }} == true"
+	          tg-name="advanced_lights_tab">
+	        <span class="strong montserrat_semi_bold">Advanced Lights</span>
+	        <span class="pull-right">
+	          <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	        </span>
+	      </div>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'passcode'}"
+	        tg-name="passcode_tab">
+	      <span class="strong montserrat_semi_bold">Passcode</span>
+	      <span class="pull-right">
+	        <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	      </span>
+	    </div>
+	    <div data-if="{{= app.is_app }} == true">
+	      <div data-if="{{= app.platform }} == iOS">
+	        <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	            data-on-click="publish"
+	            data-publish="session:active"
+	            data-msg="{'secondary':'siri'}"
+	            tg-name="siri_tab">
+	          <span class="strong montserrat_semi_bold">Siri Shortcuts</span>
+	          <span class="pull-right">
+	            <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	          </span>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'change_table','goBack':'settings'}"
+	        data-if="{{= _.size(model.sisbots_ip_name) }} > 1"
+	        tg-name="change_table_tab">
+	      <span class="strong montserrat_semi_bold">Change Sisyphus</span>
+	      <span class="pull-right">
+	        <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	      </span>
+	    </div>
+	    <div data-model="{{= model.sisbot_id }}">
+	      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	          data-if="{{= model.data.is_network_connected }} == true"
+	          data-on-click="model.disconnect_wifi"
+	          tg-name="disconnect_wifi_tab">
+	        <span class="strong montserrat_semi_bold">Disconnect from WiFi network</span>
+	        <span class="pull-right"></span>
+	      </div>
+  	    <div data-if="{{= parent.is_admin }} == true">
+  	      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+  	          data-on-click="publish"
+  	          data-publish="session:active"
+  	          data-msg="{'secondary':'advanced_table'}"
+  	          tg-name="table_settings_tab">
+  	        <span class="strong montserrat_semi_bold">Sisyphus Settings</span>
+  	        <span class="pull-right">
+  	          <i class="far fa-chevron-right f-large pt15 pb15"></i>
+  	        </span>
+  	      </div>
+  	    </div>
+	      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+            data-if="{{= app.is_app }} == true"
+	          data-on-click="model.disconnect"
+	          tg-name="logout_tab">
+	        <span class="strong montserrat_semi_bold">Logout from Sisyphus</span>
+	        <span class="pull-right"></span>
+	      </div>
+	      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	          data-if="{{= model.sisbot_version }} >= 1010074"
+	          data-on-click="model.reboot"
+	          tg-name="reboot_tab">
+	        <span class="strong montserrat_semi_bold">Reboot</span>
+	        <span class="pull-right"></span>
+	      </div>
+	      <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	          data-if="{{= model.sisbot_version }} >= 1010074"
+	          data-on-click="model.shutdown"
+	          tg-name="shutdown_tab">
+	        <span class="strong montserrat_semi_bold">Shutdown</span>
+	        <span class="pull-right"></span>
+	      </div>
+	    </div>
+	    <div class="bb hh50 p20 fs18 flex vertical-align bg-grey-ll-hover clickable active"
+	        data-on-click="publish"
+	        data-publish="session:active"
+	        data-msg="{'secondary':'factory-reset'}"
+	        tg-name="factory_reset_tab">
+	      <span class="strong montserrat_semi_bold">Factory Reset</span>
+	      <span class="pull-right">
+	        <i class="far fa-chevron-right f-large pt15 pb15"></i>
+	      </span>
+	    </div>
+	    <div class="hh150">&nbsp;</div>
+	  </div>
+	</div>
+</div>

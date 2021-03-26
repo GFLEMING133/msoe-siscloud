@@ -6,16 +6,18 @@ app.model.sisyphus_manager = {
       device_ip: 'false',
 
       user_id: 'false',
-
+      is_tablet: 'false',
       sisbot_id: 'false',
       is_passcode_required: 'false', // does the current sisbot need a passcode?
       is_sisbot_available: 'false',
       sisbot_registration: 'find', // find|none|hotspot|multiple|specify_ip
       specify_ip: 'false',
 
+      is_playback_active: 'false', // does the playback controls above the footer appear?
       show_wifi_page: 'false',
       show_nightlight_page: 'false',
 
+      show_cson_select: 'false', // for new user-imaged cards
       show_setup_page: 'false',
       show_software_update_page: 'false',
       show_sleeping_page: 'false',
@@ -55,14 +57,15 @@ app.model.sisyphus_manager = {
       did_update: 'false', // was a software update initiated?
       do_refresh: 'false', // force browser reload after reconnect
 
+      remote_fetched: false, // when did we last ask remote?
       remote_versions: {
-        proxy: '10.0.0',
+        proxy: '0.0.0',
         proxy_notes: 'false',
-        app: '10.0.0',
+        app: '0.0.0',
         app_notes: 'false',
-        api: '10.0.0',
+        api: '0.0.0',
         api_notes: 'false',
-        sisbot: '10.0.0',
+        sisbot: '0.0.0',
         sisbot_notes: 'false',
         is_notes    : 'false'
       },
@@ -80,14 +83,16 @@ app.model.sisyphus_manager = {
   },
   current_version: 1,
   app_ip_base: null,
+  is_checking_remote: false,
   on_init: function() {
     // app.log("on_init() in app.model.sisyphus_manager");
     if (window.cordova) StatusBar.show();
     app.plugins.n.initialize();
 
-    this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
+    // this.listenTo(app, 'session:sign_in', this.sign_in_via_session);
     this.listenTo(app, 'sisbot:wifi_connected', this.should_show_setup_page);
     this.listenTo(app, 'navigate:back', this.navigate_home);
+    this.listenTo(app, 'sisbot:active_track', this.should_show_playback_active);
 
     this.on('change:is_sisbot_available', this.check_reconnect_status);
 
@@ -109,12 +114,25 @@ app.model.sisyphus_manager = {
 
     this.set('local_version', app.config.version);
     this.check_ble_status();
-    this.check_remote_versions();
+    // this.check_remote_versions();
 
+    //For changing Tablet to Mobile
+    if(window.innerWidth > 750 && window.innerHeight < 1367) {
+      // app.log("WINDOW SIZE MANGER", window.innerWidth, window.innerHeight)
+      this.set('is_tablet', 'true')
+    }else if(window.innerWidth < 750) {
+      this.set('is_tablet', 'false');
+      if (app.is_app) {
+        screen.orientation.lock('portrait-primary'); //lock orientation
+	      app.log('Orientation is ' + screen.orientation.type);
+       }
+    }else {
+      this.set('is_tablet', 'false');
+    }
     return this;
   },
   intake_data: function(given_data) {
-    // app.log("intake_data()", given_data);
+    // app.log("intake_data()", JSON.parse(JSON.stringify(given_data)));
 
     var self = this;
 
@@ -123,43 +141,62 @@ app.model.sisyphus_manager = {
     _.each(given_data, function(data) {
       if (!data || !data.id) {
         // do nothing for responses that aren't objects
-      } else if (app.collection.exists(data.id)) {
-        var m = app.collection.get(data.id);
-        var d = m.get('data');
+      } else {
+        var is_remove = false;
+        if (data.id.charAt(0) == '-') {
+          is_remove = true;
+          data.id = data.id.substr(1);
+        }
 
-        _.each(data, function(val, key) {
-          if (d && d[key] !== val) {
-            if (_.isArray(val)) {
-              var is_diff = false;
-              if (!_.isArray(d[key])) {
-                is_diff = true;
-              } else if (val.length !== d[key].length) {
-                is_diff = true;
+        if (is_remove && app.collection.exists(data.id)) {
+          app.log("Remove:", data.id);
+
+          var model = app.collection.get(data.id);
+          if (model.get('is_downloaded')) model.set('is_downloaded', 'false');
+          else app.collection.remove(data.id);
+
+          // TODO: check if it should be removed from playlists/etc?
+          if (model.get('data.type') == 'track') {
+            app.log("Remove track from playlists", model.get('data.name'), model.id);
+          }
+        } else if (app.collection.exists(data.id)) {
+          var m = app.collection.get(data.id);
+          var d = m.get('data');
+
+          _.each(data, function(val, key) {
+            if (d && d[key] !== val) {
+              if (_.isArray(val)) {
+                var is_diff = false;
+                if (!_.isArray(d[key])) {
+                  is_diff = true;
+                } else if (val.length !== d[key].length) {
+                  is_diff = true;
+                } else {
+                  _.each(val, function(vall, i) {
+                    var new_str = vall;
+                    if (_.isObject(new_str) || _.isArray(new_str)) new_str = JSON.stringify(new_str);
+                    var old_str = d[key][i];
+                    if (_.isObject(old_str) || _.isArray(old_str)) old_str = JSON.stringify(old_str);
+                    if (new_str != old_str) {
+                      is_diff = true;
+                      // app.log("Array change", key, new_str, old_str);
+                    }
+                  });
+                }
+
+                if (is_diff == true) {
+                  m.set('data.' + key, val);
+                  m.trigger('change:data.' + key);
+                }
               } else {
-                _.each(val, function(vall, i) {
-                  var new_str = vall;
-                  if (_.isObject(new_str) || _.isArray(new_str)) new_str = JSON.stringify(new_str);
-                  var old_str = d[key][i];
-                  if (_.isObject(old_str) || _.isArray(old_str)) old_str = JSON.stringify(old_str);
-                  if (new_str != old_str) {
-                    is_diff = true;
-                    // app.log("Array change", key, new_str, old_str);
-                  }
-                });
-              }
-
-              if (is_diff == true) {
                 m.set('data.' + key, val);
                 m.trigger('change:data.' + key);
               }
-            } else {
-              m.set('data.' + key, val);
-              m.trigger('change:data.' + key);
             }
-          }
-        });
-      } else {
-        app.collection.add(data);
+          });
+        } else {
+          app.collection.add(data);
+        }
       }
     });
   },
@@ -192,17 +229,52 @@ app.model.sisyphus_manager = {
   check_remote_versions: function(cb) {
     var self = this;
 
-    var obj = {
+    if (this.is_checking_remote) {
+      if (cb) cb('Already checking remote', null);
+      return app.log("Manager: already checking remote");
+    }
+
+    app.log("Manager: check_remote_versions");
+    this.is_checking_remote = true;
+
+    var now = moment().format('X');
+    if (now - this.get('remote_fetched') < 3600) {
+      app.log("Remote Version (cached):", self.get('remote_versions'), now - this.get('remote_fetched'));
+      if (cb) cb(null, this.get('remote_versions'));
+      return;
+    }
+
+		// TODO: send branch with if not master
+    var branch;
+		if (this.get('sisbot_id') != 'false') {
+			var sisbot = this.get_model('sisbot_id');
+			if (sisbot) {
+				var branches = sisbot.get('local_branches');
+				app.log("latest_software_version, sisbot branches", branches);
+				_.each(branches, function(value, key, index) {
+					if (value != 'master') {
+						// TODO: figure out which branch to request from
+						app.log("Request non-master branch", key, value);
+            branch = value;
+					}
+				});
+			}
+		} else {
+			app.log("latest_software_version, no sisbot");
+		}
+
+    var req_obj = {
       _url: app.config.get_api_url(),
       _type: 'POST',
-      endpoint: 'latest_software_version',
-      data: {}
+      endpoint: 'latest_software_version'
     };
+    if (branch) req_obj.branch = branch;
 
-    app.post.fetch(obj, function(cbb) {
+    app.post.fetchWC(req_obj, function(cbb) {
+      app.log("Manager: Remote Versions", cbb);
+      self.is_checking_remote = false;
       if (cbb.err) return;
 
-      app.log("Remote Versions:", cbb.resp);
       var keys = _.keys(cbb.resp);
       _.each(keys, function(key) {
         if (cbb.resp[key] == '') cbb.resp[key] = 'false';
@@ -212,7 +284,12 @@ app.model.sisyphus_manager = {
       if(keys.indexOf('sisbot_notes') >= 0 || keys.indexOf('siscloud_notes') >= 0 || keys.indexOf('sisproxy_notes') >= 0 ) {
         self.set('remote_versions.is_notes', 'true');
       }
-      // self.set('remote_versions', cbb.resp);
+
+      self.set('remote_fetched', moment().format('X'));
+
+      app.log("Remote Version:", self.get('remote_versions'), self.get('remote_fetched'));
+
+			if (cb) cb(null, cbb.resp);
     }, 0);
 
     return this;
@@ -414,10 +491,9 @@ app.model.sisyphus_manager = {
   },
   /****************************************************************************/
   _has_update: function(sisbot, remote) {
-    app.log("_has_update()");
+    app.log("_has_update()", sisbot, remote);
 
-    if (!remote)
-      return false;
+    if (!remote) return false;
 
     var remote_revisions = remote.split('.');
     var local_revisions = sisbot.split('.');
@@ -428,6 +504,7 @@ app.model.sisyphus_manager = {
       if (+local_revisions[i] > +remote_revisions[i]) {
         local_is_newer = true;
       } else if (+local_revisions[i] < +remote_revisions[i]) {
+        app.log("_has_update compare", i, local_revisions, remote_revisions);
         has_update = true;
       }
       if (has_update == true || local_is_newer == true) {
@@ -435,13 +512,15 @@ app.model.sisyphus_manager = {
       }
     }
 
+    app.log("_has_update()", has_update);
     return has_update;
   },
   should_show_onboarding: function() {
-    // app.log("should_show_onboarding()");
+    app.log("should_show_onboarding()");
     var sisbot = this.get_model('sisbot_id');
     if (!sisbot) return this;
 
+    var self = this;
     var hotspot_status = sisbot.get('data.is_hotspot');
     var reminder_status = sisbot.get('data.do_not_remind');
     var is_internet_connected = sisbot.get('data.is_internet_connected');
@@ -455,14 +534,34 @@ app.model.sisyphus_manager = {
         .set('show_nightlight_page', 'true');
     }
 
-    if (is_internet_connected) {
-      // check for software update
-      var sisbot_version = sisbot.get('data.software_version');
-      var remote_sisbot = this.get('remote_versions.sisbot');
-      if (this._has_update(sisbot_version, remote_sisbot) == true) {
+    // check if cson needs to be set
+    var cson_pass = true;
+    if (sisbot.get('data.is_cson_missing') == 'true') {
+      this.set('show_cson_select', 'true');
+      cson_pass = false;
+    }
+
+		// check if corruption was fixed
+		var corruption_pass = true;
+		if (sisbot.get('data.corruption_status') != 'false') {
+			app.log("Show Corruption Status");
+			app.trigger('modal:open', {
+				'template': 'modal-corruption-notice-tmp'
+			});
+			corruption_pass = false;
+		}
+
+		// check for software update (if not showing corruption modal)
+    if (cson_pass && corruption_pass) {
+      if ( is_internet_connected == 'false') {
         app.trigger('session:active', {
           secondary: 'software-update',
           primary: 'settings'
+        })
+      } else {
+        app.trigger('session:active', {
+          secondary: 'false',
+          primary: 'current'
         });
       }
     }
@@ -482,13 +581,43 @@ app.model.sisyphus_manager = {
     }
 
     // check for local versions right away
-    sisbot.check_local_versions();
+    if (self.get('show_sleeping_page') != 'true' && self.get('is_passcode_required') == 'false') {
+      sisbot.check_local_versions(function() {
+        if (is_internet_connected) {
+          var sisbot_version = sisbot.get('data.software_version');
+
+          self.check_remote_versions(function() {
+            var remote_sisbot = self.get('remote_versions.sisbot');
+            app.log("Show Software Update?", sisbot_version, remote_sisbot, self.get('show_setup_page'), is_internet_connected);
+            if (self._has_update(sisbot_version, remote_sisbot) == true && self.get('show_setup_page') == 'false' && is_internet_connected  == 'true') {
+              sisbot.set('has_software_update', 'true');
+              if (app.config.env != 'training') {
+                app.trigger('modal:open', {
+                  'template': 'modal-software-update-tmp'
+                });
+              }
+            }
+          });
+        }
+      });
+    }
 
     return this;
   },
   should_show_setup_page: function() {
     app.log("should_show_setup_page()");
     this.set('show_wifi_page', 'false');
+  },
+  should_show_playback_active: function() {
+    if (this.get('sisbot_id') != 'false') {
+      var old_value = this.get('is_playback_active');
+      var active_id = this.get_model('sisbot_id').get('data.active_track.id');
+
+      if (active_id == 'false' && old_value == 'true') this.set('is_playback_active', 'false');
+      else if (active_id != 'false' && old_value == 'false') this.set('is_playback_active', 'true');
+
+      app.log("should_show_playback_active()", this.get_model('sisbot_id').get('data.active_track.id'), this.get('is_playback_active'));
+    }
   },
   should_show_nightlight: function() {
     app.log("should_show_nightlight()");
@@ -516,6 +645,18 @@ app.model.sisyphus_manager = {
     this.set('show_hostname_page', 'false');
   },
   /*********************** SISBOT FIND **************************************/
+  open_privacy_settings: function() {
+    //   app.log("open_privacy_settings()");
+    var self = this;
+
+    window.cordova.plugins.settings.open('privacy', function success(resp) {
+      app.log("Privacy Settings opened");
+    }, function error(err) {
+      return app.plugins.n.notification.alert('Error opening Privacy settings. Please manually go to your Privacy settings');
+    });
+
+    return this;
+  },
   open_network_settings: function() {
     //   app.log("open_network_settings()");
     var self = this;
@@ -644,6 +785,10 @@ app.model.sisyphus_manager = {
   						return self;
   					} else {
               delete data.confirm_rescan;
+
+              if (self.get('is_passcode_required') == 'true') self.set('is_passcode_required', 'false'); // hide passcode
+              app.trigger('modal:close'); // close any modal that may be open
+
   						self.find_sisbots(data);
   					}
   				}, 'Rescan', ['Cancel', 'Yes']);
@@ -684,6 +829,22 @@ app.model.sisyphus_manager = {
     this.set('sisbots_scanning', 'true');
     this.set('sisbot_registration', 'find');
     window.location.reload();
+  },
+  change_sisbots: function(data) {
+    app.log("Change Sisbots", data);
+    if (_.size(this.get('sisbots_ip_name')) > 1) {
+      this.set('show_sleeping_page', 'false');
+      this.set('sisbot_registration', 'multiple');
+      app.trigger('modal:close');
+      if (data.disconnect) {
+        var sisbot = this.get_model('sisbot_id');
+        sisbot.set('_is_sleeping', 'false');
+
+        this.set('sisbot_id', 'false');
+      } else app.trigger('session:active', {goBack:'current', secondary:'change_table', primary:'settings'});
+    } else {
+      app.log("No other known sisbots to change to");
+    }
   },
   _find_sisbots: function() {
     if (this.get('sisbots_scanning') == 'true') return;
@@ -969,7 +1130,7 @@ app.model.sisyphus_manager = {
       data: device_data
     };
 
-    app.log("connect()", obj);
+    app.log("connect()", sisbot_hostname, obj);
     app.post.fetch(obj, function(obj) {
       self.set('sisbot_connecting', 'false')
         .set('errors', []);
@@ -987,17 +1148,20 @@ app.model.sisyphus_manager = {
           if (self.get('sisbot_registration') == 'specify_ip' || app.session.get('active.secondary') == 'specify_ip') {
             // allow changing of IP
             self.set('sisbot_connecting', 'false');
-            return self.set('errors', ['That sisbot does not appear to be on the network']);
+            return self.set('errors', ['That Sisyphus does not appear to be on the network']);
           } else {
-            self.connect_to_sisbot(sisbot_hostname);
-            return self.set('errors', ['That sisbot does not appear to be on the network']);
+            // self.connect_to_sisbot(sisbot_hostname);
+            // TODO: go to error page
+            self.set('sisbot_hostname', sisbot_hostname);
+            self.set('sisbot_registration', 'error'); // show screen that we found one, but could not connect
+            return self.set('errors', ['That Sisyphus does not appear to be on the network']);
           }
         }
       }
 
       // add sisbot data to our local collection
       _.each(sisbot_data, function(data) {
-        // app.log("Connect to sisbot:", data);
+        app.log("Connect to sisbot:", data);
         self.intake_data(data);
         if (data.type == 'track') {
           var track = app.collection.get(data.id);
@@ -1027,6 +1191,8 @@ app.model.sisyphus_manager = {
           self.set('sisbot_id', data.id);
           var sisbot = app.collection.get(data.id);
 
+          if (sisbot.get('data.is_sleeping') == 'true') sisbot.nightmode_sleep_change();
+
           if (sisbot_hostname != data.local_ip) {
             app.log("Connect Mismatch", sisbot_hostname, data.local_ip);
             if (data.local_ip == '192.168.42.1') sisbot.set('data.local_ip', sisbot_hostname); // Fix hotspot address not yet updated on Pi
@@ -1049,6 +1215,13 @@ app.model.sisyphus_manager = {
       });
 
       var sisbot = self.get_model('sisbot_id');
+      var new_all_tracks_playlist_id = sisbot.get('data.all_tracks_playlist_id');
+
+      // fix sleeping
+      self.set('show_sleeping_page', sisbot.get('data.is_sleeping'));
+
+      // update is_playback_active
+      self.should_show_playback_active();
 
       // TODO: Remove all Tracks that are not on this new sisbot
       var all_tracks = app.collection.get_cluster({type:'track'}).pluck('id');
@@ -1060,6 +1233,18 @@ app.model.sisyphus_manager = {
         track.set('is_downloaded', 'false');
       });
 
+      // TODO: Remove all Playlists that are not on this new sisbot
+      var all_playlists = app.collection.get_cluster({type:'playlist'}).pluck('id');
+      var current_playlists = sisbot.get('data.playlist_ids');
+      var playlists_to_remove = _.difference(all_playlists, current_playlists);
+      app.log("Playlists", all_playlists.length);
+      app.log("Playlists to Remove", playlists_to_remove.length);
+      _.each(playlists_to_remove, function(playlist_id) {
+        if (playlist_id != new_all_tracks_playlist_id) app.collection.remove(playlist_id);
+      });
+      all_playlists = app.collection.get_cluster({type:'playlist'}).pluck('id');
+      app.log("Playlists after removal", all_playlists.length);
+
       // setup listeners after all objects added
       sisbot.sisbot_listeners();
 
@@ -1070,13 +1255,22 @@ app.model.sisyphus_manager = {
 
       app.current_session().add_nx('sisbot_hostnames', sisbot_hostname);
       app.current_session().save_session();
-      app.log("Connected: on page", app.session.get('active.primary'));
-      if (app.session.get('active.primary') == 'false') app.trigger('session:active', {
-        secondary: 'false',
-        primary: 'current'
-      });
-    }, 0);
 
+			app.log("Manager: Check local branches");
+			sisbot.check_local_branches(function(err, resp) {
+				app.log("Manager: Check branches:", resp);
+		    self.check_remote_versions(function(err, resp) {
+		      app.log("Manager: Check Remote on page", app.session.get('active.primary'));
+		      if (app.session.get('active.primary') == 'false') app.trigger('session:active', {
+		        secondary: 'false',
+		        primary: 'current'
+		      });
+
+          app.log("Manager: Check for version update");
+          sisbot.check_for_version_update();
+				});
+			});
+    }, 3);
   },
   /**************************** NETWORK INFO **********************************/
   get_network_ip_address: function(cb) {
@@ -1181,6 +1375,9 @@ app.model.sisyphus_manager = {
 
       track_model.set('upload_status', 'false'); // not uploaded yet
 
+      track_model.setup_edit();
+      track_model.upload_error_checking();
+
       // error checking
       if (track_model.get('errors').length > 0)
         app.log("Track error:", track_model.get('errors'));
@@ -1236,14 +1433,22 @@ app.model.sisyphus_manager = {
               track_id: track_model.id
             });
 
-            app.trigger('modal:open', {
-              track_id: track_model.id,
-              'template': 'sisyphus-tracks-hero-tmp'
+            // listen for track added finish before showing modal
+            self.listenToOnce(app, 'track:added', function(data) {
+              app.log("Track added listener heard", data);
+
+              if (data.id == track_model.id) {
+                app.trigger('modal:open', {
+                  track_id: track_model.id,
+                  'template': 'modal-track-hero-tmp'
+                });
+              }
             });
           }
 
           // save after, so preview image is made first
           track_model.upload_track_to_sisbot();
+
           // if (track_model.get('data.publish_track') == 'true') track_model.upload_track_to_cloud();
         } else {
           app.log("Wait longer for pause to finish");
@@ -1275,9 +1480,16 @@ app.model.sisyphus_manager = {
           goBack: 'tracks'
         });
 
-        app.trigger('modal:open', {
-          track_id: track_model.id,
-          'template': 'sisyphus-tracks-hero-tmp'
+        // listen for track added finish before showing modal
+        self.listenToOnce(app, 'track:added', function(data) {
+          app.log("Track added listener heard", data);
+
+          if (data.id == track_model.id) {
+            app.trigger('modal:open', {
+              track_id: track_model.id,
+              'template': 'modal-track-hero-tmp'
+            });
+          }
         });
       }
 

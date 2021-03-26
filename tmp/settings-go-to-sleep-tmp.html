@@ -1,0 +1,32 @@
+<div class="h100">
+    <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+        <div class="w30 left pl20 clickable active blue-hover"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'secondary':'false'}"
+        ><i class="far fa-chevron-left f-large pt15 pb15"></i></div>
+        <div class="w40">
+            <h1 class="no-stuffing fs18 lh18 capitalize truncate">Go To Sleep</h1>
+        </div>
+        <div class="w30">&nbsp;</div>
+    </div>
+    <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar" tg-name="go_to_sleep_page">
+        <div class="p40 bg-white black" data-model="{{= model.sisbot_id }}">
+            <p class="no-stuffing center w100" aria-hidden="true">
+                <i class="fas fa-eclipse-alt f-xlarge"></i>
+            </p>
+            <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+                Put Your Sisyphus to Sleep
+            </h3>
+            <p class="p0 m0 fs18 center">
+                Shut down your Sisyphus and turn off the lights.
+								When ready, use the app to wake your Sisyphus up.
+            </p>
+            <div class="w100 center">
+                <h2 class="mt30 mb100 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+                    data-on-click="model.sleep"
+                    tg-name="go_to_sleep_btn">Go To Sleep</h2>
+            </div>
+        </div>
+    </div>
+</div>

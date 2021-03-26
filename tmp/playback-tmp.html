@@ -1,0 +1,80 @@
+<div class="playback-controls pull-bottom mb50 safe-bottom z50" data-if="{{= model.data }} !== undefined">
+	<div data-if="{{= model.data.is_serial_open }} == false">
+		<div class="bb-white bg-dark-black z50">
+      <div class="pt10 center white clickable" data-on-click="parent.open_support_page">
+        <div class="red uppercase fs18 lh18">USB Disconnected!</div>
+        <div class="fs12 lh18 pl10 pr10">
+          Your Sisyphus is experiencing a hardware failure.
+          Please contact Sisyphus support or touch here to learn how to fix.
+        </div>
+      </div>
+    </div>
+	</div>
+	<div data-if="{{= model.data.is_serial_open }} !== false">
+	  <div data-if="{{= model.data.fault_status }} !== false">
+	    <div class="bb-white bg-dark-black z50">
+	      <div class="pt10 center white clickable" data-on-click="parent.open_support_page">
+	        <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == th_fault">Th Failed!</div>
+	        <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == rho_fault">Rho Failed!</div>
+	        <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_th_fault">Servo Th Failed!</div>
+	        <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_rho_fault">Servo Rho Failed!</div>
+	        <div class="red uppercase fs18 lh18" data-if="{{= model.data.fault_status }} == servo_th_rho_fault">Servo Th and Rho Failed!</div>
+	        <div class="fs12 lh18 pl10 pr10">
+	          Your Sisyphus is experiencing a hardware failure.
+	          Please contact Sisyphus support or touch here to learn how to fix.
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  <div data-if="{{= model.data.fault_status }} == false">
+	    <div class="{{= (model.data.active_track.id !== 'false') ? 'bb-white' : '' }} z50" data-if="{{= session.active.primary }} == current">
+				<div class="bg-fade hh20"></div>
+	      <div class="bg-dark-black" data-if="{{= model.data }} !== undefined">
+	        <div class="flex pt0 pb0 p20 mobile_pl10 mobile_pr10" data-if="{{= model.data.state }} == playing" data-template="playback-controls-tmp"></div>
+	        <div class="flex pt0 pb0 p20 mobile_pl10 mobile_pr10" data-if="{{= model.data.state }} == paused" data-template="playback-controls-tmp"></div>
+	        <div class="p20 center white" data-if="{{= model.data.state }} == homing">
+	          <div class="uppercase fs18 lh18">Homing your Sisyphus</div>
+	          <div class="fs12 lh18">This should only take a moment...</div>
+	        </div>
+	        <div class="p20 center white" data-if="{{= model.data.state }} == waiting">
+	          <div class="uppercase fs18 lh18">Waiting</div>
+	          <div class="fs12 lh18">This Sisyphus is waiting for instructions</div>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="{{= (model.data.active_track.id !== 'false') ? 'bb-white' : '' }} z50" data-if="{{= session.active.primary }} !== current">
+				<div class="bg-fade hh20"></div>
+	      <div class="bg-dark-black pr20" data-if="{{= model.data }} !== undefined">
+	        <div class="flex vertical-align" data-if="{{= model.data.state }} == playing">
+	          <div class="w70" data-template="playing-active-tmp"></div>
+	          <div class="w30 right">
+	            <div class="clickable active"
+	                aria-hidden="true"
+	                data-if="{{= model.data.state }} == playing"
+	                data-on-click="model.pause"
+	                tg-name="footer_pause_btn"><i class="fal fa-pause-circle white f-large"></i></div>
+	          </div>
+	        </div>
+	        <div class="flex vertical-align" data-if="{{= model.data.state }} == paused">
+	          <div class="w70" data-template="playing-active-tmp"></div>
+	          <div class="w30 right" data-if="{{= model.data.active_track.id }} !== false">
+	            <div class="clickable active"
+	                aria-hidden="true"
+	                data-if="{{= model.data.state }} == paused"
+	                data-on-click="model.play"
+	                tg-name="footer_play_btn"><i class="fal fa-play-circle white f-large"></i></div>
+	          </div>
+	        </div>
+	        <div class="center pt10 pb10 p20 white" data-if="{{= model.data.state }} == homing">
+	          <div class="uppercase fs18 lh18">Homing your Sisyphus</div>
+	          <div class="fs12 lh18">This should only take a moment...</div>
+	        </div>
+	        <div class="center pt10 pb10 p20 white" data-if="{{= model.data.state }} == waiting">
+	          <div class="uppercase fs18 lh18">Waiting</div>
+	          <div class="fs12 lh18">This Sisyphus is waiting for instructions</div>
+	        </div>
+	      </div>
+	    </div>
+		</div>
+  </div>
+</div>

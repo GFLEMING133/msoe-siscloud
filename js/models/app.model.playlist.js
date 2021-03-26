@@ -52,7 +52,10 @@ app.model.playlist = {
 	},
 	current_version: 1,
 	on_init: function () {
-		if (this.get('data.description') == '') this.set('data.description', 'false');
+		if (/^\s*$/.test(this.get('data.description'))) {
+			app.log("Empty Description", this.get('data.description'));
+			this.set('data.description', 'false');
+		}
 		// this.on('change:data.is_published', this.check_publish);
 		return this;
 	},
@@ -71,6 +74,11 @@ app.model.playlist = {
 		app.trigger('sisbot:playlist_add', this);
 		// if (this.get('data.is_published') == 'true') this.publish();
 		// this.set('is_community', 'false');
+
+		if (/^\s*$/.test(this.get('data.description'))) {
+			app.log("Empty Description", this.get('data.description'));
+			this.set('data.description', 'false');
+		}
 	},
 	save_sisbot_to_cloud: function () {
 		// we have a sisbot playlist we want saved to user account
@@ -342,7 +350,7 @@ app.model.playlist = {
 			var track_model = app.collection.get(obj.id);
 			obj.firstR = track_model.get('data.firstR');
 			obj.lastR = track_model.get('data.lastR');
-			obj.reversible = track_model.get('data.is_reversible');
+			obj.is_reversible = track_model.get('data.is_reversible');
 			obj.reversed = "false";
 			obj.firstBreak = "false";
 			obj.lastBreak = "false";
@@ -350,14 +358,15 @@ app.model.playlist = {
 
 		// reverse first track?
 		var track0 = tracks[sorted_list[0]];
+		app.log("Check first track", track0);
 		if (track0.firstR != start_rho) {
-			if (track0.reversible == 'true') {
+			if (track0.is_reversible == 'true' && start_rho == track0.lastR) {
 				var tempR = track0.lastR;
 				track0.lastR = track0.firstR;
 				track0.firstR = tempR;
 				track0.reversed = "true";
 			} else {
-				app.log("Unable to start at zero");
+				app.log("Unable to start at "+start_rho, track0.id);
 				track0.firstBreak = "true";
 			}
 		}
@@ -368,7 +377,7 @@ app.model.playlist = {
 
 			if (track0.lastR != track1.firstR) {
 				// app.log("Fix transition between", track0._index, track0.lastR, track1._index, track1.firstR, track1.lastR, track1.reversible);
-				if (track1.reversible == 'true') { // reversible
+				if (track1.is_reversible == 'true' && track1.lastR == track0.lastR) { // reversible
 					var tempR = track1.lastR;
 					track1.lastR = track1.firstR;
 					track1.firstR = tempR;

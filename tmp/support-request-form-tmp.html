@@ -4,13 +4,18 @@
   <div class="p20 bg-white black">
     <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">What can we help you with?</h4>
     <div class="pb10">
-      <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
-          data-field="model.edit.request_type"
-          data-selected="{{= model.data.request_type }}">
-        <option value="false">-</option>
-        <option value="table_support">Troubles with my table</option>
-        <option value="other_question">I have a different question</option>
-      </select>
+      <div class="relative">
+        <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
+            data-field="model.edit.request_type"
+            data-selected="{{= model.data.request_type }}">
+          <option value="false">-</option>
+          <option value="table_support">Troubles with my Sisyphus</option>
+          <option value="other_question">I have a different question</option>
+        </select>
+        <div class="absolute click-through z10">
+          <i class="fa fa-chevron-down pull-right align-center lightgrey p12 relative z10" aria-hidden="true"></i>
+        </div>
+      </div>
     </div>
     <div data-if="{{= model.edit.request_type }} !== false">
       <h4 class="no-stuffing pt20 fs18 lh18 pb5 strong">Email</h4>
@@ -43,18 +48,21 @@
               value="{{= (model.edit.order_num !== 'false') ? model.edit.order_num : '' }}" />
           <p class="f-small mt5">Order number or Kickstarter backer number</p>
         </div>
-        <div class="p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
-          <div  data-foreach="model.errors" class="red_triangle center mb10">
+        <div class="center p10" data-if="{{= app.plugins.length(model.errors) }} > 0">
+					<i class="red far fa-exclamation-triangle f-xlarge p10"></i>
+          <div  data-foreach="model.errors" class="mb10">
             <div class="red p5 montserrat_bold">{{= scope.value }}</div>
           </div>
         </div>
-        <h2 class="btn bg-blue w100 m0 corner-5px uppercase fs18 strong p15"
-            data-if="{{= model.is_submitting }} == false"
-            data-on-click="model.submit_request"
-        >Submit</h2>
-        <h2 class="btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong p15"
-            data-if="{{= model.is_submitting }} == true"
-        >Submit</h2>
+        <div class="w100 center">
+        <h2 class="btn bg-blue w100 m0 corner-5px uppercase fs18 strong p15 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_submitting }} == false"
+              data-on-click="model.submit_request"
+          >Submit</h2>
+          <h2 class="btn bg-grey-l w100 m0 corner-5px uppercase fs18 strong p15 {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+              data-if="{{= model.is_submitting }} == true"
+          >Submit</h2>
+        </div>
       </div>
     </div>
   </div>

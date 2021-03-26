@@ -1,0 +1,46 @@
+<div class="h100">
+  <div class="pull-top hh50 w100 bg-black no-stuffing"
+      data-template="header-default-tmp"
+  ></div>
+  <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar pl40 pr40 pb50">
+    <p class="no-stuffing center w100 mt40" aria-hidden="true">
+      <i class="far fa-wifi f-xlarge "></i>
+    </p>
+    <h3 class="m0 pt20 pb30 center justify fs24 lh24">
+        Connect to New Sisyphus
+    </h3>
+    <p class="center fs18 lh24">
+        Open your phone's WiFi settings and connect to the Sisyphus network.
+				Then return back here after you have connected.
+    </p>
+    <div class="pb20" data-if="{{= model.sisbot_connecting }} == false">
+      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+          data-if="{{= app.is_app }} == true"
+          data-on-click="model.open_network_settings_from_error"
+      >Open Wifi Settings</p>
+      <p class="w100 mb20 p15 center btn bg-blue corner-5px fs18 lh18 uppercase"
+              data-on-click="set"
+              data-field="model.sisbot_registration"
+              data-msg="find"
+      >Find Sisyphus</p>
+    </div>
+
+    <div class="mt10 center black p20 clickable"
+        data-if="{{= model.sisbot_id }} == false"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'support_request'}">
+      Support / Help
+    </div>
+
+    <div class="p20 center i" data-if="{{= model.sisbots_scanning }} == true">
+        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+        <div>Scanning...</div>
+    </div>
+    <div class="p20 center i" data-if="{{= model.sisbot_connecting }} == true">
+        <div class="mb20 black" data-template="spinner-bounce-tmp"></div>
+        <div>Connecting...</div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

@@ -31,8 +31,6 @@ var app = {
 			$(document).on('focus', 'input[type="text"]', function() {
 				document.querySelector('input[type="text"]').scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
 			});
-			screen.orientation.lock('portrait-primary');//lock orientation
-			app.log('Orientation is ' + screen.orientation.type);
 		}
 		// if (app.plugins.is_mobile() !== false)	app.is_app = true;
 

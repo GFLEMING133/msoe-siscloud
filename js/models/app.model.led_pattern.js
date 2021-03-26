@@ -35,6 +35,8 @@ app.model.led_pattern = {
 
 		this.on('change:data.led_primary_color', 				this.update_primary_color);
 		this.on('change:data.led_secondary_color', 			this.update_secondary_color);
+
+		this.on('change:data.white_value', this.white_change);
 	},
 	setup_edit: function () {
 		this.set('edit', this.get('data')).set('errors', []);
@@ -156,6 +158,10 @@ app.model.led_pattern = {
 		}
 
 		return returnValue.toUpperCase();
+	},
+	white_change: function(data) {
+		app.log("White Change", this.get('data.white_value'));
+		this.set('edit.white_value', this.get('data.white_value'));
 	},
 	set_white: function (level) {
 		var self = this;

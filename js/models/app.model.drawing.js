@@ -77,6 +77,16 @@ app.model.drawing = {
     this.on('add:paths', this.update_path_count);
     this.on('remove:paths', this.update_path_count);
   },
+	update_smooth: function (data) {
+		var level = this.get('smooth');
+		if (data != this) {
+			level = +data;
+		}
+
+		var smooth_slider = $('.smooth_slider');
+		// multiply by 400 since range is from 0-0.25
+		smooth_slider.css('background', 'linear-gradient(to right, #00b1fa 0%, #00b1fa ' + (level * 400) + '%, lightgrey ' + (level * 400)  + '%, #efefef 100%)');
+	},
   toggle_streaming: function() {
     var self = this;
     var streaming = this.get('is_streaming');
@@ -299,6 +309,7 @@ app.model.drawing = {
     app.log("Setup change:edit.multiply");
     this.on('change:edit.multiply', this.multiply_change);
     this.on('change:smooth', this._recreate_paths);
+    this.on('change:smooth', this.update_smooth);
 
     this.on('add:paths', this._draw_paths);
     this.on('change:paths', this._draw_paths);
@@ -615,7 +626,7 @@ app.model.drawing = {
     return [x1+w,y1+h];
   },
   start_drag: function(data) {
-    // app.log("Start Drag", data);
+    app.log("Start Drag", data);
     var w = this.get('width');
     var padding = this.get('padding');
 

@@ -1,0 +1,45 @@
+<div class="h100 {{= (manager.is_tablet == 'true') ? 'bg-black flex': 'bg-white app-container' }}">
+  <div class="h100 {{= (manager.is_tablet == 'true') ? 'sidebar-width relative': '' }}">
+    <div data-if="{{= manager.is_tablet}} == false" class="pull-top hh50 w100 bg-black no-stuffing" data-template="header-default-tmp"></div>
+    <div data-if="{{= manager.is_tablet}} == true" class="f-xlarge p15 center ls15 white">SISYPHUS</div>
+    <div class="body-header h100 scroll hide-scrollbar pb100"
+        data-run="model.setup_edit"
+        data-model="{{= model.sisbot_id }}">
+      <div class="p20">
+        <p class="no-stuffing center w100" aria-hidden="true">
+          <i class="fas fa-cogs f-large {{= (manager.is_tablet == 'true') ? 'white' : '' }}"></i>
+        </p>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24 {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">
+          Set Up Your Sisyphus
+        </h3>
+        <p class="p0 m0 fs18 center {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">
+          You can easily change these settings later.
+        </p>
+  	    <div class="mt30 pb20" data-if="{{= model.csons }} == false">
+  	      <div data-run="model.check_for_csons"></div>
+  	      <div class="mt20 black" data-template="spinner-bounce-tmp"></div>
+  	    </div>
+        <div class="mt30 pb20" data-if="{{= model.csons }} !== false">
+          <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">
+            Select Your Configuration
+          </h4>
+          <div class="relative">
+  	        <select class="w100 fs18 lh20 p10 pt7 pb7 corner-5px"
+  	            data-field="model.edit.table_settings.cson"
+  	            data-foreach="model.csons">
+  	          <option  value="{{= scope.value.id }}">{{= scope.value.name }}</option>
+  	        </select>
+            <div class="absolute click-through z10">
+              <i class="fas fa-chevron-down pull-right align-center lightgrey p12 relative z10" aria-hidden="true"></i>
+            </div>
+          </div>
+          <p class="p15 mt20 mb100 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong"
+              data-on-click="model.confirm_cson">Save</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-if="{{= manager.is_tablet}} == true" class="relative not-sidebar-width bg-sand">
+    <!-- <img class="w100 h100" src='img/2ball_log_in.jpg' alt='2 balls in sand' /> -->
+  </div>
+</div>

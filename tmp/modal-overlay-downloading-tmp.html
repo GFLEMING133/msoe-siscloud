@@ -1,6 +1,12 @@
 <div class="pull-bottom">
-    <div class="p20 center overlay_margin" data-model="{{= parent.community_id }}">
-        <div class="f-large mb20 strong lh18 white t-shadow">Downloading {{= model.download_count }} track(s)...</div>
-        <div class="blue-l" data-template="spinner-bounce-tmp"></div>
+  <div class="p20 center overlay_margin" data-model="{{= parent.community_id }}">
+    <div class="tmp-max-width m-auto">
+      <div class="f-large mb10 strong white t-shadow fl12">Downloading {{= model.download_count }} track(s)...</div>
+      <div class="f-small mb20 white t-shadow">
+  			Your Sisyphus will pause while downloading new tracks, it will resume playback when all tracks are downloaded.
+        Please leave this app open while tracks download.
+  		</div>
+      <div class="blue-l" data-template="spinner-bounce-tmp"></div>
     </div>
+  </div>
 </div>

@@ -1,0 +1,61 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 center f-large">&nbsp;</div>
+    <div class="w70">
+      <h3 class="no-stuffing pt10 pb10 mt5 fs18 capitalize strong">Community</h3>
+    </div>
+    <div class="w15 pt20 pb20 center f-large">&nbsp;</div>
+  </div>
+  <div class="body-header h100 tmp-max-width m-auto scroll hide-scrollbar pb100"
+      data-model="{{= model.sisbot_id }}"
+      tg-name="community_starter_page">
+    <div class="pl20 pr20" data-if="{{= model.data.is_internet_connected }} == false">
+      <p class="no-stuffing center w100 mt40" aria-hidden="true">
+          <i class="far fa-wifi-slash f-xlarge"></i>
+        </p>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24">
+          Your Sisyphus is Not Connected to WiFi
+        </h3>
+        <p class="p0 m0 fs18 center">
+          Your cannot connect to the Sisyphus Community without a wifi connection.
+          Please connect your Sisyphus to WiFi to access the Sisyphus Community and sign-in to your account.
+        </p>
+        <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+            data-on-click="publish"
+            data-publish="session:active"
+            data-msg="{'primary':'settings','secondary':'wifi'}">
+          Connect to WiFi</h2>
+    </div>
+    <div data-if="{{= model.data.is_internet_connected }} == true">
+      <div data-if="{{= grandparent.remember_me }} == true">
+        <div data-run="grandparent.sign_in"></div>
+      </div>
+      <div class="center" data-if="{{= grandparent.remember_me }} == false">
+        <div class="pl50 pr50 pt10">
+          <p class="no-stuffing center w100 mt40" aria-hidden="true">
+            <i class="fa fa-globe f-xlarge"></i>
+          </p>
+          <h3 class="m0 pt20 pb20 center justify fs24 lh24">Sisyphus Community</h3>
+          <p class="pb20 center justify lh18 fs18">
+            Sign in to your Sisyphus Community account to download
+            new tracks designed by artists around the world.
+            If you don't already have an account, click the
+            sign up button below.
+          </p>
+          <div class="mt20 mb10 p10 btn bg-blue w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':'' }}"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'primary':'community','secondary':'sign_in'}"
+              tg-name="community_starter_page_sign_in_btn">SIGN IN</div>
+
+          <div class="mt10 mb15 p10 btn bg-blue-l w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':'' }}"
+              data-on-click="publish"
+              data-publish="session:active"
+              data-msg="{'primary':'community','secondary':'create_account'}"
+              tg-name="community_starter_page_sign_up_btn">SIGN UP</div>
+        </div>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

@@ -1,0 +1,183 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}">
+    <div class="w15 left pl20 clickable active"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'advanced_settings'}"><i class="far fa-chevron-left f-large pt15 pb15""></i></div>
+    <div class="w70">
+      <h1 class="no-stuffing fs18 lh18 capitalize">Sisyphus Settings</h1>
+    </div>
+    <div class="w15">&nbsp;</div>
+  </div>
+  <div class="body-header h100 pb100 scroll hide-scrollbar"
+      data-model="{{= model.sisbot_id }}"
+      data-run="model.setup_edit"
+      tg-name="table_settings_page">
+		<div class="tmp-max-width m-auto">
+	    <p class="p10 m0 mt20 fs18 center">
+	      <i class="fas fa-exclamation-triangle red f-xxlarge"></i><br />
+	      These settings override the factory settings for your Sisyphus. Changing the values will affect Sisyphus performance.
+	    </p>
+	    <div data-if="{{= model.csons }} == false">
+	      <div data-run="model.check_for_csons"></div>
+	      <div class="mt20 black" data-template="spinner-bounce-tmp"></div>
+	    </div>
+	    <div  data-if="{{= model.csons }} !== false">
+	      <div class="p20 {{= (manager.is_tablet == 'true') ? '':'bb'}}" data-if="{{= model.edit.cson }} !== false">
+	        <p class="no-stuffing w100 fs18 lh18 mb5">Configuration File</p>
+          <div class="relative">
+  	        <select class="w100 corner-5px fs18 lh20 p10 pt7 pb7"
+  	            data-field="model.edit.table_settings.cson"
+  	            data-selected="{{= model.edit.cson }}"
+  	            data-foreach="model.csons">
+  	          <option  value="{{= scope.value.id }}">{{= scope.value.name }}</option>
+  	        </select>
+            <div class="absolute click-through z10">
+              <i class="fa fa-chevron-down pull-right align-center lightgrey p12 relative z10" aria-hidden="true"></i>
+            </div>
+          </div>
+	      </div>
+	      <div class="p20 {{= (manager.is_tablet == 'true') ? '':'bb'}}">
+	        <p class="no-stuffing w100 fs18 lh18 mb5">Radius <span class="f-small">(in inches)</span></p>
+	        <input class="fs18 w100"
+	              type="text"
+	              autocomplete="off"
+	              autocorrect="off"
+	              autocapitalize="off"
+	              spellcheck="false"
+	              data-field="model.edit.table_settings.radius"
+	              value="{{= model.data.table_settings.radius }}" />
+	      </div>
+	      <div class="p20 {{= (manager.is_tablet == 'true') ? '':'bb'}}">
+	        <p class="no-stuffing w100 fs18 lh18 mb5">Max Speed</p>
+	        <input class="fs18 w100"
+	              type="text"
+	              placeholder="1.75"
+	              autocomplete="off"
+	              autocorrect="off"
+	              autocapitalize="off"
+	              spellcheck="false"
+	              data-field="model.edit.table_settings.max_speed"
+	              value="{{= model.data.table_settings.max_speed }}" />
+	      </div>
+	      <div class="p20 bb" data-if="{{= model.data.is_servo }} == false">
+	        <div class="w100 vertical clickable"
+	            data-on-click="toggle"
+	            data-field="model.edit.table_settings.useJimmyHoming">
+	          <span class="black f-large bg-white fas fa-check-square"
+	              data-if="{{= model.edit.table_settings.useJimmyHoming }} == true"></span>
+	          <span class="black f-large bg-white far fa-square"
+	              data-if="{{= model.edit.table_settings.useJimmyHoming }} !== true"></span>
+	          <p class="no-stuffing pl10 w100 fs18 lh18">Jimmy Homing</p>
+	        </div>
+	        <p>This setting centers the ball over the homing sensor. It should more reliably land in the same place, but will likely need the Homing Offset calibrated.</p>
+	        <div>
+	          <p class="no-stuffing w100 fs18 lh18 mb5">Homing Offset <span >{{= app.plugins.toFixed(model.edit.table_settings.homingOffset, 2) }}</span> <span class="f-small">(in inches)</span></p>
+	          <div class="flex vertical-align pl10 pr10 w100">
+	            <div class="w100 flex relative center">
+	              <div class="w5 blue-hover center pt10 pb10" data-on-click="model.homing_offset_down">
+	                <i class="fa fa-minus-circle center clickable active grey" aria-hidden="true"></i>
+	              </div>
+	              <div class="w90 mt3 p5 mb3">
+	                <input class="w100" type="range" min="-0.12" max="0.12" step="0.01" data-on-input="model.homing_offset" value="{{= model.edit.table_settings.homingOffset }}" />
+	              </div>
+	              <div class="w5 blue-hover center pt10 pb10" data-on-click="model.homing_offset_up">
+	                <i class="fa fa-plus-circle center clickable active grey" aria-hidden="true"></i>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="{{= (manager.is_tablet == 'true') ? '':'bb'}}">
+	        <div class="p20 pb0">
+	          <p class="no-stuffing w100 fs18 lh18 mb5">Jog Theta Steps</p>
+	          <input class="fs18 w100"
+	                type="text"
+	                placeholder="100"
+	                autocomplete="off"
+	                autocorrect="off"
+	                autocapitalize="off"
+	                spellcheck="false"
+	                data-field="model.edit.table_settings.jogStepsRadius"
+	                value="{{= model.data.table_settings.jogStepsRadius }}" />
+	        </div>
+	        <div class="p20">
+	          <p class="no-stuffing w100 fs18 lh18 mb5">Jog Rho Steps</p>
+	          <input class="fs18 w100"
+	                type="text"
+	                placeholder="100"
+	                autocomplete="off"
+	                autocorrect="off"
+	                autocapitalize="off"
+	                spellcheck="false"
+	                data-field="model.edit.table_settings.jogStepsTheta"
+	                value="{{= model.data.table_settings.jogStepsTheta }}" />
+	        </div>
+	      </div>
+	      <div class="p20 {{= (manager.is_tablet == 'true') ? '':'bb'}}" data-if="{{= model.data.led_enabled }} == true">
+	        <p class="no-stuffing w100 fs18 lh18 mb5">RGBW Count</p>
+	        <input class="fs18 w100"
+	              type="text"
+	              autocomplete="off"
+	              autocorrect="off"
+	              autocapitalize="off"
+	              spellcheck="false"
+	              data-field="model.edit.table_settings.rgbwCount"
+	              value="{{= model.data.table_settings.rgbwCount }}" />
+	      </div>
+	      <!-- <div class="p20 {{= (manager.is_tablet == 'true') ? '':'bb'}}">
+	        <div class="w100 vertical clickable" data-on-click="toggle" data-field="model.edit.is_camera">
+	          <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.edit.is_camera }} == true"></span>
+	          <span class="black f-large bg-white far fa-square" data-if="{{= model.edit.is_camera }} !== true"></span>
+	          <p class="no-stuffing pl10 w100 fs18 lh18">Enable Camera</p>
+	        </div>
+	        <p class="pb0 mb0"><span class="red">There is no camera on your Sisyphus from the factory.</span> If you choose to add a Raspberry Pi camera, this will enable it to take pictures during track play.</p>
+	      </div> -->
+	      <div class="p20 pb40 center {{= (manager.is_tablet == 'true') ? 'bb':''}}">
+	        <div class="p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+	            data-on-click="model.confirm_advanced_settings">
+	          Save
+	        </div>
+	      </div>
+	      <div class="p20 pb0 mt20 center">
+	        <h2 class="no-stuffing w100">Maintenance</h2>
+	      </div>
+	      <div data-if="{{= model.data.fault_status }} !== false">
+	        <div class="p20 bb" data-if="{{= model.data.is_servo }} == true">
+	          <p class="no-stuffing w100 fs18 lh18 mb5">Servo Motors</p>
+	          <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+	              data-on-click="model._update_sisbot_msg"
+	              data-msg="{'endpoint':'servo_enable', 'data':{'motor':'rho'}}">
+	            Re-enable Rho
+	          </div>
+	          <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+	              data-on-click="model._update_sisbot_msg"
+	              data-msg="{'endpoint':'servo_enable', 'data':{'motor':'theta'}}">
+	            Re-enable Theta
+	          </div>
+	        </div>
+	      </div>
+	      <div class="p20 center bb">
+	        <p class="no-stuffing w100 fs18 lh18 mb5">Regenerate Track Images</p>
+	        <div class="mt20 p15 btn bg-blue w100 m0 clickable active corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+	            data-if="{{= model.data.thumbnail_queue_length }} <= 0"
+	            data-on-click="model.regenerate_thumbnails">
+	          Regenerate Thumbnails
+	        </div>
+	        <div class="mt20 p15 btn bg-grey w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+	            data-if="{{= model.data.thumbnail_queue_length }} > 0">
+	          Regenerating ({{= model.data.thumbnail_queue_length }})
+	        </div>
+	      </div>
+	      <div class="p20 center">
+	        <p class="no-stuffing w100 fs18 lh18 mb5">Force Firmware Update</p>
+	        <h2 class="mt20 p15 btn bg-blue w100 m0 corner-5px uppercase fs18 strong {{= (manager.is_tablet == 'true') ? 'half-mw':''}}"
+	            data-if="{{= model.data.installing_updates }} == false"
+	            data-on-click="model.install_update_alert"
+	            tg-name="install_update_btn">Start Update</h2>
+	      </div>
+	    </div>
+	    <div class="hh150">&nbsp;</div>
+		</div>
+  </div>
+</div>

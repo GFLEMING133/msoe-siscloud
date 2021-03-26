@@ -4,6 +4,7 @@ app.model.modal = {
       id: data.id,
       type: 'modal',
       is_hidden: 'true',
+			allow_close: 'true',
       template: 'modal-playlist-add-tmp',
 
       data: {
@@ -43,6 +44,12 @@ app.model.modal = {
     } else {
       this.set('playlist_id', 'false');
     }
+
+		if (data.no_dismiss) { // show close (X) button?
+			this.set('allow_close', 'false');
+		} else {
+			this.set('allow_close', 'true');
+		}
 
     this.set('is_hidden', 'false');
   },
@@ -102,6 +109,7 @@ app.model.modal = {
     app.plugins.n.notification.confirm(text,
       function(resp_num) {
         if (resp_num == 1) {
+          self.set('playlist_id', 'false').set('is_hidden', 'true'); // hide self
           return;
         }
         self.get('playlist_id');

@@ -1,0 +1,23 @@
+<div class="h100" data-if="{{= model.is_community }} == true">
+  <div class="flex p10 pl20 pr20 clickable active bg-grey-ll-hover bb"
+      data-on-click="publish"
+      data-publish="session:active"
+      data-msg="{'primary':'community','secondary':'playlist','playlist_id':'{{= model.id }}', 'goBack':'playlists'}"
+      tg-name="community_playlists_list_select_{{= model.id }}">
+    <div class="w20 relative">
+      <div class="h100 corner-5px"
+          style="background-color:{{= model.data.bg_color }};"
+          data-template="community-playlist-rendering"></div>
+    </div>
+    <div class="w60 align-center pl20">
+      <div class="fs18 lh18 w100 block warmGrey truncate">
+        <span class="black strong">{{= model.data.name }}</span>
+        <span class="fs13 lh18 pt5 pr20"
+          data-if="{{= model.data.description }} !== false"><br/>{{= model.data.description }}</span>
+      </div>
+    </div>
+    <div class="w20 h100 vertical align-center right">
+      <i class="far fa-chevron-right f-large pt15 pb15"></i>
+    </div>
+  </div>
+</div>

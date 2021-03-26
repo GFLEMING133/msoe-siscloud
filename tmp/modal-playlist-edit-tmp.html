@@ -1,8 +1,8 @@
-<div class="h100" data-model="{{= session.active.playlist_id }}">
-  <div class="pt75 pl40 pr40" tg-name="new_playlist_setup_page">
+<div class="h100 relative" data-model="{{= session.active.playlist_id }}">
+  <div class="pt75 pl40 pr40 tmp-max-width m-auto" tg-name="new_playlist_setup_page">
     <div class="">
       <div class="fs18 white lh18 pb10 strong">Playlist Name</div>
-      <input class="bg-white corner-5px mt5 w100"
+      <input class="mt5 w100"
           type="text"
           placeholder="Playlist Name"
           autocomplete="off"
@@ -44,9 +44,9 @@
       </div>
     </div>
   </div>
-  <div class="w100 center bt-white clickable white strong blue-hove bg-black pull-bottom"
+  <div class="w100 center bt-white clickable white strong blue-hover bg-dark-black pull-bottom safe-bottom"
       data-on-click="parent.close"
-      tg-name="new_playlist_modal_close">
-    <div class="media_fs14 fs18 p20 media_ppb50">Close</div>
+      tg-name="modal_close_btn">
+    <div class="media_fs14 fs18 p20">Close</div>
   </div>
 </div>

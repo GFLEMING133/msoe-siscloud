@@ -1,0 +1,132 @@
+<div class="h100">
+  <div class="pull-top white hh50 w100 center no-stuffing flex vertical-align {{= (manager.is_tablet == 'true') ? 'bg-dark-gray' : 'bg-dark-black'}}"
+      data-model="{{= parent.active.playlist_id }}">
+    <div class="w30 left pl20 f-large clickable"
+        data-on-click="publish"
+        data-publish="session:active"
+        data-msg="{'secondary':'playlists'}"><i class="far fa-chevron-left pt15 pb15""></i>
+    </div>
+    <div class="w40">
+      <h1 class="fs18 lh18 pb5 no-stuffing capitalize truncate">{{= model.data.name }}</h1>
+    </div>
+    <div class="w30 right">
+      <div class="pr20 f-large clickable active"
+          data-if="{{= model.data.is_editable }} !== false"
+          data-on-click="publish"
+          data-publish="session:active"
+          data-msg="{'playlist_id':'{{= model.id }}','secondary':'playlist-edit'}" tg-name="playlist_active_edit_btn">
+        <i class="far fa-edit pt15 pb15" alt="Edit"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-header h100 scroll hide-scrollbar"
+      data-model="{{= parent.active.playlist_id }}"
+      tg-name="playlist_page_{{= model.data.id }}">
+
+		<!-- PHONE HEADER -->
+    <div data-if="{{= parent.is_tablet }} == false">
+      <div class="bg-black hh50 w100 media_query_mt0 fixed2">
+        <div class="center pt10">
+          <div class="inline-block" data-if="{{= app.is_app }} == true">
+            <div class="inline-block p5 pl10 pr10 white b-white rounded mr5 clickable blue-hover"
+                data-model="{{= parent.sisbot_id }}"
+                data-on-click="model.present_siri"
+                data-msg="{'action':'play_playlist','phrase':'Play {{= parent.data.name }} Playlist','msg':{ 'id': '{{= parent.id }}' },'identifier':'play_{{= parent.id }}' }"
+                data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
+          </div>
+          <div class="inline-block p5 pl10 pr15 white b-white rounded mr10 clickable blue-hover"
+              data-on-click="model.play"
+              data-msg="{{= 0 }}"
+              tg-name="playlists_play_btn">
+            <i class="fas fa-play pr5 pl5"></i>Play
+          </div>
+          <div class="inline-block p5 pl10 pr15 white b-white rounded ml10 clickable blue-hover"
+              data-on-click="model.play_shuffled"
+              tg-name="playlists_shuffle_btn">
+            <i class="fas fa-random pr5 pl5"></i>Shuffle
+          </div>
+          <div class="inline-block" data-if="{{= app.is_app }} == true">
+            <div class="inline-block blue-hover p5 pl10 pr10 white b-white rounded ml5 clickable"
+                data-model="{{= parent.sisbot_id }}"
+                data-on-click="model.present_siri"
+                data-msg="{'action':'play_playlist','phrase':'Shuffle {{= parent.data.name }} Playlist','msg':{ 'id': '{{= parent.id }}', 'is_shuffle': 'true' },'identifier':'shuffle_{{= parent.id }}' }"
+                data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLET HEADER -->
+    <div data-run="model.order_temp_tracks" data-run-msg="{'pos':'data.tracks'}">
+	    <div class="tmp-max-width m-auto" data-if="{{= parent.is_tablet }} == true">
+	      <div class="w100 pt30">
+	        <div class="webkit-center">
+	          <div class="ww200" data-template="playlist-rendering"></div>
+	        </div>
+	      </div>
+			</div>
+
+			<!--Name Description Edit btn-->
+			<div class="tmp-max-width m-auto flex p20 sticky z50 bg-white" data-if="{{= parent.is_tablet }} == true">
+				<div class="center w50">
+					<div class="left strong f-medium">{{= model.data.name }}</div>
+					<div class="left pt20"
+							data-if="{{= model.data.description }} !== false">
+						{{= model.data.description}}
+					</div>
+				</div>
+				<!--Play and Shuffle-->
+				<div class="w50 right">
+					<div class="inline-block p10 b-dark strong rounded mb10 clickable blue-hover"
+							data-on-click="model.play"
+							data-msg="{{= 0 }}"
+							tg-name="playlists_play_btn">
+						<i class="fas fa-play pr5 pl5"></i>Play
+					</div>
+					<div class="inline-block p10 b-dark strong rounded ml10 clickable blue-hover"
+							data-on-click="model.play_shuffled"
+							tg-name="playlists_shuffle_btn">
+						<i class="fas fa-random pr5 pl5"></i>Shuffle
+					</div>
+					<div class="inline-block" data-if="{{= app.is_app }} == true">
+						<div class="inline-block blue-hover p5 pl10 pr10 rounded ml10 clickable"
+								data-model="{{= parent.sisbot_id }}"
+								data-on-click="model.present_siri"
+								data-msg="{'action':'play_playlist','phrase':'Shuffle {{= parent.data.name }} Playlist','msg':{ 'id': '{{= parent.id }}', 'is_shuffle': 'true' },'identifier':'shuffle_{{= parent.id }}' }"
+								data-if="{{= app.platform }} == iOS"><i class="fas fa-microphone"></i></div>
+					</div>
+				</div>
+			</div>
+	    <!--------------------------- PLAYLIST TRACKS ---------------------------->
+      <div class="pt50"
+          data-if="{{= parent.is_tablet }} == false"
+          style="{{= model.data.bg_color ? 'background-color: {[=model.data.bg_color]};' : 'background-color:black'}};">
+        <div class="tmp-max-width m-auto">
+          <div class="white center less_strong pt20 pb20 pl35 pr35" data-if="{{= model.data.description }} !== false">
+            {{= model.data.description}}
+          </div>
+        </div>
+      </div>
+
+      <div class="tmp-max-width m-auto">
+        <div class="i center pt50 lh20" data-if="{{= _.size(model.data.sorted_tracks) }} == 0">
+          <div data-model="{{= parent.sisbot_id }}">
+            <div data-if="{{= parent.id }} !== {{= model.data.favorite_playlist_id }}">
+              There are no tracks in this playlist
+            </div>
+            <div data-if="{{= parent.id }} == {{= model.data.favorite_playlist_id }}">
+              Add tracks to this playlist by marking<br />tracks as <i class="fas fa-heart red ml5"></i> Favorite
+            </div>
+          </div>
+        </div>
+        <div data-if="{{= _.size(model.data.sorted_tracks) }} > 0"
+            data-foreach="model.data.tracks"
+            data-foreach-map="true">
+          <div class="bt" data-template="tracks-list-item-tmp"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hh150">&nbsp;</div>
+  </div>
+</div>

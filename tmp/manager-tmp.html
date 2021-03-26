@@ -1,0 +1,72 @@
+<div class="h100" data-model="{{= model.sisyphus_manager_id }}">
+  <div class="fixed white click-through zMax" data-if="{{= app.config.is_simulator }} == true">Simulator</div>
+  <div class="h100" data-if="{{= model.sisbot_id }} !== false">
+    <div class="h100" data-run="model.should_show_onboarding">
+      <div class="h100" data-if="{{= model.is_passcode_required }} == true">
+        <div class="app-container">
+          <div class=" no-stuffing bg-white h100 w100" data-template="home-passcode-tmp"></div>
+        </div>
+      </div>
+      <div class="h100" data-if="{{= model.is_passcode_required }} == false">
+        <div class="h100" data-if="{{= model.is_sisbot_available }} == false" data-template="unavailable-tmp"></div>
+        <div class="h100" data-if="{{= model.is_sisbot_available }} !== false">
+          <div class="h100" data-if="{{= model.is_ble_enabled }} == false" data-template="sisbot-ble-enabled-tmp"></div>
+          <div class="h100" data-if="{{= model.is_ble_enabled }} !== false">
+            <div class="h100" data-if="{{= model.show_cson_select }} == true" data-template="onboarding-cson-tmp"></div>
+            <div class="h100" data-if="{{= model.show_cson_select }} !== true">
+              <div class="h100" data-if="{{= model.show_wifi_page }} == true" data-template="sisbot-wifi-tmp"></div>
+              <div class="h100" data-if="{{= model.show_wifi_page }} == false">
+                <div class="h100" data-if="{{= model.show_setup_page }} == true" data-template="onboarding-setup-tmp"></div>
+                <div class="h100" data-if="{{= model.show_setup_page }} == false">
+                  <div class="h100" data-if="{{= model.show_nightlight_page }} == true" data-template="onboarding-nightlight-tmp"></div>
+                  <div class="h100" data-if="{{= model.show_nightlight_page }} == false">
+                    <div class="h100" data-if="{{= model.show_sleeping_page }} == true" data-template="sisbot-sleeping-tmp"></div>
+                    <div class="h100" data-if="{{= model.show_sleeping_page }} == false">
+                      <div class="h100 app-container" data-if="{{= model.show_software_update_page }} == true" data-template="sisbot-software-update-tmp"></div>
+                      <div class="h100" data-if="{{= model.show_software_update_page }} == false">
+                        <div class="h100 app-container">
+                          <div class="flex h100 w100" data-if="{{= model.is_tablet}} == true">
+                            <div class="h100 no-stuffing sidebar-width relative" data-template="tablet-sidebar-tmp"></div>
+                            <div class="h100 relative not-sidebar-width no-stuffing">
+                              <div class="h100 bg-white" data-if="{{= session.active.primary }} !== false" data-template="{{= session.active.primary }}-tmp"></div>
+                            </div>
+                          </div>
+                          <div class="h100 bg-white" data-if="{{= model.is_tablet }} == false">
+                            <div class="no-stuffing bg-white h100" data-if="{{= session.active.primary }} !== false" data-template="{{= session.active.primary }}-tmp"></div>
+                            <div data-model="{{= model.sisbot_id }}" data-if="{{= session.active.primary }} !== unavailable" data-template="playback-tmp"></div>
+                            <div data-model="{{= model.sisbot_id }}" data-if="{{= session.active.primary }} !== unavailable" data-template="footer-tmp"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="h100" data-if="{{= model.sisbot_id }} == false">
+    <div class="h100" data-if="{{= model.is_ble_enabled }} == false" data-template="sisbot-ble-enabled-tmp"></div>
+    <div class="h100" data-if="{{= model.is_ble_enabled }} !== false">
+      <div class="app-container" data-if="{{= (session.active.secondary == 'support_request' || session.active.secondary == 'support_success') ? 'true' : 'false' }} !== true">
+        <div class="bg-black mw600 m-auto" data-if="{{= model.sisbot_registration }} == waiting" data-template="sisbot-waiting-tmp"></div>
+        <div class="bg-black h100 mw600 m-auto" data-if="{{= model.sisbot_registration }} == find" data-template="sisbot-find-tmp"></div>
+        <div class="no-stuffing bg-white h100 w100 mw600 m-auto" data-if="{{= model.sisbot_registration }} == none" data-template="sisbot-none-tmp"></div>
+        <div class="no-stuffing bg-white h100 w100 mw600 m-auto" data-if="{{= model.sisbot_registration }} == error" data-template="sisbot-error-tmp"></div>
+        <div class="no-stuffing bg-white h100 w100 mw600 m-auto" data-if="{{= model.sisbot_registration }} == hotspot" data-template="sisbot-hotspot-tmp"></div>
+        <div class="no-stuffing bg-white h100 w100 mw600 m-auto" data-if="{{= model.sisbot_registration }} == multiple" data-template="sisbot-multiple-tmp"></div>
+        <div class="bg-black mw600 m-auto" data-if="{{= model.sisbot_registration }} == connecting" data-template="sisbot-connecting-tmp"></div>
+        <div class="no-stuffing bg-white h100 w100 mw600 m-auto" data-if="{{= model.sisbot_registration }} == specify_ip" data-template="sisbot-specify-ip-tmp"></div>
+      </div>
+      <div class="app-container" data-if="{{= session.active.secondary }} == support_request">
+        <div class="no-stuffing bg-white h100 w100" data-template="support-request-tmp"></div>
+      </div>
+      <div class="app-container" data-if="{{= session.active.secondary }} == support_success">
+        <div class="no-stuffing bg-white h100 w100" data-template="support-success-tmp"></div>
+      </div>
+    </div>
+  </div>
+</div>

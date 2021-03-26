@@ -1,78 +1,92 @@
-<div class="app-container bg-white h100">
-  <div class="pull-top hh50 w100 bg-black no-stuffing" data-template="sisyphus-header-default-tmp"></div>
-  <div class="body-header h100 scroll hide-scrollbar flex"
-      data-model="{{= model.sisbot_id }}"
-      data-run="model.check_local_versions">
-    <div class="pl24-2 w24-24 pr24-2">
-      <p class="no-stuffing center w100 mt40" aria-hidden="true">
-        <img src="img/icon_2x_cog.png" alt="Settings" class="hh30" />
-      </p>
-      <h3 class="m0 pt20 pb20 center justify fs24 lh24">
-        Set Up Your Sisyphus
-      </h3>
-      <p class="p0 m0 fs18 center">
-        You can easily change these settings later.
-      </p>
-      <div class="mt30 pb20" data-run="model.defaults_setup">
-        <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing">Name Your Sisyphus</h4>
-        <div class="pb10" data-if="{{= model.default_settings_error }} == true">
-          <input class="error-border fs18 pl10 w100" type="text" placeholder="Sisyphus Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.default_settings.name" value="{{= model.default_settings.name }}" />
-          <div class="pull-right error f-small">Table Name Required</div>
-        </div>
-        <div class="pb10" data-if="{{= model.default_settings_error }} == false">
-          <input class="fs18 pl10 w100"
-              type="text"
-              placeholder="Sisyphus Name"
-              autocomplete="off"
-              autocorrect="off"
-              autocapitalize="off"
-              spellcheck="false"
-              data-field="model.default_settings.name"
-              value="{{= model.default_settings.name }}"
-              data-on-key-enter="blur" />
-        </div>
-
-        <h4 class="pt30 pb10 fs18 lh18 strong no-stuffing">Adjust Brightness</h4>
-        <div class="pb20 flex vertical-align">
-          <div class="w24-2">
-            <i class="fas fa-sun" aria-hidden="true"></i>
-          </div>
-          <div class="w24-19">
-            <input class="w100"
-                type="range"
-                min="0"
-                max="1"
-                step=".05"
-                data-on-input="model.default_brightness"
-                value="{{= model.default_settings.brightness }}" />
-          </div>
-          <div class="w24-3 pl24-1">
-            <i class="fas fa-sun f-large" aria-hidden="true"></i>
-          </div>
-        </div>
-        <div class="pt0 vertical"
-            data-on-click="model.set_autodim_default"
-            data-if="{{= model.data.is_autodim_allowed }} !== false">
-          <span class=" f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.is_autodim }} == true"></span>
-          <span class=" f-large bg-white far fa-square" data-if="{{= model.default_settings.is_autodim }} == false"></span>
-          <p class="no-stuffing pl10 fs18 w100">Auto-brightness</p>
-        </div>
-
-        <h4 class="pt30 pb5 fs18 lh18 strong no-stuffing">Share Logs</h4>
-        <p class="p0 m0">
-          Automatically share log files to help us improve the firmware of your Sisyphus Table.
+<div class="h100 {{= (manager.is_tablet == 'true') ? 'bg-black flex': 'bg-white app-container' }}">
+  <div class="h100 {{= (manager.is_tablet == 'true') ? 'sidebar-width relative': '' }}">
+    <div data-if="{{= manager.is_tablet}} == false" class="pull-top hh50 w100 bg-black no-stuffing" data-template="header-default-tmp"></div>
+    <div data-if="{{= manager.is_tablet}} == true" class="f-xlarge p15 center ls15 white">SISYPHUS</div>
+    <div class="body-header h100 scroll hide-scrollbar pb100"
+        data-model="{{= model.sisbot_id }}"
+        data-run="model.check_local_versions">
+      <div class="p20">
+        <p class="no-stuffing center w100" aria-hidden="true">
+          <i class="fas fa-cogs f-large {{= (manager.is_tablet == 'true') ? 'white' : '' }}"></i>
         </p>
-        <div class="pt0 vertical"
-            data-on-click="toggle"
-            data-field="model.default_settings.share_log_files"
-            data-if="{{= model.default_settings.share_log_files }} !== undefined">
-          <span class="black f-large bg-white fas fa-check-square" data-if="{{= model.default_settings.share_log_files }} == true"></span>
-          <span class="black f-large bg-white far fa-square" data-if="{{= model.default_settings.share_log_files }} !== true"></span>
-          <p class="no-stuffing pl10 w100 fs18">Share Log Files</p>
-        </div>
-        <p class="p15 mt20 mb100 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong" data-on-click="parent.should_show_nightlight">Next Step</p>
-      </div>
+        <h3 class="m0 pt20 pb20 center justify fs24 lh24 {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">
+          Set Up Your Sisyphus
+        </h3>
+        <p class="p0 m0 fs18 center {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">
+          You can easily change these settings later.
+        </p>
+        <div class="mt30 pb20" data-run="model.defaults_setup">
+          <h4 class="pt10 pb5 fs18 lh18 strong no-stuffing {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">Name Your Sisyphus</h4>
+          <div class="pb10" data-if="{{= model.default_settings_error }} == true">
+            <input class="error-border fs18 pl10 w100" type="text" placeholder="Sisyphus Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-field="model.default_settings.name" value="{{= model.default_settings.name }}" />
+            <div class="pull-right error f-small {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">Name Required</div>
+          </div>
+          <div class="pb10" data-if="{{= model.default_settings_error }} == false">
+            <input class="fs18 pl10 w100 black bg-white"
+                type="text"
+                placeholder="Sisyphus Name"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                data-field="model.default_settings.name"
+                value="{{= model.default_settings.name }}"
+                data-on-key-enter="blur" />
+          </div>
 
+          <h4 class="pt30 pb10 fs18 lh18 strong no-stuffing {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">Adjust Brightness</h4>
+					<div class="flex vertical-align pb20 {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">
+						<div class="w5 blue-hover pt15 pb15" data-on-click="model.brightness_min" tg-name="brightness_slider">
+							<i class="fas fa-sun center clickable active grey" aria-hidden="true"></i>
+						</div>
+						<div class="w90 flex relative center" data-on-click="parent.showMouse">
+							<span class="w2-5"></span>
+              <input id="brightness-slider"
+                  class="w100"
+                  type="range"
+                  min="0"
+                  max="1"
+                  step=".05"
+                  data-on-input="model.default_brightness"
+                  value="{{= model.default_settings.brightness }}"
+                  data-run-after="model.brightness_slider_update" />
+							<span class="w2-5"></span>
+						</div>
+						<div class="w5 center blue-hover pt15 pb15" data-on-click="model.brightness_max" tg-name="brightness_max">
+							<i class="fas fa-sun f-large center clickable active grey" aria-hidden="true"></i>
+						</div>
+					</div>
+
+          <div class="pt0 vertical clickable {{= (manager.is_tablet == 'true') ? 'white': 'black' }}"
+              data-on-click="model.set_autodim_default"
+              data-if="{{= model.data.is_autodim_allowed }} !== false">
+            <span class="f-large fas fa-check-square {{= (manager.is_tablet == 'true') ? 'white': 'black' }}"
+                data-if="{{= model.default_settings.is_autodim }} == true"></span>
+            <span class="f-large far fa-square {{= (manager.is_tablet == 'true') ? 'white': 'black' }}"
+            		data-if="{{= model.default_settings.is_autodim }} == false"></span>
+            <p class="no-stuffing pl10 fs18 w100 {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">Auto-brightness</p>
+          </div>
+
+          <h4 class="pt30 pb5 fs18 lh18 strong no-stuffing {{= (manager.is_tablet == 'true') ? 'white': 'black' }}">Share Logs</h4>
+          <p class="p0 m0 {{= (manager.is_tablet == 'true') ? 'white': 'black' }}"">
+            Automatically share log files to help us improve the firmware of your Sisyphus.
+          </p>
+          <div class="pt0 vertical clickable {{= (manager.is_tablet == 'true') ? 'white': 'black' }}"
+              data-on-click="toggle"
+              data-field="model.default_settings.share_log_files"
+              data-if="{{= model.default_settings.share_log_files }} !== undefined">
+            <span class="f-large fas fa-check-square {{= (manager.is_tablet == 'true') ? 'white  bg-black': 'black  bg-white' }}"
+                  data-if="{{= model.default_settings.share_log_files }} == true"></span>
+            <span class="f-large far fa-square {{= (manager.is_tablet == 'true') ? 'white  bg-black': 'black  bg-white' }}"
+                  data-if="{{= model.default_settings.share_log_files }} !== true"></span>
+            <p class="no-stuffing pl10 w100 fs18">Share Log Files</p>
+          </div>
+          <p class="p15 mt20 mb100 float-center center btn bg-blue corner-5px uppercase clickable active fs18 strong" data-on-click="parent.should_show_nightlight">Next Step</p>
+        </div>
+      </div>
     </div>
+  </div>
+  <div data-if="{{= manager.is_tablet}} == true" class="relative not-sidebar-width bg-sand">
+    <!-- <img class="w100 h100" src='img/2ball_log_in.jpg' alt='2 balls in sand'> -->
   </div>
 </div>

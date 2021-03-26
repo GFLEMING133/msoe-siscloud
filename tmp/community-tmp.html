@@ -1,0 +1,63 @@
+<div class="h100">
+  <div class="h100" data-if="{{= session.signed_in }} == false">
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == false"
+        data-template="community-starter-page-tmp"></div>
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == sign_in"
+        data-template="community-sign-in-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == create_account"
+        data-template="community-create-account-tmp"></div>
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == forget_password"
+        data-template="community-forget-password-tmp"></div>
+  </div>
+
+  <div class="h100" data-if="{{= session.signed_in }} == true">
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == false"
+        data-template="community-browse-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == playlist"
+        data-template="community-playlist-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == playlist-item"
+        data-template="community-playlist-list-item-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == playlists"
+        data-template="community-playlists-all-tmp"></div>
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == rendering"
+        data-template="community-playlists-rendering"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == artists"
+        data-template="community-artists-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == artist-tracks-list"
+        data-template="community-artist-tracks-list-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == artist-tracks-list-item"
+        data-template="community-artist-tracks-list-item-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == tracks"
+        data-template="community-tracks-tmp"></div>
+
+    <div class="h100"
+        data-if="{{= session.active.secondary }} == list-item"
+        data-template="community-tracks-list-item-tmp"></div>
+
+    <!-- <div class="h100"
+        data-if="{{= session.active.secondary }} == tracks-hero"
+        data-template="community-tracks-hero-tmp"></div> -->
+  </div>
+</div>

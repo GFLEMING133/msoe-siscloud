@@ -1,9 +1,9 @@
 <div class="h100" data-model="{{= session.community_id }}">
   <div class="h100 scroll hide-scrollbar">
     <div class="overlay-container mt40">
-      <div class="filter-container flex-column">
+      <div class="filter-container flex-column-sb">
         <h2 class="center white fs18">Filter</h2>
-        <ul class="flex-column">
+        <ul class="flex-column-sb">
           <li class="pt10 pb10 fs17 white less_strong clickable"
               data-on-click="toggle"
               data-field="model.show_all">All Tracks
@@ -24,7 +24,7 @@
       </div>
       <div class="sort-by-container">
         <h2 class="center white fs17">Sort By</h2>
-          <ul class="flex-column">
+          <ul class="flex-column-sb">
             <li class="pt10 pb10 fs17 white less_strong clickable"
                 data-on-click="model.sort_function"
                 data-msg="{'track_sort':'most_popular'}">Most Popular
@@ -78,9 +78,10 @@
       <div class="hh100">&nbsp;</div>
     </div>
   </div>
-  <div class="flex-center-row less_strong center bt-white clickable white  strong blue-hover bg-black pull-bottom"
+  <div class="flex-center-row less_strong center bt-white clickable white strong blue-hover bg-dark-black pull-bottom safe-bottom"
       data-on-click="publish"
-      data-publish="modal:close">
-    <h2 class="m0 media_fs14 fs17 p20 media_ppb50">Close</h2>
+      data-publish="modal:close"
+			tg-name="modal_close_btn">
+    <h2 class="m0 media_fs14 fs17 p20">Close</h2>
   </div>
 </div>

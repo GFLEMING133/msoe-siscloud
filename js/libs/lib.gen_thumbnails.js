@@ -1,30 +1,38 @@
 function draw_thumbnail(raw_data) {
-  var max_points = 50000; // maximum points to render
-  var two_ball = false;
-  if (raw_data.two_ball) two_ball = raw_data.two_ball;
-  var percent = 1;
-  if (raw_data.percent) percent = raw_data.percent / 100;
+	var start = Date.now();
 
-  // app.log('raw points', raw_data);
+  var two_ball = false;
+  if (raw_data.two_ball && (raw_data.two_ball == 'true' || raw_data.two_ball == true)) two_ball = true;
+  var percent = 1;
+  if (raw_data.percent) percent = +raw_data.percent / 100;
+
+  var max_points = 50000; // maximum points to render
+  if (two_ball) max_points /= 2;
+
+  // console.log('raw points', raw_data);
 
   var w = +raw_data.dimensions,
     h = +raw_data.dimensions,
     raw_points = raw_data.coors.replace(/\\n/gi, '\n');
 
   var base = $('.d3');
-  var base_svg = $('.svg_drawing');
+  var base_canvas = $('.canvas_drawing');
 
-  var svg;
-  if (base_svg.length <= 0) {
-    svg = d3.select(base[0])
-      .append('svg')
-      .attr('class', 'svg_drawing')
+  var canvas;
+  if (base_canvas.length <= 0) {
+    canvas = d3.select(base[0])
+      .append('canvas')
+      .attr('class', 'canvas_drawing')
       .attr('width', w)
       .attr('height', h);
+		console.log("Make Canvas");
   } else {
-    base_svg.empty();
-    svg = d3.select(base_svg[0]);
+    base_canvas.empty();
+    canvas = d3.select(base_canvas[0]);
+		console.log("Select Canvas");
   }
+	var ctx = canvas.node().getContext('2d');
+	ctx.clearRect(0, 0, w, h); // clear the canvas
 
   var d3_data = {
     background: 'transparent', // transparent, #fdfaf3, #d6d2ca, #c9bb96
@@ -46,48 +54,51 @@ function draw_thumbnail(raw_data) {
   var stroke_width = d3_data.stroke_width * w / 400;
   var stroke_edge_width = d3_data.stroke_edge_width * w / 400;
 
-  var line = d3.radialLine()
+  var f_line = d3.radialLine()
     .radius(function(d, i) {
-      // app.log('radius', d);
+			var r = d.x * (w / 2 - stroke_edge_width / 2);
+      // console.log('radius', r);
+      return r
+    })
+    .angle(function(d) {
+      // console.log('angle', d.y);
+      return d.y;
+    })
+    // .curve(d3.curveMonotoneX) //curveCatmullRom
+  	.context(ctx);
+  //.interpolate('basis')
+
+  var f_two_line = d3.radialLine()
+    .radius(function(d, i) {
+      // console.log('radius', d);
       return d.x * (w / 2 - stroke_edge_width / 2);
     })
     .angle(function(d) {
-      // app.log('angle', d);
+      // console.log('angle', d);
       return d.y;
     })
-    .curve(d3.curveMonotoneX); //curveCatmullRom
+    .curve(d3.curveMonotoneX) //curveCatmullRom
+		.context(ctx);
   //.interpolate('basis')
 
-  var two_line = d3.radialLine()
-    .radius(function(d, i) {
-      // app.log('radius', d);
-      return d.x * (w / 2 - stroke_edge_width / 2);
-    })
-    .angle(function(d) {
-      // app.log('angle', d);
-      return d.y;
-    })
-    .curve(d3.curveMonotoneX); //curveCatmullRom
-  //.interpolate('basis')
+  console.log("Background", d3_data.background);
+	// return;
 
-  if (d3_data.square == "true") {
-    svg.append("rect")
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .attr("fill", d3_data.background);
-  }
+	if (d3_data.square == "true") {
+		ctx.fillStyle = d3_data.background;
+		ctx.beginPath();
+		ctx.rect(0, 0, w, h);
+		ctx.fill();
+	}
 
-  if (d3_data.circle == "true") {
-    svg.append("circle")
-      .attr("cx", w / 2)
-      .attr("cy", h / 2)
-      .attr("r", w / 2 - (d3_data.circle_stroke_width / 2))
-      .attr('stroke', d3_data.circle_stroke)
-      .attr('stroke-width', d3_data.circle_stroke_width)
-      .attr("fill", d3_data.background);
-  }
+	if (d3_data.circle == "true") {
+		ctx.fillStyle = d3_data.background;
+		ctx.beginPath();
+		ctx.arc(w / 2, h / 2, w / 2 - (d3_data.circle_stroke_width / 2), 0, Math.PI * 2);
+		ctx.fill();
+	}
 
-  // app.log("Background", d3_data.background);
+	ctx.translate(w/2, h/2); // translate context just once
 
   function convert_verts_to_d3(data) {
     var return_value = [];
@@ -111,7 +122,7 @@ function draw_thumbnail(raw_data) {
     });
 
     // reduce point count, if needed
-    // app.log("Given Points: ", return_value.length);
+    console.log("Given Points: ", return_value.length);
     if (return_value.length > max_points) {
       var total_count = return_value.length;
       var remove_every = Math.ceil(1 / (max_points / return_value.length));
@@ -123,27 +134,27 @@ function draw_thumbnail(raw_data) {
     // force first/last rho
     var first_point = return_value[0];
     if (first_point.x != 0 && first_point.x != 1) {
-      app.log("Fix Start Point", first_point);
+      // console.log("Fix Start Point", first_point);
       return_value.unshift({y:first_point.y, x: Math.round(first_point.x)});
     }
     var last_point = return_value[return_value.length-1];
     if (last_point.x != 0 && last_point.x != 1) {
-      app.log("Fix Last Point", last_point);
+      // console.log("Fix Last Point", last_point);
       return_value.push({y:last_point.y, x:Math.round(last_point.x)});
     }
 
-    // app.log("Total Points: ", return_value.length);
+    console.log("Total Points: ", return_value.length);
 
     return return_value;
   };
 
   var points = convert_verts_to_d3(raw_points);
 
-  // app.log("Point count: ", points.length);
+  // console.log("Point count: ", points.length);
   // reduce points to the percent given
   if (percent < 1) {
     points.length = Math.ceil(points.length * percent);
-    // app.log("Reduced Points: ", points.length);
+    // console.log("Reduced Points: ", points.length);
   }
 
   var interpolated_points = [];
@@ -168,7 +179,7 @@ function draw_thumbnail(raw_data) {
     }
   });
 
-  //app.log("D3 Model: ", self.model.id, interpolated_points.length, self.model.get("d3_data.stroke"), self.model.get("d3_data.stroke_width"));
+  //console.log("D3 Model: ", self.model.id, interpolated_points.length, self.model.get("d3_data.stroke"), self.model.get("d3_data.stroke_width"));
 
   var last_points = [];
   var point_count = Math.max(1, d3_data.retrace_steps);
@@ -177,15 +188,14 @@ function draw_thumbnail(raw_data) {
     if (index < interpolated_points.length - 1) {
       // setTimeout(function() {
         var line_array = [point, interpolated_points[index + 1]];
+				// console.log("Line Array", line_array);
         // lighter edge
-        var edge_path = svg.append('path')
-          .datum(line_array)
-          .attr('d', line)
-          .attr('stroke', d3_data.stroke_edge)
-          .attr('stroke-width', stroke_edge_width)
-          .style("stroke-linecap", "round") // stroke-linecap type
-          .attr('fill', 'transparent')
-          .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+				ctx.beginPath();
+				ctx.strokeStyle = d3_data.stroke_edge;
+				ctx.lineWidth = stroke_edge_width;
+				ctx.lineCap = "round";
+				f_line(line_array);
+				ctx.stroke();
 
         if (two_ball) {
           var two_array = JSON.parse(JSON.stringify(line_array));
@@ -194,28 +204,24 @@ function draw_thumbnail(raw_data) {
           });
 
           // lighter edge
-          var edge_path = svg.append('path')
-            .datum(two_array)
-            .attr('d', two_line)
-            .attr('stroke', d3_data.stroke_edge)
-            .attr('stroke-width', stroke_edge_width)
-            .style("stroke-linecap", "round") // stroke-linecap type
-            .attr('fill', 'transparent')
-            .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+					ctx.beginPath();
+					ctx.strokeStyle = d3_data.stroke_edge;
+					ctx.lineWidth = stroke_edge_width;
+					ctx.lineCap = "round";
+					f_two_line(two_array);
+					ctx.stroke();
         }
 
         var second_array = [];
         if (last_points.length > 0) second_array = last_points.concat(line_array);
 
         // darker path
-        var path = svg.append('path')
-          .datum(second_array)
-          .attr('d', line)
-          .attr('stroke', d3_data.stroke)
-          .attr('stroke-width', stroke_width)
-          .style("stroke-linecap", "round") // stroke-linecap type
-          .attr('fill', 'transparent')
-          .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+				ctx.beginPath();
+				ctx.strokeStyle = d3_data.stroke;
+				ctx.lineWidth = stroke_width;
+				ctx.lineCap = "round";
+				f_line(second_array);
+				ctx.stroke();
 
         if (two_ball) {
           var two_array = JSON.parse(JSON.stringify(second_array));
@@ -224,14 +230,12 @@ function draw_thumbnail(raw_data) {
           });
 
           // darker path
-          var path = svg.append('path')
-            .datum(two_array)
-            .attr('d', two_line)
-            .attr('stroke', d3_data.stroke)
-            .attr('stroke-width', stroke_width)
-            .style("stroke-linecap", "round") // stroke-linecap type
-            .attr('fill', 'transparent')
-            .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
+					ctx.beginPath();
+					ctx.strokeStyle = d3_data.stroke;
+					ctx.lineWidth = stroke_width;
+					ctx.lineCap = "round";
+					f_two_line(two_array);
+					ctx.stroke();
         }
 
         last_points.push(point);
@@ -239,9 +243,31 @@ function draw_thumbnail(raw_data) {
       // }, 100*index);
     }
   });
+
+	ctx.translate(-w/2, -h/2); // translate context back
+
+	if (d3_data.square == "true") {
+		ctx.beginPath();
+		ctx.strokeStyle = d3_data.circle_stroke;
+		ctx.lineWidth = d3_data.circle_stroke_width;
+		ctx.rect(0, 0, w, h);
+		ctx.stroke();
+	}
+
+	if (d3_data.circle == "true") {
+		ctx.beginPath();
+		ctx.strokeStyle = d3_data.circle_stroke;
+		ctx.lineWidth = d3_data.circle_stroke_width;
+		ctx.arc(w / 2, h / 2, w / 2 - (d3_data.circle_stroke_width / 2), 0, Math.PI * 2);
+		ctx.stroke();
+	}
+
+	end = Date.now();
+	console.log("Draw Thumbnail Finished", end-start);
 }
 
 function show_thumbnail(raw_data) {
+	console.log('Show Thumbnail');
   if (raw_data.animate && raw_data.percent && raw_data.percent < 100) {
     var percent = raw_data.percent;
     var i = 1;
@@ -250,7 +276,7 @@ function show_thumbnail(raw_data) {
       if (raw_data.percent >= 100) {
         raw_data.percent = 100;
         clearInterval(drawInterval);
-        app.log("!! Drawing Complete");
+        // console.log("!! Drawing Complete");
       }
       draw_thumbnail(raw_data);
       i++;
@@ -261,6 +287,7 @@ function show_thumbnail(raw_data) {
 }
 
 $(document).ready(function() {
+	console.log("Document Ready");
   var raw_data = $('.d3').data();
 
   // TODO: if the page has GET variables, split
@@ -281,14 +308,30 @@ $(document).ready(function() {
 
   // if it has data-id, request the file from sisbot
   if (raw_data.id && app.plugins.is_uuid(raw_data.id)) {
-    app.log("UUID found:", raw_data.id, app.config.get_sisbot_url()+'/sisbot/get_track_verts');
-    // get_track_verts
-    app.post.fetch({_type: 'POST', endpoint:'/sisbot/get_track_verts', data: {id: raw_data.id}}, function(obj) {
-      app.log("Track verts from Pi: ", obj);
-      if (obj.err) return alert(obj.err);
-      raw_data.coors = obj.resp;
+    console.log("UUID found:", raw_data.id, app.config.get_sisbot_url()+'/sisbot/get_track_verts');
 
-      show_thumbnail(raw_data);
-    });
-  } else if (raw_data.coors) show_thumbnail(raw_data);
+		var txt = '';
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function(){
+		  if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
+				raw_data.coors = xmlhttp.responseText;
+				//
+	      show_thumbnail(raw_data);
+		  }
+		};
+		xmlhttp.open("GET",app.config.get_sisbot_url()+'/sisbot/get_thr/'+raw_data.id,true);
+		xmlhttp.send();
+
+    // get_track_verts
+    // app.post.fetch({_type: 'POST', endpoint:'/sisbot/get_track_verts', data: {id: raw_data.id}}, function(obj) {
+    //   console.log("Track verts from Pi: ", obj);
+    //   if (obj.err) return alert(obj.err);
+    //   raw_data.coors = obj.resp;
+		//
+    //   show_thumbnail(raw_data);
+    // });
+  } else if (raw_data.coors) {
+		console.log("Coordinates inline");
+		show_thumbnail(raw_data);
+	}
 });
