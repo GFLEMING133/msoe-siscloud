@@ -96,6 +96,8 @@ app.model.sisyphus_manager = {
 
     this.on('change:is_sisbot_available', this.check_reconnect_status);
 
+    app.log("app is", app);
+    app.log("manager is", app.manager);
     app.manager = this;
 
     this.get_current_ssid();

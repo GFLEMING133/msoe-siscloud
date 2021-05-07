@@ -175,7 +175,86 @@
                       data-if="{{= model.data.is_mood_lighting }} !== true"></span>
                     <p class="inline-block no-stuffing pl5 fs18 lh18">Toggle Mood Lighting</p>
                 </div>
-              </div>   
+                <div class="mt10" data-if="{{= model.data.is_mood_lighting }} == true">
+                  <h4 class="no-stuffing pb10 fs18 lh18 strong">Mood Color Mappings</h4>
+                  <div class="flex">
+                    <div
+                      class="{{= model.data.mood_alert_color_text }} {{= model.data.mood_alert_color_text }}-hover w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_alert_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_alert'}"
+                    >
+                      Alert
+                    </div>
+                    <div
+                      class="{{= model.data.mood_angry_color_text }} {{= model.data.mood_angry_color_text }}-hover ml10 w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_angry_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_angry'}"
+                    >
+                      Angry
+                    </div>
+                    <div
+                      class="{{= model.data.mood_calm_color_text }} {{= model.data.mood_calm_color_text }}-hover ml10 w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_calm_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_calm'}"
+                    >
+                      Calm
+                    </div>
+                    <div
+                      class="{{= model.data.mood_disgust_color_text }} {{= model.data.mood_disgust_color_text }}-hover ml10 w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_disgust_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_disgust'}"
+                    >
+                      Disgust
+                    </div>
+                  </div>
+                  <div class="flex mt10">
+                    <div
+                      class="{{= model.data.mood_happy_color_text }} {{= model.data.mood_happy_color_text }}-hover w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_happy_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_happy'}"
+                    >
+                      Happy
+                    </div>
+                    <div
+                      class="{{= model.data.mood_neutral_color_text }} {{= model.data.mood_neutral_color_text }}-hover ml10 w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_neutral_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_neutral'}"
+                    >
+                      Neutral
+                    </div>
+                    <div
+                      class="{{= model.data.mood_relaxed_color_text }} {{= model.data.mood_relaxed_color_text }}-hover ml10 w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_relaxed_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_relaxed'}"
+                    >
+                      Relaxed
+                    </div>
+                    <div
+                      class="{{= model.data.mood_sad_color_text }} {{= model.data.mood_sad_color_text }}-hover ml10 w25 p10 center btn corner-5px uppercase clickable active fs18 media_fs14 strong"
+                      style="background-color: {{= model.data.mood_sad_color }};"
+                      data-on-click="publish"
+                      data-publish="session:active"
+                      data-msg="{'secondary':'mood_sad'}"
+                    >
+                      Sad
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -270,6 +349,22 @@
     data-template="settings-primary-color-tmp"></div>
   <div class="h100" data-if="{{= parent.active.secondary }} == secondary_color"
     data-template="settings-secondary-color-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_alert"
+    data-template="settings-mood-alert-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_angry"
+    data-template="settings-mood-angry-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_calm"
+    data-template="settings-mood-calm-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_disgust"
+    data-template="settings-mood-disgust-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_happy"
+    data-template="settings-mood-happy-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_neutral"
+    data-template="settings-mood-neutral-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_relaxed"
+    data-template="settings-mood-relaxed-tmp"></div>
+  <div class="h100" data-if="{{= parent.active.secondary }} == mood_sad"
+    data-template="settings-mood-sad-tmp"></div>
   <!------------------------- SIRI --------------------------------->
   <div class="h100" data-if="{{= parent.active.secondary }} == siri"
     data-template="settings-siri-tmp"></div>

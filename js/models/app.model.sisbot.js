@@ -87,6 +87,15 @@ app.model.sisbot = {
 			rem_secondary_color: '0x00FFFFFF',
 			show_picker: 'true',
 
+			rem_alert_color: '#FFA500FF',
+			rem_angry_color: '#FF0000FF',
+			rem_calm_color: '#00CD00FF',
+			rem_disgust_color: '#800080FF',
+			rem_happy_color: '#FFFF00FF',
+			rem_neutral_color: '#FFF1E0FF',
+			rem_relaxed_color: '#00A5FFFF',
+			rem_sad_color: '#0000FFFF',
+
 			track_total_time: 0,
 			track_remaining_time: 0,
 			remaining_time_str: '0:00', // time left in current track
@@ -183,6 +192,24 @@ app.model.sisbot = {
 				led_offset: 0,
 				led_primary_color: '0xFFFFFFFF', // Hex
 				led_secondary_color: '0x00FFFFFF', // Hex
+
+				mood_alert_color: '#FFA500FF',
+				mood_angry_color: '#FF0000FF',
+				mood_calm_color: '#00CD00FF',
+				mood_disgust_color: '#800080FF',
+				mood_happy_color: '#FFFF00FF',
+				mood_neutral_color: '#FFF1E0FF',
+				mood_relaxed_color: '#00A5FFFF',
+				mood_sad_color: '#0000FFFF',
+
+				mood_alert_color_text: 'white',
+				mood_angry_color_text: 'white',
+				mood_calm_color_text: 'white',
+				mood_disgust_color_text: 'white',
+				mood_happy_color_text: 'black',
+				mood_neutral_color_text: 'black',
+				mood_relaxed_color_text: 'white',
+				mood_sad_color_text: 'white'
 			}
 		};
 
@@ -1712,7 +1739,7 @@ app.model.sisbot = {
 		
 		var endpoint = this.get('data.is_mood_lighting') === 'true' ? '/mood_lighting_begin': '/mood_lighting_end'
 		var obj = {
-			_url: 'http://' + address + ':5000' + '/',
+			_url: 'http://' + address + ':5000',
 			_type: 'GET',
 			_timeout: 5000,
 			endpoint: endpoint,
@@ -2182,6 +2209,17 @@ app.model.sisbot = {
 
 		this.set('rem_primary_color', this.get('data.led_primary_color'));
 		this.set('rem_secondary_color', this.get('data.led_secondary_color'));
+
+		app.log("Remeber Mood Colors & Text");
+		
+		this.set('rem_alert_color', this.get('data.mood_alert_color'));
+		this.set('rem_angry_color', this.get('data.mood_angry_color'));
+		this.set('rem_calm_color', this.get('data.mood_calm_color'));
+		this.set('rem_disgust_color', this.get('data.mood_disgust_color'));
+		this.set('rem_happy_color', this.get('data.mood_happy_color'));
+		this.set('rem_neutral_color', this.get('data.mood_neutral_color'));
+		this.set('rem_relaxed_color', this.get('data.mood_relaxed_color'));
+		this.set('rem_sad_color', this.get('data.mood_sad_color'));
 	},
 	cancel_color: function (data) {
 		this.set('edit.led_primary_color', this.get('rem_primary_color'));
@@ -2191,6 +2229,26 @@ app.model.sisbot = {
 
 		app.trigger('session:active', { 'secondary': 'false' });
 	},
+	cancel_mood_colors: function () {
+		console.log('running mood cancel');
+		this.set('edit.mood_alert_color', this.get('rem_alert_color'));
+		this.set('edit.mood_angry_color', this.get('rem_angry_color'));
+		this.set('edit.mood_calm_color', this.get('rem_calm_color'));
+		this.set('edit.mood_disgust_color', this.get('rem_disgust_color'));
+		this.set('edit.mood_happy_color', this.get('rem_happy_color'));
+		this.set('edit.mood_neutral_color', this.get('rem_neutral_color'));
+		this.set('edit.mood_relaxed_color', this.get('rem_relaxed_color'));
+		this.set('edit.mood_sad_color', this.get('rem_sad_color'));
+
+		this.update_mood_colors();
+
+		app.trigger('session:active', { 'secondary': 'false' });
+	},
+	toggle_mood_picker: function() {
+		this.set('show_picker', 'false');
+		this.update_mood_colors();
+		this.set('show_picker', 'true');
+	},
 	toggle_picker: function (data) {
 		app.log("Toggle Picker", this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
 
@@ -2199,6 +2257,128 @@ app.model.sisbot = {
 		this.led_color(null);
 
 		this.set('show_picker', 'true');
+	},
+	update_mood_colors: function() {
+		const dataKeys = [
+			'data.mood_alert_color',
+			'data.mood_angry_color',
+			'data.mood_calm_color',
+			'data.mood_disgust_color',
+			'data.mood_happy_color',
+			'data.mood_neutral_color',
+			'data.mood_relaxed_color',
+			'data.mood_sad_color'
+		];
+
+		const editKeys = [
+			'edit.mood_alert_color',
+			'edit.mood_angry_color',
+			'edit.mood_calm_color',
+			'edit.mood_disgust_color',
+			'edit.mood_happy_color',
+			'edit.mood_neutral_color',
+			'edit.mood_relaxed_color',
+			'edit.mood_sad_color'
+		];
+
+		const textKeys = [
+			'data.mood_alert_color_text',
+			'data.mood_angry_color_text',
+			'data.mood_calm_color_text',
+			'data.mood_disgust_color_text',
+			'data.mood_happy_color_text',
+			'data.mood_neutral_color_text',
+			'data.mood_relaxed_color_text',
+			'data.mood_sad_color_text'
+		];
+
+
+		const oldColors = dataKeys.map(k => this.get(k));
+		const colors = editKeys.map(k => this.get(k));
+
+		const checkedColors = colors.map((color, index) => {
+			let verifiedColor = color;
+			if (color) {
+				if (color.match(/^0x/)) {
+					verifiedColor = color.replace(/^0x/, '#');
+				}
+
+				if (!verifiedColor.match(/^#[0-9a-f]{8}$/i)) {
+					verifiedColor = oldColors[index];
+				}
+			}
+			return verifiedColor;
+		});
+
+		// Unify state
+		checkedColors.forEach((color, index) => {
+			this.set(dataKeys[index], color);
+			this.set(editKeys[index], color);
+		});
+
+		// Set Text
+		checkedColors.forEach((color, index) => {
+			const red = parseInt(color.substr(1, 2), 16);
+			const green = parseInt(color.substr(3, 2), 16);
+			const blue = parseInt(color.substr(5, 2), 16);
+
+			const average = (red + green + blue) / 3;
+
+			if (average > 165) {
+				this.set(textKeys[index], 'black');
+			} else {
+				this.set(textKeys[index], 'white');
+			}
+		});
+
+		update_sislisten_settings(checkedColors);
+	},
+	update_sislisten_settings: function(checkedColors) {
+		const moodNames = [
+			"alert",
+			"angry",
+			"calm",
+			"disgust",
+			"happy",
+			"neutral",
+			"relaxed",
+			"sad"
+		];
+		const dataDict = {};
+		checkedColors.forEach((color, index) => {
+			const red = parseInt(color.substr(1, 2), 16);
+			const green = parseInt(color.substr(3, 2), 16);
+			const blue = parseInt(color.substr(5, 2), 16);
+			dataDict[moodNames[index]] = [red, green, blue];
+		});
+		/**
+		 * Settings schema:
+		 * { "settings": 
+		 * 	{
+		 * 		"mood": [color] (x8)
+		 * 	}
+		 * }
+		*/
+		const requestData = { 'settings': dataDict };
+		const address = this.get('data.local_ip');
+		app.log("Broadcasting settings");
+		// Code copied from _update_sisbot endpoint
+		var custom_req = {
+			_url : 'http://' + address + ':5000',
+			_type: 'POST',
+			_timeout: 5000,
+			endpoint: '/mood_lighting_settings',
+			data: requestData
+		}; 
+
+		app.post.fetch(custom_req, function(resp) {
+			if (resp.err) {
+				app.plugins.n.notification.alert(resp.err);
+				app.log("error in changing sislisten values!", address, endpoint, resp);
+			} else {
+				app.log("sucessfully updated sislisten settings!");
+			}
+		}, 0);
 	},
 	led_color: function (data) {
 		app.log("Sisbot LED_Color", data, this.get('edit.led_primary_color'), this.get('edit.led_secondary_color'));
