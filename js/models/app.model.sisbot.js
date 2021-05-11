@@ -2331,7 +2331,7 @@ app.model.sisbot = {
 			}
 		});
 
-		update_sislisten_settings(checkedColors);
+		this.update_sislisten_settings(checkedColors);
 	},
 	update_sislisten_settings: function(checkedColors) {
 		const moodNames = [
